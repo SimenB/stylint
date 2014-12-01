@@ -1,0 +1,23 @@
+{
+  "name": "stylus-lint",
+  "version": "1.0.0",
+  "description": "A linter for stylus",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "stylus-lint"
+  },
+  "keywords": [
+    "stylus"
+  ],
+  "author": "Ross Patton",
+  "license": "ISC",
+  "devDependencies": {
+    "chalk": "^0.5.1",
+    "lodash": "^2.4.1",
+    "readline": "0.0.5"
+  }
+}
