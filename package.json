@@ -11,12 +11,14 @@
     "url": "stylus-lint"
   },
   "keywords": [
-    "stylus"
+    "splinter"
   ],
   "author": "Ross Patton",
   "license": "ISC",
   "devDependencies": {
     "chalk": "^0.5.1",
+    "lazy": "^1.0.11",
+    "line-reader": "^0.2.4",
     "lodash": "^2.4.1",
     "readline": "0.0.5"
   }
