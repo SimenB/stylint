@@ -1,0 +1,76 @@
+{
+	"disallowYodaConditions": true,
+	"requireCurlyBraces": ["if", "else", "for", "while", "try", "catch" ],
+	"requireSpaceAfterKeywords": [ "if", "else", "switch", "try", "return" ],
+	"requireSpaceBeforeBlockStatements": true,
+	"requireParenthesesAroundIIFE": true,
+	"disallowSpacesInFunctionExpression": {
+		"beforeOpeningRoundBrace": true
+	},
+	"requireSpacesInFunctionExpression": {
+		"beforeOpeningCurlyBrace": true
+	},
+	"disallowSpacesInAnonymousFunctionExpression": {
+		"beforeOpeningRoundBrace": true
+	},
+	"requireSpacesInAnonymousFunctionExpression": {
+		"beforeOpeningCurlyBrace": true
+	},
+	"requireSpacesInConditionalExpression": {
+		"afterTest": true,
+		"beforeConsequent": true,
+		"afterConsequent": true,
+		"beforeAlternate": true
+	},
+	"requireSpacesInNamedFunctionExpression": {
+		"beforeOpeningCurlyBrace": true
+	},
+	"disallowSpacesInNamedFunctionExpression": {
+		"beforeOpeningRoundBrace": true
+	},
+	"requireSpacesInFunctionDeclaration": {
+		"beforeOpeningCurlyBrace": true
+	},
+	"disallowSpacesInFunctionDeclaration": {
+		"beforeOpeningRoundBrace": true
+	},
+	"requireBlocksOnNewline": true,
+	"requirePaddingNewLinesInObjects": true,
+	"disallowSpacesInCallExpression": true,
+	"disallowSpacesInsideArrayBrackets": "nested",
+	"disallowQuotedKeysInObjects": "allButReserved",
+	"requireSpaceBeforeObjectValues": true,
+	"requireCommaBeforeLineBreak": true,
+	"requireOperatorBeforeLineBreak": [
+		"?",
+		"=",
+		"+",
+		"-",
+		"/",
+		"*",
+		"==",
+		"===",
+		"!=",
+		"!==",
+		">",
+		">=",
+		"<",
+		"<="
+	],
+	"requireSpaceBeforeBinaryOperators": ["?", "+", "-", "/", "*", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<="],
+	"requireSpaceAfterBinaryOperators": [ "?", "/", "*", ":", "=", "==", "===", "!=", "!==", ">", ">=", "<", "<="],
+	"disallowSpaceAfterPrefixUnaryOperators": ["+", "-", "~", "!"],
+	"disallowSpaceBeforePostfixUnaryOperators": ["++", "--"],
+	"disallowKeywords": [ "with", "do"],
+	"requireLineFeedAtFileEnd": true,
+	"disallowTrailingWhitespace": true,
+	"requireKeywordsOnNewLine": ["else"],
+	"requireCapitalizedConstructors": true,
+	"requireDotNotation": true,
+	"requireSpaceAfterLineComment": true,
+	"disallowNewlineBeforeBlockStatements": true,
+	"validateLineBreaks": "LF",
+	"validateQuoteMarks": { "mark": "'", "escape": true },
+	"disallowMixedSpacesAndTabs": true,
+	"validateParameterSeparator": ", "
+}

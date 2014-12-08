@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /**
  * Stylus Lint (splinter) (the p is silent)
  * @description A basic, configurable, node based, stylus linter cli
@@ -13,153 +15,147 @@
  *       9. check for alphabetical order @NOT DONE
  *       10. check for duplicate selectors @NOT DONE
  *       11. check for valid properties @NOT DONE
- *       11. make configurable via .json @NOT DONE
+ *       11. make configurable via .json @DONE
  *       12. accept cli flags (like --force) @NOT DONE
  */
 
 
 // modules
-const   fs          = require('fs'),
-        chalk       = require('chalk'),
-        fileinput   = require('fileinput'),
-        stream      = require('stream'),
-        readline    = require('readline'),
-        lineReader 	= require('line-reader'),
-        lazy		= require('lazy'),
-        _           = require('lodash');
+const fs    = require('fs'), 			// base node file system module
+      chalk = require('chalk'), 		// colorize outputs
+      walk  = require('./walk'), 		// walk logic
+      Lazy  = require('lazy.js'), 		// utility belt
+      prog  = require('commander'); 	// cli
 
 
-// regexes
-const   comment = /\/\/\s/,                 // check for space after comment line
-        starS   = /(\* )/,                 	// check for space after star (inside a docblockr comment)
-        starO   = /(\/\*\*)/ || /(\/\*)/,   // check for star selector as opening comment
-        starE   = /(\*\/)/,                 // finally, check for star selector as closing comment
-        tabs	= /^(\t)*/,					// count indents
-        amp 	= /^(\&)/,					// check if using & selector before we count tabs
-        spaces	= /( ){4}\D\W+/g;			// if using spaces for indents, check consistency
+// tests
+const colon					= require('./tests/checkForColon'),
+	  semicolon				= require('./tests/checkForSemicolon'),
+	  commentStyleCorrect 	= require('./tests/checkCommentStyle'),
+	  pxStyleCorrect		= require('./tests/checkForPx'),
+	  universalSelector		= require('./tests/checkForUniversal'),
+	  tooMuchNest			= require('./tests/checkNesting');
+
+var errors 	 = [],
+	warnings = [];
 
 
-// other stuff
-var errors = [],
-    warnings = [],
-    files = [],
-    count = 0;
+// set up cli
+prog
+	.version('0.0.1')
+	.option('-w, --watch', 'Watch file or directory and run lint on change')
+	.option('-c, --config', 'Pass in location of config file')
+	.parse(process.argv);
 
 
-// recursively walk a dir, get files
-var walk = function(dir, done) {
-	var results = [];
+// set up config
+var config = undefined;
+if (!prog.config) {
+	config = JSON.parse(fs.readFileSync('./.styluslintrc'));
+}
+else {
+	config = prog.config;
+}
 
-	fs.readdir(dir, function(err, list) {
-		if (err) return done(err);
-		var i = 0;
 
-		(function next() {
-			var file = list[i++];
+// walk dir, iterate through files, read line by line, output warnings and errors
+walk(process.argv[2], function(err, files) {
+	if (err) throw err;
+	var len = files.length - 1,
+		fileCount = 0;
 
-			if (!file) return done(null, results);
+	// iterate over every file
+	Lazy(files).each(function(file) {
+		var l = 0; // l is for line
 
-			file = dir + '/' + file;
+		// read file line by line and run tests
+		Lazy.strict()
+			.readFile(file)
+		 	.lines()
+		 	.each(function(line) {
+		 		var output = line.trim();
+		 		l += 1;
 
-			fs.stat(file, function(err, stat) {
-				if (stat && stat.isDirectory()) {
-					walk(file, function(err, res) {
-						results = results.concat(res);
-						next();
-					});
-				}
-				else {
-					results.push(file);
-					next();
+		 		// if config file present, only run command if set to true. otherwise run everything
+		 		tests(line, l, output);
+			})
+			.onComplete(function() {
+				var totalWarnings = warnings.length,
+					totalErrors	= errors.length,
+					i = 0, j = 0;
+
+				fileCount += 1;
+
+				// are we done yet? only output warnings and errors when on the last file
+				if (fileCount === len) {
+					// if (errors.length > 3) {
+					// 	console.error(chalk.bold.red('Splinter: Too many errors. Aborting.'));
+					// }
+					// else {
+				    for (i; i < totalWarnings; i++) {
+				        // process.stdout.write( chalk.yellow('Warning: ' + warnings[i]) + '\n\n' );
+				    }
+
+				    for (j; j < totalErrors; j++) {
+				        // process.stdout.write( chalk.red('Error: ' + errors[j]) + '\n\n' );
+				    }
+
+				    process.stdout.write(chalk.white('Total Warnings: ' + warnings.length + '\n'));
+				    process.stdout.write(chalk.white('Total Errors: ' + errors.length + '\n'));
+					// }
 				}
 			});
-		})();
-	});
-};
-
-
-walk('test', function(err, files) {
-	if (err) throw err;
-
-	fileinput.input(files).on('line', function(line) {
-	  	console.log('im doing something');
-	    var line = line.toString(),
-	    	output = line.trim();
-
-		count += 1;
-
-		// check comment style correctness
-		if (line.indexOf('//') !== -1) {
-		    // check for space after comment, if no space, return warning
-		    if (!comment.test(line)) {
-		        warnings.push('Space after comment is preferred:\nLine: ' + count + ': ' + output);
-		    }
-		}
-
-	    // check for 0px
-	    if (line.indexOf(' 0px') !== -1) {
-	        warnings.push('0 is preferred over 0px.\nLine: ' + count + ': ' + output)
-	    }
-
-	    /**
-	     * check for * selector. (super basic atm, @TODO needs to not trigger on regex selectors)
-	     * technically this is used as part of resets often, for good reason, despite its slowness
-	     * which is why i'm setting it up as a warning as it won't break code but you might prefer to not use it
-	     */
-	    if (line.indexOf('*') !== -1) {
-	    	// check for various places where the * is valid (just comment checks atm)
-	        if (!starO.test(line) && !starE.test(line) && !starS.test(line)) {
-	            warnings.push('* selector is slow. Consider a different selector.\nLine: ' + count + ': ' + output);
-	        }
-	    }
-
-	    // check for colons
-	    if (line.indexOf(': ') !== -1) {
-	        warnings.push('Unecessary colon found:\nLine: ' + count + ': ' + output)
-	    }
-
-	    // if using spaces, check for consistent indentation (in this case, 4 spaces per indent)
-	    // also check that line is not commented out
-	    if (!_.isNull(line.match(spaces)) && line.indexOf('/') === -1) {
-	    	console.log(line.match(spaces).length);
-	    	console.log('Indentation not consistent:\nLine: ' + count + ': ' + output);
-			// if (!line.match(spaces.length % 4)) {
-			// 	warnings.push('Indentation not consistent:\nLine: ' + count + ': ' + output);
-			// }
-	    }
-
-	    // check for semicolons
-	    if (line.indexOf(';') !== -1) {
-	        errors.push('Unecessary semicolon found:\nLine: ' + count + ': ' + output)
-	    }
-
-	    /**
-	     * issue error if nesting is greater than 3 and not starting with ampersand
-	     * stuff like :hover for instance, shouldn't count towards selector depth @TODO finetune this
-	     * also stuff like @media shouldn't count either @TODO
-	     */
-	    if (line.match(tabs)[0].length > 4 && !amp.test(line)) {
-	    	errors.push('Selector depth greater than 4:\nLine: ' + count + ': ' + output);
-	    }
-	}).
-	on('error', function(err) {
-	    throw err;
-	}).
-	on('end', function() {
-
-		// if (errors.length > 3) {
-		// 	console.error(chalk.bold.red('Splinter: Too many errors. Aborting.'));
-		// }
-		// else {
-		    for (var i = 0; i < warnings.length; i++) {
-		        console.log( chalk.yellow('Warning: ' + warnings[i]) + '\n' );
-		    }
-		    for (var i = 0; i < errors.length; i++) {
-		        console.log( chalk.red('Error: ' + errors[i]) + '\n' );
-		    }
-
-		    console.log(chalk.blue('Total Warnings: ' + warnings.length));
-		    console.log(chalk.blue('Total Errors: ' + errors.length));
-		// }
 	});
 });
+
+
+// all tests
+function tests(line, l, output) {
+	// check for space after // comment (//comment is invalid)
+	if (config && config.comments === true && commentStyleCorrect(line) === false) {
+		warnings.push('Space after comment is preferred:\nLine: ' + l + ': ' + output);
+	}
+	else if (commentStyleCorrect(line) === false) {
+		warnings.push('Space after comment is preferred:\nLine: ' + l + ': ' + output);
+	}
+
+	// check for 0px (margin 0 is preferred over margin 0px)
+	if (config && config.unecessaryPX === true && pxStyleCorrect(line) === false) {
+		warnings.push('0 is preferred over 0px.\nLine: ' + l + ': ' + output);
+	}
+	else if (pxStyleCorrect(line) === false) {
+		warnings.push('0 is preferred over 0px.\nLine: ' + l + ': ' + output);
+	}
+
+	// check for * selector (* is discouraged)
+	if (config && config.universal === true && universalSelector(line) === true) {
+		warnings.push('* selector is slow. Consider a different selector.\nLine: ' + l + ': ' + output);
+	}
+	else if (universalSelector(line) === true) {
+		warnings.push('* selector is slow. Consider a different selector.\nLine: ' + l + ': ' + output);
+	}
+
+	// check for unecessary : (margin 0 is preferred over margin: 0)
+	if (config && config.colons === true && colon(line) === true) {
+		warnings.push('Unecessary colon found:\nLine: ' + l + ': ' + output);
+	}
+	else if (colon(line) === true) {
+		warnings.push('Unecessary colon found:\nLine: ' + l + ': ' + output);
+	}
+
+	// check for unecessary ; (margin 0; is invalid)
+	if (config && config.semicolons === true && semicolon(line) === true) {
+		errors.push('Unecessary semicolon found:\nLine: ' + l + ': ' + output);
+	}
+	else if (semicolon(line) === true) {
+		errors.push('Unecessary semicolon found:\nLine: ' + l + ': ' + output);
+	}
+
+	// check selector depth
+	if (config && config.depth === true && tooMuchNest(line, config.depthLimit) === true) {
+		errors.push('Selector depth greater than 4:\nLine: ' + l + ': ' + output);
+	}
+	else if (tooMuchNest(line, 4) === true) {
+		errors.push('Selector depth greater than 4:\nLine: ' + l + ': ' + output);
+	}
+}

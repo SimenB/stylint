@@ -17,9 +17,10 @@
   "license": "ISC",
   "devDependencies": {
     "chalk": "^0.5.1",
+    "commander": "^2.5.0",
     "lazy": "^1.0.11",
+    "lazy.js": "^0.3.2",
     "line-reader": "^0.2.4",
-    "lodash": "^2.4.1",
-    "readline": "0.0.5"
+    "lodash": "^2.4.1"
   }
 }
