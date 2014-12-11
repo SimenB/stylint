@@ -21,6 +21,11 @@
     "lazy": "^1.0.11",
     "lazy.js": "^0.3.2",
     "line-reader": "^0.2.4",
-    "lodash": "^2.4.1"
+    "lodash": "^2.4.1",
+    "log-symbols": "^1.0.1",
+    "yargs": "^1.3.3"
+  },
+  "dependencies": {
+    "log-symbols": "^1.0.1"
   }
 }

@@ -7,7 +7,7 @@
  */
 body
 	background-color $white
-	color $dark-gray;
+	color $dark-gray
 	-webkit-font-smoothing antialiased // 1
 	-webkit-osx-font-smoothing grayscale // 1
 	-moz-osx-font-smoothing grayscale // 1
@@ -15,19 +15,6 @@ body
 	-webkit-overflow-scrolling touch
 	padding-top 60px // 3
 	text-rendering optimizeSpeed // 4
-
-	// gray bg on grid pages
-	&:not(.single)
-    background-color *
-
-	// hide brand bar on smaller devices by default
-	@media(min-width: 768px)
-		*
-		    padding-top 90px
-			div
-				margin 0
-				&:hover
-					margin 0
 
 
 /**
@@ -160,9 +147,19 @@ h5,
 h6
 	transition(color, .15s, false)
 	color $black;
+	h1
+		color white
+		h2
+			color black
+			h3
+				color blue
+				h5
+					color red
+					h6
+						color yellow
 
 
-//i is reserved for icons, not italic
+// i is reserved for icons, not italic
 i
 	display block
 	font-style normal

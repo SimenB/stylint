@@ -6,12 +6,14 @@
 
 const starS = /(\* )/,                  // check for space after star (inside a docblockr comment)
       starO = /(\/\*\*)/ || /(\/\*)/,   // check for star selector as opening comment
+      starR = /(\*=)/,                  // check for use in regex
       starE = /(\*\/)/;                 // finally, check for star selector as closing comment
+
 
 module.exports = function checkForUniversal(line) {
     if (line.indexOf('*') !== -1) {
         // check for various places where the * is valid (just comment checks atm)
-        if (!starO.test(line) && !starE.test(line) && !starS.test(line)) {
+        if (!starS.test(line) && !starO.test(line) && !starR.test(line) && !starE.test(line)) {
             return true;
         }
     }
