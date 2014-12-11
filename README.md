@@ -1,14 +1,7 @@
-# stylus-lint
+# nothing is done yet
 
-A linter for stylus
-
-# install
-
-With [npm](https://npmjs.org) do:
-
-```
-npm install stylus-lint
-```
+don't look at me
+---
 
 # license
 
