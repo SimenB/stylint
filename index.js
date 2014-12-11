@@ -16,7 +16,7 @@
  *       10. check for duplicate selectors @NOT DONE
  *       11. check for valid properties @NOT DONE
  *       11. make configurable via .json @DONE
- *       12. accept cli flags (like --force) @NOT DONE
+ *       12. accept cli flags (partially implemented, needs more work)
  */
 
 
