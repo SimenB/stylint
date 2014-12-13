@@ -5,8 +5,10 @@
  * 3 height of global header at top
  * 4 this setting can speed up font rendering significantly, esp on mobile
  */
+
+		// @stylint off
 body
-	background-color $white
+	background-color $white;
 	color $dark-gray
 	-webkit-font-smoothing antialiased // 1
 	-webkit-osx-font-smoothing grayscale // 1
@@ -15,7 +17,7 @@ body
 	-webkit-overflow-scrolling touch
 	padding-top 60px // 3
 	text-rendering optimizeSpeed // 4
-
+	// @stylint on
 
 /**
  * set link defaults
@@ -135,8 +137,7 @@ html input[disabled]
 
 // remove default margin
 figure
-	margin 0
-
+	margin 0 5px 0 5px
 
 // no underlines on headlines
 h1,
@@ -192,4 +193,5 @@ video,
 object,
 figure,
 iframe
-	max-width 100%
+	max-width 100px
+	margin 0 0 0 0

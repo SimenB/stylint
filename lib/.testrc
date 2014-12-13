@@ -1,0 +1,18 @@
+{
+    "alphabeticalOrder": false,
+    "colons": false,
+    "comments": false,
+    "depth": true,
+    "depthLimit": 4,
+    "duplicateProperties": false,
+    "efficient": false,
+    "indent": 4,
+    "maxWarnings": 10,
+    "unecessaryPX": false,
+    "unit": "px",
+    "semicolons": true,
+    "spaces": false,
+    "tabs": true,
+    "universal": true,
+    "valid": false
+}
