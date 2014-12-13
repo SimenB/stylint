@@ -1,4 +1,4 @@
-{
+module.exports = {{
 	"alphabeticalOrder": false,
 	"colons": true,
 	"comments": true,

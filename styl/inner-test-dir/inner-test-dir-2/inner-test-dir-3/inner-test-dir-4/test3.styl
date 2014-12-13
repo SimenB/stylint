@@ -1,0 +1,198 @@
+/**
+ * universal baseline
+ * 1 font-smoothing makes our text sharp
+ * 2 crisper, higher contrast gifs and pngs, on supported browsers
+ * 3 height of global header at top
+ * 4 this setting can speed up font rendering significantly, esp on mobile
+ */
+body
+	background-color $white
+	color $dark-gray;
+	-webkit-font-smoothing antialiased // 1
+	-webkit-osx-font-smoothing grayscale // 1
+	-moz-osx-font-smoothing grayscale // 1
+	image-rendering crisp-edges // 2
+	-webkit-overflow-scrolling touch
+	padding-top 60px // 3
+	text-rendering optimizeSpeed // 4
+
+	// gray bg on grid pages
+	&:not(.single)
+    background-color *
+
+	// hide brand bar on smaller devices by default
+	@media(min-width: 768px)
+		*
+		    padding-top 90px
+			div
+				margin 0
+				&:hover
+					margin 0
+
+
+/**
+ * set link defaults
+ * 1 Address `outline` inconsistency between Chrome and other browsers.
+ * 2 Improve readability when focused and also mouse hovered in all browsers
+ */
+a
+	transition(color, .15s, false)
+	color inherit
+	text-decoration none
+	&:focus
+		outline thin dotted // 1
+
+	&:active,
+	&:hover
+		cursor pointer
+		outline 0 // 2
+
+
+// Prevent modern browsers from displaying `audio` without controls.
+// Remove excess height in iOS 5 devices.
+audio:not([controls])
+	display none
+	height 0
+
+
+// Correct `inline-block` display not defined in IE 8/9.
+audio,
+canvas,
+video
+	display inline-block
+
+
+// Address style set to `bolder` in Firefox 4+, Safari 5, and Chrome.
+b,
+strong
+	font-weight bold;
+
+
+// fixes blockquote rendering bugs in older browsers
+blockquote
+	quotes none
+	&:after,
+	&:before
+		content ''
+		content none // on purpose
+
+
+// default button stylez
+// @TODO so, trying to minimize base styles as much as possible
+// button,
+// input[type='submit']
+//     @extends $button-base
+
+
+/**
+ * 1. Correct font family not being inherited in all browsers.
+ * 2. Correct font size not being inherited in all browsers.
+ * 3. Address margins set differently in Firefox 4+, Safari 5, and Chrome.
+*/
+button,
+input,
+select,
+textarea
+	font-family inherit // 1
+	font-size 100% // 2
+	margin 0 // 3
+
+
+/**
+ * Address Firefox 4+ setting `line-height` on `input` using `!important` in
+ * the UA stylesheet
+*/
+button
+input
+	line-height normal
+
+
+// Remove inner padding and border in Firefox 4+.
+button::-moz-focus-inner,
+input::-moz-focus-inner
+	border 0;
+	padding 0
+
+
+/**
+ * Address inconsistent `text-transform` inheritance for `button` and `select`.
+ * All other form control elements do not inherit `text-transform` values.
+ * Correct `button` style inheritance in Chrome, Safari 5+, and IE 8+.
+ * Correct `select` style inheritance in Firefox 4+ and Opera.
+*/
+button,
+select
+	text-transform none
+
+
+/**
+ * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+   and `video` controls.
+ * 2. Correct inability to style clickable `input` types in iOS.
+ * 3. Improve usability and consistency of cursor style between image-type
+   `input` and others.
+*/
+button,
+html input[type='button'], // 1
+input[type='reset'],
+input[type='submit']
+	-webkit-appearance button // 2
+	cursor pointer // 3
+
+
+// Re-set default cursor for disabled elements.
+button[disabled],
+html input[disabled]
+	cursor default
+
+
+// remove default margin
+figure
+	margin 0
+
+
+// no underlines on headlines
+h1,
+h2,
+h3,
+h4,
+h5,
+h6
+	transition(color, .15s, false)
+	color $black;
+
+
+//i is reserved for icons, not italic
+i
+	display block
+	font-style normal
+
+
+/**
+ * 1 Remove border when inside `a` element in IE
+ * 2 no stretchy
+ * 3 fixes annoying phantom space after images
+ * 4 default to full width (maybe not the best idea?)
+ */
+img,
+iframe
+	border 0px //1
+	height auto //2
+	display block //3
+
+
+img,
+code,
+kbd,
+pre,
+samp
+	width 100% //4
+
+
+// images and video won't break their containers
+img,
+video,
+object,
+figure,
+iframe
+	max-width 100%

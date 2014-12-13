@@ -5,7 +5,7 @@
 	"depth": true,
 	"depthLimit": 4,
 	"duplicateProperties": false,
-	"efficient": true,
+	"efficient": false,
 	"indent": 4,
 	"maxWarnings": 10,
 	"unecessaryPX": true,

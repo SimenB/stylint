@@ -1,0 +1,95 @@
+{
+  "background-attachment": [
+    "scroll",
+    "fixed",
+    "inherit"
+  ],
+  "background-color": [
+    "transparent",
+    "inherit"
+  ],
+  "text-align": [
+      "left",
+      "right",
+      "center",
+      "justify",
+      "initial",
+      "inherit"
+  ],
+  "float": [
+      "left",
+      "right",
+      "none",
+      "inherit"
+  ],
+  "overflow": [
+      "visible",
+      "hidden",
+      "scroll",
+      "auto",
+      "initial",
+      "inherit"
+  ],
+  "display": [
+      "inline",
+      "inline-block",
+      "block",
+      "flex",
+      "inline-flex",
+      "inline-table",
+      "list-item",
+      "run-in",
+      "table",
+      "table-caption",
+      "table-column-group",
+      "table-header-group",
+      "table-footer-group",
+      "table-row-group",
+      "table-cell",
+      "table-column",
+      "table-row",
+      "none",
+      "initial",
+      "inherit"
+  ],
+  "text-transform": [
+      "none",
+      "capitalize",
+      "uppercase",
+      "lowercase",
+      "full-width"
+  ],
+  "visibility": [
+      "inherit",
+      "visible",
+      "hidden",
+      "collapse"
+  ],
+  "white-space": [
+      "inherit",
+      "normal",
+      "pre",
+      "nowrap",
+      "pre-wrap",
+      "pre-line"
+  ],
+  "position": [
+      "static",
+      "fixed",
+      "relative",
+      "absolute",
+      "initial",
+      "inherit"
+  ],
+  "vertical-align": [
+      "inherit",
+      "baseline",
+      "sub",
+      "super",
+      "top",
+      "text-top",
+      "middle",
+      "bottom",
+      "text-bottom"
+  ]
+}

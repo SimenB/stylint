@@ -16,17 +16,19 @@
  *       10. check for duplicate selectors @NOT DONE
  *       11. check for valid properties @NOT DONE
  *       11. make configurable via .json @DONE
- *       12. accept cli flags (partially implemented, needs more work)
+ *       12. accept cli flags @DONE
  */
 
 
 // modules
 const fs    	= require('fs'), 			// base node file system module
       chalk 	= require('chalk'), 		// colorize outputs
-      symbols 	= require('log-symbols'),	// symbols for output
-      walk  	= require('./walk'), 		// walk logic
-      Lazy  	= require('lazy.js'), 		// utility belt
-      argv    	= require('yargs').argv;	// cli
+      symbols 	= require('log-symbols'),	// pretty symbols for output
+      lazy  	= require('lazy.js'), 		// utility belt
+      argv    	= require('yargs').argv,	// cli cli cli
+      glob 		= require('glob').Glob,		// oh my (file) glob
+      chokidar 	= require('chokidar');		// better file watching than fs.watch
+
 
 // tests
 const colon					= require('./tests/checkForColon'),
@@ -34,31 +36,75 @@ const colon					= require('./tests/checkForColon'),
 	  commentStyleCorrect 	= require('./tests/checkCommentStyle'),
 	  pxStyleCorrect		= require('./tests/checkForPx'),
 	  universalSelector		= require('./tests/checkForUniversal'),
-	  tooMuchNest			= require('./tests/checkNesting');
+	  tooMuchNest			= require('./tests/checkNesting'),
+	  efficient				= require('./tests/checkForEfficiency'),
+	  spaces				= require('./tests/checkSpaces'),
+	  tabs					= require('./tests/checkTabs');
 
-// duh
+
+// pretty duh
 var config,
-	warnings = [];
+	warnings = [],
+	watcher;
+
 
 // set up config (if no config file passed in use default config)
 if (!argv.config) {
+	// first look for config in curr dir
 	config = JSON.parse( fs.readFileSync('./.styluslintrc') );
 }
+// if you passed in a config using --config then we use that instead
 else {
 	config = JSON.parse( fs.readFileSync(argv.config) );
 }
 
+
 // display help message if user types --help
 if (argv.help) {
 	console.log(chalk.green('\nStylint v.0.0.1'));
-	console.log('Usage: stylint [dir | file] [options]\n')
-	console.log('Options:')
+	console.log('Usage: stylint [dir | file] [options]\n');
+	console.log('Options:');
 	console.log('--help', 'Display list of commands');
 	console.log('--watch', 'Watch file or directory and run lint on change');
 	console.log('--config', 'Pass in location of custom config file');
 	console.log('--strict', 'Run all tests, allow no warnings or errors\n');
 }
 
+// default to linting the current dir
+if (!process.argv[2]) {
+	glob('**/*.styl', {}, function(err, files) {
+		if (err) { return; }
+		lint(files);
+
+		if (argv.watch) {
+			watcher = chokidar.watch('**/*.styl', {ignored: /[\/\\]\./, persistent: true});
+		}
+	});
+}
+// else lint what was passed
+else {
+	lint(process.argv[2]);
+
+	if (argv.watch) {
+		watcher = chokidar.watch(process.argv[2], {ignored: /[\/\\]\./, persistent: true});
+	}
+}
+
+
+// file watcher setup
+if (argv.watch) {
+	watcher.on('ready', function(path, stats) {
+		console.log('Watching: ', process.argv[2], ' for changes.');
+	});
+	watcher.on('change', function(path, stats) {
+		warnings = [];
+
+		console.log('Linting: ', path);
+
+		// this is really just to give people time to read the msg
+		setTimeout(function() {lint(path);}, 350);
+	});
+}
 
 /**
  * check if second argument passed is a file or directory
@@ -67,35 +113,61 @@ if (argv.help) {
  * @param the stat object for process.argv[2]
  * @returns void
  */
-fs.stat(process.argv[2], function(err, stats) {
-	if (err) return;
+function lint(stuffToLint) {
+	var i = 0;
+	/**
+	 * if nothing passed in, default to linting the curr dir.
+	 * stuffWeBeCheckin will be an object of files in this case
+	 * @type {[type]}
+	 */
+	if (typeof stuffToLint === 'object') {
 
-	if (stats.isFile()) {
-		return lazyParse(process.argv[2], 0, 1);
-	}
-	else if (stats.isDirectory()) {
-		//walk dir, iterate through files, read line by line, output warnings and errors
-		walk(process.argv[2], function(err, files) {
-			if (err) throw err;
-			var i = 0,
-				len = files.length - 1;
-
-			// iterate over every file
-			Lazy(files).each(function(file) {
-				i++;
-				return lazyParse(file, len, i);
-			});
+		lazy(stuffToLint).each(function(file) {
+			var len = stuffToLint.length - 1;
+			i++;
+			return lazyParse(file, len, i);
 		});
 	}
-});
+	/**
+	 * else we'll have either a filename or dir name to work with
+	 * if directory we use the walk logic to return an array of files to test
+	 */
+	else {
+		fs.stat(stuffToLint, function(err, stats) {
+			if (err) { return; }
+
+			if (stats.isFile()) {
+				return lazyParse(stuffToLint, 0, 1);
+			}
+			else if (stats.isDirectory()) {
+				glob(stuffToLint + '**/*.styl', {}, function(err, files) {
+					if (err) { throw err; }
+					var len = files.length - 1;
+
+					// iterate over every file
+					lazy(files).each(function(file) {
+						i++;
+						return lazyParse(file, len, i);
+					});
+				});
+			}
+		});
+	}
+}
 
 
-// pass in file and parse it with lazy
+/**
+ * pass in file and parse it with lazy
+ * @param  {string} file     the file to read
+ * @param  {number} len      the total amount of files we readin'
+ * @param  {number} currFile the file number we're currently on
+ * @return {function}        output results when we're done
+ */
 function lazyParse(file, len, currFile) {
 	var lineNum = 0;
 
 	// read file line by line and run tests
-	Lazy.strict()
+	lazy.strict()
 		.readFile(file)
 	 	.lines()
 	 	.each(function(line) {
@@ -141,10 +213,27 @@ function tests(line, num, output) {
 		warnings.push('Unecessary semicolon found:\nLine: ' + num + ': ' + output);
 	}
 
+	// check for places where we can be more efficient (margin 0 50px vs margin 0 50px 0 50px)
+	if (config.efficient === true && efficient(line) === true) {
+		warnings.push('The properties on this line could be more succinct:\nLine: ' + num + ': ' + output);
+	}
+
+	// if (config.spaces === true && config.tabs === false) {
+	// 	if (tabs(line) === true) {
+	// 		warnings.push('Mixed spaces and tabs:\nLine: ' + num + ': ' + output);
+	// 	}
+	// }
+
+	// if (config.tabs === true && config.spaces === false) {
+	// 	if (spaces(line) === true) {
+	// 		warnings.push('Mixed spaces and tabs:\nLine: ' + num + ': ' + output);
+	// 	}
+	// }
+
 	// check selector depth
 	if (config.depth === true) {
 		// if you're a bad person and you set tabs and spaces to both be true, default to tabs
-		if (config.tabs === true && config.spaces == true) {
+		if (config.tabs === true && config.spaces === true) {
 			if (tooMuchNest(line, config.depthLimit, 'tabs', config.indent) === true) {
 				warnings.push('Selector depth greater than 4:\nLine: ' + num + ': ' + output);
 			}
@@ -185,9 +274,9 @@ function done() {
 		}
 	}
 	else if (warnings.length === 0) {
-		console.log('\n' + symbols.success, ' ' + chalk.green('Stylint: You\'re all clear!\n'))
+		console.log('\n' + symbols.success, ' ' + chalk.green('Stylint: You\'re all clear!\n'));
 	}
 	else {
-	    console.log('\n' + symbols.warning, ' ' + chalk.yellow(' ' + warnings.length + ' Warnings\n'));
+	    console.log(symbols.warning, ' ' + chalk.yellow(' ' + warnings.length + ' Warnings\n'));
 	}
 }
