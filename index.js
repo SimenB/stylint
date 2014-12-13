@@ -4,19 +4,21 @@
  * Stylus Lint (splinter) (the p is silent)
  * @description A basic, configurable, node based, stylus linter cli
  * @todo everything, basically, mostly as follows:
- *       1. check for semicolons @DONE
- *       2. check for colons @DONE
- *       3. check for space after comment @DONE
- *       4. check for 0px @DONE
- *       5. check for tab depth (partially implemented, needs bulletproofing)
- *       6. check for * selector @DONE
- *       7. check for spaces vs tabs (error out if using spaces, or tabs, depending on config) @NOT DONE
- *       8. check for 0 0 0 0 or 50px 50px 50px type mistakes @NOT DONE
- *       9. check for alphabetical order @NOT DONE
- *       10. check for duplicate selectors @NOT DONE
- *       11. check for valid properties @NOT DONE
- *       11. make configurable via .json @DONE
- *       12. accept cli flags @DONE
+ *       x 1. check for semicolons @DONE
+ *       x 2. check for colons @DONE
+ *       x 3. check for space after comment @DONE
+ *       x 4. check for 0px @DONE
+ *       - 5. check for tab depth (partially implemented, needs bulletproofing)
+ *       x 6. check for * selector @DONE
+ *       --- 7. check for spaces vs tabs (error out if using spaces, or tabs, depending on config) @NOT DONE
+ *       x 8. check for 0 0 0 0 or 50px 50px 50px type mistakes @pretty solid it seems?
+ *       --- 9. check for alphabetical order @NOT DONE
+ *       --- 10. check for duplicate selectors @NOT DONE
+ *       --- 11. check for valid properties @NOT DONE
+ *       x 11. make configurable via .json @DONE
+ *       x 12. accept cli flags @DONE
+ *       - 13. general code cleanup
+ *       --- 14. write tests
  */
 
 
@@ -121,7 +123,6 @@ function lint(stuffToLint) {
 	 * @type {[type]}
 	 */
 	if (typeof stuffToLint === 'object') {
-
 		lazy(stuffToLint).each(function(file) {
 			var len = stuffToLint.length - 1;
 			i++;
@@ -168,21 +169,21 @@ function lazyParse(file, len, currFile) {
 
 	// read file line by line and run tests
 	lazy.strict()
-		.readFile(file)
-	 	.lines()
-	 	.each(function(line) {
-	 		var output = line.trim();
-	 		lineNum += 1;
+	.readFile(file)
+ 	.lines()
+ 	.each(function(line) {
+ 		var output = line.trim();
+ 		lineNum += 1;
 
-	 		// run tests on the file
-	 		return tests(line, lineNum, output);
-		})
-		.onComplete(function() {
-			// are we done yet? only output warnings and errors when on the last file
-			if (currFile > len) {
-				return done();
-			}
-		});
+ 		// run tests on the file
+ 		return tests(line, lineNum, output);
+	})
+	.onComplete(function() {
+		// are we done yet? only output warnings and errors when on the last file
+		if (currFile > len) {
+			return done();
+		}
+	});
 }
 
 
