@@ -40,9 +40,11 @@ Disable linting for a particular block of code. By default the linter will check
 Checks for existence of unecessary colons ( : ). Warning: this will throw errors on hashes currently.
 
 
+
 ###### comments (default: true, boolean)
 ------------------------
 Check for spaces after one line comments.
+
 
 
 ###### depth (default: true, boolean)
@@ -50,9 +52,11 @@ Check for spaces after one line comments.
 Check that selector does not exceed the selector depth limit.
 
 
+
 ###### depthLimit (default: 4, number)
 ------------------------
 Set the max depth limit for selectors. 
+
 
 
 ###### efficient (default: true, boolean)
@@ -60,9 +64,11 @@ Set the max depth limit for selectors.
 Check for places where properties can be written more efficiently.
 
 
+
 ###### maxWarnings (default: 10, number)
 ------------------------
 Set 'max' number of warnings. Currently this just displays a slightly sterner message, will be stronger.
+
 
 
 ###### unecessaryPx (default: true, boolean)
@@ -70,9 +76,11 @@ Set 'max' number of warnings. Currently this just displays a slightly sterner me
 Looks for instances of 0px.
 
 
+
 ###### semicolons (default: true, boolean)
 ------------------------
 Look for unecessary semicolons.
+
 
 
 ###### spaces (default: false, boolean)
@@ -80,9 +88,11 @@ Look for unecessary semicolons.
 Sets preference to spaces.
 
 
+
 ###### tabs (default: true, boolean)
 ------------------------
 Sets preference to tabs.
+
 
 
 ###### universal (default: true, boolean)
@@ -99,9 +109,11 @@ Upcoming Features:
 The following is a list of features that are in progress. 
 
 
+
 ###### alphabeticalOrder (default: true, boolean)
 ------------------------
 Check that properties are in alphabetical order.
+
 
 
 ###### duplicates (default: true, boolean)
@@ -109,9 +121,11 @@ Check that properties are in alphabetical order.
 Check for unecessary duplicate properties .
 
 
+
 ###### indent (default: 4, number)
 ------------------------
 Check for inconsistent indentation. Default is 4 spaces.
+
 
 
 ###### valid (default: true, boolean)
@@ -119,9 +133,11 @@ Check for inconsistent indentation. Default is 4 spaces.
 Check that property or value is an actual option, and not a typo.
 
 
+
 ###### vars (default: true, boolean)
 ------------------------
 Enforce use of $ when defining a variable (in stylus this is optional, but still useful).
+
 
 
 ###### extend (default: 'extends', string)
@@ -129,9 +145,11 @@ Enforce use of $ when defining a variable (in stylus this is optional, but still
 Pass in either extend or extends and then enforce that. Both are valid in stylus.
 
 
+
 ###### block (default: true, boolean)
 ------------------------
 Enforce use of @block when defining a block variable.
+
 
 
 ###### brackets (default: true, boolean)
