@@ -130,7 +130,8 @@ var Lint = (function() {
 					else if (stats.isDirectory()) {
 						glob(lintMe + '**/*.styl', {}, function(err, files) {
 							if (err) { throw err; }
-							len = files.length - 1;
+							var i = 0,
+								len = files.length - 1;
 
 							// iterate over every file
 							lazy(files).each(function(file) {
@@ -162,7 +163,7 @@ var Lint = (function() {
 			 		var output = line.trim();
 			 		lineNum += 1;
 			 		// run our tests on the line
-			 		return Lint.test(line, lineNum, output);
+			 		return Lint.test(line, lineNum, output, file);
 				})
 				.onComplete(function() {
 					// are we done yet? only output warnings and errors when on the last file
@@ -178,9 +179,10 @@ var Lint = (function() {
 		 * @param  {string} line   [line of stylus to test]
 		 * @param  {number} num    [the line number]
 		 * @param  {string} output [trimmed version of string to output to terminal]
+		 * @param  {string} [file] [curr file being linted]
 		 * @return void
 		 */
-		test: function(line, num, output) {
+		test: function(line, num, output, file) {
 			/**
 			 * first two tests determine if the rest of the tests should run
 			 * if @stylint: off comment found, disable tests until @stylint: on comment found
@@ -196,32 +198,32 @@ var Lint = (function() {
 
 			// check for space after // comment (//comment is invalid)
 			if (enabled === true && config.comments === true && commentStyleCorrect(line) === false) {
-				warnings.push('Space after comment is preferred:\nLine: ' +  num+ ': ' + output);
+				warnings.push(chalk.yellow('Space after comment is preferred:') + '\nFile: ' + file + '\nLine: ' +  num+ ': ' + output);
 			}
 
 			// check for 0px (margin 0 is preferred over margin 0px)
 			if (enabled === true && config.unecessaryPX === true && pxStyleCorrect(line) === false) {
-				warnings.push('0 is preferred over 0px.\nLine: ' + num + ': ' + output);
+				warnings.push(chalk.yellow('0 is preferred over 0px.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 			}
 
 			// check for * selector (* is discouraged)
 			if (enabled === true && config.universal === true && universalSelector(line) === true) {
-				warnings.push('* selector is slow. Consider a different selector.\nLine: ' + num + ': ' + output);
+				warnings.push(chalk.yellow('* selector is slow. Consider a different selector.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 			}
 
 			// check for unecessary : (margin 0 is preferred over margin: 0)
 			if (enabled === true && config.colons === true && colon(line) === true) {
-				warnings.push('Unecessary colon found:\nLine: ' + num + ': ' + output);
+				warnings.push(chalk.yellow('Unecessary colon found:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 			}
 
 			// check for unecessary ; (margin 0; is invalid)
 			if (enabled === true && config.semicolons === true && semicolon(line) === true) {
-				warnings.push('Unecessary semicolon found:\nLine: ' + num + ': ' + output);
+				warnings.push(chalk.yellow('Unecessary semicolon found:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 			}
 
 			// check for places where we can be more efficient (margin 0 50px vs margin 0 50px 0 50px)
 			if (enabled === true && config.efficient === true && notEfficient(line) === true) {
-				warnings.push('The properties on this line could be more succinct:\nLine: ' + num + ': ' + output);
+				warnings.push(chalk.yellow('The properties on this line could be more succinct:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 			}
 
 			// check selector depth
@@ -229,16 +231,16 @@ var Lint = (function() {
 				// if you're a bad person and you set tabs and spaces to both be true, default to tabs
 				if (config.tabs === true && config.spaces === true) {
 					if (tooMuchNest(line, config.depthLimit, 'tabs', config.indent) === true) {
-						warnings.push('Selector depth greater than 4:\nLine: ' + num + ': ' + output);
+						warnings.push(chalk.yellow('Selector depth greater than 4:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 					}
 				}
 				else {
 					// else check tabs against tabs and spaces against spaces
 					if (config.tabs === true && tooMuchNest(line, config.depthLimit, 'tabs', config.indent) === true) {
-						warnings.push('Selector depth greater than 4:\nLine: ' + num + ': ' + output);
+						warnings.push(chalk.yellow('Selector depth greater than 4:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 					}
 					else if (config.spaces === true && tooMuchNest(line, config.depthLimit, 'spaces', config.indent) === true) {
-						warnings.push('Selector depth greater than 4:\nLine: ' + num + ': ' + output);
+						warnings.push(chalk.yellow('Selector depth greater than 4:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 					}
 				}
 			}
@@ -289,7 +291,7 @@ var Lint = (function() {
 		done: function() {
 			// all warnings
 			for (var i = 0; i < warnings.length; i++) {
-			    console.log( chalk.yellow('Warning: ' + warnings[i]) + '\n' );
+			    console.log( chalk.yellow('Warning: ') + warnings[i] + '\n' );
 			}
 
 			// if you pass strict it displays a slightly more annoying message (that'll show em!)
