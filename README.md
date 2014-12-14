@@ -33,11 +33,17 @@ Disable linting for a particular block of code. By default the linter will check
 Example:
 
 // @stylint off
+
 body // this line will not be linted
+
   margin 0 0 0 0 // this line will not be linted
+  
   padding: 0px; // this line will not be linted
+  
 // @stylint on
+
 // linting is re-enabled past this point
+
 
 
 colons (default: true, boolean)
