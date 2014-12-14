@@ -30,22 +30,9 @@ Also, I like configurability.
 The following is a list of the options available to stylinter. Use the --config flag to pass in the location of your custom .styluslintrc config file.
 
 
-###### toggle (inline comment)
+###### toggle (inline comment: @stylint off || @stylint on)
 ------------------------
 Disable linting for a particular block of code. By default the linter will check every line. Linter will be disabled until turned back on.
-
-Example:
-
-`// @stylint off`
-`body // this line will not be linted`
-
- `margin 0 0 0 0 // this line will not be linted`
-  
-  `padding: 0px; // this line will not be linted`
-  
-`// @stylint on``
-`// linting is re-enabled past this point`
-
 
 
 ###### colons (default: true, boolean)
