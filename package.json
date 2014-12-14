@@ -11,7 +11,7 @@
   },
   "bugs": {
     "url": "https://github.com/rossPatton/s-linter/issues"
-  }
+  },
   "bin": {
     "stylint": "./bin/stylint"
   },
