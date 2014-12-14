@@ -12,9 +12,6 @@
   "bin": {
     "stylint": "./bin/stylint"
   },
-  "keywords": [
-    "stylus"
-  ],
   "preferGlobal": true,
   "devDependencies": {
     "chalk": "^0.5.1",
