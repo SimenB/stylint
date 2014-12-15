@@ -309,16 +309,16 @@ var Lint = (function() {
 						// if you're a bad person and you set tabs and spaces to both be true, default to tabs
 						if (config.tabs === true && config.spaces === true) {
 							if (tooMuchNest(line, config.depthLimit, 'tabs', config.indent) === true) {
-								warnings.push(chalk.yellow('Selector depth greater than 4:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+								warnings.push(chalk.yellow('Selector depth greater than', config.indent, ':') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 							}
 						}
 						else {
 							// else check tabs against tabs and spaces against spaces
 							if (config.tabs === true && tooMuchNest(line, config.depthLimit, 'tabs', config.indent) === true) {
-								warnings.push(chalk.yellow('Selector depth greater than 4:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+								warnings.push(chalk.yellow('Selector depth greater than', config.indent, ':') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 							}
 							else if (config.spaces === true && tooMuchNest(line, config.depthLimit, 'spaces', config.indent) === true) {
-								warnings.push(chalk.yellow('Selector depth greater than 4:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+								warnings.push(chalk.yellow('Selector depth greater than', config.indent, ':') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 							}
 						}
 					}
