@@ -24,9 +24,6 @@ Disable linting for a particular block of code. By default the linter will check
 ###### colons (default: true, boolean)
 Checks for existence of unecessary colons ( : ). Warning: this will throw errors on hashes currently.
 
-###### comments (default: true, boolean)
-Check for spaces after one line comments.
-
 ###### depth (default: true, boolean)
 Check that selector does not exceed the selector depth limit.
 

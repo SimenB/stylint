@@ -10,9 +10,9 @@
  *       @TODO(s)
  *       x 1. check for semicolons @DONE
  *       x 2. check for colons @DONE
- *       x 3. check for space after comment @DONE
+ *       x 3. check for comment style @DONE
  *       x 4. check for 0px @DONE
- *       - 5. check for tab depth (partially implemented, needs bulletproofing)
+ *       x 5. check for selector depth @DONE
  *       x 6. check for * selector @DONE
  *       --- 7. check for spaces vs tabs (error out if using spaces, or tabs, depending on config) @NOT DONE
  *       x 8. check for 0 0 0 0 or 50px 50px 50px type mistakes @pretty solid it seems?
@@ -23,28 +23,38 @@
  *       x 12. accept cli flags @DONE
  *       - 13. general code cleanup
  *       --- 14. write tests
- *       x 15. toggleable via @stylint comments
+ *       x 15. toggleable via @stylint comments @DONE
+ *       x 16. check that @block is used when declaring blocks @DONE
+ *       x 17. check that $ is used when declaring variables @DONE
+ *       x 18. dont trigger colon warnings when inside a hash @DONE
+ *       x 19. check that extend(s) is used consistently @DONE
+ *       x 20. check that extends use placeholders only @DONE
  */
 
-
 // modules
-const fs    	= require('fs'), 			// base node file system module
-      chalk 	= require('chalk'), 		// colorize outputs
-      symbols 	= require('log-symbols'),	// pretty symbols for output
-      lazy  	= require('lazy.js'), 		// utility belt
-      argv    	= require('yargs').argv,	// cli cli cli
-      glob 		= require('glob').Glob,		// oh my (file) glob
-      chokidar 	= require('chokidar');		// better file watching than fs.watch
+const fs    	= require('fs'), 				// base node file system module
+	chalk 		= require('chalk'), 			// colorize outputs
+	argv    	= require('yargs').argv,		// cli cli cli
+	glob 		= require('glob').Glob,			// oh my (file) glob
+	chokidar 	= require('chokidar');			// better file watching than fs.watch
+	// stream 		= require('stream'),		// read and transform the files
+	// liner 		= new stream.Transform( {objectMode: true } ); // needed to read line by line instead of by chunk
 
 
 // tests
 const colon					= require('./lib/checkForColon'),
-	  semicolon				= require('./lib/checkForSemicolon'),
-	  commentStyleCorrect 	= require('./lib/checkCommentStyle'),
-	  pxStyleCorrect		= require('./lib/checkForPx'),
-	  universalSelector		= require('./lib/checkForUniversal'),
-	  tooMuchNest			= require('./lib/checkNesting'),
-	  notEfficient			= require('./lib/checkForEfficiency');
+	semicolon				= require('./lib/checkForSemicolon'),
+	pxStyleCorrect			= require('./lib/checkForPx'),
+	universalSelector		= require('./lib/checkForUniversal'),
+	tooMuchNest				= require('./lib/checkNesting'),
+	notEfficient			= require('./lib/checkForEfficiency'),
+	commentStyleCorrect 	= require('./lib/checkCommentStyle'),
+	varStyleCorrect			= require('./lib/checkVarStyle'),
+	blockStyleCorrect		= require('./lib/checkBlockStyle'),
+	hashStarting 			= require('./lib/checkForHashStart'),
+	extendStyleCorrect 		= require('./lib/checkForExtendStyle'),
+	placeholderStyleCorrect = require('./lib/checkForPlaceholderStyle'),
+	hashEnding				= require('./lib/checkForHashEnd');
 	  // spaces				= require('./lib/checkSpaces'),
 	  // tabs					= require('./lib/checkTabs');
 
@@ -64,7 +74,10 @@ if (argv.help) {
 
 // module for our functionality
 var Lint = (function() {
+	'use strict';
+
 	var enabled = true,
+		areWeInAHash = false,
 		warnings = [],
 		config = {
 			'alphabeticalOrder': false,
@@ -74,8 +87,12 @@ var Lint = (function() {
 			'depthLimit': 4,
 			'duplicateProperties': false,
 			'efficient': true,
+			'enforceVarStyle': true,
+			'enforceBlockStyle': true,
+			'extendPref': 'extends',
 			'indent': 4,
 			'maxWarnings': 10,
+			'placeholders': true,
 			'unecessaryPX': true,
 			'unit': 'px',
 		    'semicolons': true,
@@ -88,6 +105,7 @@ var Lint = (function() {
 	return {
 		/**
 		 * sets config to use passed in file
+		 * this is kinda weird right? i should do this differently
 		 */
 		config: function() {
 			config = JSON.parse( fs.readFileSync(argv.config) );
@@ -101,8 +119,7 @@ var Lint = (function() {
 		 * @returns void
 		 */
 		read: function(lintMe) {
-			var i = 0,
-				len;
+			var len;
 
 			/**
 			 * if nothing passed in, default to linting the curr dir.
@@ -111,8 +128,7 @@ var Lint = (function() {
 			if (typeof lintMe === 'object') {
 				len = lintMe.length - 1;
 
-				lazy(lintMe).each(function(file) {
-					i++;
+				lintMe.forEach(function(file, i) {
 					return Lint.parse(file, len, i);
 				});
 			}
@@ -122,20 +138,17 @@ var Lint = (function() {
 			 */
 			else {
 				fs.stat(lintMe, function(err, stats) {
-					if (err) { return; }
+					if (err) { throw err; }
 
 					if (stats.isFile()) {
-						return Lint.parse(lintMe, 0, 1);
+						return Lint.parse(lintMe, 1, 1);
 					}
 					else if (stats.isDirectory()) {
 						glob(lintMe + '**/*.styl', {}, function(err, files) {
 							if (err) { throw err; }
-							var i = 0,
-								len = files.length - 1;
+							var len = files.length - 1;
 
-							// iterate over every file
-							lazy(files).each(function(file) {
-								i++;
+							files.forEach(function(file, i) {
 								return Lint.parse(file, len, i);
 							});
 						});
@@ -146,101 +159,168 @@ var Lint = (function() {
 
 
 		/**
-		 * pass in file and parse it with lazy
+		 * pass in file and parse it with streams
 		 * @param  {string} file     the file to read
 		 * @param  {number} len      the total amount of files we readin'
 		 * @param  {number} currFile the file number we're currently on
 		 * @return {function}        output results when we're done
 		 */
-		parse: function(file, len, currFile) {
-			var lineNum = 0;
+		parse: function( file, len, currFile ) {
+			var stripComments = /(\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*+\/)/g,
+				fileContent = fs.readFileSync(file, 'utf8'),
+				cleanFile = fileContent.replace(stripComments, function(match) {
+					var lines = match.split(/\r\n|\r|\n/),
+						lineLen = lines.length - 1,
+						output = ' ';
 
-			// read file line by line and run tests
-			lazy.strict()
-				.readFile(file)
-			 	.lines()
-			 	.each(function(line) {
-			 		var output = line.trim();
-			 		lineNum += 1;
-			 		// run our tests on the line
-			 		return Lint.test(line, lineNum, output, file);
-				})
-				.onComplete(function() {
-					// are we done yet? only output warnings and errors when on the last file
-					if (currFile > len) {
-						return Lint.done();
+					if (lineLen === 1) {
+						return ' ';
 					}
-				});
+					else {
+						while (lineLen--) {
+							output += '\n';
+						}
+						return output;
+					}
+				}),
+				lines = cleanFile.split('\n');
+
+			/**
+			 * so, this function trims each line and then tests it
+			 * @param  {string} 	the line of stylus to test
+			 * @return {function}	run test
+			 */
+			lines.forEach(function( line, i ) {
+				var output = line.trim();
+				// line nos don't start at 0
+				i++;
+				return Lint.test(line, i, output, file);
+			});
+
+			// if at the last file, call the done function to output results
+			if (currFile === len) {
+				return Lint.done();
+			}
 		},
 
 
 		/**
 		 * run test if property set to true in config object
-		 * @param  {string} line   [line of stylus to test]
-		 * @param  {number} num    [the line number]
-		 * @param  {string} output [trimmed version of string to output to terminal]
-		 * @param  {string} [file] [curr file being linted]
+		 * @param  {string} line   		line of stylus to test
+		 * @param  {number} num    		the line number
+		 * @param  {string} output 		trimmed version of string to output to terminal
+		 * @param  {string} file 		curr file being linted
 		 * @return void
 		 */
 		test: function(line, num, output, file) {
-			/**
-			 * first two tests determine if the rest of the tests should run
-			 * if @stylint: off comment found, disable tests until @stylint: on comment found
-			 */
-			if (line.indexOf('@stylint off') !== -1) {
-			    enabled = false;
-			    return;
+			var hasComment = /(\/\/)/,
+				startWithLineComment = /(^\/\/)/;
+
+			// the only valid use of brackets is in a hash
+			if (hashStarting(line) === true) {
+				areWeInAHash = true;
 			}
 
-			if (line.indexOf('@stylint on') !== -1) {
-			    enabled = true;
+			if (areWeInAHash === true) {
+				if (hashEnding(line) === true) {
+					areWeInAHash = false;
+				}
 			}
 
-			// check for space after // comment (//comment is invalid)
-			if (enabled === true && config.comments === true && commentStyleCorrect(line) === false) {
-				warnings.push(chalk.yellow('Space after comment is preferred:') + '\nFile: ' + file + '\nLine: ' +  num+ ': ' + output);
+			// check for @stylint off comments
+			if (hasComment.test(line)) {
+				/**
+				 * first two tests determine if the rest of the tests should run
+				 * if @stylint: off comment found, disable tests until @stylint: on comment found
+				 */
+				if (line.indexOf('@stylint off') !== -1) {
+				    enabled = false;
+				    return;
+				}
+
+				if (line.indexOf('@stylint on') !== -1) {
+				    enabled = true;
+				}
 			}
 
-			// check for 0px (margin 0 is preferred over margin 0px)
-			if (enabled === true && config.unecessaryPX === true && pxStyleCorrect(line) === false) {
-				warnings.push(chalk.yellow('0 is preferred over 0px.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
-			}
-
-			// check for * selector (* is discouraged)
-			if (enabled === true && config.universal === true && universalSelector(line) === true) {
-				warnings.push(chalk.yellow('* selector is slow. Consider a different selector.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
-			}
-
-			// check for unecessary : (margin 0 is preferred over margin: 0)
-			if (enabled === true && config.colons === true && colon(line) === true) {
-				warnings.push(chalk.yellow('Unecessary colon found:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
-			}
-
-			// check for unecessary ; (margin 0; is invalid)
-			if (enabled === true && config.semicolons === true && semicolon(line) === true) {
-				warnings.push(chalk.yellow('Unecessary semicolon found:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
-			}
-
-			// check for places where we can be more efficient (margin 0 50px vs margin 0 50px 0 50px)
-			if (enabled === true && config.efficient === true && notEfficient(line) === true) {
-				warnings.push(chalk.yellow('The properties on this line could be more succinct:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
-			}
-
-			// check selector depth
-			if (enabled === true && config.depth === true) {
-				// if you're a bad person and you set tabs and spaces to both be true, default to tabs
-				if (config.tabs === true && config.spaces === true) {
-					if (tooMuchNest(line, config.depthLimit, 'tabs', config.indent) === true) {
-						warnings.push(chalk.yellow('Selector depth greater than 4:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+			// are we running any tests at all?
+			if (enabled) {
+				// check for comment style (//dont do this. // do this)
+				if (hasComment.test(line)) {
+					if (config.comments === true && commentStyleCorrect(line) === false) {
+						warnings.push(chalk.yellow('Line comments require a space after //') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 					}
 				}
-				else {
-					// else check tabs against tabs and spaces against spaces
-					if (config.tabs === true && tooMuchNest(line, config.depthLimit, 'tabs', config.indent) === true) {
-						warnings.push(chalk.yellow('Selector depth greater than 4:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+
+				// does the line start with a comment? dont run the following tests
+				if (!startWithLineComment.test(line)) {
+					// does the line have a comment after the stylus? trim it before we run tests
+					if (hasComment.test(line)) {
+						line = line.slice(0, line.indexOf('//') - 1);
 					}
-					else if (config.spaces === true && tooMuchNest(line, config.depthLimit, 'spaces', config.indent) === true) {
-						warnings.push(chalk.yellow('Selector depth greater than 4:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+
+					// check for @block when defining block var
+					if (config.enforceBlockStyle === true && blockStyleCorrect(line) === false) {
+						warnings.push(chalk.yellow('Block variables must include @block') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+					}
+
+					// check for @extend(s) preference
+					if (config.extendPref !== false && extendStyleCorrect(line, config.extendPref) === false) {
+						warnings.push(chalk.yellow('Please use the', config.extendPref, 'syntax when extending') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+					}
+
+					// only extend placeholder vars (or not)
+					if (config.placeholders === true && placeholderStyleCorrect(line) === false) {
+						warnings.push(chalk.yellow('Please extend only placeholder vars') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+					}
+
+					// check for $ at start of var
+					if (config.enforceVarStyle === true && varStyleCorrect(line) === false) {
+						warnings.push(chalk.yellow('Variables must be prefixed with the $ sign.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+					}
+
+					// check for 0px (margin 0 is preferred over margin 0px)
+					if (config.unecessaryPX === true && pxStyleCorrect(line) === false) {
+						warnings.push(chalk.yellow('0 is preferred over 0px.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+					}
+
+					// check for * selector (* is discouraged)
+					if (config.universal === true && universalSelector(line) === true) {
+						warnings.push(chalk.yellow('* selector is slow. Consider a different selector.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+					}
+
+					// check for unecessary : (margin 0 is preferred over margin: 0)
+					if ( config.colons === true && colon(line, areWeInAHash) ) {
+						warnings.push(chalk.yellow('Unecessary colon found:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+					}
+
+					// check for unecessary ; (margin 0; is invalid)
+					if (config.semicolons === true && semicolon(line) === true) {
+						warnings.push(chalk.yellow('Unecessary semicolon found:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+					}
+
+					// check for places where we can be more efficient (margin 0 50px vs margin 0 50px 0 50px)
+					if (config.efficient === true && notEfficient(line) === true) {
+						warnings.push(chalk.yellow('The properties on this line could be more succinct:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+					}
+
+					// check selector depth
+					if (config.depth === true) {
+						// if you're a bad person and you set tabs and spaces to both be true, default to tabs
+						if (config.tabs === true && config.spaces === true) {
+							if (tooMuchNest(line, config.depthLimit, 'tabs', config.indent) === true) {
+								warnings.push(chalk.yellow('Selector depth greater than 4:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+							}
+						}
+						else {
+							// else check tabs against tabs and spaces against spaces
+							if (config.tabs === true && tooMuchNest(line, config.depthLimit, 'tabs', config.indent) === true) {
+								warnings.push(chalk.yellow('Selector depth greater than 4:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+							}
+							else if (config.spaces === true && tooMuchNest(line, config.depthLimit, 'spaces', config.indent) === true) {
+								warnings.push(chalk.yellow('Selector depth greater than 4:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+							}
+						}
 					}
 				}
 			}
@@ -274,7 +354,8 @@ var Lint = (function() {
 			// listen for changes, do somethin
 			watcher.on('change', function(path) {
 				warnings = [];
-				console.log('Linting: ', path);
+
+				console.log('Linting: ', path, '\n');
 				// this is really just to give people time to read the watch msg
 				setTimeout(function() {
 					Lint.read(path);
@@ -289,27 +370,30 @@ var Lint = (function() {
 		 * @return void
 		 */
 		done: function() {
-			// all warnings
-			for (var i = 0; i < warnings.length; i++) {
-			    console.log( chalk.yellow('Warning: ') + warnings[i] + '\n' );
-			}
+			var len = warnings.length;
+
+			console.log('\n');
+
+			warnings.forEach(function(warning, i) {
+				console.log( chalk.yellow('Warning: ') + warning + '\n' );
+			});
 
 			// if you pass strict it displays a slightly more annoying message (that'll show em!)
-			if (argv.strict && warnings.length > 0) {
-				console.log(symbols.warning, ' ' + chalk.underline.red('Stylint: ' + warnings.length + ' warnings. Strict mode is on: no warnings allowed.'));
+			if (argv.strict && len > 0) {
+				console.log('\uD83D\uDCA9', ' ' + chalk.underline.red('Stylint: ' + warnings.length + ' warnings. Strict mode is on: no warnings allowed.'));
 			}
 
 			// if you set a max it displays a slightly more annoying message (that'll show em!)
-			if (warnings.length > config.maxWarnings) {
-				if (warnings.length > config.maxWarnings) {
-					console.log(symbols.warning, ' ' + chalk.underline.red('Stylint: ' + warnings.length + ' warnings. Max is set to: ' + config.maxWarnings + '\n'));
+			if (len > config.maxWarnings) {
+				if (len > config.maxWarnings) {
+					console.log('\uD83D\uDCA9', ' ' + chalk.underline.red('Stylint: ' + warnings.length + ' warnings. Max is set to: ' + config.maxWarnings + '\n'));
 				}
 			}
-			else if (warnings.length === 0) {
-				console.log('\n' + symbols.success, ' ' + chalk.green('Stylint: You\'re all clear!\n'));
+			else if (len === 0) {
+				console.log('\n' + '\uD83D\uDC4D', ' ' + chalk.green('Stylint: You\'re all clear!\n'));
 			}
 			else {
-			    console.log(symbols.warning, ' ' + chalk.yellow(' ' + warnings.length + ' Warnings\n'));
+			    console.log('\uD83D\uDCA9', ' ' + chalk.yellow(' ' + warnings.length + ' Warnings\n'));
 			}
 		}
 	};
@@ -330,9 +414,10 @@ if (argv.config) {
 
 // kickoff linter, default to linting curr dir if no file or dir passed
 if (!argv.help) {
+	// nothing passed in
 	if (!process.argv[2]) {
 		glob('**/*.styl', {}, function(err, files) {
-			if (err) { return; }
+			if (err) { throw err; }
 			Lint.read(files);
 		});
 	}

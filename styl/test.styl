@@ -6,19 +6,30 @@
  * 4 this setting can speed up font rendering significantly, esp on mobile
  */
 
+$var-test = 'test'
+var-test = 'test'
+
+
+test-block = @block
+	font-family
+
+test-block = 
+	font-family 'test'
+
+
 		// @stylint off
 body
 	background-color $white;
-	color $dark-gray
+	color $dark-gray;
 	-webkit-font-smoothing antialiased // 1
 	-webkit-osx-font-smoothing grayscale // 1
 	-moz-osx-font-smoothing grayscale // 1
 	image-rendering crisp-edges // 2
 	-webkit-overflow-scrolling touch
-	padding-top 60px // 3
-	text-rendering optimizeSpeed // 4
-	// @stylint on
+	padding-top: 60px // 3
+	text-rendering optimizeSpeed; // 4 : : : : 
 
+// @stylint on
 /**
  * set link defaults
  * 1 Address `outline` inconsistency between Chrome and other browsers.
@@ -29,7 +40,7 @@ a
 	color inherit
 	text-decoration none
 	&:focus
-		outline thin dotted // 1
+		outline thin dotted // 1 : :
 
 	&:active,
 	&:hover
@@ -72,6 +83,13 @@ blockquote
 // input[type='submit']
 //     @extends $button-base
 
+testHash = {
+	key: value
+}
+
+$extendableThing
+	font-family 'test'
+	line-height 1
 
 /**
  * 1. Correct font family not being inherited in all browsers.
@@ -82,10 +100,13 @@ button,
 input,
 select,
 textarea
+	@extend $extendableThing
 	font-family inherit // 1
-	font-size 100% // 2
+	font-size: 100% // 2
 	margin 0 // 3
 
+.testClass
+	margin 0
 
 /**
  * Address Firefox 4+ setting `line-height` on `input` using `!important` in
@@ -93,6 +114,7 @@ textarea
 */
 button
 input
+	@extends .testClass
 	line-height normal
 
 
