@@ -2,4 +2,4 @@
 
 [include]
 node_modules/
-src/lib/
+lib/

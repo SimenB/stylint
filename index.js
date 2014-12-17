@@ -3,6 +3,7 @@
 /**
  * Stylus Lint (splinter) (the p is silent)
  * @description A basic, configurable, node based, stylus linter cli
+ * @flow
  *
  *       just because things are marked done doesn't mean they can't be improved
  *       they're just 'good enough' for now usually
@@ -85,12 +86,26 @@ var Lint = (function() {
 	var enabled = true,
 		areWeInAHash = false,
 		warnings = [],
+		flags = [
+			'-a',
+			'-c',
+			'-w',
+			'-s',
+			'-v',
+			'-h',
+			'--all',
+			'--config',
+			'--watch',
+			'--strict',
+			'--version',
+			'--help'
+		],
 		config = {
 			'alphabeticalOrder': false,
 			'borderNone': true,
 			'colons': true,
 			'commaSpace': true,
-			'comments': true,
+			'comments': false,
 			'depth': true,
 			'depthLimit': 4,
 			'duplicateProperties': false,
@@ -98,12 +113,11 @@ var Lint = (function() {
 			'enforceVarStyle': true,
 			'enforceBlockStyle': true,
 			'extendPref': 'extends',
-			'extraSpace': true,
+			'extraSpace': false,
 			'indent': 4,
 			'maxWarnings': 10,
 			'placeholders': true,
 			'unecessaryPX': true,
-			'unit': 'px',
 		    'semicolons': true,
 		    'spaces': false,
 		    'tabs': true,
@@ -130,23 +144,24 @@ var Lint = (function() {
 		read: function(lintMe) {
 			var len;
 
-			/**
-			 * if nothing passed in, default to linting the curr dir.
-			 * stuffToLint will be an object of files in this case
-			 */
-			if (typeof lintMe === 'object') {
-				len = lintMe.length - 1;
+			// if nothing passed in, default to linting the curr dir.
+			if ( flags.indexOf( lintMe ) !== -1 ) {
+				glob('**/*.styl', {}, function(err, files) {
+					if (err) { throw err; }
+					var len = files.length - 1;
 
-				lintMe.forEach(function(file, i) {
-					return Lint.parse(file, len, i);
+					files.forEach(function(file, i) {
+						return Lint.parse(file, len, i);
+					});
 				});
 			}
+
 			/**
 			 * else we'll have either a filename or dir name to work with
 			 * if directory we use the glob logic to return an array of files to test
 			 */
 			else {
-				fs.stat(lintMe, function(err, stats) {
+				fs.stat(lintMe, function( err, stats ) {
 					if (err) { throw err; }
 
 					if (stats.isFile()) {
@@ -365,23 +380,29 @@ var Lint = (function() {
 			 * if file or dir was passed, check if all flag was passed. if true, lint whole dir anyway
 			 */
 			if (!process.argv[2] || argv.all || argv.a) {
-				watcher = chokidar.watch('**/*.styl', {ignored: /[\/\\]\./, persistent: true});
+				watcher = chokidar.watch('**/*.styl', {
+					ignored: /[\/\\]\./, 
+					persistent: true
+				});
 			}
 			// else just lint what was passed
 			else {
-				watcher = chokidar.watch(process.argv[2], {ignored: /[\/\\]\./, persistent: true});
+				watcher = chokidar.watch(process.argv[2], {
+					ignored: /[\/\\]\./,
+					persistent: true
+				});
 			}
 
 			// initial watch msg (watching: dir or file)
 			watcher.on('ready', function() {
-				console.log('Watching: ', process.argv[2], ' for changes.');
+				console.log( chalk.blue('Watching: '), process.argv[2], ' for changes.' );
 			});
 
 			// listen for changes, do somethin
 			watcher.on('change', function(path) {
 				warnings = [];
 
-				console.log('Linting: ', path, '\n');
+				console.log( chalk.blue('Linting: '), path, '\n' );
 				// this is really just to give people time to read the watch msg
 				setTimeout(function() {
 					Lint.read(path);
@@ -404,13 +425,13 @@ var Lint = (function() {
 
 			// if you set a max it displays a slightly more annoying message (that'll show em!)
 			if ( len > config.maxWarnings ) {
-				console.log( '\uD83D\uDCA9', chalk.underline.red('Stylint: ' + warnings.length + ' warnings. Max is set to: ' + config.maxWarnings + '\n') );
+				console.log( '\uD83D\uDCA9 ', chalk.underline.red('Stylint: ' + warnings.length + ' warnings. Max is set to: ' + config.maxWarnings + '\n') );
 			}
 			else if (len === 0) {
-				console.log( '\uD83D\uDC4D', chalk.blue('Stylint: You\'re all clear!\n') );
+				console.log( '\n \uD83D\uDC4D ', chalk.blue('Stylint: You\'re all clear!\n') );
 			}
 			else {
-			    console.log( '\uD83D\uDCA9', chalk.yellow(' ' + warnings.length + ' Warnings\n') );
+			    console.log( '\uD83D\uDCA9 ', chalk.yellow(warnings.length + ' Warnings\n') );
 			}
 		}
 	};
@@ -418,7 +439,7 @@ var Lint = (function() {
 
 
 // if --watch flag passed, set up file watcher
-if ( argv.watch || argv.w ) {
+if ( argv.watch || argv.w && process.argv.length > 3 ) {
 	Lint.watch();
 }
 
