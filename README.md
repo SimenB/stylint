@@ -1,8 +1,4 @@
-### stylinter - cli stylus linter. project is a little buggy and nowhere near complete, use at own risk.
-
-#### Why?
-Stylus is different enough from other css pre-processors that I think it needs it's own linter.
-Also, I like configurability.
+### stylint - cli stylus linter. still pretty rough, please report any issues you see and update often. i'm added new features and fixing bugs all the time.
 
 #### CLI
 --help 		Display list of commands
