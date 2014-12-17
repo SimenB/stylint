@@ -1,4 +1,4 @@
-### stylint - cli stylus linter. still pretty rough, please report any issues you see and update often. i'm added new features and fixing bugs all the time.
+### stylint - cli stylus linter. still pretty rough, please report any issues you see and update often. i'm adding new features and fixing bugs all the time.
 
 #### CLI
 --help 		Display list of commands
