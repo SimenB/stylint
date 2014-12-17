@@ -1,16 +1,16 @@
 {
   "name": "stylint",
-  "version": "0.1.1",
+  "version": "0.3.0",
   "description": "A linter for stylus",
   "author": "Ross Patton",
   "license": "ISC",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rossPatton/s-linter"
+    "url": "https://github.com/rossPatton/stylint"
   },
   "bugs": {
-    "url": "https://github.com/rossPatton/s-linter/issues"
+    "url": "https://github.com/rossPatton/stylinter/issues"
   },
   "bin": {
     "stylint": "./bin/stylint"
