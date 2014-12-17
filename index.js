@@ -31,8 +31,10 @@
  *       x 20. check that extends use placeholders only @DONE
  */
 
+'use strict';
+
 // modules
-const fs    	= require('fs'), 				// base node file system module
+var fs    		= require('fs'), 				// base node file system module
 	chalk 		= require('chalk'), 			// colorize outputs
 	argv    	= require('yargs').argv,		// cli cli cli
 	glob 		= require('glob').Glob,			// oh my (file) glob
@@ -42,7 +44,7 @@ const fs    	= require('fs'), 				// base node file system module
 
 
 // tests
-const colon					= require('./lib/checkForColon'),
+var colon					= require('./lib/checkForColon'),
 	semicolon				= require('./lib/checkForSemicolon'),
 	pxStyleCorrect			= require('./lib/checkForPx'),
 	universalSelector		= require('./lib/checkForUniversal'),
@@ -54,34 +56,40 @@ const colon					= require('./lib/checkForColon'),
 	hashStarting 			= require('./lib/checkForHashStart'),
 	extendStyleCorrect 		= require('./lib/checkForExtendStyle'),
 	placeholderStyleCorrect = require('./lib/checkForPlaceholderStyle'),
+	mixinStyleCorrect		= require('./lib/checkForMixinStyle'),
+	checkBorderNone			= require('./lib/checkBorderNone'),
+	commaStyleCorrect		= require('./lib/checkCommaStyle'),
 	hashEnding				= require('./lib/checkForHashEnd');
 	  // spaces				= require('./lib/checkSpaces'),
 	  // tabs					= require('./lib/checkTabs');
 
 
 // display help message if user types --help
-if (argv.help) {
-	console.log(chalk.green('\nStylint v.0.0.1'));
-	console.log('Usage: stylint [dir | file] [options]\n');
-	console.log('Options:');
-	console.log('--help', '		Display list of commands');
-	console.log('--watch', '	Watch file or directory and run lint on change');
-	console.log('--all', '		Use with --watch. Tells stylint to lint entire dir on change instead of curr file');
-	console.log('--config', '	Pass in location of custom config file');
-	console.log('--strict', '	Run all tests, allow no warnings or errors\n');
+if ( argv.help || argv.h ) {
+	console.log( chalk.blue('\nStylint') );
+	console.log( 'Usage: stylint [dir | file] [options]\n' );
+	console.log( 'Options:');
+	console.log( '-h', '--help', '	Display list of commands' );
+	console.log( '-w', '--watch', '	Watch file or directory and run lint on change' );
+	console.log( '-a', '--all', '	Use with --watch. Tells stylint to lint entire dir on change' );
+	console.log( '-c', '--config', '	Pass in location of custom config file' );
+	console.log( '-s', '--strict', '	Run all tests, allow no warnings or errors' );
+	console.log( '-v', '--version', '	Get current version\n' );
+	process.exit();
 }
 
 
 // module for our functionality
 var Lint = (function() {
 	'use strict';
-
 	var enabled = true,
 		areWeInAHash = false,
 		warnings = [],
 		config = {
 			'alphabeticalOrder': false,
+			'borderNone': true,
 			'colons': true,
+			'commaSpace': true,
 			'comments': true,
 			'depth': true,
 			'depthLimit': 4,
@@ -90,6 +98,7 @@ var Lint = (function() {
 			'enforceVarStyle': true,
 			'enforceBlockStyle': true,
 			'extendPref': 'extends',
+			'extraSpace': true,
 			'indent': 4,
 			'maxWarnings': 10,
 			'placeholders': true,
@@ -244,81 +253,98 @@ var Lint = (function() {
 			}
 
 			// are we running any tests at all?
-			if (enabled) {
+			if ( enabled ) {
 				// check for comment style (//dont do this. // do this)
-				if (hasComment.test(line)) {
-					if (config.comments === true && commentStyleCorrect(line) === false) {
-						warnings.push(chalk.yellow('Line comments require a space after //') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+				if ( hasComment.test(line) ) {
+					if ( config.comments === true && commentStyleCorrect(line) === false ) {
+						warnings.push(chalk.yellow('line comments require a space after //') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 					}
 				}
 
 				// does the line start with a comment? dont run the following tests
-				if (!startWithLineComment.test(line)) {
+				if ( !startWithLineComment.test(line) ) {
 					// does the line have a comment after the stylus? trim it before we run tests
-					if (hasComment.test(line)) {
+					if ( hasComment.test(line) ) {
 						line = line.slice(0, line.indexOf('//') - 1);
 					}
 
+					// check that commas are followed by a space
+					if ( config.commaSpace === true && commaStyleCorrect(line) === false ) {
+						warnings.push(chalk.yellow('commas must be followed by a space for readability') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+					}
+
+					// check for extra spaces when defining or using a mixin
+					if ( config.extraSpace === true && mixinStyleCorrect(line) === false ) {
+						warnings.push(chalk.yellow('mixin( $param1, $param2 ) is preferred over mixin($param1, $param2)') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+					}
+
+					// check for border none (prefer border 0)
+					if ( config.borderNone === true && checkBorderNone(line) === true ) {
+						warnings.push(chalk.yellow('border 0 is preferred over border none') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+					}
+
 					// check for @block when defining block var
-					if (config.enforceBlockStyle === true && blockStyleCorrect(line) === false) {
-						warnings.push(chalk.yellow('Block variables must include @block') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+					if ( config.enforceBlockStyle === true && blockStyleCorrect(line) === false ) {
+						warnings.push(chalk.yellow('block variables must include @block') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 					}
 
 					// check for @extend(s) preference
-					if (config.extendPref !== false && extendStyleCorrect(line, config.extendPref) === false) {
-						warnings.push(chalk.yellow('Please use the', config.extendPref, 'syntax when extending') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+					if ( config.extendPref !== false && extendStyleCorrect(line, config.extendPref) === false ) {
+						warnings.push(chalk.yellow('please use the @' + config.extendPref + ' syntax when extending') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 					}
 
 					// only extend placeholder vars (or not)
-					if (config.placeholders === true && placeholderStyleCorrect(line) === false) {
-						warnings.push(chalk.yellow('Please extend only placeholder vars') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+					if ( config.placeholders === true && placeholderStyleCorrect(line) === false ) {
+						warnings.push(chalk.yellow('please extend only placeholder vars') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 					}
 
 					// check for $ at start of var
-					if (config.enforceVarStyle === true && varStyleCorrect(line) === false) {
-						warnings.push(chalk.yellow('Variables must be prefixed with the $ sign.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+					if ( config.enforceVarStyle === true && varStyleCorrect(line) === false ) {
+						warnings.push(chalk.yellow('variables must be prefixed with the $ sign.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 					}
 
 					// check for 0px (margin 0 is preferred over margin 0px)
-					if (config.unecessaryPX === true && pxStyleCorrect(line) === false) {
+					if ( config.unecessaryPX === true && pxStyleCorrect(line) === false ) {
 						warnings.push(chalk.yellow('0 is preferred over 0px.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 					}
 
 					// check for * selector (* is discouraged)
-					if (config.universal === true && universalSelector(line) === true) {
+					if ( config.universal === true && universalSelector(line) === true ) {
 						warnings.push(chalk.yellow('* selector is slow. Consider a different selector.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 					}
 
 					// check for unecessary : (margin 0 is preferred over margin: 0)
 					if ( config.colons === true && colon(line, areWeInAHash) ) {
-						warnings.push(chalk.yellow('Unecessary colon found:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+						warnings.push(chalk.yellow('unecessary colon found:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 					}
 
 					// check for unecessary ; (margin 0; is invalid)
-					if (config.semicolons === true && semicolon(line) === true) {
-						warnings.push(chalk.yellow('Unecessary semicolon found:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+					if ( config.semicolons === true && semicolon(line) === true ) {
+						warnings.push(chalk.yellow('unecessary semicolon found:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 					}
 
 					// check for places where we can be more efficient (margin 0 50px vs margin 0 50px 0 50px)
-					if (config.efficient === true && notEfficient(line) === true) {
-						warnings.push(chalk.yellow('The properties on this line could be more succinct:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+					if ( config.efficient === true && notEfficient(line) === true ) {
+						warnings.push(chalk.yellow('the properties on this line could be more succinct:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 					}
 
 					// check selector depth
-					if (config.depth === true) {
+					if ( config.depth === true ) {
 						// if you're a bad person and you set tabs and spaces to both be true, default to tabs
-						if (config.tabs === true && config.spaces === true) {
-							if (tooMuchNest(line, config.depthLimit, 'tabs', config.indent) === true) {
-								warnings.push(chalk.yellow('Selector depth greater than', config.indent, ':') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+						if ( config.tabs === true && config.spaces === true ) {
+							if ( tooMuchNest(line, config.depthLimit, 'tabs', config.indent) === true ) {
+								warnings.push(chalk.yellow('selector depth greater than', config.indent, ':') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 							}
 						}
 						else {
 							// else check tabs against tabs and spaces against spaces
-							if (config.tabs === true && tooMuchNest(line, config.depthLimit, 'tabs', config.indent) === true) {
-								warnings.push(chalk.yellow('Selector depth greater than', config.indent, ':') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+							if ( config.tabs === true 
+								&& tooMuchNest(line, config.depthLimit, 'tabs', config.indent ) === true) {
+								warnings.push(chalk.yellow('selector depth greater than', config.indent, ':') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 							}
-							else if (config.spaces === true && tooMuchNest(line, config.depthLimit, 'spaces', config.indent) === true) {
-								warnings.push(chalk.yellow('Selector depth greater than', config.indent, ':') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+							else if ( config.spaces === true 
+								&& tooMuchNest(line, config.depthLimit, 'spaces', config.indent) === true ) {
+								warnings.push(chalk.yellow('selector depth greater than', config.indent, ':') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 							}
 						}
 					}
@@ -338,7 +364,7 @@ var Lint = (function() {
 			 * default to linting the current dir if nothing passed.
 			 * if file or dir was passed, check if all flag was passed. if true, lint whole dir anyway
 			 */
-			if (!process.argv[2] || argv.all) {
+			if (!process.argv[2] || argv.all || argv.a) {
 				watcher = chokidar.watch('**/*.styl', {ignored: /[\/\\]\./, persistent: true});
 			}
 			// else just lint what was passed
@@ -372,28 +398,19 @@ var Lint = (function() {
 		done: function() {
 			var len = warnings.length;
 
-			console.log('\n');
-
-			warnings.forEach(function(warning, i) {
-				console.log( chalk.yellow('Warning: ') + warning + '\n' );
+			warnings.forEach(function( warning, i ) {
+				console.log( chalk.yellow('Warning: '), warning, '\n' );
 			});
 
-			// if you pass strict it displays a slightly more annoying message (that'll show em!)
-			if (argv.strict && len > 0) {
-				console.log('\uD83D\uDCA9', ' ' + chalk.underline.red('Stylint: ' + warnings.length + ' warnings. Strict mode is on: no warnings allowed.'));
-			}
-
 			// if you set a max it displays a slightly more annoying message (that'll show em!)
-			if (len > config.maxWarnings) {
-				if (len > config.maxWarnings) {
-					console.log('\uD83D\uDCA9', ' ' + chalk.underline.red('Stylint: ' + warnings.length + ' warnings. Max is set to: ' + config.maxWarnings + '\n'));
-				}
+			if ( len > config.maxWarnings ) {
+				console.log( '\uD83D\uDCA9', chalk.underline.red('Stylint: ' + warnings.length + ' warnings. Max is set to: ' + config.maxWarnings + '\n') );
 			}
 			else if (len === 0) {
-				console.log('\n' + '\uD83D\uDC4D', ' ' + chalk.green('Stylint: You\'re all clear!\n'));
+				console.log( '\uD83D\uDC4D', chalk.blue('Stylint: You\'re all clear!\n') );
 			}
 			else {
-			    console.log('\uD83D\uDCA9', ' ' + chalk.yellow(' ' + warnings.length + ' Warnings\n'));
+			    console.log( '\uD83D\uDCA9', chalk.yellow(' ' + warnings.length + ' Warnings\n') );
 			}
 		}
 	};
@@ -401,28 +418,36 @@ var Lint = (function() {
 
 
 // if --watch flag passed, set up file watcher
-if (argv.watch) {
+if ( argv.watch || argv.w ) {
 	Lint.watch();
 }
 
 
 // if --config flag passed, use that instead
-if (argv.config) {
-	Lint.config(argv.config);
+if ( argv.config || argv.c ) {
+	if ( argv.config ) {
+		Lint.config( argv.config );
+	}
+	else {
+		Lint.config( argv.c );
+	}
 }
 
+// output version # from package.json
+if ( argv.version || argv.v ) {
+	console.log( chalk.blue('\nStylint version: '), JSON.parse( fs.readFileSync('package.json') ).version, '\n' );
+	process.exit();
+}
 
 // kickoff linter, default to linting curr dir if no file or dir passed
-if (!argv.help) {
-	// nothing passed in
-	if (!process.argv[2]) {
-		glob('**/*.styl', {}, function(err, files) {
-			if (err) { throw err; }
-			Lint.read(files);
-		});
-	}
-	// else lint what was passed
-	else {
-		Lint.read(process.argv[2]);
-	}
+// nothing passed in
+if ( !process.argv[2] ) {
+	glob('**/*.styl', {}, function( err, files ) {
+		if ( err ) { throw err; }
+		Lint.read( files );
+	});
+}
+// else lint what was passed
+else {
+	Lint.read( process.argv[2] );
 }

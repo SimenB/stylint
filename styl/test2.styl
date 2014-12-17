@@ -1,3 +1,13 @@
+$var = 'test-var'
+
+testMixin( $input, $input2 )
+	var = 'test-var'
+	$var = 'test-var'
+
+
+body
+	testMixin2( $input, $input2 )
+
 /**
  * universal baseline
  * 1 font-smoothing makes our text sharp
@@ -8,6 +18,7 @@
 body
 	background-color $white
 	color $dark-gray
+	border none
 	-webkit-font-smoothing antialiased // 1
 	-webkit-osx-font-smoothing grayscale // 1
 	-moz-osx-font-smoothing grayscale // 1
@@ -23,7 +34,7 @@ body
  * 2 Improve readability when focused and also mouse hovered in all browsers
  */
 a
-	transition(color, .15s, false)
+	transition( color,.15s, false )
 	color inherit
 	text-decoration none
 	&:focus
