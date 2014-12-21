@@ -50,7 +50,7 @@ var colon					= require('./lib/checkForColon'),
 	pxStyleCorrect			= require('./lib/checkForPx'),
 	universalSelector		= require('./lib/checkForUniversal'),
 	tooMuchNest				= require('./lib/checkNesting'),
-	notEfficient			= require('./lib/checkForEfficiency'),
+	efficient				= require('./lib/checkForEfficiency'),
 	commentStyleCorrect 	= require('./lib/checkCommentStyle'),
 	varStyleCorrect			= require('./lib/checkVarStyle'),
 	blockStyleCorrect		= require('./lib/checkBlockStyle'),
@@ -86,6 +86,7 @@ var Lint = (function() {
 	var enabled = true,
 		areWeInAHash = false,
 		warnings = [],
+		// do i need this reeeeeaaallly? @TODO
 		flags = [
 			'-a',
 			'-c',
@@ -112,7 +113,7 @@ var Lint = (function() {
 			'efficient': true,
 			'enforceVarStyle': true,
 			'enforceBlockStyle': true,
-			'extendPref': 'extends',
+			'extendPref': '@extends',
 			'extraSpace': false,
 			'indent': 4,
 			'maxWarnings': 10,
@@ -138,20 +139,18 @@ var Lint = (function() {
 		/**
 		 * check if second argument passed is a file or directory
 		 * if file just run tests on it directly, if dir walk through it and run tests on each file
-		 * @param [dynamic] could be a filename, dirname, or object of files to iterate
+		 * @param [dynamic] could be a file or dir (string), or object of files to iterate
 		 * @returns void
 		 */
-		read: function(lintMe) {
-			var len;
-
+		read: function( lintMe ) {
 			// if nothing passed in, default to linting the curr dir.
-			if ( flags.indexOf( lintMe ) !== -1 ) {
+			if ( flags.indexOf( lintMe ) !== -1 || lintMe === 'nothing' ) {
 				glob('**/*.styl', {}, function(err, files) {
 					if (err) { throw err; }
 					var len = files.length - 1;
 
-					files.forEach(function(file, i) {
-						return Lint.parse(file, len, i);
+					files.forEach(function( file, i ) {
+						return Lint.parse( file, len, i );
 					});
 				});
 			}
@@ -164,11 +163,11 @@ var Lint = (function() {
 				fs.stat(lintMe, function( err, stats ) {
 					if (err) { throw err; }
 
-					if (stats.isFile()) {
+					if ( stats.isFile() ) {
 						return Lint.parse(lintMe, 1, 1);
 					}
-					else if (stats.isDirectory()) {
-						glob(lintMe + '**/*.styl', {}, function(err, files) {
+					else if ( stats.isDirectory() ) {
+						glob(lintMe + '**/*.styl', {}, function( err, files ) {
 							if (err) { throw err; }
 							var len = files.length - 1;
 
@@ -197,11 +196,11 @@ var Lint = (function() {
 						lineLen = lines.length - 1,
 						output = ' ';
 
-					if (lineLen === 1) {
+					if ( lineLen === 1 ) {
 						return ' ';
 					}
 					else {
-						while (lineLen--) {
+						while ( lineLen-- ) {
 							output += '\n';
 						}
 						return output;
@@ -218,11 +217,11 @@ var Lint = (function() {
 				var output = line.trim();
 				// line nos don't start at 0
 				i++;
-				return Lint.test(line, i, output, file);
+				return Lint.test( line, i, output, file );
 			});
 
 			// if at the last file, call the done function to output results
-			if (currFile === len) {
+			if ( currFile === len ) {
 				return Lint.done();
 			}
 		},
@@ -236,33 +235,31 @@ var Lint = (function() {
 		 * @param  {string} file 		curr file being linted
 		 * @return void
 		 */
-		test: function(line, num, output, file) {
+		test: function( line, num, output, file ) {
 			var hasComment = /(\/\/)/,
 				startWithLineComment = /(^\/\/)/;
 
 			// the only valid use of brackets is in a hash
-			if (hashStarting(line) === true) {
+			if ( hashStarting(line) === true ) {
 				areWeInAHash = true;
 			}
 
-			if (areWeInAHash === true) {
-				if (hashEnding(line) === true) {
-					areWeInAHash = false;
-				}
+			if ( hashEnding(line, areWeInAHash) === true ) {
+				areWeInAHash = false;
 			}
 
 			// check for @stylint off comments
-			if (hasComment.test(line)) {
+			if ( hasComment.test(line) ) {
 				/**
 				 * first two tests determine if the rest of the tests should run
 				 * if @stylint: off comment found, disable tests until @stylint: on comment found
 				 */
-				if (line.indexOf('@stylint off') !== -1) {
+				if ( line.indexOf('@stylint off') !== -1 ) {
 				    enabled = false;
 				    return;
 				}
 
-				if (line.indexOf('@stylint on') !== -1) {
+				if ( line.indexOf('@stylint on') !== -1 ) {
 				    enabled = true;
 				}
 			}
@@ -339,7 +336,7 @@ var Lint = (function() {
 					}
 
 					// check for places where we can be more efficient (margin 0 50px vs margin 0 50px 0 50px)
-					if ( config.efficient === true && notEfficient(line) === true ) {
+					if ( config.efficient === true && efficient(line) === false ) {
 						warnings.push(chalk.yellow('the properties on this line could be more succinct:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 					}
 
@@ -463,10 +460,7 @@ if ( argv.version || argv.v ) {
 // kickoff linter, default to linting curr dir if no file or dir passed
 // nothing passed in
 if ( !process.argv[2] ) {
-	glob('**/*.styl', {}, function( err, files ) {
-		if ( err ) { throw err; }
-		Lint.read( files );
-	});
+	Lint.read('nothing');
 }
 // else lint what was passed
 else {
