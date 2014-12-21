@@ -60,24 +60,12 @@ var colon					= require('./lib/checkForColon'),
 	mixinStyleCorrect		= require('./lib/checkForMixinStyle'),
 	checkBorderNone			= require('./lib/checkBorderNone'),
 	commaStyleCorrect		= require('./lib/checkCommaStyle'),
-	hashEnding				= require('./lib/checkForHashEnd');
+	hashEnding				= require('./lib/checkForHashEnd'),
+	hasComment				= require('./lib/checkForComment'),
+	startsWithComment		= require('./lib/checkForCommentStart');
+
 	  // spaces				= require('./lib/checkSpaces'),
 	  // tabs					= require('./lib/checkTabs');
-
-
-// display help message if user types --help
-if ( argv.help || argv.h ) {
-	console.log( chalk.blue('\nStylint') );
-	console.log( 'Usage: stylint [dir | file] [options]\n' );
-	console.log( 'Options:');
-	console.log( '-h', '--help', '	Display list of commands' );
-	console.log( '-w', '--watch', '	Watch file or directory and run lint on change' );
-	console.log( '-a', '--all', '	Use with --watch. Tells stylint to lint entire dir on change' );
-	console.log( '-c', '--config', '	Pass in location of custom config file' );
-	console.log( '-s', '--strict', '	Run all tests, allow no warnings or errors' );
-	console.log( '-v', '--version', '	Get current version\n' );
-	process.exit();
-}
 
 
 // module for our functionality
@@ -86,15 +74,12 @@ var Lint = (function() {
 	var enabled = true,
 		areWeInAHash = false,
 		warnings = [],
-		// do i need this reeeeeaaallly? @TODO
 		flags = [
-			'-a',
 			'-c',
 			'-w',
 			'-s',
 			'-v',
 			'-h',
-			'--all',
 			'--config',
 			'--watch',
 			'--strict',
@@ -115,13 +100,12 @@ var Lint = (function() {
 			'enforceBlockStyle': true,
 			'extendPref': '@extends',
 			'extraSpace': false,
-			'indent': 4,
+			'indentPref': 'tabs',
+			'indentSpaces': 4,
 			'maxWarnings': 10,
 			'placeholders': true,
 			'unecessaryPX': true,
 		    'semicolons': true,
-		    'spaces': false,
-		    'tabs': true,
 		    'universal': true,
 		    'valid': false
 		};
@@ -143,7 +127,7 @@ var Lint = (function() {
 		 * @returns void
 		 */
 		read: function( lintMe ) {
-			// if nothing passed in, default to linting the curr dir.
+			// if nothing passed in, default to linting the curr dir. or if -all flag is passed, lint everything
 			if ( flags.indexOf( lintMe ) !== -1 || lintMe === 'nothing' ) {
 				glob('**/*.styl', {}, function(err, files) {
 					if (err) { throw err; }
@@ -190,8 +174,8 @@ var Lint = (function() {
 		 */
 		parse: function( file, len, currFile ) {
 			var stripComments = /(\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*+\/)/g,
-				fileContent = fs.readFileSync(file, 'utf8'),
-				cleanFile = fileContent.replace(stripComments, function(match) {
+				fileContent = fs.readFileSync( file, 'utf8' ),
+				cleanFile = fileContent.replace(stripComments, function( match ) {
 					var lines = match.split(/\r\n|\r|\n/),
 						lineLen = lines.length - 1,
 						output = ' ';
@@ -236,20 +220,8 @@ var Lint = (function() {
 		 * @return void
 		 */
 		test: function( line, num, output, file ) {
-			var hasComment = /(\/\/)/,
-				startWithLineComment = /(^\/\/)/;
-
-			// the only valid use of brackets is in a hash
-			if ( hashStarting(line) === true ) {
-				areWeInAHash = true;
-			}
-
-			if ( hashEnding(line, areWeInAHash) === true ) {
-				areWeInAHash = false;
-			}
-
 			// check for @stylint off comments
-			if ( hasComment.test(line) ) {
+			if ( hasComment(line) === true ) {
 				/**
 				 * first two tests determine if the rest of the tests should run
 				 * if @stylint: off comment found, disable tests until @stylint: on comment found
@@ -267,17 +239,28 @@ var Lint = (function() {
 			// are we running any tests at all?
 			if ( enabled ) {
 				// check for comment style (//dont do this. // do this)
-				if ( hasComment.test(line) ) {
+				if ( hasComment(line) === true ) {
 					if ( config.comments === true && commentStyleCorrect(line) === false ) {
 						warnings.push(chalk.yellow('line comments require a space after //') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 					}
 				}
 
 				// does the line start with a comment? dont run the following tests
-				if ( !startWithLineComment.test(line) ) {
+				if ( !startsWithComment(line) ) {
+
 					// does the line have a comment after the stylus? trim it before we run tests
-					if ( hasComment.test(line) ) {
+					if ( hasComment(line) === true ) {
 						line = line.slice(0, line.indexOf('//') - 1);
+					}
+
+					// the only valid use of brackets is in a hash
+					if ( hashStarting(line) === true ) {
+						areWeInAHash = true;
+					}
+
+					// if the above equals true we check for the end of the hash
+					if ( hashEnding(line, areWeInAHash) === true ) {
+						areWeInAHash = false;
 					}
 
 					// check that commas are followed by a space
@@ -342,22 +325,14 @@ var Lint = (function() {
 
 					// check selector depth
 					if ( config.depth === true ) {
-						// if you're a bad person and you set tabs and spaces to both be true, default to tabs
-						if ( config.tabs === true && config.spaces === true ) {
-							if ( tooMuchNest(line, config.depthLimit, 'tabs', config.indent) === true ) {
-								warnings.push(chalk.yellow('selector depth greater than', config.indent, ':') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
-							}
+						// else check tabs against tabs and spaces against spaces
+						if ( config.indentPref === 'tabs'
+								&& tooMuchNest(line, config.depthLimit, config.indentPref) === true) {
+							warnings.push(chalk.yellow('selector depth greater than', config.depthLimit + ':') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 						}
-						else {
-							// else check tabs against tabs and spaces against spaces
-							if ( config.tabs === true 
-								&& tooMuchNest(line, config.depthLimit, 'tabs', config.indent ) === true) {
-								warnings.push(chalk.yellow('selector depth greater than', config.indent, ':') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
-							}
-							else if ( config.spaces === true 
-								&& tooMuchNest(line, config.depthLimit, 'spaces', config.indent) === true ) {
-								warnings.push(chalk.yellow('selector depth greater than', config.indent, ':') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
-							}
+						else if ( config.indentPref === 'spaces' 
+								&& tooMuchNest(line, config.depthLimit, 'spaces') === true ) {
+							warnings.push(chalk.yellow('selector depth greater than', config.depthLimit + ':') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 						}
 					}
 				}
@@ -366,17 +341,46 @@ var Lint = (function() {
 
 
 		/**
+		 * called when --help or -h flags used
+		 * @return void
+		 */
+		help: function() {
+			console.log( chalk.blue('\nStylint') );
+			console.log( 'Usage: stylint [dir | file] [options]\n' );
+			console.log( 'Options:');
+			console.log( '-h', '--help', '	Display list of commands' );
+			console.log( '-w', '--watch', '	Watch file or directory and run lint on change' );
+			console.log( '-c', '--config', '	Pass in location of custom config file' );
+			console.log( '-s', '--strict', '	Run all tests, regardless of config' );
+			console.log( '-v', '--version', '	Get current version\n' );
+			// process.exit();
+		},
+
+
+		/**
+		 * called when --version or -v flags used
+		 * @return void
+		 */
+		version: function() {
+			var ver = JSON.parse( fs.readFileSync('package.json') ).version;
+			console.log( chalk.blue('\nStylint version: '), ver, '\n' );
+			// process.exit();
+		},
+
+
+		/**
 		 * watch for changes to a file or dir using chokidar, if change, run tests
 		 * @return void
 		 */
 		watch: function() {
-			var watcher;
+			var watcher,
+				currDir = false;
 
 			/**
 			 * default to linting the current dir if nothing passed.
-			 * if file or dir was passed, check if all flag was passed. if true, lint whole dir anyway
 			 */
-			if (!process.argv[2] || argv.all || argv.a) {
+			if ( flags.indexOf( process.argv[2] ) !== -1 ) {
+				currDir = true;
 				watcher = chokidar.watch('**/*.styl', {
 					ignored: /[\/\\]\./, 
 					persistent: true
@@ -390,9 +394,16 @@ var Lint = (function() {
 				});
 			}
 
-			// initial watch msg (watching: dir or file)
+			// initial watch msg
 			watcher.on('ready', function() {
-				console.log( chalk.blue('Watching: '), process.argv[2], ' for changes.' );
+				// watching: dir or file for changes
+				if ( !currDir ) {
+					console.log( chalk.blue('Watching: '), process.argv[2], ' for changes.' );
+				}
+				// watching: **/*.styl for changes.
+				else {
+					console.log( chalk.blue('Watching: **/*.styl for changes.' ) );
+				}
 			});
 
 			// listen for changes, do somethin
@@ -402,7 +413,7 @@ var Lint = (function() {
 				console.log( chalk.blue('Linting: '), path, '\n' );
 				// this is really just to give people time to read the watch msg
 				setTimeout(function() {
-					Lint.read(path);
+					Lint.read( path );
 				}, 350);
 			});
 		},
@@ -435,11 +446,15 @@ var Lint = (function() {
 }());
 
 
-// if --watch flag passed, set up file watcher
-if ( argv.watch || argv.w && process.argv.length > 3 ) {
-	Lint.watch();
+// display help message if user types --help
+if ( argv.help || argv.h ) {
+	Lint.help();
 }
 
+// if --watch flag passed, set up file watcher
+if ( argv.watch || argv.w ) {
+	Lint.watch();
+}
 
 // if --config flag passed, use that instead
 if ( argv.config || argv.c ) {
@@ -453,8 +468,7 @@ if ( argv.config || argv.c ) {
 
 // output version # from package.json
 if ( argv.version || argv.v ) {
-	console.log( chalk.blue('\nStylint version: '), JSON.parse( fs.readFileSync('package.json') ).version, '\n' );
-	process.exit();
+	Lint.version();
 }
 
 // kickoff linter, default to linting curr dir if no file or dir passed

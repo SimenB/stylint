@@ -6,6 +6,7 @@ var assert = require('assert'),
     commentStyleCorrect     = require('../lib/checkCommentStyle'),
     efficient               = require('../lib/checkForEfficiency'),
     extendStyleCorrect      = require('../lib/checkForExtendStyle'),
+    hasComment              = require('../lib/checkForComment'),
     hashEnding              = require('../lib/checkForHashEnd'),
     hashStarting            = require('../lib/checkForHashStart'),
     Lint                    = require('../index').Lint,
@@ -14,9 +15,11 @@ var assert = require('assert'),
     pxStyleCorrect          = require('../lib/checkForPx'),
     semicolon               = require('../lib/checkForSemicolon'),
     should                  = require('should'),
+    startsWithComment       = require('../lib/checkForCommentStart'),
     tooMuchNest             = require('../lib/checkNesting'),
     universalSelector       = require('../lib/checkForUniversal'),
     varStyleCorrect         = require('../lib/checkVarStyle');
+
 
 describe('linter style checks', function() {
 
@@ -35,6 +38,25 @@ describe('linter style checks', function() {
             assert.equal( false, checkBorderNone('border 0') );
             assert.equal( true, checkBorderNone('border none') );
             assert.equal( undefined, checkBorderNone('margin 0') );
+        });
+    });
+
+    describe('has comment check just checks for existence of a line comment', function() {
+        it ('should return true if // is present anywhere on the line', function() {
+            assert.equal( false, hasComment('.noCommentOnThisLine ') );
+            assert.equal( true, hasComment('//test') );
+            assert.equal( true, hasComment('margin 0 auto //test') );
+            assert.equal( true, hasComment('margin 0 auto // test') );
+            assert.equal( true, hasComment('// test') );
+        });
+    });
+
+    describe('starts with comment check just checks if line starts with comment', function() {
+        it ('should return true if // is the first character on the line', function() {
+            assert.equal( false, startsWithComment('margin 0 auto //test') );
+            assert.equal( true, startsWithComment('//test') );
+            assert.equal( true, startsWithComment(' // test') );
+            assert.equal( undefined, startsWithComment('.noCommentOnThisLine ') );
         });
     });
 
@@ -141,14 +163,22 @@ describe('linter style checks', function() {
         });
     });
 
+    /**
+     * would like to have this be smarter
+     * ideally it would know whether or not a $ should be used based on context
+     * right now it just checks if $ is used when defining a var and thats it
+     */
     describe('var style check for find vars that dont have $ in front of them', function() {
         it ('should return true if $ is found, false if not', function() {
             assert.equal( false, varStyleCorrect('myVar = 0') );
-            // assert.equal( false, varStyleCorrect('if(myParam == true)') );
-            // assert.equal( false, varStyleCorrect('myMixin( myParam )') );
             assert.equal( true, varStyleCorrect('$myVar = 0') );
-            // assert.equal( true, varStyleCorrect('myMixin( $myParam )') );
-            // assert.equal( true, varStyleCorrect('if($myParam == true)') );
+            assert.equal( undefined, varStyleCorrect('define-my-mixin( $myParam )') );
+            assert.equal( undefined, varStyleCorrect('if($myParam == true)') );
+            assert.equal( undefined, varStyleCorrect('.notAVar') );
+            assert.equal( undefined, varStyleCorrect('if(myParam == true)') );
+            assert.equal( undefined, varStyleCorrect('define-my-mixin( myParam )') );
+            assert.equal( undefined, varStyleCorrect('  use-my-mixin( myParam )') );
+            assert.equal( undefined, varStyleCorrect('  if( $myParam )') );
         });
     });
 });
