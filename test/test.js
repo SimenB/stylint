@@ -4,6 +4,7 @@ var assert = require('assert'),
     colon                   = require('../lib/checkForColon'),
     commaStyleCorrect       = require('../lib/checkCommaStyle'),
     commentStyleCorrect     = require('../lib/checkCommentStyle'),
+    cssLiteral              = require('../lib/checkForCssLiteral'),
     efficient               = require('../lib/checkForEfficiency'),
     extendStyleCorrect      = require('../lib/checkForExtendStyle'),
     hasComment              = require('../lib/checkForComment'),
@@ -41,7 +42,7 @@ describe('linter style checks', function() {
         });
     });
 
-    describe('has comment check just checks for existence of a line comment', function() {
+    describe('comment check just checks for existence of a line comment', function() {
         it ('should return true if // is present anywhere on the line', function() {
             assert.equal( false, hasComment('.noCommentOnThisLine ') );
             assert.equal( true, hasComment('//test') );
@@ -81,6 +82,14 @@ describe('linter style checks', function() {
         it ('should return true if colon is found', function() {
             assert.equal( false, colon('margin 0 auto', false) );
             assert.equal( true, colon('margin: 0 auto', false) );
+        });
+    });
+
+    describe('css literal check should find use of @css blocks', function() {
+        it ('should return true if @css is used, false if not', function() {
+            assert.equal( false, cssLiteral('not a css literal') );
+            assert.equal( false, cssLiteral('@extends $placeholderVar') );
+            assert.equal( true, cssLiteral('@css {') );
         });
     });
 
@@ -130,6 +139,18 @@ describe('linter style checks', function() {
             assert.equal( false, mixinStyleCorrect('myMixin(param1, param2)') );
             assert.equal( true, mixinStyleCorrect('myMixin( param1, param2 )') );
             assert.equal( undefined, mixinStyleCorrect('.notAMixin ') );
+        });
+    });
+
+    describe('nesting check should count indents and warn if too many', function() {
+        it ('should return true if more indents than 2nd param', function() {
+            assert.equal( false, tooMuchNest('margin 0', 4, 4) );
+            assert.equal( false, tooMuchNest('			margin 0', 4, 4) );
+            assert.equal( true, tooMuchNest('          margin 0', 1, 4) );
+            assert.equal( true, tooMuchNest('       margin 0', 2, 2) );
+            assert.equal( true, tooMuchNest('                   margin 0 )', 4, 4) );
+            assert.equal( true, tooMuchNest('					margin 0 )', 4, false) );
+            assert.equal( true, tooMuchNest('		margin 0 )', 1, false) );
         });
     });
 
