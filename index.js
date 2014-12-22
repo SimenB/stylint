@@ -115,7 +115,7 @@ var Lint = (function() {
 				'placeholders': true, // only allow @extending of placeholder vars
 				'unecessaryPX': true, // check for use of 0px and recommend 0
 			    'semicolons': true, // check for unecessary semicolons
-			    'universal': true, // check for use of * and recommend against it
+			    'universal': true // check for use of * and recommend against it
 			};
 
 		// if custom config file passed in

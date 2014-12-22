@@ -15,5 +15,5 @@
     "placeholders": true,
     "unecessaryPX": true,
     "semicolons": true,
-    "universal": true,
+    "universal": true
 }
