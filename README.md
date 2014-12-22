@@ -15,7 +15,7 @@ not stable yet. please report any issues you see and update often. i'm adding ne
 
 
 ## Options
-The following is a list of the options available to stylinter. Use the --config flag to pass in the location of your custom .stylintrc config file. See the default .stylintrc file for an example.
+The following is a list of the options available to stylinter. Use the -c or --config flag to pass in the location of your custom .stylintrc config file. See the default .stylintrc file for an example.
 
 
 ### warning toggle (inline comment: @stylint off || @stylint on)
