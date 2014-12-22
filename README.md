@@ -1,11 +1,11 @@
-### stylint - cli stylus linter. still pretty rough, please report any issues you see and update often. i'm adding new features and fixing bugs all the time.
+## stylint - cli stylus linter. not stable yet. please report any issues you see and update often. i'm adding new features and fixing bugs all the time. don't be surprised if most things change by 1.0.
 
-#### CLI
+it is however perfectly good to use now if you don't mind the terminal and hitting the occasional bug.
+
+## CLI
 -h or --help 	Display list of commands
 
 -w or --watch 	Watch file or directory and run lint on change
-
--a or --all 	Use with --watch. Tells stylint to lint entire dir on change instead of curr file
 
 -c or --config 	Pass in location of custom config file
 
@@ -13,71 +13,91 @@
 
 -v or --version Display current version
 
-###### warning toggle (inline comment: @stylint off || @stylint on)
-Disable linting for a particular block of code. By default the linter will check every line. Linter will be disabled until turned back on. Use this to suppress warnings on a case by case basis.
 
-#### Options
-The following is a list of the options available to stylinter. Use the --config flag to pass in the location of your custom .styluslintrc config file.
+## Options
+The following is a list of the options available to stylinter. Use the --config flag to pass in the location of your custom .stylintrc config file. See the default .stylintrc file for an example.
 
-###### colons (default: true, boolean)
-Checks for existence of unecessary colons ( : ). Warning: this will throw errors on hashes currently.
+### warning toggle (inline comment: @stylint off || @stylint on)
+Disable linting for a particular block of code by placing `@stylint off` in a line comment. Re-enable by placing `@stylint on` in a line comment farther down. Linter will not test any lines until turned back on. Use this to suppress warnings on a case by case basis. By default the linter will check every line except for @css blocks or places where certain rules have exceptions.
 
-###### commaSpace (default: true, boolean)
-Checks for spaces after commas.
+### borderNone (default: true, boolean)
+Check for places where border 0 could be used instead of border none
+Example if true: prefer `border 0` over `border none`
 
-###### depth (default: true, boolean)
-Check that selector does not exceed the selector depth limit.
+### colons (default: true, boolean)
+Checks for existence of unecessary colons ( : ). Does not throw a warning if colon is used inside a hash.
+Example if true: prefer `margin 0` over `margin: 0`
 
-###### depthLimit (default: 4, number)
-Set the max depth limit for selectors.
+### commaSpace (default: true, boolean)
+Enforce spaces after commas.
+Example if true: prefer `rgba(0, 0, 0, .18)` over `rgba(0,0,0,.18)`
 
-###### efficient (default: true, boolean)
+### commentSpace (default: false, boolean)
+Enforce spaces after line comments.
+Example if true: prefer `// comment` over `//comment`
+
+### cssLiteral (default: false, boolean)
+By default stylint ignores @css blocks. If set to true however, it will throw a warning if @css is used.
+Example if true: `@css` will throw a warning
+
+### depthLimit (default: 4, number or false)
+Set the max selector depth. Pseudo selectors like `&:first-child` or `&:hover` won't count towards the limit.
+Set to false if you don't want to check for this.
+
+### efficient (default: true, boolean)
 Check for places where properties can be written more efficiently.
+Example if true: prefer `margin 0` over `margin 0 0`
 
-###### maxWarnings (default: 10, number)
-Set 'max' number of warnings. Currently this just displays a slightly sterner message, will be stronger.
-
-###### unecessaryPx (default: true, boolean)
-Looks for instances of 0px.
-
-###### semicolons (default: true, boolean)
-Look for unecessary semicolons.
-
-###### spaces (default: false, boolean)
-Sets preference to spaces.
-
-###### tabs (default: true, boolean)
-Sets preference to tabs.
-
-###### vars (default: true, boolean)
-Enforce use of $ when defining a variable (in stylus this is optional, but still useful).
-
-###### extend (default: 'extends', string)
-Pass in either extend or extends and then enforce that. Both are valid in stylus.
-
-###### block (default: true, boolean)
+### enforceBlockStyle (default: true, boolean)
 Enforce use of @block when defining a block variable.
+Example: prefer `myBlock = @block` over `myBlock =`
 
-###### extraSpace (default: true, boolean)
-Enforce use of extra spaces inside ()
+### enforceVarStyle (default: true, boolean)
+Enforce use of $ when defining a variable (in stylus this is optional, but still useful).
+Example: prefer `$my-var = 0` over `my-var = 0`
 
-###### universal (default: true, boolean)
-Looks for instances of the inefficient * selector
+### extendPref (default: '@extends', string)
+Pass in either @extend or @extends and then enforce that. Both are valid in stylus.
+Example if set to @extends: prefer `@extends $some-var` over `@extend $some-var`
+Example if set to @extend: prefer `@extend $some-var` over `@extend $some-var`
 
-#### Upcoming Features:
-The following is a list of features that are in progress.
+### indentSpaces (default: 4, number or false)
+This works in conjunction with depthLimit. If you indent with spaces set to a number, else set false.
+By default this value is 4, so if you indent with hard tabs or 2 spaces you will need to manually set this value in a custom .stylintrc file. With default settings, this means the depth limit is 4 indents of 4 spaces each.
 
-###### alphabeticalOrder (default: true, boolean)
+### maxWarnings (default: 10, number)
+Set 'max' number of warnings. Currently this just displays a slightly sterner message.
+
+### unecessaryPx (default: true, boolean)
+Looks for instances of 0px.
+Example: prefer `margin 0 auto` over `margin 0px auto`
+
+### semicolons (default: true, boolean)
+Look for unecessary semicolons.
+Example: prefer `margin 0` over `margin 0;`
+
+### mixinSpace (default: true, boolean)
+Enforce use of extra spaces inside parens, when using mixins.
+Example: prefer `my-mixin( $myParam )` over `my-mixin($myParam)`
+
+### universal (default: true, boolean)
+Looks for instances of the inefficient * selector.
+
+
+## Upcoming Features:
+The following is a list of features that are currently in progress.
+
+### alphabeticalOrder (default: true, boolean)
 Check that properties are in alphabetical order.
 
-###### duplicates (default: true, boolean)
+### brackets (default: true, boolean)
+Check for unecessary brackets. If true, throws a warning.
+
+### duplicates (default: true, boolean)
 Check for unecessary duplicate properties .
 
-###### indent (default: 4, number)
-Check for inconsistent indentation. Default is 4 spaces.
-
-###### valid (default: true, boolean)
+### valid (default: true, boolean)
 Check that property or value is an actual option, and not a typo.
 
-###### brackets (default: true, boolean)
-Check for unecessary brackets. If true, throws a warning.
+### checking opposite values
+Not an option per se, but currently the linter either checks against my idea of what best practice is, or doesn't check at all. Ideally, you should be able to set an option to check for the opposite. For example, if you're weird and you want to force the use of colons everywhere, or brackets, or no $ in front of vars, you should be able to set that option.
