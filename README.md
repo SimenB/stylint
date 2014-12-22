@@ -1,6 +1,6 @@
-## stylint - cli stylus linter. not stable yet. please report any issues you see and update often. i'm adding new features and fixing bugs all the time. don't be surprised if most things change by 1.0.
+## stylint - cli stylus linter.
 
-it is however perfectly good to use now if you don't mind the terminal and hitting the occasional bug.
+not stable yet. please report any issues you see and update often. i'm adding new features and fixing bugs all the time. don't be surprised if most things change by 1.0. it is however perfectly good to use now if you don't mind the terminal and hitting the occasional bug.
 
 ## CLI
 -h or --help 	Display list of commands
@@ -17,67 +17,97 @@ it is however perfectly good to use now if you don't mind the terminal and hitti
 ## Options
 The following is a list of the options available to stylinter. Use the --config flag to pass in the location of your custom .stylintrc config file. See the default .stylintrc file for an example.
 
+
 ### warning toggle (inline comment: @stylint off || @stylint on)
 Disable linting for a particular block of code by placing `@stylint off` in a line comment. Re-enable by placing `@stylint on` in a line comment farther down. Linter will not test any lines until turned back on. Use this to suppress warnings on a case by case basis. By default the linter will check every line except for @css blocks or places where certain rules have exceptions.
 
+
 ### borderNone (default: true, boolean)
-Check for places where border 0 could be used instead of border none
+Check for places where `border 0` could be used instead of border none
+
 Example if true: prefer `border 0` over `border none`
 
+
 ### colons (default: true, boolean)
-Checks for existence of unecessary colons ( : ). Does not throw a warning if colon is used inside a hash.
+Checks for existence of unecessary colons. Does not throw a warning if colon is used inside a hash.
+
 Example if true: prefer `margin 0` over `margin: 0`
+
 
 ### commaSpace (default: true, boolean)
 Enforce spaces after commas.
+
 Example if true: prefer `rgba(0, 0, 0, .18)` over `rgba(0,0,0,.18)`
+
 
 ### commentSpace (default: false, boolean)
 Enforce spaces after line comments.
+
 Example if true: prefer `// comment` over `//comment`
 
+
 ### cssLiteral (default: false, boolean)
-By default stylint ignores @css blocks. If set to true however, it will throw a warning if @css is used.
+By default stylint ignores `@css` blocks. If set to true however, it will throw a warning if `@css` is used.
+
 Example if true: `@css` will throw a warning
+
 
 ### depthLimit (default: 4, number or false)
 Set the max selector depth. Pseudo selectors like `&:first-child` or `&:hover` won't count towards the limit.
+
 Set to false if you don't want to check for this.
+
 
 ### efficient (default: true, boolean)
 Check for places where properties can be written more efficiently.
+
 Example if true: prefer `margin 0` over `margin 0 0`
 
+
 ### enforceBlockStyle (default: true, boolean)
-Enforce use of @block when defining a block variable.
+Enforce use of `@block` when defining a block variable.
+
 Example: prefer `myBlock = @block` over `myBlock =`
 
+
 ### enforceVarStyle (default: true, boolean)
-Enforce use of $ when defining a variable (in stylus this is optional, but still useful).
+Enforce use of `$` when defining a variable (in stylus this is optional, but still useful imo).
+
 Example: prefer `$my-var = 0` over `my-var = 0`
 
+
 ### extendPref (default: '@extends', string)
-Pass in either @extend or @extends and then enforce that. Both are valid in stylus.
-Example if set to @extends: prefer `@extends $some-var` over `@extend $some-var`
-Example if set to @extend: prefer `@extend $some-var` over `@extend $some-var`
+Pass in either `@extend` or `@extends` and then enforce that. Both are valid in stylus.
+
+Example if set to `@extends`: prefer `@extends $some-var` over `@extend $some-var`
+
+Example if set to `@extend`: prefer `@extend $some-var` over `@extend $some-var`
+
 
 ### indentSpaces (default: 4, number or false)
 This works in conjunction with depthLimit. If you indent with spaces set to a number, else set false.
 By default this value is 4, so if you indent with hard tabs or 2 spaces you will need to manually set this value in a custom .stylintrc file. With default settings, this means the depth limit is 4 indents of 4 spaces each.
 
+
 ### maxWarnings (default: 10, number)
 Set 'max' number of warnings. Currently this just displays a slightly sterner message.
 
+
 ### unecessaryPx (default: true, boolean)
-Looks for instances of 0px.
+Looks for instances of `0px`.
+
 Example: prefer `margin 0 auto` over `margin 0px auto`
+
 
 ### semicolons (default: true, boolean)
 Look for unecessary semicolons.
+
 Example: prefer `margin 0` over `margin 0;`
+
 
 ### mixinSpace (default: true, boolean)
 Enforce use of extra spaces inside parens, when using mixins.
+
 Example: prefer `my-mixin( $myParam )` over `my-mixin($myParam)`
 
 ### universal (default: true, boolean)
