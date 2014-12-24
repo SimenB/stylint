@@ -11,6 +11,7 @@ var assert = require('assert'),
     hashEnding              = require('../lib/checkForHashEnd'),
     hashStarting            = require('../lib/checkForHashStart'),
     Lint                    = require('../index').Lint,
+    leadingZero             = require('../lib/checkForLeadingZero'),
     mixinStyleCorrect       = require('../lib/checkForMixinStyle'),
     placeholderStyleCorrect = require('../lib/checkForPlaceholderStyle'),
     pxStyleCorrect          = require('../lib/checkForPx'),
@@ -22,9 +23,9 @@ var assert = require('assert'),
     varStyleCorrect         = require('../lib/checkVarStyle');
 
 
-describe('linter style checks', function() {
+describe('Linter Style Check: ', function() {
 
-    describe('block style check should find @block when defining block vars', function() {
+    describe('block style', function() {
         it ('should return false if block style incorrect or true if correct', function() {
             assert.equal( false, blockStyleCorrect('myBlock = ') );
             assert.equal( false, blockStyleCorrect('myBlock =') );
@@ -34,7 +35,7 @@ describe('linter style checks', function() {
         });
     });
 
-    describe('border none check should find border none (border 0 preferred)', function() {
+    describe('border none', function() {
         it ('should return true if border none is present, else return false', function() {
             assert.equal( false, checkBorderNone('border 0') );
             assert.equal( true, checkBorderNone('border none') );
@@ -42,7 +43,7 @@ describe('linter style checks', function() {
         });
     });
 
-    describe('comment check just checks for existence of a line comment', function() {
+    describe('has comment', function() {
         it ('should return true if // is present anywhere on the line', function() {
             assert.equal( false, hasComment('.noCommentOnThisLine ') );
             assert.equal( true, hasComment('//test') );
@@ -52,7 +53,7 @@ describe('linter style checks', function() {
         });
     });
 
-    describe('starts with comment check just checks if line starts with comment', function() {
+    describe('starts with comment', function() {
         it ('should return true if // is the first character on the line', function() {
             assert.equal( false, startsWithComment('margin 0 auto //test') );
             assert.equal( true, startsWithComment('//test') );
@@ -61,8 +62,8 @@ describe('linter style checks', function() {
         });
     });
 
-    describe('comment style check should check for space after line comments', function() {
-        it ('should return false if comment style incorrect or true if correct', function() {
+    describe('comment style', function() {
+        it ('should return true if line comment has space after it, false if not', function() {
             assert.equal( false, commentStyleCorrect('//test') );
             assert.equal( false, commentStyleCorrect('margin 0 auto //test') );
             assert.equal( true, commentStyleCorrect('margin 0 auto // test') );
@@ -71,21 +72,21 @@ describe('linter style checks', function() {
         });
     });
 
-    describe('comma style check should check for space after commas', function() {
-        it ('should return false if comma style incorrect or true if correct', function() {
+    describe('comma style', function() {
+        it ('should return true if space after commas, false if not', function() {
             assert.equal( false, commaStyleCorrect('0,0, 0, .18') );
             assert.equal( true, commaStyleCorrect('0, 0, 0, .18') );
         });
     });
 
-    describe('colon style check should check unecessary colons', function() {
-        it ('should return true if colon is found', function() {
+    describe('colon style', function() {
+        it ('should return true if unecessary colon is found', function() {
             assert.equal( false, colon('margin 0 auto', false) );
             assert.equal( true, colon('margin: 0 auto', false) );
         });
     });
 
-    describe('css literal check should find use of @css blocks', function() {
+    describe('css literal', function() {
         it ('should return true if @css is used, false if not', function() {
             assert.equal( false, cssLiteral('not a css literal') );
             assert.equal( false, cssLiteral('@extends $placeholderVar') );
@@ -93,7 +94,7 @@ describe('linter style checks', function() {
         });
     });
 
-    describe('efficient check should find places where values could be more succinct', function() {
+    describe('efficient', function() {
         it ('should return true if value is efficient, false if not', function() {
             assert.equal( false, efficient('margin 0 0 0 0') );
             assert.equal( false, efficient('margin 0 0 0') );
@@ -102,7 +103,7 @@ describe('linter style checks', function() {
         });
     });
 
-    describe('extend check should find @extend or @extends and check against preferred style', function() {
+    describe('extends style', function() {
         it ('should return true if value matches preferred style', function() {
             assert.equal( false, extendStyleCorrect('@extend $placeHolderVar', '@extends') );
             assert.equal( false, extendStyleCorrect('@extends $placeHolderVar', '@extend') );
@@ -112,7 +113,7 @@ describe('linter style checks', function() {
         });
     });
 
-    describe('hash start check should find the start of a hash, where colons are required', function() {
+    describe('hash start', function() {
         it ('should return true if = and { are found on the same line', function() {
             assert.equal( false, hashStarting('$myVar =') );
             assert.equal( false, hashStarting('myVar = @block') );
@@ -122,7 +123,7 @@ describe('linter style checks', function() {
         });
     });
 
-    describe('hash end check should find the end of a hash, where colons are required', function() {
+    describe('hash end', function() {
         it ('should return true if 2nd param is set to true and } is found', function() {
             assert.equal( false, hashEnding('margin 0', true) );
             assert.equal( false, hashEnding('myHash = {', true) );
@@ -134,7 +135,16 @@ describe('linter style checks', function() {
         });
     });
 
-    describe('mixin style check should find places where spaces could be added to mixins for readability', function() {
+    describe('leading zero', function() {
+        it ('should return true line if line has a zero before a decimal point', function() {
+            assert.equal( true, leadingZero('color (0, 0, 0, 0.18)') );
+            assert.equal( true, leadingZero('color (0,0,0,0.18)') );
+            assert.equal( false, leadingZero('color (0, 0, 0, .18)') );
+            assert.equal( false, leadingZero('color (0,0,0,.18)') );
+        });
+    });
+
+    describe('mixin style', function() {
         it ('should return true if extra spaces are found, false if not', function() {
             assert.equal( false, mixinStyleCorrect('myMixin(param1, param2)') );
             assert.equal( true, mixinStyleCorrect('myMixin( param1, param2 )') );
@@ -142,7 +152,7 @@ describe('linter style checks', function() {
         });
     });
 
-    describe('nesting check should count indents and warn if too many', function() {
+    describe('nesting', function() {
         it ('should return true if more indents than 2nd param', function() {
             assert.equal( false, tooMuchNest('margin 0', 4, 4) );
             assert.equal( false, tooMuchNest('			margin 0', 4, 4) );
@@ -154,14 +164,14 @@ describe('linter style checks', function() {
         });
     });
 
-    describe('pixel style check should check unecessary px following 0 values', function() {
+    describe('unecessary px', function() {
         it ('should return false if 0px is found', function() {
             assert.equal( false, pxStyleCorrect('margin 0px') );
             assert.equal( true, pxStyleCorrect('margin 0') );
         });
     });
 
-    describe('placeholder style check should check for use of placeholder vars when extending', function() {
+    describe('placeholder style', function() {
         it ('should return true if placeholder var is used, false if not', function() {
             assert.equal( false, placeholderStyleCorrect('@extends .notPlaceholderVar') );
             assert.equal( true, placeholderStyleCorrect('@extends $placeholderVar') );
@@ -169,14 +179,14 @@ describe('linter style checks', function() {
         });
     });
 
-    describe('semicolon style check should find unecessary semicolons', function() {
+    describe('semicolon', function() {
         it ('should return true if semicolon is found', function() {
             assert.equal( false, semicolon('margin 0 auto') );
             assert.equal( true, semicolon('margin 0 auto;') );
         });
     });
 
-    describe('universal selector check should find (usually) unecessary * selectors', function() {
+    describe('universal selector', function() {
         it ('should return true if * is found', function() {
             assert.equal( false, universalSelector('img') );
             assert.equal( true, universalSelector('*') );
@@ -193,6 +203,7 @@ describe('linter style checks', function() {
         it ('should return true if $ is found, false if not', function() {
             assert.equal( false, varStyleCorrect('myVar = 0') );
             assert.equal( true, varStyleCorrect('$myVar = 0') );
+            assert.equal( true, varStyleCorrect('$first-value = floor( (100% / $columns) * $index )') );
             assert.equal( undefined, varStyleCorrect('define-my-mixin( $myParam )') );
             assert.equal( undefined, varStyleCorrect('if($myParam == true)') );
             assert.equal( undefined, varStyleCorrect('.notAVar') );

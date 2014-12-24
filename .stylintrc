@@ -10,6 +10,7 @@
     "enforceBlockStyle": true,
     "extendPref": "@extends",
     "indentSpaces": 4,
+    "leadingZero": true,
     "maxWarnings": 10,
     "mixinSpace": false,
     "placeholders": true,

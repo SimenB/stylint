@@ -89,14 +89,20 @@ This works in conjunction with depthLimit. If you indent with spaces set to a nu
 By default this value is 4, so if you indent with hard tabs or 2 spaces you will need to manually set this value in a custom .stylintrc file. With default settings, this means the depth limit is 4 indents of 4 spaces each.
 
 
+### leadingZero (default: true, boolean)
+Checking for unecessary leading zeroes on decimal points.
+
+Example: prefer `rgba( 0, 0, 0, .5 )` over `rgba( 0, 0, 0, 0.5 )`
+
+
 ### maxWarnings (default: 10, number)
 Set 'max' number of warnings. Currently this just displays a slightly sterner message.
 
 
-### unecessaryPx (default: true, boolean)
-Looks for instances of `0px`.
+### mixinSpace (default: true, boolean)
+Enforce use of extra spaces inside parens, when using mixins.
 
-Example: prefer `margin 0 auto` over `margin 0px auto`
+Example: prefer `my-mixin( $myParam )` over `my-mixin($myParam)`
 
 
 ### semicolons (default: true, boolean)
@@ -105,10 +111,11 @@ Look for unecessary semicolons.
 Example: prefer `margin 0` over `margin 0;`
 
 
-### mixinSpace (default: true, boolean)
-Enforce use of extra spaces inside parens, when using mixins.
+### unecessaryPx (default: true, boolean)
+Looks for instances of `0px`.
 
-Example: prefer `my-mixin( $myParam )` over `my-mixin($myParam)`
+Example: prefer `margin 0 auto` over `margin 0px auto`
+
 
 ### universal (default: true, boolean)
 Looks for instances of the inefficient * selector.

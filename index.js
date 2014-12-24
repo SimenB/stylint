@@ -35,40 +35,42 @@
 'use strict';
 
 // modules
-var fs    		= require('fs'), 				// base node file system module
+var argv    	= require('yargs').argv,		// cli cli cli
 	chalk 		= require('chalk'), 			// colorize outputs
-	argv    	= require('yargs').argv,		// cli cli cli
-	glob 		= require('glob').Glob,			// oh my (file) glob
-	chokidar 	= require('chokidar');			// better file watching than fs.watch
+	chokidar 	= require('chokidar'),			// better file watching than fs.watch
+	fs    		= require('fs'), 				// base node file system module
+	getDelay	= require('./lib/delay'),		// monitor event loop
+	glob 		= require('glob').Glob;			// oh my (file) glob
+
 	// stream 		= require('stream'),		// read and transform the files
 	// liner 		= new stream.Transform( {objectMode: true } ); // needed to read line by line instead of by chunk
 
-
 // tests
-var colon					= require('./lib/checkForColon'),
-	semicolon				= require('./lib/checkForSemicolon'),
-	pxStyleCorrect			= require('./lib/checkForPx'),
-	universalSelector		= require('./lib/checkForUniversal'),
-	tooMuchNest				= require('./lib/checkNesting'),
-	efficient				= require('./lib/checkForEfficiency'),
-	commentStyleCorrect 	= require('./lib/checkCommentStyle'),
-	varStyleCorrect			= require('./lib/checkVarStyle'),
-	blockStyleCorrect		= require('./lib/checkBlockStyle'),
-	hashStarting 			= require('./lib/checkForHashStart'),
-	extendStyleCorrect 		= require('./lib/checkForExtendStyle'),
-	placeholderStyleCorrect = require('./lib/checkForPlaceholderStyle'),
-	mixinStyleCorrect		= require('./lib/checkForMixinStyle'),
+var blockStyleCorrect		= require('./lib/checkBlockStyle'),
 	checkBorderNone			= require('./lib/checkBorderNone'),
+	colon					= require('./lib/checkForColon'),
 	commaStyleCorrect		= require('./lib/checkCommaStyle'),
-	hashEnding				= require('./lib/checkForHashEnd'),
+	commentStyleCorrect 	= require('./lib/checkCommentStyle'),
+	cssLiteral              = require('./lib/checkForCssLiteral'),
+	efficient				= require('./lib/checkForEfficiency'),
+	extendStyleCorrect 		= require('./lib/checkForExtendStyle'),
 	hasComment				= require('./lib/checkForComment'),
+	hashEnding				= require('./lib/checkForHashEnd'),
+	hashStarting 			= require('./lib/checkForHashStart'),
+	leadingZero				= require('./lib/checkForLeadingZero'),
+	mixinStyleCorrect		= require('./lib/checkForMixinStyle'),
+	placeholderStyleCorrect = require('./lib/checkForPlaceholderStyle'),
+	pxStyleCorrect			= require('./lib/checkForPx'),
+	semicolon				= require('./lib/checkForSemicolon'),
 	startsWithComment		= require('./lib/checkForCommentStart'),
-	cssLiteral              = require('./lib/checkForCssLiteral');
+	tooMuchNest				= require('./lib/checkNesting'),
+	universalSelector		= require('./lib/checkForUniversal'),
+	varStyleCorrect			= require('./lib/checkVarStyle');
 
 
 // module for our functionality
+// this has gotten a bit unwieldy yeah?
 var Lint = (function() {
-
 	var config = setUpConfig(),
 		enabled = true,
 		cssBlock = false,
@@ -103,13 +105,14 @@ var Lint = (function() {
 				'colons': true, // check for unecessary colons
 				'commaSpace': true, // check for spaces after commas (0, 0, 0, .18)
 				'commentSpace': false, // check for space after line comment
-				'cssLiteral': true, // if false disallow css literals, if true allow
+				'cssLiteral': false, // if true disallow css literals
 				'depthLimit': 4, // set a maximum selector depth (dont nest more than 4 deep)
 				'efficient': true, // check for margin 0 0 0 0 and recommend margin 0
 				'enforceVarStyle': true, // check for $ when declaring vars (doesnt check use)
 				'enforceBlockStyle': true, // check for @block when defining blocks
 				'extendPref': '@extends', // prefer a specific syntax when using @extends (or @extend)
 				'indentSpaces': 4, // how many spaces should we prefer when indenting, pass in false if hard tabs
+				'leadingZero': true, // find cases where 0.# is used, prefer .#
 				'maxWarnings': 10, // should we have a max amount of warnings, and error out if we go over
 				'mixinSpace': false, // check for extra space inside parens when defining or using mixins
 				'placeholders': true, // only allow @extending of placeholder vars
@@ -334,21 +337,28 @@ var Lint = (function() {
 					// check for border none (prefer border 0)
 					if ( config.borderNone || argv.strict || argv.s ) {
 						if ( checkBorderNone(line) ) {
-							warnings.push(chalk.yellow('border 0 is preferred over border none') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+							warnings.push( chalk.yellow('border 0 is preferred over border none') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+						}
+					}
+
+					// check for border none (prefer border 0)
+					if ( config.leadingZero || argv.strict || argv.s ) {
+						if ( leadingZero(line) ) {
+							warnings.push( chalk.yellow('leading zeroes for decimal points are unecessary') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 						}
 					}
 
 					// check for @block when defining block var
 					if ( config.enforceBlockStyle || argv.strict || argv.s ) {
 						if ( blockStyleCorrect(line) === false ) {
-							warnings.push(chalk.yellow('block variables must include @block') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+							warnings.push( chalk.yellow('block variables must include @block') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 						}
 					}
 
 					// check for @extend(s) preference
 					if ( config.extendPref || argv.strict || argv.s ) {
 						if ( extendStyleCorrect(line, config.extendPref) === false ) {
-							warnings.push(chalk.yellow('please use the @' + config.extendPref + ' syntax when extending') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+							warnings.push( chalk.yellow('please use the ' + config.extendPref + ' syntax when extending') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 						}
 					}
 
@@ -426,7 +436,6 @@ var Lint = (function() {
 			console.log( '-c', '--config', '	Pass in location of custom config file' );
 			console.log( '-s', '--strict', '	Run all tests, regardless of config' );
 			console.log( '-v', '--version', '	Get current version\n' );
-			// process.exit();
 		},
 
 
@@ -455,7 +464,7 @@ var Lint = (function() {
 			if ( flags.indexOf( process.argv[2] ) !== -1 ) {
 				currDir = true;
 				watcher = chokidar.watch('**/*.styl', {
-					ignored: /[\/\\]\./, 
+					ignored: /[\/\\]\./,
 					persistent: true
 				});
 			}
@@ -542,3 +551,7 @@ if ( !process.argv[2] ) {
 else {
 	Lint.read( process.argv[2] );
 }
+
+
+// get event loop delays in ms
+// getDelay();
