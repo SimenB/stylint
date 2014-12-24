@@ -69,6 +69,17 @@ audio:not([controls])
     height 0
 
 
+transition( $prop, $timing, $accelerate )
+    var = 'test'
+    transition $prop $timing cubic-bezier(0, 1, .55, .97)
+    // turn on hardware acceleration for stuff (dont abuse)
+    if ( accelerate == true )
+        -webkit-backface-visibility hidden
+        -webkit-perspective 1000px
+        -webkit-transform-style preserve-3d
+        transform translateZ(0)
+
+
 // Correct `inline-block` display not defined in IE 8/9.
 audio,
 canvas,

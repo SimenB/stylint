@@ -15,7 +15,7 @@
  *       x 4. check for 0px @DONE
  *       x 5. check for selector depth @DONE
  *       x 6. check for * selector @DONE
- *       --- 7. check for spaces vs tabs @DONE
+ *       x 7. check for spaces vs tabs @DONE
  *       x 8. check for 0 0 0 0 or 50px 50px 50px type mistakes @pretty solid it seems?
  *       --- 9. check for alphabetical order @NOT DONE
  *       --- 10. check for duplicates @NOT DONE
@@ -45,27 +45,28 @@ var argv    	= require('yargs').argv,		// cli cli cli
 	// stream 		= require('stream'),		// read and transform the files
 	// liner 		= new stream.Transform( {objectMode: true } ); // needed to read line by line instead of by chunk
 
+
 // tests
-var blockStyleCorrect		= require('./lib/checkBlockStyle'),
-	checkBorderNone			= require('./lib/checkBorderNone'),
-	colon					= require('./lib/checkForColon'),
-	commaStyleCorrect		= require('./lib/checkCommaStyle'),
-	commentStyleCorrect 	= require('./lib/checkCommentStyle'),
-	cssLiteral              = require('./lib/checkForCssLiteral'),
-	efficient				= require('./lib/checkForEfficiency'),
-	extendStyleCorrect 		= require('./lib/checkForExtendStyle'),
-	hasComment				= require('./lib/checkForComment'),
-	hashEnding				= require('./lib/checkForHashEnd'),
-	hashStarting 			= require('./lib/checkForHashStart'),
-	leadingZero				= require('./lib/checkForLeadingZero'),
-	mixinStyleCorrect		= require('./lib/checkForMixinStyle'),
-	placeholderStyleCorrect = require('./lib/checkForPlaceholderStyle'),
-	pxStyleCorrect			= require('./lib/checkForPx'),
-	semicolon				= require('./lib/checkForSemicolon'),
-	startsWithComment		= require('./lib/checkForCommentStart'),
-	tooMuchNest				= require('./lib/checkNesting'),
-	universalSelector		= require('./lib/checkForUniversal'),
-	varStyleCorrect			= require('./lib/checkVarStyle');
+var blockStyleCorrect		= require('./lib/checks/checkBlockStyle'),
+	checkBorderNone			= require('./lib/checks/checkBorderNone'),
+	colon					= require('./lib/checks/checkForColon'),
+	commaStyleCorrect		= require('./lib/checks/checkCommaStyle'),
+	commentStyleCorrect 	= require('./lib/checks/checkCommentStyle'),
+	cssLiteral              = require('./lib/checks/checkForCssLiteral'),
+	efficient				= require('./lib/checks/checkForEfficiency'),
+	extendStyleCorrect 		= require('./lib/checks/checkForExtendStyle'),
+	hasComment				= require('./lib/checks/checkForComment'),
+	hashEnding				= require('./lib/checks/checkForHashEnd'),
+	hashStarting 			= require('./lib/checks/checkForHashStart'),
+	leadingZero				= require('./lib/checks/checkForLeadingZero'),
+	mixinStyleCorrect		= require('./lib/checks/checkForMixinStyle'),
+	placeholderStyleCorrect = require('./lib/checks/checkForPlaceholderStyle'),
+	pxStyleCorrect			= require('./lib/checks/checkForPx'),
+	semicolon				= require('./lib/checks/checkForSemicolon'),
+	startsWithComment		= require('./lib/checks/checkForCommentStart'),
+	tooMuchNest				= require('./lib/checks/checkNesting'),
+	universalSelector		= require('./lib/checks/checkForUniversal'),
+	varStyleCorrect			= require('./lib/checks/checkVarStyle');
 
 
 // module for our functionality

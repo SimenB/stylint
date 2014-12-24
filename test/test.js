@@ -1,29 +1,42 @@
 var assert = require('assert'),
-    blockStyleCorrect       = require('../lib/checkBlockStyle'),
-    checkBorderNone         = require('../lib/checkBorderNone'),
-    colon                   = require('../lib/checkForColon'),
-    commaStyleCorrect       = require('../lib/checkCommaStyle'),
-    commentStyleCorrect     = require('../lib/checkCommentStyle'),
-    cssLiteral              = require('../lib/checkForCssLiteral'),
-    efficient               = require('../lib/checkForEfficiency'),
-    extendStyleCorrect      = require('../lib/checkForExtendStyle'),
-    hasComment              = require('../lib/checkForComment'),
-    hashEnding              = require('../lib/checkForHashEnd'),
-    hashStarting            = require('../lib/checkForHashStart'),
+    blockStyleCorrect       = require('../lib/checks/checkBlockStyle'),
+    checkBorderNone         = require('../lib/checks/checkBorderNone'),
+    colon                   = require('../lib/checks/checkForColon'),
+    commaStyleCorrect       = require('../lib/checks/checkCommaStyle'),
+    commentStyleCorrect     = require('../lib/checks/checkCommentStyle'),
+    cssLiteral              = require('../lib/checks/checkForCssLiteral'),
+    efficient               = require('../lib/checks/checkForEfficiency'),
+    extendStyleCorrect      = require('../lib/checks/checkForExtendStyle'),
+    hasComment              = require('../lib/checks/checkForComment'),
+    hashEnding              = require('../lib/checks/checkForHashEnd'),
+    hashStarting            = require('../lib/checks/checkForHashStart'),
     Lint                    = require('../index').Lint,
-    leadingZero             = require('../lib/checkForLeadingZero'),
-    mixinStyleCorrect       = require('../lib/checkForMixinStyle'),
-    placeholderStyleCorrect = require('../lib/checkForPlaceholderStyle'),
-    pxStyleCorrect          = require('../lib/checkForPx'),
-    semicolon               = require('../lib/checkForSemicolon'),
+    leadingZero             = require('../lib/checks/checkForLeadingZero'),
+    mixinStyleCorrect       = require('../lib/checks/checkForMixinStyle'),
+    placeholderStyleCorrect = require('../lib/checks/checkForPlaceholderStyle'),
+    pxStyleCorrect          = require('../lib/checks/checkForPx'),
+    semicolon               = require('../lib/checks/checkForSemicolon'),
     should                  = require('should'),
-    startsWithComment       = require('../lib/checkForCommentStart'),
-    tooMuchNest             = require('../lib/checkNesting'),
-    universalSelector       = require('../lib/checkForUniversal'),
-    varStyleCorrect         = require('../lib/checkVarStyle');
+    startsWithComment       = require('../lib/checks/checkForCommentStart'),
+    tooMuchNest             = require('../lib/checks/checkNesting'),
+    universalSelector       = require('../lib/checks/checkForUniversal'),
+    varStyleCorrect         = require('../lib/checks/checkVarStyle');
 
+describe('Linter Object Check: ', function() {
 
-describe('Linter Style Check: ', function() {
+    describe('check read method', function() {
+        it ('should return true if', function() {
+            console.log( Lint );
+            // assert.equal( false, blockStyleCorrect('myBlock = ') );
+            // assert.equal( false, blockStyleCorrect('myBlock =') );
+            // assert.equal( true, blockStyleCorrect('myBlock = @block') );
+            // assert.equal( true, blockStyleCorrect('myBlock = @block ') );
+            // assert.equal( undefined, blockStyleCorrect('margin 0') );
+        });
+    });
+});
+
+describe('Linter Style Checks: ', function() {
 
     describe('block style', function() {
         it ('should return false if block style incorrect or true if correct', function() {
@@ -136,11 +149,12 @@ describe('Linter Style Check: ', function() {
     });
 
     describe('leading zero', function() {
-        it ('should return true line if line has a zero before a decimal point', function() {
+        it ('should return true line if line has a zero before a decimal point and not part of range', function() {
             assert.equal( true, leadingZero('color (0, 0, 0, 0.18)') );
             assert.equal( true, leadingZero('color (0,0,0,0.18)') );
             assert.equal( false, leadingZero('color (0, 0, 0, .18)') );
             assert.equal( false, leadingZero('color (0,0,0,.18)') );
+            assert.equal( false, leadingZero('for $ in (0..9)') );
         });
     });
 
