@@ -15,14 +15,14 @@ var assert = require('assert'),
     mixedSpacesOrTabs       = require('../lib/checks/checkForMixedSpacesTabs'),
     parenStyleCorrect       = require('../lib/checks/checkForParenStyle'),
     placeholderStyleCorrect = require('../lib/checks/checkForPlaceholderStyle'),
-    pxStyleCorrect          = require('../lib/checks/checkForPx'),
     semicolon               = require('../lib/checks/checkForSemicolon'),
     should                  = require('should'),
     startsWithComment       = require('../lib/checks/checkForCommentStart'),
     tooMuchNest             = require('../lib/checks/checkNesting'),
     universalSelector       = require('../lib/checks/checkForUniversal'),
     whitespace				= require('../lib/checks/checkForTrailingWhitespace'),
-    varStyleCorrect         = require('../lib/checks/checkVarStyle');
+    varStyleCorrect         = require('../lib/checks/checkVarStyle'),
+    zeroUnits				= require('../lib/checks/checkForZeroUnits');
 
 describe('Linter Object Check: ', function() {
 
@@ -189,13 +189,6 @@ describe('Linter Style Checks: ', function() {
         });
     });
 
-    describe('pixels', function() {
-        it ('should return false if 0px is found (0 is preferred)', function() {
-            assert.equal( false, pxStyleCorrect('margin 0px') );
-            assert.equal( true, pxStyleCorrect('margin 0') );
-        });
-    });
-
     describe('placeholder style', function() {
         it ('should return true if placeholder var is used, false if not', function() {
             assert.equal( false, placeholderStyleCorrect('@extends .notPlaceholderVar') );
@@ -224,6 +217,28 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, universalSelector('img') );
             assert.equal( true, universalSelector('*') );
             assert.equal( true, universalSelector('*:before') );
+        });
+    });
+
+    describe('zero units', function() {
+        it ('should return true if 0 + any unit type is found (0 is preferred)', function() {
+            assert.equal( true, zeroUnits('margin 0px') );
+            assert.equal( true, zeroUnits('margin 0em') );
+            assert.equal( true, zeroUnits('margin 0%') );
+            assert.equal( true, zeroUnits('margin 0rem') );
+            assert.equal( true, zeroUnits('margin 0pt') );
+            assert.equal( true, zeroUnits('margin 0pc') );
+            assert.equal( true, zeroUnits('margin 0vh') );
+            assert.equal( true, zeroUnits('margin 0vw') );
+            assert.equal( true, zeroUnits('margin 0vmin') );
+            assert.equal( true, zeroUnits('margin 0vmax') );
+            assert.equal( true, zeroUnits('margin 0mm') );
+            assert.equal( true, zeroUnits('margin 0cm') );
+            assert.equal( true, zeroUnits('margin 0in') );
+            assert.equal( true, zeroUnits('margin 0mozmm') );
+            assert.equal( true, zeroUnits('margin 0ex') );
+            assert.equal( true, zeroUnits('margin 0ch') );
+            assert.equal( false, zeroUnits('margin 0') );
         });
     });
 

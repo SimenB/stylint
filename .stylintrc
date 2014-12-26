@@ -15,8 +15,8 @@
     "mixed": true,
     "parenSpace": false,
     "placeholders": true,
-    "unecessaryPX": true,
     "semicolons": false,
     "trailingWhitespace": true,
-    "universal": true
+    "universal": true,
+    "zeroUnits": true
 }

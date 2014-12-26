@@ -62,13 +62,13 @@ var blockStyleCorrect		= require('./lib/checks/checkBlockStyle'),
 	mixedSpacesAndTabs		= require('./lib/checks/checkForMixedSpacesTabs'),
 	parenStyleCorrect		= require('./lib/checks/checkForParenStyle'),
 	placeholderStyleCorrect = require('./lib/checks/checkForPlaceholderStyle'),
-	pxStyleCorrect			= require('./lib/checks/checkForPx'),
 	semicolon				= require('./lib/checks/checkForSemicolon'),
 	startsWithComment		= require('./lib/checks/checkForCommentStart'),
 	tooMuchNest				= require('./lib/checks/checkNesting'),
 	universalSelector		= require('./lib/checks/checkForUniversal'),
 	whitespace				= require('./lib/checks/checkForTrailingWhitespace'),
-	varStyleCorrect			= require('./lib/checks/checkVarStyle');
+	varStyleCorrect			= require('./lib/checks/checkVarStyle'),
+	zeroUnits				= require('./lib/checks/checkForZeroUnits');
 
 
 // module for our functionality
@@ -123,7 +123,7 @@ var Lint = (function() {
 			    'semicolons': false, // check for unecessary semicolons
 			    'trailingWhitespace': true, // check for trailing whitespace
 			    'universal': true, // check for use of * and recommend against it
-			    'unecessaryPX': true // check for use of 0px and recommend 0
+			    'zeroUnits': true // check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
 			};
 
 		// if custom config file passed in
@@ -387,13 +387,6 @@ var Lint = (function() {
 						}
 					}
 
-					// check for 0px (margin 0 is preferred over margin 0px)
-					if ( config.unecessaryPX || strict ) {
-						if ( pxStyleCorrect(line) === false ) {
-							warnings.push( chalk.yellow('0 is preferred over 0px.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
-						}
-					}
-
 					// check for * selector (* is discouraged)
 					if ( config.universal || strict ) {
 						if ( universalSelector(line) ) {
@@ -444,6 +437,13 @@ var Lint = (function() {
 						// else check tabs against tabs and spaces against spaces
 						if ( tooMuchNest( line, config.depthLimit, config.indentSpaces ) ) {
 							warnings.push( chalk.yellow('selector depth greater than', config.depthLimit + ':') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+						}
+					}
+
+					// check for 0px (margin 0 is preferred over margin 0px | 0em | 0whatever)
+					if ( config.zeroUnits || config.unecessaryPx || strict ) {
+						if ( zeroUnits(line) ) {
+							warnings.push( chalk.yellow('0 is preferred. Unit value is unnecessary.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 						}
 					}
 				}

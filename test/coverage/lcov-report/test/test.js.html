@@ -199,7 +199,7 @@
     <h1>Code coverage report for <span class="entity">test/test.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">100% <small>(142 / 142)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">100% <small>(157 / 157)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
         Branches: <span class="metric">100% <small>(0 / 0)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
@@ -208,7 +208,7 @@
         Functions: <span class="metric">100% <small>(48 / 48)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">100% <small>(142 / 142)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">100% <small>(157 / 157)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
@@ -464,7 +464,22 @@
 246
 247
 248
-249</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -659,10 +674,10 @@
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
@@ -674,6 +689,7 @@
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -685,6 +701,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
@@ -729,14 +759,14 @@
     mixedSpacesOrTabs       = require('../lib/checks/checkForMixedSpacesTabs'),
     parenStyleCorrect       = require('../lib/checks/checkForParenStyle'),
     placeholderStyleCorrect = require('../lib/checks/checkForPlaceholderStyle'),
-    pxStyleCorrect          = require('../lib/checks/checkForPx'),
     semicolon               = require('../lib/checks/checkForSemicolon'),
     should                  = require('should'),
     startsWithComment       = require('../lib/checks/checkForCommentStart'),
     tooMuchNest             = require('../lib/checks/checkNesting'),
     universalSelector       = require('../lib/checks/checkForUniversal'),
     whitespace				= require('../lib/checks/checkForTrailingWhitespace'),
-    varStyleCorrect         = require('../lib/checks/checkVarStyle');
+    varStyleCorrect         = require('../lib/checks/checkVarStyle'),
+    zeroUnits				= require('../lib/checks/checkForZeroUnits');
 &nbsp;
 describe('Linter Object Check: ', function() {
 &nbsp;
@@ -903,13 +933,6 @@ describe('Linter Style Checks: ', function() {
         });
     });
 &nbsp;
-    describe('pixels', function() {
-        it ('should return false if 0px is found (0 is preferred)', function() {
-            assert.equal( false, pxStyleCorrect('margin 0px') );
-            assert.equal( true, pxStyleCorrect('margin 0') );
-        });
-    });
-&nbsp;
     describe('placeholder style', function() {
         it ('should return true if placeholder var is used, false if not', function() {
             assert.equal( false, placeholderStyleCorrect('@extends .notPlaceholderVar') );
@@ -941,6 +964,28 @@ describe('Linter Style Checks: ', function() {
         });
     });
 &nbsp;
+    describe('zero units', function() {
+        it ('should return true if 0 + any unit type is found (0 is preferred)', function() {
+            assert.equal( true, zeroUnits('margin 0px') );
+            assert.equal( true, zeroUnits('margin 0em') );
+            assert.equal( true, zeroUnits('margin 0%') );
+            assert.equal( true, zeroUnits('margin 0rem') );
+            assert.equal( true, zeroUnits('margin 0pt') );
+            assert.equal( true, zeroUnits('margin 0pc') );
+            assert.equal( true, zeroUnits('margin 0vh') );
+            assert.equal( true, zeroUnits('margin 0vw') );
+            assert.equal( true, zeroUnits('margin 0vmin') );
+            assert.equal( true, zeroUnits('margin 0vmax') );
+            assert.equal( true, zeroUnits('margin 0mm') );
+            assert.equal( true, zeroUnits('margin 0cm') );
+            assert.equal( true, zeroUnits('margin 0in') );
+            assert.equal( true, zeroUnits('margin 0mozmm') );
+            assert.equal( true, zeroUnits('margin 0ex') );
+            assert.equal( true, zeroUnits('margin 0ch') );
+            assert.equal( false, zeroUnits('margin 0') );
+        });
+    });
+&nbsp;
     /**
      * would like to have this be smarter
      * ideally it would know whether or not a $ should be used based on context
@@ -965,7 +1010,7 @@ describe('Linter Style Checks: ', function() {
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Dec 26 2014 12:56:43 GMT-0800 (PST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Dec 26 2014 14:50:44 GMT-0800 (PST)</div>
 </div>
 
 <script src="../prettify.js"></script>
