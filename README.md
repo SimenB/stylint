@@ -22,6 +22,7 @@ I've made the default settings pretty weak, only checking for things that actual
 ```
 {
     "borderNone": true,
+    "brackets": false,
     "colons": false,
     "commaSpace": true,
     "commentSpace": false,
@@ -53,6 +54,12 @@ Disable linting for a particular block of code by placing `@stylint off` in a li
 Check for places where `border 0` could be used instead of border none
 
 Example if true: prefer `border 0` over `border none`
+
+
+### brackets (default: false, boolean)
+Brackets are optional in stylus (except in hashes). If set to true, throws a warning if a bracket is used outside of a hash.
+
+Example if true: prefer `.some-class-name ` over `.some-class-name {`
 
 
 ### colons (default: false, boolean)
