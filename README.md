@@ -37,10 +37,10 @@ I've made the default settings pretty weak, only checking for things that actual
     "mixed": true,
     "parenSpace": false,
     "placeholders": true,
-    "unecessaryPX": true,
     "semicolons": false,
     "trailingWhitespace": true,
-    "universal": true
+    "universal": true,
+    "zeroUnits": true
 }
 ```
 
