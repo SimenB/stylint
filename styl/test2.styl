@@ -64,12 +64,12 @@ a
 
 // Prevent modern browsers from displaying `audio` without controls.
 // Remove excess height in iOS 5 devices.
-audio:not([controls])
+audio:not( [controls] )
     display none
     height 0
 
 
-transition( $prop, $timing, $accelerate )
+transition($prop, $timing, $accelerate)
     var = 'test'
     transition $prop $timing cubic-bezier(0, 1, .55, .97)
     // turn on hardware acceleration for stuff (dont abuse)

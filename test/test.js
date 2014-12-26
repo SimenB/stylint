@@ -12,7 +12,8 @@ var assert = require('assert'),
     hashStarting            = require('../lib/checks/checkForHashStart'),
     Lint                    = require('../index').Lint,
     leadingZero             = require('../lib/checks/checkForLeadingZero'),
-    mixinStyleCorrect       = require('../lib/checks/checkForMixinStyle'),
+    mixedSpacesOrTabs       = require('../lib/checks/checkForMixedSpacesTabs'),
+    parenStyleCorrect       = require('../lib/checks/checkForParenStyle'),
     placeholderStyleCorrect = require('../lib/checks/checkForPlaceholderStyle'),
     pxStyleCorrect          = require('../lib/checks/checkForPx'),
     semicolon               = require('../lib/checks/checkForSemicolon'),
@@ -20,6 +21,7 @@ var assert = require('assert'),
     startsWithComment       = require('../lib/checks/checkForCommentStart'),
     tooMuchNest             = require('../lib/checks/checkNesting'),
     universalSelector       = require('../lib/checks/checkForUniversal'),
+    whitespace				= require('../lib/checks/checkForTrailingWhitespace'),
     varStyleCorrect         = require('../lib/checks/checkVarStyle');
 
 describe('Linter Object Check: ', function() {
@@ -158,11 +160,20 @@ describe('Linter Style Checks: ', function() {
         });
     });
 
-    describe('mixin style', function() {
+    describe('mixed spaces and tabs', function() {
+        it ('should return true if spaces and tabs are mixed, false if not', function() {
+            assert.equal( false, mixedSpacesOrTabs('    margin 0', 4) );
+            assert.equal( false, mixedSpacesOrTabs('	margin 0', false) );
+            assert.equal( true, mixedSpacesOrTabs('		margin 0', 4) );
+            assert.equal( true, mixedSpacesOrTabs('	 	 margin 0', false) );
+        });
+    });
+
+    describe('paren style', function() {
         it ('should return true if extra spaces are found, false if not', function() {
-            assert.equal( false, mixinStyleCorrect('myMixin(param1, param2)') );
-            assert.equal( true, mixinStyleCorrect('myMixin( param1, param2 )') );
-            assert.equal( undefined, mixinStyleCorrect('.notAMixin ') );
+            assert.equal( false, parenStyleCorrect('myMixin(param1, param2)') );
+            assert.equal( true, parenStyleCorrect('myMixin( param1, param2 )') );
+            assert.equal( undefined, parenStyleCorrect('.notAMixin ') );
         });
     });
 
@@ -178,8 +189,8 @@ describe('Linter Style Checks: ', function() {
         });
     });
 
-    describe('unecessary px', function() {
-        it ('should return false if 0px is found', function() {
+    describe('pixels', function() {
+        it ('should return false if 0px is found (0 is preferred)', function() {
             assert.equal( false, pxStyleCorrect('margin 0px') );
             assert.equal( true, pxStyleCorrect('margin 0') );
         });
@@ -197,6 +208,14 @@ describe('Linter Style Checks: ', function() {
         it ('should return true if semicolon is found', function() {
             assert.equal( false, semicolon('margin 0 auto') );
             assert.equal( true, semicolon('margin 0 auto;') );
+        });
+    });
+
+    describe('trailing whitespace', function() {
+        it ('should return true if whitespace found', function() {
+            assert.equal( true, whitespace('margin 0 auto	') );
+            assert.equal( true, whitespace('margin 0 auto ') );
+            assert.equal( false, whitespace('margin 0 auto') );
         });
     });
 

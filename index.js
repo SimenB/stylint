@@ -59,13 +59,15 @@ var blockStyleCorrect		= require('./lib/checks/checkBlockStyle'),
 	hashEnding				= require('./lib/checks/checkForHashEnd'),
 	hashStarting 			= require('./lib/checks/checkForHashStart'),
 	leadingZero				= require('./lib/checks/checkForLeadingZero'),
-	mixinStyleCorrect		= require('./lib/checks/checkForMixinStyle'),
+	mixedSpacesAndTabs		= require('./lib/checks/checkForMixedSpacesTabs'),
+	parenStyleCorrect		= require('./lib/checks/checkForParenStyle'),
 	placeholderStyleCorrect = require('./lib/checks/checkForPlaceholderStyle'),
 	pxStyleCorrect			= require('./lib/checks/checkForPx'),
 	semicolon				= require('./lib/checks/checkForSemicolon'),
 	startsWithComment		= require('./lib/checks/checkForCommentStart'),
 	tooMuchNest				= require('./lib/checks/checkNesting'),
 	universalSelector		= require('./lib/checks/checkForUniversal'),
+	whitespace				= require('./lib/checks/checkForTrailingWhitespace'),
 	varStyleCorrect			= require('./lib/checks/checkVarStyle');
 
 
@@ -115,11 +117,14 @@ var Lint = (function() {
 				'indentSpaces': 4, // how many spaces should we prefer when indenting, pass in false if hard tabs
 				'leadingZero': true, // find cases where 0.# is used, prefer .#
 				'maxWarnings': 10, // should we have a max amount of warnings, and error out if we go over
-				'mixinSpace': false, // check for extra space inside parens when defining or using mixins
+				'mixed': true,	// check for mixed spaces and tabs
+				'mixinSpace': false, // @deprecated check for extra space inside parens when defining or using mixins
+				'parenSpace': true, // check for extra space inside parens when defining or using mixins
 				'placeholders': true, // only allow @extending of placeholder vars
-				'unecessaryPX': true, // check for use of 0px and recommend 0
 			    'semicolons': true, // check for unecessary semicolons
-			    'universal': true // check for use of * and recommend against it
+			    'trailingWhitespace': true, // check for trailing whitespace
+			    'universal': true, // check for use of * and recommend against it
+			    'unecessaryPX': true // check for use of 0px and recommend 0
 			};
 
 		// if custom config file passed in
@@ -128,8 +133,8 @@ var Lint = (function() {
 			try {
 				config = JSON.parse( fs.readFileSync(file) );
 			}
-			catch (err) {
-				console.log(err);
+			catch ( err ) {
+				console.log( err );
 			}
 		}
 		// else no config passed in, so try default dir
@@ -137,8 +142,8 @@ var Lint = (function() {
 			try {
 				config = JSON.parse( fs.readFileSync('./.stylintrc') );
 			}
-			catch (err) {
-				console.log(err);
+			catch ( err ) {
+				console.log( err );
 			}
 		}
 
@@ -252,6 +257,13 @@ var Lint = (function() {
 		 * @return void
 		 */
 		test: function( line, num, output, file ) {
+			var strict = false;
+
+			// if strict flag passed, run all tests
+			if ( argv.s || argv.strict ) {
+				strict = true;
+			}
+
 			// check for @stylint off comments
 			if ( hasComment(line) ) {
 				/**
@@ -314,7 +326,7 @@ var Lint = (function() {
 					}
 
 					// check that commas are followed by a space
-					if ( config.cssLiteral || argv.strict || argv.s ) {
+					if ( config.cssLiteral || strict ) {
 						if ( cssLiteral(line) ) {
 							cssBlock = true;
 							warnings.push(chalk.yellow('refrain from using css literals') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
@@ -322,101 +334,118 @@ var Lint = (function() {
 					}
 
 					// check that commas are followed by a space
-					if ( config.commaSpace || argv.strict || argv.s ) {
+					if ( config.commaSpace || strict ) {
 						if ( commaStyleCorrect(line) === false ) {
 							warnings.push(chalk.yellow('commas must be followed by a space for readability') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 						}
 					}
 
-					// check for extra spaces when defining or using a mixin
-					if ( config.mixinSpace || argv.strict || argv.s ) {
-						if ( mixinStyleCorrect(line) === false ) {
-							warnings.push(chalk.yellow('mixin( $param1, $param2 ) is preferred over mixin($param1, $param2)') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+					// check for extra spaces when using parens
+					if ( config.mixinSpace || config.parenSpace || strict ) {
+						if ( parenStyleCorrect(line) === false ) {
+							warnings.push(chalk.yellow('( $param1, $param2 ) is preferred over ($param1, $param2)') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 						}
 					}
 
 					// check for border none (prefer border 0)
-					if ( config.borderNone || argv.strict || argv.s ) {
+					if ( config.borderNone || strict ) {
 						if ( checkBorderNone(line) ) {
 							warnings.push( chalk.yellow('border 0 is preferred over border none') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 						}
 					}
 
 					// check for border none (prefer border 0)
-					if ( config.leadingZero || argv.strict || argv.s ) {
+					if ( config.leadingZero || strict ) {
 						if ( leadingZero(line) ) {
-							warnings.push( chalk.yellow('leading zeroes for decimal points are unecessary') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+							warnings.push( chalk.yellow('leading zeros for decimal points are unecessary') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 						}
 					}
 
 					// check for @block when defining block var
-					if ( config.enforceBlockStyle || argv.strict || argv.s ) {
+					if ( config.enforceBlockStyle || strict ) {
 						if ( blockStyleCorrect(line) === false ) {
 							warnings.push( chalk.yellow('block variables must include @block') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 						}
 					}
 
 					// check for @extend(s) preference
-					if ( config.extendPref || argv.strict || argv.s ) {
+					if ( config.extendPref || strict ) {
 						if ( extendStyleCorrect(line, config.extendPref) === false ) {
 							warnings.push( chalk.yellow('please use the ' + config.extendPref + ' syntax when extending') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 						}
 					}
 
 					// only extend placeholder vars (or not)
-					if ( config.placeholders || argv.strict || argv.s ) {
+					if ( config.placeholders || strict ) {
 						if ( placeholderStyleCorrect(line) === false ) {
-							warnings.push(chalk.yellow('please extend only placeholder vars') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+							warnings.push( chalk.yellow('please extend only placeholder vars') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 						}
 					}
 
 					// check for $ at start of var
-					if ( config.enforceVarStyle || argv.strict || argv.s ) {
+					if ( config.enforceVarStyle || strict ) {
 						if ( varStyleCorrect(line) === false ) {
-							warnings.push(chalk.yellow('variables must be prefixed with the $ sign.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+							warnings.push( chalk.yellow('variables must be prefixed with the $ sign.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 						}
 					}
 
 					// check for 0px (margin 0 is preferred over margin 0px)
-					if ( config.unecessaryPX || argv.strict || argv.s ) {
+					if ( config.unecessaryPX || strict ) {
 						if ( pxStyleCorrect(line) === false ) {
-							warnings.push(chalk.yellow('0 is preferred over 0px.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+							warnings.push( chalk.yellow('0 is preferred over 0px.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 						}
 					}
 
 					// check for * selector (* is discouraged)
-					if ( config.universal || argv.strict || argv.s ) {
+					if ( config.universal || strict ) {
 						if ( universalSelector(line) ) {
-							warnings.push(chalk.yellow('* selector is slow. Consider a different selector.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+							warnings.push( chalk.yellow('* selector is slow. Consider a different selector.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 						}
 					}
 
 					// check for unecessary : (margin 0 is preferred over margin: 0)
-					if ( config.colons || argv.strict || argv.s ) {
+					if ( config.colons || strict ) {
 						if ( colon(line, areWeInAHash) ) {
-							warnings.push(chalk.yellow('unecessary colon found:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+							warnings.push( chalk.yellow('unecessary colon found:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 						}
 					}
 
 					// check for unecessary ; (margin 0; is invalid)
-					if ( config.semicolons || argv.strict || argv.s ) {
+					if ( config.semicolons || strict ) {
 						if ( semicolon(line) ) {
-							warnings.push(chalk.yellow('unecessary semicolon found:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+							warnings.push( chalk.yellow('unecessary semicolon found:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 						}
 					}
 
 					// check for places where we can be more efficient (margin 0 50px vs margin 0 50px 0 50px)
-					if ( config.efficient || argv.strict || argv.s ) {
+					if ( config.efficient || strict ) {
 						if ( efficient(line) === false ) {
-							warnings.push(chalk.yellow('the value on this line could be more succinct:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+							warnings.push( chalk.yellow('the value on this line could be more succinct:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+						}
+					}
+
+					// check mixed spaces and tabs
+					if ( config.mixed || strict ) {
+						// else check tabs against tabs and spaces against spaces
+						if ( mixedSpacesAndTabs( line, config.indentSpaces ) ) {
+							warnings.push( chalk.yellow('mixed spaces and tabs') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+						}
+					}
+
+
+					// check for trailing whitespace
+					if ( config.trailingWhitespace || strict ) {
+						// else check tabs against tabs and spaces against spaces
+						if ( whitespace( line ) ) {
+							warnings.push( chalk.yellow('trailing whitespace') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 						}
 					}
 
 					// check selector depth
-					if ( config.depthLimit || argv.strict || argv.s ) {
+					if ( config.depthLimit || strict ) {
 						// else check tabs against tabs and spaces against spaces
 						if ( tooMuchNest( line, config.depthLimit, config.indentSpaces ) ) {
-							warnings.push(chalk.yellow('selector depth greater than', config.depthLimit + ':') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+							warnings.push( chalk.yellow('selector depth greater than', config.depthLimit + ':') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 						}
 					}
 				}

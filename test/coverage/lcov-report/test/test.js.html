@@ -199,16 +199,16 @@
     <h1>Code coverage report for <span class="entity">test/test.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">100% <small>(131 / 131)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">100% <small>(142 / 142)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
         Branches: <span class="metric">100% <small>(0 / 0)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">100% <small>(44 / 44)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">100% <small>(48 / 48)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">100% <small>(131 / 131)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">100% <small>(142 / 142)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
@@ -445,7 +445,26 @@
 227
 228
 229
-230</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -469,6 +488,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
@@ -595,7 +616,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
@@ -632,14 +662,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
@@ -688,7 +726,8 @@
     hashStarting            = require('../lib/checks/checkForHashStart'),
     Lint                    = require('../index').Lint,
     leadingZero             = require('../lib/checks/checkForLeadingZero'),
-    mixinStyleCorrect       = require('../lib/checks/checkForMixinStyle'),
+    mixedSpacesOrTabs       = require('../lib/checks/checkForMixedSpacesTabs'),
+    parenStyleCorrect       = require('../lib/checks/checkForParenStyle'),
     placeholderStyleCorrect = require('../lib/checks/checkForPlaceholderStyle'),
     pxStyleCorrect          = require('../lib/checks/checkForPx'),
     semicolon               = require('../lib/checks/checkForSemicolon'),
@@ -696,6 +735,7 @@
     startsWithComment       = require('../lib/checks/checkForCommentStart'),
     tooMuchNest             = require('../lib/checks/checkNesting'),
     universalSelector       = require('../lib/checks/checkForUniversal'),
+    whitespace				= require('../lib/checks/checkForTrailingWhitespace'),
     varStyleCorrect         = require('../lib/checks/checkVarStyle');
 &nbsp;
 describe('Linter Object Check: ', function() {
@@ -834,11 +874,20 @@ describe('Linter Style Checks: ', function() {
         });
     });
 &nbsp;
-    describe('mixin style', function() {
+    describe('mixed spaces and tabs', function() {
+        it ('should return true if spaces and tabs are mixed, false if not', function() {
+            assert.equal( false, mixedSpacesOrTabs('    margin 0', 4) );
+            assert.equal( false, mixedSpacesOrTabs('	margin 0', false) );
+            assert.equal( true, mixedSpacesOrTabs('		margin 0', 4) );
+            assert.equal( true, mixedSpacesOrTabs('	 	 margin 0', false) );
+        });
+    });
+&nbsp;
+    describe('paren style', function() {
         it ('should return true if extra spaces are found, false if not', function() {
-            assert.equal( false, mixinStyleCorrect('myMixin(param1, param2)') );
-            assert.equal( true, mixinStyleCorrect('myMixin( param1, param2 )') );
-            assert.equal( undefined, mixinStyleCorrect('.notAMixin ') );
+            assert.equal( false, parenStyleCorrect('myMixin(param1, param2)') );
+            assert.equal( true, parenStyleCorrect('myMixin( param1, param2 )') );
+            assert.equal( undefined, parenStyleCorrect('.notAMixin ') );
         });
     });
 &nbsp;
@@ -854,8 +903,8 @@ describe('Linter Style Checks: ', function() {
         });
     });
 &nbsp;
-    describe('unecessary px', function() {
-        it ('should return false if 0px is found', function() {
+    describe('pixels', function() {
+        it ('should return false if 0px is found (0 is preferred)', function() {
             assert.equal( false, pxStyleCorrect('margin 0px') );
             assert.equal( true, pxStyleCorrect('margin 0') );
         });
@@ -873,6 +922,14 @@ describe('Linter Style Checks: ', function() {
         it ('should return true if semicolon is found', function() {
             assert.equal( false, semicolon('margin 0 auto') );
             assert.equal( true, semicolon('margin 0 auto;') );
+        });
+    });
+&nbsp;
+    describe('trailing whitespace', function() {
+        it ('should return true if whitespace found', function() {
+            assert.equal( true, whitespace('margin 0 auto	') );
+            assert.equal( true, whitespace('margin 0 auto ') );
+            assert.equal( false, whitespace('margin 0 auto') );
         });
     });
 &nbsp;
@@ -908,7 +965,7 @@ describe('Linter Style Checks: ', function() {
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Dec 24 2014 15:48:28 GMT-0800 (PST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Dec 26 2014 12:56:43 GMT-0800 (PST)</div>
 </div>
 
 <script src="../prettify.js"></script>

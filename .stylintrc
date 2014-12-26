@@ -12,9 +12,12 @@
     "indentSpaces": 4,
     "leadingZero": true,
     "maxWarnings": 10,
+    "mixed": true,
     "mixinSpace": false,
+    "parenSpace": true,
     "placeholders": true,
     "unecessaryPX": true,
     "semicolons": true,
+    "trailingWhitespace": true,
     "universal": true
 }
