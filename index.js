@@ -105,23 +105,22 @@ var Lint = (function() {
 		var file, config,
 			fallback = {
 				'borderNone': true, // check for use of border none and recommend border 0
-				'colons': true, // check for unecessary colons
+				'colons': false, // check for unecessary colons
 				'commaSpace': true, // check for spaces after commas (0, 0, 0, .18)
 				'commentSpace': false, // check for space after line comment
 				'cssLiteral': false, // if true disallow css literals
 				'depthLimit': 4, // set a maximum selector depth (dont nest more than 4 deep)
 				'efficient': true, // check for margin 0 0 0 0 and recommend margin 0
-				'enforceVarStyle': true, // check for $ when declaring vars (doesnt check use)
-				'enforceBlockStyle': true, // check for @block when defining blocks
-				'extendPref': '@extends', // prefer a specific syntax when using @extends (or @extend)
+				'enforceVarStyle': false, // check for $ when declaring vars (doesnt check use)
+				'enforceBlockStyle': false, // check for @block when defining blocks
+				'extendPref': false, // prefer a specific syntax when using @extends (or @extend)
 				'indentSpaces': 4, // how many spaces should we prefer when indenting, pass in false if hard tabs
 				'leadingZero': true, // find cases where 0.# is used, prefer .#
 				'maxWarnings': 10, // should we have a max amount of warnings, and error out if we go over
 				'mixed': true,	// check for mixed spaces and tabs
-				'mixinSpace': false, // @deprecated check for extra space inside parens when defining or using mixins
-				'parenSpace': true, // check for extra space inside parens when defining or using mixins
+				'parenSpace': false, // check for extra space inside parens when defining or using mixins
 				'placeholders': true, // only allow @extending of placeholder vars
-			    'semicolons': true, // check for unecessary semicolons
+			    'semicolons': false, // check for unecessary semicolons
 			    'trailingWhitespace': true, // check for trailing whitespace
 			    'universal': true, // check for use of * and recommend against it
 			    'unecessaryPX': true // check for use of 0px and recommend 0
@@ -151,7 +150,6 @@ var Lint = (function() {
 			return config;
 		}
 		else {
-			console.log( chalk.blue('\nStylint: '), 'Config file not found. Using default settings.\n' );
 			return fallback;
 		}
 	}

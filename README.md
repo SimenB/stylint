@@ -3,19 +3,44 @@
 not stable yet. please report any issues you see and update often. i'm adding new features and fixing bugs all the time. don't be surprised if most things change by 1.0. it is however perfectly good to use now if you don't mind the terminal and hitting the occasional bug.
 
 ## CLI
--h or --help 	Display list of commands
+-h or --help    Display list of commands
 
--w or --watch 	Watch file or directory and run lint on change
+-w or --watch   Watch file or directory and run lint on change
 
--c or --config 	Pass in location of custom config file
+-c or --config  Pass in location of custom config file
 
--s or --strict 	Run all tests, regardless of config
+-s or --strict  Run all tests, regardless of config
 
 -v or --version Display current version
 
 
 ## Options
-The following is a list of the options available to stylinter. Use the -c or --config flag to pass in the location of your custom .stylintrc config file. See the default .stylintrc file for an example.
+The following is a list of the options available to stylinter. Use the -c or --config flag to pass in the location of your custom .stylintrc config file. I've made the default settings pretty weak, only checking for things that actually affect css output. Below is the default config.
+
+```
+{
+    "borderNone": true,
+    "colons": false,
+    "commaSpace": true,
+    "commentSpace": false,
+    "cssLiteral": false,
+    "depthLimit": 4,
+    "efficient": true,
+    "enforceVarStyle": false,
+    "enforceBlockStyle": false,
+    "extendPref": false,
+    "indentSpaces": 4,
+    "leadingZero": true,
+    "maxWarnings": 10,
+    "mixed": true,
+    "parenSpace": false,
+    "placeholders": true,
+    "unecessaryPX": true,
+    "semicolons": false,
+    "trailingWhitespace": true,
+    "universal": true
+}
+```
 
 
 ### warning toggle (inline comment: @stylint off || @stylint on)
@@ -28,7 +53,7 @@ Check for places where `border 0` could be used instead of border none
 Example if true: prefer `border 0` over `border none`
 
 
-### colons (default: true, boolean)
+### colons (default: false, boolean)
 Checks for existence of unecessary colons. Does not throw a warning if colon is used inside a hash.
 
 Example if true: prefer `margin 0` over `margin: 0`
@@ -64,19 +89,19 @@ Check for places where properties can be written more efficiently.
 Example if true: prefer `margin 0` over `margin 0 0`
 
 
-### enforceBlockStyle (default: true, boolean)
+### enforceBlockStyle (default: false, boolean)
 Enforce use of `@block` when defining a block variable.
 
 Example: prefer `myBlock = @block` over `myBlock =`
 
 
-### enforceVarStyle (default: true, boolean)
+### enforceVarStyle (default: false, boolean)
 Enforce use of `$` when defining a variable (in stylus this is optional, but still useful imo).
 
 Example: prefer `$my-var = 0` over `my-var = 0`
 
 
-### extendPref (default: '@extends', string)
+### extendPref (default: false, string or false)
 Pass in either `@extend` or `@extends` and then enforce that. Both are valid in stylus.
 
 Example if set to `@extends`: prefer `@extends $some-var` over `@extend $some-var`
@@ -99,16 +124,26 @@ Example: prefer `rgba( 0, 0, 0, .5 )` over `rgba( 0, 0, 0, 0.5 )`
 Set 'max' number of warnings. Currently this just displays a slightly sterner message.
 
 
-### mixinSpace (default: true, boolean)
+### mixed (default: true, boolean, relies on indentPref)
+Returns true if mixed spaces and tabs are found. If a number is passed to indentPref, it assumes soft tabs (ie, spaces), and if false is passed to indentPref it assumes hard tabs.
+
+
+### parenSpace (default: false, boolean)
 Enforce use of extra spaces inside parens, when using mixins.
+
+This option used to be called mixinSpace, and you can still use that, but I will remove it by 1.0 probably.
 
 Example: prefer `my-mixin( $myParam )` over `my-mixin($myParam)`
 
 
-### semicolons (default: true, boolean)
+### semicolons (default: false, boolean)
 Look for unecessary semicolons.
 
 Example: prefer `margin 0` over `margin 0;`
+
+
+### trailingWhitespace (default: true, boolean)
+Looks for trailing whitespace. Throws a warning if any found.
 
 
 ### unecessaryPx (default: true, boolean)
@@ -119,6 +154,8 @@ Example: prefer `margin 0 auto` over `margin 0px auto`
 
 ### universal (default: true, boolean)
 Looks for instances of the inefficient * selector.
+
+
 
 
 ## Upcoming Features:
