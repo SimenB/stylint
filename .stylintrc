@@ -1,5 +1,6 @@
 {
     "borderNone": true,
+    "brackets": true,
     "colons": false,
     "commaSpace": true,
     "commentSpace": false,

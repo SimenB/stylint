@@ -1,5 +1,6 @@
 var assert = require('assert'),
     blockStyleCorrect       = require('../lib/checks/checkBlockStyle'),
+    brackets				= require('../lib/checks/checkForBrackets'),
     checkBorderNone         = require('../lib/checks/checkBorderNone'),
     colon                   = require('../lib/checks/checkForColon'),
     commaStyleCorrect       = require('../lib/checks/checkCommaStyle'),
@@ -55,6 +56,16 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, checkBorderNone('border 0') );
             assert.equal( true, checkBorderNone('border none') );
             assert.equal( undefined, checkBorderNone('margin 0') );
+        });
+    });
+
+    describe('brackets', function() {
+        it ('should return true if bracket found on line', function() {
+            assert.equal( false, brackets('.className ', false) );
+            assert.equal( false, brackets('.className ', true) );
+            assert.equal( false, brackets('}', true) );
+            assert.equal( true, brackets('.className {', false) );
+            assert.equal( true, brackets('}', false) );
         });
     });
 
@@ -146,7 +157,6 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, hashEnding('myHash = {', false) );
             assert.equal( false, hashEnding('}', false) );
             assert.equal( true, hashEnding('}', true) );
-            assert.equal( true, hashEnding('    }', true) );
         });
     });
 

@@ -48,6 +48,7 @@ var argv    	= require('yargs').argv,		// cli cli cli
 
 // tests
 var blockStyleCorrect		= require('./lib/checks/checkBlockStyle'),
+	brackets				= require('./lib/checks/checkForBrackets'),
 	checkBorderNone			= require('./lib/checks/checkBorderNone'),
 	colon					= require('./lib/checks/checkForColon'),
 	commaStyleCorrect		= require('./lib/checks/checkCommaStyle'),
@@ -105,6 +106,7 @@ var Lint = (function() {
 		var file, config,
 			fallback = {
 				'borderNone': true, // check for use of border none and recommend border 0
+				'brackets': true, // check for { or }, unless used in a hash
 				'colons': false, // check for unecessary colons
 				'commaSpace': true, // check for spaces after commas (0, 0, 0, .18)
 				'commentSpace': false, // check for space after line comment
@@ -162,7 +164,7 @@ var Lint = (function() {
 		 * @returns void
 		 */
 		read: function( lintMe ) {
-			// if nothing passed in, default to linting the curr dir. or if -all flag is passed, lint everything
+			// if nothing passed in, default to linting the curr dir
 			if ( flags.indexOf( lintMe ) !== -1 || lintMe === 'nothing' ) {
 				glob('**/*.styl', {}, function(err, files) {
 					if (err) { throw err; }
@@ -281,7 +283,7 @@ var Lint = (function() {
 			}
 
 			// by default we skip css literals, but if css literal option set to true we throw a warning
-			if ( !config.cssLiteral && line.indexOf('@css') !== -1 ) {
+			if ( config.cssLiteral === false && line.indexOf('@css') !== -1 ) {
 				cssBlock = true;
 				return;
 			}
@@ -289,10 +291,12 @@ var Lint = (function() {
 			// if we're in a css block, check for the end of it
 			if ( cssBlock ) {
 				enabled = false;
+
 				// hash ending checks for } as the first character
 				if ( hashEnding(line, true) ) {
 					cssBlock = false;
 					enabled = true;
+					return;
 				}
 			}
 
@@ -300,8 +304,10 @@ var Lint = (function() {
 			if ( enabled ) {
 				// check for comment style (//dont do this. // do this)
 				if ( hasComment(line) ) {
-					if ( config.commentSpace && commentStyleCorrect(line) === false ) {
-						warnings.push(chalk.yellow('line comments require a space after //') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+					if ( config.commentSpace || strict ) {
+						if ( commentStyleCorrect(line) === false ) {
+							warnings.push(chalk.yellow('line comments require a space after //') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+						}
 					}
 				}
 
@@ -310,24 +316,33 @@ var Lint = (function() {
 
 					// does the line have a comment after the stylus? trim it before we run tests
 					if ( hasComment(line) ) {
-						line = line.slice(0, line.indexOf('//') - 1);
+						line = line.slice( 0, line.indexOf('//') - 1 );
 					}
 
 					// the only valid use of brackets is in a hash
 					if ( hashStarting(line) ) {
 						areWeInAHash = true;
+						return;
 					}
 
 					// if the above equals true we check for the end of the hash
 					if ( hashEnding(line, areWeInAHash) ) {
 						areWeInAHash = false;
+						return;
 					}
 
 					// check that commas are followed by a space
 					if ( config.cssLiteral || strict ) {
 						if ( cssLiteral(line) ) {
-							cssBlock = true;
 							warnings.push(chalk.yellow('refrain from using css literals') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
+							return;
+						}
+					}
+
+					// check for brackets (except in hash)
+					if ( config.brackets || strict ) {
+						if ( brackets(line, areWeInAHash) && !cssBlock ) {
+							warnings.push(chalk.yellow('unecessary bracket') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output);
 						}
 					}
 
