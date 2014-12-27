@@ -17,7 +17,7 @@ not stable yet. please report any issues you see and update often. i'm adding ne
 ## Options
 The following is a list of the options available to stylinter. Use the -c or --config flag to pass in the location of your custom .stylintrc config file if you want to change the defaults. Alternatively, you could pass the -s or --strict flag to run stylint as though everything was set to true, config file or not.
 
-I've made the default settings pretty weak, only checking for things that actually affect css output. Below is the default config.
+The default settings pretty weak, only checking for things that actually affect css output. If you want to enforce a particular styleguide, you'll have to set up your own config file. Below is the default config.
 
 ```
 {
@@ -36,6 +36,7 @@ I've made the default settings pretty weak, only checking for things that actual
     "leadingZero": true,
     "maxWarnings": 10,
     "mixed": true,
+    "namingConvention": false,
     "parenSpace": false,
     "placeholders": true,
     "semicolons": false,
@@ -105,7 +106,7 @@ Example: prefer `myBlock = @block` over `myBlock =`
 
 
 ### enforceVarStyle (default: false, boolean)
-Enforce use of `$` when defining a variable. In Stylus using a `$` when defining a variable is optional, but a good idea if you want to prevent ambiguity. Not including the `$` sets up situations where you wonder, is this a variable or a value?. For instance: `padding $default` is easier to understand than `padding default`.
+Enforce use of `$` when defining a variable. In Stylus using a `$` when defining a variable is optional, but a good idea if you want to prevent ambiguity. Not including the `$` sets up situations where you wonder, is this a variable or a value? For instance: `padding $default` is easier to understand than `padding default`.
 
 Yes, `default` isn't an acceptable value for `padding`, but at first glance you might not catch that. And now if you try to set `cursor default`, it's not gonna behave the way you expect. All this pain and heartache could've been avoided if you just used a `$`.
 
@@ -133,7 +134,7 @@ Example: prefer `rgba( 0, 0, 0, .5 )` over `rgba( 0, 0, 0, 0.5 )`
 
 
 ### maxWarnings (default: 10, number)
-Set 'max' number of warnings. Currently this just displays a slightly sterner message.
+Set 'max' number of warnings. Currently this just displays a slightly sterner message. Womp womp.
 
 
 ### mixed (default: true, boolean, relies on indentPref)
