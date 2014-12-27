@@ -61,6 +61,7 @@ var blockStyleCorrect		= require('./lib/checks/checkBlockStyle'),
 	hashStarting 			= require('./lib/checks/checkForHashStart'),
 	leadingZero				= require('./lib/checks/checkForLeadingZero'),
 	mixedSpacesAndTabs		= require('./lib/checks/checkForMixedSpacesTabs'),
+	namingConvention		= require('./lib/checks/checkNamingConvention'),
 	parenStyleCorrect		= require('./lib/checks/checkForParenStyle'),
 	placeholderStyleCorrect = require('./lib/checks/checkForPlaceholderStyle'),
 	semicolon				= require('./lib/checks/checkForSemicolon'),
@@ -120,6 +121,7 @@ var Lint = (function() {
 				'leadingZero': true, // find cases where 0.# is used, prefer .#
 				'maxWarnings': 10, // should we have a max amount of warnings, and error out if we go over
 				'mixed': true,	// check for mixed spaces and tabs
+				'namingConvention': false, // lowercase-dash, camelCase, lowercase-underscore, or false (dont check)
 				'parenSpace': false, // check for extra space inside parens when defining or using mixins
 				'placeholders': true, // only allow @extending of placeholder vars
 			    'semicolons': false, // check for unecessary semicolons
@@ -139,7 +141,7 @@ var Lint = (function() {
 			}
 		}
 		// else no config passed in, so try default dir
-		else {
+		else if ( !argv.v && !argv.h && !argv.version && !argv.help ) {
 			try {
 				config = JSON.parse( fs.readFileSync('./.stylintrc') );
 			}
@@ -167,7 +169,7 @@ var Lint = (function() {
 			// if nothing passed in, default to linting the curr dir
 			if ( flags.indexOf( lintMe ) !== -1 || lintMe === 'nothing' ) {
 				glob('**/*.styl', {}, function(err, files) {
-					if (err) { throw err; }
+					if ( err ) { throw err; }
 					var len = files.length - 1;
 
 					files.forEach(function( file, i ) {
@@ -182,14 +184,14 @@ var Lint = (function() {
 			 */
 			else {
 				fs.stat(lintMe, function( err, stats ) {
-					if (err) { throw err; }
+					if ( err ) { throw err; }
 
 					if ( stats.isFile() ) {
 						return Lint.parse( lintMe, 1, 1 );
 					}
 					else if ( stats.isDirectory() ) {
 						glob(lintMe + '**/*.styl', {}, function( err, files ) {
-							if (err) { throw err; }
+							if ( err ) { throw err; }
 							var len = files.length - 1;
 
 							files.forEach(function(file, i) {
@@ -383,8 +385,19 @@ var Lint = (function() {
 
 					// check for @extend(s) preference
 					if ( config.extendPref || strict ) {
+						config.extendPref = strict ? '@extends' : false;
+
 						if ( extendStyleCorrect(line, config.extendPref) === false ) {
 							warnings.push( chalk.yellow('please use the ' + config.extendPref + ' syntax when extending') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+						}
+					}
+
+					// check for naming convention preference
+					if ( config.namingConvention || strict ) {
+						config.namingConvention = strict ? 'lowercase-dash' : false;
+
+						if ( namingConvention(line, config.namingConvention) === false ) {
+							warnings.push( chalk.yellow('preferred naming convention is ' + config.namingConvention) + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 						}
 					}
 
@@ -458,7 +471,7 @@ var Lint = (function() {
 					// check for 0px (margin 0 is preferred over margin 0px | 0em | 0whatever)
 					if ( config.zeroUnits || config.unecessaryPx || strict ) {
 						if ( zeroUnits(line) ) {
-							warnings.push( chalk.yellow('0 is preferred. Unit value is unnecessary.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+							warnings.push( chalk.yellow('0 is preferred. Unit value is unnecessary') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 						}
 					}
 				}
@@ -575,24 +588,26 @@ if ( argv.help || argv.h ) {
 	Lint.help();
 }
 
-// if --watch flag passed, set up file watcher
-if ( argv.watch || argv.w ) {
-	Lint.watch();
-}
-
 // output version # from package.json
 if ( argv.version || argv.v ) {
 	Lint.version();
 }
 
+// if --watch flag passed, set up file watcher
+if ( argv.watch || argv.w ) {
+	Lint.watch();
+}
+
 // kickoff linter, default to linting curr dir if no file or dir passed
 // nothing passed in
-if ( !process.argv[2] ) {
-	Lint.read( 'nothing' );
-}
-// else lint what was passed
-else {
-	Lint.read( process.argv[2] );
+if ( !argv.v && !argv.h && !argv.version && !argv.help ) {
+	if ( !process.argv[2] ) {
+		Lint.read( 'nothing' );
+	}
+	// else lint what was passed
+	else {
+		Lint.read( process.argv[2] );
+	}
 }
 
 

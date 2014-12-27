@@ -142,6 +142,16 @@ Returns true if mixed spaces and tabs are found. If a number is passed to indent
 If soft tabs, throws warning if hard tabs used. If hard tabs, throws warning if unnecessary extra spaces found.
 
 
+### namingConvention (default: false, false | 'lowercase-dash' | 'lowercase-underscore' | 'camelCase')
+Enforce a particular naming convention when declaring classes, ids, and variables. Throws a warning if you don't follow the convention. If set to false, allow any convention.
+
+Example if set to `'lowercase-dash'`: prefer `$var-name` over `$var_name` or `$varName`
+
+Example if set to `'lowercase-underscore'`: prefer `$var_name` over `$var-name` or `$varName`
+
+Example if set to `'camelCase'`: prefer `$varName` over `$var_name` or `$var-name`
+
+
 ### parenSpace (default: false, boolean)
 Enforce use of extra spaces inside parens.
 
@@ -174,20 +184,19 @@ Looks for instances of the inefficient * selector. Lots of resets use this, for 
 
 
 
+
+
 ## Upcoming Features:
 The following is a list of features that are currently in progress.
 
 ### alphabeticalOrder (default: true, boolean)
 Check that properties are in alphabetical order.
 
-### brackets (default: true, boolean)
-Check for unecessary brackets. If true, throws a warning.
-
 ### duplicates (default: true, boolean)
 Check for unecessary duplicate properties .
 
 ### valid (default: true, boolean)
-Check that property or value is an actual option, and not a typo.
+Check that a property is a valid css property and the value is an actual option available to that property
 
 ### checking opposite values
 Not an option per se, but currently the linter either checks against my idea of what best practice is, or doesn't check at all. Ideally, you should be able to set an option to check for the opposite. For example, if you're weird and you want to force the use of colons everywhere, or brackets, or no $ in front of vars, you should be able to set that option.

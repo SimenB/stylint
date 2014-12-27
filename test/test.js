@@ -11,9 +11,9 @@ var assert = require('assert'),
     hasComment              = require('../lib/checks/checkForComment'),
     hashEnding              = require('../lib/checks/checkForHashEnd'),
     hashStarting            = require('../lib/checks/checkForHashStart'),
-    Lint                    = require('../index').Lint,
     leadingZero             = require('../lib/checks/checkForLeadingZero'),
     mixedSpacesOrTabs       = require('../lib/checks/checkForMixedSpacesTabs'),
+    namingConvention		= require('../lib/checks/checkNamingConvention'),
     parenStyleCorrect       = require('../lib/checks/checkForParenStyle'),
     placeholderStyleCorrect = require('../lib/checks/checkForPlaceholderStyle'),
     semicolon               = require('../lib/checks/checkForSemicolon'),
@@ -25,19 +25,19 @@ var assert = require('assert'),
     varStyleCorrect         = require('../lib/checks/checkVarStyle'),
     zeroUnits				= require('../lib/checks/checkForZeroUnits');
 
-describe('Linter Object Check: ', function() {
+// describe('Linter Object Check: ', function() {
 
-    describe('check read method', function() {
-        it ('should return true if', function() {
-            console.log( Lint );
-            // assert.equal( false, blockStyleCorrect('myBlock = ') );
-            // assert.equal( false, blockStyleCorrect('myBlock =') );
-            // assert.equal( true, blockStyleCorrect('myBlock = @block') );
-            // assert.equal( true, blockStyleCorrect('myBlock = @block ') );
-            // assert.equal( undefined, blockStyleCorrect('margin 0') );
-        });
-    });
-});
+//     describe('check read method', function() {
+//         it ('should return true if', function() {
+//             console.log( Lint );
+//             // assert.equal( false, blockStyleCorrect('myBlock = ') );
+//             // assert.equal( false, blockStyleCorrect('myBlock =') );
+//             // assert.equal( true, blockStyleCorrect('myBlock = @block') );
+//             // assert.equal( true, blockStyleCorrect('myBlock = @block ') );
+//             // assert.equal( undefined, blockStyleCorrect('margin 0') );
+//         });
+//     });
+// });
 
 describe('Linter Style Checks: ', function() {
 
@@ -179,23 +179,65 @@ describe('Linter Style Checks: ', function() {
         });
     });
 
+    describe('naming convention', function() {
+        it ('should return true if correct naming convention, false if not, undefined if line not checkable', function() {
+            assert.equal( true, namingConvention('$var-name-like-this =', 'lowercase-dash') );
+            assert.equal( true, namingConvention('.class-name-like-this', 'lowercase-dash') );
+            assert.equal( true, namingConvention('#id-name-like-this', 'lowercase-dash') );
+
+            assert.equal( true, namingConvention('$var_name_like_this =', 'lowercase-underscore') );
+            assert.equal( true, namingConvention('.class_name_like_this', 'lowercase-underscore') );
+            assert.equal( true, namingConvention('#id_name_like_this', 'lowercase-underscore') );
+
+            assert.equal( true, namingConvention('$varNameLikeThis =', 'camelCase') );
+            assert.equal( true, namingConvention('.classNameLikeThis', 'camelCase') );
+            assert.equal( true, namingConvention('#idNameLikeThis', 'camelCase') );
+
+            assert.equal( false, namingConvention('$var_name_like_this =', 'lowercase-dash') );
+            assert.equal( false, namingConvention('.class_name_like_this', 'lowercase-dash') );
+            assert.equal( false, namingConvention('#id_name_like_this', 'lowercase-dash') );
+
+            assert.equal( false, namingConvention('$var-name-like-this =', 'lowercase-underscore') );
+            assert.equal( false, namingConvention('.class-name-like-this', 'lowercase-underscore') );
+            assert.equal( false, namingConvention('#id-name-like-this', 'lowercase-underscore') );
+
+            assert.equal( false, namingConvention('$var-name-like-this =', 'camelCase') );
+            assert.equal( false, namingConvention('.class-name-like-this', 'camelCase') );
+            assert.equal( false, namingConvention('#id-name-like-this', 'camelCase') );
+
+            assert.equal( undefined, namingConvention('$var_name_like_this =', false) );
+            assert.equal( undefined, namingConvention('.class_name_like_this', false) );
+            assert.equal( undefined, namingConvention('#id_name_like_this', false) );
+            assert.equal( undefined, namingConvention('$var-name-like-this =', false) );
+            assert.equal( undefined, namingConvention('.class-name-like-this', false) );
+            assert.equal( undefined, namingConvention('#id-name-like-this', false) );
+            assert.equal( undefined, namingConvention('$var-name-like-this =', false) );
+            assert.equal( undefined, namingConvention('.class-name-like-this', false) );
+            assert.equal( undefined, namingConvention('#id-name-like-this', false) );
+            assert.equal( undefined, namingConvention('margin 0', false) );
+            assert.equal( undefined, namingConvention('margin 0', 'lowercase-dash') );
+            assert.equal( undefined, namingConvention('padding inherit', 'camelCase') );
+            assert.equal( undefined, namingConvention('body ', 'lowercase-underscore') );
+        });
+    });
+
+	describe('nesting', function() {
+	    it ('should return true if more indents than 2nd param', function() {
+	        assert.equal( false, tooMuchNest('margin 0', 4, 4) );
+	        assert.equal( false, tooMuchNest('			margin 0', 4, 4) );
+	        assert.equal( true, tooMuchNest('          margin 0', 1, 4) );
+	        assert.equal( true, tooMuchNest('       margin 0', 2, 2) );
+	        assert.equal( true, tooMuchNest('                   margin 0 )', 4, 4) );
+	        assert.equal( true, tooMuchNest('					margin 0 )', 4, false) );
+	        assert.equal( true, tooMuchNest('		margin 0 )', 1, false) );
+	    });
+	});
+
     describe('paren style', function() {
         it ('should return true if extra spaces are found, false if not', function() {
             assert.equal( false, parenStyleCorrect('myMixin(param1, param2)') );
             assert.equal( true, parenStyleCorrect('myMixin( param1, param2 )') );
             assert.equal( undefined, parenStyleCorrect('.notAMixin ') );
-        });
-    });
-
-    describe('nesting', function() {
-        it ('should return true if more indents than 2nd param', function() {
-            assert.equal( false, tooMuchNest('margin 0', 4, 4) );
-            assert.equal( false, tooMuchNest('			margin 0', 4, 4) );
-            assert.equal( true, tooMuchNest('          margin 0', 1, 4) );
-            assert.equal( true, tooMuchNest('       margin 0', 2, 2) );
-            assert.equal( true, tooMuchNest('                   margin 0 )', 4, 4) );
-            assert.equal( true, tooMuchNest('					margin 0 )', 4, false) );
-            assert.equal( true, tooMuchNest('		margin 0 )', 1, false) );
         });
     });
 
