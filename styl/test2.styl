@@ -10,10 +10,11 @@ body
     textMixin3( input, input2 )
 
 
+
 var = whatever //test
 
 .class-name
-    margin 0
+    margin 0;
 
 .className
     padding 0
@@ -32,7 +33,7 @@ var = whatever //test
  * 4 this setting can speed up font rendering significantly, esp on mobile
  */
 body
-    background-color $white
+    background $white
     color rgba(0, 0, 0, 0.18)
     border none
     -webkit-font-smoothing antialiased // 1
@@ -163,7 +164,7 @@ select
    `input` and others.
 */
 button,
-html input[type='button'], // 1
+input[type='button'], // 1
 input[type='reset'],
 input[type='submit']
     -webkit-appearance button // 2
@@ -172,7 +173,7 @@ input[type='submit']
 
 // Re-set default cursor for disabled elements.
 button[disabled],
-html input[disabled]
+input[disabled]
     cursor default
 
 

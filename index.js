@@ -70,7 +70,8 @@ var blockStyleCorrect		= require('./lib/checks/checkBlockStyle'),
 	universalSelector		= require('./lib/checks/checkForUniversal'),
 	whitespace				= require('./lib/checks/checkForTrailingWhitespace'),
 	varStyleCorrect			= require('./lib/checks/checkVarStyle'),
-	zeroUnits				= require('./lib/checks/checkForZeroUnits');
+	zeroUnits				= require('./lib/checks/checkForZeroUnits'),
+	checkValidity			= require('./lib/checks/checkForValid');
 
 
 // module for our functionality
@@ -82,6 +83,7 @@ var Lint = (function() {
 		areWeInAHash = false,
 		stylintToggleBlock = false,
 		warnings = [],
+		valid = JSON.parse( fs.readFileSync('./lib/checks/valid.json') ),
 		flags = [
 			'-c',
 			'-w',
@@ -101,7 +103,7 @@ var Lint = (function() {
 	 * first checks for config file in curr dir
 	 * then checks for passed in config file
 	 * then defaults to the hard coded object
-	 * @param {string} [flagName] location of passed in config file
+	 * @returns {object} [the config file we'll be using to run the tests]
 	 */
 	function setUpConfig() {
 		var file, config,
@@ -127,6 +129,7 @@ var Lint = (function() {
 			    'semicolons': false, // check for unecessary semicolons
 			    'trailingWhitespace': true, // check for trailing whitespace
 			    'universal': true, // check for use of * and recommend against it
+			    'valid': true, // check if prop or value is a valid assignment
 			    'zeroUnits': true // check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
 			};
 
@@ -454,7 +457,6 @@ var Lint = (function() {
 
 					// check for trailing whitespace
 					if ( config.trailingWhitespace || strict ) {
-						// else check tabs against tabs and spaces against spaces
 						if ( whitespace( line ) ) {
 							warnings.push( chalk.yellow('trailing whitespace') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 						}
@@ -465,6 +467,13 @@ var Lint = (function() {
 						// else check tabs against tabs and spaces against spaces
 						if ( tooMuchNest( line, config.depthLimit, config.indentSpaces ) ) {
 							warnings.push( chalk.yellow('selector depth greater than', config.depthLimit + ':') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+						}
+					}
+
+					// check valid properties and values
+					if ( config.valid || strict ) {
+						if ( checkValidity( line, valid ) === false ) {
+							warnings.push( chalk.yellow('property is not valid css') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 						}
 					}
 

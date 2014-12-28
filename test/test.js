@@ -25,19 +25,6 @@ var assert = require('assert'),
     varStyleCorrect         = require('../lib/checks/checkVarStyle'),
     zeroUnits				= require('../lib/checks/checkForZeroUnits');
 
-// describe('Linter Object Check: ', function() {
-
-//     describe('check read method', function() {
-//         it ('should return true if', function() {
-//             console.log( Lint );
-//             // assert.equal( false, blockStyleCorrect('myBlock = ') );
-//             // assert.equal( false, blockStyleCorrect('myBlock =') );
-//             // assert.equal( true, blockStyleCorrect('myBlock = @block') );
-//             // assert.equal( true, blockStyleCorrect('myBlock = @block ') );
-//             // assert.equal( undefined, blockStyleCorrect('margin 0') );
-//         });
-//     });
-// });
 
 describe('Linter Style Checks: ', function() {
 

@@ -20,5 +20,6 @@
     "semicolons": false,
     "trailingWhitespace": true,
     "universal": true,
+    "valid": true,
     "zeroUnits": true
 }
