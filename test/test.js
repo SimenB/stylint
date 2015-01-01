@@ -46,11 +46,14 @@ describe('Linter Style Checks: ', function() {
         });
     });
 
+    // 2nd param being passed in here determines if we're in a hash or not (true means hash)
     describe('brackets', function() {
-        it ('should return true if bracket found on line', function() {
+        it ('should return true if legit bracket found on line (not interpolation, not hash)', function() {
             assert.equal( false, brackets('.className ', false) );
             assert.equal( false, brackets('.className ', true) );
             assert.equal( false, brackets('}', true) );
+            assert.equal( false, brackets('{interpolation}', true) );
+            assert.equal( false, brackets('{interpolation}', false) );
             assert.equal( true, brackets('.className {', false) );
             assert.equal( true, brackets('}', false) );
         });
@@ -300,4 +303,5 @@ describe('Linter Style Checks: ', function() {
             assert.equal( undefined, varStyleCorrect('  if( $myParam )') );
         });
     });
+
 });

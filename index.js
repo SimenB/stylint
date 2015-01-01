@@ -70,8 +70,8 @@ var blockStyleCorrect		= require('./lib/checks/checkBlockStyle'),
 	universalSelector		= require('./lib/checks/checkForUniversal'),
 	whitespace				= require('./lib/checks/checkForTrailingWhitespace'),
 	varStyleCorrect			= require('./lib/checks/checkVarStyle'),
-	zeroUnits				= require('./lib/checks/checkForZeroUnits'),
-	checkValidity			= require('./lib/checks/checkForValid');
+	zeroUnits				= require('./lib/checks/checkForZeroUnits');
+	// checkValidity			= require('./lib/checks/checkForValid');
 
 
 // module for our functionality
@@ -83,7 +83,7 @@ var Lint = (function() {
 		areWeInAHash = false,
 		stylintToggleBlock = false,
 		warnings = [],
-		valid = JSON.parse( fs.readFileSync('./lib/checks/valid.json') ),
+		// valid = JSON.parse( fs.readFileSync('./lib/checks/valid.json') ),
 		flags = [
 			'-c',
 			'-w',
@@ -119,10 +119,10 @@ var Lint = (function() {
 				'enforceVarStyle': false, // check for $ when declaring vars (doesnt check use)
 				'enforceBlockStyle': false, // check for @block when defining blocks
 				'extendPref': false, // prefer a specific syntax when using @extends (or @extend)
-				'indentSpaces': 4, // how many spaces should we prefer when indenting, pass in false if hard tabs
+				'indentSpaces': false, // how many spaces should we prefer when indenting, pass in false if hard tabs
 				'leadingZero': true, // find cases where 0.# is used, prefer .#
 				'maxWarnings': 10, // should we have a max amount of warnings, and error out if we go over
-				'mixed': true,	// check for mixed spaces and tabs
+				'mixed': false,	// check for mixed spaces and tabs
 				'namingConvention': false, // lowercase-dash, camelCase, lowercase-underscore, or false (dont check)
 				'parenSpace': false, // check for extra space inside parens when defining or using mixins
 				'placeholders': true, // only allow @extending of placeholder vars
@@ -471,11 +471,11 @@ var Lint = (function() {
 					}
 
 					// check valid properties and values
-					if ( config.valid || strict ) {
-						if ( checkValidity( line, valid ) === false ) {
-							warnings.push( chalk.yellow('property is not valid css') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
-						}
-					}
+					// if ( config.valid || strict ) {
+					// 	if ( checkValidity( line, valid ) === false ) {
+					// 		warnings.push( chalk.yellow('property is not valid css') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+					// 	}
+					// }
 
 					// check for 0px (margin 0 is preferred over margin 0px | 0em | 0whatever)
 					if ( config.zeroUnits || config.unecessaryPx || strict ) {
