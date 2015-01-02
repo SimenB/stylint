@@ -10,7 +10,7 @@ const
  * @param  {string} customConfig [path to config object]
  * @return {function}            [kick off linter on each change]
  */
-module.exports = function watch( dir, config ) {
+module.exports = function watch( dir, customConfig ) {
     if ( typeof dir === 'undefined' ) { return; }
 
     var watcher,
@@ -56,7 +56,7 @@ module.exports = function watch( dir, config ) {
         // this is really just to give people time to read the watch msg
         setTimeout(function() {
             // kickoff linter, default to linting curr dir if no file or dir passed
-            return init( path, config );
+            return init( path, customConfig );
         }, 350);
     });
 }

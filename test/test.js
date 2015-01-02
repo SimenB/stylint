@@ -1,4 +1,5 @@
-var assert = require('assert'),
+const
+	assert = require('assert'),
     blockStyleCorrect       = require('../src/checks/checkBlockStyle'),
     brackets				= require('../src/checks/checkForBrackets'),
     checkBorderNone         = require('../src/checks/checkBorderNone'),
@@ -11,6 +12,7 @@ var assert = require('assert'),
     hasComment              = require('../src/checks/checkForComment'),
     hashEnding              = require('../src/checks/checkForHashEnd'),
     hashStarting            = require('../src/checks/checkForHashStart'),
+    // init					= require('../src/init'),
     leadingZero             = require('../src/checks/checkForLeadingZero'),
     mixedSpacesOrTabs       = require('../src/checks/checkForMixedSpacesTabs'),
     namingConvention		= require('../src/checks/checkNamingConvention'),
@@ -25,6 +27,22 @@ var assert = require('assert'),
     varStyleCorrect         = require('../src/checks/checkVarStyle'),
     zeroUnits				= require('../src/checks/checkForZeroUnits');
 
+
+// describe('Core Functionality: ', function() {
+
+// 	describe('Init: ', function() {
+//         it('should be a function', function() {
+//             init.should.be.an.instanceOf(Function);
+//         });
+//         it('should throw an error if 1st param not a string', function() {
+//             init.should.throw('Dir or filename should be a string');
+//         });
+//         it('should return a function', function() {
+//             assert.equal( Function, init( 'styl/test2.styl' ) );
+//         });
+// 	});
+
+// });
 
 describe('Linter Style Checks: ', function() {
 

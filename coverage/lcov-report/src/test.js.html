@@ -1,0 +1,1159 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/test.js</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="../prettify.css">
+
+    <style>
+        body, html {
+            margin:0; padding: 0;
+        }
+        body {
+            font-family: Helvetica Neue, Helvetica,Arial;
+            font-size: 10pt;
+        }
+        div.header, div.footer {
+            background: #eee;
+            padding: 1em;
+        }
+        div.header {
+            z-index: 100;
+            position: fixed;
+            top: 0;
+            border-bottom: 1px solid #666;
+            width: 100%;
+        }
+        div.footer {
+            border-top: 1px solid #666;
+        }
+        div.body {
+            margin-top: 10em;
+        }
+        div.meta {
+            font-size: 90%;
+            text-align: center;
+        }
+        h1, h2, h3 {
+            font-weight: normal;
+        }
+        h1 {
+            font-size: 12pt;
+        }
+        h2 {
+            font-size: 10pt;
+        }
+        pre {
+            font-family: Consolas, Menlo, Monaco, monospace;
+            margin: 0;
+            padding: 0;
+            line-height: 14px;
+            font-size: 14px;
+            -moz-tab-size: 2;
+            -o-tab-size:  2;
+            tab-size: 2;
+        }
+
+        div.path { font-size: 110%; }
+        div.path a:link, div.path a:visited { color: #000; }
+        table.coverage { border-collapse: collapse; margin:0; padding: 0 }
+
+        table.coverage td {
+            margin: 0;
+            padding: 0;
+            color: #111;
+            vertical-align: top;
+        }
+        table.coverage td.line-count {
+            width: 50px;
+            text-align: right;
+            padding-right: 5px;
+        }
+        table.coverage td.line-coverage {
+            color: #777 !important;
+            text-align: right;
+            border-left: 1px solid #666;
+            border-right: 1px solid #666;
+        }
+
+        table.coverage td.text {
+        }
+
+        table.coverage td span.cline-any {
+            display: inline-block;
+            padding: 0 5px;
+            width: 40px;
+        }
+        table.coverage td span.cline-neutral {
+            background: #eee;
+        }
+        table.coverage td span.cline-yes {
+            background: #b5d592;
+            color: #999;
+        }
+        table.coverage td span.cline-no {
+            background: #fc8c84;
+        }
+
+        .cstat-yes { color: #111; }
+        .cstat-no { background: #fc8c84; color: #111; }
+        .fstat-no { background: #ffc520; color: #111 !important; }
+        .cbranch-no { background:  yellow !important; color: #111; }
+
+        .cstat-skip { background: #ddd; color: #111; }
+        .fstat-skip { background: #ddd; color: #111 !important; }
+        .cbranch-skip { background: #ddd !important; color: #111; }
+
+        .missing-if-branch {
+            display: inline-block;
+            margin-right: 10px;
+            position: relative;
+            padding: 0 4px;
+            background: black;
+            color: yellow;
+        }
+
+        .skip-if-branch {
+            display: none;
+            margin-right: 10px;
+            position: relative;
+            padding: 0 4px;
+            background: #ccc;
+            color: white;
+        }
+
+        .missing-if-branch .typ, .skip-if-branch .typ {
+            color: inherit !important;
+        }
+
+        .entity, .metric { font-weight: bold; }
+        .metric { display: inline-block; border: 1px solid #333; padding: 0.3em; background: white; }
+        .metric small { font-size: 80%; font-weight: normal; color: #666; }
+
+        div.coverage-summary table { border-collapse: collapse; margin: 3em; font-size: 110%; }
+        div.coverage-summary td, div.coverage-summary table  th { margin: 0; padding: 0.25em 1em; border-top: 1px solid #666; border-bottom: 1px solid #666; }
+        div.coverage-summary th { text-align: left; border: 1px solid #666; background: #eee; font-weight: normal; }
+        div.coverage-summary th.file { border-right: none !important; }
+        div.coverage-summary th.pic { border-left: none !important; text-align: right; }
+        div.coverage-summary th.pct { border-right: none !important; }
+        div.coverage-summary th.abs { border-left: none !important; text-align: right; }
+        div.coverage-summary td.pct { text-align: right; border-left: 1px solid #666; }
+        div.coverage-summary td.abs { text-align: right; font-size: 90%; color: #444; border-right: 1px solid #666; }
+        div.coverage-summary td.file { text-align: right; border-left: 1px solid #666; white-space: nowrap;  }
+        div.coverage-summary td.pic { min-width: 120px !important;  }
+        div.coverage-summary a:link { text-decoration: none; color: #000; }
+        div.coverage-summary a:visited { text-decoration: none; color: #333; }
+        div.coverage-summary a:hover { text-decoration: underline; }
+        div.coverage-summary tfoot td { border-top: 1px solid #666; }
+
+        div.coverage-summary .yui3-datatable-sort-indicator, div.coverage-summary .dummy-sort-indicator {
+            height: 10px;
+            width: 7px;
+            display: inline-block;
+            margin-left: 0.5em;
+        }
+        div.coverage-summary .yui3-datatable-sort-indicator {
+            background: url("https://yui-s.yahooapis.com/3.6.0/build/datatable-sort/assets/skins/sam/sort-arrow-sprite.png") no-repeat scroll 0 0 transparent;
+        }
+        div.coverage-summary .yui3-datatable-sorted .yui3-datatable-sort-indicator {
+            background-position: 0 -20px;
+        }
+        div.coverage-summary .yui3-datatable-sorted-desc .yui3-datatable-sort-indicator {
+            background-position: 0 -10px;
+        }
+
+        .high { background: #b5d592 !important; }
+        .medium { background: #ffe87c !important; }
+        .low { background: #fc8c84 !important; }
+
+        span.cover-fill, span.cover-empty {
+            display:inline-block;
+            border:1px solid #444;
+            background: white;
+            height: 12px;
+        }
+        span.cover-fill {
+            background: #ccc;
+            border-right: 1px solid #444;
+        }
+        span.cover-empty {
+            background: white;
+            border-left: none;
+        }
+        span.cover-full {
+            border-right: none !important;
+        }
+        pre.prettyprint {
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        .com { color: #999 !important; }
+        .ignore-none { color: #999; font-weight: normal; }
+
+    </style>
+</head>
+<body>
+<div class="header low">
+    <h1>Code coverage report for <span class="entity">src/test.js</span></h1>
+    <h2>
+        
+        Statements: <span class="metric">3.03% <small>(3 / 99)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Branches: <span class="metric">0% <small>(0 / 162)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Functions: <span class="metric">0% <small>(0 / 1)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Lines: <span class="metric">3.03% <small>(3 / 99)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">src/</a> &#187; test.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// modules
+const
+    argv                    = require('yargs').argv,
+    chalk                   = require('chalk'),
+    done                    = require('./done'),
+    blockStyleCorrect       = require('./checks/checkBlockStyle'),
+    brackets                = require('./checks/checkForBrackets'),
+    checkBorderNone         = require('./checks/checkBorderNone'),
+    colon                   = require('./checks/checkForColon'),
+    commaStyleCorrect       = require('./checks/checkCommaStyle'),
+    commentStyleCorrect     = require('./checks/checkCommentStyle'),
+    cssLiteral              = require('./checks/checkForCssLiteral'),
+    efficient               = require('./checks/checkForEfficiency'),
+    extendStyleCorrect      = require('./checks/checkForExtendStyle'),
+    hasComment              = require('./checks/checkForComment'),
+    hashEnding              = require('./checks/checkForHashEnd'),
+    hashStarting            = require('./checks/checkForHashStart'),
+    leadingZero             = require('./checks/checkForLeadingZero'),
+    mixedSpacesAndTabs      = require('./checks/checkForMixedSpacesTabs'),
+    namingConvention        = require('./checks/checkNamingConvention'),
+    parenStyleCorrect       = require('./checks/checkForParenStyle'),
+    placeholderStyleCorrect = require('./checks/checkForPlaceholderStyle'),
+    semicolon               = require('./checks/checkForSemicolon'),
+    startsWithComment       = require('./checks/checkForCommentStart'),
+    tooMuchNest             = require('./checks/checkNesting'),
+    universalSelector       = require('./checks/checkForUniversal'),
+    whitespace              = require('./checks/checkForTrailingWhitespace'),
+    varStyleCorrect         = require('./checks/checkVarStyle'),
+    zeroUnits               = require('./checks/checkForZeroUnits');
+&nbsp;
+// other stuff
+var
+    enabled = true,
+    cssBlock = false,
+    areWeInAHash = false,
+    stylintToggleBlock = false,
+    warnings = [];
+&nbsp;
+&nbsp;
+/**
+ * @description runs tests
+ * @param  {boolean} areWeDone [if no more tests to run calls the done function]
+ * @param  {object} config    [our config object, how we know what tests to run]
+ * @param  {string} line      [the curr line being tested, in its original form]
+ * @param  {number} num       [line number being tested]
+ * @param  {string} output    [trimmed line to output]
+ * @param  {string} file      [name of file being tested]
+ * @return {function}         [description]
+ */
+module.exports = <span class="fstat-no" title="function not covered" >function test( areWeDone, config, line, num, output, file ) {</span>
+    'use strict';
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if ( areWeDone ) {</span>
+<span class="cstat-no" title="statement not covered" >        return done( warnings, config );</span>
+    }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    var strict = false;</span>
+&nbsp;
+    // if strict flag passed, run all tests
+<span class="cstat-no" title="statement not covered" >    if ( argv.s || argv.strict ) {</span>
+<span class="cstat-no" title="statement not covered" >        strict = true;</span>
+    }
+&nbsp;
+    // check for @stylint off comments
+<span class="cstat-no" title="statement not covered" >    if ( hasComment( line ) ) {</span>
+        /**
+         * first two tests determine if the rest of the tests should run
+         * if @stylint: off comment found, disable tests until @stylint: on comment found
+         */
+<span class="cstat-no" title="statement not covered" >        if ( line.indexOf('@stylint off') !== -1 ) {</span>
+<span class="cstat-no" title="statement not covered" >            stylintToggleBlock = true;</span>
+<span class="cstat-no" title="statement not covered" >            enabled = false;</span>
+<span class="cstat-no" title="statement not covered" >            return;</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if ( stylintToggleBlock &amp;&amp; line.indexOf('@stylint on') !== -1 ) {</span>
+<span class="cstat-no" title="statement not covered" >            stylintToggleBlock = false;</span>
+<span class="cstat-no" title="statement not covered" >            enabled = true;</span>
+        }
+    }
+&nbsp;
+    // by default we skip css literals, but if css literal option set to true we throw a warning
+<span class="cstat-no" title="statement not covered" >    if ( config.cssLiteral === false &amp;&amp; line.indexOf('@css') !== -1 ) {</span>
+<span class="cstat-no" title="statement not covered" >        cssBlock = true;</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+    }
+&nbsp;
+    // if we're in a css block, check for the end of it
+<span class="cstat-no" title="statement not covered" >    if ( cssBlock ) {</span>
+<span class="cstat-no" title="statement not covered" >        enabled = false;</span>
+&nbsp;
+        // hash ending checks for } as the first character
+<span class="cstat-no" title="statement not covered" >        if ( hashEnding(line, true) ) {</span>
+<span class="cstat-no" title="statement not covered" >            cssBlock = false;</span>
+<span class="cstat-no" title="statement not covered" >            enabled = true;</span>
+<span class="cstat-no" title="statement not covered" >            return;</span>
+        }
+    }
+&nbsp;
+    // are we running any tests at all?
+<span class="cstat-no" title="statement not covered" >    if ( enabled ) {</span>
+        // check for comment style (//dont do this. // do this)
+<span class="cstat-no" title="statement not covered" >        if ( hasComment(line) ) {</span>
+<span class="cstat-no" title="statement not covered" >            if ( config.commentSpace || strict ) {</span>
+<span class="cstat-no" title="statement not covered" >                if ( commentStyleCorrect(line) === false ) {</span>
+<span class="cstat-no" title="statement not covered" >                    warnings.push( chalk.yellow('line comments require a space after //') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );</span>
+                }
+            }
+        }
+&nbsp;
+        // does the line start with a comment? dont run the following tests
+<span class="cstat-no" title="statement not covered" >        if ( !startsWithComment(line) ) {</span>
+&nbsp;
+            // does the line have a comment after the stylus? trim it before we run tests
+<span class="cstat-no" title="statement not covered" >            if ( hasComment(line) ) {</span>
+<span class="cstat-no" title="statement not covered" >                line = line.slice( 0, line.indexOf('//') - 1 );</span>
+            }
+&nbsp;
+            // the only valid use of brackets is in a hash
+<span class="cstat-no" title="statement not covered" >            if ( hashStarting(line) ) {</span>
+<span class="cstat-no" title="statement not covered" >                areWeInAHash = true;</span>
+<span class="cstat-no" title="statement not covered" >                return;</span>
+            }
+&nbsp;
+            // if the above equals true we check for the end of the hash
+<span class="cstat-no" title="statement not covered" >            if ( hashEnding( line, areWeInAHash ) ) {</span>
+<span class="cstat-no" title="statement not covered" >                areWeInAHash = false;</span>
+<span class="cstat-no" title="statement not covered" >                return;</span>
+            }
+&nbsp;
+            // check that commas are followed by a space
+<span class="cstat-no" title="statement not covered" >            if ( config.cssLiteral || strict ) {</span>
+<span class="cstat-no" title="statement not covered" >                if ( cssLiteral(line) ) {</span>
+<span class="cstat-no" title="statement not covered" >                    warnings.push( chalk.yellow('refrain from using css literals') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );</span>
+<span class="cstat-no" title="statement not covered" >                    return;</span>
+                }
+            }
+&nbsp;
+            // check for brackets (except in hash)
+<span class="cstat-no" title="statement not covered" >            if ( config.brackets || strict ) {</span>
+<span class="cstat-no" title="statement not covered" >                if ( brackets(line, areWeInAHash) &amp;&amp; !cssBlock ) {</span>
+<span class="cstat-no" title="statement not covered" >                    warnings.push( chalk.yellow('unecessary bracket') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );</span>
+                }
+            }
+&nbsp;
+            // check that commas are followed by a space
+<span class="cstat-no" title="statement not covered" >            if ( config.commaSpace || strict ) {</span>
+<span class="cstat-no" title="statement not covered" >                if ( commaStyleCorrect(line) === false ) {</span>
+<span class="cstat-no" title="statement not covered" >                    warnings.push( chalk.yellow('commas must be followed by a space for readability') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );</span>
+                }
+            }
+&nbsp;
+            // check for extra spaces when using parens
+<span class="cstat-no" title="statement not covered" >            if ( config.mixinSpace || config.parenSpace || strict ) {</span>
+<span class="cstat-no" title="statement not covered" >                if ( parenStyleCorrect(line) === false ) {</span>
+<span class="cstat-no" title="statement not covered" >                    warnings.push( chalk.yellow('( $param1, $param2 ) is preferred over ($param1, $param2)') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );</span>
+                }
+            }
+&nbsp;
+            // check for border none (prefer border 0)
+<span class="cstat-no" title="statement not covered" >            if ( config.borderNone || strict ) {</span>
+<span class="cstat-no" title="statement not covered" >                if ( checkBorderNone(line) ) {</span>
+<span class="cstat-no" title="statement not covered" >                    warnings.push( chalk.yellow('border 0 is preferred over border none') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );</span>
+                }
+            }
+&nbsp;
+            // check for border none (prefer border 0)
+<span class="cstat-no" title="statement not covered" >            if ( config.leadingZero || strict ) {</span>
+<span class="cstat-no" title="statement not covered" >                if ( leadingZero(line) ) {</span>
+<span class="cstat-no" title="statement not covered" >                    warnings.push( chalk.yellow('leading zeros for decimal points are unecessary') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );</span>
+                }
+            }
+&nbsp;
+            // check for @block when defining block var
+<span class="cstat-no" title="statement not covered" >            if ( config.enforceBlockStyle || strict ) {</span>
+<span class="cstat-no" title="statement not covered" >                if ( blockStyleCorrect(line) === false ) {</span>
+<span class="cstat-no" title="statement not covered" >                    warnings.push( chalk.yellow('block variables must include @block') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );</span>
+                }
+            }
+&nbsp;
+            // check for @extend(s) preference
+<span class="cstat-no" title="statement not covered" >            if ( config.extendPref || strict ) {</span>
+<span class="cstat-no" title="statement not covered" >                config.extendPref = strict ? '@extends' : false;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                if ( extendStyleCorrect(line, config.extendPref) === false ) {</span>
+<span class="cstat-no" title="statement not covered" >                    warnings.push( chalk.yellow('please use the ' + config.extendPref + ' syntax when extending') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );</span>
+                }
+            }
+&nbsp;
+            // check for naming convention preference
+<span class="cstat-no" title="statement not covered" >            if ( config.namingConvention || strict ) {</span>
+<span class="cstat-no" title="statement not covered" >                config.namingConvention = strict ? 'lowercase-dash' : false;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >                if ( namingConvention(line, config.namingConvention) === false ) {</span>
+<span class="cstat-no" title="statement not covered" >                    warnings.push( chalk.yellow('preferred naming convention is ' + config.namingConvention) + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );</span>
+                }
+            }
+&nbsp;
+            // only extend placeholder vars (or not)
+<span class="cstat-no" title="statement not covered" >            if ( config.placeholders || strict ) {</span>
+<span class="cstat-no" title="statement not covered" >                if ( placeholderStyleCorrect(line) === false ) {</span>
+<span class="cstat-no" title="statement not covered" >                    warnings.push( chalk.yellow('please extend only placeholder vars') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );</span>
+                }
+            }
+&nbsp;
+            // check for $ at start of var
+<span class="cstat-no" title="statement not covered" >            if ( config.enforceVarStyle || strict ) {</span>
+<span class="cstat-no" title="statement not covered" >                if ( varStyleCorrect(line) === false ) {</span>
+<span class="cstat-no" title="statement not covered" >                    warnings.push( chalk.yellow('variables must be prefixed with the $ sign.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );</span>
+                }
+            }
+&nbsp;
+            // check for * selector (* is discouraged)
+<span class="cstat-no" title="statement not covered" >            if ( config.universal || strict ) {</span>
+<span class="cstat-no" title="statement not covered" >                if ( universalSelector(line) ) {</span>
+<span class="cstat-no" title="statement not covered" >                    warnings.push( chalk.yellow('* selector is slow. Consider a different selector.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );</span>
+                }
+            }
+&nbsp;
+            // check for unecessary : (margin 0 is preferred over margin: 0)
+<span class="cstat-no" title="statement not covered" >            if ( config.colons || strict ) {</span>
+<span class="cstat-no" title="statement not covered" >                if ( colon(line, areWeInAHash) ) {</span>
+<span class="cstat-no" title="statement not covered" >                    warnings.push( chalk.yellow('unecessary colon found:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );</span>
+                }
+            }
+&nbsp;
+            // check for unecessary ; (margin 0; is invalid)
+<span class="cstat-no" title="statement not covered" >            if ( config.semicolons || strict ) {</span>
+<span class="cstat-no" title="statement not covered" >                if ( semicolon(line) ) {</span>
+<span class="cstat-no" title="statement not covered" >                    warnings.push( chalk.yellow('unecessary semicolon found:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );</span>
+                }
+            }
+&nbsp;
+            // check for places where we can be more efficient (margin 0 50px vs margin 0 50px 0 50px)
+<span class="cstat-no" title="statement not covered" >            if ( config.efficient || strict ) {</span>
+<span class="cstat-no" title="statement not covered" >                if ( efficient(line) === false ) {</span>
+<span class="cstat-no" title="statement not covered" >                    warnings.push( chalk.yellow('the value on this line could be more succinct:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );</span>
+                }
+            }
+&nbsp;
+            // check mixed spaces and tabs
+<span class="cstat-no" title="statement not covered" >            if ( config.mixed || strict ) {</span>
+                // else check tabs against tabs and spaces against spaces
+<span class="cstat-no" title="statement not covered" >                if ( mixedSpacesAndTabs( line, config.indentSpaces ) ) {</span>
+<span class="cstat-no" title="statement not covered" >                    warnings.push( chalk.yellow('mixed spaces and tabs') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );</span>
+                }
+            }
+&nbsp;
+&nbsp;
+            // check for trailing whitespace
+<span class="cstat-no" title="statement not covered" >            if ( config.trailingWhitespace || strict ) {</span>
+<span class="cstat-no" title="statement not covered" >                if ( whitespace( line ) ) {</span>
+<span class="cstat-no" title="statement not covered" >                    warnings.push( chalk.yellow('trailing whitespace') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );</span>
+                }
+            }
+&nbsp;
+            // check selector depth
+<span class="cstat-no" title="statement not covered" >            if ( config.depthLimit || strict ) {</span>
+                // else check tabs against tabs and spaces against spaces
+<span class="cstat-no" title="statement not covered" >                if ( tooMuchNest( line, config.depthLimit, config.indentSpaces ) ) {</span>
+<span class="cstat-no" title="statement not covered" >                    warnings.push( chalk.yellow('selector depth greater than', config.depthLimit + ':') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );</span>
+                }
+            }
+&nbsp;
+            // check valid properties and values
+            // if ( config.valid || strict ) {
+            //  if ( checkValidity( line, valid ) === false ) {
+            //      warnings.push( chalk.yellow('property is not valid css') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+            //  }
+            // }
+&nbsp;
+            // check for 0px (margin 0 is preferred over margin 0px | 0em | 0whatever)
+<span class="cstat-no" title="statement not covered" >            if ( config.zeroUnits || config.unecessaryPx || strict ) {</span>
+<span class="cstat-no" title="statement not covered" >                if ( zeroUnits(line) ) {</span>
+<span class="cstat-no" title="statement not covered" >                    warnings.push( chalk.yellow('0 is preferred. Unit value is unnecessary') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );</span>
+                }
+            }
+        }
+    }
+}</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 02 2015 01:18:00 GMT-0800 (PST)</div>
+</div>
+
+<script src="../prettify.js"></script>
+
+<script src="https://yui-s.yahooapis.com/3.6.0/build/yui/yui-min.js"></script>
+<script>
+
+    YUI().use('datatable', function (Y) {
+
+        var formatters = {
+          pct: function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              try {
+                  return o.value.toFixed(2) + '%';
+              } catch (ex) { return o.value + '%'; }
+          },
+          html: function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              return o.record.get(o.column.key + '_html');
+          }
+        },
+          defaultFormatter = function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              return o.value;
+          };
+
+        function getColumns(theadNode) {
+            var colNodes = theadNode.all('tr th'),
+                cols = [],
+                col;
+            colNodes.each(function (colNode) {
+                col = {
+                    key: colNode.getAttribute('data-col'),
+                    label: colNode.get('innerHTML') || ' ',
+                    sortable: !colNode.getAttribute('data-nosort'),
+                    className: colNode.getAttribute('class'),
+                    type: colNode.getAttribute('data-type'),
+                    allowHTML: colNode.getAttribute('data-html') === 'true' || colNode.getAttribute('data-fmt') === 'html'
+                };
+                col.formatter = formatters[colNode.getAttribute('data-fmt')] || defaultFormatter;
+                cols.push(col);
+            });
+            return cols;
+        }
+
+        function getRowData(trNode, cols) {
+            var tdNodes = trNode.all('td'),
+                    i,
+                    row = { classes: {} },
+                    node,
+                    name;
+            for (i = 0; i < cols.length; i += 1) {
+                name = cols[i].key;
+                node = tdNodes.item(i);
+                row[name] = node.getAttribute('data-value') || node.get('innerHTML');
+                row[name + '_html'] = node.get('innerHTML');
+                row.classes[name] = node.getAttribute('class');
+                //Y.log('Name: ' + name + '; Value: ' + row[name]);
+                if (cols[i].type === 'number') { row[name] = row[name] * 1; }
+            }
+            //Y.log(row);
+            return row;
+        }
+
+        function getData(tbodyNode, cols) {
+            var data = [];
+            tbodyNode.all('tr').each(function (trNode) {
+                data.push(getRowData(trNode, cols));
+            });
+            return data;
+        }
+
+        function replaceTable(node) {
+            if (!node) { return; }
+            var cols = getColumns(node.one('thead')),
+                data = getData(node.one('tbody'), cols),
+                table,
+                parent = node.get('parentNode');
+
+            table = new Y.DataTable({
+                columns: cols,
+                data: data,
+                sortBy: 'file'
+            });
+            parent.set('innerHTML', '');
+            table.render(parent);
+        }
+
+        Y.on('domready', function () {
+            replaceTable(Y.one('div.coverage-summary table'));
+            if (typeof prettyPrint === 'function') {
+                prettyPrint();
+            }
+        });
+    });
+</script>
+</body>
+</html>
