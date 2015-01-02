@@ -3,6 +3,7 @@ const
     argv                    = require('yargs').argv,
     chalk                   = require('chalk'),
     done                    = require('./done'),
+    fs                      = require('fs'),
     blockStyleCorrect       = require('./checks/checkBlockStyle'),
     brackets                = require('./checks/checkForBrackets'),
     checkBorderNone         = require('./checks/checkBorderNone'),
@@ -25,8 +26,11 @@ const
     tooMuchNest             = require('./checks/checkNesting'),
     universalSelector       = require('./checks/checkForUniversal'),
     whitespace              = require('./checks/checkForTrailingWhitespace'),
+    validProperty           = require('./checks/checkForValidProperties'),
+    validValue              = require('./checks/checkForValidValues'),
     varStyleCorrect         = require('./checks/checkVarStyle'),
-    zeroUnits               = require('./checks/checkForZeroUnits');
+    zeroUnits               = require('./checks/checkForZeroUnits'),
+    zIndexr                 = require('./checks/zIndexr');
 
 // other stuff
 var
@@ -34,7 +38,130 @@ var
     cssBlock = false,
     areWeInAHash = false,
     stylintToggleBlock = false,
-    warnings = [];
+    warnings = [],
+    validCSS = JSON.parse( fs.readFileSync('./src/checks/validCSS.json') ),
+    validHTML = [
+        'a',
+        'abbr',
+        'abel',
+        'acronym',
+        'address',
+        'applet',
+        'area',
+        'article',
+        'aside',
+        'audio',
+        'b',
+        'bdi',
+        'bdo',
+        'big',
+        'blockquote',
+        'body',
+        'button',
+        'button[disabled]',
+        'br',
+        'caption',
+        'canvas',
+        'cite',
+        'code',
+        'col',
+        'colgroup',
+        'data',
+        'datalist',
+        'dd',
+        'del',
+        'details',
+        'dfn',
+        'div',
+        'dl',
+        'dt',
+        'em',
+        'fieldset',
+        'figure',
+        'figcaption',
+        'footer',
+        'form',
+        'h1',
+        'h2',
+        'h3',
+        'h4',
+        'h5',
+        'h6',
+        'hr',
+        'html',
+        'i',
+        'iframe',
+        'img',
+        'input',
+        'input[disabled]',
+        'input[type=submit]',
+        'input[type="submit"]',
+        "input[type='submit']",
+        'input[type=search]',
+        'input[type="search"]',
+        "input[type='search']",
+        'input[type=button]',
+        'input[type="button"]',
+        "input[type='button']",
+        'input[type=reset]',
+        'input[type="reset"]',
+        "input[type='reset']",
+        'ins',
+        'kbd',
+        'keygen',
+        'label',
+        'legend',
+        'li',
+        'main',
+        'map',
+        'mark',
+        'math',
+        'menu',
+        'menuitem',
+        'meter',
+        'nav',
+        'object',
+        'ol',
+        'optgroup',
+        'option',
+        'output',
+        'param',
+        'p',
+        'pre',
+        'progress',
+        'q',
+        'ruby',
+        'rt',
+        'rp',
+        's',
+        'samp',
+        'section',
+        'select',
+        'small',
+        'source',
+        'span',
+        'strike',
+        'strong',
+        'sub',
+        'sup',
+        'summary',
+        'svg',
+        'table',
+        'tbody',
+        'td',
+        'textarea',
+        'tfoot',
+        'th',
+        'thead',
+        'time',
+        'tr',
+        'track',
+        'tt',
+        'ul',
+        'var',
+        'video',
+        'wbr'
+    ];
 
 
 /**
@@ -50,11 +177,13 @@ var
 module.exports = function test( areWeDone, config, line, num, output, file ) {
     'use strict';
 
+    // if no more lines just output the warnings
     if ( areWeDone ) {
         return done( warnings, config );
     }
 
-    var strict = false;
+    var strict = false,
+        arr = line.split(' ');
 
     // if strict flag passed, run all tests
     if ( argv.s || argv.strict ) {
@@ -180,7 +309,9 @@ module.exports = function test( areWeDone, config, line, num, output, file ) {
 
             // check for @extend(s) preference
             if ( config.extendPref || strict ) {
-                config.extendPref = strict ? '@extends' : false;
+                if ( strict && config.extendPref === false ) {
+                    config.extendPref = '@extends';
+                }
 
                 if ( extendStyleCorrect(line, config.extendPref) === false ) {
                     warnings.push( chalk.yellow('please use the ' + config.extendPref + ' syntax when extending') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
@@ -189,7 +320,9 @@ module.exports = function test( areWeDone, config, line, num, output, file ) {
 
             // check for naming convention preference
             if ( config.namingConvention || strict ) {
-                config.namingConvention = strict ? 'lowercase-dash' : false;
+                if ( strict && config.namingConvention === false ) {
+                    config.namingConvention = 'lowercase-dash';
+                }
 
                 if ( namingConvention(line, config.namingConvention) === false ) {
                     warnings.push( chalk.yellow('preferred naming convention is ' + config.namingConvention) + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
@@ -233,13 +366,14 @@ module.exports = function test( areWeDone, config, line, num, output, file ) {
 
             // check for places where we can be more efficient (margin 0 50px vs margin 0 50px 0 50px)
             if ( config.efficient || strict ) {
-                if ( efficient(line) === false ) {
+                if ( efficient( line, arr ) === false ) {
                     warnings.push( chalk.yellow('the value on this line could be more succinct:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
             }
 
             // check mixed spaces and tabs
             if ( config.mixed || strict ) {
+                // console.log( config.indentSpaces );
                 // else check tabs against tabs and spaces against spaces
                 if ( mixedSpacesAndTabs( line, config.indentSpaces ) ) {
                     warnings.push( chalk.yellow('mixed spaces and tabs') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
@@ -257,17 +391,20 @@ module.exports = function test( areWeDone, config, line, num, output, file ) {
             // check selector depth
             if ( config.depthLimit || strict ) {
                 // else check tabs against tabs and spaces against spaces
-                if ( tooMuchNest( line, config.depthLimit, config.indentSpaces ) ) {
+                if ( tooMuchNest( line, arr, config.depthLimit, config.indentSpaces ) ) {
                     warnings.push( chalk.yellow('selector depth greater than', config.depthLimit + ':') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
             }
 
             // check valid properties and values
-            // if ( config.valid || strict ) {
-            //  if ( checkValidity( line, valid ) === false ) {
-            //      warnings.push( chalk.yellow('property is not valid css') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
-            //  }
-            // }
+            if ( config.valid || strict ) {
+                if ( validProperty( line, validCSS, validHTML ) === false ) {
+                    warnings.push( chalk.yellow('property is not valid') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+                }
+                // if ( validValue( line, arr, validCSS, validHTML ) === false ) {
+                //     warnings.push( chalk.yellow('value is not valid') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+                // }
+            }
 
             // check for 0px (margin 0 is preferred over margin 0px | 0em | 0whatever)
             if ( config.zeroUnits || config.unecessaryPx || strict ) {
@@ -275,6 +412,13 @@ module.exports = function test( areWeDone, config, line, num, output, file ) {
                     warnings.push( chalk.yellow('0 is preferred. Unit value is unnecessary') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
             }
+
+            // check for 0px (margin 0 is preferred over margin 0px | 0em | 0whatever)
+            // if ( config.zIndexr || strict ) {
+            //     if ( zIndexr(line, arr, config.zIndexr) ) {
+            //         warnings.push( chalk.yellow('0 is preferred. Unit value is unnecessary') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+            //     }
+            // }
         }
     }
 }

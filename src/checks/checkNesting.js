@@ -8,20 +8,22 @@
  */
 const amp = /^(\&\:)/;  // check if using & selector before we count tabs
 
-module.exports = function checkNesting( line, limit, indentSpaces ) {
+module.exports = function checkNesting( line, arr, limit, indentSpaces ) {
     'use strict';
     if ( typeof line === 'undefined' ||
+        typeof arr === 'undefined' ||
         typeof limit === 'undefined' ||
         typeof indentSpaces === 'undefined' ) {
         return;
     }
 
-    var arr = line.split(' '),
-        // get all single spaces in the line
-        arr = arr.filter(function( str ) {
-            return str.length === 0;
-        }),
-        count = 0, index = 0;
+    var count = 0,
+        index = 0;
+
+    // get all single spaces in the line
+    arr = arr.filter(function( str ) {
+        return str.length === 0;
+    });
 
     // pref is defined (it is by default), then assume we indent with spaces
     if ( indentSpaces ) {

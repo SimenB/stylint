@@ -6,8 +6,8 @@
  * @todo  this is kinda not 100% reliable in it's current form
  */
 const
-    tabs  = /\t/, // was a tab used, at all
-    spaces = /\s{2,}/; // check for 2 or more spaces (if hard tabs, shouldn't find anything)
+    tabs  = /\t/,       // was a tab used, at all
+    spaces = /\s{2,}/;  // check for 2 or more spaces (if hard tabs, shouldn't find anything)
 
 module.exports = function checkMixedSpacesAndTabs( line, indentSpaces ) {
     'use strict';

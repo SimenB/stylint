@@ -1,16 +1,10 @@
 // check for 0 0 0 0 or 50px 0 50px 0 type mistakes
 
-module.exports = function checkForEfficiency( line ) {
+module.exports = function checkForEfficiency( line, arr ) {
     'use strict';
-    if ( typeof line === 'undefined' ) { return; }
+    if ( typeof line === 'undefined' || typeof arr === 'undefined') { return; }
 
-    // the array we'll make soon of the str
-    var arr = [];
-
-    // turn the line into an array
-    arr = line.split(' ');
-
-    // create an array from the line with all white space removed
+    // filter the array from the line with all white space removed
     arr = arr.filter(function( str ) {
         return str.length > 0;
     });

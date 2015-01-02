@@ -7,9 +7,9 @@
 
 const
     cssCheck = /^[$#.]+/, // we dont care about default css names, only look at vars, classes, ids, etc
-    camel = /^[$.#]+[a-zA-Z][a-z]+([.A-Z0-9]+[a-z =]+)+\b/, // camelCase or CamelCase
-    dash = /^[$.#]+[a-z]+(-[.a-z]+)+\b/, // lower-case-dashes-only
-    score = /^[$.#]+[a-z]+(_[.a-z]+)+\b/; // lower_case_underscores_only
+    camel = /^[$.#]+[a-zA-Z][a-z]+(?!_?!-)([.A-Z0-9]+[a-z =]+)+\b/, // camelCase or CamelCase
+    dash = /^[$.#]+[a-z]+(?!_)(-[.a-z]+)*\b/, // lower-case-dashes-only
+    score = /^[$.#]+[a-z]+(?!-)(_[.a-z]+)*\b/; // lower_case_underscores_only
 
 module.exports = function checkNamingConvention( line, convention ) {
     'use strict';
@@ -25,8 +25,8 @@ module.exports = function checkNamingConvention( line, convention ) {
                 return false;
             }
         }
-        else if ( convention === 'lowercase-underscore' ) {
-            if ( !camel.test(line) && !dash.test(line) && score.test(line) ) {
+        else if ( convention === 'lowercase_underscore' ) {
+            if ( score.test(line) ) {
                 return true;
             }
             else {
@@ -34,7 +34,7 @@ module.exports = function checkNamingConvention( line, convention ) {
             }
         }
         else if ( convention === 'lowercase-dash' ) {
-            if ( !camel.test(line) && dash.test(line) && !score.test(line) ) {
+            if ( dash.test(line) ) {
                 return true;
             }
             else {

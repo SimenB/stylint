@@ -1,5 +1,6 @@
 const
-	assert = require('assert'),
+	assert                  = require('assert'),
+    fs                      = require('fs'),
     blockStyleCorrect       = require('../src/checks/checkBlockStyle'),
     brackets				= require('../src/checks/checkForBrackets'),
     checkBorderNone         = require('../src/checks/checkBorderNone'),
@@ -24,8 +25,132 @@ const
     tooMuchNest             = require('../src/checks/checkNesting'),
     universalSelector       = require('../src/checks/checkForUniversal'),
     whitespace				= require('../src/checks/checkForTrailingWhitespace'),
+    validProperty           = require('../src/checks/checkForValidProperties'),
     varStyleCorrect         = require('../src/checks/checkVarStyle'),
-    zeroUnits				= require('../src/checks/checkForZeroUnits');
+    zeroUnits				= require('../src/checks/checkForZeroUnits'),
+    validCSS = JSON.parse( fs.readFileSync('./src/checks/validCSS.json') ),
+    validHTML = [
+        'a',
+        'abbr',
+        'abel',
+        'acronym',
+        'address',
+        'applet',
+        'area',
+        'article',
+        'aside',
+        'audio',
+        'b',
+        'bdi',
+        'bdo',
+        'big',
+        'blockquote',
+        'body',
+        'button',
+        'button[disabled]',
+        'br',
+        'caption',
+        'canvas',
+        'cite',
+        'code',
+        'col',
+        'colgroup',
+        'data',
+        'datalist',
+        'dd',
+        'del',
+        'details',
+        'dfn',
+        'div',
+        'dl',
+        'dt',
+        'em',
+        'fieldset',
+        'figure',
+        'figcaption',
+        'footer',
+        'form',
+        'h1',
+        'h2',
+        'h3',
+        'h4',
+        'h5',
+        'h6',
+        'hr',
+        'html',
+        'i',
+        'iframe',
+        'img',
+        'input',
+        'input[disabled]',
+        'input[type=submit]',
+        'input[type="submit"]',
+        "input[type='submit']",
+        'input[type=search]',
+        'input[type="search"]',
+        "input[type='search']",
+        'input[type=button]',
+        'input[type="button"]',
+        "input[type='button']",
+        'input[type=reset]',
+        'input[type="reset"]',
+        "input[type='reset']",
+        'ins',
+        'kbd',
+        'keygen',
+        'label',
+        'legend',
+        'li',
+        'main',
+        'map',
+        'mark',
+        'math',
+        'menu',
+        'menuitem',
+        'meter',
+        'nav',
+        'object',
+        'ol',
+        'optgroup',
+        'option',
+        'output',
+        'param',
+        'p',
+        'pre',
+        'progress',
+        'q',
+        'ruby',
+        'rt',
+        'rp',
+        's',
+        'samp',
+        'section',
+        'select',
+        'small',
+        'source',
+        'span',
+        'strike',
+        'strong',
+        'sub',
+        'sup',
+        'summary',
+        'svg',
+        'table',
+        'tbody',
+        'td',
+        'textarea',
+        'tfoot',
+        'th',
+        'thead',
+        'time',
+        'tr',
+        'track',
+        'tt',
+        'ul',
+        'var',
+        'video',
+        'wbr'
+    ];
 
 
 // describe('Core Functionality: ', function() {
@@ -149,20 +274,34 @@ describe('Linter Style Checks: ', function() {
     });
 
     describe('efficient', function() {
+        var test1 = 'margin 0 0 0 0',
+            test2 = 'margin 0 0 0',
+            test3 = 'margin 0 0',
+            test4 = 'margin 0 5px 0 5px',
+            test5 = 'margin 5px 0 5px',
+            test6 = 'margin 5px 0 5px 0',
+            test7 = 'margin 0 5px 0',
+            test8 = 'margin 0 5px',
+            test9 = 'margin 5px 0',
+            test10 = 'margin 5px 0 0',
+            test11 = 'margin 0',
+            test12 = 'margin 5px',
+            test13 = '.not-margin-or-padding';
+
         it ('should return true if value is efficient, false if not', function() {
-            assert.equal( false, efficient('margin 0 0 0 0') );
-            assert.equal( false, efficient('margin 0 0 0') );
-            assert.equal( false, efficient('margin 0 0') );
-            assert.equal( false, efficient('margin 0 5px 0 5px') );
-            assert.equal( false, efficient('margin 5px 0 5px') );
-            assert.equal( false, efficient('margin 5px 0 5px 0') );
-            assert.equal( false, efficient('margin 0 5px 0') );
-            assert.equal( true, efficient('margin 0 5px') );
-            assert.equal( true, efficient('margin 5px 0') );
-            assert.equal( true, efficient('margin 5px') );
-            assert.equal( true, efficient('margin 5px 0 0') );
-            assert.equal( true, efficient('margin 0') );
-            assert.equal( undefined, efficient('.not-margin-or-padding') );
+            assert.equal( false, efficient( test1, test1.split(' ') ) );
+            assert.equal( false, efficient( test2, test2.split(' ') ) );
+            assert.equal( false, efficient( test3, test3.split(' ') ) );
+            assert.equal( false, efficient( test4, test4.split(' ') ) );
+            assert.equal( false, efficient( test5, test5.split(' ') ) );
+            assert.equal( false, efficient( test6, test6.split(' ') ) );
+            assert.equal( false, efficient( test7, test7.split(' ') ) );
+            assert.equal( true, efficient( test8, test8.split(' ') ) );
+            assert.equal( true, efficient( test9, test9.split(' ') ) );
+            assert.equal( true, efficient( test10, test10.split(' ') ) );
+            assert.equal( true, efficient( test11, test11.split(' ') ) );
+            assert.equal( true, efficient( test12, test12.split(' ') ) );
+            assert.equal( undefined, efficient( test13, test13.split(' ') ) );
             assert.equal( undefined, efficient() );
         });
     });
@@ -231,9 +370,9 @@ describe('Linter Style Checks: ', function() {
             assert.equal( true, namingConvention('.class-name-like-this', 'lowercase-dash') );
             assert.equal( true, namingConvention('#id-name-like-this', 'lowercase-dash') );
 
-            assert.equal( true, namingConvention('$var_name_like_this =', 'lowercase-underscore') );
-            assert.equal( true, namingConvention('.class_name_like_this', 'lowercase-underscore') );
-            assert.equal( true, namingConvention('#id_name_like_this', 'lowercase-underscore') );
+            assert.equal( true, namingConvention('$var_name_like_this =', 'lowercase_underscore') );
+            assert.equal( true, namingConvention('.class_name_like_this', 'lowercase_underscore') );
+            assert.equal( true, namingConvention('#id_name_like_this', 'lowercase_underscore') );
 
             assert.equal( true, namingConvention('$varNameLikeThis =', 'camelCase') );
             assert.equal( true, namingConvention('.classNameLikeThis', 'camelCase') );
@@ -243,9 +382,9 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, namingConvention('.class_name_like_this', 'lowercase-dash') );
             assert.equal( false, namingConvention('#id_name_like_this', 'lowercase-dash') );
 
-            assert.equal( false, namingConvention('$var-name-like-this =', 'lowercase-underscore') );
-            assert.equal( false, namingConvention('.class-name-like-this', 'lowercase-underscore') );
-            assert.equal( false, namingConvention('#id-name-like-this', 'lowercase-underscore') );
+            assert.equal( false, namingConvention('$var-name-like-this =', 'lowercase_underscore') );
+            assert.equal( false, namingConvention('.class-name-like-this', 'lowercase_underscore') );
+            assert.equal( false, namingConvention('#id-name-like-this', 'lowercase_underscore') );
 
             assert.equal( false, namingConvention('$var-name-like-this =', 'camelCase') );
             assert.equal( false, namingConvention('.class-name-like-this', 'camelCase') );
@@ -270,19 +409,29 @@ describe('Linter Style Checks: ', function() {
     });
 
 	describe('nesting', function() {
+        var test1 = 'margin 0',
+            test2 = '			margin 0',
+            test3 = '          margin 0',
+            test4 = '       margin 0',
+            test5 = '                   margin 0',
+            test6 = '					margin 0',
+            test7 = '		margin 0 )',
+            test8 = '       margin 0 )';
+
 	    it ('should return true if more indents than 2nd param', function() {
-	        assert.equal( false, tooMuchNest('margin 0', 4, 4) );
-	        assert.equal( false, tooMuchNest('			margin 0', 4, 4) );
-	        assert.equal( true, tooMuchNest('          margin 0', 1, 4) );
-	        assert.equal( true, tooMuchNest('       margin 0', 2, 2) );
-	        assert.equal( true, tooMuchNest('                   margin 0 )', 4, 4) );
-	        assert.equal( true, tooMuchNest('					margin 0 )', 4, false) );
-	        assert.equal( true, tooMuchNest('		margin 0 )', 1, false) );
-            assert.equal( undefined, tooMuchNest('       margin 0 )', undefined, false) );
-            assert.equal( undefined, tooMuchNest('       margin 0 )', undefined, 4) );
-            assert.equal( undefined, tooMuchNest('       margin 0 )', undefined, undefined) );
-            assert.equal( undefined, tooMuchNest('       margin 0 )', 4, undefined) );
-            assert.equal( undefined, tooMuchNest(undefined, undefined, undefined) );
+	        assert.equal( false, tooMuchNest( test1, test1.split(' '), 4, 4 ) );
+	        assert.equal( false, tooMuchNest( test2, test2.split(' '), 4, 4 ) );
+	        assert.equal( true, tooMuchNest( test3, test3.split(' '), 1, 4 ) );
+	        assert.equal( true, tooMuchNest( test4, test4.split(' '), 2, 2 ) );
+	        assert.equal( true, tooMuchNest( test5, test5.split(' '), 4, 4 ) );
+	        assert.equal( true, tooMuchNest( test6, test6.split(' '), 4, false ) );
+	        assert.equal( true, tooMuchNest( test7, test7.split(' '), 1, false ) );
+            assert.equal( undefined, tooMuchNest( test8, test8.split(' '), undefined, false ) );
+            assert.equal( undefined, tooMuchNest( test8, test8.split(' '), undefined, 4 ) );
+            assert.equal( undefined, tooMuchNest( test8, test8.split(' '), undefined, undefined ) );
+            assert.equal( undefined, tooMuchNest( test8, test8.split(' '), 4, undefined ) );
+            assert.equal( undefined, tooMuchNest( undefined, undefined, 4, undefined ) );
+            assert.equal( undefined, tooMuchNest() );
 	    });
 	});
 
@@ -330,12 +479,29 @@ describe('Linter Style Checks: ', function() {
         });
     });
 
+    describe('valid property', function() {
+        it ('should return true if property is valid, false if not', function() {
+            assert.equal( false, validProperty( 'marg 0 auto', validCSS, validHTML ) );
+            assert.equal( false, validProperty( 'pad 0', validCSS, validHTML ) );
+            assert.equal( true, validProperty( 'padding 0', validCSS, validHTML ) );
+            assert.equal( true, validProperty( 'input', validCSS, validHTML ) );
+            assert.equal( true, validProperty( 'body', validCSS, validHTML ) );
+            assert.equal( true, validProperty( '$var-name = ', validCSS, validHTML ) );
+            assert.equal( true, validProperty( '{var-name}', validCSS, validHTML ) );
+            assert.equal( true, validProperty( 'my-hash = {', validCSS, validHTML ) );
+            assert.equal( true, validProperty( 'for i in 0..9', validCSS, validHTML ) );
+            assert.equal( undefined, validProperty( undefined, validCSS, validHTML ) );
+            assert.equal( undefined, validProperty( 'body', undefined, validHTML ) );
+            assert.equal( undefined, validProperty( 'body', validCSS, undefined ) );
+        });
+    });
+
     /**
      * would like to have this be smarter
      * ideally it would know whether or not a $ should be used based on context
      * right now it just checks if $ is used when defining a var and thats it
      */
-    describe('var style check for find vars that dont have $ in front of them', function() {
+    describe('var style check', function() {
         it ('should return true if $ is found, false if not', function() {
             assert.equal( false, varStyleCorrect('myVar = 0') );
             assert.equal( true, varStyleCorrect('$myVar = 0') );
