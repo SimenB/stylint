@@ -1,29 +1,29 @@
 var assert = require('assert'),
-    blockStyleCorrect       = require('../lib/checks/checkBlockStyle'),
-    brackets				= require('../lib/checks/checkForBrackets'),
-    checkBorderNone         = require('../lib/checks/checkBorderNone'),
-    colon                   = require('../lib/checks/checkForColon'),
-    commaStyleCorrect       = require('../lib/checks/checkCommaStyle'),
-    commentStyleCorrect     = require('../lib/checks/checkCommentStyle'),
-    cssLiteral              = require('../lib/checks/checkForCssLiteral'),
-    efficient               = require('../lib/checks/checkForEfficiency'),
-    extendStyleCorrect      = require('../lib/checks/checkForExtendStyle'),
-    hasComment              = require('../lib/checks/checkForComment'),
-    hashEnding              = require('../lib/checks/checkForHashEnd'),
-    hashStarting            = require('../lib/checks/checkForHashStart'),
-    leadingZero             = require('../lib/checks/checkForLeadingZero'),
-    mixedSpacesOrTabs       = require('../lib/checks/checkForMixedSpacesTabs'),
-    namingConvention		= require('../lib/checks/checkNamingConvention'),
-    parenStyleCorrect       = require('../lib/checks/checkForParenStyle'),
-    placeholderStyleCorrect = require('../lib/checks/checkForPlaceholderStyle'),
-    semicolon               = require('../lib/checks/checkForSemicolon'),
+    blockStyleCorrect       = require('../src/checks/checkBlockStyle'),
+    brackets				= require('../src/checks/checkForBrackets'),
+    checkBorderNone         = require('../src/checks/checkBorderNone'),
+    colon                   = require('../src/checks/checkForColon'),
+    commaStyleCorrect       = require('../src/checks/checkCommaStyle'),
+    commentStyleCorrect     = require('../src/checks/checkCommentStyle'),
+    cssLiteral              = require('../src/checks/checkForCssLiteral'),
+    efficient               = require('../src/checks/checkForEfficiency'),
+    extendStyleCorrect      = require('../src/checks/checkForExtendStyle'),
+    hasComment              = require('../src/checks/checkForComment'),
+    hashEnding              = require('../src/checks/checkForHashEnd'),
+    hashStarting            = require('../src/checks/checkForHashStart'),
+    leadingZero             = require('../src/checks/checkForLeadingZero'),
+    mixedSpacesOrTabs       = require('../src/checks/checkForMixedSpacesTabs'),
+    namingConvention		= require('../src/checks/checkNamingConvention'),
+    parenStyleCorrect       = require('../src/checks/checkForParenStyle'),
+    placeholderStyleCorrect = require('../src/checks/checkForPlaceholderStyle'),
+    semicolon               = require('../src/checks/checkForSemicolon'),
     should                  = require('should'),
-    startsWithComment       = require('../lib/checks/checkForCommentStart'),
-    tooMuchNest             = require('../lib/checks/checkNesting'),
-    universalSelector       = require('../lib/checks/checkForUniversal'),
-    whitespace				= require('../lib/checks/checkForTrailingWhitespace'),
-    varStyleCorrect         = require('../lib/checks/checkVarStyle'),
-    zeroUnits				= require('../lib/checks/checkForZeroUnits');
+    startsWithComment       = require('../src/checks/checkForCommentStart'),
+    tooMuchNest             = require('../src/checks/checkNesting'),
+    universalSelector       = require('../src/checks/checkForUniversal'),
+    whitespace				= require('../src/checks/checkForTrailingWhitespace'),
+    varStyleCorrect         = require('../src/checks/checkVarStyle'),
+    zeroUnits				= require('../src/checks/checkForZeroUnits');
 
 
 describe('Linter Style Checks: ', function() {
@@ -197,6 +197,7 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, mixedSpacesOrTabs('	margin 0', false) );
             assert.equal( true, mixedSpacesOrTabs('		margin 0', 4) );
             assert.equal( true, mixedSpacesOrTabs('	 	 margin 0', false) );
+            assert.equal( true, mixedSpacesOrTabs('		padding 0em', 4) );
             assert.equal( undefined, mixedSpacesOrTabs() );
         });
     });
