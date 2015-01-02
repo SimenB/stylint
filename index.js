@@ -4,6 +4,8 @@
  * Stylus Lint (splinter) (the p is silent)
  * @description A basic, configurable, node based, stylus linter cli
  *              init() -> read() -> parse() -> test() -> done()
+ *              or
+ *              watch() -> init() -> read() -> parse() -> test() -> done()
  * @flow
 */
 

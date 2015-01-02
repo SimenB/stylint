@@ -5,12 +5,14 @@
  * @returns true, false, or undefined true if convention correct, false if not, undefined if line not testable
  */
 
-var cssCheck = /^[$#.]+/, // we dont care about default css names, only look at vars, classes, ids, etc
+const
+    cssCheck = /^[$#.]+/, // we dont care about default css names, only look at vars, classes, ids, etc
     camel = /^[$.#]+[a-zA-Z][a-z]+([.A-Z0-9]+[a-z =]+)+\b/, // camelCase or CamelCase
     dash = /^[$.#]+[a-z]+(-[.a-z]+)+\b/, // lower-case-dashes-only
     score = /^[$.#]+[a-z]+(_[.a-z]+)+\b/; // lower_case_underscores_only
 
 module.exports = function checkNamingConvention( line, convention ) {
+    'use strict';
     if ( typeof line === 'undefined' || typeof convention === 'undefined' ) { return; }
 
     // only run checks if on a class, id, or variable

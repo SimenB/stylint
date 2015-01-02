@@ -1,5 +1,6 @@
 // check for leading 0
 module.exports = function hasLeadingZero( line ) {
+    'use strict';
     if ( typeof line === 'undefined' ) { return; }
 
     // return true if leading zero found and not used as part of range

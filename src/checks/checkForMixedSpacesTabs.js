@@ -5,10 +5,12 @@
  * @return {boolean} true if mixed spaces and tabs, false if not
  * @todo  this is kinda not 100% reliable in it's current form
  */
-var tabs  = /\t/, // was a tab used, at all
+const
+    tabs  = /\t/, // was a tab used, at all
     spaces = /\s{2,}/; // check for 2 or more spaces (if hard tabs, shouldn't find anything)
 
 module.exports = function checkMixedSpacesAndTabs( line, indentSpaces ) {
+    'use strict';
     if ( typeof line === 'undefined' || typeof indentSpaces === 'undefined' ) { return; }
 
     // if this isnt set to false then we're indenting with spaces

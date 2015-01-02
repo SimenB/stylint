@@ -6,9 +6,10 @@
  * @return {boolean} true if nesting is too deep, false if not
  * @todo  this is kinda not 100% reliable in it's current form
  */
-var amp   = /^(\&\:)/;  // check if using & selector before we count tabs
+const amp = /^(\&\:)/;  // check if using & selector before we count tabs
 
 module.exports = function checkNesting( line, limit, indentSpaces ) {
+    'use strict';
     if ( typeof line === 'undefined' ||
         typeof limit === 'undefined' ||
         typeof indentSpaces === 'undefined' ) {

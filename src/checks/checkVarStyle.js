@@ -1,9 +1,11 @@
 // check that $ is used when declaring vars
-var eqEnd = /=$|=\s$/,
+const
+    eqEnd = /=$|=\s$/,
     hash = /\{$/,
     varCheck = /\$\w+/;
 
 module.exports = function checkVarStyle( line ) {
+    'use strict';
     if ( typeof line === 'undefined' ) { return; }
 
     // check if = is present on line at all

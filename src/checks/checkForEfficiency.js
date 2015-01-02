@@ -1,6 +1,7 @@
 // check for 0 0 0 0 or 50px 0 50px 0 type mistakes
 
 module.exports = function checkForEfficiency( line ) {
+    'use strict';
     if ( typeof line === 'undefined' ) { return; }
 
     // the array we'll make soon of the str

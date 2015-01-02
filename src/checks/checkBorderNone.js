@@ -1,5 +1,6 @@
 // checks for border none
 module.exports = function checkBorderNone( line ) {
+    'use strict';
     if ( typeof line === 'undefined' ) { return; }
 
     if ( line.indexOf('border none') !== -1 ) {

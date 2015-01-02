@@ -1,7 +1,8 @@
 // check for line comment on the line
-var hasComment = /(\/\/)/;
+const hasComment = /(\/\/)/;
 
 module.exports = function checkForComment( line ) {
+    'use strict';
     if ( typeof line === 'undefined' ) { return; }
 
     // ex }, but only if we've already establish that we're not in a hash

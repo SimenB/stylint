@@ -13,7 +13,8 @@
 // @TODO dont throw warnings if html
 
 
-var ignoreMe = /[$.#{}(=]|(if)|(for)|(@block)/, // dont throw false positives on user created names or syntax
+const
+    ignoreMe = /[$.#{}(=]|(if)|(for)|(@block)/, // dont throw false positives on user created names or syntax
     valid = false,
     html = [
         'a',
@@ -140,6 +141,7 @@ var ignoreMe = /[$.#{}(=]|(if)|(for)|(@block)/, // dont throw false positives on
 
 
 module.exports = function checkForValid( line, valid ) {
+    'use strict';
     if ( typeof line === 'undefined' || typeof valid === 'undefined' ) { return; }
 
     var arr = line.split(/[\s\t,:]/);

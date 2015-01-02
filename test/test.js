@@ -51,15 +51,20 @@ describe('Linter Style Checks: ', function() {
 
     // 2nd param being passed in here determines if we're in a hash or not (true means hash)
     describe('brackets', function() {
-        it ('should return true if legit bracket found on line (not interpolation, not hash)', function() {
-            assert.equal( false, brackets('.className ', false) );
-            assert.equal( false, brackets('.className ', true) );
+        it ('should return true if illegal bracket found on line (not interpolation, not hash)', function() {
             assert.equal( false, brackets('}', true) );
             assert.equal( false, brackets('{interpolation}', true) );
             assert.equal( false, brackets('{interpolation}', false) );
+            assert.equal( false, brackets('.class-name-with-{i}', false) );
+            assert.equal( false, brackets('.class-name-with-{i}', true) );
             assert.equal( true, brackets('.className {', false) );
+            assert.equal( true, brackets('.className {', true) );
             assert.equal( true, brackets('}', false) );
-            assert.equal( undefined, brackets('}') );
+            assert.equal( undefined, brackets('.className ', true) );
+            assert.equal( undefined, brackets('.className ', false) );
+            assert.equal( undefined, brackets('}', undefined) );
+            assert.equal( undefined, brackets(undefined, false) );
+            assert.equal( undefined, brackets(undefined, true) );
             assert.equal( undefined, brackets() );
         });
     });

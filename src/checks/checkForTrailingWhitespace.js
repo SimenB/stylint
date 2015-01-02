@@ -3,10 +3,12 @@
  * @param  {string} line  the line being tested
  * @return {boolean} true if whitespace found, false if not
  */
-var whitespace = /[ \t]+$/,  // check for unecessary tabs or whitespace at eol
+const
+    whitespace = /[ \t]+$/,  // check for unecessary tabs or whitespace at eol
     anythingElse = /[^ \t]/; // anything BUT whitespace (we dont want to return false positives on empty lines)
 
 module.exports = function checkWhitespace( line ) {
+    'use strict';
     if ( typeof line === 'undefined' ) { return; }
 
     // not an empty line, with whitespace at the end

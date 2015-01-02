@@ -1,7 +1,8 @@
 // check if we're starting a hash
-var hashStarting = /\{$/;
+const hashStarting = /\{$/;
 
 module.exports = function checkForHashStart( line ) {
+    'use strict';
     if ( typeof line === 'undefined' ) { return; }
 
     // ex colorsHash = {

@@ -1,7 +1,8 @@
 // check for space after comment line
-var comment = /\/\/\s/;
+const comment = /\/\/\s/;
 
 module.exports = function checkCommentStyle( line ) {
+    'use strict';
     if ( typeof line === 'undefined' ) { return; }
 
     if ( line.indexOf('//') !== -1 ) {

@@ -1,8 +1,10 @@
 // check for line comment on the line
-var hasComment = /(\/\/)/,
+const
+    hasComment = /(\/\/)/,
     startWithLineComment = /(^\/\/)/;
 
 module.exports = function checkForStart( line ) {
+    'use strict';
     if ( typeof line === 'undefined' ) { return; }
 
     if ( hasComment.test(line) ) {

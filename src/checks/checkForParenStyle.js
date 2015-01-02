@@ -1,8 +1,10 @@
 // checks for extra space when declaring mixins before variables
-var tabs = /^(\t)/,
+const
+    tabs = /^(\t)/,
     spaces = /^(\s)/;
 
 module.exports = function checkMixinStyle( line ) {
+    'use strict';
     if ( typeof line === 'undefined' ) { return; }
 
     // if mixin exists and it has params

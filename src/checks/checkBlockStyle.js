@@ -1,9 +1,11 @@
 // checks for use of @block when declaring blocks
-var eq = /( =)|( \=\n)/,
+const
+    eq = /( =)|( \=\n)/,
     eqEnd = /=$|=\s$/,
     hash = /\{$/;
 
 module.exports = function checkBlockStyle( line ) {
+    'use strict';
     if ( typeof line === 'undefined' ) { return; }
 
     // if = is present on line and not a block var or hash

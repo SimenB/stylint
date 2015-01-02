@@ -1,5 +1,6 @@
 // check for specified extend preference
 module.exports = function checkPlaceholderStyle( line ) {
+    'use strict';
     if ( typeof line === 'undefined' ) { return; }
 
     // first check if line has an extend

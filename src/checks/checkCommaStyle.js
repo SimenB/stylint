@@ -1,8 +1,10 @@
 // check that commas are followed by spaces
-var spaceAfter = /,[a-zA-Z]/,
+const
+    spaceAfter = /,[a-zA-Z]/,
     spaceAfterNum = /,(?:\d*\.)?\d+/;
 
 module.exports = function checkCommaStyle( line ) {
+    'use strict';
     if ( typeof line === 'undefined' ) { return; }
 
     // if , is present on line

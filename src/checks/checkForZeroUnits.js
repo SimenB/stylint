@@ -1,5 +1,6 @@
 // check for 0unit (0 is preferred)
 module.exports = function checkForZeroUnits( line ) {
+    'use strict';
     if ( typeof line === 'undefined' ) { return; }
 
     // return true if 0 + any unit type is found
