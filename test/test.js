@@ -35,6 +35,8 @@ describe('Linter Style Checks: ', function() {
             assert.equal( true, blockStyleCorrect('myBlock = @block') );
             assert.equal( true, blockStyleCorrect('myBlock = @block ') );
             assert.equal( undefined, blockStyleCorrect('margin 0') );
+            assert.equal( undefined, blockStyleCorrect('myHash = {') );
+            assert.equal( undefined, blockStyleCorrect() );
         });
     });
 
@@ -43,6 +45,7 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, checkBorderNone('border 0') );
             assert.equal( true, checkBorderNone('border none') );
             assert.equal( undefined, checkBorderNone('margin 0') );
+            assert.equal( undefined, checkBorderNone() );
         });
     });
 
@@ -56,6 +59,8 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, brackets('{interpolation}', false) );
             assert.equal( true, brackets('.className {', false) );
             assert.equal( true, brackets('}', false) );
+            assert.equal( undefined, brackets('}') );
+            assert.equal( undefined, brackets() );
         });
     });
 
@@ -66,6 +71,7 @@ describe('Linter Style Checks: ', function() {
             assert.equal( true, hasComment('margin 0 auto //test') );
             assert.equal( true, hasComment('margin 0 auto // test') );
             assert.equal( true, hasComment('// test') );
+            assert.equal( undefined, hasComment() );
         });
     });
 
@@ -75,6 +81,7 @@ describe('Linter Style Checks: ', function() {
             assert.equal( true, startsWithComment('//test') );
             assert.equal( true, startsWithComment(' // test') );
             assert.equal( undefined, startsWithComment('.noCommentOnThisLine ') );
+            assert.equal( undefined, startsWithComment() );
         });
     });
 
@@ -85,6 +92,7 @@ describe('Linter Style Checks: ', function() {
             assert.equal( true, commentStyleCorrect('margin 0 auto // test') );
             assert.equal( true, commentStyleCorrect('// test') );
             assert.equal( undefined, commentStyleCorrect('.noCommentOnThisLine') );
+            assert.equal( undefined, commentStyleCorrect() );
         });
     });
 
@@ -92,6 +100,8 @@ describe('Linter Style Checks: ', function() {
         it ('should return true if space after commas, false if not', function() {
             assert.equal( false, commaStyleCorrect('0,0, 0, .18') );
             assert.equal( true, commaStyleCorrect('0, 0, 0, .18') );
+            assert.equal( undefined, commaStyleCorrect('.no-need-for-comma') );
+            assert.equal( undefined, commaStyleCorrect() );
         });
     });
 
@@ -99,6 +109,10 @@ describe('Linter Style Checks: ', function() {
         it ('should return true if unecessary colon is found', function() {
             assert.equal( false, colon('margin 0 auto', false) );
             assert.equal( true, colon('margin: 0 auto', false) );
+            assert.equal( undefined, colon('margin: 0 auto') );
+            assert.equal( undefined, colon() );
+            assert.equal( undefined, colon(undefined, false) );
+            assert.equal( undefined, colon(undefined, true) );
         });
     });
 
@@ -107,6 +121,7 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, cssLiteral('not a css literal') );
             assert.equal( false, cssLiteral('@extends $placeholderVar') );
             assert.equal( true, cssLiteral('@css {') );
+            assert.equal( undefined, cssLiteral() );
         });
     });
 
@@ -115,7 +130,17 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, efficient('margin 0 0 0 0') );
             assert.equal( false, efficient('margin 0 0 0') );
             assert.equal( false, efficient('margin 0 0') );
-            assert.equal( undefined, efficient('margin 0') );
+            assert.equal( false, efficient('margin 0 5px 0 5px') );
+            assert.equal( false, efficient('margin 5px 0 5px') );
+            assert.equal( false, efficient('margin 5px 0 5px 0') );
+            assert.equal( false, efficient('margin 0 5px 0') );
+            assert.equal( true, efficient('margin 0 5px') );
+            assert.equal( true, efficient('margin 5px 0') );
+            assert.equal( true, efficient('margin 5px') );
+            assert.equal( true, efficient('margin 5px 0 0') );
+            assert.equal( true, efficient('margin 0') );
+            assert.equal( undefined, efficient('.not-margin-or-padding') );
+            assert.equal( undefined, efficient() );
         });
     });
 
@@ -125,7 +150,9 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, extendStyleCorrect('@extends $placeHolderVar', '@extend') );
             assert.equal( true, extendStyleCorrect('@extend $placeHolderVar', '@extend') );
             assert.equal( true, extendStyleCorrect('@extends $placeHolderVar', '@extends') );
-            assert.equal( undefined, extendStyleCorrect('margin 0') );
+            assert.equal( undefined, extendStyleCorrect('@extends $placeHolderVar') );
+            assert.equal( undefined, extendStyleCorrect() );
+            assert.equal( undefined, extendStyleCorrect(undefined, '@extends') );
         });
     });
 
@@ -136,6 +163,7 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, hashStarting('.mistakenUseOfBracket {') );
             assert.equal( false, hashStarting('margin 0') );
             assert.equal( true, hashStarting('myHash = {') );
+            assert.equal( undefined, hashStarting() );
         });
     });
 
@@ -147,6 +175,8 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, hashEnding('myHash = {', false) );
             assert.equal( false, hashEnding('}', false) );
             assert.equal( true, hashEnding('}', true) );
+            assert.equal( undefined, hashEnding('}') );
+            assert.equal( undefined, hashEnding() );
         });
     });
 
@@ -157,6 +187,7 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, leadingZero('color (0, 0, 0, .18)') );
             assert.equal( false, leadingZero('color (0,0,0,.18)') );
             assert.equal( false, leadingZero('for $ in (0..9)') );
+            assert.equal( undefined, leadingZero() );
         });
     });
 
@@ -166,6 +197,7 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, mixedSpacesOrTabs('	margin 0', false) );
             assert.equal( true, mixedSpacesOrTabs('		margin 0', 4) );
             assert.equal( true, mixedSpacesOrTabs('	 	 margin 0', false) );
+            assert.equal( undefined, mixedSpacesOrTabs() );
         });
     });
 
@@ -208,6 +240,8 @@ describe('Linter Style Checks: ', function() {
             assert.equal( undefined, namingConvention('margin 0', 'lowercase-dash') );
             assert.equal( undefined, namingConvention('padding inherit', 'camelCase') );
             assert.equal( undefined, namingConvention('body ', 'lowercase-underscore') );
+            assert.equal( undefined, namingConvention() );
+            assert.equal( undefined, namingConvention('.className') );
         });
     });
 
@@ -220,6 +254,11 @@ describe('Linter Style Checks: ', function() {
 	        assert.equal( true, tooMuchNest('                   margin 0 )', 4, 4) );
 	        assert.equal( true, tooMuchNest('					margin 0 )', 4, false) );
 	        assert.equal( true, tooMuchNest('		margin 0 )', 1, false) );
+            assert.equal( undefined, tooMuchNest('       margin 0 )', undefined, false) );
+            assert.equal( undefined, tooMuchNest('       margin 0 )', undefined, 4) );
+            assert.equal( undefined, tooMuchNest('       margin 0 )', undefined, undefined) );
+            assert.equal( undefined, tooMuchNest('       margin 0 )', 4, undefined) );
+            assert.equal( undefined, tooMuchNest(undefined, undefined, undefined) );
 	    });
 	});
 
@@ -228,6 +267,7 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, parenStyleCorrect('myMixin(param1, param2)') );
             assert.equal( true, parenStyleCorrect('myMixin( param1, param2 )') );
             assert.equal( undefined, parenStyleCorrect('.notAMixin ') );
+            assert.equal( undefined, parenStyleCorrect() );
         });
     });
 
@@ -236,6 +276,7 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, placeholderStyleCorrect('@extends .notPlaceholderVar') );
             assert.equal( true, placeholderStyleCorrect('@extends $placeholderVar') );
             assert.equal( undefined, placeholderStyleCorrect('margin 0') );
+            assert.equal( undefined, placeholderStyleCorrect() );
         });
     });
 
@@ -243,6 +284,7 @@ describe('Linter Style Checks: ', function() {
         it ('should return true if semicolon is found', function() {
             assert.equal( false, semicolon('margin 0 auto') );
             assert.equal( true, semicolon('margin 0 auto;') );
+            assert.equal( undefined, semicolon() );
         });
     });
 
@@ -251,6 +293,7 @@ describe('Linter Style Checks: ', function() {
             assert.equal( true, whitespace('margin 0 auto	') );
             assert.equal( true, whitespace('margin 0 auto ') );
             assert.equal( false, whitespace('margin 0 auto') );
+            assert.equal( undefined, whitespace() );
         });
     });
 
@@ -259,6 +302,28 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, universalSelector('img') );
             assert.equal( true, universalSelector('*') );
             assert.equal( true, universalSelector('*:before') );
+            assert.equal( undefined, universalSelector() );
+        });
+    });
+
+    /**
+     * would like to have this be smarter
+     * ideally it would know whether or not a $ should be used based on context
+     * right now it just checks if $ is used when defining a var and thats it
+     */
+    describe('var style check for find vars that dont have $ in front of them', function() {
+        it ('should return true if $ is found, false if not', function() {
+            assert.equal( false, varStyleCorrect('myVar = 0') );
+            assert.equal( true, varStyleCorrect('$myVar = 0') );
+            assert.equal( true, varStyleCorrect('$first-value = floor( (100% / $columns) * $index )') );
+            assert.equal( undefined, varStyleCorrect('define-my-mixin( $myParam )') );
+            assert.equal( undefined, varStyleCorrect('if($myParam == true)') );
+            assert.equal( undefined, varStyleCorrect('.notAVar') );
+            assert.equal( undefined, varStyleCorrect('if(myParam == true)') );
+            assert.equal( undefined, varStyleCorrect('define-my-mixin( myParam )') );
+            assert.equal( undefined, varStyleCorrect('  use-my-mixin( myParam )') );
+            assert.equal( undefined, varStyleCorrect('  if( $myParam )') );
+            assert.equal( undefined, varStyleCorrect() );
         });
     });
 
@@ -281,26 +346,7 @@ describe('Linter Style Checks: ', function() {
             assert.equal( true, zeroUnits('margin 0ex') );
             assert.equal( true, zeroUnits('margin 0ch') );
             assert.equal( false, zeroUnits('margin 0') );
-        });
-    });
-
-    /**
-     * would like to have this be smarter
-     * ideally it would know whether or not a $ should be used based on context
-     * right now it just checks if $ is used when defining a var and thats it
-     */
-    describe('var style check for find vars that dont have $ in front of them', function() {
-        it ('should return true if $ is found, false if not', function() {
-            assert.equal( false, varStyleCorrect('myVar = 0') );
-            assert.equal( true, varStyleCorrect('$myVar = 0') );
-            assert.equal( true, varStyleCorrect('$first-value = floor( (100% / $columns) * $index )') );
-            assert.equal( undefined, varStyleCorrect('define-my-mixin( $myParam )') );
-            assert.equal( undefined, varStyleCorrect('if($myParam == true)') );
-            assert.equal( undefined, varStyleCorrect('.notAVar') );
-            assert.equal( undefined, varStyleCorrect('if(myParam == true)') );
-            assert.equal( undefined, varStyleCorrect('define-my-mixin( myParam )') );
-            assert.equal( undefined, varStyleCorrect('  use-my-mixin( myParam )') );
-            assert.equal( undefined, varStyleCorrect('  if( $myParam )') );
+            assert.equal( undefined, zeroUnits() );
         });
     });
 
