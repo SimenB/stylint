@@ -17,32 +17,36 @@ not stable yet. please report any issues you see and update often. i'm adding ne
 ## Options
 The following is a list of the options available to stylinter. Use the -c or --config flag to pass in the location of your custom .stylintrc config file if you want to change the defaults. Alternatively, you could pass the -s or --strict flag to run stylint as though everything was set to true, config file or not.
 
-The default settings pretty weak, only checking for things that actually affect css output. If you want to enforce a particular styleguide, you'll have to set up your own config file. Below is the default config.
+The default settings are pretty weak, only checking for things that actually affect css output. If you want to enforce a particular styleguide, you'll have to set up your own config file. Below is the default config.
+
+###### Known Issues:
+Both the mixed and namingConvention options are throwing occasional false positives. This will be fixed soon, but use those options at your own risk.
 
 ```
 {
-    "borderNone": true,
-    "brackets": false,
-    "colons": false,
-    "commaSpace": true,
-    "commentSpace": false,
-    "cssLiteral": false,
-    "depthLimit": 4,
-    "efficient": true,
-    "enforceVarStyle": false,
-    "enforceBlockStyle": false,
-    "extendPref": false,
-    "indentSpaces": 4,
-    "leadingZero": true,
-    "maxWarnings": 10,
-    "mixed": true,
-    "namingConvention": false,
-    "parenSpace": false,
-    "placeholders": true,
-    "semicolons": false,
-    "trailingWhitespace": true,
-    "universal": true,
-    "zeroUnits": true
+    'borderNone': true,
+    'brackets': false,
+    'colons': false,
+    'commaSpace': true,
+    'commentSpace': false,
+    'cssLiteral': false,
+    'depthLimit': 4,
+    'efficient': true,
+    'enforceVarStyle': false,
+    'enforceBlockStyle': false,
+    'extendPref': false,
+    'indentSpaces': 4,
+    'leadingZero': true,
+    'maxWarnings': 10,
+    'mixed': false,
+    'namingConvention': false,
+    'parenSpace': false,
+    'placeholders': true,
+    'semicolons': false,
+    'trailingWhitespace': true,
+    'universal': true,
+    'valid': true,
+    'zeroUnits': true
 }
 ```
 
