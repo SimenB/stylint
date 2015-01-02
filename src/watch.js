@@ -1,12 +1,20 @@
 const
-    argv        = require('yargs').argv,
     init        = require('./init'),
     chalk       = require('chalk'),
     chokidar    = require('chokidar'); // better file watching than fs.watch
 
 
-module.exports = function watch() {
+/**
+ * kicks off the app. sets up config and kicks off reading the files
+ * @param  {string} dir          [dir | filename | 'nothing']
+ * @param  {string} customConfig [path to config object]
+ * @return {function}            [kick off linter on each change]
+ */
+module.exports = function watch( dir, config ) {
+    if ( typeof dir === 'undefined' ) { return; }
+
     var watcher,
+        currDir = false,
         flags = [
             '-c',
             '-w',
@@ -18,25 +26,16 @@ module.exports = function watch() {
             '--strict',
             '--version',
             '--help'
-        ],
-        currDir = false;
+        ];
 
-    /**
-     * default to linting the current dir if nothing passed.
-     */
-    if ( flags.indexOf( process.argv[2] ) !== -1 ) {
+    // default to linting the current dir if nothing passed.
+    if ( flags.indexOf( dir ) !== -1 ) {
         currDir = true;
-        watcher = chokidar.watch('**/*.styl', {
-            ignored: /[\/\\]\./,
-            persistent: true
-        });
+        watcher = chokidar.watch('.');
     }
     // else just lint what was passed
     else {
-        watcher = chokidar.watch(process.argv[2], {
-            ignored: /[\/\\]\./,
-            persistent: true
-        });
+        watcher = chokidar.watch( dir );
     }
 
     // initial watch msg
@@ -52,33 +51,12 @@ module.exports = function watch() {
     });
 
     // listen for changes, do somethin
-    watcher.on('change', function(path) {
-        warnings = [];
-
+    watcher.on('change', function( path ) {
         console.log( chalk.blue('Linting: '), path, '\n' );
         // this is really just to give people time to read the watch msg
         setTimeout(function() {
             // kickoff linter, default to linting curr dir if no file or dir passed
-            if ( !argv.v && !argv.h && !argv.version && !argv.help ) {
-                if ( argv.c || argv.config ) {
-                    if ( !process.argv[2] ) {
-                        return init( 'nothing', argv.c ? argv.c : argv.config );
-                    }
-                    // else lint what was passed
-                    else {
-                        return init( process.argv[2], argv.c ? argv.c : argv.config );
-                    }
-                }
-                else {
-                    if ( !process.argv[2] ) {
-                        return init( 'nothing' );
-                    }
-                    // else lint what was passed
-                    else {
-                        return init( process.argv[2] );
-                    }
-                }
-            }
+            return init( path, config );
         }, 350);
     });
 }

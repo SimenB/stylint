@@ -27,22 +27,42 @@ if ( argv.version || argv.v ) {
 	return ver();
 }
 
-// if --watch flag passed, set up file watcher
-if ( argv.watch || argv.w ) {
-	return watch();
-}
-
 // kickoff linter, default to linting curr dir if no file or dir passed
 if ( !argv.v && !argv.h && !argv.version && !argv.help ) {
+	// if config flag passed
 	if ( argv.c || argv.config ) {
+		// if config and watch passed
+		if ( argv.watch || argv.w ) {
+			if ( !process.argv[2] ) {
+				return watch( 'nothing', argv.c ? argv.c : argv.config );
+			}
+			// else lint what was passed
+			else {
+				return watch( process.argv[2], argv.c ? argv.c : argv.config );
+			}
+		}
+		// else just config passed
+		else {
+			if ( !process.argv[2] ) {
+				return init( 'nothing', argv.c ? argv.c : argv.config );
+			}
+			// else lint what was passed
+			else {
+				return init( process.argv[2], argv.c ? argv.c : argv.config );
+			}
+		}
+	}
+	// if watch flag passed
+	else if ( argv.watch || argv.w ) {
 		if ( !process.argv[2] ) {
-			return init( 'nothing', argv.c ? argv.c : argv.config );
+			return watch( 'nothing' );
 		}
 		// else lint what was passed
 		else {
-			return init( process.argv[2], argv.c ? argv.c : argv.config );
+			return watch( process.argv[2] );
 		}
 	}
+	// no flags
 	else {
 		if ( !process.argv[2] ) {
 			return init( 'nothing' );

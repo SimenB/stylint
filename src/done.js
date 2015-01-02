@@ -1,4 +1,4 @@
-const chalk   = require('chalk');
+const chalk = require('chalk');
 
 /**
  * @description outputs our error messages when complete (or a thumbs up if no errors)
@@ -18,7 +18,7 @@ module.exports = function done( warnings, config ) {
     if ( len > config.maxWarnings ) {
         console.log( '\uD83D\uDCA9 ', chalk.underline.red('Stylint: ' + warnings.length + ' warnings. Max is set to: ' + config.maxWarnings + '\n') );
     }
-    else if (len === 0) {
+    else if ( len === 0 ) {
         console.log( '\n \uD83D\uDC4D ', chalk.blue('Stylint: You\'re all clear!\n') );
     }
     else {

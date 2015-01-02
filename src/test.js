@@ -1,10 +1,8 @@
 // modules
 const
-    argv  = require('yargs').argv,
-    chalk = require('chalk'),
-    done  = require('./done'),
-
-// tests
+    argv                    = require('yargs').argv,
+    chalk                   = require('chalk'),
+    done                    = require('./done'),
     blockStyleCorrect       = require('./checks/checkBlockStyle'),
     brackets                = require('./checks/checkForBrackets'),
     checkBorderNone         = require('./checks/checkBorderNone'),
@@ -28,9 +26,10 @@ const
     universalSelector       = require('./checks/checkForUniversal'),
     whitespace              = require('./checks/checkForTrailingWhitespace'),
     varStyleCorrect         = require('./checks/checkVarStyle'),
-    zeroUnits               = require('./checks/checkForZeroUnits'),
+    zeroUnits               = require('./checks/checkForZeroUnits');
 
 // other stuff
+var
     enabled = true,
     cssBlock = false,
     areWeInAHash = false,

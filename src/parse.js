@@ -13,10 +13,14 @@ const
  */
 module.exports = function parse( file, len, currFile, config ) {
     'use strict';
+    var stripComments = /(\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*+\/)/gm;
 
-    var stripComments = /(\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*+\/)/g,
-        fileContent = fs.readFileSync( file, 'utf8' ),
-        cleanFile = fileContent.replace(stripComments, function( match ) {
+    fs.readFile(file, { encoding: 'utf8' }, function( err, data ) {
+        if ( err ) { throw err; }
+        var clean, lines;
+
+        // remove block comments / empty lines from files
+        clean = data.replace(stripComments, function( match ) {
             var lines = match.split(/\r\n|\r|\n/),
                 lineLen = lines.length - 1,
                 output = ' ';
@@ -28,25 +32,29 @@ module.exports = function parse( file, len, currFile, config ) {
                 while ( lineLen-- ) {
                     output += '\n';
                 }
+
                 return output;
             }
-        }),
-        lines = cleanFile.split('\n');
+        });
 
-    /**
-     * so, this function trims each line and then tests it
-     * @param  {string}     the line of stylus to test
-     * @return {function}   run test
-     */
-    lines.forEach(function( line, i ) {
-        var output = line.trim();
-        // line nos don't start at 0
-        i++;
-        return test( false, config, line, i, output, file );
+        // array of lines from cleaned file
+        lines = clean.split('\n');
+
+        /**
+         * so, this function trims each line and then tests it
+         * @param  {string}     the line of stylus to test
+         * @return {function}   run test
+         */
+        lines.forEach(function( line, i ) {
+            var output = line.trim();
+            // line nos don't start at 0
+            i++;
+            return test( false, config, line, i, output, file );
+        });
+
+        // if at the last file, call the done function to output results
+        if ( currFile === len ) {
+            return test( true, config );
+        }
     });
-
-    // if at the last file, call the done function to output results
-    if ( currFile === len ) {
-        return test( true, config );
-    }
 }

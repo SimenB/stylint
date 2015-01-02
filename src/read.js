@@ -1,10 +1,7 @@
 const
     fs    = require('fs'),
-    glob  = require('glob').Glob, // oh my (file) glob
-    parse = require('./parse');   // parse the files
-
-// stream       = require('stream'),        // read and transform the files
-// liner        = new stream.Transform( {objectMode: true } ); // needed to read line by line instead of by chunk
+    glob  = require('glob').Glob,   // oh my (file) glob
+    parse = require('./parse');      // parse the files
 
 
 /**

@@ -1,8 +1,8 @@
 var chalk = require('chalk');
 
 module.exports = function monitorEventLoopDelays() {
-    var getHrDiffTime = function(time) {
-        var ts = process.hrtime(time);
+    var getHrDiffTime = function( time ) {
+        var ts = process.hrtime( time );
         // convert seconds to miliseconds and nanoseconds to miliseconds as well
         return ( ts[0] * 1000) + (ts[1] / 1000000 );
     };
@@ -13,13 +13,13 @@ module.exports = function monitorEventLoopDelays() {
         var before = process.hrtime();
 
         setTimeout(function() {
-            var delay = getHrDiffTime(before) - interval;
+            var delay = getHrDiffTime( before ) - interval;
 
             if ( delay < maxDelay ) {
-                console.log( 'delay is %s', chalk.green(delay) );
+                console.log( 'delay is %s', chalk.green( delay ) );
             }
             else {
-                console.log( 'delay is %s', chalk.red(delay) );
+                console.log( 'delay is %s', chalk.red( delay ) );
             }
 
             outputDelay( interval, maxDelay );
@@ -35,7 +35,7 @@ module.exports = function monitorEventLoopDelays() {
             sum = 0;
 
         for ( i; i <= 999999999; i++ ) {
-            sum += i * 2 - (i + 1);
+            sum += i * 2 - ( i + 1 );
         }
     }, 2000);
 }
