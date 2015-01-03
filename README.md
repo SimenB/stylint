@@ -174,17 +174,23 @@ Example: prefer `margin 0` over `margin 0;`
 ### trailingWhitespace (default: true, boolean)
 Looks for trailing whitespace. Throws a warning if any found.
 
-Example: prefer `margin 0 auto` over `margin 0 auto   `
+Example: prefer `margin 0 auto` over `margin 0 auto
+
+
+### universal (default: true, boolean)
+Looks for instances of the inefficient * selector. Lots of resets use this, for good reason (resetting box model), but past that you really don't need this selector, and you should avoid it if possible.
+
+
+### valid (default: true, boolean)
+Check that a property is a valid css or html property. Currently just checks properties, value checks will come soon.
+
+Example if true: `marg 0` will throw a warning, prefer `margin 0`
 
 
 ### zeroUnits (default: true, boolean)
 Looks for instances of `0px`. You don't need the px. Checks all units, not just px.
 
 Example: prefer `margin-right 0` over `margin-right 0em`
-
-
-### universal (default: true, boolean)
-Looks for instances of the inefficient * selector. Lots of resets use this, for good reason (resetting box model), but past that you really don't need this selector, and you should avoid it.`
 
 
 
@@ -199,9 +205,6 @@ Check that properties are in alphabetical order.
 
 ### duplicates (default: true, boolean)
 Check for unecessary duplicate properties .
-
-### valid (default: true, boolean)
-Check that a property is a valid css property and the value is an actual option available to that property
 
 ### checking opposite values
 Not an option per se, but currently the linter either checks against my idea of what best practice is, or doesn't check at all. Ideally, you should be able to set an option to check for the opposite. For example, if you're weird and you want to force the use of colons everywhere, or brackets, or no $ in front of vars, you should be able to set that option.
