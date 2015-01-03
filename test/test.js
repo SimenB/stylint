@@ -19,6 +19,7 @@ const
     namingConvention		= require('../src/checks/checkNamingConvention'),
     parenStyleCorrect       = require('../src/checks/checkForParenStyle'),
     placeholderStyleCorrect = require('../src/checks/checkForPlaceholderStyle'),
+    // read                    = require('../src/read'),
     semicolon               = require('../src/checks/checkForSemicolon'),
     should                  = require('should'),
     startsWithComment       = require('../src/checks/checkForCommentStart'),
@@ -152,21 +153,30 @@ const
         'wbr'
     ];
 
+// console.log( init( 'nothing' ) );
 
 // describe('Core Functionality: ', function() {
 
-// 	describe('Init: ', function() {
-//         it('should be a function', function() {
-//             init.should.be.an.instanceOf(Function);
-//         });
-//         it('should throw an error if 1st param not a string', function() {
-//             init.should.throw('Dir or filename should be a string');
-//         });
-//         it('should return a function', function() {
-//             assert.equal( Function, init( 'styl/test2.styl' ) );
-//         });
-// 	});
+// 	// describe('Init: ', function() {
+//  //        it('should be a function', function() {
+//  //            init.should.be.an.instanceOf(Function);
+//  //        });
+//  //        it('should throw an error if 1st param not defined', function() {
+//  //            init.should.throw('Dir or filename not defined');
+//  //        });
+// 	// });
 
+//     // describe('Read: ', function() {
+//     //     it('should be a function', function() {
+//     //         read.should.be.an.instanceOf(Function);
+//     //     });
+//     //     it('should throw an error if 1st param not defined', function() {
+//     //         read.should.throw('Files or file (lintMe) not defined');
+//     //     });
+//     //     it('should throw an error if 2nd param not defined', function() {
+//     //         read('filename').should.throw('No config file passed in');
+//     //     });
+//     // });
 // });
 
 describe('Linter Style Checks: ', function() {

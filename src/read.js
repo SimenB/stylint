@@ -13,6 +13,13 @@ const
 module.exports = function read( lintMe, config ) {
     'use strict';
 
+    if ( typeof lintMe === 'undefined' ) {
+        throw Error('Files or file (lintMe) not defined');
+    }
+    if ( typeof config === 'undefined' ) {
+        throw Error('No config file passed in');
+    }
+
     var flags = [
         '-c',
         '-w',

@@ -12,6 +12,13 @@ const
 module.exports = function init( dir, customConfig ) {
     'use strict';
 
+    if ( typeof dir === 'undefined' ) {
+        throw Error('Dir or filename not defined');
+    }
+    else if ( typeof dir !== 'string' ) {
+        throw Error('Dir or filename should be a string');
+    }
+
     init.config = {
         'borderNone': true, // check for use of border none and recommend border 0
         'brackets': false, // check for { or }, unless used in a hash
@@ -38,16 +45,6 @@ module.exports = function init( dir, customConfig ) {
         'zeroUnits': true, // check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
         'zIndexr': false // find z index values and suggested a normalized value of 5 (so, 5 - 10 - 15 - 20 )
     };
-
-    if ( typeof dir !== 'string' ) {
-        throw Error('Dir or filename should be a string');
-    }
-    else if ( typeof dir === 'undefined' ) {
-        throw Error('Dir or filename not defined');
-    }
-
-    // console.log( this );
-    // console.log( this.config );
 
     if ( customConfig ) {
         fs.readFile( customConfig, function( err, data) {

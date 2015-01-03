@@ -195,20 +195,20 @@
     </style>
 </head>
 <body>
-<div class="header low">
+<div class="header high">
     <h1>Code coverage report for <span class="entity">src/parse.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">9.52% <small>(2 / 21)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">90.48% <small>(19 / 21)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">0% <small>(0 / 6)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">66.67% <small>(4 / 6)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">0% <small>(0 / 4)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">100% <small>(4 / 4)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">10% <small>(2 / 20)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">95% <small>(19 / 20)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
@@ -290,48 +290,48 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">5</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">28</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">28</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">28</span>
+<span class="cline-any cline-yes">111</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">914</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">914</span>
+<span class="cline-any cline-yes">914</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const
@@ -347,50 +347,50 @@
  * @param  {number} config      [our config object]
  * @returns function
  */
-module.exports = <span class="fstat-no" title="function not covered" >function parse( file, len, currFile, config ) {</span>
+module.exports = function parse( file, len, currFile, config ) {
     'use strict';
-<span class="cstat-no" title="statement not covered" >    var stripComments = /(\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*+\/)/gm;</span>
+    var stripComments = /(\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*+\/)/gm;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    fs.readFile(file, { encoding: 'utf8' }, <span class="fstat-no" title="function not covered" >function( err, data ) {</span></span>
-<span class="cstat-no" title="statement not covered" >        if ( err ) { <span class="cstat-no" title="statement not covered" >throw err; </span>}</span>
-<span class="cstat-no" title="statement not covered" >        var clean, lines;</span>
+    fs.readFile(file, { encoding: 'utf8' }, function( err, data ) {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if ( err ) { <span class="cstat-no" title="statement not covered" >throw err; </span>}
+        var clean, lines;
 &nbsp;
         // remove block comments / empty lines from files
-<span class="cstat-no" title="statement not covered" >        clean = data.replace(stripComments, <span class="fstat-no" title="function not covered" >function( match ) {</span></span>
-<span class="cstat-no" title="statement not covered" >            var lines = match.split(/\r\n|\r|\n/),</span>
+        clean = data.replace(stripComments, function( match ) {
+            var lines = match.split(/\r\n|\r|\n/),
                 lineLen = lines.length - 1,
                 output = ' ';
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            if ( lineLen === 1 ) {</span>
+            <span class="missing-if-branch" title="if path not taken" >I</span>if ( lineLen === 1 ) {
 <span class="cstat-no" title="statement not covered" >                return ' ';</span>
             }
             else {
-<span class="cstat-no" title="statement not covered" >                while ( lineLen-- ) {</span>
-<span class="cstat-no" title="statement not covered" >                    output += '\n';</span>
+                while ( lineLen-- ) {
+                    output += '\n';
                 }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >                return output;</span>
+                return output;
             }
         });
 &nbsp;
         // array of lines from cleaned file
-<span class="cstat-no" title="statement not covered" >        lines = clean.split('\n');</span>
+        lines = clean.split('\n');
 &nbsp;
         /**
          * so, this function trims each line and then tests it
          * @param  {string}     the line of stylus to test
          * @return {function}   run test
          */
-<span class="cstat-no" title="statement not covered" >        lines.forEach(<span class="fstat-no" title="function not covered" >function( line, i ) {</span></span>
-<span class="cstat-no" title="statement not covered" >            var output = line.trim();</span>
+        lines.forEach(function( line, i ) {
+            var output = line.trim();
             // line nos don't start at 0
-<span class="cstat-no" title="statement not covered" >            i++;</span>
-<span class="cstat-no" title="statement not covered" >            return test( false, config, line, i, output, file );</span>
+            i++;
+            return test( false, config, line, i, output, file );
         });
 &nbsp;
         // if at the last file, call the done function to output results
-<span class="cstat-no" title="statement not covered" >        if ( currFile === len ) {</span>
-<span class="cstat-no" title="statement not covered" >            return test( true, config );</span>
+        if ( currFile === len ) {
+            return test( true, config );
         }
     });
 }</pre></td></tr>
@@ -398,7 +398,7 @@ module.exports = <span class="fstat-no" title="function not covered" >function p
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 02 2015 01:18:00 GMT-0800 (PST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 02 2015 16:20:04 GMT-0800 (PST)</div>
 </div>
 
 <script src="../prettify.js"></script>
