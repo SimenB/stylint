@@ -34,14 +34,14 @@ module.exports = function init( dir, customConfig ) {
         'indentSpaces': 4, // how many spaces should we prefer when indenting, pass in false if hard tabs
         'leadingZero': true, // find cases where 0.# is used, prefer .#
         'maxWarnings': 10, // should we have a max amount of warnings, and error out if we go over
-        'mixed': true, // check for mixed spaces and tabs
+        'mixed': false, // check for mixed spaces and tabs
         'namingConvention': false, // lowercase-dash, camelCase, lowercase-underscore, or false (dont check)
         'parenSpace': false, // check for extra space inside parens when defining or using mixins
         'placeholders': true, // only allow @extending of placeholder vars
         'semicolons': false, // check for unecessary semicolons
         'trailingWhitespace': true, // check for trailing whitespace
         'universal': true, // check for use of * and recommend against it
-        'valid': true, // check if prop or value is a valid assignment
+        'valid': false, // check if prop or value is a valid assignment
         'zeroUnits': true, // check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
         'zIndexr': false // find z index values and suggested a normalized value of 5 (so, 5 - 10 - 15 - 20 )
     };

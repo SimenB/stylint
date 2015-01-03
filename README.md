@@ -45,7 +45,7 @@ Both the mixed and namingConvention options are throwing occasional false positi
     'semicolons': false,
     'trailingWhitespace': true,
     'universal': true,
-    'valid': true,
+    'valid': false,
     'zeroUnits': true
 }
 ```
@@ -141,7 +141,7 @@ Example: prefer `rgba( 0, 0, 0, .5 )` over `rgba( 0, 0, 0, 0.5 )`
 Set 'max' number of warnings. Currently this just displays a slightly sterner message. Womp womp.
 
 
-### mixed (default: true, boolean, relies on indentPref)
+### mixed (default: false, boolean, relies on indentPref)
 Returns true if mixed spaces and tabs are found. If a number is passed to indentPref (4 is the default), it assumes soft tabs (ie, spaces), and if false is passed to indentPref it assumes hard tabs.
 
 If soft tabs, throws warning if hard tabs used. If hard tabs, throws warning if unnecessary extra spaces found.
@@ -181,7 +181,7 @@ Example: prefer `margin 0 auto` over `margin 0 auto
 Looks for instances of the inefficient * selector. Lots of resets use this, for good reason (resetting box model), but past that you really don't need this selector, and you should avoid it if possible.
 
 
-### valid (default: true, boolean)
+### valid (default: false, boolean)
 Check that a property is a valid css or html property. Currently just checks properties, value checks will come soon.
 
 Example if true: `marg 0` will throw a warning, prefer `margin 0`

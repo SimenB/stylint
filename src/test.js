@@ -39,7 +39,7 @@ var
     areWeInAHash = false,
     stylintToggleBlock = false,
     warnings = [],
-    validCSS = JSON.parse( fs.readFileSync('./src/checks/validCSS.json') ),
+    validCSS = JSON.parse( fs.readFileSync(__dirname + '/checks/validCSS.json') ),
     validHTML = [
         'a',
         'abbr',
