@@ -1,7 +1,6 @@
 const
     fs    = require('fs'),
-    glob  = require('glob').Glob,   // oh my (file) glob
-    parse = require('./parse');      // parse the files
+    glob  = require('glob').Glob;   // oh my (file) glob
 
 
 /**
@@ -10,37 +9,18 @@ const
  * @param  {[type]} config [description]
  * @returns function
  */
-module.exports = function read( lintMe, config ) {
+module.exports = function read() {
     'use strict';
-
-    if ( typeof lintMe === 'undefined' ) {
-        throw Error('Files or file (lintMe) not defined');
-    }
-    if ( typeof config === 'undefined' ) {
-        throw Error('No config file passed in');
-    }
-
-    var flags = [
-        '-c',
-        '-w',
-        '-s',
-        '-v',
-        '-h',
-        '--config',
-        '--watch',
-        '--strict',
-        '--version',
-        '--help'
-    ];
+    var app = this;
 
     // if nothing passed in, default to linting the curr dir
-    if ( flags.indexOf( lintMe ) !== -1 || lintMe === 'nothing' ) {
+    if ( this.flags.indexOf( this.dir ) !== -1 || !this.dir ) {
         glob('**/*.styl', {}, function(err, files) {
             if ( err ) { throw err; }
             var len = files.length - 1;
 
             files.forEach(function( file, i ) {
-                return parse( file, len, i, config );
+                return app.parse( file, len, i );
             });
         });
     }
@@ -50,19 +30,19 @@ module.exports = function read( lintMe, config ) {
      * if directory we use the glob logic to return an array of files to test
      */
     else {
-        fs.stat(lintMe, function( err, stats ) {
+        fs.stat(app.dir, function( err, stats ) {
             if ( err ) { throw err; }
 
             if ( stats.isFile() ) {
-                return parse( lintMe, 1, 1, config );
+                return app.parse( app.dir, 1, 1 );
             }
             else if ( stats.isDirectory() ) {
-                glob(lintMe + '**/*.styl', {}, function( err, files ) {
+                glob(app.dir + '**/*.styl', {}, function( err, files ) {
                     if ( err ) { throw err; }
                     var len = files.length - 1;
 
-                    files.forEach(function(file, i) {
-                        return parse( file, len, i, config );
+                    files.forEach(function( file, i ) {
+                        return app.parse( file, len, i );
                     });
                 });
             }

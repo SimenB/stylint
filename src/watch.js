@@ -1,5 +1,4 @@
 const
-    init        = require('./init'),
     chalk       = require('chalk'),
     chokidar    = require('chokidar'); // better file watching than fs.watch
 
@@ -10,39 +9,24 @@ const
  * @param  {string} customConfig [path to config object]
  * @return {function}            [kick off linter on each change]
  */
-module.exports = function watch( dir, customConfig ) {
-    if ( typeof dir === 'undefined' ) { return; }
-
-    var watcher,
-        currDir = false,
-        flags = [
-            '-c',
-            '-w',
-            '-s',
-            '-v',
-            '-h',
-            '--config',
-            '--watch',
-            '--strict',
-            '--version',
-            '--help'
-        ];
+module.exports = function watch() {
+    var app = this,
+        watcher;
 
     // default to linting the current dir if nothing passed.
-    if ( flags.indexOf( dir ) !== -1 ) {
-        currDir = true;
+    if ( this.flags.indexOf( this.state.dir ) !== -1 ) {
         watcher = chokidar.watch('.');
     }
     // else just lint what was passed
     else {
-        watcher = chokidar.watch( dir );
+        watcher = chokidar.watch( this.state.dir );
     }
 
     // initial watch msg
     watcher.on('ready', function() {
         // watching: dir or file for changes
-        if ( !currDir ) {
-            console.log( chalk.blue('Watching: '), process.argv[2], ' for changes.' );
+        if ( app.flags.indexOf( app.state.dir ) !== -1  ) {
+            console.log( chalk.blue('Watching: '), app.state.dir, ' for changes.' );
         }
         // watching: **/*.styl for changes.
         else {
@@ -52,11 +36,10 @@ module.exports = function watch( dir, customConfig ) {
 
     // listen for changes, do somethin
     watcher.on('change', function( path ) {
-        console.log( chalk.blue('Linting: '), path, '\n' );
-        // this is really just to give people time to read the watch msg
-        setTimeout(function() {
-            // kickoff linter, default to linting curr dir if no file or dir passed
-            return init( path, customConfig );
-        }, 350);
+        app.state.dir = path;
+        app.warnings = [];
+
+        console.log( chalk.blue('Linting: '), app.state.dir, '\n' );
+        return app.read();
     });
 }

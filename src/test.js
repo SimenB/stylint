@@ -1,8 +1,6 @@
 // modules
 const
-    argv                    = require('yargs').argv,
     chalk                   = require('chalk'),
-    done                    = require('./done'),
     fs                      = require('fs'),
     blockStyleCorrect       = require('./checks/checkBlockStyle'),
     brackets                = require('./checks/checkForBrackets'),
@@ -30,15 +28,7 @@ const
     validValue              = require('./checks/checkForValidValues'),
     varStyleCorrect         = require('./checks/checkVarStyle'),
     zeroUnits               = require('./checks/checkForZeroUnits'),
-    zIndexr                 = require('./checks/zIndexr');
-
-// other stuff
-var
-    enabled = true,
-    cssBlock = false,
-    areWeInAHash = false,
-    stylintToggleBlock = false,
-    warnings = [],
+    zIndexr                 = require('./checks/zIndexr'),
     validCSS = JSON.parse( fs.readFileSync(__dirname + '/checks/validCSS.json') ),
     validHTML = [
         'a',
@@ -174,65 +164,55 @@ var
  * @param  {string} file      [name of file being tested]
  * @return {function}         [description]
  */
-module.exports = function test( areWeDone, config, line, num, output, file ) {
+module.exports = function test( line, num, output, file ) {
     'use strict';
-
-    // if no more lines just output the warnings
-    if ( areWeDone ) {
-        return done( warnings, config );
-    }
-
-    var strict = false,
+    // just some convenience stuff
+    var config = this.config,
         arr = line.split(' ');
-
-    // if strict flag passed, run all tests
-    if ( argv.s || argv.strict ) {
-        strict = true;
-    }
 
     // check for @stylint off comments
     if ( hasComment( line ) ) {
         /**
-         * first two tests determine if the rest of the tests should run
+         * these first two tests determine if the rest of the tests should run
          * if @stylint: off comment found, disable tests until @stylint: on comment found
          */
         if ( line.indexOf('@stylint off') !== -1 ) {
-            stylintToggleBlock = true;
-            enabled = false;
+            this.state.toggleBlock = true;
+            this.state.testsEnabled = false;
             return;
         }
 
-        if ( stylintToggleBlock && line.indexOf('@stylint on') !== -1 ) {
-            stylintToggleBlock = false;
-            enabled = true;
+        if ( this.state.toggleBlock && line.indexOf('@stylint on') !== -1 ) {
+            this.state.toggleBlock = false;
+            this.state.testsEnabled = true;
         }
     }
 
     // by default we skip css literals, but if css literal option set to true we throw a warning
     if ( config.cssLiteral === false && line.indexOf('@css') !== -1 ) {
-        cssBlock = true;
+        this.state.cssBlock = true;
         return;
     }
 
     // if we're in a css block, check for the end of it
-    if ( cssBlock ) {
-        enabled = false;
+    if ( this.state.cssBlock ) {
+        this.state.testsEnabled = false;
 
         // hash ending checks for } as the first character
         if ( hashEnding(line, true) ) {
-            cssBlock = false;
-            enabled = true;
+            this.state.cssBlock = false;
+            this.state.testsEnabled = true;
             return;
         }
     }
 
     // are we running any tests at all?
-    if ( enabled ) {
+    if ( this.state.testsEnabled ) {
         // check for comment style (//dont do this. // do this)
         if ( hasComment(line) ) {
-            if ( config.commentSpace || strict ) {
+            if ( config.commentSpace || this.state.strictMode ) {
                 if ( commentStyleCorrect(line) === false ) {
-                    warnings.push( chalk.yellow('line comments require a space after //') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+                    this.warnings.push( chalk.yellow('line comments require a space after //') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
             }
         }
@@ -247,176 +227,176 @@ module.exports = function test( areWeDone, config, line, num, output, file ) {
 
             // the only valid use of brackets is in a hash
             if ( hashStarting(line) ) {
-                areWeInAHash = true;
+                this.state.hash = true;
                 return;
             }
 
             // if the above equals true we check for the end of the hash
-            if ( hashEnding( line, areWeInAHash ) ) {
-                areWeInAHash = false;
+            if ( hashEnding( line, this.state.hash ) ) {
+                this.state.hash = false;
                 return;
             }
 
             // check that commas are followed by a space
-            if ( config.cssLiteral || strict ) {
+            if ( config.cssLiteral || this.state.strictMode ) {
                 if ( cssLiteral(line) ) {
-                    warnings.push( chalk.yellow('refrain from using css literals') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+                    this.warnings.push( chalk.yellow('refrain from using css literals') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                     return;
                 }
             }
 
             // check for brackets (except in hash)
-            if ( config.brackets || strict ) {
-                if ( brackets(line, areWeInAHash) && !cssBlock ) {
-                    warnings.push( chalk.yellow('unecessary bracket') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+            if ( config.brackets || this.state.strictMode ) {
+                if ( brackets( line, this.state.hash ) && !this.state.cssBlock ) {
+                    this.warnings.push( chalk.yellow('unecessary bracket') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
             }
 
             // check that commas are followed by a space
-            if ( config.commaSpace || strict ) {
+            if ( config.commaSpace || this.state.strictMode ) {
                 if ( commaStyleCorrect(line) === false ) {
-                    warnings.push( chalk.yellow('commas must be followed by a space for readability') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+                    this.warnings.push( chalk.yellow('commas must be followed by a space for readability') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
             }
 
             // check for extra spaces when using parens
-            if ( config.mixinSpace || config.parenSpace || strict ) {
+            if ( config.mixinSpace || config.parenSpace || this.state.strictMode ) {
                 if ( parenStyleCorrect(line) === false ) {
-                    warnings.push( chalk.yellow('( $param1, $param2 ) is preferred over ($param1, $param2)') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+                    this.warnings.push( chalk.yellow('( $param1, $param2 ) is preferred over ($param1, $param2)') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
             }
 
             // check for border none (prefer border 0)
-            if ( config.borderNone || strict ) {
+            if ( config.borderNone || this.state.strictMode ) {
                 if ( checkBorderNone(line) ) {
-                    warnings.push( chalk.yellow('border 0 is preferred over border none') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+                    this.warnings.push( chalk.yellow('border 0 is preferred over border none') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
             }
 
             // check for border none (prefer border 0)
-            if ( config.leadingZero || strict ) {
+            if ( config.leadingZero || this.state.strictMode ) {
                 if ( leadingZero(line) ) {
-                    warnings.push( chalk.yellow('leading zeros for decimal points are unecessary') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+                    this.warnings.push( chalk.yellow('leading zeros for decimal points are unecessary') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
             }
 
             // check for @block when defining block var
-            if ( config.enforceBlockStyle || strict ) {
+            if ( config.enforceBlockStyle || this.state.strictMode ) {
                 if ( blockStyleCorrect(line) === false ) {
-                    warnings.push( chalk.yellow('block variables must include @block') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+                    this.warnings.push( chalk.yellow('block variables must include @block') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
             }
 
             // check for @extend(s) preference
-            if ( config.extendPref || strict ) {
-                if ( strict && config.extendPref === false ) {
+            if ( config.extendPref || this.state.strictMode ) {
+                if ( this.state.strictMode && config.extendPref === false ) {
                     config.extendPref = '@extends';
                 }
 
                 if ( extendStyleCorrect(line, config.extendPref) === false ) {
-                    warnings.push( chalk.yellow('please use the ' + config.extendPref + ' syntax when extending') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+                    this.warnings.push( chalk.yellow('please use the ' + config.extendPref + ' syntax when extending') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
             }
 
             // check for naming convention preference
-            if ( config.namingConvention || strict ) {
-                if ( strict && config.namingConvention === false ) {
+            if ( config.namingConvention || this.state.strictMode ) {
+                if ( this.state.strictMode && config.namingConvention === false ) {
                     config.namingConvention = 'lowercase-dash';
                 }
 
                 if ( namingConvention(line, config.namingConvention) === false ) {
-                    warnings.push( chalk.yellow('preferred naming convention is ' + config.namingConvention) + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+                    this.warnings.push( chalk.yellow('preferred naming convention is ' + config.namingConvention) + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
             }
 
             // only extend placeholder vars (or not)
-            if ( config.placeholders || strict ) {
+            if ( config.placeholders || this.state.strictMode ) {
                 if ( placeholderStyleCorrect(line) === false ) {
-                    warnings.push( chalk.yellow('please extend only placeholder vars') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+                    this.warnings.push( chalk.yellow('please extend only placeholder vars') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
             }
 
             // check for $ at start of var
-            if ( config.enforceVarStyle || strict ) {
+            if ( config.enforceVarStyle || this.state.strictMode ) {
                 if ( varStyleCorrect(line) === false ) {
-                    warnings.push( chalk.yellow('variables must be prefixed with the $ sign.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+                    this.warnings.push( chalk.yellow('variables must be prefixed with the $ sign.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
             }
 
             // check for * selector (* is discouraged)
-            if ( config.universal || strict ) {
+            if ( config.universal || this.state.strictMode ) {
                 if ( universalSelector(line) ) {
-                    warnings.push( chalk.yellow('* selector is slow. Consider a different selector.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+                    this.warnings.push( chalk.yellow('* selector is slow. Consider a different selector.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
             }
 
             // check for unecessary : (margin 0 is preferred over margin: 0)
-            if ( config.colons || strict ) {
-                if ( colon(line, areWeInAHash) ) {
-                    warnings.push( chalk.yellow('unecessary colon found:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+            if ( config.colons || this.state.strictMode ) {
+                if ( colon( line, this.state.hash ) ) {
+                    this.warnings.push( chalk.yellow('unecessary colon found:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
             }
 
             // check for unecessary ; (margin 0; is invalid)
-            if ( config.semicolons || strict ) {
+            if ( config.semicolons || this.state.strictMode ) {
                 if ( semicolon(line) ) {
-                    warnings.push( chalk.yellow('unecessary semicolon found:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+                    this.warnings.push( chalk.yellow('unecessary semicolon found:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
             }
 
             // check for places where we can be more efficient (margin 0 50px vs margin 0 50px 0 50px)
-            if ( config.efficient || strict ) {
+            if ( config.efficient || this.state.strictMode ) {
                 if ( efficient( line, arr ) === false ) {
-                    warnings.push( chalk.yellow('the value on this line could be more succinct:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+                    this.warnings.push( chalk.yellow('the value on this line could be more succinct:') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
             }
 
             // check mixed spaces and tabs
-            if ( config.mixed || strict ) {
+            if ( config.mixed || this.state.strictMode ) {
                 // console.log( config.indentSpaces );
                 // else check tabs against tabs and spaces against spaces
                 if ( mixedSpacesAndTabs( line, config.indentSpaces ) ) {
-                    warnings.push( chalk.yellow('mixed spaces and tabs') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+                    this.warnings.push( chalk.yellow('mixed spaces and tabs') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
             }
 
 
             // check for trailing whitespace
-            if ( config.trailingWhitespace || strict ) {
+            if ( config.trailingWhitespace || this.state.strictMode ) {
                 if ( whitespace( line ) ) {
-                    warnings.push( chalk.yellow('trailing whitespace') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+                    this.warnings.push( chalk.yellow('trailing whitespace') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
             }
 
             // check selector depth
-            if ( config.depthLimit || strict ) {
+            if ( config.depthLimit || this.state.strictMode ) {
                 // else check tabs against tabs and spaces against spaces
                 if ( tooMuchNest( line, arr, config.depthLimit, config.indentSpaces ) ) {
-                    warnings.push( chalk.yellow('selector depth greater than', config.depthLimit + ':') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+                    this.warnings.push( chalk.yellow('selector depth greater than', config.depthLimit + ':') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
             }
 
             // check valid properties and values
-            if ( config.valid || strict ) {
+            if ( config.valid || this.state.strictMode ) {
                 if ( validProperty( line, validCSS, validHTML ) === false ) {
-                    warnings.push( chalk.yellow('property is not valid') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+                    this.warnings.push( chalk.yellow('property is not valid') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
                 // if ( validValue( line, arr, validCSS, validHTML ) === false ) {
-                //     warnings.push( chalk.yellow('value is not valid') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+                //     this.warnings.push( chalk.yellow('value is not valid') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 // }
             }
 
             // check for 0px (margin 0 is preferred over margin 0px | 0em | 0whatever)
-            if ( config.zeroUnits || config.unecessaryPx || strict ) {
+            if ( config.zeroUnits || config.unecessaryPx || this.state.strictMode ) {
                 if ( zeroUnits(line) ) {
-                    warnings.push( chalk.yellow('0 is preferred. Unit value is unnecessary') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+                    this.warnings.push( chalk.yellow('0 is preferred. Unit value is unnecessary') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
             }
 
             // check for 0px (margin 0 is preferred over margin 0px | 0em | 0whatever)
-            // if ( config.zIndexr || strict ) {
+            // if ( config.zIndexr || this.state.strictMode ) {
             //     if ( zIndexr(line, arr, config.zIndexr) ) {
-            //         warnings.push( chalk.yellow('0 is preferred. Unit value is unnecessary') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+            //         this.warnings.push( chalk.yellow('0 is preferred. Unit value is unnecessary') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
             //     }
             // }
         }
