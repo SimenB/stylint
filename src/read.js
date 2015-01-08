@@ -1,21 +1,14 @@
-const
-    fs    = require('fs'),
-    glob  = require('glob').Glob;   // oh my (file) glob
-
-
 /**
  * @description determines what files to read, creates an array of them, and passes it to be parsed
- * @param  {[type]} lintMe [description]
- * @param  {[type]} config [description]
- * @returns function
+ * @returns parse function
  */
 module.exports = function read() {
     'use strict';
     var app = this;
 
     // if nothing passed in, default to linting the curr dir
-    if ( this.state.dir === process.cwd() ) {
-        glob( app.state.dir + '/**/*.styl', {}, function( err, files ) {
+    if ( app.state.dir === process.cwd() ) {
+        app.glob( app.state.dir + '/**/*.styl', {}, function( err, files ) {
             if ( err ) { throw err; }
             var len = files.length - 1;
 
@@ -37,7 +30,7 @@ module.exports = function read() {
                 return app.parse( app.state.dir, 1, 1 );
             }
             else if ( stats.isDirectory() ) {
-                glob(app.state.dir + '**/*.styl', {}, function( err, files ) {
+                app.glob(app.state.dir + '**/*.styl', {}, function( err, files ) {
                     if ( err ) { throw err; }
                     var len = files.length - 1;
 

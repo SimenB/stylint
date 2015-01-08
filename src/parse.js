@@ -1,20 +1,16 @@
-const fs   = require('fs');
-
-
 /**
  * @description parses file for testing by removing extra new lines and block comments
  * @param  {string} file        [the current file being parsed]
  * @param  {number} len         [total number of files to parse]
- * @param  {number} currFile    [the current file being parsed (# of len) ]
- * @param  {number} config      [our config object]
- * @returns function
+ * @param  {number} fileNum     [the current file being parsed (# of len) ]
+ * @returns test function
  */
 module.exports = function parse( file, len, fileNum ) {
     'use strict';
     var app = this,
         stripComments = /(\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*+\/)/gm;
 
-    fs.readFile(file, { encoding: 'utf8' }, function( err, data ) {
+    app.fs.readFile(file, { encoding: 'utf8' }, function( err, data ) {
         if ( err ) { throw err; }
         var lines;
 

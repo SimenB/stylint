@@ -1,6 +1,7 @@
 var chalk = require('chalk');
 
 module.exports = function monitorEventLoopDelays() {
+    'use strict'
     var getHrDiffTime = function( time ) {
         var ts = process.hrtime( time );
         // convert seconds to miliseconds and nanoseconds to miliseconds as well

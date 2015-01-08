@@ -1,7 +1,6 @@
 // called when -h or --help used, just displays options
 module.exports = function help() {
     'use strict';
-
     console.log( '\nStylint' );
     console.log( 'Usage: stylint [dir | file] [options]\n' );
     console.log( 'Options:');

@@ -10,20 +10,16 @@
 */
 
 
+// all modules go here
 const
-	fs		= require('fs'),
-	argv    = require('yargs').argv,	// cli cli cli
-	loop	= require('./src/delay'),	// monitor event loop for slowdowns
-	read 	= require('./src/read'),	// reads files
-	parse 	= require('./src/parse'),   // parse the files
-	test 	= require('./src/test'),    // run all enabled tests
-	done 	= require('./src/done'),    // run all enabled tests
-	help	= require('./src/help'),	// help messages
-	ver		= require('./src/version'),	// version message
-	watch	= require('./src/watch'), 	// file watcher, calls init on change
+	argv    = require('yargs').argv,
 	stampit = require('stampit');
 
 
+/**
+ * @description i hold the functionality
+ * @return {Object} [i expose all of our modules to the entire app]
+ */
 var state = stampit().state({
 	config: {
         'borderNone': true, // check for use of border none and recommend border 0
@@ -81,24 +77,84 @@ var state = stampit().state({
 });
 
 
-var methods = stampit().enclose(function () {
+/**
+ * @description i hold the npm
+ * @return {Object} [i expose the modules to the entire app, so we only need to get them once]
+ */
+var npmMethods = stampit().enclose(function () {
+    return stampit.extend(this, {
+        fs: require('fs'),
+        chalk: require('chalk'),
+        glob: require('glob').Glob,
+    });
+});
+
+
+/**
+ * @description i hold the functionality
+ * @return {Object} [i expose the modules to the entire app, so we only do it once]
+ */
+var coreMethods = stampit().enclose(function () {
 	return stampit.extend(this, {
-		done: done,
-		help: help,
-		read: read,
-		parse: parse,
-		test: test,
-		watch: watch,
-		ver: ver
+        done: require('./src/done'),
+        help: require('./src/help'),
+        read: require('./src/read'),
+        parse: require('./src/parse'),
+        test: require('./src/test'),
+        watch: require('./src/watch'),
+        ver: require('./src/version')
 	});
 });
 
 
+/**
+ * @description i hold the tests (not the unit test, the other tests)
+ * @return {Object} [i expose the to the entire app]
+ */
+var testMethods = stampit().enclose(function () {
+    return stampit.extend(this, {
+        blockStyleCorrect       : require('./src/checks/checkBlockStyle'),
+        brackets                : require('./src/checks/checkForBrackets'),
+        checkBorderNone         : require('./src/checks/checkBorderNone'),
+        colon                   : require('./src/checks/checkForColon'),
+        commaStyleCorrect       : require('./src/checks/checkCommaStyle'),
+        commentStyleCorrect     : require('./src/checks/checkCommentStyle'),
+        cssLiteral              : require('./src/checks/checkForCssLiteral'),
+        efficient               : require('./src/checks/checkForEfficiency'),
+        extendStyleCorrect      : require('./src/checks/checkForExtendStyle'),
+        hasComment              : require('./src/checks/checkForComment'),
+        hashEnding              : require('./src/checks/checkForHashEnd'),
+        hashStarting            : require('./src/checks/checkForHashStart'),
+        leadingZero             : require('./src/checks/checkForLeadingZero'),
+        mixedSpacesAndTabs      : require('./src/checks/checkForMixedSpacesTabs'),
+        namingConvention        : require('./src/checks/checkNamingConvention'),
+        parenStyleCorrect       : require('./src/checks/checkForParenStyle'),
+        placeholderStyleCorrect : require('./src/checks/checkForPlaceholderStyle'),
+        semicolon               : require('./src/checks/checkForSemicolon'),
+        startsWithComment       : require('./src/checks/checkForCommentStart'),
+        tooMuchNest             : require('./src/checks/checkNesting'),
+        universalSelector       : require('./src/checks/checkForUniversal'),
+        whitespace              : require('./src/checks/checkForTrailingWhitespace'),
+        validProperty           : require('./src/checks/checkForValidProperties'),
+        validValue              : require('./src/checks/checkForValidValues'),
+        varStyleCorrect         : require('./src/checks/checkVarStyle'),
+        zeroUnits               : require('./src/checks/checkForZeroUnits'),
+        zIndexr                 : require('./src/checks/zIndexr'),
+        validCSS                : require('./src/checks/validCSS'),
+        validHTML               : require('./src/checks/validHTML')
+    });
+});
+
+
+/**
+ * @description i initialize everything
+ * @return {Function} [calls the part of the app we want, depending on state]
+ */
 var init = stampit().enclose(function () {
-	var app = this; // for readFile
+	var app = this; // cause scope
 
 	// kickoff linter, default to linting curr dir if no file or dir passed
-	this.kickoff = function() {
+	app.kickoff = function() {
 		if ( app.state.watch ) {
 			return app.watch( app.state.dir );
 		}
@@ -108,27 +164,27 @@ var init = stampit().enclose(function () {
 	}
 
     // if path/ passed in use that for the dir
-    if ( process.argv[2] && this.flags.indexOf( process.argv[2] ) === -1 ) {
-        this.state.dir = process.argv[2];
+    if ( process.argv[2] && app.flags.indexOf( process.argv[2] ) === -1 ) {
+        app.state.dir = process.argv[2];
     }
 
 	// display help message if user types --help
-	if ( this.state.help ) {
-		return this.help();
+	if ( app.state.help ) {
+		return app.help();
 	}
 
 	// output version # from package.json
-	if ( this.state.version ) {
-		return this.ver();
+	if ( app.state.version ) {
+		return app.ver();
 	}
 
 	if ( argv.s || argv.strict ) {
-	    this.state.strictMode = true;
+	    app.state.strictMode = true;
 	}
 
 	// if -c or --config flags used
-	if ( this.state.config ) {
-	    fs.readFile( process.cwd() + '/' + app.state.config, function( err, data ) {
+	if ( app.state.config ) {
+	    app.fs.readFile( process.cwd() + '/' + app.state.config, function( err, data ) {
 	        if ( err ) { throw err; }
 	        app.config = JSON.parse( data );
 	        return app.kickoff();
@@ -136,9 +192,10 @@ var init = stampit().enclose(function () {
 	}
 	// else default kickoff
 	else {
-		return this.kickoff();
+		return app.kickoff();
 	}
 });
 
 
-var Lint = stampit().compose( methods, state, init ).create();
+// let there be light ( ! )
+var Lint = stampit().compose( npmMethods, coreMethods, testMethods, state, init ).create();

@@ -1,14 +1,10 @@
-const
-    fs = require('fs'),
-    chalk = require('chalk');
-
 // called when --version or -v flags used, just displays version number
 module.exports = function version() {
     'use strict';
+    var app = this;
 
-    fs.readFile('package.json', function( err, data ) {
+    app.fs.readFile('package.json', function( err, data ) {
         if ( err ) { throw err; }
-        var ver = JSON.parse( data ).version;
-        console.log( chalk.blue('\nStylint version: '), ver, '\n' );
+        console.log( app.chalk.blue('\nStylint version: '), JSON.parse( data ).version, '\n' );
     });
 }
