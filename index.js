@@ -199,3 +199,4 @@ var init = stampit().enclose(function () {
 
 // let there be light ( ! )
 var Lint = stampit().compose( npmMethods, coreMethods, testMethods, state, init ).create();
+module.exports = Lint;

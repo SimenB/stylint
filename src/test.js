@@ -105,7 +105,7 @@ module.exports = function test( line, num, output, file ) {
             // check for extra spaces when using parens
             if ( config.mixinSpace || config.parenSpace || app.state.strictMode ) {
                 if ( app.parenStyleCorrect(line) === false ) {
-                    app.warnings.push( app.chalk.yellow('( $param1, $param2 ) is preferred over ($param1, $param2)') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+                    app.warnings.push( app.chalk.yellow('( param1, param2 ) is preferred over (param1, param2)') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
             }
 

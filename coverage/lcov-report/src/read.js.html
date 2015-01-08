@@ -199,16 +199,16 @@
     <h1>Code coverage report for <span class="entity">src/read.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">42.31% <small>(11 / 26)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">4.76% <small>(1 / 21)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">33.33% <small>(6 / 18)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">0% <small>(0 / 12)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">50% <small>(3 / 6)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">0% <small>(0 / 6)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">47.83% <small>(11 / 23)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">5.56% <small>(1 / 18)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
@@ -259,76 +259,22 @@
 41
 42
 43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+44</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -356,49 +302,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const
-    fs    = require('fs'),
-    glob  = require('glob').Glob,   // oh my (file) glob
-    parse = require('./parse');      // parse the files
-&nbsp;
-&nbsp;
-/**
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
  * @description determines what files to read, creates an array of them, and passes it to be parsed
- * @param  {[type]} lintMe [description]
- * @param  {[type]} config [description]
- * @returns function
+ * @returns parse function
  */
-module.exports = function read( lintMe, config ) {
+module.exports = <span class="fstat-no" title="function not covered" >function read() {</span>
     'use strict';
-&nbsp;
-    <span class="missing-if-branch" title="if path not taken" >I</span>if ( typeof lintMe === 'undefined' ) {
-<span class="cstat-no" title="statement not covered" >        throw Error('Files or file (lintMe) not defined');</span>
-    }
-    <span class="missing-if-branch" title="if path not taken" >I</span>if ( typeof config === 'undefined' ) {
-<span class="cstat-no" title="statement not covered" >        throw Error('No config file passed in');</span>
-    }
-&nbsp;
-    var flags = [
-        '-c',
-        '-w',
-        '-s',
-        '-v',
-        '-h',
-        '--config',
-        '--watch',
-        '--strict',
-        '--version',
-        '--help'
-    ];
+<span class="cstat-no" title="statement not covered" >    var app = this;</span>
 &nbsp;
     // if nothing passed in, default to linting the curr dir
-    <span class="missing-if-branch" title="else path not taken" >E</span>if ( flags.indexOf( lintMe ) !== -1 || lintMe === 'nothing' ) {
-        glob('**/*.styl', {}, function(err, files) {
-            <span class="missing-if-branch" title="if path not taken" >I</span>if ( err ) { <span class="cstat-no" title="statement not covered" >throw err; </span>}
-            var len = files.length - 1;
+<span class="cstat-no" title="statement not covered" >    if ( app.state.dir === process.cwd() ) {</span>
+<span class="cstat-no" title="statement not covered" >        app.glob( app.state.dir + '/**/*.styl', {}, <span class="fstat-no" title="function not covered" >function( err, files ) {</span></span>
+<span class="cstat-no" title="statement not covered" >            if ( err ) { <span class="cstat-no" title="statement not covered" >throw err; </span>}</span>
+<span class="cstat-no" title="statement not covered" >            var len = files.length - 1;</span>
 &nbsp;
-            files.forEach(function( file, i ) {
-                return parse( file, len, i, config );
+<span class="cstat-no" title="statement not covered" >            files.forEach(<span class="fstat-no" title="function not covered" >function( file, i ) {</span></span>
+<span class="cstat-no" title="statement not covered" >                return app.parse( file, len, i );</span>
             });
         });
     }
@@ -408,19 +327,19 @@ module.exports = function read( lintMe, config ) {
      * if directory we use the glob logic to return an array of files to test
      */
     else {
-<span class="cstat-no" title="statement not covered" >        fs.stat(lintMe, <span class="fstat-no" title="function not covered" >function( err, stats ) {</span></span>
+<span class="cstat-no" title="statement not covered" >        app.fs.stat(app.state.dir, <span class="fstat-no" title="function not covered" >function( err, stats ) {</span></span>
 <span class="cstat-no" title="statement not covered" >            if ( err ) { <span class="cstat-no" title="statement not covered" >throw err; </span>}</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >            if ( stats.isFile() ) {</span>
-<span class="cstat-no" title="statement not covered" >                return parse( lintMe, 1, 1, config );</span>
+<span class="cstat-no" title="statement not covered" >                return app.parse( app.state.dir, 1, 1 );</span>
             }
             else <span class="cstat-no" title="statement not covered" >if ( stats.isDirectory() ) {</span>
-<span class="cstat-no" title="statement not covered" >                glob(lintMe + '**/*.styl', {}, <span class="fstat-no" title="function not covered" >function( err, files ) {</span></span>
+<span class="cstat-no" title="statement not covered" >                app.glob(app.state.dir + '**/*.styl', {}, <span class="fstat-no" title="function not covered" >function( err, files ) {</span></span>
 <span class="cstat-no" title="statement not covered" >                    if ( err ) { <span class="cstat-no" title="statement not covered" >throw err; </span>}</span>
 <span class="cstat-no" title="statement not covered" >                    var len = files.length - 1;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >                    files.forEach(<span class="fstat-no" title="function not covered" >function(file, i) {</span></span>
-<span class="cstat-no" title="statement not covered" >                        return parse( file, len, i, config );</span>
+<span class="cstat-no" title="statement not covered" >                    files.forEach(<span class="fstat-no" title="function not covered" >function( file, i ) {</span></span>
+<span class="cstat-no" title="statement not covered" >                        return app.parse( file, len, i );</span>
                     });
                 });
             }
@@ -431,7 +350,7 @@ module.exports = function read( lintMe, config ) {
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jan 02 2015 16:20:04 GMT-0800 (PST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Jan 08 2015 00:20:42 GMT-0800 (PST)</div>
 </div>
 
 <script src="../prettify.js"></script>

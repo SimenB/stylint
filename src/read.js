@@ -23,7 +23,7 @@ module.exports = function read() {
      * if directory we use the glob logic to return an array of files to test
      */
     else {
-        fs.stat(app.state.dir, function( err, stats ) {
+        app.fs.stat(app.state.dir, function( err, stats ) {
             if ( err ) { throw err; }
 
             if ( stats.isFile() ) {
