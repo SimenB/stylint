@@ -23,4 +23,6 @@ module.exports = function done() {
     else {
         console.log( '\uD83D\uDCA9 ', chalk.yellow( len + ' Warnings\n' ) );
     }
+
+    this.warnings = [];
 }

@@ -3,9 +3,9 @@
 /**
  * Stylus Lint (splinter) (the p is silent)
  * @description A basic, configurable, node based, stylus linter cli
- *              init() -> read() -> parse() -> test() -> done()
+ *              read() -> parse() -> test() -> done()
  *              or
- *              watch() -> init() -> read() -> parse() -> test() -> done()
+ *              watch() -> read() -> parse() -> test() -> done()
  * @flow
 */
 
@@ -32,7 +32,7 @@ var state = stampit().state({
         'commaSpace': true, // check for spaces after commas (0, 0, 0, .18)
         'commentSpace': false, // check for space after line comment
         'cssLiteral': false, // if true disallow css literals
-        'depthLimit': 4, // set a maximum selector depth (dont nest more than 4 deep)
+        'depthLimit': 5, // set a maximum selector depth (dont nest more than 4 deep)
         'efficient': true, // check for margin 0 0 0 0 and recommend margin 0
         'enforceVarStyle': false, // check for $ when declaring vars (doesnt check use)
         'enforceBlockStyle': false, // check for @block when defining blocks
@@ -64,18 +64,18 @@ var state = stampit().state({
         '--help'
     ],
     state: {
-    	config: argv.c || argv.config,
+    	config: argv.c ? argv.c : argv.config,
     	cssBlock: false,
-    	dir: process.argv[2],
+    	dir: process.cwd(),
     	done: false,
-    	help: argv.help || argv.h,
+    	help: argv.h ? argv.h : argv.help,
     	hash: false,
     	stateOverride: false,
     	strictMode: false,
     	testsEnabled: true,
     	toggleBlock: false,
-    	watch: argv.watch || argv.w,
-    	version: argv.version || argv.v
+    	watch: argv.w ? argv.w : argv.watch,
+    	version: argv.v ? argv.v : argv.v
     },
     warnings: []
 });
@@ -100,12 +100,17 @@ var init = stampit().enclose(function () {
 	// kickoff linter, default to linting curr dir if no file or dir passed
 	this.kickoff = function() {
 		if ( app.state.watch ) {
-			return app.watch( this.dir );
+			return app.watch( app.state.dir );
 		}
 		else {
-			return app.read( this.dir );
+			return app.read( app.state.dir );
 		}
 	}
+
+    // if path/ passed in use that for the dir
+    if ( process.argv[2] && this.flags.indexOf( process.argv[2] ) === -1 ) {
+        this.state.dir = process.argv[2];
+    }
 
 	// display help message if user types --help
 	if ( this.state.help ) {
@@ -123,10 +128,10 @@ var init = stampit().enclose(function () {
 
 	// if -c or --config flags used
 	if ( this.state.config ) {
-	    fs.readFile( app.state.config, function( err, data ) {
+	    fs.readFile( process.cwd() + '/' + app.state.config, function( err, data ) {
 	        if ( err ) { throw err; }
 	        app.config = JSON.parse( data );
-	        return this.kickoff();
+	        return app.kickoff();
 	    });
 	}
 	// else default kickoff

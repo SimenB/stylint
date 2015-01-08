@@ -14,8 +14,8 @@ module.exports = function read() {
     var app = this;
 
     // if nothing passed in, default to linting the curr dir
-    if ( this.flags.indexOf( this.dir ) !== -1 || !this.dir ) {
-        glob('**/*.styl', {}, function(err, files) {
+    if ( this.state.dir === process.cwd() ) {
+        glob( app.state.dir + '/**/*.styl', {}, function( err, files ) {
             if ( err ) { throw err; }
             var len = files.length - 1;
 
@@ -30,14 +30,14 @@ module.exports = function read() {
      * if directory we use the glob logic to return an array of files to test
      */
     else {
-        fs.stat(app.dir, function( err, stats ) {
+        fs.stat(app.state.dir, function( err, stats ) {
             if ( err ) { throw err; }
 
             if ( stats.isFile() ) {
-                return app.parse( app.dir, 1, 1 );
+                return app.parse( app.state.dir, 1, 1 );
             }
             else if ( stats.isDirectory() ) {
-                glob(app.dir + '**/*.styl', {}, function( err, files ) {
+                glob(app.state.dir + '**/*.styl', {}, function( err, files ) {
                     if ( err ) { throw err; }
                     var len = files.length - 1;
 
