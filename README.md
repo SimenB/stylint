@@ -2,6 +2,7 @@
 
 not stable yet. please report any issues you see and update often. i'm adding new features and fixing bugs all the time. don't be surprised if most things change by 1.0. it is however perfectly good to use now if you don't mind the terminal and hitting the occasional bug.
 
+
 ## CLI
 -h or --help    Display list of commands
 
@@ -14,13 +15,43 @@ not stable yet. please report any issues you see and update often. i'm adding ne
 -v or --version Display current version
 
 
+##### Example CLI Usage:
+`stylint` Run stylint on cwd
+
+`stylint path/to/styl -s` Run stylint in strict mode, for masochists
+
+`stylint path/to/filename.styl` Run stylint on a file
+
+`stylint path/to/dir -w` Watch dir, run stylint on file change
+
+`stylint -h` Get list of commands
+
+`stylint -v` Get version number
+
+`stylint -c path/to/config/.configrc` Run stylint with custom config settings
+
+`stylint styl/ -w -c path/to/config/.configrc` Watch dir, use custom config
+
+
+#### Example Gulp Usage
+So there's no gulp/grunt plugin for this yet, but no worries, just use a shell plugin like so:
+
+```
+gulp.task('stylint', shell.task([
+    'stylint path/to/styl/ -c .stylintrc'
+]));
+```
+
+##### Known Issues:
+The depthLimit / valid options are throwing occasional false positives. They are not enabled by default (depthLimit used to be but it's been turned off for now). You can enable them if you want.
+
+This will be fixed by 1.0, use those options at your own risk. If they give you problems use a `@stylint off` comment.
+
+
 ## Options
 The following is a list of the options available to stylinter. Use the -c or --config flag to pass in the location of your custom .stylintrc config file if you want to change the defaults. Alternatively, you could pass the -s or --strict flag to run stylint as though everything was set to true, config file or not.
 
-The default settings are pretty weak, only checking for things that actually affect css output. If you want to enforce a particular styleguide, you'll have to set up your own config file. Below is the default config.
-
-###### Known Issues:
-Both the mixed and namingConvention options are throwing occasional false positives. This will be fixed soon, but use those options at your own risk.
+The default settings are pretty weak and unopinionated (i think). If you want to enforce a particular styleguide, you'll have to set up your own config file. Below is the default config.
 
 ```
 {
@@ -30,7 +61,7 @@ Both the mixed and namingConvention options are throwing occasional false positi
     'commaSpace': true,
     'commentSpace': false,
     'cssLiteral': false,
-    'depthLimit': 4,
+    'depthLimit': false,
     'efficient': true,
     'enforceVarStyle': false,
     'enforceBlockStyle': false,
@@ -91,7 +122,7 @@ By default stylint ignores `@css` blocks. If set to true however, it will throw 
 Example if true: `@css` will throw a warning
 
 
-### depthLimit (default: 4, number or false)
+### depthLimit (default: false, number or false)
 Set the max selector depth. Pseudo selectors like `&:first-child` or `&:hover` won't count towards the limit.
 
 Set to false if you don't want to check for this.
@@ -145,6 +176,13 @@ Set 'max' number of warnings. Currently this just displays a slightly sterner me
 Returns true if mixed spaces and tabs are found. If a number is passed to indentPref (4 is the default), it assumes soft tabs (ie, spaces), and if false is passed to indentPref it assumes hard tabs.
 
 If soft tabs, throws warning if hard tabs used. If hard tabs, throws warning if unnecessary extra spaces found.
+
+Example if indentPref: 4 and mixed: true: prefer `\s\s\s\smargin\s0` over `\tmargin\s0`
+
+Example if indentPref: 2 and mixed: true: prefer `\s\smargin\s0` over `\tmargin\s0`
+
+Example if indentPref: false and mixed: true: prefer `\tmargin\s0` over `\s\s\s\smargin\s0`
+
 
 
 ### namingConvention (default: false, false | 'lowercase-dash' | 'lowercase-underscore' | 'camelCase')
