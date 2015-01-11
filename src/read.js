@@ -10,8 +10,9 @@ module.exports = function read( app, path ) {
     'use strict';
 
     // if nothing passed in, default to linting the curr dir
+    // here we get all the files to parse first, then we pass to app.parse
     if ( path === process.cwd() ) {
-        app.parseFiles( path + '/**/*.styl' );
+        app.getFiles( path + '/**/*.styl' );
     }
 
     /**
@@ -23,10 +24,10 @@ module.exports = function read( app, path ) {
             if ( err ) { throw err; }
 
             if ( stats.isFile() ) {
-                return app.parse( app, path, 1, 1 );
+                return app.parseFile( app, path, 1, 1 );
             }
             else if ( stats.isDirectory() ) {
-                app.parseFiles( path + '/**/*.styl' );
+                app.getFiles( path + '/**/*.styl' );
             }
         });
     }

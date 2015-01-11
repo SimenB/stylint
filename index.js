@@ -127,7 +127,7 @@ var state = stampit().state({
  * @return {Object} [i expose the modules to the entire app, so we only do it once]
  */
 var coreMethods = stampit().methods({
-    parseFiles: function( path ) {
+    getFiles: function( path ) {
         var app = this;
 
         glob(path, {}, function( err, files ) {
@@ -135,7 +135,7 @@ var coreMethods = stampit().methods({
             var len = files.length - 1;
 
             files.forEach(function( file, i ) {
-                return app.parse( app, file, len, i );
+                return app.parseFile( app, file, len, i );
             });
         });
     },
@@ -145,7 +145,7 @@ var coreMethods = stampit().methods({
     done: done,
     help: help,
     read: read,
-    parse: parse,
+    parseFile: parse,
     test: test,
     ver: ver,
     watch: watch

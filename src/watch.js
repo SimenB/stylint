@@ -10,12 +10,12 @@ const
  */
 module.exports = function watch( app, path ) {
     'use strict';
+    if ( typeof path === 'undefined' ) { return; }
     var watcher = chokidar.watch( path );
 
     // initial watch msg
     watcher.on('ready', function() {
-        if ( app.state.testENV ) { return; }
-        console.log( chalk.blue('Watching: '), path, ' for changes.' );
+        return console.log( chalk.blue('Watching: '), path, ' for changes.' );
     });
 
     // listen for changes, update 'dir' to curr file, do somethin

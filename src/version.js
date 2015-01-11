@@ -6,9 +6,11 @@ const
 module.exports = function version( app ) {
     'use strict';
 
-    return fs.readFile('package.json', function( err, data ) {
-        if ( err ) { throw err; }
-        if ( app.state.testENV ) { return; }
-        console.log( chalk.blue('\nStylint version: '), JSON.parse( data ).version, '\n' );
-    });
+    return fs.readFile('package.json',
+        function( err, data ) {
+            if ( err ) { throw err; }
+            if ( app.state.testENV ) { return; }
+            return console.log( chalk.blue('\nStylint version: '), JSON.parse( data ).version, '\n' );
+        }
+    );
 }

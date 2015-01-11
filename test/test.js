@@ -67,29 +67,29 @@ describe('Core Methods: ', function() {
     });
 
     describe('Parse: ', function() {
-        sinon.spy( app, 'parse' );
+        sinon.spy( app, 'parseFile' );
 
-        var fileTest = app.parse( app, 'styl/test2.styl' ),
-            dirTest = app.parse( app, 'styl/'),
-            failTest = app.parse( app, 'nonExistantPath' );
+        var fileTest = app.parseFile( app, 'styl/test2.styl' ),
+            dirTest = app.parseFile( app, 'styl/'),
+            failTest = app.parseFile( app, 'nonExistantPath' );
 
         it('should be a function', function() {
-            app.parse.should.be.a( 'function' );
+            app.parseFile.should.be.a( 'function' );
         });
         it('first param should be the app object', function() {
-            assert.deepEqual( app.parse.getCall(0).args[0], app );
+            assert.deepEqual( app.parseFile.getCall(0).args[0], app );
         });
         it('second param should be a string', function() {
-            app.parse.getCall(0).args[1].should.be.a( 'string' );
+            app.parseFile.getCall(0).args[1].should.be.a( 'string' );
         });
         it('should return test function if passed a filename', function() {
-            app.parse.getCall(0).returned( sinon.match.same( app.test ) );
+            app.parseFile.getCall(0).returned( sinon.match.same( app.test ) );
         });
         it('should return undefined if path is directory', function() {
-            assert.equal( undefined, app.parse.getCall(1).returnValue );
+            assert.equal( undefined, app.parseFile.getCall(1).returnValue );
         });
         it('should return undefined if path doesnt exist', function() {
-            assert.equal( undefined, app.parse.getCall(2).returnValue );
+            assert.equal( undefined, app.parseFile.getCall(2).returnValue );
         });
     });
 
@@ -157,8 +157,8 @@ describe('Core Methods: ', function() {
         it('should be a function', function() {
             app.ver.should.be.a( 'function' );
         });
-        it('should return a function', function() {
-            app.ver.getCall(0).returned( sinon.match.same( fs.readFile ) );
+        it('should return a console log function', function() {
+            app.ver.getCall(0).returned( sinon.match.same( console.log ) );
         });
     });
 });
@@ -172,11 +172,38 @@ describe('Config: ', function() {
 
     // @TODO this one is not that great
     describe('Set Config Method:', function() {
-        it('should update config state', sinon.test(function() {
-            var testMethod = app.setConfig( '.stylintrc' ),
-                testConfig = JSON.parse( fs.readFileSync( process.cwd() + '/.stylintrc' ) );
+        var
+            testMethod = app.setConfig( '.stylintrc' ),
+            testConfig = JSON.parse( fs.readFileSync( process.cwd() + '/.stylintrc' ) );
+
+        it('should update config state if passed a valid path', function() {
             assert.deepEqual( testMethod, testConfig );
-        }));
+        });
+
+        it('should return undefined if passed invalid path', function() {
+            should.Throw(function(){
+                app.setConfig( '.nonsenserc' )
+            }, Error);
+        });
+    });
+});
+
+describe('File parser: ', function() {
+    sinon.spy( app, 'getFiles' );
+    var test = app.getFiles( '/styl' );
+
+    it('should return app.parseFile if passed directory', function() {
+        app.getFiles.getCall(0).returned( sinon.match.same( app.parseFile ) );
+    });
+
+    it('should return undefined if passed filename', function() {
+        assert.equal( undefined, app.getFiles( '/styl/test2.styl' ) );
+    });
+
+    it('should throw if passed nothing', function() {
+        should.Throw(function(){
+            assert.equal( undefined, app.getFiles() );
+        }, Error);
     });
 });
 
