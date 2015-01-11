@@ -1,4 +1,4 @@
-const chokidar = require('chokidar'); // better file watching than fs.watch
+const chokidar = require('chokidar');
 
 /**
  * kicks off the app. sets up config and kicks off reading the files
@@ -6,19 +6,19 @@ const chokidar = require('chokidar'); // better file watching than fs.watch
  * @param  {string} customConfig [path to config object]
  * @return {function}            [kick off linter on each change]
  */
-module.exports = function watch() {
+module.exports = function watch( app, path ) {
     'use strict';
-    var app = this,
-        watcher = chokidar.watch( app.state.dir );
+    var watcher = chokidar.watch( path );
 
     // initial watch msg
     watcher.on('ready', function() {
-        console.log( app.chalk.blue('Watching: '), app.state.dir, ' for changes.' );
+        if ( app.state.testENV ) { return; }
+        console.log( app.chalk.blue('Watching: '), path, ' for changes.' );
     });
 
     // listen for changes, update 'dir' to curr file, do somethin
-    watcher.on('change', function( path ) {
-        app.state.dir = path;
-        return app.read();
+    watcher.on('change', function( newPath ) {
+        app.state.dir = newPath;
+        return app.read( app, newPath );
     });
 }

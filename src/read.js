@@ -1,21 +1,17 @@
+const fs = require('fs');
+
 /**
  * @description determines what files to read, creates an array of them, and passes it to be parsed
+ * @param {object} [app] [basically the whole app]
+ * @param {string} [dir] [shorthand for app.state.dir, param so its easier to test]
  * @returns parse function
  */
-module.exports = function read() {
+module.exports = function read( app, path ) {
     'use strict';
-    var app = this;
 
     // if nothing passed in, default to linting the curr dir
-    if ( app.state.dir === process.cwd() ) {
-        app.glob( app.state.dir + '/**/*.styl', {}, function( err, files ) {
-            if ( err ) { throw err; }
-            var len = files.length - 1;
-
-            files.forEach(function( file, i ) {
-                return app.parse( file, len, i );
-            });
-        });
+    if ( path === process.cwd() ) {
+        app.parseFiles( path + '/**/*.styl' );
     }
 
     /**
@@ -23,21 +19,14 @@ module.exports = function read() {
      * if directory we use the glob logic to return an array of files to test
      */
     else {
-        app.fs.stat(app.state.dir, function( err, stats ) {
+        fs.stat(path, function( err, stats ) {
             if ( err ) { throw err; }
 
             if ( stats.isFile() ) {
-                return app.parse( app.state.dir, 1, 1 );
+                return app.parse( app, path, 1, 1 );
             }
             else if ( stats.isDirectory() ) {
-                app.glob(app.state.dir + '**/*.styl', {}, function( err, files ) {
-                    if ( err ) { throw err; }
-                    var len = files.length - 1;
-
-                    files.forEach(function( file, i ) {
-                        return app.parse( file, len, i );
-                    });
-                });
+                app.parseFiles( path + '/**/*.styl' );
             }
         });
     }

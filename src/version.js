@@ -1,10 +1,14 @@
-// called when --version or -v flags used, just displays version number
-module.exports = function version() {
-    'use strict';
-    var app = this;
+const
+    fs = require('fs'),
+    chalk = require('chalk');
 
-    app.fs.readFile('package.json', function( err, data ) {
+// called when --version or -v flags used, just displays version number
+module.exports = function version( app ) {
+    'use strict';
+
+    return fs.readFile('package.json', function( err, data ) {
         if ( err ) { throw err; }
-        console.log( app.chalk.blue('\nStylint version: '), JSON.parse( data ).version, '\n' );
+        if ( app.state.testENV ) { return; }
+        console.log( chalk.blue('\nStylint version: '), JSON.parse( data ).version, '\n' );
     });
 }

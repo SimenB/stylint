@@ -1,3 +1,9 @@
+const
+    fs = require('fs'),
+    done = require('./done'),
+    test = require('./test');
+
+
 /**
  * @description parses file for testing by removing extra new lines and block comments
  * @param  {string} file        [the current file being parsed]
@@ -5,12 +11,11 @@
  * @param  {number} fileNum     [the current file being parsed (# of len) ]
  * @returns test function
  */
-module.exports = function parse( file, len, fileNum ) {
+module.exports = function parse( app, file, len, fileNum ) {
     'use strict';
-    var app = this,
-        stripComments = /(\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*+\/)/gm;
+    var stripComments = /(\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*+\/)/gm;
 
-    app.fs.readFile(file, { encoding: 'utf8' }, function( err, data ) {
+    return fs.readFile(file, { encoding: 'utf8' }, function( err, data ) {
         if ( err ) { throw err; }
         var lines;
 
@@ -36,20 +41,20 @@ module.exports = function parse( file, len, fileNum ) {
 
         /**
          * so, this function trims each line and then tests it
-         * @param  {string}     the line of stylus to test
-         * @return {function}   run test
+         * @param  {string} [line] the line of stylus to test
+         * @return {function} run test
          */
         lines.forEach(function( line, i ) {
             var output = line.trim();
             // line nos don't start at 0
             i++;
-            return app.test( line, i, output, file );
+            return test( app, line, i, output, file );
         });
 
         // if at the last file, call the done function to output results
         if ( fileNum === len ) {
             app.state.done = true;
-            return app.done();
+            return done( app );
         }
     });
 }

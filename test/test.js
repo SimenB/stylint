@@ -1,19 +1,174 @@
 const
+    fs = require('fs'),
 	assert = require('assert'),
-    should = require('should'),
+    should = require('chai').should(),
+    sinon = require('sinon'),
     app = require('../index');
 
-describe('Core Functionality: ', function() {
+app.state.testENV = true;
 
-    // describe('State: dir', function() {
-    //     it('should be either process.argv[2] or process.cwd()', function() {
-    //         assert.equal( process.argv[2] | process.cwd(), app.state.dir );
-    //     })
-    // })
 
+describe('Core Methods: ', function() {
     describe('Read: ', function() {
+        sinon.spy( app, 'read' );
+
+        var dirTest = app.read( app, 'styl/'),
+            fileTest = app.read( app, 'styl/test2.styl' ),
+            cwdTest = app.read( app, process.cwd() ),
+            failTest = app.read( app, 'nonExistantPath' );
+
         it('should be a function', function() {
-            app.read.should.be.an.type( 'function' );
+            app.read.should.be.a( 'function' );
+        });
+        it('first param should be the app object', function() {
+            assert.deepEqual( app.read.getCall(0).args[0], app );
+        });
+        it('second param should be a string', function() {
+            app.read.getCall(0).args[1].should.be.a( 'string' );
+        });
+        it('should return parse function if passed a dir', function() {
+            app.read.getCall(0).returned( sinon.match.same( app.parse ) );
+        });
+        it('should return a function if passed a filename', function() {
+            app.read.getCall(1).returned( sinon.match.same( app.parse ) );
+        });
+        it('should return a function if nothing passed', function() {
+            app.read.getCall(2).returned( sinon.match.same( app.parse ) );
+        });
+        it('should return undefined if path doesnt exist', function() {
+            assert.equal( undefined, app.read.getCall(3).returnValue );
+        });
+    });
+
+    describe('Parse: ', function() {
+        sinon.spy( app, 'parse' );
+
+        var fileTest = app.parse( app, 'styl/test2.styl' ),
+            dirTest = app.parse( app, 'styl/'),
+            failTest = app.parse( app, 'nonExistantPath' );
+
+        it('should be a function', function() {
+            app.parse.should.be.a( 'function' );
+        });
+        it('first param should be the app object', function() {
+            assert.deepEqual( app.parse.getCall(0).args[0], app );
+        });
+        it('second param should be a string', function() {
+            app.parse.getCall(0).args[1].should.be.a( 'string' );
+        });
+        it('should return test function if passed a filename', function() {
+            app.parse.getCall(0).returned( sinon.match.same( app.test ) );
+        });
+        it('should return undefined if path is directory', function() {
+            assert.equal( undefined, app.parse.getCall(1).returnValue );
+        });
+        it('should return undefined if path doesnt exist', function() {
+            assert.equal( undefined, app.parse.getCall(2).returnValue );
+        });
+    });
+
+    describe('Test: ', function() {
+        sinon.spy( app, 'test' );
+
+        var test = app.test( app, '  margin 0 auto ', 5, 'margin 0 auto', 'styl/test2.styl' );
+
+        it('should be a function', function() {
+            app.test.should.be.a( 'function' );
+        });
+        it('first param should be the app object', function() {
+            assert.deepEqual( app.test.getCall(0).args[0], app );
+        });
+        it('second param should be a string', function() {
+            app.test.getCall(0).args[1].should.be.a( 'string' );
+        });
+        it('third param should be a number', function() {
+            app.test.getCall(0).args[2].should.be.a( 'number' );
+        });
+        it('fourth param should be a string', function() {
+            app.test.getCall(0).args[3].should.be.a( 'string' );
+        });
+        it('fifth param should be a string', function() {
+            app.test.getCall(0).args[4].should.be.a( 'string' );
+        });
+        it('should return undefined', function() {
+            assert.equal( undefined, app.test.getCall(0).returnValue );
+        });
+    });
+
+    describe('Watch: ', function() {
+        sinon.spy( app, 'watch' );
+        var fileTest = app.watch( app, 'styl/test2.styl' );
+
+        it('should be a function', function() {
+            app.watch.should.be.a( 'function' );
+        });
+        it('first param should be the app object', function() {
+            assert.deepEqual( app.watch.getCall(0).args[0], app );
+        });
+        it('second param should be a string', function() {
+            app.watch.getCall(0).args[1].should.be.a( 'string' );
+        });
+        it('should return undefined', function() {
+            assert.equal( undefined, app.watch.getCall(0).returnValue );
+        });
+    });
+
+    describe('Help: ', function() {
+        sinon.spy( app, 'help' );
+        var test = app.help( app );
+
+        it('should be a function', function() {
+            app.help.should.be.a( 'function' );
+        });
+        it('should return undefined', function() {
+            assert.equal( undefined, app.help.getCall(0).returnValue );
+        });
+    });
+
+    describe('Version: ', function() {
+        sinon.spy( app, 'ver' );
+        var test = app.ver( app );
+
+        it('should be a function', function() {
+            app.ver.should.be.a( 'function' );
+        });
+        it('should return a function', function() {
+            app.ver.getCall(0).returned( sinon.match.same( fs.readFile ) );
+        });
+    });
+});
+
+describe('Config: ', function() {
+    describe('Default Config:', function() {
+        var defaultConfig = {
+            'borderNone': true, // check for use of border none and recommend border 0
+            'brackets': false, // check for { or }, unless used in a hash
+            'colons': false, // check for unecessary colons
+            'commaSpace': true, // check for spaces after commas (0, 0, 0, .18)
+            'commentSpace': false, // check for space after line comment
+            'cssLiteral': false, // if true disallow css literals
+            'depthLimit': false, // set a maximum selector depth (dont nest more than 4 deep)
+            'efficient': true, // check for margin 0 0 0 0 and recommend margin 0
+            'enforceVarStyle': false, // check for $ when declaring vars (doesnt check use)
+            'enforceBlockStyle': false, // check for @block when defining blocks
+            'extendPref': false, // prefer a specific syntax when using @extends (or @extend)
+            'indentSpaces': 4, // how many spaces should we prefer when indenting, pass in false if hard tabs
+            'leadingZero': true, // find cases where 0.# is used, prefer .#
+            'maxWarnings': 10, // should we have a max amount of warnings, and error out if we go over
+            'mixed': false, // check for mixed spaces and tabs
+            'namingConvention': false, // lowercase-dash, camelCase, lowercase-underscore, or false (dont check)
+            'parenSpace': false, // check for extra space inside parens when defining or using mixins
+            'placeholders': true, // only allow @extending of placeholder vars
+            'semicolons': false, // check for unecessary semicolons
+            'trailingWhitespace': true, // check for trailing whitespace
+            'universal': true, // check for use of * and recommend against it
+            'valid': false, // check if prop or value is a valid assignment
+            'zeroUnits': true, // check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
+            'zIndexr': false // find z index values and suggested a normalized value of 5 (so, 5 - 10 - 15 - 20 )
+        };
+
+        it('should deep equal mocked config', function() {
+            assert.deepEqual( app.config, defaultConfig );
         });
     });
 });

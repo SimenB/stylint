@@ -1,6 +1,8 @@
 // called when -h or --help used, just displays options
-module.exports = function help() {
+module.exports = function help( app ) {
     'use strict';
+    if ( app.state.testENV ) { return; }
+
     console.log( '\nStylint' );
     console.log( 'Usage: stylint [dir | file] [options]\n' );
     console.log( 'Options:');

@@ -13,22 +13,60 @@
 // all modules go here
 const
 	argv    = require('yargs').argv,
-	stampit = require('stampit');
+	stampit = require('stampit'),
+    fs = require('fs'),
+    chalk = require('chalk'),
+    glob = require('glob').Glob,
+    done = require('./src/done'),
+    help = require('./src/help'),
+    read = require('./src/read'),
+    parse = require('./src/parse'),
+    test = require('./src/test'),
+    ver = require('./src/version'),
+    watch = require('./src/watch'),
+    blockStyleCorrect       = require('./src/checks/checkBlockStyle'),
+    brackets                = require('./src/checks/checkForBrackets'),
+    checkBorderNone         = require('./src/checks/checkBorderNone'),
+    colon                   = require('./src/checks/checkForColon'),
+    commaStyleCorrect       = require('./src/checks/checkCommaStyle'),
+    commentStyleCorrect     = require('./src/checks/checkCommentStyle'),
+    cssLiteral              = require('./src/checks/checkForCssLiteral'),
+    efficient               = require('./src/checks/checkForEfficiency'),
+    extendStyleCorrect      = require('./src/checks/checkForExtendStyle'),
+    hasComment              = require('./src/checks/checkForComment'),
+    hashEnding              = require('./src/checks/checkForHashEnd'),
+    hashStarting            = require('./src/checks/checkForHashStart'),
+    leadingZero             = require('./src/checks/checkForLeadingZero'),
+    mixedSpacesAndTabs      = require('./src/checks/checkForMixedSpacesTabs'),
+    namingConvention        = require('./src/checks/checkNamingConvention'),
+    parenStyleCorrect       = require('./src/checks/checkForParenStyle'),
+    placeholderStyleCorrect = require('./src/checks/checkForPlaceholderStyle'),
+    semicolon               = require('./src/checks/checkForSemicolon'),
+    startsWithComment       = require('./src/checks/checkForCommentStart'),
+    tooMuchNest             = require('./src/checks/checkNesting'),
+    universalSelector       = require('./src/checks/checkForUniversal'),
+    whitespace              = require('./src/checks/checkForTrailingWhitespace'),
+    validProperty           = require('./src/checks/checkForValidProperties'),
+    validValue              = require('./src/checks/checkForValidValues'),
+    varStyleCorrect         = require('./src/checks/checkVarStyle'),
+    zeroUnits               = require('./src/checks/checkForZeroUnits'),
+    zIndexr                 = require('./src/checks/zIndexr'),
+    validCSS                = require('./src/checks/validCSS'),
+    validHTML               = require('./src/checks/validHTML');
 
 
 /**
- * @description i hold the functionality
- * @return {Object} [i expose all of our modules to the entire app]
+ * configuration related properties
  */
-var state = stampit().state({
-	config: {
+var config = stampit().state({
+    config: {
         'borderNone': true, // check for use of border none and recommend border 0
         'brackets': false, // check for { or }, unless used in a hash
         'colons': false, // check for unecessary colons
         'commaSpace': true, // check for spaces after commas (0, 0, 0, .18)
         'commentSpace': false, // check for space after line comment
         'cssLiteral': false, // if true disallow css literals
-        'depthLimit': 5, // set a maximum selector depth (dont nest more than 4 deep)
+        'depthLimit': false, // set a maximum selector depth (dont nest more than 4 deep)
         'efficient': true, // check for margin 0 0 0 0 and recommend margin 0
         'enforceVarStyle': false, // check for $ when declaring vars (doesnt check use)
         'enforceBlockStyle': false, // check for @block when defining blocks
@@ -46,7 +84,11 @@ var state = stampit().state({
         'valid': false, // check if prop or value is a valid assignment
         'zeroUnits': true, // check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
         'zIndexr': false // find z index values and suggested a normalized value of 5 (so, 5 - 10 - 15 - 20 )
-    },
+    }
+});
+
+
+var flags = stampit().state({
     flags: [
         '-c',
         '-w',
@@ -58,7 +100,15 @@ var state = stampit().state({
         '--strict',
         '--version',
         '--help'
-    ],
+    ]
+});
+
+
+/**
+ * @description i hold the functionality
+ * @return {Object} [i expose all of our modules to the entire app]
+ */
+var state = stampit().state({
     state: {
     	config: argv.c ? argv.c : argv.config,
     	cssBlock: false,
@@ -68,7 +118,8 @@ var state = stampit().state({
     	hash: false,
     	stateOverride: false,
     	strictMode: false,
-    	testsEnabled: true,
+    	testsEnabled: true, // are we running linter tests
+        testENV: false, // are we running unit tests
     	toggleBlock: false,
     	watch: argv.w ? argv.w : argv.watch,
     	version: argv.v ? argv.v : argv.v
@@ -78,71 +129,68 @@ var state = stampit().state({
 
 
 /**
- * @description i hold the npm
- * @return {Object} [i expose the modules to the entire app, so we only need to get them once]
- */
-var npmMethods = stampit().enclose(function () {
-    return stampit.extend(this, {
-        fs: require('fs'),
-        chalk: require('chalk'),
-        glob: require('glob').Glob,
-    });
-});
-
-
-/**
  * @description i hold the functionality
  * @return {Object} [i expose the modules to the entire app, so we only do it once]
  */
-var coreMethods = stampit().enclose(function () {
-	return stampit.extend(this, {
-        done: require('./src/done'),
-        help: require('./src/help'),
-        read: require('./src/read'),
-        parse: require('./src/parse'),
-        test: require('./src/test'),
-        watch: require('./src/watch'),
-        ver: require('./src/version')
-	});
+var coreMethods = stampit().methods({
+     parseFiles: function( path ) {
+        var app = this;
+
+        glob(path, {}, function( err, files ) {
+            if ( err ) { throw err; }
+            var len = files.length - 1;
+
+            // console.log( methods.__proto__ );
+
+            files.forEach(function( file, i ) {
+                return app.parse( app, file, len, i );
+            });
+        });
+    },
+    setConfig: function( conf ) {
+        var newConfig = fs.readFileSync( process.cwd() + '/' + conf );
+        return JSON.parse( newConfig );
+    },
+    done: done,
+    help: help,
+    read: read,
+    parse: parse,
+    test: test,
+    ver: ver,
+    watch: watch
 });
 
 
-/**
- * @description i hold the tests (not the unit test, the other tests)
- * @return {Object} [i expose the to the entire app]
- */
-var testMethods = stampit().enclose(function () {
-    return stampit.extend(this, {
-        blockStyleCorrect       : require('./src/checks/checkBlockStyle'),
-        brackets                : require('./src/checks/checkForBrackets'),
-        checkBorderNone         : require('./src/checks/checkBorderNone'),
-        colon                   : require('./src/checks/checkForColon'),
-        commaStyleCorrect       : require('./src/checks/checkCommaStyle'),
-        commentStyleCorrect     : require('./src/checks/checkCommentStyle'),
-        cssLiteral              : require('./src/checks/checkForCssLiteral'),
-        efficient               : require('./src/checks/checkForEfficiency'),
-        extendStyleCorrect      : require('./src/checks/checkForExtendStyle'),
-        hasComment              : require('./src/checks/checkForComment'),
-        hashEnding              : require('./src/checks/checkForHashEnd'),
-        hashStarting            : require('./src/checks/checkForHashStart'),
-        leadingZero             : require('./src/checks/checkForLeadingZero'),
-        mixedSpacesAndTabs      : require('./src/checks/checkForMixedSpacesTabs'),
-        namingConvention        : require('./src/checks/checkNamingConvention'),
-        parenStyleCorrect       : require('./src/checks/checkForParenStyle'),
-        placeholderStyleCorrect : require('./src/checks/checkForPlaceholderStyle'),
-        semicolon               : require('./src/checks/checkForSemicolon'),
-        startsWithComment       : require('./src/checks/checkForCommentStart'),
-        tooMuchNest             : require('./src/checks/checkNesting'),
-        universalSelector       : require('./src/checks/checkForUniversal'),
-        whitespace              : require('./src/checks/checkForTrailingWhitespace'),
-        validProperty           : require('./src/checks/checkForValidProperties'),
-        validValue              : require('./src/checks/checkForValidValues'),
-        varStyleCorrect         : require('./src/checks/checkVarStyle'),
-        zeroUnits               : require('./src/checks/checkForZeroUnits'),
-        zIndexr                 : require('./src/checks/zIndexr'),
-        validCSS                : require('./src/checks/validCSS'),
-        validHTML               : require('./src/checks/validHTML')
-    });
+var testMethods = stampit().methods({
+    blockStyleCorrect: blockStyleCorrect,
+    brackets: brackets,
+    checkBorderNone: checkBorderNone,
+    colon: colon,
+    commaStyleCorrect: commaStyleCorrect,
+    commentStyleCorrect: commentStyleCorrect,
+    cssLiteral: cssLiteral,
+    efficient: efficient,
+    extendStyleCorrect: extendStyleCorrect,
+    hasComment: hasComment,
+    hashEnding: hashEnding,
+    hashStarting: hashStarting,
+    leadingZero: leadingZero,
+    mixedSpacesAndTabs: mixedSpacesAndTabs,
+    namingConvention: namingConvention,
+    parenStyleCorrect: parenStyleCorrect,
+    placeholderStyleCorrect: placeholderStyleCorrect,
+    semicolon: semicolon,
+    startsWithComment: startsWithComment,
+    tooMuchNest: tooMuchNest,
+    universalSelector: universalSelector,
+    whitespace: whitespace,
+    validProperty: validProperty,
+    validValue: validValue,
+    varStyleCorrect: varStyleCorrect,
+    zeroUnits: zeroUnits,
+    zIndexr: zIndexr,
+    validCSS: validCSS,
+    validHTML: validHTML
 });
 
 
@@ -151,52 +199,52 @@ var testMethods = stampit().enclose(function () {
  * @return {Function} [calls the part of the app we want, depending on state]
  */
 var init = stampit().enclose(function () {
-	var app = this; // cause scope
-
-	// kickoff linter, default to linting curr dir if no file or dir passed
-	app.kickoff = function() {
-		if ( app.state.watch ) {
-			return app.watch( app.state.dir );
-		}
-		else {
-			return app.read( app.state.dir );
-		}
-	}
-
     // if path/ passed in use that for the dir
-    if ( process.argv[2] && app.flags.indexOf( process.argv[2] ) === -1 ) {
-        app.state.dir = process.argv[2];
+    if ( process.argv[2] && this.flags.indexOf( process.argv[2] ) === -1 ) {
+        this.state.dir = process.argv[2];
     }
 
 	// display help message if user types --help
-	if ( app.state.help ) {
-		return app.help();
+	if ( this.state.help ) {
+		return this.help();
 	}
 
 	// output version # from package.json
-	if ( app.state.version ) {
-		return app.ver();
+	if ( this.state.version ) {
+		return this.ver( this );
 	}
 
+    // turn on strict if strict flag passed
 	if ( argv.s || argv.strict ) {
-	    app.state.strictMode = true;
+	    this.state.strictMode = true;
 	}
 
 	// if -c or --config flags used
-	if ( app.state.config ) {
-	    app.fs.readFile( process.cwd() + '/' + app.state.config, function( err, data ) {
-	        if ( err ) { throw err; }
-	        app.config = JSON.parse( data );
-	        return app.kickoff();
-	    });
+	if ( argv.c || argv.config) {
+        this.state.config = argv.c ? argv.c : argv.config;
+        this.config = this.setConfig( this.state.config );
 	}
-	// else default kickoff
-	else {
-		return app.kickoff();
-	}
+
+    // fire watch or read based on flag
+    if ( this.state.watch ) {
+        return this.watch( this, this.state.dir );
+    }
+    else {
+        return this.read( this, this.state.dir );
+    }
 });
 
 
-// let there be light ( ! )
-var Lint = stampit().compose( npmMethods, coreMethods, testMethods, state, init ).create();
+// let there be light ( * )
+var Lint = stampit().compose(
+    flags,
+    config,
+    state,
+    coreMethods,
+    testMethods,
+    init
+).create();
+
+
+// let us 'share' our light with others
 module.exports = Lint;
