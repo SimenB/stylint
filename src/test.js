@@ -1,4 +1,7 @@
-const chalk = require('chalk');
+const
+    chalk = require('chalk'),
+    valid = require('./data/getValid')();
+
 
 /**
  * @description runs tests
@@ -226,7 +229,7 @@ module.exports = function test( app, line, num, output, file ) {
 
             // check valid properties and values
             if ( config.valid || state.strictMode ) {
-                if ( app.validProperty( line, config.validCSS, config.validHTML ) === false ) {
+                if ( app.validProperty( line, valid ) === false ) {
                     warns.push( chalk.yellow('property is not valid') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
                 // if ( validValue( line, arr, validCSS, validHTML ) === false ) {

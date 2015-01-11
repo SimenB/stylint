@@ -1,4 +1,6 @@
-const chokidar = require('chokidar');
+const
+    chalk    = require('chalk'),
+    chokidar = require('chokidar');
 
 /**
  * kicks off the app. sets up config and kicks off reading the files
@@ -13,7 +15,7 @@ module.exports = function watch( app, path ) {
     // initial watch msg
     watcher.on('ready', function() {
         if ( app.state.testENV ) { return; }
-        console.log( app.chalk.blue('Watching: '), path, ' for changes.' );
+        console.log( chalk.blue('Watching: '), path, ' for changes.' );
     });
 
     // listen for changes, update 'dir' to curr file, do somethin

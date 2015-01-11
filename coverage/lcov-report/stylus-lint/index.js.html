@@ -199,16 +199,16 @@
     <h1>Code coverage report for <span class="entity">stylus-lint/index.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">71.88% <small>(23 / 32)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">77.42% <small>(24 / 31)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">56.67% <small>(17 / 30)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">67.86% <small>(19 / 28)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">80% <small>(4 / 5)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">100% <small>(5 / 5)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">74.19% <small>(23 / 31)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">80% <small>(24 / 30)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
@@ -455,17 +455,7 @@
 237
 238
 239
-240
-241
-242
-243
-244
-245
-246
-247
-248
-249
-250</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+240</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -576,12 +566,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -606,8 +590,6 @@
 <span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-yes">2</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-yes">10</span>
@@ -615,8 +597,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -662,17 +643,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -689,6 +665,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -728,6 +708,7 @@
 &nbsp;
 // all modules go here
 const
+    q = require('q'),
 	argv    = require('yargs').argv,
 	stampit = require('stampit'),
     fs = require('fs'),
@@ -761,14 +742,13 @@ const
     startsWithComment       = require('./src/checks/checkForCommentStart'),
     tooMuchNest             = require('./src/checks/checkNesting'),
     universalSelector       = require('./src/checks/checkForUniversal'),
-    whitespace              = require('./src/checks/checkForTrailingWhitespace'),
     validProperty           = require('./src/checks/checkForValidProperties'),
-    validValue              = require('./src/checks/checkForValidValues'),
     varStyleCorrect         = require('./src/checks/checkVarStyle'),
+    whitespace              = require('./src/checks/checkForTrailingWhitespace'),
     zeroUnits               = require('./src/checks/checkForZeroUnits'),
-    zIndexr                 = require('./src/checks/zIndexr'),
-    validCSS                = require('./src/checks/validCSS'),
-    validHTML               = require('./src/checks/validHTML');
+    zIndexr                 = require('./src/checks/zIndexr');
+&nbsp;
+    // readFile = Q.denodify( fs.readFile );
 &nbsp;
 &nbsp;
 /**
@@ -803,7 +783,7 @@ var config = stampit().state({
     }
 });
 &nbsp;
-&nbsp;
+// flags for the app
 var flags = stampit().state({
     flags: [
         '-c',
@@ -821,24 +801,18 @@ var flags = stampit().state({
 &nbsp;
 &nbsp;
 /**
- * @description i hold the functionality
- * @return {Object} [i expose all of our modules to the entire app]
+ * @description i hold the state
+ * @return {Object} [i expose properties to the entire app]
  */
 var state = stampit().state({
     state: {
-    	config: argv.c ? <span class="branch-0 cbranch-no" title="branch not covered" >argv.c </span>: argv.config,
     	cssBlock: false,
-    	dir: process.cwd(),
-    	done: false,
-    	help: argv.h ? <span class="branch-0 cbranch-no" title="branch not covered" >argv.h </span>: argv.help,
+    	dir: undefined,
     	hash: false,
-    	stateOverride: false,
     	strictMode: false,
     	testsEnabled: true, // are we running linter tests
         testENV: false, // are we running unit tests
-    	toggleBlock: false,
-    	watch: argv.w ? <span class="branch-0 cbranch-no" title="branch not covered" >argv.w </span>: argv.watch,
-    	version: argv.v ? <span class="branch-0 cbranch-no" title="branch not covered" >argv.v </span>: argv.v
+    	toggleBlock: false // @stylint off
     },
     warnings: []
 });
@@ -849,23 +823,20 @@ var state = stampit().state({
  * @return {Object} [i expose the modules to the entire app, so we only do it once]
  */
 var coreMethods = stampit().methods({
-     parseFiles: function( path ) {
+    parseFiles: function( path ) {
         var app = this;
 &nbsp;
         glob(path, {}, function( err, files ) {
             <span class="missing-if-branch" title="if path not taken" >I</span>if ( err ) { <span class="cstat-no" title="statement not covered" >throw err; </span>}
             var len = files.length - 1;
 &nbsp;
-            // console.log( methods.__proto__ );
-&nbsp;
             files.forEach(function( file, i ) {
                 return app.parse( app, file, len, i );
             });
         });
     },
-    setConfig: <span class="fstat-no" title="function not covered" >function( conf ) {</span>
-<span class="cstat-no" title="statement not covered" >        var newConfig = this.fs.readFileSync( process.cwd() + '/' + conf );</span>
-<span class="cstat-no" title="statement not covered" >        return JSON.parse( newConfig );</span>
+    setConfig: function( path ) {
+        return JSON.parse( fs.readFileSync( process.cwd() + '/' + path ) );
     },
     done: done,
     help: help,
@@ -899,14 +870,11 @@ var testMethods = stampit().methods({
     startsWithComment: startsWithComment,
     tooMuchNest: tooMuchNest,
     universalSelector: universalSelector,
-    whitespace: whitespace,
     validProperty: validProperty,
-    validValue: validValue,
     varStyleCorrect: varStyleCorrect,
+    whitespace: whitespace,
     zeroUnits: zeroUnits,
-    zIndexr: zIndexr,
-    validCSS: validCSS,
-    validHTML: validHTML
+    zIndexr: zIndexr
 });
 &nbsp;
 &nbsp;
@@ -919,14 +887,17 @@ var init = stampit().enclose(function () {
     <span class="missing-if-branch" title="else path not taken" >E</span>if ( process.argv[2] &amp;&amp; this.flags.indexOf( process.argv[2] ) === -1 ) {
         this.state.dir = process.argv[2];
     }
+    else {
+<span class="cstat-no" title="statement not covered" >        this.state.dir = process.cwd();</span>
+    }
 &nbsp;
 	// display help message if user types --help
-	<span class="missing-if-branch" title="if path not taken" >I</span>if ( this.state.help ) {
-<span class="cstat-no" title="statement not covered" >		return this.help();</span>
+	<span class="missing-if-branch" title="if path not taken" >I</span>if ( argv.h || argv.help ) {
+<span class="cstat-no" title="statement not covered" >		return this.help( this );</span>
 	}
 &nbsp;
 	// output version # from package.json
-	<span class="missing-if-branch" title="if path not taken" >I</span>if ( this.state.version ) {
+	<span class="missing-if-branch" title="if path not taken" >I</span>if ( argv.v || argv.version ) {
 <span class="cstat-no" title="statement not covered" >		return this.ver( this );</span>
 	}
 &nbsp;
@@ -936,13 +907,12 @@ var init = stampit().enclose(function () {
 	}
 &nbsp;
 	// if -c or --config flags used
-	<span class="missing-if-branch" title="if path not taken" >I</span>if ( argv.c || argv.config) {
-<span class="cstat-no" title="statement not covered" >        this.state.config = argv.c ? argv.c : argv.config;</span>
-<span class="cstat-no" title="statement not covered" >        this.config = this.setConfig( this.state.config );</span>
+	<span class="missing-if-branch" title="if path not taken" >I</span>if ( argv.c || argv.config ) {
+<span class="cstat-no" title="statement not covered" >        this.config = this.setConfig( argv.c ? argv.c : argv.config );</span>
 	}
 &nbsp;
     // fire watch or read based on flag
-    <span class="missing-if-branch" title="if path not taken" >I</span>if ( this.state.watch ) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if ( argv.w || argv.watch ) {
 <span class="cstat-no" title="statement not covered" >        return this.watch( this, this.state.dir );</span>
     }
     else {
@@ -968,7 +938,7 @@ module.exports = Lint;</pre></td></tr>
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Jan 11 2015 03:18:36 GMT-0800 (PST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Jan 11 2015 15:06:07 GMT-0800 (PST)</div>
 </div>
 
 <script src="../prettify.js"></script>

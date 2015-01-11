@@ -12,6 +12,7 @@
 
 // all modules go here
 const
+    q = require('q'),
 	argv    = require('yargs').argv,
 	stampit = require('stampit'),
     fs = require('fs'),
@@ -45,14 +46,13 @@ const
     startsWithComment       = require('./src/checks/checkForCommentStart'),
     tooMuchNest             = require('./src/checks/checkNesting'),
     universalSelector       = require('./src/checks/checkForUniversal'),
-    whitespace              = require('./src/checks/checkForTrailingWhitespace'),
     validProperty           = require('./src/checks/checkForValidProperties'),
-    validValue              = require('./src/checks/checkForValidValues'),
     varStyleCorrect         = require('./src/checks/checkVarStyle'),
+    whitespace              = require('./src/checks/checkForTrailingWhitespace'),
     zeroUnits               = require('./src/checks/checkForZeroUnits'),
-    zIndexr                 = require('./src/checks/zIndexr'),
-    validCSS                = require('./src/checks/validCSS'),
-    validHTML               = require('./src/checks/validHTML');
+    zIndexr                 = require('./src/checks/zIndexr');
+
+    // readFile = Q.denodify( fs.readFile );
 
 
 /**
@@ -87,7 +87,7 @@ var config = stampit().state({
     }
 });
 
-
+// flags for the app
 var flags = stampit().state({
     flags: [
         '-c',
@@ -105,24 +105,18 @@ var flags = stampit().state({
 
 
 /**
- * @description i hold the functionality
- * @return {Object} [i expose all of our modules to the entire app]
+ * @description i hold the state
+ * @return {Object} [i expose properties to the entire app]
  */
 var state = stampit().state({
     state: {
-    	config: argv.c ? argv.c : argv.config,
     	cssBlock: false,
-    	dir: process.cwd(),
-    	done: false,
-    	help: argv.h ? argv.h : argv.help,
+    	dir: undefined,
     	hash: false,
-    	stateOverride: false,
     	strictMode: false,
     	testsEnabled: true, // are we running linter tests
         testENV: false, // are we running unit tests
-    	toggleBlock: false,
-    	watch: argv.w ? argv.w : argv.watch,
-    	version: argv.v ? argv.v : argv.v
+    	toggleBlock: false // @stylint off
     },
     warnings: []
 });
@@ -133,23 +127,20 @@ var state = stampit().state({
  * @return {Object} [i expose the modules to the entire app, so we only do it once]
  */
 var coreMethods = stampit().methods({
-     parseFiles: function( path ) {
+    parseFiles: function( path ) {
         var app = this;
 
         glob(path, {}, function( err, files ) {
             if ( err ) { throw err; }
             var len = files.length - 1;
 
-            // console.log( methods.__proto__ );
-
             files.forEach(function( file, i ) {
                 return app.parse( app, file, len, i );
             });
         });
     },
-    setConfig: function( conf ) {
-        var newConfig = fs.readFileSync( process.cwd() + '/' + conf );
-        return JSON.parse( newConfig );
+    setConfig: function( path ) {
+        return JSON.parse( fs.readFileSync( process.cwd() + '/' + path ) );
     },
     done: done,
     help: help,
@@ -183,14 +174,11 @@ var testMethods = stampit().methods({
     startsWithComment: startsWithComment,
     tooMuchNest: tooMuchNest,
     universalSelector: universalSelector,
-    whitespace: whitespace,
     validProperty: validProperty,
-    validValue: validValue,
     varStyleCorrect: varStyleCorrect,
+    whitespace: whitespace,
     zeroUnits: zeroUnits,
-    zIndexr: zIndexr,
-    validCSS: validCSS,
-    validHTML: validHTML
+    zIndexr: zIndexr
 });
 
 
@@ -203,14 +191,17 @@ var init = stampit().enclose(function () {
     if ( process.argv[2] && this.flags.indexOf( process.argv[2] ) === -1 ) {
         this.state.dir = process.argv[2];
     }
+    else {
+        this.state.dir = process.cwd();
+    }
 
 	// display help message if user types --help
-	if ( this.state.help ) {
-		return this.help();
+	if ( argv.h || argv.help ) {
+		return this.help( this );
 	}
 
 	// output version # from package.json
-	if ( this.state.version ) {
+	if ( argv.v || argv.version ) {
 		return this.ver( this );
 	}
 
@@ -220,13 +211,12 @@ var init = stampit().enclose(function () {
 	}
 
 	// if -c or --config flags used
-	if ( argv.c || argv.config) {
-        this.state.config = argv.c ? argv.c : argv.config;
-        this.config = this.setConfig( this.state.config );
+	if ( argv.c || argv.config ) {
+        this.config = this.setConfig( argv.c ? argv.c : argv.config );
 	}
 
     // fire watch or read based on flag
-    if ( this.state.watch ) {
+    if ( argv.w || argv.watch ) {
         return this.watch( this, this.state.dir );
     }
     else {

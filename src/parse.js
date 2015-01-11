@@ -53,7 +53,6 @@ module.exports = function parse( app, file, len, fileNum ) {
 
         // if at the last file, call the done function to output results
         if ( fileNum === len ) {
-            app.state.done = true;
             return done( app );
         }
     });

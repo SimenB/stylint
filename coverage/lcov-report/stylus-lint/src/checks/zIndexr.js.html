@@ -195,20 +195,20 @@
     </style>
 </head>
 <body>
-<div class="header low">
+<div class="header high">
     <h1>Code coverage report for <span class="entity">stylus-lint/src/checks/zIndexr.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">20% <small>(2 / 10)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">100% <small>(7 / 7)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">0% <small>(0 / 7)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">100% <small>(4 / 4)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">0% <small>(0 / 2)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">100% <small>(1 / 1)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">20% <small>(2 / 10)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">100% <small>(7 / 7)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
@@ -240,26 +240,30 @@
 22
 23
 24
-25</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+25
+26
+27</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -267,23 +271,25 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var normalized = 1;
 &nbsp;
 // check for z-index values and recommend normalized ones
-module.exports = <span class="fstat-no" title="function not covered" >function zIndexr( line, arr, zIndexRange ) {</span>
+module.exports = function zIndexr( line ) {
     'use strict';
-<span class="cstat-no" title="statement not covered" >    if ( typeof line === 'undefined' ||</span>
-        typeof arr === 'undefined' ||
-        typeof zIndexRange === 'undefined' ) {
-<span class="cstat-no" title="statement not covered" >        return;</span>
+    if ( typeof line === 'undefined' ) {
+        return;
     }
 &nbsp;
     // stip out whitespace from the arr
-<span class="cstat-no" title="statement not covered" >    arr = arr.filter(<span class="fstat-no" title="function not covered" >function( str ) {</span></span>
-<span class="cstat-no" title="statement not covered" >        return str.length &gt; 0;</span>
-    });
+    // arr = arr.filter(function( str ) {
+    //     return str.length &gt; 0;
+    // });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if ( line.indexOf('z-index') !== -1 ) {</span>
-<span class="cstat-no" title="statement not covered" >        console.log( 'this line has a z-index' );</span>
-<span class="cstat-no" title="statement not covered" >        console.log( line );</span>
-<span class="cstat-no" title="statement not covered" >        console.log( arr );</span>
+    if ( line.indexOf('z-index') !== -1 ) {
+        return true;
+        // console.log( 'this line has a z-index' );
+        // console.log( line );
+        // console.log( arr );
+    }
+    else {
+        return false;
     }
     // else {
     //     return false;
@@ -293,7 +299,7 @@ module.exports = <span class="fstat-no" title="function not covered" >function z
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Jan 11 2015 03:18:36 GMT-0800 (PST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Jan 11 2015 15:06:07 GMT-0800 (PST)</div>
 </div>
 
 <script src="../../../prettify.js"></script>
