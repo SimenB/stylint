@@ -12,7 +12,6 @@
 
 // all modules go here
 const
-    q = require('q'),
 	argv    = require('yargs').argv,
 	stampit = require('stampit'),
     fs = require('fs'),

@@ -14,7 +14,7 @@
 
 
 // dont throw false positives on user created names or syntax
-const ignoreMe = /[$.#{}(=]|(if)|(for)|(@block)/;
+const ignoreMe = /[$.#{}(=>]|(if)|(for)|(@block)/;
 
 
 module.exports = function checkForValidProperties( line, valid ) {
@@ -24,46 +24,73 @@ module.exports = function checkForValidProperties( line, valid ) {
         return;
     }
 
+    // split by tabs and spaces, tabs mess with pattern matching
     var arr = line.split(/[\s\t,:]/),
         len = valid.html.length,
-        i = 0;
+        isValid = false;
+
+    // remove white space
+    arr = arr.filter(
+        function( str ) {
+            return str.length > 0;
+        }
+    );
 
     // not empty, not something we ignore
-    if ( arr[0].length > 0 && !ignoreMe.test( line ) ) {
+    if ( !ignoreMe.test( line ) &&
+        this.state.hash === false &&
+        typeof arr[0] !== 'undefined' ) {
 
-        // loop through our valid css json
-        for ( var prop in valid.css ) {
+        valid.css.forEach(function( val, index ) {
+            var i = 0,
+                j = 0;
 
-            // get keys, the properties, which is where we'll start
-            if ( valid.css.hasOwnProperty( prop ) ) {
+            if ( arr[ 0 ] === val ) {
+                isValid = true;
+                return;
+            }
 
-                // if we have an exact css match
-                if ( arr[ 0 ] === prop ) {
-                    return true;
-                }
-                // else no css match, check if html property
-                else {
-                    // loop through html array
-                    for ( i; i < len; i++ ) {
-                        // console.log( arr[ 0 ] );
-                        // console.log( valid.html[ i ] );
-                        // if exact string match,
-                        if ( arr[ 0 ] === valid.html[ i ] ) {
-                            // valid = true;
-                            // console.log( html[i] );
-                            return true;
-                        }
-                    }
+            for ( i; i < valid.prefixes.length; i++ ) {
+                if ( arr[ 0 ] === ( valid.prefixes[ i ] + val ) ) {
+                    isValid = true;
+                    return;
                 }
             }
-        }
 
-        // process.exit();
+            for ( j; j < valid.pseudo.length; j++ ) {
+                if ( arr[ 0 ] === ( val + valid.pseudo[ j ] ) ) {
+                    isValid = true;
+                    return;
+                }
+            }
+        });
 
-        // no matches return false
-        return false;
+        valid.html.forEach(function( val, index ) {
+            var i = 0,
+                j = 0;
+
+            if ( arr[ 0 ] === val ) {
+                isValid = true;
+                return;
+            }
+
+            for ( j; j < valid.pseudo.length; j++ ) {
+                if ( arr[ 0 ] === ( val + valid.pseudo[ j ] ) ) {
+                    isValid = true;
+                    return;
+                }
+            }
+        });
     }
     else {
+        isValid = true;
+    }
+
+    // return true if valid match found
+    if ( isValid ) {
         return true;
+    }
+    else {
+        return false;
     }
  }
