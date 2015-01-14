@@ -199,16 +199,16 @@
     <h1>Code coverage report for <span class="entity">stylus-lint/src/checks/zIndexr.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">100% <small>(7 / 7)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">100% <small>(18 / 18)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">100% <small>(4 / 4)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">100% <small>(8 / 8)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">100% <small>(1 / 1)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">100% <small>(3 / 3)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">100% <small>(7 / 7)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">100% <small>(18 / 18)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
@@ -242,64 +242,106 @@
 24
 25
 26
-27</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11140</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11139</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11139</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var normalized = 1;
+<span class="cline-any cline-yes">42042</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11139</span>
+<span class="cline-any cline-yes">29</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29</span>
+<span class="cline-any cline-yes">406</span>
+<span class="cline-any cline-yes">44</span>
+<span class="cline-any cline-yes">44</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11139</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var cache = [],
+    num = 0;
 &nbsp;
 // check for z-index values and recommend normalized ones
-module.exports = function zIndexr( line ) {
+module.exports = function zIndexr( line, arr ) {
     'use strict';
     if ( typeof line === 'undefined' ) {
         return;
     }
 &nbsp;
-    // stip out whitespace from the arr
-    // arr = arr.filter(function( str ) {
-    //     return str.length &gt; 0;
-    // });
+    var res, zIndexValue;
 &nbsp;
+    arr = line.split(/[\s\t,:]/),
+    // remove white space
+    arr = arr.filter(
+        function( str ) {
+            return str.length &gt; 0;
+        }
+    );
+&nbsp;
+    // the most basic of checks, throw warning if zindex value not normalized
     if ( line.indexOf('z-index') !== -1 ) {
-        return true;
-        // console.log( 'this line has a z-index' );
-        // console.log( line );
-        // console.log( arr );
+        zIndexValue = arr[ arr.length - 1 ];
+&nbsp;
+        if ( zIndexValue % this.config.zIndexr !== 0 ) {
+            res = 'normalize';
+            console.log( 'not normalized' );
+        }
+&nbsp;
+        cache.forEach(function( val, i ) {
+            if ( cache[ i ] === zIndexValue ) {
+                res = 'duplicate';
+                console.log( 'dupe found' );
+            }
+        });
+&nbsp;
+        cache.push( zIndexValue );
     }
-    else {
-        return false;
-    }
-    // else {
-    //     return false;
-    // }
+&nbsp;
+    return res;
 }</pre></td></tr>
 </table></pre>
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Jan 13 2015 01:28:29 GMT-0800 (PST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 14 2015 14:22:00 GMT-0800 (PST)</div>
 </div>
 
 <script src="../../../prettify.js"></script>

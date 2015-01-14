@@ -10,7 +10,6 @@
 // @TODO inherit check for all values
 // @TODO regex to match any color
 // @TODO regex to match any length (ie, px, %, whatever)
-// @TODO dont throw warnings if html
 
 
 const

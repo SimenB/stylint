@@ -27,9 +27,10 @@ const
         'semicolons': false, // check for unecessary semicolons
         'trailingWhitespace': true, // check for trailing whitespace
         'universal': true, // check for use of * and recommend against it
-        'valid': false, // check if prop or value is a valid assignment
+        'valid': true, // check if prop or value is a valid assignment
         'zeroUnits': true, // check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
-        'zIndexr': false // find z index values and suggested a normalized value of 5 (so, 5 - 10 - 15 - 20 )
+        'zIndexDuplicates': true, // just find duplicate z index values
+        'zIndexNormalize': 5, // suggest a normalized z index value, base of whatever this is
     };
 
 app.state.testENV = true;
@@ -756,15 +757,27 @@ describe('Linter Style Checks: ', function() {
         });
     });
 
-    describe('zIndexr', function() {
+    describe('zIndex Duplicates', function() {
         it('should return false if z-index is not found on line', function() {
-            assert.equal( false, app.zIndexr('margin 0') );
-        });
-        it('should return true if z-index is found on line', function() {
-            assert.equal( true, app.zIndexr('z-index -1') );
+            assert.equal( false, app.deDupeZ('margin 0') );
         });
         it('should return undefined if missing params', function() {
-            assert.equal( undefined, app.zIndexr() );
+            assert.equal( undefined, app.deDupeZ() );
+        });
+    });
+
+    describe('zIndex Normalizer', function() {
+        it('should return false if z index value already normalized', function() {
+            assert.equal( false, app.normalizeZ('z-index 5') );
+        });
+        it('should return true if z index value needs to be normalized', function() {
+            assert.equal( true, app.normalizeZ('z-index 4') );
+        });
+        it('should return undefined if z-index is not found on line', function() {
+            assert.equal( undefined, app.normalizeZ('margin 0') );
+        });
+        it('should return undefined if missing params', function() {
+            assert.equal( undefined, app.normalizeZ() );
         });
     });
 });

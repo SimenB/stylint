@@ -453,8 +453,7 @@
 235
 236
 237
-238
-239</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+238</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -509,11 +508,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -590,7 +587,7 @@
 <span class="cline-any cline-yes">4</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4</span>
-<span class="cline-any cline-yes">16</span>
+<span class="cline-any cline-yes">70</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -608,6 +605,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -706,10 +704,8 @@
 &nbsp;
 // all modules go here
 const
-	argv    = require('yargs').argv,
 	stampit = require('stampit'),
     fs = require('fs'),
-    chalk = require('chalk'),
     glob = require('glob').Glob,
     done = require('./src/done'),
     help = require('./src/help'),
@@ -725,6 +721,7 @@ const
     commaStyleCorrect       = require('./src/checks/checkCommaStyle'),
     commentStyleCorrect     = require('./src/checks/checkCommentStyle'),
     cssLiteral              = require('./src/checks/checkForCssLiteral'),
+    deDupeZ                 = require('./src/checks/zIndexDeDupe'),
     efficient               = require('./src/checks/checkForEfficiency'),
     extendStyleCorrect      = require('./src/checks/checkForExtendStyle'),
     hasComment              = require('./src/checks/checkForComment'),
@@ -733,6 +730,7 @@ const
     leadingZero             = require('./src/checks/checkForLeadingZero'),
     mixedSpacesAndTabs      = require('./src/checks/checkForMixedSpacesTabs'),
     namingConvention        = require('./src/checks/checkNamingConvention'),
+    normalizeZ               = require('./src/checks/zIndexNormalize'),
     parenStyleCorrect       = require('./src/checks/checkForParenStyle'),
     placeholderStyleCorrect = require('./src/checks/checkForPlaceholderStyle'),
     semicolon               = require('./src/checks/checkForSemicolon'),
@@ -742,11 +740,7 @@ const
     validProperty           = require('./src/checks/checkForValidProperties'),
     varStyleCorrect         = require('./src/checks/checkVarStyle'),
     whitespace              = require('./src/checks/checkForTrailingWhitespace'),
-    zeroUnits               = require('./src/checks/checkForZeroUnits'),
-    zIndexr                 = require('./src/checks/zIndexr');
-&nbsp;
-    // readFile = Q.denodify( fs.readFile );
-&nbsp;
+    zeroUnits               = require('./src/checks/checkForZeroUnits');
 &nbsp;
 /**
  * configuration related properties
@@ -774,11 +768,13 @@ var config = stampit().state({
         'semicolons': false, // check for unecessary semicolons
         'trailingWhitespace': true, // check for trailing whitespace
         'universal': true, // check for use of * and recommend against it
-        'valid': false, // check if prop or value is a valid assignment
+        'valid': true, // check if prop or value is a valid assignment
         'zeroUnits': true, // check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
-        'zIndexr': false // find z index values and suggested a normalized value of 5 (so, 5 - 10 - 15 - 20 )
+        'zIndexDuplicates': true, // just find duplicate z index values
+        'zIndexNormalize': 5, // suggest a normalized z index value, base of whatever this is
     }
 });
+&nbsp;
 &nbsp;
 // flags for the app
 var flags = stampit().state({
@@ -853,6 +849,7 @@ var testMethods = stampit().methods({
     commaStyleCorrect: commaStyleCorrect,
     commentStyleCorrect: commentStyleCorrect,
     cssLiteral: cssLiteral,
+    deDupeZ: deDupeZ,
     efficient: efficient,
     extendStyleCorrect: extendStyleCorrect,
     hasComment: hasComment,
@@ -861,6 +858,7 @@ var testMethods = stampit().methods({
     leadingZero: leadingZero,
     mixedSpacesAndTabs: mixedSpacesAndTabs,
     namingConvention: namingConvention,
+    normalizeZ: normalizeZ,
     parenStyleCorrect: parenStyleCorrect,
     placeholderStyleCorrect: placeholderStyleCorrect,
     semicolon: semicolon,
@@ -870,8 +868,7 @@ var testMethods = stampit().methods({
     validProperty: validProperty,
     varStyleCorrect: varStyleCorrect,
     whitespace: whitespace,
-    zeroUnits: zeroUnits,
-    zIndexr: zIndexr
+    zeroUnits: zeroUnits
 });
 &nbsp;
 &nbsp;
@@ -889,27 +886,27 @@ var init = stampit().enclose(function () {
     }
 &nbsp;
 	// display help message if user types --help
-	<span class="missing-if-branch" title="if path not taken" >I</span>if ( argv.h || argv.help ) {
+	<span class="missing-if-branch" title="if path not taken" >I</span>if ( process.argv.indexOf('-h') !== -1 || process.argv.indexOf('--help') !== -1 ) {
 <span class="cstat-no" title="statement not covered" >		return this.help( this );</span>
 	}
 &nbsp;
 	// output version # from package.json
-	<span class="missing-if-branch" title="if path not taken" >I</span>if ( argv.v || argv.version ) {
+	<span class="missing-if-branch" title="if path not taken" >I</span>if ( process.argv.indexOf('-v') !== -1 || process.argv.indexOf('--version') !== -1 ) {
 <span class="cstat-no" title="statement not covered" >		return this.ver( this );</span>
 	}
 &nbsp;
     // turn on strict if strict flag passed
-	<span class="missing-if-branch" title="if path not taken" >I</span>if ( argv.s || argv.strict ) {
+	<span class="missing-if-branch" title="if path not taken" >I</span>if ( process.argv.indexOf('-s') !== -1 || process.argv.indexOf('--strict') !== -1 ) {
 <span class="cstat-no" title="statement not covered" >	    this.state.strictMode = true;</span>
 	}
 &nbsp;
 	// if -c or --config flags used
-	<span class="missing-if-branch" title="if path not taken" >I</span>if ( argv.c || argv.config ) {
+	<span class="missing-if-branch" title="if path not taken" >I</span>if ( process.argv.indexOf('-c') !== -1 || process.argv.indexOf('--config') !== -1 ) {
 <span class="cstat-no" title="statement not covered" >        this.config = this.setConfig( argv.c ? argv.c : argv.config );</span>
 	}
 &nbsp;
     // fire watch or read based on flag
-    <span class="missing-if-branch" title="if path not taken" >I</span>if ( argv.w || argv.watch ) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if ( process.argv.indexOf('-w') !== -1 || process.argv.indexOf('--watch') !== -1 ) {
 <span class="cstat-no" title="statement not covered" >        return this.watch( this, this.state.dir );</span>
     }
     else {
@@ -935,7 +932,7 @@ module.exports = Lint;</pre></td></tr>
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Jan 13 2015 01:28:29 GMT-0800 (PST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 14 2015 14:53:39 GMT-0800 (PST)</div>
 </div>
 
 <script src="../prettify.js"></script>

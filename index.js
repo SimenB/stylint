@@ -12,10 +12,8 @@
 
 // all modules go here
 const
-	argv    = require('yargs').argv,
 	stampit = require('stampit'),
     fs = require('fs'),
-    chalk = require('chalk'),
     glob = require('glob').Glob,
     done = require('./src/done'),
     help = require('./src/help'),
@@ -31,6 +29,7 @@ const
     commaStyleCorrect       = require('./src/checks/checkCommaStyle'),
     commentStyleCorrect     = require('./src/checks/checkCommentStyle'),
     cssLiteral              = require('./src/checks/checkForCssLiteral'),
+    deDupeZ                 = require('./src/checks/zIndexDeDupe'),
     efficient               = require('./src/checks/checkForEfficiency'),
     extendStyleCorrect      = require('./src/checks/checkForExtendStyle'),
     hasComment              = require('./src/checks/checkForComment'),
@@ -39,6 +38,7 @@ const
     leadingZero             = require('./src/checks/checkForLeadingZero'),
     mixedSpacesAndTabs      = require('./src/checks/checkForMixedSpacesTabs'),
     namingConvention        = require('./src/checks/checkNamingConvention'),
+    normalizeZ               = require('./src/checks/zIndexNormalize'),
     parenStyleCorrect       = require('./src/checks/checkForParenStyle'),
     placeholderStyleCorrect = require('./src/checks/checkForPlaceholderStyle'),
     semicolon               = require('./src/checks/checkForSemicolon'),
@@ -48,11 +48,7 @@ const
     validProperty           = require('./src/checks/checkForValidProperties'),
     varStyleCorrect         = require('./src/checks/checkVarStyle'),
     whitespace              = require('./src/checks/checkForTrailingWhitespace'),
-    zeroUnits               = require('./src/checks/checkForZeroUnits'),
-    zIndexr                 = require('./src/checks/zIndexr');
-
-    // readFile = Q.denodify( fs.readFile );
-
+    zeroUnits               = require('./src/checks/checkForZeroUnits');
 
 /**
  * configuration related properties
@@ -80,11 +76,13 @@ var config = stampit().state({
         'semicolons': false, // check for unecessary semicolons
         'trailingWhitespace': true, // check for trailing whitespace
         'universal': true, // check for use of * and recommend against it
-        'valid': false, // check if prop or value is a valid assignment
+        'valid': true, // check if prop or value is a valid assignment
         'zeroUnits': true, // check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
-        'zIndexr': false // find z index values and suggested a normalized value of 5 (so, 5 - 10 - 15 - 20 )
+        'zIndexDuplicates': true, // just find duplicate z index values
+        'zIndexNormalize': 5, // suggest a normalized z index value, base of whatever this is
     }
 });
+
 
 // flags for the app
 var flags = stampit().state({
@@ -159,6 +157,7 @@ var testMethods = stampit().methods({
     commaStyleCorrect: commaStyleCorrect,
     commentStyleCorrect: commentStyleCorrect,
     cssLiteral: cssLiteral,
+    deDupeZ: deDupeZ,
     efficient: efficient,
     extendStyleCorrect: extendStyleCorrect,
     hasComment: hasComment,
@@ -167,6 +166,7 @@ var testMethods = stampit().methods({
     leadingZero: leadingZero,
     mixedSpacesAndTabs: mixedSpacesAndTabs,
     namingConvention: namingConvention,
+    normalizeZ: normalizeZ,
     parenStyleCorrect: parenStyleCorrect,
     placeholderStyleCorrect: placeholderStyleCorrect,
     semicolon: semicolon,
@@ -176,8 +176,7 @@ var testMethods = stampit().methods({
     validProperty: validProperty,
     varStyleCorrect: varStyleCorrect,
     whitespace: whitespace,
-    zeroUnits: zeroUnits,
-    zIndexr: zIndexr
+    zeroUnits: zeroUnits
 });
 
 
@@ -195,27 +194,27 @@ var init = stampit().enclose(function () {
     }
 
 	// display help message if user types --help
-	if ( argv.h || argv.help ) {
+	if ( process.argv.indexOf('-h') !== -1 || process.argv.indexOf('--help') !== -1 ) {
 		return this.help( this );
 	}
 
 	// output version # from package.json
-	if ( argv.v || argv.version ) {
+	if ( process.argv.indexOf('-v') !== -1 || process.argv.indexOf('--version') !== -1 ) {
 		return this.ver( this );
 	}
 
     // turn on strict if strict flag passed
-	if ( argv.s || argv.strict ) {
+	if ( process.argv.indexOf('-s') !== -1 || process.argv.indexOf('--strict') !== -1 ) {
 	    this.state.strictMode = true;
 	}
 
 	// if -c or --config flags used
-	if ( argv.c || argv.config ) {
+	if ( process.argv.indexOf('-c') !== -1 || process.argv.indexOf('--config') !== -1 ) {
         this.config = this.setConfig( argv.c ? argv.c : argv.config );
 	}
 
     // fire watch or read based on flag
-    if ( argv.w || argv.watch ) {
+    if ( process.argv.indexOf('-w') !== -1 || process.argv.indexOf('--watch') !== -1 ) {
         return this.watch( this, this.state.dir );
     }
     else {
