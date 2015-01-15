@@ -1,9 +1,10 @@
+'use strict';
+
 // check for space after comment line
 const comment = /\/\/\s/;
 
 module.exports = function checkCommentStyle( line ) {
-    'use strict';
-    if ( typeof line === 'undefined' ) { return; }
+    if ( typeof line !== 'string' ) { return; }
 
     if ( line.indexOf('//') !== -1 ) {
         // check for space after comment on it's own line, if no space, return warning

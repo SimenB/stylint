@@ -9,6 +9,7 @@
  * @flow
 */
 
+'use strict';
 
 // all modules go here
 const
@@ -50,10 +51,11 @@ const
     whitespace              = require('./src/checks/checkForTrailingWhitespace'),
     zeroUnits               = require('./src/checks/checkForZeroUnits');
 
+
 /**
  * configuration related properties
  */
-var config = stampit().state({
+let config = stampit().state({
     config: {
         'borderNone': true, // check for use of border none and recommend border 0
         'brackets': false, // check for { or }, unless used in a hash
@@ -85,7 +87,7 @@ var config = stampit().state({
 
 
 // flags for the app
-var flags = stampit().state({
+let flags = stampit().state({
     flags: [
         '-c',
         '-w',
@@ -96,7 +98,8 @@ var flags = stampit().state({
         '--watch',
         '--strict',
         '--version',
-        '--help'
+        '--help',
+        '--harmony'
     ]
 });
 
@@ -105,7 +108,7 @@ var flags = stampit().state({
  * @description i hold the state
  * @return {Object} [i expose properties to the entire app]
  */
-var state = stampit().state({
+let state = stampit().state({
     state: {
     	cssBlock: false,
     	dir: undefined,
@@ -123,13 +126,13 @@ var state = stampit().state({
  * @description i hold the functionality
  * @return {Object} [i expose the modules to the entire app, so we only do it once]
  */
-var coreMethods = stampit().methods({
+let coreMethods = stampit().methods({
     getFiles: function( path ) {
-        var app = this;
+        let app = this;
 
         glob(path, {}, function( err, files ) {
             if ( err ) { throw err; }
-            var len = files.length - 1;
+            let len = files.length - 1;
 
             files.forEach(function( file, i ) {
                 return app.parseFile( app, file, len, i );
@@ -149,7 +152,7 @@ var coreMethods = stampit().methods({
 });
 
 
-var testMethods = stampit().methods({
+let testMethods = stampit().methods({
     blockStyleCorrect: blockStyleCorrect,
     brackets: brackets,
     checkBorderNone: checkBorderNone,
@@ -184,7 +187,8 @@ var testMethods = stampit().methods({
  * @description i initialize everything
  * @return {Function} [calls the part of the app we want, depending on state]
  */
-var init = stampit().enclose(function () {
+let init = stampit().enclose(function () {
+
     // if path/ passed in use that for the dir
     if ( process.argv[2] && this.flags.indexOf( process.argv[2] ) === -1 ) {
         this.state.dir = process.argv[2];
@@ -224,7 +228,7 @@ var init = stampit().enclose(function () {
 
 
 // let there be light ( * )
-var Lint = stampit().compose(
+let Lint = stampit().compose(
     flags,
     config,
     state,
@@ -236,3 +240,4 @@ var Lint = stampit().compose(
 
 // let us 'share' our light with others
 module.exports = Lint;
+// export Lint;

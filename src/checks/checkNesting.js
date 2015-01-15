@@ -1,3 +1,7 @@
+'use strict';
+
+const amp = /^(\&\:)/;  // check if using & selector before we count tabs
+
 /**
  * check nesting depth
  * @param  {string} line  the line being tested
@@ -6,19 +10,13 @@
  * @return {boolean} true if nesting is too deep, false if not
  * @todo  this is kinda not 100% reliable in it's current form
  */
-const amp = /^(\&\:)/;  // check if using & selector before we count tabs
-
 module.exports = function checkNesting( line, arr, limit, indentSpaces ) {
-    'use strict';
-    if ( typeof line === 'undefined' ||
+    if ( typeof line !== 'string' ||
         typeof arr === 'undefined' ||
         typeof limit === 'undefined' ||
         typeof indentSpaces === 'undefined' ) {
         return;
     }
-
-    var count = 0,
-        index = 0;
 
     // get all single spaces in the line
     arr = arr.filter(function( str ) {
@@ -36,6 +34,9 @@ module.exports = function checkNesting( line, arr, limit, indentSpaces ) {
     }
     // if not we check hard tabs
     else {
+        let count = 0,
+            index = 0;
+
         // get all tabs, starting at beginning of string
         while ( line.charAt( index++ ) === '\t' ) {
             count++;

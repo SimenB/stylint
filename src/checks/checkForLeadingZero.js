@@ -1,10 +1,11 @@
+'use strict';
+
 const leadingZero = /( |,)(0\.)+|(^0\.)+/;
 
 // check for leading 0
 module.exports = function hasLeadingZero( line, arr ) {
-    'use strict';
-    if ( typeof line === 'undefined' ) { return; }
-    var zeroFound = false;
+    if ( typeof line !== 'string' ) { return; }
+    let zeroFound = false;
 
     // remove whitespace from array
     arr = arr.filter(function( str ) {

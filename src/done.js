@@ -1,3 +1,5 @@
+'use strict';
+
 const chalk = require('chalk');
 
 /**
@@ -5,8 +7,7 @@ const chalk = require('chalk');
  * @return void
  */
 module.exports = function done( app ) {
-    'use strict';
-    var i = 0,
+    let i = 0,
         len = app.warnings.length;
 
     if ( !app.state.testENV ) {

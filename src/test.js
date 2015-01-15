@@ -1,7 +1,8 @@
+'use strict';
+
 const
     chalk = require('chalk'),
     valid = require('./data/getValid')();
-
 
 /**
  * @description runs tests
@@ -12,9 +13,8 @@ const
  * @return void
  */
 module.exports = function test( app, line, num, output, file ) {
-    'use strict';
     // just some convenience stuff
-    var arr = line.split(' ');
+    let arr = line.split(' ');
 
     // check for @stylint off comments
     if ( app.hasComment( line ) ) {

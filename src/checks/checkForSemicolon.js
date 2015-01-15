@@ -1,7 +1,8 @@
+'use strict';
+
 // check for semicolons
 module.exports = function checkForSemicolons( line ) {
-    'use strict';
-    if ( typeof line === 'undefined' ) { return; }
+    if ( typeof line !== 'string' ) { return; }
 
     if ( line.indexOf(';') !== -1 ) {
         return true;

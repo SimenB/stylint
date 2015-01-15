@@ -1,3 +1,5 @@
+'use strict';
+
 const
     fs = require('fs'),
     done = require('./done'),
@@ -12,23 +14,23 @@ const
  * @returns test function
  */
 module.exports = function parse( app, file, len, fileNum ) {
-    'use strict';
-    var stripComments = /(\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*+\/)/gm;
+    let stripComments = /(\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*+\/)/gm;
 
     return fs.readFile(file, { encoding: 'utf8' }, function( err, data ) {
         if ( err ) { throw err; }
-        var lines;
+        let lines;
 
         // remove block comments / empty lines from files
         lines = data.replace(stripComments, function( match ) {
-            var lines = match.split(/\r\n|\r|\n/),
-                lineLen = lines.length - 1,
-                output = ' ';
+            let lines = match.split(/\r\n|\r|\n/),
+                lineLen = lines.length - 1;
 
             if ( lineLen === 1 ) {
                 return ' ';
             }
             else {
+                let output = ' ';
+
                 while ( lineLen-- ) {
                     output += '\n';
                 }
@@ -45,7 +47,7 @@ module.exports = function parse( app, file, len, fileNum ) {
          * @return {function} run test
          */
         lines.forEach(function( line, i ) {
-            var output = line.trim();
+            let output = line.trim();
             // line nos don't start at 0
             i++;
             return test( app, line, i, output, file );

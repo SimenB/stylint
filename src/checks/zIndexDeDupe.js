@@ -1,24 +1,25 @@
-var cache = [];
+'use strict';
+
+let cache = [];
 
 // check for z-index values that are duplicated elsewhere
 module.exports = function deDupeZIndex( line ) {
-    'use strict';
-    if ( typeof line === 'undefined' ) {
-        return;
-    }
+    if ( typeof line !== 'string' ) { return; }
 
-    var arr = line.split(/[\s\t,:]/),
-        res = false;
-
-    // remove white space
-    arr = arr.filter(
-        function( str ) {
-            return str.length > 0;
-        }
-    );
+    let res = false;
 
     // the most basic of checks, throw warning if zindex duplicated elsewhere
     if ( line.indexOf('z-index') !== -1 ) {
+
+        // only split the line if needed, ie, if z-index is on the line
+        let arr = line.split(/[\s\t,:]/);
+
+        // remove white space,
+        arr = arr.filter(
+            function( str ) {
+                return str.length > 0;
+            }
+        );
 
         cache.forEach(function( val, i ) {
             if ( cache[ i ] === arr[ arr.length - 1 ] ) {

@@ -1,3 +1,5 @@
+'use strict';
+
 const fs = require('fs');
 
 /**
@@ -7,8 +9,6 @@ const fs = require('fs');
  * @returns parse function
  */
 module.exports = function read( app, path ) {
-    'use strict';
-
     // if nothing passed in, default to linting the curr dir
     // here we get all the files to parse first, then we pass to app.parse
     if ( path === process.cwd() ) {

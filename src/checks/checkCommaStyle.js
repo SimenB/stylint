@@ -1,11 +1,12 @@
-// check that commas are followed by spaces
+'use strict';
+
 const
     spaceAfter = /,[a-zA-Z]/,
     spaceAfterNum = /,(?:\d*\.)?\d+/;
 
+// check that commas are followed by spaces
 module.exports = function checkCommaStyle( line ) {
-    'use strict';
-    if ( typeof line === 'undefined' ) { return; }
+    if ( typeof line !== 'string' ) { return; }
 
     // if , is present on line
     if ( line.indexOf(',') !== -1 && line.indexOf(',') !== line.length - 1 ) {

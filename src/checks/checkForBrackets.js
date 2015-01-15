@@ -1,11 +1,12 @@
+'use strict';
+
 const
     openBracket = /\{$/,
     closeBracket = /\}$/,
     interpolation = /({\S)(\S)+[}]|([{]\S[}])/;
 
 module.exports = function checkForBrackets( line, areWeInAHash ) {
-    'use strict';
-    if ( typeof areWeInAHash === 'undefined' || typeof line === 'undefined' ) { return; }
+    if ( typeof areWeInAHash === 'undefined' || typeof line !== 'string' ) { return; }
 
     // if interpolation we cool
     if ( interpolation.test(line) ) {

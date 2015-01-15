@@ -1,7 +1,8 @@
+'use strict';
+
 // check for specified extend preference
 module.exports = function checkExtendStyle( line, pref ) {
-    'use strict';
-    if ( typeof line === 'undefined' || typeof pref === 'undefined' ) { return; }
+    if ( typeof line !== 'string' || typeof pref === 'undefined' ) { return; }
 
     if ( pref === '@extends' ) {
         if ( line.indexOf('@extend ') !== -1 ) {

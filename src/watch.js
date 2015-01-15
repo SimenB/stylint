@@ -1,3 +1,5 @@
+'use strict';
+
 const
     chalk    = require('chalk'),
     chokidar = require('chokidar');
@@ -9,9 +11,8 @@ const
  * @return {function}            [kick off linter on each change]
  */
 module.exports = function watch( app, path ) {
-    'use strict';
     if ( typeof path === 'undefined' ) { return; }
-    var watcher = chokidar.watch( path );
+    let watcher = chokidar.watch( path );
 
     // initial watch msg
     watcher.on('ready', function() {

@@ -1,31 +1,26 @@
+// super super rough atm
+// @TODO inherit check for all values
+// @TODO regex to match any color
+// @TODO regex to match any length (ie, px, %, whatever)
+'use strict';
+
+const
+    ignoreMe = /[$.#{}(=]|(if)|(for)|(@block)/, // dont throw false positives on user created names or syntax
+    valid = false;
+
 /**
 * check against a JSON of all valid css properties and values
 * @returns false if property or value not considered valid
 * @returns true if valid
 * @returns undefined if not testable (hmmm)
 */
-
-
-// super super rough atm
-// @TODO inherit check for all values
-// @TODO regex to match any color
-// @TODO regex to match any length (ie, px, %, whatever)
-
-
-const
-    ignoreMe = /[$.#{}(=]|(if)|(for)|(@block)/, // dont throw false positives on user created names or syntax
-    valid = false;
-
-
-module.exports = function checkForValidProperties( line, arr, validCSS, validHTML ) {
-    'use strict';
-    if ( typeof line === 'undefined' ||
-        typeof validCSS === 'undefined' ||
-        typeof validHTML === 'undefined' ) {
+module.exports = function checkForValidProperties( line, valid ) {
+    if ( typeof line !== 'string' ||
+        typeof valid === 'undefined' ) {
         return;
     }
 
-    var len = validHTML.length,
+    let len = validHTML.length,
         i = 0;
 
     // filter out white space

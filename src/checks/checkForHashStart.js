@@ -1,9 +1,10 @@
+'use strict';
+
 // check if we're starting a hash
 const hashStarting = /\{$/;
 
 module.exports = function checkForHashStart( line ) {
-    'use strict';
-    if ( typeof line === 'undefined' ) { return; }
+    if ( typeof line !== 'string' ) { return; }
 
     // ex colorsHash = {
     if ( hashStarting.test(line) && line.indexOf('=') !== -1 ) {

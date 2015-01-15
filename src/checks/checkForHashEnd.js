@@ -1,9 +1,10 @@
-// check if we're ending a hash
+'use strict';
+
 const hashEnding = /^\}/;
 
+// check if we're ending a hash
 module.exports = function checkForHashEnd( line, areWeInAHash ) {
-    'use strict';
-    if ( typeof areWeInAHash === 'undefined' || typeof line === 'undefined' ) { return; }
+    if ( typeof areWeInAHash === 'undefined' || typeof line !== 'string' ) { return; }
 
     // ex }, but only if we've already establish that we're in a hash'
     if ( hashEnding.test(line) && areWeInAHash ) {

@@ -1,8 +1,8 @@
-// check for 0 0 0 0 or 50px 0 50px 0 type mistakes
+'use strict';
 
+// check for 0 0 0 0 or 50px 0 50px 0 type mistakes
 module.exports = function checkForEfficiency( line, arr ) {
-    'use strict';
-    if ( typeof line === 'undefined' || typeof arr === 'undefined') { return; }
+    if ( typeof line !== 'string' || typeof arr === 'undefined') { return; }
 
     // filter the array from the line with all white space removed
     arr = arr.filter(function( str ) {
