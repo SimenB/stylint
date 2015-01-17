@@ -1,6 +1,6 @@
 'use strict';
 
-const hashEnding = /^\}/;
+var hashEnding = /^\}/;
 
 // check if we're ending a hash
 module.exports = function checkForHashEnd( line, areWeInAHash ) {

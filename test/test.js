@@ -220,7 +220,8 @@ describe('Flags: ', function() {
             '--watch',
             '--strict',
             '--version',
-            '--help'
+            '--help',
+            '--harmony'
         ];
 
         it('should deep equal mocked default flags', function() {

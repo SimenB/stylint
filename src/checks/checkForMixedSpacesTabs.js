@@ -1,6 +1,6 @@
 'use strict';
 
-const
+var
     tabs  = /\t/,       // was a tab used, at all
     spaces = /\s{2,}/;  // check for 2 or more spaces (if hard tabs, shouldn't find anything)
 

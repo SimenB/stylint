@@ -1,6 +1,6 @@
 'use strict';
 
-const
+var
     chalk    = require('chalk'),
     chokidar = require('chokidar');
 
@@ -12,7 +12,7 @@ const
  */
 module.exports = function watch( app, path ) {
     if ( typeof path === 'undefined' ) { return; }
-    let watcher = chokidar.watch( path );
+    var watcher = chokidar.watch( path );
 
     // initial watch msg
     watcher.on('ready', function() {

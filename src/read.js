@@ -1,6 +1,6 @@
 'use strict';
 
-const fs = require('fs');
+var fs = require('fs');
 
 /**
  * @description determines what files to read, creates an array of them, and passes it to be parsed

@@ -1,6 +1,6 @@
 'use strict';
 
-const
+var
     eqRe = /( =)|( \=\n)/,
     eqEndRe = /=$|=\s$/,
     hashRe = /\{$/;

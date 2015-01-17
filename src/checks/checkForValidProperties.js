@@ -1,7 +1,7 @@
 'use strict';
 
 // dont throw false positives on user created names or syntax
-const ignoreMe = /[$.#{}(=>]|(if)|(for)|(@block)/;
+var ignoreMe = /[$.#{}(=>]|(if)|(for)|(@block)/;
 
 /**
 * check against a JSON of all valid css properties and values
@@ -16,7 +16,7 @@ module.exports = function checkForValidProperties( line, valid ) {
     }
 
     // split by tabs and spaces, tabs mess with pattern matching
-    let arr = line.split(/[\s\t,:]/),
+    var arr = line.split(/[\s\t,:]/),
         isValid = false;
 
     // remove white space

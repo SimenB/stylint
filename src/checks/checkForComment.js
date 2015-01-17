@@ -1,7 +1,7 @@
 'use strict';
 
 // check for line comment on the line
-const hasComment = /(\/\/)/;
+var hasComment = /(\/\/)/;
 
 module.exports = function checkForComment( line ) {
     if ( typeof line !== 'string' ) { return; }

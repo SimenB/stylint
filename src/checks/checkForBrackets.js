@@ -1,6 +1,6 @@
 'use strict';
 
-const
+var
     openBracket = /\{$/,
     closeBracket = /\}$/,
     interpolation = /({\S)(\S)+[}]|([{]\S[}])/;

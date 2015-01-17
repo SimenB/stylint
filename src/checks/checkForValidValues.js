@@ -4,7 +4,7 @@
 // @TODO regex to match any length (ie, px, %, whatever)
 'use strict';
 
-const
+var
     ignoreMe = /[$.#{}(=]|(if)|(for)|(@block)/, // dont throw false positives on user created names or syntax
     valid = false;
 
@@ -20,15 +20,13 @@ module.exports = function checkForValidProperties( line, valid ) {
         return;
     }
 
-    let len = validHTML.length,
+    var len = validHTML.length,
         i = 0;
 
     // filter out white space
     arr = arr.filter(function( str ) {
         return str.length > 0;
     });
-
-    console.log( arr );
 
     // not empty, not something we ignore
     if ( !ignoreMe.test( line ) ) {
@@ -41,16 +39,12 @@ module.exports = function checkForValidProperties( line, valid ) {
             // get keys, the properties, which is where we'll start
             if ( validCSS.hasOwnProperty( prop ) ) {
 
-                // console.log( validCSS[prop] )
-                // console.log( validCSS[prop].length );
-
                 // loop through css array
                 if ( validCSS[prop] ) {
                     for ( i; i < validCSS[prop].length; i++ ) {
                         // if exact string match,
                         if ( arr[1] === validCSS[ i ] ) {
                             valid = true;
-                            // console.log( html[i] );
                             return true;
                         }
                     }

@@ -1,6 +1,6 @@
 'use strict';
 
-const
+var
     chalk = require('chalk'),
     valid = require('./data/getValid')();
 
@@ -14,7 +14,7 @@ const
  */
 module.exports = function test( app, line, num, output, file ) {
     // just some convenience stuff
-    let arr = line.split(' ');
+    var arr = line.split(' ');
 
     // check for @stylint off comments
     if ( app.hasComment( line ) ) {

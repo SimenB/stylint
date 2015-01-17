@@ -195,20 +195,20 @@
     </style>
 </head>
 <body>
-<div class="header low">
+<div class="header medium">
     <h1>Code coverage report for <span class="entity">stylus-lint/src/done.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">41.67% <small>(5 / 12)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">72.73% <small>(8 / 11)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">12.5% <small>(1 / 8)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">50% <small>(3 / 6)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
         Functions: <span class="metric">100% <small>(1 / 1)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">41.67% <small>(5 / 12)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">72.73% <small>(8 / 11)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
@@ -246,65 +246,62 @@
 28
 29
 30
-31
-32</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+31</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const chalk = require('chalk');
+<span class="cline-any cline-yes">69</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+&nbsp;
+var chalk = require('chalk');
 &nbsp;
 /**
- * @description outputs our error messages when complete (or a thumbs up if no errors)
+ * @description outputs our error messages when compvare (or a thumbs up if no errors)
  * @return void
  */
 module.exports = function done( app ) {
-    'use strict';
     var i = 0,
         len = app.warnings.length;
 &nbsp;
-    <span class="missing-if-branch" title="if path not taken" >I</span>if ( !app.state.testENV ) {
-        // output error messages
-<span class="cstat-no" title="statement not covered" >        for ( i; i &lt; len; i++ ) {</span>
-<span class="cstat-no" title="statement not covered" >            console.log( chalk.yellow('Warning: '), app.warnings[i], '\n' );</span>
-        }
+    // output error messages
+    for ( i; i &lt; len; i++ ) {
+        console.log( chalk.yellow('Warning: '), app.warnings[i], '\n' );
+    }
 &nbsp;
-        // if you set a max it displays a slightly more annoying message (that'll show em!)
-<span class="cstat-no" title="statement not covered" >        if ( app.config.maxWarnings &amp;&amp; len &gt; app.config.maxWarnings ) {</span>
-<span class="cstat-no" title="statement not covered" >            console.log( '\uD83D\uDCA9 ', chalk.underline.red( 'Stylint: ' + len + ' warnings. Max is set to: ' + app.config.maxWarnings + '\n' ) );</span>
-        }
-        else <span class="cstat-no" title="statement not covered" >if ( len === 0 ) {</span>
-<span class="cstat-no" title="statement not covered" >            console.log( '\n \uD83D\uDC4D ', chalk.blue( 'Stylint: You\'re all clear!\n' ) );</span>
-        }
-        else {
-<span class="cstat-no" title="statement not covered" >            console.log( '\uD83D\uDCA9 ', chalk.yellow( len + ' Warnings\n' ) );</span>
-        }
+    // if you set a max it displays a slightly more annoying message (that'll show em!)
+    <span class="missing-if-branch" title="else path not taken" >E</span>if ( app.config.maxWarnings &amp;&amp; len &gt; app.config.maxWarnings ) {
+        console.log( '\uD83D\uDCA9 ', chalk.underline.red( 'Stylint: ' + len + ' warnings. Max is set to: ' + app.config.maxWarnings + '\n' ) );
+    }
+    else <span class="cstat-no" title="statement not covered" >if ( len === 0 ) {</span>
+<span class="cstat-no" title="statement not covered" >        console.log( '\n \uD83D\uDC4D ', chalk.blue( 'Stylint: You\'re all clear!\n' ) );</span>
+    }
+    else {
+<span class="cstat-no" title="statement not covered" >        console.log( '\uD83D\uDCA9 ', chalk.yellow( len + ' Warnings\n' ) );</span>
     }
 &nbsp;
     // reset in case of watch
@@ -314,7 +311,7 @@ module.exports = function done( app ) {
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jan 14 2015 14:53:39 GMT-0800 (PST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Jan 17 2015 18:27:59 GMT-0500 (EST)</div>
 </div>
 
 <script src="../../prettify.js"></script>

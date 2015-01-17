@@ -1,6 +1,6 @@
 'use strict';
 
-const
+var
     spaceAfter = /,[a-zA-Z]/,
     spaceAfterNum = /,(?:\d*\.)?\d+/;
 

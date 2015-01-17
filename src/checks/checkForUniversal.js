@@ -1,6 +1,6 @@
 'use strict';
 
-const
+var
 	starS = /(\* )/,                  // check for space after star (inside a docblockr comment)
 	starO = /(\/\*\*)/ || /(\/\*)/,   // check for star selector as opening comment
 	starR = /(\*=)/,                  // check for use in regex

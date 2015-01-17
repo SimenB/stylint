@@ -1,6 +1,6 @@
 'use strict';
 
-const
+var
     cssCheck = /^[$#.]+/, // we dont care about default css names, only look at vars, classes, ids, etc
     camel = /^[$.#]+[a-zA-Z][a-z]+(?!_?!-)([.A-Z0-9]+[a-z =]+)+\b/, // camelCase or CamelCase
     dash = /^[$.#]+[a-z]+(?!_)(-[.a-z]+)*\b/, // lower-case-dashes-only

@@ -1,6 +1,6 @@
 'use strict';
 
-const
+var
     tabs = /^(\t)/,
     spaces = /^(\s)/;
 

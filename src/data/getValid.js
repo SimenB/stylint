@@ -1,4 +1,4 @@
-const fs = require('fs');
+var fs = require('fs');
 
 module.exports = function getValidJSON() {
     'use strict';

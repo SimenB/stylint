@@ -6,17 +6,17 @@ module.exports = function normalizeZIndex( line ) {
         return;
     }
 
+    var arr = line.split(/[\s\t,:]/);
+
+    // remove white space
+    arr = arr.filter(
+        function( str ) {
+            return str.length > 0;
+        }
+    );
+
     // the most basic of checks, throw warning if zindex value not normalized
     if ( line.indexOf( 'z-index' ) !== -1 ) {
-        let arr = line.split(/[\s\t,:]/);
-
-        // remove white space
-        arr = arr.filter(
-            function( str ) {
-                return str.length > 0;
-            }
-        );
-
         if ( arr[ arr.length - 1 ] % this.config.zIndexNormalize !== 0 ) {
             return true;
         }

@@ -1,6 +1,6 @@
 'use strict';
 
-const
+var
     fs = require('fs'),
     chalk = require('chalk');
 
@@ -9,7 +9,6 @@ module.exports = function version( app ) {
     return fs.readFile('package.json',
         function( err, data ) {
             if ( err ) { throw err; }
-            if ( app.state.testENV ) { return; }
             return console.log( chalk.blue('\nStylint version: '), JSON.parse( data ).version, '\n' );
         }
     );
