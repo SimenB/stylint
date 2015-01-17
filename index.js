@@ -118,7 +118,8 @@ var state = stampit().state({
         testENV: false, // are we running unit tests
     	toggleBlock: false // @stylint off
     },
-    warnings: []
+    warnings: [],
+    zCache: []
 });
 
 

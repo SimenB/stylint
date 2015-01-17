@@ -759,12 +759,24 @@ describe('Linter Style Checks: ', function() {
     });
 
     describe('zIndex Duplicates', function() {
+        it('zCache at this point should be 0', function() {
+            assert.equal( true, app.zCache.length === 0 );
+        })
         it('should return false if z-index is not found on line', function() {
             assert.equal( false, app.deDupeZ('margin 0') );
+        });
+        it('should return false if z-index is unique', function() {
+            assert.equal( false, app.deDupeZ('z-index 0') );
+        });
+        it('should return true if z-index is duplicated', function() {
+            assert.equal( true, app.deDupeZ('z-index 0') );
         });
         it('should return undefined if missing params', function() {
             assert.equal( undefined, app.deDupeZ() );
         });
+        it('zCache at this point should be greater than 0', function() {
+            assert.equal( true, app.zCache.length > 0 );
+        })
     });
 
     describe('zIndex Normalizer', function() {
