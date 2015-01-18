@@ -189,6 +189,7 @@ var testMethods = stampit().methods({
  * @return {Function} [calls the part of the app we want, depending on state]
  */
 var init = stampit().enclose(function () {
+    var configIndex;
 
     // if path/ passed in use that for the dir
     if ( process.argv[2] && this.flags.indexOf( process.argv[2] ) === -1 ) {
@@ -215,7 +216,14 @@ var init = stampit().enclose(function () {
 
 	// if -c or --config flags used
 	if ( process.argv.indexOf('-c') !== -1 || process.argv.indexOf('--config') !== -1 ) {
-        this.config = this.setConfig( argv.c ? argv.c : argv.config );
+        if ( process.argv.indexOf('-c') !== -1 ) {
+            configIndex = process.argv.indexOf('-c');
+        }
+        else {
+            configIndex = process.argv.indexOf('--config');
+        }
+
+        this.config = this.setConfig( process.argv[ configIndex + 1] );
 	}
 
     // fire watch or read based on flag
