@@ -78,8 +78,8 @@ The default settings are pretty weak and unopinionated (i think). If you want to
     'universal': true,
     'valid': false,
     'zeroUnits': true,
-    'zIndexDuplicates': true,
-    'zIndexNormalize': 5
+    'zIndexDuplicates': false,
+    'zIndexNormalize': false
 }
 ```
 
