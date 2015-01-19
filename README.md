@@ -77,7 +77,9 @@ The default settings are pretty weak and unopinionated (i think). If you want to
     'trailingWhitespace': true,
     'universal': true,
     'valid': false,
-    'zeroUnits': true
+    'zeroUnits': true,
+    'zIndexDuplicates': true,
+    'zIndexNormalize': 5
 }
 ```
 
@@ -229,6 +231,18 @@ Example if true: `marg 0` will throw a warning, prefer `margin 0`
 Looks for instances of `0px`. You don't need the px. Checks all units, not just px.
 
 Example: prefer `margin-right 0` over `margin-right 0em`
+
+
+### zIndexDuplicates (default: false, boolean)
+If a z-index value has been used before, throw a warning. Is this useful? WHO KNOWS
+
+
+### zeroUnits (default: false, number or false)
+Enforce some (very) basic z-index sanity. Any number passed in will be used as the base for your z-index values. Throws an error if your value is not normalized.
+
+Example if set to 5: prefer `z-index 10` over `z-index 9`
+Example if set to 10: prefer `z-index 20` over `z-index 15`
+Example if set to 50: prefer `z-index 100` over `z-index 75`
 
 
 

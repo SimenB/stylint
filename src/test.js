@@ -242,12 +242,14 @@ module.exports = function test( app, line, num, output, file ) {
             }
 
             // check for 0px (margin 0 is preferred over margin 0px | 0em | 0whatever)
-            if ( app.config.zIndexr || app.state.strictMode ) {
+            if ( app.config.zIndexDuplicates || app.state.strictMode ) {
 
                 if ( app.deDupeZ( line ) ) {
                     app.warnings.push( chalk.yellow( 'this z-index value is already being used elsewhere' ) + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
+            }
 
+            if ( app.config.zIndexNormalize || app.state.strictMode ) {
                 if ( app.normalizeZ( line ) ) {
                     app.warnings.push( chalk.yellow( 'this z-index value is not normalized' ) + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
