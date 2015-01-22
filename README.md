@@ -236,13 +236,17 @@ Example: prefer `margin-right 0` over `margin-right 0em`
 ### zIndexDuplicates (default: false, boolean)
 If a z-index value has been used before, throw a warning. Is this useful? WHO KNOWS
 
+Doesn't take into considering stacking contexts yet so, good luck if you try to use this.
 
-### zeroUnits (default: false, number or false)
+
+### zIndexNormalize (default: false, number or false)
 Enforce some (very) basic z-index sanity. Any number passed in will be used as the base for your z-index values. Throws an error if your value is not normalized.
 
 Example if set to 5: prefer `z-index 10` over `z-index 9`
 Example if set to 10: prefer `z-index 20` over `z-index 15`
 Example if set to 50: prefer `z-index 100` over `z-index 75`
+
+Doesn't take into considering stacking contexts yet so, good luck if you try to use this.
 
 
 
@@ -256,7 +260,7 @@ The following is a list of features that are currently in progress.
 Check that properties are in alphabetical order.
 
 ### duplicates (default: true, boolean)
-Check for unecessary duplicate properties .
+Check for unecessary duplicate properties.
 
 ### checking opposite values
 Not an option per se, but currently the linter either checks against my idea of what best practice is, or doesn't check at all. Ideally, you should be able to set an option to check for the opposite. For example, if you're weird and you want to force the use of colons everywhere, or brackets, or no $ in front of vars, you should be able to set that option.

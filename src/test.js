@@ -83,6 +83,13 @@ module.exports = function test( app, line, num, output, file ) {
                 return;
             }
 
+            // check for 0px (margin 0 is preferred over margin 0px | 0em | 0whatever)
+            if ( app.config.alphabetical || app.state.strictMode ) {
+                if ( !app.alphabetCheck( line, valid ) ) {
+                    app.warnings.push( chalk.yellow( 'Property is not in alphabetical order' ) + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+                }
+            }
+
             // check that commas are followed by a space
             if ( app.config.cssLiteral || app.state.strictMode ) {
                 if ( app.cssLiteral(line) ) {

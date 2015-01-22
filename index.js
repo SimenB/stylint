@@ -23,6 +23,7 @@ var
     test = require('./src/test'),
     ver = require('./src/version'),
     watch = require('./src/watch'),
+    alphabetCheck           = require('./src/checks/alphabetCheck'),
     blockStyleCorrect       = require('./src/checks/checkBlockStyle'),
     brackets                = require('./src/checks/checkForBrackets'),
     checkBorderNone         = require('./src/checks/checkBorderNone'),
@@ -39,7 +40,7 @@ var
     leadingZero             = require('./src/checks/checkForLeadingZero'),
     mixedSpacesAndTabs      = require('./src/checks/checkForMixedSpacesTabs'),
     namingConvention        = require('./src/checks/checkNamingConvention'),
-    normalizeZ               = require('./src/checks/zIndexNormalize'),
+    normalizeZ              = require('./src/checks/zIndexNormalize'),
     parenStyleCorrect       = require('./src/checks/checkForParenStyle'),
     placeholderStyleCorrect = require('./src/checks/checkForPlaceholderStyle'),
     semicolon               = require('./src/checks/checkForSemicolon'),
@@ -57,8 +58,9 @@ var
  */
 var config = stampit().state({
     config: {
+        'alphabetical': true, // check that properties are sorted alphabetically
         'borderNone': true, // check for use of border none and recommend border 0
-        'brackets': false, // check for { or }, unless used in a hash
+        'brackets': true, // check for { or }, unless used in a hash
         'colons': false, // check for unecessary colons
         'commaSpace': true, // check for spaces after commas (0, 0, 0, .18)
         'commentSpace': false, // check for space after line comment
@@ -80,8 +82,8 @@ var config = stampit().state({
         'universal': true, // check for use of * and recommend against it
         'valid': true, // check if prop or value is a valid assignment
         'zeroUnits': true, // check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
-        'zIndexDuplicates': false, // just find duplicate z index values
-        'zIndexNormalize': false // suggest a normalized z index value, base of whatever this is
+        'zIndexDuplicates': true, // just find duplicate z index values
+        'zIndexNormalize': 5 // suggest a normalized z index value, base of whatever this is
     }
 });
 
@@ -115,10 +117,10 @@ var state = stampit().state({
     	hash: false,
     	strictMode: false,
     	testsEnabled: true, // are we running linter tests
-        testENV: false, // are we running unit tests
     	toggleBlock: false // @stylint off
     },
     warnings: [],
+    alphaCache: [],
     zCache: []
 });
 
@@ -154,6 +156,7 @@ var coreMethods = stampit().methods({
 
 
 var testMethods = stampit().methods({
+    alphabetCheck: alphabetCheck,
     blockStyleCorrect: blockStyleCorrect,
     brackets: brackets,
     checkBorderNone: checkBorderNone,

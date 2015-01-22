@@ -7,7 +7,7 @@ const
     valid = require('../src/data/getValid')(),
     defaultConfig = {
         'borderNone': true, // check for use of border none and recommend border 0
-        'brackets': false, // check for { or }, unless used in a hash
+        'brackets': true, // check for { or }, unless used in a hash
         'colons': false, // check for unecessary colons
         'commaSpace': true, // check for spaces after commas (0, 0, 0, .18)
         'commentSpace': false, // check for space after line comment
@@ -29,11 +29,10 @@ const
         'universal': true, // check for use of * and recommend against it
         'valid': true, // check if prop or value is a valid assignment
         'zeroUnits': true, // check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
-        'zIndexDuplicates': false, // just find duplicate z index values
-        'zIndexNormalize': false, // suggest a normalized z index value, base of whatever this is
+        'zIndexDuplicates': true, // just find duplicate z index values
+        'zIndexNormalize': 5 // suggest a normalized z index value, base of whatever this is
     };
 
-app.state.testENV = true;
 
 describe('Core Methods: ', function() {
     describe('Read: ', function() {
@@ -238,7 +237,6 @@ describe('State: ', function() {
             hash: false,
             strictMode: false,
             testsEnabled: true, // are we running linter tests
-            testENV: false, // are we running unit tests
             toggleBlock: false // @stylint off
         };
 
@@ -259,9 +257,6 @@ describe('State: ', function() {
         });
         it('testsEnabled should be true', function() {
             assert.equal( true, app.state.testsEnabled );
-        });
-        it('testENV should be true', function() {
-            assert.equal( true, app.state.testENV );
         });
         it('toggleBlock should be false', function() {
             assert.equal( false, app.state.toggleBlock );
@@ -759,8 +754,8 @@ describe('Linter Style Checks: ', function() {
     });
 
     describe('zIndex Duplicates', function() {
-        it('zCache at this point should be 0', function() {
-            assert.equal( true, app.zCache.length === 0 );
+        it('zCache at this point should be greater than 0', function() {
+            assert.equal( true, app.zCache.length > 0 );
         })
         it('should return false if z-index is not found on line', function() {
             assert.equal( false, app.deDupeZ('margin 0') );

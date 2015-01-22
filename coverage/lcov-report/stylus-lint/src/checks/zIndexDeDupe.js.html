@@ -199,16 +199,16 @@
     <h1>Code coverage report for <span class="entity">stylus-lint/src/checks/zIndexDeDupe.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">100% <small>(12 / 12)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">100% <small>(14 / 14)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">83.33% <small>(5 / 6)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">100% <small>(10 / 10)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">100% <small>(3 / 3)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">100% <small>(2 / 2)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">100% <small>(11 / 11)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">100% <small>(13 / 13)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
@@ -246,64 +246,139 @@
 28
 29
 30
-31</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">11161</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">11160</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11160</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">34</span>
+<span class="cline-any cline-yes">196</span>
+<span class="cline-any cline-yes">128</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">68</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">34</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">561</span>
+<span class="cline-any cline-yes">29</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">34</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11160</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
 &nbsp;
 // check for z-index values that are duplicated elsewhere
 module.exports = function deDupeZIndex( line ) {
     if ( typeof line !== 'string' ) { return; }
 &nbsp;
-    var res = false,
+    var indentCount = 0,
+        context = 0,
+        res = false,
         // only split the line if needed, ie, if z-index is on the line
         arr = line.split(/[\s\t,:]/);
 &nbsp;
         // remove white space,
-        arr = arr.filter(
-            function( str ) {
-                return str.length &gt; 0;
-            }
-        );
+        // arr = arr.filter(
+        //     function( str ) {
+        //         return str.length &gt; 0;
+        //     }
+        // );
 &nbsp;
     // the most basic of checks, throw warning if zindex duplicated elsewhere
     if ( line.indexOf('z-index') !== -1 ) {
 &nbsp;
+        for ( var i = 0; i &lt; arr.length; i++ ) {
+            if ( arr[i].length === 0 ) {
+                indentCount++;
+            }
+            else {
+                context = indentCount / this.config.indentSpaces;
+            }
+        }
+&nbsp;
+        // console.log( context );
+&nbsp;
+        // process.exit()
+&nbsp;
+        // if ( typeof this.indentSpaces === 'number' ) {
+        //     context = this.indentSpaces %
+        // }
+&nbsp;
         this.zCache.forEach(function( val, i ) {
-            <span class="missing-if-branch" title="else path not taken" >E</span>if ( this.zCache[ i ] === arr[ arr.length - 1 ] ) {
+            // console.log( 'cache[i]' );
+            // console.log( this.zCache[i] );
+            // console.log( 'cache[i][0]' );
+            // console.log( this.zCache[i][0] );
+            if ( this.zCache[i][0] === arr[ arr.length - 1 ] &amp;&amp; context === this.zCache[i][1] ) {
                 res = true;
             }
         }.bind( this ));
 &nbsp;
-        this.zCache.push( arr[ arr.length - 1 ] );
+        this.zCache.push( [ arr[ arr.length - 1 ], context ] );
     }
+&nbsp;
+    // console.log( this.zCache );
 &nbsp;
     return res;
 }</pre></td></tr>
@@ -311,7 +386,7 @@ module.exports = function deDupeZIndex( line ) {
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Jan 19 2015 18:01:42 GMT-0500 (EST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Jan 20 2015 00:08:10 GMT-0500 (EST)</div>
 </div>
 
 <script src="../../../prettify.js"></script>
