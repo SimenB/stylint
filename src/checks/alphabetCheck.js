@@ -1,18 +1,22 @@
 'use strict';
 
+// @TODO clean up
+
 var prevContext = 0,
     // dont throw false positives on user created names or syntax
-    ignoreMe = /[$.#{}(=>&]|(if)|(for)|(@block)(@media)/;
+    ignoreMe = /[$.#{}(=>&)*]|(if)|(for)|(@block)(@media)(@extends)/;
 
 // check that selector properties are sorted alphabetically
 module.exports = function sortAlphabetically( line, valid ) {
     if ( typeof line !== 'string' ) { return; }
 
-    var indentCount = 0,
+    var
+        indentCount = 0,
         currContext = 0,
         isItSorted = false,
         arr = line.split(/[\s\t,:]/),
-        sortedArr = [];
+        sortedArr = [],
+        validCSS = false;
 
     // the most basic of checks, throw warning if zindex duplicated elsewhere
     arr.forEach(function( val, i ) {
@@ -35,14 +39,48 @@ module.exports = function sortAlphabetically( line, valid ) {
     }
 
     // push prop values into our 'cache'
-    if ( typeof arr[0] !== 'undefined' && arr[0].length > 0 && currContext > 0 ) {
-        this.alphaCache.push( arr[0] );
+    if ( typeof arr[0] !== 'undefined' && arr[0].length > 0 && currContext > 0 && !ignoreMe.test( line ) ) {
+        valid.css.forEach(function( val, index ) {
+            var i = 0,
+                j = 0;
+
+            // console.log(arr[0])
+            // console.log(val)
+
+            if ( arr[ 0 ] === val ) {
+                validCSS = true;
+                return;
+            }
+
+            for ( i; i < valid.prefixes.length; i++ ) {
+                if ( arr[ 0 ] === ( valid.prefixes[ i ] + val ) ) {
+                    validCSS = true;
+                    return;
+                }
+            }
+
+            for ( j; j < valid.pseudo.length; j++ ) {
+                if ( arr[ 0 ] === ( val + valid.pseudo[ j ] ) ) {
+                    validCSS = true;
+                    return;
+                }
+            }
+        }.bind( this ));
+
+        if ( validCSS ) {
+            // console.log( arr[ 0 ] );
+            this.alphaCache.push( arr[ 0 ] );
+        }
     }
     else {
         return true;
     }
 
     if ( line.indexOf('(') !== -1 && line.indexOf(')') !== -1 ) {
+        return true;
+    }
+
+    if ( ignoreMe.test( line ) || this.alphaCache.length < 1 ) {
         return true;
     }
 
@@ -54,18 +92,15 @@ module.exports = function sortAlphabetically( line, valid ) {
     // and then sort it
     sortedArr = sortedArr.sort();
 
-    // console.log( this.alphaCache[0] );
-    // console.log( sortedArr );
-    console.log( this.alphaCache );
-    console.log( currContext );
+    // console.log( this.alphaCache );
+    // // console.log( sortedArr );
+    // console.log( this.alphaCache.length );
+    // console.log( currContext );
 
     // now compare
     if ( this.alphaCache.length === sortedArr.length ) {
 
-        // dont throw false positives
-        // if ( typeof this.alphaCache[0] !== 'undefined' ) {
-
-        if ( !ignoreMe.test( line ) && this.state.hash === false ) {
+        if ( this.state.hash === false && currContext === prevContext ) {
 
             // compare each value individually
             this.alphaCache.forEach(function( val, i ) {
@@ -100,8 +135,6 @@ module.exports = function sortAlphabetically( line, valid ) {
                         }
                     }.bind( this ));
 
-                    console.log( 'still here' );
-
                     valid.html.forEach(function( val, index ) {
                         var i = 0,
                             j = 0;
@@ -117,13 +150,12 @@ module.exports = function sortAlphabetically( line, valid ) {
                                 return;
                             }
                         }
-
-                        // if ( isItSorted ) {
-                        //     this.alphaCache = [];
-                        // }
                     }.bind( this ));
                 }
             }.bind( this ));
+        }
+        else {
+            isItSorted = true;
         }
     }
 

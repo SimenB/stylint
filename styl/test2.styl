@@ -51,14 +51,14 @@ for i in ( 0..9 )
  * 4 this setting can speed up font rendering significantly, esp on mobile
  */
 body
-    background $white
-    color rgba(0, 0, 0, 0.18)
-    border none
+    -moz-osx-font-smoothing grayscale // 1
     -webkit-font-smoothing antialiased // 1
     -webkit-osx-font-smoothing grayscale // 1
-    -moz-osx-font-smoothing grayscale // 1
-    image-rendering crisp-edges // 2
     -webkit-overflow-scrolling touch
+    background $white
+    border none
+    color rgba(0, 0, 0, 0.18)
+    image-rendering crisp-edges // 2
     padding-top 60px // 3
     text-rendering optimizeSpeed // 4
     *
@@ -241,9 +241,9 @@ samp
 
 
 // images and video won't break their containers
-img,
-video,
-object,
 figure,
-iframe
+iframe,
+img,
+object,
+video
     max-width 100%
