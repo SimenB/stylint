@@ -18,7 +18,7 @@ module.exports = function sortAlphabetically( line, valid ) {
         sortedArr = [],
         validCSS = false;
 
-    // the most basic of checks, throw warning if zindex duplicated elsewhere
+    // get our context, ie, the indent level of the group of properties we're checking
     arr.forEach(function( val, i ) {
         if ( arr[i].length === 0 ) {
             indentCount++; // spaces or tabs
@@ -28,7 +28,7 @@ module.exports = function sortAlphabetically( line, valid ) {
         }
     }.bind( this ));
 
-    // get all single spaces in the line
+    // remove blank spaces now that we have our context
     arr = arr.filter(function( str ) {
         return str.length > 0;
     });
@@ -43,9 +43,6 @@ module.exports = function sortAlphabetically( line, valid ) {
         valid.css.forEach(function( val, index ) {
             var i = 0,
                 j = 0;
-
-            // console.log(arr[0])
-            // console.log(val)
 
             if ( arr[ 0 ] === val ) {
                 validCSS = true;
@@ -67,8 +64,9 @@ module.exports = function sortAlphabetically( line, valid ) {
             }
         }.bind( this ));
 
+        this.alphaCache.push( arr[ 0 ] );
+
         if ( validCSS ) {
-            // console.log( arr[ 0 ] );
             this.alphaCache.push( arr[ 0 ] );
         }
     }
@@ -92,8 +90,10 @@ module.exports = function sortAlphabetically( line, valid ) {
     // and then sort it
     sortedArr = sortedArr.sort();
 
-    // console.log( this.alphaCache );
-    // // console.log( sortedArr );
+    console.log( arr[ 0 ] );
+    // console.log( sortedArr[ 0 ] );
+    // console.log( currContext === prevContext );
+    // console.log( sortedArr === this.alphaCache );
     // console.log( this.alphaCache.length );
     // console.log( currContext );
 
