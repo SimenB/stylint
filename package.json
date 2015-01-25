@@ -1,10 +1,10 @@
 {
   "name": "stylint",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "A linter for stylus",
   "author": "Ross Patton",
   "license": "ISC",
-  "keywords": ["stylus", "stylus linter", "lint", "linter", "cli", "styl", "stylus-lint", "stylint"],
+  "keywords": ["stylus", "lint", "linter", "hinter", "cli", "styl", "stylus-hint", "stylus-lint", "stylint", "css", "style"],
   "main": "index.js",
   "repository": {
     "type": "git",
