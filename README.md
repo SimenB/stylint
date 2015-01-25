@@ -1,4 +1,5 @@
 ## stylint - cli stylus linter.
+[![NPM](https://nodei.co/npm/stylint.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/stylint/)
 
 not stable yet. please report any issues you see and update often. i'm adding new features and fixing bugs all the time. don't be surprised if most things change by 1.0. it is however perfectly good to use now if you don't mind the terminal and hitting the occasional bug.
 
@@ -15,7 +16,7 @@ not stable yet. please report any issues you see and update often. i'm adding ne
 -v or --version Display current version
 
 
-##### Example CLI Usage:
+## Example CLI Usage:
 `stylint` Run stylint on cwd
 
 `stylint path/to/styl -s` Run stylint in strict mode, for masochists
@@ -33,7 +34,7 @@ not stable yet. please report any issues you see and update often. i'm adding ne
 `stylint styl/ -w -c path/to/config/.configrc` Watch dir, use custom config
 
 
-#### Example Gulp Usage
+## Example Gulp Usage
 So there's no gulp/grunt plugin for this yet, but no worries, just use a shell plugin like so:
 
 ```
@@ -42,7 +43,7 @@ gulp.task('stylint', shell.task([
 ]));
 ```
 
-##### Known Issues:
+## Known Issues:
 The depthLimit / valid options are throwing occasional false positives. They are not enabled by default (depthLimit used to be but it's been turned off for now). You can enable them if you want. I've been using the valid check in production for a while now with no issues, but if you hit any i'd like to know.
 
 This will be fixed by 1.0, use those options at your own risk. If they give you problems use a `@stylint off` comment.
@@ -85,7 +86,7 @@ The default settings are pretty weak and unopinionated (i think). If you want to
     "parenSpace": false,
     "placeholders": true,
     "semicolons": false,
-    "trailingWhitespace": true,
+    "Whitespace": true,
     "universal": true,
     "valid": false,
     "zeroUnits": true,
@@ -282,8 +283,6 @@ Example: prefer `margin 0` over `margin 0;`
 
 ### trailingWhitespace (default: true, boolean)
 Looks for trailing whitespace. Throws a warning if any found.
-
-Example: prefer `margin 0 auto` over `margin 0 auto
 
 
 ### universal (default: true, boolean)
