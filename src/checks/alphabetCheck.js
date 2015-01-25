@@ -1,14 +1,13 @@
 'use strict';
 
-// @TODO clean up
-
-var prevContext = 0,
+var
+    prevContext = 0,
     // dont throw false positives on user created names or syntax
     ignoreMe = /[$.#{}(=>&)*]|(if)|(for)|(@block)(@media)(@extends)/;
 
 // check that selector properties are sorted alphabetically
 module.exports = function sortAlphabetically( line, valid ) {
-    if ( typeof line !== 'string' ) { return; }
+    if ( typeof line !== 'string' || typeof valid !== 'object' ) { return; }
 
     var
         indentCount = 0,
@@ -41,8 +40,7 @@ module.exports = function sortAlphabetically( line, valid ) {
     // push prop values into our 'cache'
     if ( typeof arr[0] !== 'undefined' && arr[0].length > 0 && currContext > 0 && !ignoreMe.test( line ) ) {
         valid.css.forEach(function( val, index ) {
-            var i = 0,
-                j = 0;
+            var i = 0, j = 0;
 
             if ( arr[ 0 ] === val ) {
                 validCSS = true;
@@ -64,8 +62,6 @@ module.exports = function sortAlphabetically( line, valid ) {
             }
         }.bind( this ));
 
-        this.alphaCache.push( arr[ 0 ] );
-
         if ( validCSS ) {
             this.alphaCache.push( arr[ 0 ] );
         }
@@ -82,20 +78,13 @@ module.exports = function sortAlphabetically( line, valid ) {
         return true;
     }
 
-    // create a copy of the cache
+    // create a copy of the cache for comparison
     this.alphaCache.forEach(function( val, i ) {
         sortedArr.push( this.alphaCache[i] );
     }.bind( this ));
 
     // and then sort it
     sortedArr = sortedArr.sort();
-
-    console.log( arr[ 0 ] );
-    // console.log( sortedArr[ 0 ] );
-    // console.log( currContext === prevContext );
-    // console.log( sortedArr === this.alphaCache );
-    // console.log( this.alphaCache.length );
-    // console.log( currContext );
 
     // now compare
     if ( this.alphaCache.length === sortedArr.length ) {
@@ -112,8 +101,7 @@ module.exports = function sortAlphabetically( line, valid ) {
                 // if match, check for valid css before we set it to true
                 else {
                     valid.css.forEach(function( val, index ) {
-                        var i = 0,
-                            j = 0;
+                        var i = 0, j = 0;
 
                         if ( this.alphaCache[ 0 ] === val ) {
                             isItSorted = true;
@@ -136,8 +124,7 @@ module.exports = function sortAlphabetically( line, valid ) {
                     }.bind( this ));
 
                     valid.html.forEach(function( val, index ) {
-                        var i = 0,
-                            j = 0;
+                        var i = 0, j = 0;
 
                         if ( this.alphaCache[ 0 ] === val ) {
                             isItSorted = true;
@@ -161,6 +148,8 @@ module.exports = function sortAlphabetically( line, valid ) {
 
     // save our curr context so we can use it to see our place
     prevContext = currContext;
+
+    // console.log('is it sorted: ', isItSorted)
 
     return isItSorted;
 }

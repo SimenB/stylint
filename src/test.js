@@ -112,6 +112,13 @@ module.exports = function test( app, line, num, output, file ) {
                 }
             }
 
+            // check that commas are followed by a space
+            if ( app.duplicates || app.state.strictMode ) {
+                if ( app.duplicates( line, file ) ) {
+                    app.warnings.push( chalk.yellow('duplicate property or selector, consider merging') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+                }
+            }
+
             // check for extra spaces when using parens
             if ( app.config.mixinSpace || app.config.parenSpace || app.state.strictMode ) {
                 if ( app.parenStyleCorrect(line) === false ) {

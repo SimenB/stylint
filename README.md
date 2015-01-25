@@ -43,9 +43,17 @@ gulp.task('stylint', shell.task([
 ```
 
 ##### Known Issues:
-The depthLimit / valid options are throwing occasional false positives. They are not enabled by default (depthLimit used to be but it's been turned off for now). You can enable them if you want.
+The depthLimit / valid options are throwing occasional false positives. They are not enabled by default (depthLimit used to be but it's been turned off for now). You can enable them if you want. I've been using the valid check in production for a while now with no issues, but if you hit any i'd like to know.
 
 This will be fixed by 1.0, use those options at your own risk. If they give you problems use a `@stylint off` comment.
+
+
+## Why Write This Tool?
+Stylus is my CSS pre-processor of choice and the lack of a decent linter (or really, any linter) was an annoying pain point. So I thought i'd try my hand at writing what I thought my ideal linter would look like.
+
+
+## Why Use This Tool?
+To catch little mistakes (duplication of rules for instance) and to enforce a code style guide. This is particularly important with Stylus, which is unopinionated when it comes to syntax. Ideally by 1.0 or earlier this tool will eventually allow you to enforce as little, or as much, syntax as you like.
 
 
 ## Options
@@ -55,37 +63,63 @@ The default settings are pretty weak and unopinionated (i think). If you want to
 
 ```
 {
-    'borderNone': true,
-    'brackets': false,
-    'colons': false,
-    'commaSpace': true,
-    'commentSpace': false,
-    'cssLiteral': false,
-    'depthLimit': false,
-    'efficient': true,
-    'enforceVarStyle': false,
-    'enforceBlockStyle': false,
-    'extendPref': false,
-    'indentSpaces': 4,
-    'leadingZero': true,
-    'maxWarnings': 10,
-    'mixed': false,
-    'namingConvention': false,
-    'parenSpace': false,
-    'placeholders': true,
-    'semicolons': false,
-    'trailingWhitespace': true,
-    'universal': true,
-    'valid': false,
-    'zeroUnits': true,
-    'zIndexDuplicates': false,
-    'zIndexNormalize': false
+    "alphabetical": true,
+    "borderNone": true,
+    "brackets": false,
+    "colons": false,
+    "commaSpace": true,
+    "commentSpace": false,
+    "cssLiteral": false,
+    "depthLimit": false,
+    "duplicates": true,
+    "efficient": true,
+    "enforceVarStyle": false,
+    "enforceBlockStyle": false,
+    "extendPref": false,
+    "globalDupe": false,
+    "indentSpaces": 4,
+    "leadingZero": true,
+    "maxWarnings": 10,
+    "mixed": false,
+    "namingConvention": false,
+    "parenSpace": false,
+    "placeholders": true,
+    "semicolons": false,
+    "trailingWhitespace": true,
+    "universal": true,
+    "valid": false,
+    "zeroUnits": true,
+    "zIndexDuplicates": false,
+    "zIndexNormalize": false
 }
 ```
 
 
 ### warning toggle (inline comment: @stylint off || @stylint on)
 Disable linting for a particular block of code by placing `@stylint off` in a line comment. Re-enable by placing `@stylint on` in a line comment farther down. Linter will not test any lines until turned back on. Use this to suppress warnings on a case by case basis. By default the linter will check every line except for @css blocks or places where certain rules have exceptions.
+
+
+### alphabetical (default: true, boolean)
+Prefer alphabetical ordering when declaring properties.
+
+Example if true:
+
+prefer this:
+```
+.some-class
+    border 1px solid black
+    margin 0
+    padding 0
+
+```
+
+over this:
+```
+.some-class
+    padding 0
+    margin 0
+    border 1px solid black
+```
 
 
 ### borderNone (default: true, boolean)
@@ -124,8 +158,28 @@ By default stylint ignores `@css` blocks. If set to true however, it will throw 
 Example if true: `@css` will throw a warning
 
 
+### duplicates (default: true, boolean)
+Checks if selector or property duplicated unecessarily. By default, only checks on a file by file basis, but if `globalDupes: true` is set, then it will also check for duplicates globally (for root values only).
+
+Example if true: the following will throw a warning
+```
+.test
+    margin 0
+
+.test
+    margin 5px
+```
+
+Example if true: the following will throw a warning:
+```
+.test
+    margin 0
+    margin 5px
+```
+
+
 ### depthLimit (default: false, number or false)
-Set the max selector depth. Pseudo selectors like `&:first-child` or `&:hover` won't count towards the limit.
+Set the max selector depth. If set to 4, max selector depth will be 4 indents. Pseudo selectors like `&:first-child` or `&:hover` won't count towards the limit.
 
 Set to false if you don't want to check for this.
 
@@ -156,6 +210,21 @@ Pass in either `@extend` or `@extends` and then enforce that. Both are valid in 
 Example if set to `@extends`: prefer `@extends $some-var` over `@extend $some-var`
 
 Example if set to `@extend`: prefer `@extend $some-var` over `@extend $some-var`
+
+
+### globalDupes (default: false, boolean)
+Works in conjunction with duplicates. Does nothing on it's own. If false, duplicates will check for dupes within individual files only. If true, duplicates will check for dupes across all files.
+
+Example if true: the following will throw a warning
+```
+>>> file1.styl
+.test
+    margin 0
+
+>>> file2.styl
+.test
+    margin 5px
+```
 
 
 ### indentSpaces (default: 4, number or false)
@@ -236,7 +305,16 @@ Example: prefer `margin-right 0` over `margin-right 0em`
 ### zIndexDuplicates (default: false, boolean)
 If a z-index value has been used before, throw a warning. Is this useful? WHO KNOWS
 
-Doesn't take into considering stacking contexts yet so, good luck if you try to use this.
+Example if true: the follow throws a warning
+```
+.test
+    z-index 5
+
+.test
+    z-index 5
+```
+
+Doesn't take into considering stacking contexts yet so, and i'm not sure it ever will, so good luck if you try to use this. Small projects might get some use out of this.
 
 
 ### zIndexNormalize (default: false, number or false)
@@ -246,7 +324,7 @@ Example if set to 5: prefer `z-index 10` over `z-index 9`
 Example if set to 10: prefer `z-index 20` over `z-index 15`
 Example if set to 50: prefer `z-index 100` over `z-index 75`
 
-Doesn't take into considering stacking contexts yet so, good luck if you try to use this.
+Doesn't take into considering stacking contexts yet so, and i'm not sure it ever will, so good luck if you try to use this. Small projects might get some use out of this.
 
 
 
@@ -256,11 +334,8 @@ Doesn't take into considering stacking contexts yet so, good luck if you try to 
 ## Upcoming Features:
 The following is a list of features that are currently in progress.
 
-### alphabeticalOrder (default: true, boolean)
-Check that properties are in alphabetical order.
-
-### duplicates (default: true, boolean)
-Check for unecessary duplicate properties.
-
-### checking opposite values
+### checking opposite values (JSCS style)
 Not an option per se, but currently the linter either checks against my idea of what best practice is, or doesn't check at all. Ideally, you should be able to set an option to check for the opposite. For example, if you're weird and you want to force the use of colons everywhere, or brackets, or no $ in front of vars, you should be able to set that option.
+
+### toggle ability for maxWarnings to kill process
+If maxWarnings set, and another option also set, maxWarnings can kill further linting if limit is reached. As part of a hook, this could be used to prevent a commit.

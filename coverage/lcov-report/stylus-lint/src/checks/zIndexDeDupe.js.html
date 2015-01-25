@@ -205,7 +205,7 @@
         Branches: <span class="metric">100% <small>(10 / 10)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">100% <small>(2 / 2)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">100% <small>(3 / 3)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
         Lines: <span class="metric">100% <small>(13 / 13)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
@@ -249,83 +249,39 @@
 31
 32
 33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+34</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">11161</span>
+<span class="cline-any cline-yes">11173</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11160</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11172</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11160</span>
+<span class="cline-any cline-yes">11172</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">34</span>
-<span class="cline-any cline-yes">196</span>
-<span class="cline-any cline-yes">128</span>
+<span class="cline-any cline-yes">188</span>
+<span class="cline-any cline-yes">120</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">68</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">34</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">561</span>
-<span class="cline-any cline-yes">29</span>
+<span class="cline-any cline-yes">37</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">34</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11160</span>
+<span class="cline-any cline-yes">11172</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
 &nbsp;
 // check for z-index values that are duplicated elsewhere
@@ -334,59 +290,37 @@ module.exports = function deDupeZIndex( line ) {
 &nbsp;
     var indentCount = 0,
         context = 0,
-        res = false,
-        // only split the line if needed, ie, if z-index is on the line
+        isItADupe = false,
         arr = line.split(/[\s\t,:]/);
-&nbsp;
-        // remove white space,
-        // arr = arr.filter(
-        //     function( str ) {
-        //         return str.length &gt; 0;
-        //     }
-        // );
 &nbsp;
     // the most basic of checks, throw warning if zindex duplicated elsewhere
     if ( line.indexOf('z-index') !== -1 ) {
 &nbsp;
-        for ( var i = 0; i &lt; arr.length; i++ ) {
+        arr.forEach(function( val, i ) {
             if ( arr[i].length === 0 ) {
-                indentCount++;
+                indentCount++; // spaces or tabs
             }
             else {
                 context = indentCount / this.config.indentSpaces;
             }
-        }
-&nbsp;
-        // console.log( context );
-&nbsp;
-        // process.exit()
-&nbsp;
-        // if ( typeof this.indentSpaces === 'number' ) {
-        //     context = this.indentSpaces %
-        // }
+        }.bind( this ));
 &nbsp;
         this.zCache.forEach(function( val, i ) {
-            // console.log( 'cache[i]' );
-            // console.log( this.zCache[i] );
-            // console.log( 'cache[i][0]' );
-            // console.log( this.zCache[i][0] );
             if ( this.zCache[i][0] === arr[ arr.length - 1 ] &amp;&amp; context === this.zCache[i][1] ) {
-                res = true;
+                isItADupe = true;
             }
         }.bind( this ));
 &nbsp;
         this.zCache.push( [ arr[ arr.length - 1 ], context ] );
     }
 &nbsp;
-    // console.log( this.zCache );
-&nbsp;
-    return res;
+    return isItADupe;
 }</pre></td></tr>
 </table></pre>
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Jan 20 2015 00:08:10 GMT-0500 (EST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Jan 24 2015 21:07:51 GMT-0800 (PST)</div>
 </div>
 
 <script src="../../../prettify.js"></script>

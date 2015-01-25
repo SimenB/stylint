@@ -1,11 +1,19 @@
+/**
+ * UNIT TESTS
+ * lets pull in what we're testing here
+ */
+
 const
     fs = require('fs'),
 	assert = require('assert'),
     should = require('chai').should(),
     sinon = require('sinon'),
     app = require('../index'),
+    // valid just gets our data for us... maybe this doesn't need to be a module
     valid = require('../src/data/getValid')(),
+    // we mock this here so if the real one ever changes it throws an error (alerting me to double check it)
     defaultConfig = {
+        'alphabetical': true,
         'borderNone': true, // check for use of border none and recommend border 0
         'brackets': true, // check for { or }, unless used in a hash
         'colons': false, // check for unecessary colons
@@ -13,10 +21,12 @@ const
         'commentSpace': false, // check for space after line comment
         'cssLiteral': false, // if true disallow css literals
         'depthLimit': false, // set a maximum selector depth (dont nest more than 4 deep)
+        'duplicates': true, // check if properties or selectors are duplicate
         'efficient': true, // check for margin 0 0 0 0 and recommend margin 0
         'enforceVarStyle': false, // check for $ when declaring vars (doesnt check use)
         'enforceBlockStyle': false, // check for @block when defining blocks
         'extendPref': false, // prefer a specific syntax when using @extends (or @extend)
+        'globalDupe': false, // throw duplicate selector warning across all files instead of curr file
         'indentSpaces': 4, // how many spaces should we prefer when indenting, pass in false if hard tabs
         'leadingZero': true, // find cases where 0.# is used, prefer .#
         'maxWarnings': 10, // should we have a max amount of warnings, and error out if we go over
@@ -46,21 +56,27 @@ describe('Core Methods: ', function() {
         it('should be a function', function() {
             app.read.should.be.a( 'function' );
         });
+
         it('first param should be the app object', function() {
             assert.deepEqual( app.read.getCall(0).args[0], app );
         });
+
         it('second param should be a string', function() {
             app.read.getCall(0).args[1].should.be.a( 'string' );
         });
+
         it('should return parse function if passed a dir', function() {
             app.read.getCall(0).returned( sinon.match.same( app.parse ) );
         });
+
         it('should return a function if passed a filename', function() {
             app.read.getCall(1).returned( sinon.match.same( app.parse ) );
         });
+
         it('should return a function if nothing passed', function() {
             app.read.getCall(2).returned( sinon.match.same( app.parse ) );
         });
+
         it('should return undefined if path doesnt exist', function() {
             assert.equal( undefined, app.read.getCall(3).returnValue );
         });
@@ -76,18 +92,23 @@ describe('Core Methods: ', function() {
         it('should be a function', function() {
             app.parseFile.should.be.a( 'function' );
         });
+
         it('first param should be the app object', function() {
             assert.deepEqual( app.parseFile.getCall(0).args[0], app );
         });
+
         it('second param should be a string', function() {
             app.parseFile.getCall(0).args[1].should.be.a( 'string' );
         });
+
         it('should return test function if passed a filename', function() {
             app.parseFile.getCall(0).returned( sinon.match.same( app.test ) );
         });
+
         it('should return undefined if path is directory', function() {
             assert.equal( undefined, app.parseFile.getCall(1).returnValue );
         });
+
         it('should return undefined if path doesnt exist', function() {
             assert.equal( undefined, app.parseFile.getCall(2).returnValue );
         });
@@ -100,21 +121,27 @@ describe('Core Methods: ', function() {
         it('should be a function', function() {
             app.test.should.be.a( 'function' );
         });
+
         it('first param should be the app object', function() {
             assert.deepEqual( app.test.getCall(0).args[0], app );
         });
+
         it('second param should be a string', function() {
             app.test.getCall(0).args[1].should.be.a( 'string' );
         });
+
         it('third param should be a number', function() {
             app.test.getCall(0).args[2].should.be.a( 'number' );
         });
+
         it('fourth param should be a string', function() {
             app.test.getCall(0).args[3].should.be.a( 'string' );
         });
+
         it('fifth param should be a string', function() {
             app.test.getCall(0).args[4].should.be.a( 'string' );
         });
+
         it('should return undefined', function() {
             assert.equal( undefined, app.test.getCall(0).returnValue );
         });
@@ -127,12 +154,15 @@ describe('Core Methods: ', function() {
         it('should be a function', function() {
             app.watch.should.be.a( 'function' );
         });
+
         it('first param should be the app object', function() {
             assert.deepEqual( app.watch.getCall(0).args[0], app );
         });
+
         it('second param should be a string', function() {
             app.watch.getCall(0).args[1].should.be.a( 'string' );
         });
+
         it('should return undefined', function() {
             assert.equal( undefined, app.watch.getCall(0).returnValue );
         });
@@ -145,6 +175,7 @@ describe('Core Methods: ', function() {
         it('should be a function', function() {
             app.help.should.be.a( 'function' );
         });
+
         it('should return undefined', function() {
             assert.equal( undefined, app.help.getCall(0).returnValue );
         });
@@ -157,6 +188,7 @@ describe('Core Methods: ', function() {
         it('should be a function', function() {
             app.ver.should.be.a( 'function' );
         });
+
         it('should return a console log function', function() {
             app.ver.getCall(0).returned( sinon.match.same( console.log ) );
         });
@@ -243,21 +275,27 @@ describe('State: ', function() {
         it('cssBlock should be false', function() {
             assert.equal( false, app.state.cssBlock );
         });
+
         it('dir should be undefined', function() {
             assert.equal( '-u', app.state.dir );
         });
+
         it('hash should be false', function() {
             assert.equal( false, app.state.hash );
         });
+
         it('strictMode should be false', function() {
             assert.equal( false, app.state.hash );
         });
+
         it('strictMode should be false', function() {
             assert.equal( false, app.state.strictMode );
         });
+
         it('testsEnabled should be true', function() {
             assert.equal( true, app.state.testsEnabled );
         });
+
         it('toggleBlock should be false', function() {
             assert.equal( false, app.state.toggleBlock );
         });
@@ -266,19 +304,41 @@ describe('State: ', function() {
 
 describe('Linter Style Checks: ', function() {
 
+    describe('alphabetical', function() {
+        // it('should return false with mocked alpha cache', function() {
+        //     app.alphaCache = [ '    z-index', '    border', '    padding', '    margin' ];
+        //     // console.log( app.alphaCache );
+        //     assert.equal( false, app.alphabetCheck( '    font-family', valid ) );
+        // });
+
+        it('should return true with mocked alpha cache', function() {
+            app.alphaCache = [ 'border', 'margin', 'padding' ];
+            assert.equal( true, app.alphabetCheck( 'z-index', valid ) );
+        });
+
+        it('should return undefined if missing params', function() {
+            assert.equal( undefined, app.alphabetCheck( undefined, valid ) );
+            assert.equal( undefined, app.alphabetCheck( 'z-index' ) );
+            assert.equal( undefined, app.alphabetCheck() );
+        });
+    });
+
     describe('block style', function() {
         it('should return false if block style incorrect', function() {
             assert.equal( false, app.blockStyleCorrect('myBlock = ') );
             assert.equal( false, app.blockStyleCorrect('myBlock =') );
         });
+
         it('should return true if block style correct', function() {
             assert.equal( true, app.blockStyleCorrect('myBlock = @block') );
             assert.equal( true, app.blockStyleCorrect('myBlock = @block ') );
         });
+
         it('should return undefined if not block', function() {
             assert.equal( undefined, app.blockStyleCorrect('margin 0') );
             assert.equal( undefined, app.blockStyleCorrect('myHash = {') );
         });
+
         it('should return undefined if missing params', function() {
             assert.equal( undefined, app.blockStyleCorrect() );
         });
@@ -288,12 +348,15 @@ describe('Linter Style Checks: ', function() {
         it('should return false if border none not present', function() {
             assert.equal( false, app.checkBorderNone('border 0') );
         });
+
         it('should return true if border none is present', function() {
             assert.equal( true, app.checkBorderNone('border none') );
         });
+
         it('should return undefined if no border', function() {
             assert.equal( undefined, app.checkBorderNone('margin 0') );
         });
+
         it('should return undefined if missing params', function() {
             assert.equal( undefined, app.checkBorderNone() );
         });
@@ -308,11 +371,13 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, app.brackets('.class-name-with-{i}', false) );
             assert.equal( false, app.brackets('.class-name-with-{i}', true) );
         });
+
         it ('should return true if illegal bracket found on line (not interpolation, not hash)', function() {
             assert.equal( true, app.brackets('.className {', false) );
             assert.equal( true, app.brackets('.className {', true) );
             assert.equal( true, app.brackets('}', false) );
         });
+
         it ('should return undefined if missing params', function() {
             assert.equal( undefined, app.brackets('.className ', true) );
             assert.equal( undefined, app.brackets('.className ', false) );
@@ -327,12 +392,14 @@ describe('Linter Style Checks: ', function() {
         it ('should return false if // not present at all on line', function() {
             assert.equal( false, app.hasComment('.noCommentOnThisLine ') );
         });
+
         it ('should return true if // is present anywhere on the line', function() {
             assert.equal( true, app.hasComment('//test') );
             assert.equal( true, app.hasComment('margin 0 auto //test') );
             assert.equal( true, app.hasComment('margin 0 auto // test') );
             assert.equal( true, app.hasComment('// test') );
         });
+
         it ('should return undefined if missing params', function() {
             assert.equal( undefined, app.hasComment() );
         });
@@ -342,10 +409,12 @@ describe('Linter Style Checks: ', function() {
         it('should return false if // not first char on line', function() {
             assert.equal( false, app.startsWithComment('margin 0 auto //test') );
         });
+
         it('should return true if // is the first character on the line', function() {
             assert.equal( true, app.startsWithComment('//test') );
             assert.equal( true, app.startsWithComment(' // test') );
         });
+
         it ('should return undefined if missing params', function() {
             assert.equal( undefined, app.startsWithComment('.noCommentOnThisLine ') );
             assert.equal( undefined, app.startsWithComment() );
@@ -357,10 +426,12 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, app.commentStyleCorrect('//test') );
             assert.equal( false, app.commentStyleCorrect('margin 0 auto //test') );
         });
+
         it('should return true if line comment has space after it', function() {
             assert.equal( true, app.commentStyleCorrect('margin 0 auto // test') );
             assert.equal( true, app.commentStyleCorrect('// test') );
         });
+
         it('should return undefined if missing params', function() {
             assert.equal( undefined, app.commentStyleCorrect('.noCommentOnThisLine') );
             assert.equal( undefined, app.commentStyleCorrect() );
@@ -371,9 +442,11 @@ describe('Linter Style Checks: ', function() {
         it('should return false if no space after commas', function() {
             assert.equal( false, app.commaStyleCorrect('0,0, 0, .18') );
         });
+
         it('should return true if space after commas', function() {
             assert.equal( true, app.commaStyleCorrect('0, 0, 0, .18') );
         });
+
         it('should return undefined if missing params', function() {
             assert.equal( undefined, app.commaStyleCorrect('.no-need-for-comma') );
             assert.equal( undefined, app.commaStyleCorrect() );
@@ -385,9 +458,11 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, app.colon('margin 0 auto', false) );
             assert.equal( false, app.colon('key: value', true) );
         });
+
         it('should return true if unecessary colon is found', function() {
             assert.equal( true, app.colon('margin: 0 auto', false) );
         });
+
         it('should return undefined if missing params', function() {
             assert.equal( undefined, app.colon('margin: 0 auto') );
             assert.equal( undefined, app.colon() );
@@ -401,11 +476,36 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, app.cssLiteral('not a css literal') );
             assert.equal( false, app.cssLiteral('@extends $placeholderVar') );
         });
+
         it('should return true if @css is used, false if not', function() {
             assert.equal( true, app.cssLiteral('@css {') );
         });
+
         it('should return undefined if missing params', function() {
             assert.equal( undefined, app.cssLiteral() );
+        });
+    });
+
+    describe('duplicates', function() {
+        app.selectorCache = ['margin-bottom', 'margin-top', 'z-index'];
+        app.rootCache = ['.test', 'body', '.test2'];
+
+        it('should return false if missing 2nd param', function() {
+            assert.equal( false, app.duplicates( 'test', undefined ) );
+        });
+
+        it('should return true if in-context selector is duplicate', function() {
+            app.duplicates( '   .test', 'file.style' ); // to set the context
+            assert.equal( true, app.duplicates( '   .test', 'file.style' ) );
+        });
+
+        it('should return true if root selector is duplicate', function() {
+            assert.equal( true, app.duplicates( '.test', 'file.style' ) );
+        });
+
+        it('should return undefined if missing 1st or both params', function() {
+            assert.equal( undefined, app.duplicates() );
+            assert.equal( undefined, app.duplicates( undefined, 'file.styl' ) );
         });
     });
 
@@ -433,6 +533,7 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, app.efficient( test6, test6.split(' ') ) );
             assert.equal( false, app.efficient( test7, test7.split(' ') ) );
         });
+
         it('should return true if value is efficient', function() {
             assert.equal( true, app.efficient( test8, test8.split(' ') ) );
             assert.equal( true, app.efficient( test9, test9.split(' ') ) );
@@ -440,6 +541,7 @@ describe('Linter Style Checks: ', function() {
             assert.equal( true, app.efficient( test11, test11.split(' ') ) );
             assert.equal( true, app.efficient( test12, test12.split(' ') ) );
         });
+
         it('should return undefined if missing params', function() {
             assert.equal( undefined, app.efficient( test13, test13.split(' ') ) );
             assert.equal( undefined, app.efficient() );
@@ -451,10 +553,12 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, app.extendStyleCorrect('@extend $placeHolderVar', '@extends') );
             assert.equal( false, app.extendStyleCorrect('@extends $placeHolderVar', '@extend') );
         });
+
         it('should return true if value matches preferred style', function() {
             assert.equal( true, app.extendStyleCorrect('@extend $placeHolderVar', '@extend') );
             assert.equal( true, app.extendStyleCorrect('@extends $placeHolderVar', '@extends') );
         });
+
         it('should return undefined if missing params', function() {
             assert.equal( undefined, app.extendStyleCorrect('@extends $placeHolderVar') );
             assert.equal( undefined, app.extendStyleCorrect() );
@@ -469,9 +573,11 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, app.hashStarting('.mistakenUseOfBracket {') );
             assert.equal( false, app.hashStarting('margin 0') );
         });
+
         it('should return true if = and { are found on the same line', function() {
             assert.equal( true, app.hashStarting('myHash = {') );
         });
+
         it('should return undefined if missing params', function() {
             assert.equal( undefined, app.hashStarting() );
         });
@@ -485,9 +591,11 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, app.hashEnding('myHash = {', false) );
             assert.equal( false, app.hashEnding('}', false) );
         });
+
         it('should return true if 2nd param is set to true and valid } found', function() {
             assert.equal( true, app.hashEnding('}', true) );
         });
+
         it('should return undefined if missing params', function() {
             assert.equal( undefined, app.hashEnding('}') );
             assert.equal( undefined, app.hashEnding() );
@@ -505,11 +613,13 @@ describe('Linter Style Checks: ', function() {
             assert.equal( true, app.leadingZero( test1, test1.split(' ') ) );
             assert.equal( true, app.leadingZero( test2, test2.split(' ') ) );
         });
+
         it('should return false if leading zero not found', function() {
             assert.equal( false, app.leadingZero( test3, test3.split(' ') ) );
             assert.equal( false, app.leadingZero( test4, test4.split(' ') ) );
             assert.equal( false, app.leadingZero( test5, test5.split(' ') ) );
         });
+
         it('should return undefined if missing params', function() {
             assert.equal( undefined, app.leadingZero() );
         });
@@ -520,11 +630,13 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, app.mixedSpacesAndTabs('    margin 0', 4) );
             assert.equal( false, app.mixedSpacesAndTabs('	margin 0', false) );
         });
+
         it('should return true if spaces and tabs are mixed', function() {
             assert.equal( true, app.mixedSpacesAndTabs('		margin 0', 4) );
             assert.equal( true, app.mixedSpacesAndTabs('	 	 margin 0', false) );
             assert.equal( true, app.mixedSpacesAndTabs('		padding 0em', 4) );
         });
+
         it('should return undefined if missing params', function() {
             assert.equal( undefined, app.mixedSpacesAndTabs() );
         });
@@ -593,6 +705,7 @@ describe('Linter Style Checks: ', function() {
 	        assert.equal( false, app.tooMuchNest( test1, test1.split(' '), 4, 4 ) );
 	        assert.equal( false, app.tooMuchNest( test2, test2.split(' '), 4, 4 ) );
         });
+
         it('should return true if more indents than 2nd param', function() {
 	        assert.equal( true, app.tooMuchNest( test3, test3.split(' '), 1, 4 ) );
 	        assert.equal( true, app.tooMuchNest( test4, test4.split(' '), 2, 2 ) );
@@ -600,6 +713,7 @@ describe('Linter Style Checks: ', function() {
 	        assert.equal( true, app.tooMuchNest( test6, test6.split(' '), 4, false ) );
 	        assert.equal( true, app.tooMuchNest( test7, test7.split(' '), 1, false ) );
         });
+
         it('should return undefined if missing params', function() {
             assert.equal( undefined, app.tooMuchNest( test8, test8.split(' '), undefined, false ) );
             assert.equal( undefined, app.tooMuchNest( test8, test8.split(' '), undefined, 4 ) );
@@ -614,12 +728,15 @@ describe('Linter Style Checks: ', function() {
         it('should return false if no parens spacing found', function() {
             assert.equal( false, app.parenStyleCorrect('myMixin(param1, param2)') );
         });
+
         it('should return true if correct parens spacing found', function() {
             assert.equal( true, app.parenStyleCorrect('myMixin( param1, param2 )') );
         });
+
         it('should return undefined if no parens on line', function() {
             assert.equal( undefined, app.parenStyleCorrect('.notAMixin ') );
         });
+
         it('should return undefined if missing params', function() {
             assert.equal( undefined, app.parenStyleCorrect() );
         });
@@ -629,12 +746,15 @@ describe('Linter Style Checks: ', function() {
         it('should return false if placeholder var not used', function() {
             assert.equal( false, app.placeholderStyleCorrect('@extends .notPlaceholderVar') );
         });
+
         it('should return true if placeholder var is used', function() {
             assert.equal( true, app.placeholderStyleCorrect('@extends $placeholderVar') );
         });
+
         it('should return undefined if no extend found', function() {
             assert.equal( undefined, app.placeholderStyleCorrect('margin 0') );
         });
+
         it('should return undefined if missing params', function() {
             assert.equal( undefined, app.placeholderStyleCorrect() );
         });
@@ -644,9 +764,11 @@ describe('Linter Style Checks: ', function() {
         it('should return false if no semicolon is found', function() {
             assert.equal( false, app.semicolon('margin 0 auto') );
         });
+
         it('should return true if semicolon found', function() {
             assert.equal( true, app.semicolon('margin 0 auto;') );
         });
+
         it('should return undefined if params missing', function() {
             assert.equal( undefined, app.semicolon() );
         });
@@ -656,10 +778,12 @@ describe('Linter Style Checks: ', function() {
         it('should return false if no trailing whitespace', function() {
             assert.equal( false, app.whitespace('margin 0 auto') );
         });
+
         it('should return true if whitespace found', function() {
             assert.equal( true, app.whitespace('margin 0 auto	') );
             assert.equal( true, app.whitespace('margin 0 auto ') );
         });
+
         it('should return undefined if params missing', function() {
             assert.equal( undefined, app.whitespace() );
         })
@@ -669,10 +793,12 @@ describe('Linter Style Checks: ', function() {
         it('should return false if no * is found', function() {
             assert.equal( false, app.universalSelector('img') );
         });
+
         it('should return true if * is found', function() {
             assert.equal( true, app.universalSelector('*') );
             assert.equal( true, app.universalSelector('*:before') );
         });
+
         it('should return undefined if missing params', function() {
             assert.equal( undefined, app.universalSelector() );
         });
@@ -683,6 +809,7 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, app.validProperty( 'marg 0 auto', valid ) );
             assert.equal( false, app.validProperty( 'pad 0', valid ) );
         });
+
         it ('should return true if property is valid', function() {
             assert.equal( true, app.validProperty( 'padding 0', valid ) );
             assert.equal( true, app.validProperty( 'input', valid ) );
@@ -692,6 +819,7 @@ describe('Linter Style Checks: ', function() {
             assert.equal( true, app.validProperty( 'my-hash = {', valid ) );
             assert.equal( true, app.validProperty( 'for i in 0..9', valid ) );
         });
+
         it ('should return undefined if missing params', function() {
             assert.equal( undefined, app.validProperty( undefined, valid ) );
             assert.equal( undefined, app.validProperty( 'body', undefined ) );
@@ -708,10 +836,12 @@ describe('Linter Style Checks: ', function() {
         it('should return false if $ is missing', function() {
             assert.equal( false, app.varStyleCorrect('myVar = 0') );
         });
+
         it('should return true if $ is found (and correct', function() {
             assert.equal( true, app.varStyleCorrect('$myVar = 0') );
             assert.equal( true, app.varStyleCorrect('$first-value = floor( (100% / $columns) * $index )') );
         });
+
         it('should return undefined if line not testable', function() {
             assert.equal( undefined, app.varStyleCorrect('define-my-mixin( $myParam )') );
             assert.equal( undefined, app.varStyleCorrect('if($myParam == true)') );
@@ -721,6 +851,7 @@ describe('Linter Style Checks: ', function() {
             assert.equal( undefined, app.varStyleCorrect('  use-my-mixin( myParam )') );
             assert.equal( undefined, app.varStyleCorrect('  if( $myParam )') );
         });
+
         it('should return undefined if params missing', function() {
             assert.equal( undefined, app.varStyleCorrect() );
         });
@@ -730,6 +861,7 @@ describe('Linter Style Checks: ', function() {
         it('should return false if 0 found', function() {
             assert.equal( false, app.zeroUnits('margin 0') );
         });
+
         it('should return true if 0 + any unit type is found (0 is preferred)', function() {
             assert.equal( true, app.zeroUnits('margin 0px') );
             assert.equal( true, app.zeroUnits('margin 0em') );
@@ -748,6 +880,7 @@ describe('Linter Style Checks: ', function() {
             assert.equal( true, app.zeroUnits('margin 0ex') );
             assert.equal( true, app.zeroUnits('margin 0ch') );
         });
+
         it('should return undefined if missing params', function() {
             assert.equal( undefined, app.zeroUnits() );
         });
@@ -756,19 +889,24 @@ describe('Linter Style Checks: ', function() {
     describe('zIndex Duplicates', function() {
         it('zCache at this point should be greater than 0', function() {
             assert.equal( true, app.zCache.length > 0 );
-        })
+        });
+
         it('should return false if z-index is not found on line', function() {
             assert.equal( false, app.deDupeZ('margin 0') );
         });
+
         it('should return false if z-index is unique', function() {
             assert.equal( false, app.deDupeZ('z-index 0') );
         });
+
         it('should return true if z-index is duplicated', function() {
             assert.equal( true, app.deDupeZ('z-index 0') );
         });
+
         it('should return undefined if missing params', function() {
             assert.equal( undefined, app.deDupeZ() );
         });
+
         it('zCache at this point should be greater than 0', function() {
             assert.equal( true, app.zCache.length > 0 );
         })
@@ -779,12 +917,15 @@ describe('Linter Style Checks: ', function() {
             app.config.zIndexNormalize = 5;
             assert.equal( false, app.normalizeZ('z-index 5') );
         });
+
         it('should return true if z index value needs to be normalized', function() {
             assert.equal( true, app.normalizeZ('z-index 4') );
         });
+
         it('should return undefined if z-index is not found on line', function() {
             assert.equal( undefined, app.normalizeZ('margin 0') );
         });
+
         it('should return undefined if missing params', function() {
             assert.equal( undefined, app.normalizeZ() );
         });

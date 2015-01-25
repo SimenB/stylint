@@ -32,6 +32,7 @@ var
     commentStyleCorrect     = require('./src/checks/checkCommentStyle'),
     cssLiteral              = require('./src/checks/checkForCssLiteral'),
     deDupeZ                 = require('./src/checks/zIndexDeDupe'),
+    duplicates              = require('./src/checks/duplicateCheck'),
     efficient               = require('./src/checks/checkForEfficiency'),
     extendStyleCorrect      = require('./src/checks/checkForExtendStyle'),
     hasComment              = require('./src/checks/checkForComment'),
@@ -66,10 +67,12 @@ var config = stampit().state({
         'commentSpace': false, // check for space after line comment
         'cssLiteral': false, // if true disallow css literals
         'depthLimit': false, // set a maximum selector depth (dont nest more than 4 deep)
+        'duplicates': true, // check if properties or selectors are duplicate
         'efficient': true, // check for margin 0 0 0 0 and recommend margin 0
         'enforceVarStyle': false, // check for $ when declaring vars (doesnt check use)
         'enforceBlockStyle': false, // check for @block when defining blocks
         'extendPref': false, // prefer a specific syntax when using @extends (or @extend)
+        'globalDupe': false, // throw duplicate selector warning across all files instead of curr file
         'indentSpaces': 4, // how many spaces should we prefer when indenting, pass in false if hard tabs
         'leadingZero': true, // find cases where 0.# is used, prefer .#
         'maxWarnings': 10, // should we have a max amount of warnings, and error out if we go over
@@ -108,6 +111,7 @@ var flags = stampit().state({
 
 /**
  * @description i hold the state
+ * @todo prolly dont need so many arrays
  * @return {Object} [i expose properties to the entire app]
  */
 var state = stampit().state({
@@ -121,6 +125,8 @@ var state = stampit().state({
     },
     warnings: [],
     alphaCache: [],
+    selectorCache: [],
+    rootCache: [],
     zCache: []
 });
 
@@ -165,6 +171,7 @@ var testMethods = stampit().methods({
     commentStyleCorrect: commentStyleCorrect,
     cssLiteral: cssLiteral,
     deDupeZ: deDupeZ,
+    duplicates: duplicates,
     efficient: efficient,
     extendStyleCorrect: extendStyleCorrect,
     hasComment: hasComment,
