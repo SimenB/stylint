@@ -162,15 +162,6 @@ Example if true: `@css` will throw a warning
 ### duplicates (default: true, boolean)
 Checks if selector or property duplicated unecessarily. By default, only checks on a file by file basis, but if `globalDupes: true` is set, then it will also check for duplicates globally (for root values only).
 
-Example if true: the following will throw a warning
-```
-.test
-    margin 0
-
-.test
-    margin 5px
-```
-
 Example if true: the following will throw a warning:
 ```
 .test

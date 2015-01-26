@@ -4,7 +4,7 @@ var
     prevFile = '',
     prevContext = 0,
     ignoreMe = /(@media)/,
-    syntaxIgnore = /[,]|(:after|:active|:before|@import|@media|:not)/;
+    syntaxIgnore = /[},]|(:after|:active|:before|@import|@media|:not)/;
 
 // check that selector properties are sorted alphabetically
 module.exports = function duplicateSelectors( line, file ) {

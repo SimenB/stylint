@@ -1,3 +1,11 @@
+##### 0.8.2
+duplicates was not toggle-able - fixed https://github.com/rossPatton/stylint/issues/27
+duplicates needs some work - update README to reflect that
+
+##### 0.8.1
+add npm badge and gitter
+README tweaks
+
 ##### 0.8.0
 checks:
     duplicates added, on by default, check for duplicate selectors or properties

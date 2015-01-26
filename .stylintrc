@@ -6,6 +6,7 @@
     "commentSpace": true,
     "cssLiteral": true,
     "depthLimit": 5,
+    "duplicates": false,
     "efficient": false,
     "enforceVarStyle": false,
     "enforceBlockStyle": false,
