@@ -1,6 +1,8 @@
 ## stylint - cli stylus linter.
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rossPatton/stylint?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+
 [![NPM](https://nodei.co/npm/stylint.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/stylint/)
 
 not stable yet. please report any issues you see and update often. i'm adding new features and fixing bugs all the time. don't be surprised if most things change by 1.0. it is however perfectly good to use now if you don't mind the terminal and hitting the occasional bug.
