@@ -4,12 +4,13 @@ var
     cssCheck = /^[$#.]+/, // we dont care about default css names, only look at vars, classes, ids, etc
     camel = /^[$.#]+[a-zA-Z][a-z]+(?!_?!-)([.A-Z0-9]+[a-z =]+)+\b/, // camelCase or CamelCase
     dash = /^[$.#]+[a-z]+(?!_)(-[.a-z]+)*\b/, // lower-case-dashes-only
-    score = /^[$.#]+[a-z]+(?!-)(_[.a-z]+)*\b/; // lower_case_underscores_only
+    score = /^[$.#]+[a-z]+(?!-)(_[.a-z]+)*\b/, // lower_case_underscores_only
+    bem = /^[$.#]+[a-z]([-]?[a-z0-9]+)*(__[a-z0-9]([-]?[a-z0-9]+)*)?((_[a-z0-9]([-]?[a-z0-9]+)*){2})*\b/; // BEM (http://bem.info/method/)
 
 /**
- * check for names-like-this vs namesLikeThis or NamesLikeThis vs names_like_this
+ * check for names-like-this vs namesLikeThis or NamesLikeThis vs names_like_this or names-like__this-that
  * @param {string} [line] the line to be tested
- * @param {string} [convention] the naming convention to test againt. can be 'camelCase'|'underscore'|'dash'
+ * @param {string} [convention] the naming convention to test againt. can be 'camelCase'|'underscore'|'dash'|'BEM'
  * @returns true, false, or undefined true if convention correct, false if not, undefined if line not testable
  */
 module.exports = function checkNamingConvention( line, convention ) {
@@ -35,6 +36,14 @@ module.exports = function checkNamingConvention( line, convention ) {
         }
         else if ( convention === 'lowercase-dash' ) {
             if ( dash.test( line ) ) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else if ( convention === 'BEM' ) {
+            if ( bem.test( line ) ) {
                 return true;
             }
             else {
