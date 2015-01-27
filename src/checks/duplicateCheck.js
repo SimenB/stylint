@@ -3,8 +3,8 @@
 var
     prevFile = '',
     prevContext = 0,
-    ignoreMe = /(@media)/,
-    syntaxIgnore = /[},]|(:after|:active|:before|@import|@media|:not)/;
+    media = /(@media)/,
+    syntaxIgnore = /[,]|(:after|:active|:before|@import|@media|:not|:hover)/;
 
 // check that selector properties are sorted alphabetically
 module.exports = function duplicateSelectors( line, file ) {
@@ -13,18 +13,31 @@ module.exports = function duplicateSelectors( line, file ) {
     var
         arr = line.split(/[\s\t]/),
         isThereADupe = false,
+        textIndex = 0,
         indentCount = 0,
-        currContext = 0;
+        currContext = 0,
+        usingTabs = false,
+        saveIndexOf = 0;
 
-    // get our context, ie, the indent level of the group of properties we're checking
-    arr.forEach(function( val, i ) {
-        if ( arr[i].length === 0 ) {
-            indentCount++; // spaces or tabs
+
+    // quick and dirty fixes for now, didnt' account for hard tabs for context check
+    if ( typeof this.config.indentSpaces !== 'number' ) {
+        usingTabs = true;
+
+        while ( line.charAt( textIndex++ ) === '\t' ) {
+            currContext++;
         }
-        else {
-            currContext = indentCount / this.config.indentSpaces;
-        }
-    }.bind( this ));
+    }
+    else {
+        arr.forEach(function( val, i ) {
+            if ( arr[i].length === 0 ) {
+                indentCount++; // spaces or tabs
+            }
+            else {
+                currContext = indentCount / this.config.indentSpaces;
+            }
+        }.bind( this ));
+    }
 
     // remove blank spaces now that we have our context
     arr = arr.filter(function( str ) {
@@ -36,17 +49,29 @@ module.exports = function duplicateSelectors( line, file ) {
         this.selectorCache = [];
     }
 
+    // console.log( line );
+    // console.log( 'currContext', currContext );
+    // console.log( 'prevContext', prevContext );
+
     // keep track of and check root selectors too
     if ( currContext === 0 ) {
         // if curr line is already in our cache, we have a dupe
         if ( !this.config.globalDupe && prevFile !== file ) {
-            if ( this.rootCache.indexOf( arr[0] ) !== -1 && !ignoreMe.test( line ) ) {
-                isThereADupe = true;
+            if ( this.rootCache.indexOf( arr[0] ) !== -1 && !media.test( line ) ) {
+                saveIndexOf = this.rootCache.indexOf( arr[0] );
+
+                if ( this.rootCache[ saveIndexOf ] === line ) {
+                    isThereADupe = true;
+                }
             }
         }
         else {
-            if ( this.rootCache.indexOf( arr[0] ) !== -1 && !ignoreMe.test( line ) ) {
-                isThereADupe = true;
+            if ( this.rootCache.indexOf( arr[0] ) !== -1 && !media.test( line ) ) {
+                saveIndexOf = this.rootCache.indexOf( arr[0] );
+
+                if ( this.rootCache[ saveIndexOf ] === line ) {
+                    isThereADupe = true;
+                }
             }
         }
 
@@ -57,11 +82,13 @@ module.exports = function duplicateSelectors( line, file ) {
 
     // if curr line is already in our cache, we have a dupe
     if ( this.selectorCache.indexOf( arr[0] ) !== -1 ) {
-        isThereADupe = true;
+        if ( this.selectorCache[ this.selectorCache.indexOf( arr[0] ) ].trim() === line.trim() ) {
+            isThereADupe = true;
+        }
     }
 
     // cache the lines in the curr context
-    if ( typeof arr[0] !== 'undefined' ) {
+    if ( typeof arr[0] !== 'undefined' && !syntaxIgnore.test(line) ) {
         this.selectorCache.push( arr[0] );
     }
 

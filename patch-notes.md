@@ -1,3 +1,8 @@
+##### 0.8.3
+fixes to duplicates and alphabetical sort, made more specific basically
+both were a little too general, will probably need more testing
+tweak mixed spaces and tabs ( look for (  ) instead of (\s\s) )
+
 ##### 0.8.2
 duplicates was not toggle-able - fixed https://github.com/rossPatton/stylint/issues/27
 duplicates needs some work - update README to reflect that

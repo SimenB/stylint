@@ -3,7 +3,7 @@
 var
     prevContext = 0,
     // dont throw false positives on user created names or syntax
-    ignoreMe = /[$.#{}(=>&)*]|(if)|(for)|(@block)(@media)(@extends)/;
+    ignoreMe = /^[.#]|[${}=>&*]|(if)|(for)|(@block)(@import)(@media)(@extends)/;
 
 // check that selector properties are sorted alphabetically
 module.exports = function sortAlphabetically( line, valid ) {
@@ -15,7 +15,8 @@ module.exports = function sortAlphabetically( line, valid ) {
         isItSorted = false,
         arr = line.split(/[\s\t,:]/),
         sortedArr = [],
-        validCSS = false;
+        validCSS = false,
+        validHTML = true;
 
     // get our context, ie, the indent level of the group of properties we're checking
     arr.forEach(function( val, i ) {
@@ -62,8 +63,26 @@ module.exports = function sortAlphabetically( line, valid ) {
             }
         }.bind( this ));
 
+        // valid.html.forEach(function( val, index ) {
+        //     var i = 0,
+        //         j = 0;
+
+        //     if ( arr[ 0 ] === val ) {
+        //         validHTML = true;
+        //         return;
+        //     }
+
+        //     for ( j; j < valid.pseudo.length; j++ ) {
+        //         if ( arr[ 0 ] === ( val + valid.pseudo[ j ] ) ) {
+        //             validHTML = true;
+        //             return;
+        //         }
+        //     }
+        // });
+
         if ( validCSS ) {
             this.alphaCache.push( arr[ 0 ] );
+            // console.log( this.alphaCache );
         }
     }
     else {

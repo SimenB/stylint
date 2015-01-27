@@ -215,7 +215,7 @@ module.exports = function test( app, line, num, output, file ) {
             if ( app.config.mixed || app.state.strictMode ) {
                 // console.log( app.config.indentSpaces );
                 // else check tabs against tabs and spaces against spaces
-                if ( app.mixedSpacesAndTabs( line, app.config.indentSpaces ) ) {
+                if ( app.mixedSpacesAndTabs( line, arr, app.config.indentSpaces ) ) {
                     app.warnings.push( chalk.yellow('mixed spaces and tabs') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
             }

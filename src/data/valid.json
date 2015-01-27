@@ -111,6 +111,8 @@
         "top",
         "touch-action",
         "text-size-adjust",
+        "transform",
+        "transform-origin",
         "user-select",
         "visibility",
         "white-space",

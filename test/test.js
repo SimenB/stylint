@@ -627,14 +627,23 @@ describe('Linter Style Checks: ', function() {
 
     describe('mixed spaces and tabs', function() {
         it('should return false if no mixed spaces and tabs found', function() {
-            assert.equal( false, app.mixedSpacesAndTabs('    margin 0', 4) );
-            assert.equal( false, app.mixedSpacesAndTabs('	margin 0', false) );
+            var
+                test1 = '    margin 0',
+                test2 = '	margin 0';
+
+            assert.equal( false, app.mixedSpacesAndTabs( test1, test1.split(' '), 4 ) );
+            assert.equal( false, app.mixedSpacesAndTabs( test2, test2.split(' '), false ) );
         });
 
         it('should return true if spaces and tabs are mixed', function() {
-            assert.equal( true, app.mixedSpacesAndTabs('		margin 0', 4) );
-            assert.equal( true, app.mixedSpacesAndTabs('	 	 margin 0', false) );
-            assert.equal( true, app.mixedSpacesAndTabs('		padding 0em', 4) );
+            var
+                test1 = '	  margin 0',
+                test2 = '	    margin 0',
+                test3 = '	padding 0em';
+
+            assert.equal( true, app.mixedSpacesAndTabs( test1, test1.split(' '), 4 ) );
+            assert.equal( true, app.mixedSpacesAndTabs( test2, test2.split(' '), false ) );
+            assert.equal( true, app.mixedSpacesAndTabs( test3, test3.split(' '), 4 ) );
         });
 
         it('should return undefined if missing params', function() {
