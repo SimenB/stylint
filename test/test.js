@@ -665,6 +665,9 @@ describe('Linter Style Checks: ', function() {
             assert.equal( true, app.namingConvention('.classNameLikeThis', 'camelCase') );
             assert.equal( true, app.namingConvention('#idNameLikeThis', 'camelCase') );
 
+            assert.equal( true, app.namingConvention('$var-name__like-this =', 'BEM') );
+            assert.equal( true, app.namingConvention('.class-name__like-this', 'BEM') );
+            assert.equal( true, app.namingConvention('#id-name__like-this', 'BEM') );
         });
 
         it('false if not correct naming convention', function() {
@@ -679,6 +682,9 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, app.namingConvention('$var-name-like-this =', 'camelCase') );
             assert.equal( false, app.namingConvention('.class-name-like-this', 'camelCase') );
             assert.equal( false, app.namingConvention('#id-name-like-this', 'camelCase') );
+
+            assert.equal( false, app.namingConvention('.classNameLikeThis', 'BEM') );
+            assert.equal( false, app.namingConvention('#id-name-like-this', 'BEM') );
         });
 
         it('and undefined if line not checkable', function() {
