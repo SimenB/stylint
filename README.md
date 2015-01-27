@@ -7,6 +7,8 @@
 
 not stable yet. please report any issues you see and update often. i'm adding new features and fixing bugs all the time. don't be surprised if most things change by 1.0. it is however perfectly good to use now if you don't mind the terminal and hitting the occasional bug.
 
+note: i fixed a number of bugs with alphabet / duplicates / mixed, so if you were using any of those before you might want to update.
+
 
 ## CLI
 -h or --help    Display list of commands
