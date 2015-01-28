@@ -14,7 +14,7 @@ results
 npm-debug.log
 node_modules
 styl
-
+coverage
 
 lib/read.js
 old-and-ignored/

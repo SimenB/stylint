@@ -684,7 +684,7 @@ describe('Linter Style Checks: ', function() {
             assert.equal( false, app.namingConvention('#id-name-like-this', 'camelCase') );
 
             assert.equal( false, app.namingConvention('.classNameLikeThis', 'BEM') );
-            assert.equal( false, app.namingConvention('#id-name-like-this', 'BEM') );
+            assert.equal( false, app.namingConvention('#id_name_like_this', 'BEM') );
         });
 
         it('and undefined if line not checkable', function() {
