@@ -185,7 +185,7 @@ module.exports = function test( app, line, num, output, file ) {
 
             // check for * selector (* is discouraged)
             if ( app.config.universal || app.state.strictMode ) {
-                if ( app.universalSelector(line) ) {
+                if ( app.universalSelector( line, arr ) ) {
                     app.warnings.push( chalk.yellow('* selector is slow. Consider a different selector.') + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
                 }
             }

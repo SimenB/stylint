@@ -806,12 +806,15 @@ describe('Linter Style Checks: ', function() {
 
     describe('universal selector', function() {
         it('should return false if no * is found', function() {
-            assert.equal( false, app.universalSelector('img') );
+            var test2 = 'return ( $width*$height )';
+
+            assert.equal( false, app.universalSelector('img'), ['img'] );
+            assert.equal( false, app.universalSelector( test2, test2.split(' ') ) );
         });
 
         it('should return true if * is found', function() {
-            assert.equal( true, app.universalSelector('*') );
-            assert.equal( true, app.universalSelector('*:before') );
+            assert.equal( true, app.universalSelector( '*', ['*'] ) );
+            assert.equal( true, app.universalSelector( '*:before', ['*:before'] ) );
         });
 
         it('should return undefined if missing params', function() {
