@@ -1,3 +1,11 @@
+##### 0.8.5
+merge in PR #31 (BEM Naming-Convention Option and expand list of valid css properties)
+stylint -v should return correct version now
+universal check rewrite - earlier version was throwing false positives when used for multiplication (in some cases)
+
+##### 0.8.4
+readme update
+
 ##### 0.8.3
 fixes to duplicates and alphabetical sort, made more specific basically
 both were a little too general, will probably need more testing

@@ -263,6 +263,8 @@ Example if set to `'lowercase-underscore'`: prefer `$var_name` over `$var-name` 
 
 Example if set to `'camelCase'`: prefer `$varName` over `$var_name` or `$var-name`
 
+Example if set to `'BEM'`: prefer `$var__like--this` over `$var_name` or `$varName`
+
 
 ### parenSpace (default: false, boolean)
 Enforce use of extra spaces inside parens.
