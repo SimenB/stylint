@@ -216,7 +216,7 @@ var init = stampit().enclose(function () {
 
 	// output version # from package.json
 	if ( process.argv.indexOf('-v') !== -1 || process.argv.indexOf('--version') !== -1 ) {
-		return this.ver( this );
+		return this.ver( this, __dirname );
 	}
 
     // turn on strict if strict flag passed
