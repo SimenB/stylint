@@ -1,3 +1,6 @@
+##### 0.8.6
+more bugs showing up for alphabetical and duplicates checks, gonna toggle them off by default until they are fully ironed out
+
 ##### 0.8.5
 merge in PR #31 (BEM Naming-Convention Option and expand list of valid css properties)
 stylint -v should return correct version now

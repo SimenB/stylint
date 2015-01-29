@@ -5,10 +5,12 @@
 
 [![NPM](https://nodei.co/npm/stylint.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/stylint/)
 
-not stable yet. please report any issues you see and update often. i'm adding new features and fixing bugs all the time. don't be surprised if most things change by 1.0. it is however perfectly good to use now if you don't mind the terminal and hitting the occasional bug.
+not stable yet. please report any issues you see and update often. i'm adding new features and fixing bugs all the time. don't be surprised if most things change by 1.0.
 
-note: i fixed a number of bugs with alphabet / duplicates / mixed, so if you were using any of those before you might want to update.
+it is however perfectly good to use now if you don't mind adjusting the config and hitting the occasional bug.
 
+see patch notes here for info on ver differences:
+https://github.com/rossPatton/stylint/blob/master/patch-notes.md
 
 ## CLI
 -h or --help    Display list of commands
@@ -50,9 +52,7 @@ gulp.task('stylint', shell.task([
 ```
 
 ## Known Issues:
-The depthLimit / valid options are throwing occasional false positives. They are not enabled by default (depthLimit used to be but it's been turned off for now). You can enable them if you want. I've been using the valid check in production for a while now with no issues, but if you hit any i'd like to know.
-
-This will be fixed by 1.0, use those options at your own risk. If they give you problems use a `@stylint off` comment.
+alphabetical / duplicates checks are throwing occasional false positives, dependent on code style. toggle them on at your own risk.
 
 
 ## Why Write This Tool?

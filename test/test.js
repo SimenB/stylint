@@ -13,7 +13,7 @@ const
     valid = require('../src/data/getValid')(),
     // we mock this here so if the real one ever changes it throws an error (alerting me to double check it)
     defaultConfig = {
-        'alphabetical': true,
+        'alphabetical': false,
         'borderNone': true, // check for use of border none and recommend border 0
         'brackets': true, // check for { or }, unless used in a hash
         'colons': false, // check for unecessary colons
@@ -21,7 +21,7 @@ const
         'commentSpace': false, // check for space after line comment
         'cssLiteral': false, // if true disallow css literals
         'depthLimit': false, // set a maximum selector depth (dont nest more than 4 deep)
-        'duplicates': true, // check if properties or selectors are duplicate
+        'duplicates': false, // check if properties or selectors are duplicate
         'efficient': true, // check for margin 0 0 0 0 and recommend margin 0
         'enforceVarStyle': false, // check for $ when declaring vars (doesnt check use)
         'enforceBlockStyle': false, // check for @block when defining blocks
