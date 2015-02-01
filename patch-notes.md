@@ -1,3 +1,8 @@
+##### 0.8.7
+resolve issue with duplicatesCheck throwing false positives on brackets
+alphabeticalCheck should be less aggressive
+
+
 ##### 0.8.6
 more bugs showing up for alphabetical and duplicates checks, gonna toggle them off by default until they are fully ironed out
 

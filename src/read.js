@@ -9,26 +9,26 @@ var fs = require('fs');
  * @returns parse function
  */
 module.exports = function read( app, path ) {
-    // if nothing passed in, default to linting the curr dir
-    // here we get all the files to parse first, then we pass to app.parse
-    if ( path === process.cwd() ) {
-        app.getFiles( path + '/**/*.styl' );
-    }
+	// if nothing passed in, default to linting the curr dir
+	// here we get all the files to parse first, then we pass to app.parse
+	if ( path === process.cwd() ) {
+		app.getFiles( path + '/**/*.styl' );
+	}
 
-    /**
-     * else we'll have either a filename or dir name to work with
-     * if directory we use the glob logic to return an array of files to test
-     */
-    else {
-        fs.stat(path, function( err, stats ) {
-            if ( err ) { throw err; }
+	/**
+	 * else we'll have either a filename or dir name to work with
+	 * if directory we use the glob logic to return an array of files to test
+	 */
+	else {
+		fs.stat(path, function( err, stats ) {
+			if ( err ) { throw err; }
 
-            if ( stats.isFile() ) {
-                return app.parseFile( app, path, 1, 1 );
-            }
-            else if ( stats.isDirectory() ) {
-                app.getFiles( path + '/**/*.styl' );
-            }
-        });
-    }
+			if ( stats.isFile() ) {
+				return app.parse( app, path, 1, 1 );
+			}
+			else if ( stats.isDirectory() ) {
+				app.getFiles( path + '/**/*.styl' );
+			}
+		});
+	}
 }

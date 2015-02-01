@@ -17,7 +17,7 @@ module.exports = function checkForUniversal( line, arr ) {
 	if ( line.indexOf('*') !== -1 ) {
 
 		arr = arr.filter(function( str ) {
-		    return str.length > 0;
+			return str.length > 0;
 		});
 
 		// check for various places where the * is valid (just comment checks atm)
