@@ -1,8 +1,6 @@
 'use strict';
 
-var
-	chalk    = require('chalk'),
-	chokidar = require('chokidar');
+var chokidar = require('chokidar');
 
 /**
  * kicks off the app. sets up config and kicks off reading the files
@@ -16,7 +14,7 @@ module.exports = function watch( app, path ) {
 
 	// initial watch msg
 	watcher.on('ready', function() {
-		return console.log( chalk.blue('Watching: '), path, ' for changes.' );
+		return console.log( 'Watching: ', path, ' for changes.' );
 	});
 
 	// listen for changes, update 'dir' to curr file, do somethin

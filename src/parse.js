@@ -1,9 +1,6 @@
 'use strict';
 
-var
-	fs = require('fs'),
-	done = require('./done'),
-	test = require('./test');
+var fs = require('fs');
 
 
 /**
@@ -50,12 +47,12 @@ module.exports = function parse( app, file, len, fileNum ) {
 			var output = line.trim();
 			// line nos don't start at 0
 			i++;
-			return test( app, line, i, output, file );
+			return app.test( app, line, i, output, file );
 		});
 
 		// if at the last file, call the done function to output results
 		if ( fileNum === len ) {
-			return done( app );
+			return app.done( app );
 		}
 	});
 }
