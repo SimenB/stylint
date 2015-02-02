@@ -1,9 +1,10 @@
 'use strict';
 
 var
+	prevLine = '',
 	prevFile = '',
 	prevContext = 0,
-	syntaxIgnore = /[,{}]|(:after|:active|:before|@import|@media|:not|:hover)/;
+	syntaxIgnore = /[,{}]|(:after|:active|:before|@import|@media|:hover|@font-face)/;
 
 // check that selector properties are sorted alphabetically
 module.exports = function duplicateSelectors( line, file ) {
@@ -15,11 +16,11 @@ module.exports = function duplicateSelectors( line, file ) {
 		textIndex = 0,
 		indentCount = 0,
 		currContext = 0,
-		usingTabs = false,
-		saveIndexOf = 0;
+		usingTabs = false;
 
 
 	// quick and dirty fixes for now, didnt' account for hard tabs for context check
+	// this just gets the number of indents so we don't throw false positives
 	if ( typeof this.config.indentSpaces !== 'number' ) {
 		usingTabs = true;
 
@@ -48,36 +49,33 @@ module.exports = function duplicateSelectors( line, file ) {
 		this.selectorCache = [];
 	}
 
-	// console.log( line );
-	// console.log( 'currContext', currContext );
-	// console.log( 'prevContext', prevContext );
+	// if root check not global, wipe on each new file
+	if ( prevFile !== file && !this.config.globalDupe ) {
+		this.rootCache = [];
+	}
 
 	// keep track of and check root selectors too
 	if ( currContext === 0 ) {
 		// if curr line is already in our cache, we have a dupe
-		// global check
-		if ( !this.config.globalDupe && prevFile !== file ) {
-			if ( this.rootCache.indexOf( arr[0] ) !== -1 && !syntaxIgnore.test( line ) ) {
-				saveIndexOf = this.rootCache.indexOf( arr[0] );
-
-				if ( this.rootCache[ saveIndexOf ] === line ) {
-					isThereADupe = true;
-				}
-			}
-		}
 		// file specific check
+		if ( !this.config.globalDupe && prevFile !== file ) {
+			// check against prev line to make sure we're not in a list of selectors
+			if ( this.rootCache.indexOf( line ) !== -1 && prevLine.indexOf(',') === -1 ) {
+				isThereADupe = true;
+			}
+		}
+		// global check
 		else {
-			if ( this.rootCache.indexOf( arr[0] ) !== -1 && !syntaxIgnore.test( line ) ) {
-				saveIndexOf = this.rootCache.indexOf( arr[0] );
-
-				if ( this.rootCache[ saveIndexOf ] === line ) {
-					isThereADupe = true;
-				}
+			if ( this.rootCache.indexOf( line ) !== -1 && prevLine.indexOf(',') === -1 ) {
+				isThereADupe = true;
 			}
 		}
 
-		if ( typeof arr[0] !== 'undefined' && !syntaxIgnore.test( this.rootCache[ this.rootCache.length - 1 ] ) ) {
-			this.rootCache.push( arr[0] );
+		// undefined check is for whitespace
+		if ( typeof arr[0] !== 'undefined' &&
+			!syntaxIgnore.test( line ) &&
+			prevLine.indexOf(',') === -1 ) {
+			this.rootCache.push( line );
 		}
 	}
 
@@ -95,6 +93,7 @@ module.exports = function duplicateSelectors( line, file ) {
 
 	// save our curr context so we can use it to see our place
 	prevFile = file;
+	prevLine = line;
 	prevContext = currContext;
 
 	return isThereADupe;

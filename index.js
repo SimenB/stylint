@@ -85,8 +85,8 @@ var config = stampit().state({
 		'universal': true, // check for use of * and recommend against it
 		'valid': true, // check if prop or value is a valid assignment
 		'zeroUnits': true, // check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
-		'zIndexDuplicates': true, // just find duplicate z index values
-		'zIndexNormalize': 5 // suggest a normalized z index value, base of whatever this is
+		'zIndexDuplicates': false, // just find duplicate z index values
+		'zIndexNormalize': false // suggest a normalized z index value, base of whatever this is
 	}
 });
 

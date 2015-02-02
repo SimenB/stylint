@@ -1,7 +1,5 @@
 'use strict';
 
-var chalk = require('chalk');
-
 /**
  * @description outputs our error messages when compvare (or a thumbs up if no errors)
  * @return void
