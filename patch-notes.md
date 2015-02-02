@@ -1,12 +1,17 @@
 ##### 0.8.8
 resolve issue with duplicatesCheck throwing false positives when a selector is part of a list of selectors
+
 universal check should be less aggressive
+
 more valid properties added to the valid check
+
 turning back on alphabet and duplicates check by default
+
 turning off zIndex checks by default (they can be useful i think, but are definitely optional / potentially a pain on big projects )
 
 ##### 0.8.7
 resolve issue with duplicatesCheck throwing false positives on brackets
+
 alphabeticalCheck should be less aggressive
 
 ##### 0.8.6
@@ -22,15 +27,19 @@ readme update
 
 ##### 0.8.3
 fixes to duplicates and alphabetical sort, made more specific basically
+
 both were a little too general, will probably need more testing
+
 tweak mixed spaces and tabs ( look for (  ) instead of (\s\s) )
 
 ##### 0.8.2
 duplicates was not toggle-able - fixed https://github.com/rossPatton/stylint/issues/27
+
 duplicates needs some work - update README to reflect that
 
 ##### 0.8.1
 add npm badge and gitter
+
 README tweaks
 
 ##### 0.8.0
@@ -54,11 +63,14 @@ config:
 
 ##### 0.7.3
 zIndexDuplicates added, off by default
+
 zIndexNormalize added, off by default
 
 ##### 0.7.2
 bug fixes
+
 code coverage
+
 reduced dependencies
 
 ##### 0.7.1
