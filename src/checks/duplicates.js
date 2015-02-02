@@ -1,10 +1,6 @@
 'use strict';
 
-var
-	prevLine = '',
-	prevFile = '',
-	prevContext = 0,
-	syntaxIgnore = /[,{}]|(:after|:active|:before|@import|@media|:hover|@font-face)/;
+var syntaxIgnore = /[,{}]|(:after|:active|:before|@import|@media|:hover|@font-face)/;
 
 // check that selector properties are sorted alphabetically
 module.exports = function duplicateSelectors( line, file ) {
@@ -45,12 +41,12 @@ module.exports = function duplicateSelectors( line, file ) {
 	});
 
 	// if current context switched, reset array
-	if ( prevContext !== currContext ) {
+	if ( this.prevContext !== currContext ) {
 		this.selectorCache = [];
 	}
 
 	// if root check not global, wipe on each new file
-	if ( prevFile !== file && !this.config.globalDupe ) {
+	if ( this.prevFile !== file && !this.config.globalDupe ) {
 		this.rootCache = [];
 	}
 
@@ -58,15 +54,15 @@ module.exports = function duplicateSelectors( line, file ) {
 	if ( currContext === 0 ) {
 		// if curr line is already in our cache, we have a dupe
 		// file specific check
-		if ( !this.config.globalDupe && prevFile !== file ) {
+		if ( !this.config.globalDupe && this.prevFile !== file ) {
 			// check against prev line to make sure we're not in a list of selectors
-			if ( this.rootCache.indexOf( line ) !== -1 && prevLine.indexOf(',') === -1 ) {
+			if ( this.rootCache.indexOf( line ) !== -1 && this.prevLine.indexOf(',') === -1 ) {
 				isThereADupe = true;
 			}
 		}
 		// global check
 		else {
-			if ( this.rootCache.indexOf( line ) !== -1 && prevLine.indexOf(',') === -1 ) {
+			if ( this.rootCache.indexOf( line ) !== -1 && this.prevLine.indexOf(',') === -1 ) {
 				isThereADupe = true;
 			}
 		}
@@ -74,7 +70,7 @@ module.exports = function duplicateSelectors( line, file ) {
 		// undefined check is for whitespace
 		if ( typeof arr[0] !== 'undefined' &&
 			!syntaxIgnore.test( line ) &&
-			prevLine.indexOf(',') === -1 ) {
+			this.prevLine.indexOf(',') === -1 ) {
 			this.rootCache.push( line );
 		}
 	}
@@ -92,9 +88,9 @@ module.exports = function duplicateSelectors( line, file ) {
 	}
 
 	// save our curr context so we can use it to see our place
-	prevFile = file;
-	prevLine = line;
-	prevContext = currContext;
+	this.prevFile = file;
+	this.prevLine = line;
+	this.prevContext = currContext;
 
 	return isThereADupe;
 }

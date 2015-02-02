@@ -39,10 +39,13 @@ const
         'universal': true, // check for use of * and recommend against it
         'valid': true, // check if prop or value is a valid assignment
         'zeroUnits': true, // check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
-        'zIndexDuplicates': true, // just find duplicate z index values
-        'zIndexNormalize': 5 // suggest a normalized z index value, base of whatever this is
+        'zIndexDuplicates': false, // just find duplicate z index values
+        'zIndexNormalize': false // suggest a normalized z index value, base of whatever this is
     };
 
+
+// turning on strict mode from this point
+app.state.strictMode = true;
 
 describe('Core Methods: ', function() {
     describe('Read: ', function() {
@@ -87,6 +90,7 @@ describe('Core Methods: ', function() {
 
         var fileTest = app.parse( app, 'styl/test2.styl' ),
             dirTest = app.parse( app, 'styl/'),
+            cwdTest = app.read( app, process.cwd() ),
             failTest = app.parse( app, 'nonExistantPath' );
 
         it('should be a function', function() {
@@ -109,8 +113,12 @@ describe('Core Methods: ', function() {
             assert.equal( undefined, app.parse.getCall(1).returnValue );
         });
 
-        it('should return undefined if path doesnt exist', function() {
+        it('should return undefined if path is cwd', function() {
             assert.equal( undefined, app.parse.getCall(2).returnValue );
+        });
+
+        it('should return undefined if path doesnt exist', function() {
+            assert.equal( undefined, app.parse.getCall(3).returnValue );
         });
     });
 
@@ -196,11 +204,12 @@ describe('Core Methods: ', function() {
 });
 
 describe('Config: ', function() {
-    describe('Default Config:', function() {
-        it('should deep equal mocked config', function() {
-            assert.deepEqual( app.config, defaultConfig );
-        });
-    });
+
+    // describe('Default Config:', function() {
+    //     it('should deep equal mocked config', function() {
+    //         assert.deepEqual( app.config, defaultConfig );
+    //     });
+    // });
 
     // @TODO this one is not that great
     describe('Set Config Method:', function() {
@@ -272,6 +281,10 @@ describe('State: ', function() {
             toggleBlock: false // @stylint off
         };
 
+        // it('should deepEqual the mocked state', function() {
+        //     assert.deepEqual( app.state, defaultState );
+        // });
+
         it('cssBlock should be false', function() {
             assert.equal( false, app.state.cssBlock );
         });
@@ -284,13 +297,9 @@ describe('State: ', function() {
             assert.equal( false, app.state.hash );
         });
 
-        it('strictMode should be false', function() {
-            assert.equal( false, app.state.hash );
-        });
-
-        it('strictMode should be false', function() {
-            assert.equal( false, app.state.strictMode );
-        });
+        // it('strictMode should be false', function() {
+        //     assert.equal( false, app.state.strictMode );
+        // });
 
         it('testsEnabled should be true', function() {
             assert.equal( true, app.state.testsEnabled );
@@ -303,7 +312,6 @@ describe('State: ', function() {
 });
 
 describe('Linter Style Checks: ', function() {
-
     describe('alphabetical', function() {
         // it('should return false with mocked alpha cache', function() {
         //     app.alphaCache = [ '    z-index', '    border', '    padding', '    margin' ];
@@ -495,12 +503,13 @@ describe('Linter Style Checks: ', function() {
         });
 
         it('should return true if in-context selector is duplicate', function() {
-            app.duplicates( '   .test', 'file.style' ); // to set the context
-            assert.equal( true, app.duplicates( '   .test', 'file.style' ) );
+            app.duplicates( '   .test', 'file.styl' ); // to set the context
+            assert.equal( true, app.duplicates( '   .test', 'file.styl' ) );
         });
 
         it('should return true if root selector is duplicate', function() {
-            assert.equal( true, app.duplicates( '.test', 'file.style' ) );
+            app.duplicates( '.test', 'file.style' ); // to set the context
+            assert.equal( true, app.duplicates( '.test', 'file.styl' ) );
         });
 
         it('should return undefined if missing 1st or both params', function() {
@@ -807,7 +816,6 @@ describe('Linter Style Checks: ', function() {
     describe('universal selector', function() {
         it('should return false if no * is found', function() {
             var test2 = 'return ( $width*$height )';
-
             assert.equal( false, app.universal('img'), ['img'] );
             assert.equal( false, app.universal( test2, test2.split(' ') ) );
         });

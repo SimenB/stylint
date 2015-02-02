@@ -127,7 +127,10 @@ var state = stampit().state({
 	alphaCache: [],
 	selectorCache: [],
 	rootCache: [],
-	zCache: []
+	zCache: [],
+	prevLine: '',
+	prevFile: '',
+	prevContext: 0
 });
 
 
