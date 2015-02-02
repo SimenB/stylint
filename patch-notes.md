@@ -1,7 +1,13 @@
+##### 0.8.8
+resolve issue with duplicatesCheck throwing false positives when a selector is part of a list of selectors
+universal check should be less aggressive
+more valid properties added to the valid check
+turning back on alphabet and duplicates check by default
+turning off zIndex checks by default (they can be useful i think, but are definitely optional / potentially a pain on big projects )
+
 ##### 0.8.7
 resolve issue with duplicatesCheck throwing false positives on brackets
 alphabeticalCheck should be less aggressive
-
 
 ##### 0.8.6
 more bugs showing up for alphabetical and duplicates checks, gonna toggle them off by default until they are fully ironed out

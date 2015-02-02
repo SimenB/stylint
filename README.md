@@ -2,7 +2,6 @@
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rossPatton/stylint?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-
 [![NPM](https://nodei.co/npm/stylint.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/stylint/)
 
 not stable yet. please report any issues you see and update often. i'm adding new features and fixing bugs all the time. don't be surprised if most things change by 1.0.
@@ -50,9 +49,6 @@ gulp.task('stylint', shell.task([
     'stylint path/to/styl/ -c .stylintrc'
 ]));
 ```
-
-## Known Issues:
-alphabetical / duplicates checks are throwing occasional false positives, dependent on code style. toggle them on at your own risk.
 
 
 ## Why Write This Tool?
@@ -251,7 +247,6 @@ Example if indentPref: 4 and mixed: true: prefer `\s\s\s\smargin\s0` over `\tmar
 Example if indentPref: 2 and mixed: true: prefer `\s\smargin\s0` over `\tmargin\s0`
 
 Example if indentPref: false and mixed: true: prefer `\tmargin\s0` over `\s\s\s\smargin\s0`
-
 
 
 ### namingConvention (default: false, false | 'lowercase-dash' | 'lowercase-underscore' | 'camelCase')
