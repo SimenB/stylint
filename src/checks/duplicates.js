@@ -14,7 +14,6 @@ module.exports = function duplicateSelectors( line, file ) {
 		currContext = 0,
 		usingTabs = false;
 
-
 	// quick and dirty fixes for now, didnt' account for hard tabs for context check
 	// this just gets the number of indents so we don't throw false positives
 	if ( typeof this.config.indentSpaces !== 'number' ) {
@@ -77,14 +76,13 @@ module.exports = function duplicateSelectors( line, file ) {
 
 	// if curr line is already in our cache, we have a dupe
 	if ( this.selectorCache.indexOf( arr[0] ) !== -1 ) {
-		if ( this.selectorCache[ this.selectorCache.indexOf( arr[0] ) ].trim() === line.trim() ) {
-			isThereADupe = true;
-		}
+		isThereADupe = true;
 	}
 
 	// cache the lines in the curr context
 	if ( typeof arr[0] !== 'undefined' && !syntaxIgnore.test(line) ) {
 		this.selectorCache.push( arr[0] );
+		// console.log( this.selectorCache );
 	}
 
 	// save our curr context so we can use it to see our place

@@ -1,3 +1,6 @@
+##### 0.8.9
+more duplicatesCheck fixes
+
 ##### 0.8.8
 resolve issue with duplicatesCheck throwing false positives when a selector is part of a list of selectors
 universal check should be less aggressive
