@@ -11,6 +11,9 @@ it is however perfectly good to use now if you don't mind adjusting the config a
 see patch notes here for info on ver differences:
 https://github.com/rossPatton/stylint/blob/master/patch-notes.md
 
+known issues:
+https://github.com/rossPatton/stylint/issues
+
 ## CLI
 -h or --help    Display list of commands
 
