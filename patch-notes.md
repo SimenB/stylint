@@ -1,3 +1,7 @@
+##### 0.8.10
+fix bug with alphabetical check throwing false positives in certain edge cases, only if hard tabs on
+add more to the ignore regex for duplicates check
+
 ##### 0.8.9
 more duplicatesCheck fixes
 

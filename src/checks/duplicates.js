@@ -1,6 +1,6 @@
 'use strict';
 
-var syntaxIgnore = /[,{}]|(:after|:active|:before|@import|@media|:hover|@font-face)/;
+var syntaxIgnore = /[,{}]|(:after|:active|:before|@import|@extend|@media|:hover|@font-face|src)/;
 
 // check that selector properties are sorted alphabetically
 module.exports = function duplicateSelectors( line, file ) {
@@ -11,14 +11,11 @@ module.exports = function duplicateSelectors( line, file ) {
 		isThereADupe = false,
 		textIndex = 0,
 		indentCount = 0,
-		currContext = 0,
-		usingTabs = false;
+		currContext = 0;
 
 	// quick and dirty fixes for now, didnt' account for hard tabs for context check
 	// this just gets the number of indents so we don't throw false positives
 	if ( typeof this.config.indentSpaces !== 'number' ) {
-		usingTabs = true;
-
 		while ( line.charAt( textIndex++ ) === '\t' ) {
 			currContext++;
 		}
@@ -82,7 +79,6 @@ module.exports = function duplicateSelectors( line, file ) {
 	// cache the lines in the curr context
 	if ( typeof arr[0] !== 'undefined' && !syntaxIgnore.test(line) ) {
 		this.selectorCache.push( arr[0] );
-		// console.log( this.selectorCache );
 	}
 
 	// save our curr context so we can use it to see our place

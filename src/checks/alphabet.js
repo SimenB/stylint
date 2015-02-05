@@ -13,20 +13,29 @@ module.exports = function sortAlphabetically( line, valid ) {
 		indentCount = 0,
 		currContext = 0,
 		isItSorted = false,
+		textIndex = 0,
 		arr = line.split(/[\s\t,:]/),
 		sortedArr = [],
 		validCSS = false,
 		validHTML = true;
 
-	// get our context, ie, the indent level of the group of properties we're checking
-	arr.forEach(function( val, i ) {
-		if ( arr[i].length === 0 ) {
-			indentCount++; // spaces or tabs
+	// quick and dirty fixes for now, didnt' account for hard tabs for context check
+	// this just gets the number of indents so we don't throw false positives
+	if ( typeof this.config.indentSpaces !== 'number' ) {
+		while ( line.charAt( textIndex++ ) === '\t' ) {
+			currContext++;
 		}
-		else {
-			currContext = indentCount / this.config.indentSpaces;
-		}
-	}.bind( this ));
+	}
+	else {
+		arr.forEach(function( val, i ) {
+			if ( arr[i].length === 0 ) {
+				indentCount++; // spaces or tabs
+			}
+			else {
+				currContext = indentCount / this.config.indentSpaces;
+			}
+		}.bind( this ));
+	}
 
 	// remove blank spaces now that we have our context
 	arr = arr.filter(function( str ) {
@@ -38,7 +47,7 @@ module.exports = function sortAlphabetically( line, valid ) {
 		this.alphaCache = [];
 	}
 
-	// push prop values into our 'cache'
+	// push prop values into our 'cache' @TODO do i need that length check?
 	if ( typeof arr[0] !== 'undefined' && arr[0].length > 0 && currContext > 0 && !ignoreMe.test( line ) ) {
 		valid.css.forEach(function( val, index ) {
 			var i = 0, j = 0;
