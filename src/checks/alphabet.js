@@ -10,11 +10,11 @@ module.exports = function sortAlphabetically( line, valid ) {
 	if ( typeof line !== 'string' || typeof valid !== 'object' ) { return; }
 
 	var
+		arr = line.split(/[\s\t,:]/),
 		indentCount = 0,
 		currContext = 0,
 		isItSorted = false,
 		textIndex = 0,
-		arr = line.split(/[\s\t,:]/),
 		sortedArr = [],
 		validCSS = false,
 		validHTML = true;
@@ -37,15 +37,19 @@ module.exports = function sortAlphabetically( line, valid ) {
 		}.bind( this ));
 	}
 
-	// remove blank spaces now that we have our context
-	arr = arr.filter(function( str ) {
-		return str.length > 0;
-	});
-
 	// if current context switched, reset array
 	if ( prevContext !== currContext ) {
 		this.alphaCache = [];
 	}
+
+	// we don't alphabetize the root yet
+	if ( currContext === 0 ) {
+		return true;
+	}
+
+	arr = arr.filter(function( str ) {
+		return str.length > 0;
+	});
 
 	// push prop values into our 'cache' @TODO do i need that length check?
 	if ( typeof arr[0] !== 'undefined' && arr[0].length > 0 && currContext > 0 && !ignoreMe.test( line ) ) {
@@ -71,23 +75,6 @@ module.exports = function sortAlphabetically( line, valid ) {
 				}
 			}
 		}.bind( this ));
-
-		// valid.html.forEach(function( val, index ) {
-		//     var i = 0,
-		//         j = 0;
-
-		//     if ( arr[ 0 ] === val ) {
-		//         validHTML = true;
-		//         return;
-		//     }
-
-		//     for ( j; j < valid.pseudo.length; j++ ) {
-		//         if ( arr[ 0 ] === ( val + valid.pseudo[ j ] ) ) {
-		//             validHTML = true;
-		//             return;
-		//         }
-		//     }
-		// });
 
 		if ( validCSS ) {
 			this.alphaCache.push( arr[ 0 ] );

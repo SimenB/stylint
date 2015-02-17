@@ -4,13 +4,14 @@
 module.exports = function deDupeZIndex( line ) {
 	if ( typeof line !== 'string' ) { return; }
 
-	var indentCount = 0,
+	var arr,
+		indentCount = 0,
 		context = 0,
-		isItADupe = false,
-		arr = line.split(/[\s\t,:]/);
+		isItADupe = false;
 
 	// the most basic of checks, throw warning if zindex duplicated elsewhere
 	if ( line.indexOf('z-index') !== -1 ) {
+		arr = line.split(/[\s\t,:]/);
 
 		arr.forEach(function( val, i ) {
 			if ( arr[i].length === 0 ) {

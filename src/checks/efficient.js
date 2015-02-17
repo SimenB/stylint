@@ -2,7 +2,12 @@
 
 // check for 0 0 0 0 or 50px 0 50px 0 type mistakes
 module.exports = function checkForEfficiency( line, arr ) {
-	if ( typeof line !== 'string' || typeof arr === 'undefined') { return; }
+	if ( typeof line !== 'string' ||typeof arr === 'undefined' ) { return; }
+
+	// line doesnt have margin or padding then there's nothin to do here
+	if ( line.indexOf('margin') === -1 && line.indexOf('padding') === -1 ) {
+		return;
+	}
 
 	// filter the array from the line with all white space removed
 	arr = arr.filter(function( str ) {

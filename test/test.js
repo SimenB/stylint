@@ -13,34 +13,34 @@ const
     valid = require('../src/data/getValid')(),
     // we mock this here so if the real one ever changes it throws an error (alerting me to double check it)
     defaultConfig = {
-        'alphabetical': true, // check that properties are sorted alphabetically
-        'borderNone': true, // check for use of border none and recommend border 0
-        'brackets': true, // check for { or }, unless used in a hash
-        'colons': false, // check for unecessary colons
-        'commaSpace': true, // check for spaces after commas (0, 0, 0, .18)
-        'commentSpace': false, // check for space after line comment
-        'cssLiteral': false, // if true disallow css literals
-        'depthLimit': false, // set a maximum selector depth (dont nest more than 4 deep)
-        'duplicates': true, // check if properties or selectors are duplicate
-        'efficient': true, // check for margin 0 0 0 0 and recommend margin 0
-        'enforceVarStyle': false, // check for $ when declaring vars (doesnt check use)
-        'enforceBlockStyle': false, // check for @block when defining blocks
-        'extendPref': false, // prefer a specific syntax when using @extends (or @extend)
-        'globalDupe': false, // throw duplicate selector warning across all files instead of curr file
-        'indentSpaces': 4, // how many spaces should we prefer when indenting, pass in false if hard tabs
-        'leadingZero': true, // find cases where 0.# is used, prefer .#
-        'maxWarnings': 10, // should we have a max amount of warnings, and error out if we go over
-        'mixed': false, // check for mixed spaces and tabs
-        'namingConvention': false, // lowercase-dash, camelCase, lowercase-underscore, or false (dont check)
-        'parenSpace': false, // check for extra space inside parens when defining or using mixins
-        'placeholders': true, // only allow @extending of placeholder vars
-        'semicolons': false, // check for unecessary semicolons
-        'trailingWhitespace': true, // check for trailing whitespace
-        'universal': true, // check for use of * and recommend against it
-        'valid': true, // check if prop or value is a valid assignment
-        'zeroUnits': true, // check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
-        'zIndexDuplicates': false, // just find duplicate z index values
-        'zIndexNormalize': false // suggest a normalized z index value, base of whatever this is
+        alphabetical: true, // check that properties are sorted alphabetically
+        borderNone: true, // check for use of border none and recommend border 0
+        brackets: true, // check for { or }, unless used in a hash
+        colons: false, // check for unecessary colons
+        commaSpace: true, // check for spaces after commas (0, 0, 0, .18)
+        commentSpace: false, // check for space after line comment
+        cssLiteral: false, // if true disallow css literals
+        depthLimit: false, // set a maximum selector depth (dont nest more than 4 deep)
+        duplicates: true, // check if properties or selectors are duplicate
+        efficient: true, // check for margin 0 0 0 0 and recommend margin 0
+        enforceVarStyle: false, // check for $ when declaring vars (doesnt check use)
+        enforceBlockStyle: false, // check for @block when defining blocks
+        extendPref: false, // prefer a specific syntax when using @extends (or @extend)
+        globalDupe: false, // throw duplicate selector warning across all files instead of curr file
+        indentSpaces: 4, // how many spaces should we prefer when indenting, pass in false if hard tabs
+        leadingZero: true, // find cases where 0.# is used, prefer .#
+        maxWarnings: 10, // should we have a max amount of warnings, and error out if we go over
+        mixed: false, // check for mixed spaces and tabs
+        namingConvention: false, // lowercase-dash, camelCase, lowercase-underscore, or false (dont check)
+        parenSpace: false, // check for extra space inside parens when defining or using mixins
+        placeholders: true, // only allow @extending of placeholder vars
+        semicolons: false, // check for unecessary semicolons
+        trailingWhitespace: true, // check for trailing whitespace
+        universal: true, // check for use of * and recommend against it
+        valid: true, // check if prop or value is a valid assignment
+        zeroUnits: true, // check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
+        zIndexDuplicates: false, // just find duplicate z index values
+        zIndexNormalize: false // suggest a normalized z index value, base of whatever this is
     };
 
 
@@ -431,18 +431,18 @@ describe('Linter Style Checks: ', function() {
 
     describe('comment style', function() {
         it('should return false if line comment doesnt have a space after it', function() {
-            assert.equal( false, app.comment('//test') );
-            assert.equal( false, app.comment('margin 0 auto //test') );
+            assert.equal( false, app.commentSpace('//test') );
+            assert.equal( false, app.commentSpace('margin 0 auto //test') );
         });
 
         it('should return true if line comment has space after it', function() {
-            assert.equal( true, app.comment('margin 0 auto // test') );
-            assert.equal( true, app.comment('// test') );
+            assert.equal( true, app.commentSpace('margin 0 auto // test') );
+            assert.equal( true, app.commentSpace('// test') );
         });
 
         it('should return undefined if missing params', function() {
-            assert.equal( undefined, app.comment('.noCommentOnThisLine') );
-            assert.equal( undefined, app.comment() );
+            assert.equal( undefined, app.commentSpace('.noCommentOnThisLine') );
+            assert.equal( undefined, app.commentSpace() );
         });
     });
 

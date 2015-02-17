@@ -6,7 +6,6 @@
  *              read() -> parse() -> test() -> done()
  *              or
  *              watch() -> read() -> parse() -> test() -> done()
- * @flow
 */
 
 'use strict';
@@ -29,7 +28,7 @@ var
 	brackets          = require('./src/checks/brackets'),
 	colon             = require('./src/checks/colon'),
 	comma             = require('./src/checks/comma'),
-	comment           = require('./src/checks/comment'),
+	commentSpace      = require('./src/checks/commentSpace'),
 	commentExists     = require('./src/checks/commentExists'),
 	cssLiteral        = require('./src/checks/cssLiteral'),
 	duplicates        = require('./src/checks/duplicates'),
@@ -59,34 +58,34 @@ var
  */
 var config = stampit().state({
 	config: {
-		'alphabetical': true, // check that properties are sorted alphabetically
-		'borderNone': true, // check for use of border none and recommend border 0
-		'brackets': true, // check for { or }, unless used in a hash
-		'colons': false, // check for unecessary colons
-		'commaSpace': true, // check for spaces after commas (0, 0, 0, .18)
-		'commentSpace': false, // check for space after line comment
-		'cssLiteral': false, // if true disallow css literals
-		'depthLimit': false, // set a maximum selector depth (dont nest more than 4 deep)
-		'duplicates': true, // check if properties or selectors are duplicate
-		'efficient': true, // check for margin 0 0 0 0 and recommend margin 0
-		'enforceVarStyle': false, // check for $ when declaring vars (doesnt check use)
-		'enforceBlockStyle': false, // check for @block when defining blocks
-		'extendPref': false, // prefer a specific syntax when using @extends (or @extend)
-		'globalDupe': false, // throw duplicate selector warning across all files instead of curr file
-		'indentSpaces': 4, // how many spaces should we prefer when indenting, pass in false if hard tabs
-		'leadingZero': true, // find cases where 0.# is used, prefer .#
-		'maxWarnings': 10, // should we have a max amount of warnings, and error out if we go over
-		'mixed': false, // check for mixed spaces and tabs
-		'namingConvention': false, // lowercase-dash, camelCase, lowercase-underscore, or false (dont check)
-		'parenSpace': false, // check for extra space inside parens when defining or using mixins
-		'placeholders': true, // only allow @extending of placeholder vars
-		'semicolons': false, // check for unecessary semicolons
-		'trailingWhitespace': true, // check for trailing whitespace
-		'universal': true, // check for use of * and recommend against it
-		'valid': true, // check if prop or value is a valid assignment
-		'zeroUnits': true, // check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
-		'zIndexDuplicates': false, // just find duplicate z index values
-		'zIndexNormalize': false // suggest a normalized z index value, base of whatever this is
+		alphabetical: true, // check that properties are sorted alphabetically
+		borderNone: true, // check for use of border none and recommend border 0
+		brackets: true, // check for { or }, unless used in a hash
+		colons: false, // check for unecessary colons
+		commaSpace: true, // check for spaces after commas (0, 0, 0, .18)
+		commentSpace: false, // check for space after line comment
+		cssLiteral: false, // if true disallow css literals
+		depthLimit: false, // set a maximum selector depth (dont nest more than 4 deep)
+		duplicates: true, // check if properties or selectors are duplicate
+		efficient: true, // check for margin 0 0 0 0 and recommend margin 0
+		enforceVarStyle: false, // check for $ when declaring vars (doesnt check use)
+		enforceBlockStyle: false, // check for @block when defining blocks
+		extendPref: false, // prefer a specific syntax when using @extends (or @extend)
+		globalDupe: false, // throw duplicate selector warning across all files instead of curr file
+		indentSpaces: 4, // how many spaces should we prefer when indenting, pass in false if hard tabs
+		leadingZero: true, // find cases where 0.# is used, prefer .#
+		maxWarnings: 10, // should we have a max amount of warnings, and error out if we go over
+		mixed: false, // check for mixed spaces and tabs
+		namingConvention: false, // lowercase-dash, camelCase, lowercase-underscore, or false (dont check)
+		parenSpace: false, // check for extra space inside parens when defining or using mixins
+		placeholders: true, // only allow @extending of placeholder vars
+		semicolons: false, // check for unecessary semicolons
+		trailingWhitespace: true, // check for trailing whitespace
+		universal: true, // check for use of * and recommend against it
+		valid: true, // check if prop or value is a valid assignment
+		zeroUnits: true, // check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
+		zIndexDuplicates: false, // just find duplicate z index values
+		zIndexNormalize: false // suggest a normalized z index value, base of whatever this is
 	}
 });
 
@@ -111,7 +110,6 @@ var flags = stampit().state({
 
 /**
  * @description i hold the state
- * @todo prolly dont need so many arrays
  * @return {Object} [i expose properties to the entire app]
  */
 var state = stampit().state({
@@ -171,7 +169,7 @@ var testMethods = stampit().methods({
 	brackets: brackets,
 	colon: colon,
 	comma: comma,
-	comment: comment,
+	commentSpace: commentSpace,
 	commentExists: commentExists,
 	cssLiteral: cssLiteral,
 	duplicates: duplicates,
@@ -260,6 +258,5 @@ var Lint = stampit().compose(
 ).create();
 
 
-// var us 'share' our light with others
+// let us 'share' our light with others
 module.exports = Lint;
-// export Lint;

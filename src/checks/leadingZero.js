@@ -4,7 +4,7 @@ var leadingZero = /( |,)(0\.)+|(^0\.)+/;
 
 // check for leading 0
 module.exports = function hasLeadingZero( line, arr ) {
-	if ( typeof line !== 'string' ) { return; }
+	if ( typeof line !== 'string' || line.indexOf('0') === -1 ) { return; }
 	var i = 0,
 		len = arr.length,
 		zeroFound = false;

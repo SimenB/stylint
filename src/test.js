@@ -55,7 +55,7 @@ module.exports = function test( app, line, num, output, file ) {
 		// check for comment style (//dont do this. // do this)
 		if ( app.commentExists(line) ) {
 			if ( app.config.commentSpace || app.state.strictMode ) {
-				if ( app.comment(line) === false ) {
+				if ( app.commentSpace(line) === false ) {
 					app.warnings.push( 'line comments require a space after //' + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 				}
 			}

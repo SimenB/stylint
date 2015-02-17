@@ -12,6 +12,7 @@ var
 	// BEM (http://bem.info/method/)
 	bem = /^[$.#]+[a-z]([-]?[a-z0-9]+)*(__[a-z0-9]([-]?[a-z0-9]+)*)?((_[a-z0-9]([-]?[a-z0-9]+)*){2})*\b/;
 
+
 /**
  * check for names-like-this vs namesLikeThis or NamesLikeThis vs names_like_this or names-like__this-that
  * @param {string} [line] the line to be tested

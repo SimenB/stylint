@@ -2,7 +2,11 @@
 
 // check for specified extend preference
 module.exports = function checkExtendStyle( line, pref ) {
-	if ( typeof line !== 'string' || typeof pref === 'undefined' ) { return; }
+	if ( typeof line !== 'string' ||
+		typeof pref === 'undefined' ||
+		line.indexOf('@extend') === -1 ) {
+		return;
+	}
 
 	if ( pref === '@extends' ) {
 		if ( line.indexOf('@extend ') !== -1 ) {
