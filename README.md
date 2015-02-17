@@ -324,17 +324,3 @@ Example if set to 10: prefer `z-index 20` over `z-index 15`
 Example if set to 50: prefer `z-index 100` over `z-index 75`
 
 Doesn't take into considering stacking contexts yet so, and i'm not sure it ever will, so good luck if you try to use this. Small projects might get some use out of this.
-
-
-
-
-
-
-## Upcoming Features:
-The following is a list of features that are currently in progress.
-
-### checking opposite values (JSCS style)
-Not an option per se, but currently the linter either checks against my idea of what best practice is, or doesn't check at all. Ideally, you should be able to set an option to check for the opposite. For example, if you're weird and you want to force the use of colons everywhere, or brackets, or no $ in front of vars, you should be able to set that option.
-
-### toggle ability for maxWarnings to kill process
-If maxWarnings set, and another option also set, maxWarnings can kill further linting if limit is reached. As part of a hook, this could be used to prevent a commit.
