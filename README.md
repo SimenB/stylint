@@ -12,6 +12,13 @@ known issues:
 
 https://github.com/rossPatton/stylint/issues
 
+If you have any problems with the linter just create a ticket there and I will respond.
+
+Same thing if you have any feature requests.
+
+I will gladly pull requests as well, if you want to implement it yourself.
+
+
 ## CLI
 -h or --help    Display list of commands
 
