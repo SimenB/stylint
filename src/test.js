@@ -265,4 +265,10 @@ module.exports = function test( app, line, num, output, file ) {
 			}
 		}
 	}
+
+	// if the latest round of tests put us over the limit
+	// output the list of errors, and throw
+	if ( app.warnings.length > app.config.maxWarnings && app.config.maxWarningsKill ) {
+		app.done( app, 'kill' );
+	}
 }

@@ -75,6 +75,7 @@ var config = stampit().state({
 		indentSpaces: 4, // how many spaces should we prefer when indenting, pass in false if hard tabs
 		leadingZero: true, // find cases where 0.# is used, prefer .#
 		maxWarnings: 10, // should we have a max amount of warnings, and error out if we go over
+		maxWarningsKill: false, // if over maxWarning count, kill process
 		mixed: false, // check for mixed spaces and tabs
 		namingConvention: false, // lowercase-dash, camelCase, lowercase-underscore, or false (dont check)
 		parenSpace: false, // check for extra space inside parens when defining or using mixins

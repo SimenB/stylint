@@ -84,6 +84,7 @@ The default settings are pretty weak and unopinionated (i think). If you want to
     "indentSpaces": 4,
     "leadingZero": true,
     "maxWarnings": 10,
+    "maxWarningsKill": false,
     "mixed": false,
     "namingConvention": false,
     "parenSpace": false,
@@ -236,6 +237,10 @@ Example: prefer `rgba( 0, 0, 0, .5 )` over `rgba( 0, 0, 0, 0.5 )`
 
 ### maxWarnings (default: 10, number)
 Set 'max' number of warnings. Currently this just displays a slightly sterner message. Womp womp.
+
+
+### maxWarningsKill (default: false, boolean)
+If set to true, then Stylint will throw an error if total # of warnings goes over the limit set in maxWarnings.
 
 
 ### mixed (default: false, boolean, relies on indentPref)

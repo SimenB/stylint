@@ -4,7 +4,7 @@
  * @description outputs our error messages when compvare (or a thumbs up if no errors)
  * @return void
  */
-module.exports = function done( app ) {
+module.exports = function done( app, kill ) {
 	var i = 0,
 		len = app.warnings.length;
 
@@ -24,6 +24,12 @@ module.exports = function done( app ) {
 		console.log( '\n\uD83D\uDCA9 ', len + ' Warnings' );
 	}
 
-	// reset in case of watch
-	app.warnings = [];
+	// if we got here via an error
+	if ( kill ) {
+		throw Error('Stylint: too many errors');
+	}
+	else {
+		// reset in case of watch
+		app.warnings = [];
+	}
 }
