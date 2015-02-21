@@ -1,6 +1,6 @@
 'use strict';
 
-var syntaxIgnore = /[,{}]|(:after|:active|:before|@import|@extend|@media|:hover|@font-face|src)/;
+var syntaxIgnore = /[,{}]|(:after|:active|:before|@import|@require|@extend|@media|:hover|@font-face|src)/;
 
 // check that selector properties are sorted alphabetically
 module.exports = function duplicateSelectors( line, file ) {

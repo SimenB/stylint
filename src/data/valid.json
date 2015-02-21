@@ -317,6 +317,7 @@
         "resize",
         "resolution",
         "rest",
+        "require",
         "rest-after",
         "rest-before",
         "richness",
