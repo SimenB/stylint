@@ -16,7 +16,7 @@ If you have any problems with the linter just create a ticket there and I will r
 
 Same thing if you have any feature requests.
 
-I will gladly pull requests as well, if you want to implement it yourself.
+I will gladly accept pull requests as well.
 
 
 ## CLI

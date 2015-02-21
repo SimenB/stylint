@@ -1,6 +1,6 @@
 {
   "name": "stylint",
-  "version": "0.8.11",
+  "version": "0.8.12",
   "description": "A linter for stylus",
   "author": "Ross Patton",
   "license": "ISC",
