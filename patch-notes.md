@@ -1,3 +1,10 @@
+##### 0.8.13
+lock dependencies for stability
+
+add more support for svg css properties
+
+git ignore coverage report
+
 ##### 0.8.12
 fix require bugs
 

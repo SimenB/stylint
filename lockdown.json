@@ -1,0 +1,197 @@
+{
+  "abbrev": {
+    "1.0.5": "5d8257bd9ebe435e698b2fa431afde4fe7b10b03"
+  },
+  "asap": {
+    "1.0.0": "b2a45da5fdfa20b0496fc3768cc27c12fa916a7d"
+  },
+  "assertion-error": {
+    "1.0.0": "c7f85438fdd466bc7ca16ab90c81513797a5d23b"
+  },
+  "async-each": {
+    "0.1.6": "b67e99edcddf96541e44af56290cd7d5c6e70439"
+  },
+  "balanced-match": {
+    "0.2.0": "38f6730c03aab6d5edbb52bd934885e756d71674"
+  },
+  "brace-expansion": {
+    "1.1.0": "c9b7d03c03f37bc704be100e522b40db8f6cfcd9"
+  },
+  "chai": {
+    "1.10.0": "e4031cc87654461a75943e5a35ab46eaf39c1eb9"
+  },
+  "chokidar": {
+    "0.12.3": "02987da6cae9ebc012370a225a1184ad69940683"
+  },
+  "commander": {
+    "0.6.1": "fa68a14f6a945d54dbbe50d8cdb3320e9e3b1a06",
+    "2.3.0": "fd430e889832ec353b9acd1de217c11cb3eef873"
+  },
+  "concat-map": {
+    "0.0.1": "d8a96bd77fd68df7793a73036a3ba0d5405d477b"
+  },
+  "config-chain": {
+    "1.1.8": "0943d0b7227213a20d4eaff4434f4a1c0a052cad"
+  },
+  "core-util-is": {
+    "1.0.1": "6b07085aef9a3ccac6ee53bf9d3df0c1521a5538"
+  },
+  "debug": {
+    "2.0.0": "89bd9df6732b51256bc6705342bba02ed12131ef"
+  },
+  "debuglog": {
+    "1.0.1": "aa24ffb9ac3df9a2351837cfb2d279360cd78492"
+  },
+  "deep-eql": {
+    "0.1.3": "ef558acab8de25206cd713906d74e56930eb69f2"
+  },
+  "dezalgo": {
+    "1.0.1": "12bde135060807900d5a7aebb607c2abb7c76937"
+  },
+  "diff": {
+    "1.0.8": "343276308ec991b7bc82267ed55bc1411f971666"
+  },
+  "escape-string-regexp": {
+    "1.0.2": "4dbc2fe674e71949caf3fb2695ce7f2dc1d9a8d1"
+  },
+  "formatio": {
+    "1.1.1": "5ed3ccd636551097383465d996199100e86161e9"
+  },
+  "fsevents": {
+    "0.3.5": "d0938147614066c0e1297647b3b8ab5a4baf4688"
+  },
+  "github-url-from-git": {
+    "1.4.0": "285e6b520819001bde128674704379e4ff03e0de"
+  },
+  "github-url-from-username-repo": {
+    "1.0.2": "7dd79330d2abe69c10c2cef79714c97215791dfa"
+  },
+  "glob": {
+    "3.2.3": "e313eeb249c7affaa5c475286b0e115b59839467",
+    "4.3.1": "9d09096f89b4d30949e784e83f312af3ca04ec14"
+  },
+  "graceful-fs": {
+    "2.0.3": "7cd2cdb228a4a3f36e95efa6cc142de7d1a136d0",
+    "3.0.5": "4a880474bdeb716fe3278cf29792dec38dfac418"
+  },
+  "growl": {
+    "1.8.1": "4b2dec8d907e93db336624dcec0183502f8c9428"
+  },
+  "inflight": {
+    "1.0.4": "6cbb4521ebd51ce0ec0a936bfd7657ef7e9b172a"
+  },
+  "inherits": {
+    "2.0.1": "b17d08d326b4423e568eff719f91b0b1cbdf69f1"
+  },
+  "ini": {
+    "1.3.3": "c07e34aef1de06aff21d413b458e52b21533a11e"
+  },
+  "isarray": {
+    "0.0.1": "8a18acfca9a8f4177e09abfc6038939b05d1eedf"
+  },
+  "jade": {
+    "0.26.3": "8f10d7977d8d79f2f6ff862a81b0513ccb25686c"
+  },
+  "lockdown": {
+    "0.0.6": "afa6ef1c8b7dc0ac5e2c4f7a09d80362a77c570f"
+  },
+  "lolex": {
+    "1.1.0": "5dbbbc850395e7523c74b3586f7fbd2626d25b1b"
+  },
+  "lru-cache": {
+    "2.5.0": "d82388ae9c960becbea0c73bb9eb79b6c6ce9aeb"
+  },
+  "minimatch": {
+    "0.2.14": "c74e780574f63c6f9a090e90efbe6ef53a6a756a",
+    "2.0.1": "6c3760b45f66ed1cd5803143ee8d372488f02c37"
+  },
+  "minimist": {
+    "0.0.8": "857fcabfc3397d2625b8228262e86aa7a011b05d"
+  },
+  "mkdirp": {
+    "0.3.0": "1bbf5ab1ba827af23575143490426455f481fe1e",
+    "0.5.0": "1d73076a6df986cd9344e15e71fcc05a4c9abf12"
+  },
+  "mocha": {
+    "2.0.1": "5a16e88b856d0c4145d8c6888c27ebd4fab13e90"
+  },
+  "mout": {
+    "0.5.0": "ff967566a90f29595e9cb8b6e7800a5b56635583"
+  },
+  "ms": {
+    "0.6.2": "d89c2124c6fdc1353d65a8b77bf1aac4b193708c"
+  },
+  "nan": {
+    "1.5.3": "4cd0ecc133b7b0700a492a646add427ae8a318eb"
+  },
+  "nopt": {
+    "3.0.1": "bce5c42446a3291f47622a370abbf158fbbacbfd"
+  },
+  "normalize-package-data": {
+    "1.0.3": "8be955b8907af975f1a4584ea8bb9b41492312f5"
+  },
+  "npmconf": {
+    "1.1.5": "07777bea48d78eed75a4258962a09f3dc7b6b916"
+  },
+  "once": {
+    "1.3.1": "f3f3e4da5b7d27b5c732969ee3e67e729457b31f"
+  },
+  "osenv": {
+    "0.1.0": "61668121eec584955030b9f470b1d2309504bfcb"
+  },
+  "proto-list": {
+    "1.2.3": "6235554a1bca1f0d15e3ca12ca7329d5def42bd9"
+  },
+  "read-installed": {
+    "3.1.0": "47075ba8828147ed495084df779f29a4329ad3df"
+  },
+  "read-package-json": {
+    "1.3.1": "5a965f9fc34b25ffa5e0d93b1d0fc063af6d10b0"
+  },
+  "readable-stream": {
+    "1.0.33": "3a360dd66c1b1d7fd4705389860eda1d0f61126c"
+  },
+  "readdir-scoped-modules": {
+    "1.0.1": "5c2a77f3e08250a8fddf53fa58cdc17900b808b9"
+  },
+  "readdirp": {
+    "1.3.0": "eaf1a9b463be9a8190fc9ae163aa1ac934aa340b"
+  },
+  "samsam": {
+    "1.1.2": "bec11fdc83a9fda063401210e40176c3024d1567"
+  },
+  "semver": {
+    "2.3.2": "b9848f25d6cf36333073ec9ef8856d42f1233e52",
+    "3.0.1": "720ac012515a252f91fb0dd2e99a56a70d6cf078"
+  },
+  "sigmund": {
+    "1.0.0": "66a2b3a749ae8b5fb89efd4fcc01dc94fbe02296"
+  },
+  "sinon": {
+    "1.12.2": "dd893d1f93bfa652ae7c2a08c6eaa42898452c94"
+  },
+  "slide": {
+    "1.1.6": "56eb027d65b4d2dce6cb2e2d32c4d4afc9e1d707"
+  },
+  "stampit": {
+    "1.1.0": "53198127f29f87a59958a170880888d9063745cf"
+  },
+  "string_decoder": {
+    "0.10.31": "62e203bc41766c6c28c9fc84301dab1c5310fa94"
+  },
+  "type-detect": {
+    "0.1.1": "0ba5ec2a885640e470ea4e8505971900dac58822"
+  },
+  "uid-number": {
+    "0.0.5": "5a3db23ef5dbd55b81fce0ec9a2ac6fccdebb81e"
+  },
+  "util": {
+    "0.10.3": "7afb1afe50805246489e3db7fe0ed379336ac0f9"
+  },
+  "util-extend": {
+    "1.0.1": "bb703b79480293ddcdcfb3c6a9fea20f483415bc"
+  },
+  "wrappy": {
+    "1.0.1": "1e65969965ccbc2db4548c6b84a6f2c5aedd4739"
+  }
+}
