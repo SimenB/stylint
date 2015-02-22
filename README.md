@@ -18,6 +18,10 @@ Same thing if you have any feature requests.
 
 I will gladly accept pull requests as well.
 
+you can also ping me here:
+
+https://gitter.im/rossPatton/stylint
+
 
 ## CLI
 -h or --help    Display list of commands
