@@ -19,3 +19,4 @@ coverage
 lib/read.js
 old-and-ignored/
 test/coverage/
+coverage/
