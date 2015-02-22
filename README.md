@@ -4,23 +4,17 @@
 
 [![NPM](https://nodei.co/npm/stylint.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/stylint/)
 
-see patch notes here for info on ver differences:
+[patch notes](https://github.com/rossPatton/stylint/blob/master/patch-notes.md)
 
-https://github.com/rossPatton/stylint/blob/master/patch-notes.md
-
-known issues:
-
-https://github.com/rossPatton/stylint/issues
+[known issues](https://github.com/rossPatton/stylint/issues)
 
 If you have any problems with the linter just create a ticket there and I will respond.
 
 Same thing if you have any feature requests.
 
-I will gladly accept pull requests as well.
+I will gladly accept pull requests if you want to do the work yourself.
 
-you can also ping me here:
-
-https://gitter.im/rossPatton/stylint
+you can also ping me [here](https://gitter.im/rossPatton/stylint)
 
 
 ## CLI
