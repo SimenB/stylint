@@ -45,7 +45,6 @@
   },
   "scripts": {
     "start": "node --harmony index.js",
-    "test": "istanbul cover node_modules/.bin/_mocha -- -u exports -R spec test/test.js",
-    "preinstall": "lockdown"
+    "test": "istanbul cover node_modules/.bin/_mocha -- -u exports -R spec test/test.js"
   }
 }

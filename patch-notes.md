@@ -1,3 +1,6 @@
+##### 0.8.14
+locking dependencies was a terrible, terrible idea
+
 ##### 0.8.13
 lock dependencies for stability
 
