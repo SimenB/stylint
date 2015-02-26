@@ -1,3 +1,6 @@
+##### 0.8.15
+add more svg elements to the whitelist
+
 ##### 0.8.14
 locking dependencies was a terrible, terrible idea
 
