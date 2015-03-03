@@ -611,6 +611,24 @@ describe('Linter Style Checks: ', function() {
         });
     });
 
+    describe('colors', function () {
+      var test1 = '#fff';
+      var test2 = '.foo';
+      var test3 = '$foobar ?= #fff';
+
+      it('should return true if a line has a hex color', function () {
+        assert.equal( true, app.colors(test1) );
+      });
+
+      it('should return false if a line does not have a hex color', function () {
+        assert.equal( false, app.colors(test2) );
+      });
+
+      it('should return false if a hex color is assigned to a variable', function () {
+        assert.equal( false, app.colors(test3) );
+      });
+    });
+
     describe('leading zero', function() {
         var test1 = 'color (0, 0, 0, 0.18)',
             test2 = 'color (0,0,0,0.18)',

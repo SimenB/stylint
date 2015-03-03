@@ -23,6 +23,7 @@ var
 	ver = require('./src/version'),
 	watch = require('./src/watch'),
 	alphabet          = require('./src/checks/alphabet'),
+	colors            = require('./src/checks/colors'),
 	block             = require('./src/checks/block'),
 	borderNone        = require('./src/checks/borderNone'),
 	brackets          = require('./src/checks/brackets'),
@@ -162,8 +163,8 @@ var coreMethods = stampit().methods({
 	watch: watch
 });
 
-
 var testMethods = stampit().methods({
+  colors: colors,
 	alphabet: alphabet,
 	block: block,
 	borderNone: borderNone,
