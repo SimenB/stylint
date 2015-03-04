@@ -36,6 +36,7 @@ var
 	extend            = require('./src/checks/extends'),
 	hashEnd           = require('./src/checks/hashEnd'),
 	hashStart         = require('./src/checks/hashStart'),
+	colors            = require('./src/checks/colors'),
 	leadingZero       = require('./src/checks/leadingZero'),
 	mixed             = require('./src/checks/mixed'),
 	namingConvention  = require('./src/checks/namingConvention'),
@@ -62,6 +63,7 @@ var config = stampit().state({
 		borderNone: true, // check for use of border none and recommend border 0
 		brackets: true, // check for { or }, unless used in a hash
 		colons: false, // check for unecessary colons
+		colors: false, // check for hex colors used without variables
 		commaSpace: true, // check for spaces after commas (0, 0, 0, .18)
 		commentSpace: false, // check for space after line comment
 		cssLiteral: false, // if true disallow css literals
@@ -162,13 +164,14 @@ var coreMethods = stampit().methods({
 	watch: watch
 });
 
-
+// very simple, 1 purpose methods, that run regex/indexOf checks on strings
 var testMethods = stampit().methods({
 	alphabet: alphabet,
 	block: block,
 	borderNone: borderNone,
 	brackets: brackets,
 	colon: colon,
+	colors: colors,
 	comma: comma,
 	commentSpace: commentSpace,
 	commentExists: commentExists,

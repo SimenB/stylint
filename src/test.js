@@ -195,6 +195,14 @@ module.exports = function test( app, line, num, output, file ) {
 				}
 			}
 
+
+			// prefer vars instead of loose hex values
+			if ( app.config.colors || app.state.strictMode ) {
+				if ( app.colors( line ) ) {
+					app.warnings.push( 'hexidecimal color should be a variable:' + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+				}
+			}
+
 			// check for unecessary ; (margin 0; is invalid)
 			if ( app.config.semicolons || app.state.strictMode ) {
 				if ( app.semicolon(line) ) {
