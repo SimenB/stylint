@@ -23,7 +23,6 @@ var
 	ver = require('./src/version'),
 	watch = require('./src/watch'),
 	alphabet          = require('./src/checks/alphabet'),
-	colors            = require('./src/checks/colors'),
 	block             = require('./src/checks/block'),
 	borderNone        = require('./src/checks/borderNone'),
 	brackets          = require('./src/checks/brackets'),
@@ -37,6 +36,7 @@ var
 	extend            = require('./src/checks/extends'),
 	hashEnd           = require('./src/checks/hashEnd'),
 	hashStart         = require('./src/checks/hashStart'),
+	colors            = require('./src/checks/colors'),
 	leadingZero       = require('./src/checks/leadingZero'),
 	mixed             = require('./src/checks/mixed'),
 	namingConvention  = require('./src/checks/namingConvention'),
@@ -63,7 +63,7 @@ var config = stampit().state({
 		borderNone: true, // check for use of border none and recommend border 0
 		brackets: true, // check for { or }, unless used in a hash
 		colons: false, // check for unecessary colons
-    colors: false, // check for hex colors used without variables
+		colors: true, // check for hex colors used without variables
 		commaSpace: true, // check for spaces after commas (0, 0, 0, .18)
 		commentSpace: false, // check for space after line comment
 		cssLiteral: false, // if true disallow css literals
@@ -165,7 +165,7 @@ var coreMethods = stampit().methods({
 });
 
 var testMethods = stampit().methods({
-  colors: colors,
+	colors: colors,
 	alphabet: alphabet,
 	block: block,
 	borderNone: borderNone,
