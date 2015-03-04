@@ -164,13 +164,14 @@ var coreMethods = stampit().methods({
 	watch: watch
 });
 
+// very simple, 1 purpose methods, that run regex/indexOf checks on strings
 var testMethods = stampit().methods({
-	colors: colors,
 	alphabet: alphabet,
 	block: block,
 	borderNone: borderNone,
 	brackets: brackets,
 	colon: colon,
+	colors: colors,
 	comma: comma,
 	commentSpace: commentSpace,
 	commentExists: commentExists,

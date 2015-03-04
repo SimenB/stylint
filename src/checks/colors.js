@@ -14,6 +14,4 @@ module.exports = function checkHexColors( line ) {
 	else {
 		return false;
 	}
-
-	// return ( line.match(/#\w{3,6}/) !== null && line.match(/\?=/) === null );
 };
