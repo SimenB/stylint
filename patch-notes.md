@@ -1,3 +1,6 @@
+##### 0.9.0
+add hexidecimal color check
+
 ##### 0.8.15
 add more svg elements to the whitelist
 

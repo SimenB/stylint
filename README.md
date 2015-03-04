@@ -76,6 +76,7 @@ The default settings are pretty weak and unopinionated (i think). If you want to
     "borderNone": true,
     "brackets": false,
     "colons": false,
+    "colors": false,
     "commaSpace": true,
     "commentSpace": false,
     "cssLiteral": false,
@@ -148,6 +149,12 @@ Example if true: prefer `.some-class-name ` over `.some-class-name {`
 Checks for existence of unecessary colons. Does not throw a warning if colon is used inside a hash.
 
 Example if true: prefer `margin 0` over `margin: 0`
+
+
+### colors (default: false, boolean)
+Checks for hexidecimal color values, and suggest using a variable instead.
+
+Example if true: prefer `margin $red` over `margin: #f00`
 
 
 ### commaSpace (default: true, boolean)
