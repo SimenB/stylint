@@ -83,8 +83,8 @@ The default settings are pretty weak and unopinionated (i think). If you want to
     "depthLimit": false,
     "duplicates": true,
     "efficient": true,
-    "enforceVarStyle": false,
     "enforceBlockStyle": false,
+    "enforceVarStyle": false,
     "extendPref": false,
     "globalDupe": false,
     "indentSpaces": 4,
@@ -96,9 +96,9 @@ The default settings are pretty weak and unopinionated (i think). If you want to
     "parenSpace": false,
     "placeholders": true,
     "semicolons": false,
-    "Whitespace": true,
     "universal": true,
     "valid": false,
+    "whitespace": true,
     "zeroUnits": true,
     "zIndexDuplicates": false,
     "zIndexNormalize": false
@@ -175,6 +175,12 @@ By default stylint ignores `@css` blocks. If set to true however, it will throw 
 Example if true: `@css` will throw a warning
 
 
+### depthLimit (default: false, number or false)
+Set the max selector depth. If set to 4, max selector depth will be 4 indents. Pseudo selectors like `&:first-child` or `&:hover` won't count towards the limit.
+
+Set to false if you don't want to check for this.
+
+
 ### duplicates (default: true, boolean)
 Checks if selector or property duplicated unecessarily. By default, only checks on a file by file basis, but if `globalDupes: true` is set, then it will also check for duplicates globally (for root values only).
 
@@ -184,12 +190,6 @@ Example if true: the following will throw a warning:
     margin 0
     margin 5px
 ```
-
-
-### depthLimit (default: false, number or false)
-Set the max selector depth. If set to 4, max selector depth will be 4 indents. Pseudo selectors like `&:first-child` or `&:hover` won't count towards the limit.
-
-Set to false if you don't want to check for this.
 
 
 ### efficient (default: true, boolean)
@@ -220,7 +220,7 @@ Example if set to `@extends`: prefer `@extends $some-var` over `@extend $some-va
 Example if set to `@extend`: prefer `@extend $some-var` over `@extend $some-var`
 
 
-### globalDupes (default: false, boolean)
+### globalDupe (default: false, boolean)
 Works in conjunction with duplicates. Does nothing on it's own. If false, duplicates will check for dupes within individual files only. If true, duplicates will check for dupes across all files.
 
 Example if true: the following will throw a warning
@@ -293,10 +293,6 @@ Look for unecessary semicolons.
 Example: prefer `margin 0` over `margin 0;`
 
 
-### trailingWhitespace (default: true, boolean)
-Looks for trailing whitespace. Throws a warning if any found.
-
-
 ### universal (default: true, boolean)
 Looks for instances of the inefficient * selector. Lots of resets use this, for good reason (resetting box model), but past that you really don't need this selector, and you should avoid it if possible.
 
@@ -305,6 +301,10 @@ Looks for instances of the inefficient * selector. Lots of resets use this, for 
 Check that a property is a valid css or html property. Currently just checks properties, value checks will come soon.
 
 Example if true: `marg 0` will throw a warning, prefer `margin 0`
+
+
+### whitespace (default: true, boolean)
+Looks for trailing whitespace. Throws a warning if any found.
 
 
 ### zeroUnits (default: true, boolean)
