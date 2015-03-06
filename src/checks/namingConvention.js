@@ -4,13 +4,13 @@ var
 	 // we dont care about default css names, only look at vars, classes, ids, etc
 	cssCheck = /^[$#.]+/,
 	 // camelCase or CamelCase
-	camel = /^[$.#]+[a-zA-Z][a-z]+(?!_?!-)([.A-Z0-9]+[a-z =]+)+\b/,
+	camel = /^[$.#{:]+[a-zA-Z][a-z]+(?!_?!-)([.A-Z0-9]+[a-z =]+)+\b/,
 	// lower-case-dashes-only
-	dash = /^[$.#]+[a-z]+(?!_)(-[.a-z]+)*\b/,
+	dash = /^[$.#{:]+[a-z]+(?!_)(-[.a-z]+)*\b/,
 	 // lower_case_underscores_only
-	score = /^[$.#]+[a-z]+(?!-)(_[.a-z]+)*\b/,
+	score = /^[$.#{:]+[a-z]+(?!-)(_[.a-z]+)*\b/,
 	// BEM (http://bem.info/method/)
-	bem = /^[$.#]+[a-z]([-]?[a-z0-9]+)*(__[a-z0-9]([-]?[a-z0-9]+)*)?((_[a-z0-9]([-]?[a-z0-9]+)*){2})*\b/;
+	bem = /^[$.#{:]+[a-z]([-]?[a-z0-9]+)*(__[a-z0-9]([-]?[a-z0-9]+)*)?((_[a-z0-9]([-]?[a-z0-9]+)*){2})*\b/;
 
 
 /**
