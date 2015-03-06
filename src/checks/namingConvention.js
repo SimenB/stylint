@@ -2,15 +2,15 @@
 
 var
 	 // we dont care about default css names, only look at vars, classes, ids, etc
-	cssCheck = /^[$#.]+/,
+	cssCheck = /^[$#.{:]+/m,
 	 // camelCase or CamelCase
-	camel = /^[$.#{:]+[a-zA-Z][a-z]+(?!_?!-)([.A-Z0-9]+[a-z =]+)+\b/,
+	camel = /^[$.#{:]+([a-zA-Z]|[${}])+([a-z]|[${}])+((?!_)|(?!-))(([.A-Z0-9]|[${}])+[a-z =]+)+\b/m,
 	// lower-case-dashes-only
-	dash = /^[$.#{:]+[a-z]+(?!_)(-[.a-z]+)*\b/,
+	dash = /^[$.#{:]+[a-z]+(?!_)(-[.a-z]+)*\b/m,
 	 // lower_case_underscores_only
-	score = /^[$.#{:]+[a-z]+(?!-)(_[.a-z]+)*\b/,
+	score = /^[$.#{:]+(_|[a-z])+(?!-)(_[.a-z]+)*\b/m,
 	// BEM (http://bem.info/method/)
-	bem = /^[$.#{:]+[a-z]([-]?[a-z0-9]+)*(__[a-z0-9]([-]?[a-z0-9]+)*)?((_[a-z0-9]([-]?[a-z0-9]+)*){2})*\b/;
+	bem = /^[$.#{:]+[a-z]([-]?[a-z0-9]+)*(__[a-z0-9]([-]?[a-z0-9]+)*)?((_[a-z0-9]([-]?[a-z0-9]+)*){2})*\b/m;
 
 
 /**
@@ -25,7 +25,7 @@ module.exports = function checkNamingConvention( line, convention ) {
 	// only run checks if on a class, id, or variable
 	if ( cssCheck.test( line ) ) {
 		if ( convention === 'camelCase' ) {
-			if ( camel.test( line ) && !dash.test( line ) && !score.test( line ) ) {
+			if ( camel.test( line ) ) { // && !dash.test( line ) && !score.test( line ) ) {
 				return true;
 			}
 			else {
