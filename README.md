@@ -280,6 +280,12 @@ Example if set to `'BEM'`: prefer `$var__like--this` over `$var_name` or `$varNa
 
 
 ### parenSpace (default: false, boolean)
+Enforce extending placeholder vars when using `@extend(s)`
+
+Example: prefer `@extends $placeholder` over `$extends .some-class`
+
+
+### parenSpace (default: false, boolean)
 Enforce use of extra spaces inside parens.
 
 This option used to be called mixinSpace, and you can still call it that if you want, but I will remove the old option by 1.0 probably.
