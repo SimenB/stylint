@@ -4,7 +4,7 @@ var
 	 // we dont care about default css names, only look at vars, classes, ids, etc
 	cssCheck = /^[$#.{:]+/m,
 	 // camelCase or CamelCase
-	camel = /^[$.#{:]+([a-zA-Z]|[${}])+([a-z]|[${}])+((?!_)|(?!-))(([.A-Z0-9]|[${}])+[a-z =]+)+\b/m,
+	camel = /^[$.#{:]+([a-zA-Z]|[${}])+([a-z]|[${}])+((?!_)|(?!-))(([.A-Z0-9])+[a-z =]+)+\b/m,
 	// lower-case-dashes-only
 	dash = /^[$.#{:]+[a-z]+(?!_)(-[.a-z]+)*\b/m,
 	 // lower_case_underscores_only
