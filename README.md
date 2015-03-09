@@ -154,7 +154,7 @@ Example if true: prefer `margin 0` over `margin: 0`
 ### colors (default: false, boolean)
 Checks for hexidecimal color values, and suggest using a variable instead.
 
-Example if true: prefer `margin $red` over `margin: #f00`
+Example if true: prefer `color $red` over `color #f00`
 
 
 ### commaSpace (default: true, boolean)
