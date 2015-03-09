@@ -689,7 +689,6 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, app.namingConvention('#block-{$class-name}', 'lowercase-dash') );
 			assert.equal( true, app.namingConvention(':{$class-name}', 'lowercase-dash') );
 			assert.equal( true, app.namingConvention('::{$class-name}', 'lowercase-dash') );
-			// .block_{$class-name}
 
 			assert.equal( true, app.namingConvention('$var_name_like_this =', 'lowercase_underscore') );
 			assert.equal( true, app.namingConvention('.class_name_like_this', 'lowercase_underscore') );
@@ -727,6 +726,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( false, app.namingConvention('#block_{$class_name}', 'lowercase-dash') );
 			assert.equal( false, app.namingConvention(':{$class_name}', 'lowercase-dash') );
 			assert.equal( false, app.namingConvention('::{$class_name}', 'lowercase-dash') );
+			assert.equal( false, app.namingConvention('.block_{$class-name}', 'lowercase-dash') );
 
 			assert.equal( false, app.namingConvention('$var-name-like-this =', 'lowercase_underscore') );
 			assert.equal( false, app.namingConvention('.class-name-like-this', 'lowercase_underscore') );
@@ -741,6 +741,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( false, app.namingConvention('#block-{$className}', 'lowercase_underscore') );
 			assert.equal( false, app.namingConvention(':{$className}', 'lowercase_underscore') );
 			assert.equal( false, app.namingConvention('::{$className}', 'lowercase_underscore') );
+			assert.equal( false, app.namingConvention('.block_{$class-name}', 'lowercase_underscore') );
 
 			assert.equal( false, app.namingConvention('$var-name-like-this =', 'camelCase') );
 			assert.equal( false, app.namingConvention('.class-name-like-this', 'camelCase') );
@@ -758,6 +759,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( false, app.namingConvention('#block{$class_name}', 'camelCase') );
 			assert.equal( false, app.namingConvention(':{$class_name}', 'camelCase') );
 			assert.equal( false, app.namingConvention('::{$class_name}', 'camelCase') );
+			assert.equal( false, app.namingConvention('.block_{$class-name}', 'camelCase') );
 
 			assert.equal( false, app.namingConvention('.classNameLikeThis', 'BEM') );
 			assert.equal( false, app.namingConvention('#id_name_like_this', 'BEM') );
@@ -767,7 +769,8 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( false, app.namingConvention(':{$class_name}', 'BEM') );
 			assert.equal( false, app.namingConvention('::{$className}', 'BEM') );
 			assert.equal( false, app.namingConvention('::{$class_name}', 'BEM') );
-			// assert.equal( false, app.namingConvention('#block-__$class-name}', 'BEM') );
+			assert.equal( false, app.namingConvention('#block__$class-name}', 'BEM') );
+			assert.equal( false, app.namingConvention('.block_{$class-name}', 'BEM') );
 		});
 
 		it('and undefined if line not checkable', function() {

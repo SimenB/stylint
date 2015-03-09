@@ -1,14 +1,15 @@
 'use strict';
 
 var
-	 // we dont care about default css names, only look at vars, classes, ids, etc
+	alpha = /[A-Z]+/m,
+	// we dont care about default css names, only look at vars, classes, ids, etc
 	cssCheck = /^[$#.{:]+/m,
-	 // camelCase or CamelCase
-	camel = /^[$.#{:]+([a-zA-Z]|[${}])+([a-z]|[${}])+((?!_)|(?!-))(([.A-Z0-9])+[a-z =]+)+\b/m,
+	// camelCase or CamelCase
+	camel = /^[$.#{:]+([a-zA-Z]|[${}])+([a-z]|[${}])+(([.A-Z0-9])+[a-z ]+)+\b/m,
 	// lower-case-dashes-only
-	dash = /^[$.#{:]+[a-z]+(?!_)(-[.a-z]+)*\b/m,
-	 // lower_case_underscores_only
-	score = /^[$.#{:]+(_|[a-z])+(?!-)(_[.a-z]+)*\b/m,
+	dash = /^[$.#{:]+[a-z]+(-[.a-z]+)*\b/m,
+	// lower_case_underscores_only
+	score = /^[$.#{:]+[a-z]+[_{}$.a-z]+\b/m,
 	// BEM (http://bem.info/method/)
 	bem = /^[$.#{:]+[a-z]([-]?[a-z0-9]+)*(__[a-z0-9]([-]?[a-z0-9]+)*)?((_[a-z0-9]([-]?[a-z0-9]+)*){2})*\b/m;
 
@@ -25,7 +26,9 @@ module.exports = function checkNamingConvention( line, convention ) {
 	// only run checks if on a class, id, or variable
 	if ( cssCheck.test( line ) ) {
 		if ( convention === 'camelCase' ) {
-			if ( camel.test( line ) ) { // && !dash.test( line ) && !score.test( line ) ) {
+			if ( line.indexOf('-') === -1 &&
+				line.indexOf('_') === -1 &&
+				camel.test( line ) ) {
 				return true;
 			}
 			else {
@@ -33,7 +36,9 @@ module.exports = function checkNamingConvention( line, convention ) {
 			}
 		}
 		else if ( convention === 'lowercase_underscore' ) {
-			if ( score.test( line ) ) {
+			if ( line.indexOf('-') === -1 &&
+				line.indexOf('_') !== -1 &&
+				!alpha.test( line ) ) {
 				return true;
 			}
 			else {
@@ -41,7 +46,9 @@ module.exports = function checkNamingConvention( line, convention ) {
 			}
 		}
 		else if ( convention === 'lowercase-dash' ) {
-			if ( dash.test( line ) ) {
+			if ( line.indexOf('-') !== -1 &&
+				line.indexOf('_') === -1 &&
+				!alpha.test( line ) ) {
 				return true;
 			}
 			else {
@@ -49,7 +56,7 @@ module.exports = function checkNamingConvention( line, convention ) {
 			}
 		}
 		else if ( convention === 'BEM' ) {
-			if ( bem.test( line ) ) {
+			if ( !alpha.test( line ) && bem.test( line ) ) {
 				return true;
 			}
 			else {
