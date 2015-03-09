@@ -1,4 +1,8 @@
 ##### 0.9.0
+strengthen naming convention checks to better accomodate interpolation
+update documentation for placeholders and colors options
+
+##### 0.9.0
 add hexidecimal color check
 
 ##### 0.8.15
