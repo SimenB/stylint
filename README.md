@@ -267,12 +267,12 @@ Example if indentPref: 2 and mixed: true: prefer `\s\smargin\s0` over `\tmargin\
 Example if indentPref: false and mixed: true: prefer `\tmargin\s0` over `\s\s\s\smargin\s0`
 
 
-### namingConvention (default: false, false | 'lowercase-dash' | 'lowercase-underscore' | 'camelCase')
+### namingConvention (default: false, false | 'lowercase-dash' | 'lowercase_underscore' | 'camelCase' | 'BEM')
 Enforce a particular naming convention when declaring classes, ids, and variables. Throws a warning if you don't follow the convention. If set to false, allow any convention.
 
 Example if set to `'lowercase-dash'`: prefer `$var-name` over `$var_name` or `$varName`
 
-Example if set to `'lowercase-underscore'`: prefer `$var_name` over `$var-name` or `$varName`
+Example if set to `'lowercase_underscore'`: prefer `$var_name` over `$var-name` or `$varName`
 
 Example if set to `'camelCase'`: prefer `$varName` over `$var_name` or `$var-name`
 
