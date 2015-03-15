@@ -873,15 +873,19 @@ describe('Linter Style Checks: ', function() {
 	});
 
 	describe('universal selector', function() {
-		it('should return false if no * is found', function() {
-			var test2 = 'return ( $width*$height )';
+		it('should return false if no invalid * is found', function() {
+			var test = 'return ( $width*$height )',
+				test2 = 'content: "*"';
+
 			assert.equal( false, app.universal('img'), ['img'] );
+			assert.equal( false, app.universal( test, test.split(' ') ) );
 			assert.equal( false, app.universal( test2, test2.split(' ') ) );
 		});
 
 		it('should return true if * is found', function() {
 			assert.equal( true, app.universal( '*', ['*'] ) );
 			assert.equal( true, app.universal( '*:before', ['*:before'] ) );
+			assert.equal( true, app.universal( '*::after', ['*::after'] ) );
 		});
 
 		it('should return undefined if missing params', function() {
@@ -903,6 +907,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, app.valid( '{var-name}', valid ) );
 			assert.equal( true, app.valid( 'my-hash = {', valid ) );
 			assert.equal( true, app.valid( 'for i in 0..9', valid ) );
+			assert.equal( true, app.valid( '&--append-class-name', valid ) );
 		});
 
 		it ('should return undefined if missing params', function() {

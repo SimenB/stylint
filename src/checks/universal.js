@@ -10,7 +10,7 @@ var universalRe = /(\s|\w|\d)(\*)(\s|\w|\d|\$|\=)/;
 module.exports = function checkForUniversal( line ) {
 	if ( typeof line !== 'string' ) { return; }
 
-	if ( line.indexOf('*') !== -1 ) {
+	if ( line.indexOf('*') !== -1 && line.indexOf('content') === -1 ) {
 		// if * is a valid use (ie, not by itself), return true
 		if ( universalRe.test( line ) ) {
 			return false;
