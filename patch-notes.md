@@ -1,4 +1,4 @@
-##### 0.9.2
+##### 0.9.2 (not yet live)
 namingConvention improvements: https://github.com/rossPatton/stylint/issues/50
 
 valid improvements: https://github.com/rossPatton/stylint/issues/46
