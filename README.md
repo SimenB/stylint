@@ -110,6 +110,22 @@ The default settings are pretty weak and unopinionated (i think). If you want to
 ### warning toggle (inline comment: @stylint off || @stylint on)
 Disable linting for a particular block of code by placing `@stylint off` in a line comment. Re-enable by placing `@stylint on` in a line comment farther down. Linter will not test any lines until turned back on. Use this to suppress warnings on a case by case basis. By default the linter will check every line except for @css blocks or places where certain rules have exceptions.
 
+For example, let's say you want to enforce `namingConvention: "lowercase_underscore"`, but you're also styling elements from the Bootstrap framework. You can use the `@stylint off` toggle to prevent warnings in places where you're referencing Bootstrap classes.
+
+Example:
+```stylus
+.button_block {
+    background: silver;
+    padding: 4px;
+}
+// @stylint off
+.button_block .btn-default {
+    background-color: green;
+    color: white;
+}
+// @stylint on
+```
+
 
 ### alphabetical (default: true, boolean)
 Prefer alphabetical ordering when declaring properties.
