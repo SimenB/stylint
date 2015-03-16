@@ -35,7 +35,7 @@ const
 		namingConvention: false, // lowercase-dash, camelCase, lowercase-underscore, or false (dont check)
 		parenSpace: false, // check for extra space inside parens when defining or using mixins
 		placeholders: true, // only allow @extending of placeholder vars
-		quotes: false, // enforce single or double quotes
+		quotePref: false, // enforce single or double quotes
 		semicolons: false, // check for unecessary semicolons
 		trailingWhitespace: true, // check for trailing whitespace
 		universal: true, // check for use of * and recommend against it

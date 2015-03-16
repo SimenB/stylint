@@ -95,6 +95,7 @@ The default settings are pretty weak and unopinionated (i think). If you want to
     "namingConvention": false,
     "parenSpace": false,
     "placeholders": true,
+    "quotePref": false,
     "semicolons": false,
     "universal": true,
     "valid": false,
@@ -291,6 +292,13 @@ Enforce use of extra spaces inside parens.
 This option used to be called mixinSpace, and you can still call it that if you want, but I will remove the old option by 1.0 probably.
 
 Example: prefer `my-mixin( $myParam )` over `my-mixin($myParam)`
+
+
+### quotePref (default: false, false | 'single' | 'double')
+Enforce consistent quotation style.
+
+Example if `'single'`: prefer `$var = 'some string'` over `$var = "some string"`
+Example if `'double'`: prefer `$var = "some string"` over `$var = 'some string'`
 
 
 ### semicolons (default: false, boolean)

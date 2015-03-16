@@ -1,5 +1,15 @@
-##### 0.9.0
+##### 0.9.2
+namingConvention improvements: https://github.com/rossPatton/stylint/issues/50
+
+valid improvements: https://github.com/rossPatton/stylint/issues/46
+
+universal improvements: https://github.com/rossPatton/stylint/issues/45
+
+quote style option added: https://github.com/rossPatton/stylint/issues/47
+
+##### 0.9.1
 strengthen naming convention checks to better accomodate interpolation
+
 update documentation for placeholders and colors options
 
 ##### 0.9.0
