@@ -25,7 +25,14 @@ module.exports = function checkNamingConvention( line, convention ) {
 
 	// only run checks if on a class, id, or variable
 	if ( cssCheck.test( line ) && line.indexOf('::') === -1 ) {
-		if ( convention === 'camelCase' ) {
+		// matches just lowercase first
+		if ( !alpha.test( line ) &&
+			line.indexOf('-') === -1 &&
+			line.indexOf('_') === -1 ) {
+			return true;
+		}
+		// then check conventions
+		else if ( convention === 'camelCase' ) {
 			if ( line.indexOf('-') === -1 &&
 				line.indexOf('_') === -1 &&
 				camel.test( line ) ) {

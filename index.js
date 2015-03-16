@@ -43,6 +43,7 @@ var
 	nesting           = require('./src/checks/nesting'),
 	paren             = require('./src/checks/paren'),
 	placeholder       = require('./src/checks/placeholder'),
+	quotes            = require('./src/checks/quotes'),
 	semicolon         = require('./src/checks/semicolon'),
 	startsWithComment = require('./src/checks/startsWithComment'),
 	universal         = require('./src/checks/universal'),
@@ -79,13 +80,14 @@ var config = stampit().state({
 		maxWarnings: 10, // should we have a max amount of warnings, and error out if we go over
 		maxWarningsKill: false, // if over maxWarning count, kill process
 		mixed: false, // check for mixed spaces and tabs
-		namingConvention: false, // lowercase-dash, camelCase, lowercase-underscore, or false (dont check)
+		namingConvention: false, // lowercase-dash, camelCase, lowercase_underscore, BEM or false (dont check)
 		parenSpace: false, // check for extra space inside parens when defining or using mixins
 		placeholders: true, // only allow @extending of placeholder vars
+		quotePref: false, // single or double quotes, or false to not check
 		semicolons: false, // check for unecessary semicolons
 		trailingWhitespace: true, // check for trailing whitespace
 		universal: true, // check for use of * and recommend against it
-		valid: true, // check if prop or value is a valid assignment
+		valid: false, // check if prop or value is a valid assignment
 		zeroUnits: true, // check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
 		zIndexDuplicates: false, // just find duplicate z index values
 		zIndexNormalize: false // suggest a normalized z index value, base of whatever this is
@@ -164,6 +166,7 @@ var coreMethods = stampit().methods({
 	watch: watch
 });
 
+
 // very simple, 1 purpose methods, that run regex/indexOf checks on strings
 var testMethods = stampit().methods({
 	alphabet: alphabet,
@@ -187,6 +190,7 @@ var testMethods = stampit().methods({
 	nesting: nesting,
 	paren: paren,
 	placeholder: placeholder,
+	quotes: quotes,
 	semicolon: semicolon,
 	startsWithComment: startsWithComment,
 	universal: universal,

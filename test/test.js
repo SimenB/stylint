@@ -35,6 +35,7 @@ const
 		namingConvention: false, // lowercase-dash, camelCase, lowercase-underscore, or false (dont check)
 		parenSpace: false, // check for extra space inside parens when defining or using mixins
 		placeholders: true, // only allow @extending of placeholder vars
+		quotes: false, // enforce single or double quotes
 		semicolons: false, // check for unecessary semicolons
 		trailingWhitespace: true, // check for trailing whitespace
 		universal: true, // check for use of * and recommend against it
@@ -674,6 +675,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, app.namingConvention('#{$class-name}', 'lowercase-dash') );
 			assert.equal( true, app.namingConvention('#block-{$class-name}', 'lowercase-dash') );
 			assert.equal( true, app.namingConvention(':{$var-name}', 'lowercase-dash') );
+			assert.equal( true, app.namingConvention('$varname', 'lowercase-dash') );
 
 			assert.equal( true, app.namingConvention('$var_name_like_this =', 'lowercase_underscore') );
 			assert.equal( true, app.namingConvention('.class_name_like_this', 'lowercase_underscore') );
@@ -682,6 +684,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, app.namingConvention('#{$var_name}', 'lowercase_underscore') );
 			assert.equal( true, app.namingConvention('#block_{$var_name}', 'lowercase_underscore') );
 			assert.equal( true, app.namingConvention(':{$var_name}', 'lowercase_underscore') );
+			assert.equal( true, app.namingConvention('$varname', 'lowercase_underscore') );
 
 			assert.equal( true, app.namingConvention('$varNameLikeThis =', 'camelCase') );
 			assert.equal( true, app.namingConvention('.classNameLikeThis', 'camelCase') );
@@ -690,6 +693,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, app.namingConvention('#{$varName}', 'camelCase') );
 			assert.equal( true, app.namingConvention('#block{$varName}', 'camelCase') );
 			assert.equal( true, app.namingConvention(':{$varName}', 'camelCase') );
+			assert.equal( true, app.namingConvention('$varname', 'camelCase') );
 
 			assert.equal( true, app.namingConvention('$var-name__like-this =', 'BEM') );
 			assert.equal( true, app.namingConvention('.class-name__like-this', 'BEM') );
@@ -699,6 +703,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, app.namingConvention(':{$var__name}', 'BEM') );
 			assert.equal( true, app.namingConvention('#block__{$var-name}', 'BEM') );
 			assert.equal( true, app.namingConvention('#block{$var-name}', 'BEM') );
+			assert.equal( true, app.namingConvention('$varname', 'BEM') );
 		});
 
 		it('false if not correct naming convention', function() {
@@ -840,6 +845,34 @@ describe('Linter Style Checks: ', function() {
 
 		it('should return undefined if missing params', function() {
 			assert.equal( undefined, app.placeholder() );
+		});
+	});
+
+	describe('quote style', function() {
+		it('should return false if incorrect quote style used', function() {
+			assert.equal( false, app.quotes( '$var = "test string" ', 'single' ) );
+			assert.equal( false, app.quotes( '$var = "test \'substring\' string" ', 'single' ) );
+			assert.equal( false, app.quotes( "$var = 'test string' ", 'double' ) );
+			assert.equal( false, app.quotes( "$var = 'test \"substring\" string' ", 'double' ) );
+		});
+
+		it('should return true if correct quote style used', function() {
+			assert.equal( true, app.quotes( "$var = 'test string' ", 'single' ) );
+			assert.equal( true, app.quotes( "$var = 'test \"substring\" string' ", 'single' ) );
+			assert.equal( true, app.quotes( '$var = "test string" ', 'double' ) );
+			assert.equal( true, app.quotes( '$var = "test \'substring\' string" ', 'double' ) );
+		});
+
+		it('should return undefined if no quotes found', function() {
+			assert.equal( undefined, app.quotes( '$var = #000 ', 'single' ) );
+			assert.equal( undefined, app.quotes( '$var = #000 ', 'double' ) );
+		});
+
+		it('should return undefined if missing params', function() {
+			assert.equal( undefined, app.quotes( undefined, 'single' ) );
+			assert.equal( undefined, app.quotes( undefined, 'double' ) );
+			assert.equal( undefined, app.quotes( 'string', undefined ) );
+			assert.equal( undefined, app.quotes( 'string', 'incorrect' ) );
 		});
 	});
 

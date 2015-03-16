@@ -245,6 +245,13 @@ module.exports = function test( app, line, num, output, file ) {
 			}
 
 			// check valid properties and values
+			if ( app.config.quotePref || app.state.strictMode ) {
+				if ( app.quotes( line, app.config.quotePref ) === false ) {
+					app.warnings.push( 'preferred quote style is ' + app.config.quotePref + ' quotes' + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+				}
+			}
+
+			// check valid properties and values
 			if ( app.config.valid || app.state.strictMode ) {
 				if ( app.valid( line, valid ) === false ) {
 					app.warnings.push( 'property is not valid' + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
