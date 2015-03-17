@@ -18,15 +18,15 @@ you can also ping me [here](https://gitter.im/rossPatton/stylint)
 
 
 ## CLI
--h or --help    Display list of commands
+`-h` or `--help`    Display list of commands
 
--w or --watch   Watch file or directory and run lint on change
+`-w` or `--watch`   Watch file or directory and run lint on change
 
--c or --config  Pass in location of custom config file
+`-c` or `--config`  Pass in location of custom config file
 
--s or --strict  Run all tests, regardless of config
+`-s` or `--strict`  Run all tests, regardless of config
 
--v or --version Display current version
+`-v` or `--version` Display current version
 
 
 ## Example CLI Usage:
@@ -58,7 +58,7 @@ gulp.task('stylint', shell.task([
 
 
 ## Why Write This Tool?
-Stylus is my CSS pre-processor of choice and the lack of a decent linter (or really, any linter) was an annoying pain point. So I thought i'd try my hand at writing what I thought my ideal linter would look like.
+Stylus is my CSS pre-processor of choice and the lack of a decent linter (or really, any linter) was an annoying pain point. So I thought I'd try my hand at writing what I thought my ideal linter would look like.
 
 
 ## Why Use This Tool?
@@ -66,9 +66,9 @@ To catch little mistakes (duplication of rules for instance) and to enforce a co
 
 
 ## Options
-The following is a list of the options available to stylinter. Use the -c or --config flag to pass in the location of your custom .stylintrc config file if you want to change the defaults. Alternatively, you could pass the -s or --strict flag to run stylint as though everything was set to true, config file or not.
+The following is a list of the options available to stylint. Use the `-c` or `--config` flag to pass in the location of your custom `.stylintrc` config file if you want to change the defaults. Alternatively, you could pass the `-s` or `--strict` flag to run stylint as though everything was set to true, config file or not.
 
-The default settings are pretty weak and unopinionated (i think). If you want to enforce a particular styleguide, you'll have to set up your own config file. Below is the default config.
+The default settings are pretty weak and unopinionated (I think). If you want to enforce a particular styleguide, you'll have to set up your own config file. Below is the default config.
 
 ```
 {
@@ -108,7 +108,7 @@ The default settings are pretty weak and unopinionated (i think). If you want to
 
 
 ### warning toggle (inline comment: @stylint off || @stylint on)
-Disable linting for a particular block of code by placing `@stylint off` in a line comment. Re-enable by placing `@stylint on` in a line comment farther down. Linter will not test any lines until turned back on. Use this to suppress warnings on a case by case basis. By default the linter will check every line except for @css blocks or places where certain rules have exceptions.
+Disable linting for a particular block of code by placing `@stylint off` in a line comment. Re-enable by placing `@stylint on` in a line comment further down. Stylint will not test any lines until turned back on. Use this to suppress warnings on a case-by-case basis. By default the linter will check every line except for @css blocks or places where certain rules have exceptions.
 
 
 ### alphabetical (default: true, boolean)
@@ -135,7 +135,7 @@ over this:
 
 
 ### borderNone (default: true, boolean)
-Check for places where `border 0` could be used instead of border none
+Check for places where `border 0` could be used instead of border none.
 
 Example if true: prefer `border 0` over `border none`
 
@@ -171,7 +171,7 @@ Example if true: prefer `// comment` over `//comment`
 
 
 ### cssLiteral (default: false, boolean)
-By default stylint ignores `@css` blocks. If set to true however, it will throw a warning if `@css` is used.
+By default Stylint ignores `@css` blocks. If set to true however, it will throw a warning if `@css` is used.
 
 Example if true: `@css` will throw a warning
 
@@ -183,7 +183,7 @@ Set to false if you don't want to check for this.
 
 
 ### duplicates (default: true, boolean)
-Checks if selector or property duplicated unecessarily. By default, only checks on a file by file basis, but if `globalDupes: true` is set, then it will also check for duplicates globally (for root values only).
+Checks if selector or property duplicated unnecessarily. By default, only checks on a file-by-file basis, but if `globalDupes: true` is set, then it will also check for duplicates globally (for root values only).
 
 Example if true: the following will throw a warning:
 ```
@@ -206,15 +206,15 @@ Example: prefer `myBlock = @block` over `myBlock =`
 
 
 ### enforceVarStyle (default: false, boolean)
-Enforce use of `$` when defining a variable. In Stylus using a `$` when defining a variable is optional, but a good idea if you want to prevent ambiguity. Not including the `$` sets up situations where you wonder, is this a variable or a value? For instance: `padding $default` is easier to understand than `padding default`.
+Enforce use of `$` when defining a variable. In Stylus using a `$` when defining a variable is optional, but is a good idea if you want to prevent ambiguity. Not including the `$` sets up situations where you wonder: "Is this a variable or a value?" For instance: `padding $default` is easier to understand than `padding default`.
 
-Yes, `default` isn't an acceptable value for `padding`, but at first glance you might not catch that. And now if you try to set `cursor default`, it's not gonna behave the way you expect. All this pain and heartache could've been avoided if you just used a `$`.
+Yes, `default` isn't an acceptable value for `padding`, but at first glance you might not catch that. And now if you try to set `cursor default`, it's not going to behave the way you expect. All this pain and heartache could've been avoided if you just used a `$`.
 
 Example: prefer `$my-var = 0` over `my-var = 0`
 
 
 ### extendPref (default: false, string or false)
-Pass in either `@extend` or `@extends` and then enforce that. Both are valid in stylus. It doesn't really matter which one you use. I prefer `@extends` myself.
+Pass in either `@extend` or `@extends` and then enforce that. Both are valid in Stylus. It doesn't really matter which one you use. I prefer `@extends` myself.
 
 Example if set to `@extends`: prefer `@extends $some-var` over `@extend $some-var`
 
@@ -222,7 +222,7 @@ Example if set to `@extend`: prefer `@extend $some-var` over `@extend $some-var`
 
 
 ### globalDupe (default: false, boolean)
-Works in conjunction with duplicates. Does nothing on it's own. If false, duplicates will check for dupes within individual files only. If true, duplicates will check for dupes across all files.
+Works in conjunction with duplicates. Does nothing on its own. If false, duplicates will check for dupes within individual files only. If true, duplicates will check for dupes across all files.
 
 Example if true: the following will throw a warning
 ```
@@ -237,13 +237,13 @@ Example if true: the following will throw a warning
 
 
 ### indentSpaces (default: 4, number or false)
-This works in conjunction with depthLimit. If you indent with spaces this to the number of spaces you indent with. If you use hard tabs, set this value to false.
+This works in conjunction with depthLimit. If you indent with spaces this is the number of spaces you indent with. If you use hard tabs, set this value to false.
 
-By default this value is 4, so if you indent with hard tabs or 2 spaces you will need to manually set this value in a custom .stylintrc file. With default settings, this means the depth limit is 4 indents of 4 spaces each.
+By default this value is 4, so if you indent with hard tabs or 2 spaces you'll need to manually set this value in a custom `.stylintrc` file. With default settings, this means the depth limit is 4 indents of 4 spaces each.
 
 
 ### leadingZero (default: true, boolean)
-Checking for unecessary leading zeroes on decimal points. You don't need them.
+Checking for unnecessary leading zeroes on decimal points. You don't need them.
 
 Example: prefer `rgba( 0, 0, 0, .5 )` over `rgba( 0, 0, 0, 0.5 )`
 
@@ -281,17 +281,17 @@ Example if set to `'BEM'`: prefer `$var__like--this` over `$var_name` or `$varNa
 
 
 ### parenSpace (default: false, boolean)
-Enforce extending placeholder vars when using `@extend(s)`
-
-Example: prefer `@extends $placeholder` over `$extends .some-class`
-
-
-### parenSpace (default: false, boolean)
 Enforce use of extra spaces inside parens.
 
 This option used to be called mixinSpace, and you can still call it that if you want, but I will remove the old option by 1.0 probably.
 
 Example: prefer `my-mixin( $myParam )` over `my-mixin($myParam)`
+
+
+### placeholder (default: false, boolean)
+Enforce extending placeholder vars when using `@extend(s)`
+
+Example: prefer `@extends $placeholder` over `$extends .some-class`
 
 
 ### quotePref (default: false, false | 'single' | 'double')
@@ -312,7 +312,7 @@ Looks for instances of the inefficient * selector. Lots of resets use this, for 
 
 
 ### valid (default: false, boolean)
-Check that a property is a valid css or html property. Currently just checks properties, value checks will come soon.
+Check that a property is a valid CSS or HTML property. Currently just checks properties, value checks will come soon.
 
 Example if true: `marg 0` will throw a warning, prefer `margin 0`
 
@@ -328,7 +328,7 @@ Example: prefer `margin-right 0` over `margin-right 0em`
 
 
 ### zIndexDuplicates (default: false, boolean)
-If a z-index value has been used before, throw a warning. Is this useful? WHO KNOWS
+If a z-index value has been used before, throw a warning. Is this useful? WHO KNOWS.
 
 Example if true: the follow throws a warning
 ```
