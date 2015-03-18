@@ -14,6 +14,7 @@
 var
 	stampit = require('stampit'),
 	fs = require('fs'),
+	pathSeparator = require('path').sep,
 	glob = require('glob').Glob,
 	done = require('./src/done'),
 	help = require('./src/help'),
@@ -155,7 +156,8 @@ var coreMethods = stampit().methods({
 		});
 	},
 	setConfig: function( path ) {
-		return JSON.parse( fs.readFileSync( process.cwd() + '/' + path ) );
+		path = path.charAt(0) === pathSeparator ? path : process.cwd() + '/' + path;
+		return JSON.parse( fs.readFileSync( path ) );
 	},
 	done: done,
 	help: help,
