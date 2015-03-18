@@ -14,7 +14,7 @@
 var
 	stampit = require('stampit'),
 	fs = require('fs'),
-	pathSeparator = require('path').sep,
+	pathIsAbsolute = require('path-is-absolute'),
 	glob = require('glob').Glob,
 	done = require('./src/done'),
 	help = require('./src/help'),
@@ -156,7 +156,7 @@ var coreMethods = stampit().methods({
 		});
 	},
 	setConfig: function( path ) {
-		path = path.charAt(0) === pathSeparator ? path : process.cwd() + '/' + path;
+		path = pathIsAbsolute( path ) ? path : process.cwd() + '/' + path;
 		return JSON.parse( fs.readFileSync( path ) );
 	},
 	done: done,
