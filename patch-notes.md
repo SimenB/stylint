@@ -5,8 +5,6 @@ valid improvements: https://github.com/rossPatton/stylint/issues/46
 
 universal improvements: https://github.com/rossPatton/stylint/issues/45
 
-quote style option added: https://github.com/rossPatton/stylint/issues/47
-
 ##### 0.9.1
 strengthen naming convention checks to better accomodate interpolation
 
