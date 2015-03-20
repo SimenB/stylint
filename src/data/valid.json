@@ -320,6 +320,7 @@
         "pitch",
         "pitch-range",
         "play-during",
+        "pointer-events",
         "position (extra)",
         "position",
         "presentation-level",
