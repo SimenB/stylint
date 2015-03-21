@@ -70,13 +70,13 @@ module.exports = function test( app, line, num, output, file ) {
 			}
 
 			// the only valid use of brackets is in a hash
-			if ( app.hashStart(line) ) {
+			if ( !app.config.brackets && app.hashStart(line) ) {
 				app.state.hash = true;
 				return;
 			}
 
 			// if the above equals true we check for the end of the hash
-			if ( app.hashEnd( line, app.state.hash ) ) {
+			if ( !app.config.brackets && app.hashEnd( line, app.state.hash ) ) {
 				app.state.hash = false;
 				return;
 			}

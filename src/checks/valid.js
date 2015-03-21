@@ -1,7 +1,9 @@
 'use strict';
 
 // dont throw false positives on user created names or syntax
-var ignoreMe = /[&$.#{}(=>]|(if)|(for)|(else)|(@block)/;
+var ignoreMe = /[&$.#(=>]|({[\S]+})|(if)|(for)|(else)|(@block)/;
+
+// /[&$.#(=>]|({.*})(?! )|(if)|(for)|(else)|(@block)/; ///[&$.#{}(=>]|(if)|(for)|(else)|(@block)/;
 
 /**
 * check against a JSON of all valid css properties and values
