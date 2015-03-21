@@ -1003,7 +1003,6 @@ describe('Linter Style Checks: ', function() {
 		it('should return true if 0 + any unit type is found (0 is preferred)', function() {
 			assert.equal( true, app.zeroUnits('margin 0px') );
 			assert.equal( true, app.zeroUnits('margin 0em') );
-			assert.equal( true, app.zeroUnits('margin 0%') );
 			assert.equal( true, app.zeroUnits('margin 0rem') );
 			assert.equal( true, app.zeroUnits('margin 0pt') );
 			assert.equal( true, app.zeroUnits('margin 0pc') );

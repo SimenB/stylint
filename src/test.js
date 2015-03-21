@@ -52,6 +52,7 @@ module.exports = function test( app, line, num, output, file ) {
 
 	// are we running any tests at all?
 	if ( app.state.testsEnabled ) {
+
 		// check for comment style (//dont do this. // do this)
 		if ( app.commentExists(line) ) {
 			if ( app.config.commentSpace || app.state.strictMode ) {
@@ -239,7 +240,7 @@ module.exports = function test( app, line, num, output, file ) {
 					app.config.depthLimit = 4;
 				}
 				// else check tabs against tabs and spaces against spaces
-				if ( app.nesting( line, arr ) ) {
+				if ( app.nesting( line, arr, app.config.depthLimit, app.config.indentSpaces ) ) {
 					app.warnings.push( 'selector depth greater than', app.config.depthLimit + ':' + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 				}
 			}
