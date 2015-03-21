@@ -52,7 +52,6 @@ module.exports = function test( app, line, num, output, file ) {
 
 	// are we running any tests at all?
 	if ( app.state.testsEnabled ) {
-		// app.depth = app.getDepth( line, arr, app.config.indentSpaces );
 
 		// check for comment style (//dont do this. // do this)
 		if ( app.commentExists(line) ) {
@@ -70,13 +69,6 @@ module.exports = function test( app, line, num, output, file ) {
 			if ( app.commentExists(line) ) {
 				line = line.slice( 0, line.indexOf('//') - 1 );
 			}
-
-			// app.getDepth( line, arr, app.config.depthLimit, app.config.indentSpaces );
-			// console.log( app.getDepth(line) );
-			// if ( typeof app.getDepth(line) === 'number' ) {
-			// 	app.depth = app.getDepth(line);
-			// 	console.log( app.depth );
-			// }
 
 			// the only valid use of brackets is in a hash
 			if ( !app.config.brackets && app.hashStart(line) ) {
