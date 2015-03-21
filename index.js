@@ -72,6 +72,7 @@ var config = stampit().state({
 		depthLimit: false, // set a maximum selector depth (dont nest more than 4 deep)
 		duplicates: true, // check if properties or selectors are duplicate
 		efficient: true, // check for margin 0 0 0 0 and recommend margin 0
+		emoji: false, // toggle emoji on or off
 		enforceVarStyle: false, // check for $ when declaring vars (doesnt check use)
 		enforceBlockStyle: false, // check for @block when defining blocks
 		extendPref: false, // prefer a specific syntax when using @extends (or @extend)
