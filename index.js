@@ -126,7 +126,8 @@ var state = stampit().state({
 		hash: false,
 		strictMode: false,
 		testsEnabled: true, // are we running linter tests
-		toggleBlock: false // @stylint off
+		toggleBlock: false, // @stylint off
+		watching: false
 	},
 	warnings: [],
 	alphaCache: [],
