@@ -306,6 +306,8 @@ describe('State: ', function() {
 	});
 });
 
+app.state.watching = true;
+
 describe('Linter Style Checks: ', function() {
 	describe('alphabetical', function() {
 		it('should return true with mocked alpha cache', function() {
