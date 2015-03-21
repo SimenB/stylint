@@ -33,6 +33,11 @@ module.exports = function checkForValidProperties( line, valid ) {
 		this.state.hash === false &&
 		typeof arr[0] !== 'undefined' ) {
 
+		// if using an attribute selector, strip it out first
+		if ( attributeRe.test( arr[0] ) ) {
+			arr[0] = arr[0].replace(attributeRe, '');
+		}
+
 		valid.css.forEach(function( val, index ) {
 			var i = 0,
 				j = 0;
@@ -67,10 +72,6 @@ module.exports = function checkForValidProperties( line, valid ) {
 			}
 
 			for ( j; j < valid.pseudo.length; j++ ) {
-				if ( attributeRe.test( arr[0] ) ) {
-					arr[0] = arr[0].replace(attributeRe, '');
-				}
-
 				if ( arr[ 0 ] === ( val + valid.pseudo[ j ] ) ) {
 					isValid = true;
 					return;
