@@ -1,8 +1,9 @@
 'use strict';
 
 // dont throw false positives on user created names or syntax
-var ignoreMe = /[&$.#(=>]|({[\S]+})|(if)|(for)|(else)|(@block)/,
-	isNum = /\d(?=[px]|%|[em]|[rem]|[vh]|[vw]|[vmin]|[vmax]|[ex]|[ch]|[mm]|[cm]|[in]|[pt]|[pc]|[mozmm])/;
+var ignoreMeRe = /[&$.#(=>]|({[\S]+})|(if)|(for)|(else)|(@block)/,
+	attributeRe = /\[\S+\]/,
+	isNumRe = /\d(?=[px]|%|[em]|[rem]|[vh]|[vw]|[vmin]|[vmax]|[ex]|[ch]|[mm]|[cm]|[in]|[pt]|[pc]|[mozmm])/;
 
 /**
 * check against a JSON of all valid css properties and values
@@ -28,7 +29,7 @@ module.exports = function checkForValidProperties( line, valid ) {
 	);
 
 	// not empty, not something we ignore
-	if ( !ignoreMe.test( line ) &&
+	if ( !ignoreMeRe.test( line ) &&
 		this.state.hash === false &&
 		typeof arr[0] !== 'undefined' ) {
 
@@ -66,6 +67,10 @@ module.exports = function checkForValidProperties( line, valid ) {
 			}
 
 			for ( j; j < valid.pseudo.length; j++ ) {
+				if ( attributeRe.test( arr[0] ) ) {
+					arr[0] = arr[0].replace(attributeRe, '');
+				}
+
 				if ( arr[ 0 ] === ( val + valid.pseudo[ j ] ) ) {
 					isValid = true;
 					return;
@@ -74,7 +79,7 @@ module.exports = function checkForValidProperties( line, valid ) {
 		});
 
 		// for keyframes, temporary solution hopefully
-		if ( isNum.test( arr[0] ) ) {
+		if ( isNumRe.test( arr[0] ) ) {
 			isValid = true;
 		}
 	}
