@@ -930,6 +930,8 @@ describe('Linter Style Checks: ', function() {
 		it ('should return false if property not valid', function() {
 			assert.equal( false, app.valid( 'marg 0 auto', valid ) );
 			assert.equal( false, app.valid( 'pad 0', valid ) );
+			assert.equal( false, app.valid( 'dog: irish-setter; }', valid ) );
+			assert.equal( false, app.valid( '{var name}', valid ) );
 		});
 
 		it ('should return true if property is valid', function() {

@@ -63,7 +63,7 @@ var config = stampit().state({
 	config: {
 		alphabetical: true, // check that properties are sorted alphabetically
 		borderNone: true, // check for use of border none and recommend border 0
-		brackets: true, // check for { or }, unless used in a hash
+		brackets: false, // check for { or }, unless used in a hash
 		colons: false, // check for unecessary colons
 		colors: false, // check for hex colors used without variables
 		commaSpace: true, // check for spaces after commas (0, 0, 0, .18)
@@ -89,7 +89,7 @@ var config = stampit().state({
 		semicolons: false, // check for unecessary semicolons
 		trailingWhitespace: true, // check for trailing whitespace
 		universal: true, // check for use of * and recommend against it
-		valid: false, // check if prop or value is a valid assignment
+		valid: true, // check if prop or value is a valid assignment
 		zeroUnits: true, // check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
 		zIndexDuplicates: false, // just find duplicate z index values
 		zIndexNormalize: false // suggest a normalized z index value, base of whatever this is
