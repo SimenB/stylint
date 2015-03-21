@@ -1,6 +1,6 @@
 ## stylint - cli stylus linter.
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rossPatton/stylint?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rossPatton/stylint?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Code Climate](https://codeclimate.com/github/rossPatton/stylint/badges/gpa.svg)](https://codeclimate.com/github/rossPatton/stylint)
 
 [![NPM](https://nodei.co/npm/stylint.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/stylint/)
 
@@ -83,6 +83,7 @@ The default settings are pretty weak and unopinionated (I think). If you want to
     "depthLimit": false,
     "duplicates": true,
     "efficient": true,
+    "emoji": false,
     "enforceBlockStyle": false,
     "enforceVarStyle": false,
     "extendPref": false,
@@ -95,6 +96,7 @@ The default settings are pretty weak and unopinionated (I think). If you want to
     "namingConvention": false,
     "parenSpace": false,
     "placeholders": true,
+    "quotePref": false,
     "semicolons": false,
     "universal": true,
     "valid": false,
@@ -214,6 +216,10 @@ Check for places where properties can be written more efficiently.
 Example if true: prefer `margin 0` over `margin 0 0`
 
 
+### emoji (default: false, boolean)
+Do you want a happy face with your sucess/warning messages? of course you do
+
+
 ### enforceBlockStyle (default: false, boolean)
 Enforce use of `@block` when defining a block variable.
 
@@ -303,7 +309,6 @@ This option used to be called mixinSpace, and you can still call it that if you 
 Example: prefer `my-mixin( $myParam )` over `my-mixin($myParam)`
 
 
-=======
 ### placeholder (default: false, boolean)
 Enforce extending placeholder vars when using `@extend(s)`
 
