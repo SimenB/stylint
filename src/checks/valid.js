@@ -1,9 +1,8 @@
 'use strict';
 
 // dont throw false positives on user created names or syntax
-var ignoreMe = /[&$.#(=>]|({[\S]+})|(if)|(for)|(else)|(@block)/;
-
-// /[&$.#(=>]|({.*})(?! )|(if)|(for)|(else)|(@block)/; ///[&$.#{}(=>]|(if)|(for)|(else)|(@block)/;
+var ignoreMe = /[&$.#(=>]|({[\S]+})|(if)|(for)|(else)|(@block)/,
+	isNum = /\d(?=[px]|%|[em]|[rem]|[vh]|[vw]|[vmin]|[vmax]|[ex]|[ch]|[mm]|[cm]|[in]|[pt]|[pc]|[mozmm])/;
 
 /**
 * check against a JSON of all valid css properties and values
@@ -73,6 +72,11 @@ module.exports = function checkForValidProperties( line, valid ) {
 				}
 			}
 		});
+
+		// for keyframes, temporary solution hopefully
+		if ( isNum.test( arr[0] ) ) {
+			isValid = true;
+		}
 	}
 	else {
 		isValid = true;

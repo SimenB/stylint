@@ -6,7 +6,6 @@ module.exports = function checkForZeroUnits( line ) {
 
 	// return true if 0 + any unit type is found
 	if ( line.indexOf(' 0px') !== -1 ||
-		line.indexOf(' 0%') !== -1 ||
 		line.indexOf(' 0em') !== -1 ||
 		line.indexOf(' 0rem') !== -1 ||
 		line.indexOf(' 0vh') !== -1 ||
