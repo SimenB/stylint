@@ -24,6 +24,7 @@ const
 		depthLimit: false, // set a maximum selector depth (dont nest more than 4 deep)
 		duplicates: true, // check if properties or selectors are duplicate
 		efficient: true, // check for margin 0 0 0 0 and recommend margin 0
+		emoji: false, // toggle icons on or off
 		enforceVarStyle: false, // check for $ when declaring vars (doesnt check use)
 		enforceBlockStyle: false, // check for @block when defining blocks
 		extendPref: false, // prefer a specific syntax when using @extends (or @extend)
@@ -847,20 +848,32 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, app.placeholder() );
 		});
 	});
-
+// .show-content( $content = "Hello!" ) {
 	describe('quote style', function() {
 		it('should return false if incorrect quote style used', function() {
 			assert.equal( false, app.quotes( '$var = "test string" ', 'single' ) );
-			assert.equal( false, app.quotes( '$var = "test \'substring\' string" ', 'single' ) );
+			assert.equal( false, app.quotes( '$var = "test \'substring\' string"', 'single' ) );
+			assert.equal( false, app.quotes( '.show-content( $content = "Hello!" )', 'single' ) );
+			assert.equal( false, app.quotes( '.show-content( $content = "Hello!" ) {', 'single' ) );
+			assert.equal( false, app.quotes( '[class*="--button"]', 'single' ) );
 			assert.equal( false, app.quotes( "$var = 'test string' ", 'double' ) );
 			assert.equal( false, app.quotes( "$var = 'test \"substring\" string' ", 'double' ) );
+			assert.equal( false, app.quotes( ".show-content( $content = 'Hello!' )", 'double' ) );
+			assert.equal( false, app.quotes( ".show-content( $content = 'Hello!' ) {", 'double' ) );
+			assert.equal( false, app.quotes( "[class*='--button']", 'double' ) );
 		});
 
 		it('should return true if correct quote style used', function() {
 			assert.equal( true, app.quotes( "$var = 'test string' ", 'single' ) );
 			assert.equal( true, app.quotes( "$var = 'test \"substring\" string' ", 'single' ) );
+			assert.equal( true, app.quotes( ".show-content( $content = 'Hello!' )", 'single' ) );
+			assert.equal( true, app.quotes( ".show-content( $content = 'Hello!' ) {", 'single' ) );
+			assert.equal( true, app.quotes( "[class*='--button']", 'single' ) );
 			assert.equal( true, app.quotes( '$var = "test string" ', 'double' ) );
 			assert.equal( true, app.quotes( '$var = "test \'substring\' string" ', 'double' ) );
+			assert.equal( true, app.quotes( '.show-content( $content = "Hello!" )', 'double' ) );
+			assert.equal( true, app.quotes( '.show-content( $content = "Hello!" ) {', 'double' ) );
+			assert.equal( true, app.quotes( '[class*="--button"]', 'double' ) );
 		});
 
 		it('should return undefined if no quotes found', function() {
