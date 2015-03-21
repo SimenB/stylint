@@ -8,6 +8,7 @@ var osType = require('os').type().toLowerCase();
  */
 module.exports = function done( app, kill ) {
 	var i = 0,
+		exitCode = 0,
 		len = app.warnings.length,
 		emojiAllClear = '',
 		emojiWarning = '';
@@ -32,20 +33,31 @@ module.exports = function done( app, kill ) {
 	// if you set a max it displays a slightly more annoying message (that'll show em!)
 	if ( app.config.maxWarnings && len > app.config.maxWarnings ) {
 		console.log( emojiWarning + 'Stylint: ' + len + ' warnings. Max is set to: ' + app.config.maxWarnings );
+		exitCode = 1;
 	}
 	else if ( len === 0 ) {
 		console.log( emojiAllClear + 'Stylint: You\'re all clear!' );
 	}
 	else {
 		console.log( '\n' + emojiWarning + len + ' Warnings' );
+		exitCode = 1;
 	}
 
 	// if we got here via an error
 	if ( kill ) {
-		throw Error('Stylint: too many errors');
+		console.log('Stylint: too many errors, exiting');
+		exitCode = 2;
+
+		if ( !app.state.watching ) {
+			process.exit(2);
+		}
+		else {
+			app.warnings = [];
+			return;
+		}
 	}
-	else {
-		// reset in case of watch
-		app.warnings = [];
+
+	if ( !app.state.watching ) {
+		process.exit( exitCode );
 	}
 }
