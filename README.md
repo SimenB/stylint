@@ -94,6 +94,7 @@ The default settings are pretty weak and unopinionated (I think). If you want to
     "maxWarningsKill": false,
     "mixed": false,
     "namingConvention": false,
+    "namingConventionStrict": false,
     "parenSpace": false,
     "placeholders": true,
     "quotePref": false,
@@ -299,6 +300,12 @@ Example if set to `'lowercase_underscore'`: prefer `$var_name` over `$var-name` 
 Example if set to `'camelCase'`: prefer `$varName` over `$var_name` or `$var-name`
 
 Example if set to `'BEM'`: prefer `$var__like--this` over `$var_name` or `$varName`
+
+
+### namingConventionStrict (default: false, boolean)
+By default, namingConvention only looks at variable names. If namingConventionStrict is set to true, namingConvention will also look at class and id names.
+
+This is useful if you have little or no 3rd party css in your codebase.
 
 
 ### parenSpace (default: false, boolean)
