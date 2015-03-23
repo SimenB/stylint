@@ -1,0 +1,184 @@
+/**
+  * All gallery types
+  * Expandable, Inline Galleries, Fullscreen
+  * @TODO clean up / consolidate
+  * @TODO make hit area 100% tall, and 50% wide
+  */
+
+
+
+/**
+ * the two overlay galleries
+ */
+#o-gallery,
+#f-gallery
+	transition( opacity, $slow, false )
+
+	// slide, wrapper for img and caption
+	.slide
+		max-height 75vh
+		max-width 100vh
+
+	// the big img, constrain on height
+	img
+		max-height 75vh
+		width auto
+
+
+#o-gallery,
+#f-gallery
+	&:not( .hide )
+		z-index 9999999 // cover up the beta comments button @TODO lower
+
+
+// the white overlay gallery
+#o-gallery
+	background $white-2
+
+	// positioning for arrows
+	.ui-arrow
+		&.left
+			left auto
+			right 98px
+		&.right
+			background-position -56px $gutter-med
+
+
+// black full view gallery (click to open)
+#f-gallery
+	background $gray-7
+
+	// @TODO temporary, lazy, override just to get it working
+	.ui-arrow.ui-big
+		top 50%
+		background-color transparent
+		&.left
+			background-position -21px 13px
+			left -1px
+		&.right
+			background-position 22px 13px
+			right -1px
+
+	// full screen wrapper for everything
+	.gallery-wrap
+		height 75vh // if too small, scale up
+		max-width 100vh
+
+
+/**
+ * perhaps a confusing name? This is in post-header, launches the full gallery
+ * @parent #post-header
+ */
+#f-launch
+	max-height 437px
+	overflow hidden
+
+	img
+		transition( all, $very-slow, true )
+		&:hover
+			cursor pointer // fallback
+			cursor zoom-in
+			max-width 105%
+			transform translate3d( -2.5%, -2.5%, 0 ) // center
+
+
+/**
+ * used in inline galleries to set a max height of 4:3
+ */
+.inner-slide-wrap
+	@media $small
+		max-height 437px
+		min-height 437px
+
+
+/**
+ * gallery base
+ * 1 img at 4:3 ratio + 3 lines of captions
+ */
+.gallery
+	@extends $caption
+	overflow hidden
+
+
+/**
+ * it's a slide. its absolute positioned. perfs.
+ * 1 negative z-index unless active
+ */
+.slide
+	transition( opacity, $slow, true )
+	display none
+	opacity 0
+	z-index -1 // 1
+
+	// pull to top of stack if active
+	&.active
+		opacity 1
+		z-index 0
+
+		@media $mob
+			display block
+
+	// captions & credits for the slide, 3 lines max
+	p
+		line-clamp( 3, 20px )
+
+	@media $mob-plus
+		absolute top 0 right 0 bottom 0 left 0
+		display block
+
+
+/**
+ * this is the gallery post gallery, top of articles
+ * 1 img at 4:3 ratio + 3 lines of captions
+ */
+#inline-gallery
+	transition( all, $fast, true )
+
+	img
+		max-height 437px
+
+	// -60 is for vertical centering
+	.ui-arrow
+		top calc( 50% - 60px )
+		user-select none
+		z-index 1
+
+	figcaption
+		height 90px
+
+		// Fix for bad editors who use <i> instead of <em>
+		i
+			display inline
+			font-style italic
+
+		@media $mob
+			position relative
+
+	.wide &
+		@media $med
+			min-height 620px
+		@media $big-plus
+			min-height 710px
+
+	@media $mob-plus
+		min-height 530px // 1
+
+
+// current slide / total slides
+.slide-counter
+	width $gutter-huge
+
+	#inline-gallery &
+		bottom 57px
+
+	#f-gallery &
+		color $gray-4
+		line-height 20px
+
+
+
+
+// .slide-counter
+// absolute top 20px left 0
+// bottom auto
+// color $light-gray

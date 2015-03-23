@@ -87,4 +87,4 @@ module.exports = function duplicateSelectors( line, file ) {
 	this.prevContext = currContext;
 
 	return isThereADupe;
-}
+};

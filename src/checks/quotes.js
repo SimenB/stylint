@@ -45,7 +45,7 @@ module.exports = function checkQuoteStyle( line, quotePref ) {
 					return true;
 				}
 				else {
-					return false
+					return false;
 				}
 			}
 			else {

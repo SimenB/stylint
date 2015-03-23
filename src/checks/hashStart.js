@@ -13,4 +13,4 @@ module.exports = function checkForHashStart( line ) {
 	else {
 		return false;
 	}
-}
+};

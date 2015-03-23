@@ -13,4 +13,4 @@ module.exports = function checkForHashEnd( line, areWeInAHash ) {
 	else {
 		return false;
 	}
-}
+};

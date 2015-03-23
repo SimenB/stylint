@@ -36,4 +36,4 @@ module.exports = function checkMixedSpacesAndTabs( line, arr, indentSpaces ) {
 			return false;
 		}
 	}
-}
+};

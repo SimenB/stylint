@@ -71,4 +71,4 @@ module.exports = function checkNamingConvention( line, convention ) {
 			}
 		}
 	}
-}
+};

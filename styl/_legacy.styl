@@ -1,0 +1,342 @@
+/**
+ * legacy stylesheet
+ * up top: random post-content styles
+ * down below: old framework / helper classes
+ */
+
+
+ // removes padding and spacing surrounding archive template pages
+ .legacy-content
+    .content
+        margin-right 0
+        padding-left 0
+        img
+            width auto
+
+
+/**
+ * read more styles. see the wired binge-watching guide series
+ */
+// @stylint off
+.left_rail
+// @stylint on
+    @extends $proxima
+    border-bottom 5px solid #f2f2f2
+    border-top 5px solid #f2f2f2
+    float left
+    margin $gutter-25 $gutter-25 $gutter-25 0
+    padding 13px 0
+    width 200px
+
+    .wrapper
+        @extends $caption
+        @extends $clearfix
+        margin $gutter-sm 0
+
+        a:last-child
+            position relative
+
+    .title
+        @extends $brandon
+        color $black
+
+    em
+        @extends $caption
+
+    img
+        float left
+        height 60px
+        margin 0 0 3px
+        padding 0 10px 10px 0
+        width 60px
+
+
+// @stylint off
+.podcast_storyboard
+// @stylint on
+    margin $gutter-big 0
+
+    ul
+        li:before
+            content ''
+
+
+/**
+ * magazine sidebar header style
+ */
+.sidebar-header
+    @extends $brandon
+    text-transform uppercase
+
+
+/**
+ * like sidebar header, but full width
+ */
+.chapter-header
+    @extends $brandon
+    text-transform uppercase
+    padding $gutter-50 0 0
+
+
+/**
+ * old pullquote styles
+ */
+ // @stylint off
+.pullQuote,
+ // @stylint on
+.pullquotes,
+.pullquote-left,
+.pullquote-right
+    carve()
+    pullquote()
+
+
+// 99% of this type of stuff is used by kelley etc, inside of posts
+// just to be safe i'm making all this old stuff a child of content
+// @TODO a lot of these come from old shortcodes -- lets do a scrub ?
+.content
+    // old alignment classes
+    .alignleft,
+    .alignright,
+    .sidebar-left,
+    .sidebar-right
+        // this does actually happen.
+        .alignright,
+        .sidebar-right,
+        .alignleft,
+        .sidebar-left
+            float none
+            margin 0 0 20px
+            width auto
+
+        @media $mob-plus
+            max-width 50%
+
+    .alignleft,
+    .sidebar-left
+        carve()
+
+    .alignright,
+    .sidebar-right
+        @media $mob-plus
+            float right
+            margin $gutter-big 0 $gutter-big $gutter-big
+
+    .uppercase
+        text-transform uppercase
+
+    .margin-big
+        margin 50px
+
+    .margin
+        margin 25px
+
+    .margin-center
+        margin 0 auto
+
+    .margin-small
+        margin 10px
+
+    .margin-top-big
+        margin-top 50px
+
+    .margin-top
+        margin-top 25px
+
+    .margin-top-small
+        margin-top 10px
+
+    .margin-bottom-big
+        margin-bottom 50px
+
+    .margin-bottom
+        margin-bottom 25px
+
+    .margin-bottom-small
+        margin-bottom 10px
+
+    .margin-left-big
+        margin-left 50px
+
+    .margin-left
+        margin-left 25px
+
+    .margin-left-small
+        margin-left 10px
+
+    .margin-right-big
+        margin-right 50px
+
+    .margin-right
+        margin-right 25px
+
+    .margin-right-small
+        margin-right 10px
+
+    .margin-top-bottom
+        margin-top 25px
+        margin-bottom 25px
+
+    .margin-top-bottom-small
+        margin-top 10px
+        margin-bottom 10px
+
+    .margin-left-right
+        margin-top 25px
+        margin-bottom 25px
+
+    .margin-left-right-small
+        margin-top 10px
+        margin-bottom 10px
+
+    .mobify-hide
+        @media $mob
+            display none !important
+
+        @media $mob-plus
+            display block !important
+
+    .desktop-hide
+        @media $mob
+            display block !important
+
+        @media $mob-plus
+            display none !important
+
+    .no-padding
+        padding 0 !important
+
+    .padding-big
+        padding 50px
+
+    .padding
+        padding 25px
+
+    .padding-small
+        padding 10px
+
+    .padding-top-big
+        padding-top 50px
+
+    .padding-top
+        padding-top 25px
+
+    .padding-top-small
+        padding-top 10px
+
+    .padding-bottom-big
+        padding-bottom 50px
+
+    .padding-bottom
+        padding-bottom 25px
+
+    .padding-bottom-small
+        padding-bottom 10px
+
+    .padding-left-big
+        padding-left 50px
+
+    .padding-left
+        padding-left 25px
+
+    .padding-left-small
+        padding-left 10px
+
+    .padding-right-big
+        padding-right 50px
+
+    .padding-right
+        padding-right 25px
+
+    .padding-right-small
+        padding-right 10px
+
+    .padding-left-right
+        padding-left 25px
+        padding-right 25px
+
+    .padding-left-right-small
+        padding-left 10px
+        padding-right 10px
+
+    .padding-top-bottom
+        padding-top 25px
+        padding-bottom 25px
+
+    .padding-top-bottom-small
+        padding-top 10px
+        padding-bottom 10px
+
+    .sidebar-text
+        @extends $caption
+
+    // hide innovation insights byline footer
+    .ning-pub-blog-import.subdomain-wirednext
+        display none
+
+    // if using the legacy content post type
+    // we have more room and can use the full old framework
+    .legacy-content &
+
+        [class*='col']
+            float left
+            margin-left 2%
+            padding 0 1.5%
+
+        .col-19
+            width 100%
+
+        .col-18
+            width 94.6315789474%
+
+        .col-17
+            width 89.2631578947%
+
+        .col-16
+            width 83.8947368421%
+
+        .col-15
+            width 78.5263157895%
+
+        .col-14
+            width 73.1578947368%
+
+        .col-13
+            width 67.7894736842%
+
+        .col-12
+            width 62.4210526316%
+
+        .col-11
+            width 57.0526315789%
+
+        .col-10
+            width 51.6842105263%
+
+        .col-9
+            width 46.3157894737%
+
+        .col-8
+            width 40.9473684211%
+
+        .col-7
+            width 35.5789473684%
+
+        .col-6
+            width 30.2105263158%
+
+        .col-5
+            width 24.8421052632%
+
+        .col-4
+            width 19.4736842105
+
+        .col-3
+            width 14.1052631579%
+
+        .col-2
+            width 8.73684210526%
+
+        .col-1
+            width 3.36842105263%
+

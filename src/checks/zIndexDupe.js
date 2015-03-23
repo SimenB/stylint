@@ -13,6 +13,7 @@ module.exports = function deDupeZIndex( line ) {
 	if ( line.indexOf('z-index') !== -1 ) {
 		arr = line.split(/[\s\t,:]/);
 
+		// this is a basic nesting check
 		arr.forEach(function( val, i ) {
 			if ( arr[i].length === 0 ) {
 				indentCount++; // spaces or tabs
@@ -22,14 +23,14 @@ module.exports = function deDupeZIndex( line ) {
 			}
 		}.bind( this ));
 
-		this.zCache.forEach(function( val, i ) {
-			if ( this.zCache[i][0] === arr[ arr.length - 1 ] && context === this.zCache[i][1] ) {
+		this.cache.zCache.forEach(function( val, i ) {
+			if ( this.cache.zCache[i][0] === arr[ arr.length - 1 ] && context === this.cache.zCache[i][1] ) {
 				isItADupe = true;
 			}
 		}.bind( this ));
 
-		this.zCache.push( [ arr[ arr.length - 1 ], context ] );
+		this.cache.zCache.push( [ arr[ arr.length - 1 ], context ] );
 	}
 
 	return isItADupe;
-}
+};

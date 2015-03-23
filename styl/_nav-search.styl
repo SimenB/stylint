@@ -1,0 +1,89 @@
+/**
+ * full screen nav search stylz
+*/
+
+/**
+ * global nav overlay, appears on click
+ * 1 make sure we cover up global nav
+ */
+#nav-search
+	transition( all, $slow, false )
+	@extends $brandon
+	display none
+	z-index 2 // 1
+
+	// search is only full screen on desktop
+	@media $med-max
+		display block
+		height 100px
+		opacity 1
+		position relative
+
+	// if desktop takeover full screen
+	@media $med-plus
+		background $white-2
+		fixed top 61px
+
+	// show on click
+	.search-active &
+		display block
+		opacity 1
+
+	// the form
+	fieldset
+		width 100%
+
+		@media $med-plus
+			absolute top 50%
+			margin-top -5em
+
+	// the input and label
+	input,
+	label
+		color $black
+		font-size 24px
+		letter-spacing .02em
+		width 100%
+
+		// not full screen below desktop
+		@media $med-max
+			height 100px
+
+		// desktop @TODO dont use em
+		@media $med-plus
+			font-size 5em
+
+	// the search field
+	input
+		border 0
+
+		// background isn't gray when full screen
+		@media $med-max
+			background $gray-1
+
+		// focus on the input
+		&:hover,
+		&:focus
+			opacity 1
+			outline 0
+
+		// fade out label on click
+		&:focus + label
+			opacity .2
+
+		// animate the label out
+		&:valid + label
+			transform( translate3d( -3em, 0, 0 ) )
+			opacity 0
+
+	// the search label
+	label
+		transition( opacity, $fast, false )
+		opacity .5
+		&:hover
+			cursor text
+			opacity 1
+
+		@media $med-max
+			margin-top -12px
+			top 50%

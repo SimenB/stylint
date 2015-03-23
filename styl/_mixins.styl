@@ -1,0 +1,130 @@
+/**
+ * Mixins. I don't use mixins too much, because it generates more css
+ * I recommend only using when you want a code block that be dropped anywhere (media queries)
+ * or if you need to be able to pass params, obvs
+*/
+
+
+// bigger title. @TODO maybe dont need this as a mixin
+big-title()
+	font-size 24px
+	line-height 26px
+
+
+/**
+ * carve an element to the left, used in articles for images and pullquotes
+ */
+carve()
+	position relative
+	@media $mob-plus
+		float left
+
+	@media $big-max
+		margin $gutter-big $gutter-big $gutter-big 0
+
+	@media $big-plus
+		margin 60px $gutter-huge $gutter-huge -100px
+
+
+/**
+ * make a thing flexbox
+ */
+flex-row()
+	display flex
+	flex-direction vertical
+	flex-wrap wrap
+	&.align-m
+		align-items center
+
+	.col
+		flex auto
+		&.flex-flow
+			flex 1
+
+
+/**
+ * line clamp (ellipsis) hackz for excerpts
+ * in webkit we get the ellipsis, on other browsers we just dont show the text
+ * 1 old spec is needed, so we turn autoprefixer off for the block.
+ */
+line-clamp( $lines, $your-line-height )
+	/* autoprefixer: off */
+	-webkit-box-orient vertical
+	display -webkit-box // 1
+	overflow hidden
+	text-overflow ellipsis
+	-webkit-line-clamp $lines
+	max-height $lines * $your-line-height + 2
+
+
+/**
+ * pullquotes for stories gets whole lot of stuff
+ * needs to be hardcoded like this to make it easier for editors
+ * and production people to just drop it in
+ * also it needs to apply retroactively to all our old pqs
+ */
+pullquote()
+	background $white
+	border-bottom $border-micro
+	border-top $border-big
+	display none
+	font-family $proxima
+	font-size 24px
+	font-style normal
+	font-weight 400
+	line-height 27px
+	padding $gutter-med 0
+	width 300px
+
+	a
+		color inherit
+
+	em,
+	cite
+		font-family inherit
+		font-style italic
+		line-height inherit
+
+	.attribution
+		margin-top $gutter-med
+		&:before
+			content '—'
+
+	@media $mob-plus
+		display block
+
+
+// sets max width of content and centers. mixin needed cause media query
+site-container()
+	margin-left auto
+	margin-right auto
+	max-width $max-width
+	position relative
+	width s( 'calc(100% - (%s * 2))', $gutter-med )
+	@media $mob
+		width s( 'calc(100% - (%s * 2))', 20px )
+
+
+/**
+ * use vars for sprite positions, super handy
+ */
+sprite-position( $sprite )
+	background-position $sprite[0] $sprite[1]
+
+
+/**
+ * ensures consistent easing across site
+ * pass all only if you need more to animate more than one property
+ * the actual property is preferred over using all
+ * @param the property to transition
+ * @param the length of the transition
+ * @param bool, include translateZ for performance if needed (use sparingly)
+ */
+transition( $prop, $length, $accelerate )
+	transition $prop $length $timing
+	// turn on hardware acceleration for stuff (dont abuse)
+	if ( $accelerate == true )
+		-webkit-backface-visibility hidden
+		-webkit-perspective 1000px
+		-webkit-transform-style preserve-3d
+		transform translateZ( 0 )

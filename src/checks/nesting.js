@@ -55,4 +55,4 @@ module.exports = function checkNesting( line, arr, limit, indentSpaces ) {
 			return false;
 		}
 	}
-}
+};

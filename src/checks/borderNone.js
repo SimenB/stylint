@@ -15,4 +15,4 @@ module.exports = function checkBorderNone( line ) {
 		}
 	}
 	// else return undefined
-}
+};

@@ -1,0 +1,216 @@
+/**
+ * Styling for various ad types
+*/
+
+.foo {
+  .bar {
+    color: red;
+  }
+}
+
+// this class is added if a billboard-sized ad is served in the top leaderboard div. This will scale the iframe down so that the sides are not cut off on tablet portrait
+.billboard-container
+	height 188px
+	min-width 985px
+	overflow hidden
+	padding 0 // consider just using a helper no-pad to overwrite
+
+	iframe
+		transitionMixin()
+		@extends $transition-stuff
+		border 0 // helper for this too
+		height 250px
+		transform scale( .75 )
+		transform-origin 0 0
+		width 970px
+		z-index 0
+
+
+// // This class is added if a billboard ad is served in an incopy ad placement. This will center the billboard ad.
+// .billboard-incopy
+// 	width 970px !important
+// 	iframe
+// 		margin-bottom 10px !important
+// 		min-height 270px !important
+
+
+// // this class is added if a billboard-sized ad is served in an incopy ad position. This will scale the iframe down so that the sides are not cut off on tablet portrait
+// .billboard-incopy-scale
+// 	height 210px
+// 	min-width 985px
+// 	overflow hidden
+// 	padding-left 10px
+// 	padding-bottom 10px
+// 	iframe
+// 		border 0 // helper for this too
+// 		height 270px
+// 		transform scale( .75 )
+// 		transform-origin 0 0
+// 		width 970px
+// 		padding-top 0
+
+
+
+// // CM ad
+// .cm
+// 	// Get our newsletter
+// 	&.cm-newsletter
+// 		absolute top 107px bottom 0
+// 		input:focus, a:focus
+// 			outline-width 0
+// 			outline none
+
+// 		#newsletter-msg
+// 			background $white-2
+// 			cursor pointer
+// 			display none
+// 			line-height 85px
+// 			z-index 5
+
+// 			&.success
+// 				cursor default
+
+// 			span
+// 				display inline-block
+// 				line-height 20px
+// 				vertical-align middle
+// 	// Prefooter tweets
+// 	&.cm-twitter
+// 		ul
+// 			border 0
+// 			border-bottom $border-micro
+// 			min-height 106px
+// 			width 100%
+// 		img
+// 			height 43px
+// 		p
+// 			@extends $exchange-sm
+// 			min-height 53px
+
+// 	.sub-box
+// 		h5
+// 			width 40%
+// 		a
+// 			width 60%
+
+
+// .cm-footer
+// 	.newsletter-col
+// 		min-height 271px
+
+
+// // importants needed to center google ad (cause inline styles)
+// ins
+// 	display block !important
+// 	margin 0 auto !important
+
+
+// // 728 x 90
+// .leaderboard
+// 	@media $med-plus
+// 		div,
+// 		iframe
+// 			margin 0 auto
+
+
+// // Email field for cm units
+// // @TODO why the caps? we don't use caps anywhere else in the css, as a rule
+// #mce-EMAIL
+// 	border 0
+// 	border-bottom $border-micro
+// 	width 100%
+
+
+// .mid-banner-wrap
+// 	margin 100px auto
+// 	width 100vw
+// 	iframe
+// 		display inline
+// 		margin-bottom -43px
+// 		margin-top 0
+// 		min-height 120px
+// 		padding-top 15px
+
+
+// .mobile-mid-banner-wrap
+// 	margin 50px auto
+// 	width 100vw
+
+
+// .middle-banner-ad
+// 	iframe
+// 		// for specificity
+// 		.content &
+// 			margin 0 auto
+
+// 	@media $mob-plus
+// 		margin 0 auto
+// 		// keeps incopy iframe centered
+// 		width 728px
+
+
+// // base ad class
+// .rad
+// 	margin-left auto
+// 	margin-right auto
+
+// 	// center ad content
+// 	div,
+// 	img,
+// 	iframe
+// 		@extends $center
+
+// 	// box ad 300x250
+// 	&.box
+// 		max-width 320px
+// 		min-width 300px
+// 		@media $mob-plus
+// 			max-width 300px
+
+// 	// tall ad 300x600 (combine with box)
+// 	&.tall
+// 		height 600px
+
+// 	/**
+// 	* slideshow ads (the slide itself)
+// 	* so this prolly doesnt need to exist @TODO
+// 	*/
+// 	&.slide
+// 		height 437px
+
+// 		// this verticallly centers the ad, dont hardcode @FIXME
+// 		.rad
+// 			padding-top 107px
+
+
+// // leaderboard, billboard, pushdown
+// .rad-top
+// 	transition( margin-top, $fast, true )
+
+// 	@media $mob-plus
+// 		// min-height here so that page does not jump once ad loads in.
+// 		min-height 122px
+
+// 	// ad sizes will vary by breakpoint
+// 	@media $med-plus
+// 		// if at top and nav open, keep ad visible
+// 		&.hr-top.nav-active
+// 			margin-top 158px
+
+// 		// Move out of the way if admin bar is on
+// 		.admin-bar &
+// 			margin-top $gutter-big
+
+
+// // this class is added when browser width is less tahn 340 in order for mobile ads to be centered on homepage and section fronts
+// .mobile-ad-center
+// 	left -16px
+// 	position relative
+// 	width 100vw
+
+
+// // BuzzFeed Widget
+// // @stylint off
+// #BF_WIDGET_1
+// 	@extends $visually-hidden
+// // @stylint on

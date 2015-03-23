@@ -1,0 +1,77 @@
+/**
+ * the sticky sidebar in posts
+ * so much media query, for hide / show of articles (will probably do differently)
+ * @TODO naming could be better
+*/
+
+// not sticky, the element that the sticky part moves in
+#sidebar
+	display none
+
+	// i had a seamless class before, but this is enough for now
+	.single &
+		.card
+			box-shadow none
+
+	@media $med-plus
+		absolute top 0 right 0 bottom 0
+		display block
+		width 300px
+
+		// this is really a temp fix @TODO do better
+		.author &,
+		.search &,
+		.not-found &
+			position relative
+
+
+// the part that is actually sticky, hide stories based on height
+#sidebar-wrap
+	transition(opacity, .15s, false)
+	@extends $somethin
+	z-index 0
+	width inherit
+
+	// if wide snap to top
+	&.hr-top
+		.wide-post &
+			absolute top 0
+
+	// depending on header height, adjust sidebar height
+	&.hr-not-top
+		.card
+			@media ( min-height 600px ) and ( max-height 799px ) and ( min-width 661px )
+				height 295px
+			@media ( min-height 800px ) and ( max-height 900px ) and ( min-width 661px )
+				height 403px
+
+	// same as above but at top
+	&.hr-top
+		.card
+			@media ( min-height 800px ) and ( max-height 899px ) and ( min-width 661px )
+				height 295px
+			@media ( min-height 900px ) and ( max-height 1000px ) and ( min-width 661px )
+				height 403px
+
+
+// absolute positioned share tools, hidden at smaller sizes
+#sharing
+	width 50px
+	a
+		@extends $no-underline
+
+
+// social button disable modal for beta
+#disable-sharing
+	box-shadow 0 10px 30px rgba( 0, 0, 0, .15 ), 0 0 20px rgba( 0, 0, 0, .1 )
+	left 70px
+	top -315px
+	width 300px
+
+	.close-sharing
+		background-image url( '../images/ui-orig/close-share.svg' )
+		background-position left top
+		cursor pointer
+		size 25px
+		&:hover
+			background-position right top

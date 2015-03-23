@@ -1,0 +1,367 @@
+/**
+ * @desc all of our UI elements in one svg
+ * @TODO i need to generate a new svg and then clean all this up
+ */
+
+/**
+ * like col, this class must be applied to all ui elements as a base
+ * then we use the other classes to pick our icons out
+ */
+.ui
+	transition( opacity, $fast, false )
+	background-image url( '../images/ui-dist/ui-dist-sprite.png' )
+	background-image url( '../images/ui-dist/ui-dist-sprite.svg' )
+	background-size auto 140px // the height of our svg as auto generated
+	display inline-block
+	height 30px
+	width 30px
+	&:hover
+		cursor pointer
+		opacity 1
+
+	&.ui-large
+		background-size auto 230px
+		size 50px
+
+	&.ui-big
+		size 60px
+
+	// sometimes we add this to change the icon to an x
+	&.ui-close
+		background-position -315px 0
+
+
+// padding for our 60px ui elements, the actual element is still 30px
+.ui-big
+	background-color $white // lets do it with classes!
+	background-position $gutter-med $gutter-med
+	padding $gutter-med 0 // lets do it with classes!
+
+	.ui
+		width 58px
+
+
+// da arrows
+.ui-arrow
+	background-position -55px 0
+	&.reverse
+		background-position 0 0
+
+	// @TODO make this more difficult to read
+	&.left,
+	.left &
+		background-position -100px 0
+		&.ui-big
+			background-position -99px $gutter-med
+		.ui-big &
+			background-position -99px 0
+
+	&.ui-big
+		background-position -55px $gutter-med
+
+	.ui-big &
+		background-position -55px 0
+
+
+// the menu icon (9 boxes, 20px)
+.ui-boxes
+	background-position -450px 0
+	&.reverse
+		background-position -100px 0
+
+
+// close icon X
+.ui-close
+	background-position -315px 0
+
+	&.reverse
+		background-position -365px 0
+
+	&.ui-large
+		background-position -689px 0
+
+		&:hover
+			opacity .5
+
+
+// close icon (X)
+.ui-close-circ
+	background-position -210px 0 //2796px 0// -210px 0
+	&.ui-big,
+	.ui-big &
+		background-position -196px 0
+
+
+// comments bubble
+.ui-comments
+	background-position -2345px 0
+	&:hover,
+	&.active
+		background-position -1400px 0
+
+	&.ui-big
+		background-position -2345px $gutter-med
+
+
+// used by ui-photo and ui-illo
+.ui-credit
+	size 18px
+
+
+// comments bubble
+.ui-comments
+	background-position -2345px 0
+	&:hover,
+	&.active
+		background-position -1400px 0
+
+	&.ui-big
+		background-position -2345px $gutter-med
+
+
+// facebook
+.ui-fb,
+.ui-facebook
+	background-position -1715px 0
+
+	&:hover,
+	&.active
+		background-position -2450px 0
+
+	&.ui-big
+		background-position -1715px $gutter-med
+
+
+// google plus
+.ui-goog,
+.ui-googleplus
+	background-position -2835px 0
+
+
+// camera credit icon
+.ui-illo
+	background-position -3163px 0
+
+
+// info icon (i in a circle)
+.ui-info
+	background-position -757px 0
+	.ui-big &
+		background-position -756px 0
+
+
+// instagram icon
+.ui-insta,
+.ui-instagram
+	background-position -2909px 0
+
+
+// current logo
+.ui-logo
+	background-position -2695px 0
+	size 104px 20px
+	&:hover
+		opacity .5
+
+	// white version
+	&.reverse
+		background-position -2555px 0
+
+	&.ui-big
+		@media $mob
+			width 104px
+
+		@media $mob-plus
+			background-position -3945px 0
+			background-size auto 205px
+			width 155px
+
+			#global-footer &
+				height 32px
+
+
+// email
+.ui-mail,
+.ui-public-email
+	background-position -1505px 0
+
+	&:hover,
+	&.active
+		background-position -1610px 0
+
+	&.ui-big
+		background-position -1505px $gutter-med
+
+
+// see more icon (> in a circle, used to be + in a circle)
+.ui-more
+	background-position -1800px 0
+
+
+// pinterest
+.ui-pint
+	background-position -1925px 0
+	&:hover,
+	&.active
+		background-position -2030px 0
+
+	&.ui-big
+		background-position -1925px $gutter-med
+
+
+// camera credit icon
+.ui-photo
+	background-position -3124px 0
+
+
+// search icon (20px)
+.ui-search
+	background-position -623px 0
+	&.reverse
+		background-position -580px 0
+
+
+// social is slightly different size
+.ui-social
+	display block
+	left -1px // sometimes it needs to be nudged over
+	size 50px
+
+
+// for 20px ui elements
+.ui-sm
+	background-size auto 90px
+	height 20px
+	width 20px
+
+
+// tumblr
+.ui-tumblrs
+	background-position -2982px 0
+
+
+// twitter
+.ui-twit,
+.ui-twitter
+	background-position -2240px 0
+
+	&:hover,
+	&.active
+		background-position -2135px 0
+
+	&.ui-big
+		background-position -2240px 0
+
+
+// youtube
+.ui-youtube
+	background-position -3051px 0
+
+
+
+
+// below are the styles for the nav icons
+// not svgs... no retina, 2 sizes
+.icon,
+.sm-icon
+	background-image url( '../images/nav-icons-dist/sprite.png' )
+
+
+/**
+ * base icon. 72px. see nav for examples
+ * these are the new icons we just got, they're not svgs yet :(
+ */
+.icon
+	size 72px
+
+	&.business
+		sprite-position( $business-white )
+		@extends $icon
+		.category.category-business &,
+		.primary-category-business &,
+		.nav-business:hover &
+			sprite-position( $business-color )
+
+	&.design
+		sprite-position( $design-white )
+		@extends $icon
+		.category.category-design &,
+		.primary-category-design &,
+		.nav-design:hover &
+			sprite-position( $design-color )
+
+	&.entertainment
+		sprite-position( $entertainment-white )
+		@extends $icon
+		.category.category-entertainment &,
+		.primary-category-entertainment &,
+		.nav-entertainment:hover &
+			sprite-position( $entertainment-color )
+
+	&.gear
+		sprite-position( $gear-white )
+		@extends $icon
+		.category.category-gear &,
+		.primary-category-gear &,
+		.nav-gear:hover &
+			sprite-position( $gear-color )
+
+	&.science
+		sprite-position( $science-white )
+		@extends $icon
+		.category.category-science &,
+		.primary-category-science &,
+		.nav-science:hover &
+			sprite-position( $science-color )
+
+	&.security
+		sprite-position( $security-white )
+		@extends $icon
+		.category.category-security &,
+		.primary-category-security &,
+		.nav-security:hover &
+			sprite-position( $security-color )
+
+
+
+/**
+ * small icon version, see home prefooter for examples
+ */
+.sm-icon
+	size 35px
+
+	&.business
+		sprite-position( $business-white-sm )
+		@extends $icon
+		&.active
+			sprite-position( $business-color-sm )
+
+	&.design
+		sprite-position( $design-white-sm )
+		@extends $icon
+		&.active
+			sprite-position( $design-color-sm )
+
+	&.entertainment
+		sprite-position( $entertainment-white-sm )
+		@extends $icon
+		&.active
+			sprite-position( $entertainment-color-sm )
+
+	&.gear
+		sprite-position( $gear-white-sm )
+		@extends $icon
+		&.active
+			sprite-position( $gear-color-sm )
+
+	&.science
+		sprite-position( $science-white-sm )
+		@extends $icon
+		&.active
+			sprite-position( $science-color-sm )
+
+	&.security
+		sprite-position( $security-white-sm )
+		@extends $icon
+		&.active
+			sprite-position( $security-color-sm )

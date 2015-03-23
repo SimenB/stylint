@@ -61,4 +61,4 @@ module.exports = function checkForEfficiency( line, arr ) {
 			return true;
 		}
 	}
-}
+};

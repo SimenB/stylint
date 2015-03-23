@@ -1,9 +1,10 @@
 'use strict';
 
 // dont throw false positives on user created names or syntax
-var ignoreMeRe = /[&$.#(=>]|({[\S]+})|(if)|(for)|(else)|(@block)/,
-	attributeRe = /\[\S+\]/,
+var attributeRe = /\[\S+\]/,
+	ignoreMeRe = /[&$.#(=>]|({[\S]+})|(if)|(for)|(else)|(@block)/,
 	isNumRe = /\d(?=[px]|%|[em]|[rem]|[vh]|[vw]|[vmin]|[vmax]|[ex]|[ch]|[mm]|[cm]|[in]|[pt]|[pc]|[mozmm])/;
+
 
 /**
 * check against a JSON of all valid css properties and values
@@ -62,7 +63,7 @@ module.exports = function checkForValidProperties( line, valid ) {
 			}
 		});
 
-		valid.html.forEach(function( val, index ) {
+		valid.html.forEach(function( val ) {
 			var i = 0,
 				j = 0;
 
@@ -95,4 +96,4 @@ module.exports = function checkForValidProperties( line, valid ) {
 	else {
 		return false;
 	}
- }
+};

@@ -28,4 +28,4 @@ module.exports = function checkForBrackets( line, areWeInAHash ) {
 		}
 	}
 	// else no brackets, return undefined
-}
+};

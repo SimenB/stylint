@@ -1,0 +1,82 @@
+/**
+ * Grid pages. (Homepage / Section Fronts / etc)
+ * @FIXME recent round of design and grid changes have made everything a mess
+*/
+
+
+// da grid
+// 1: always be tall enough for a sidebar
+#grid
+    min-height 1000px // 1
+
+    aside
+        @media $mob
+            width 100%
+
+        @media $med-plus
+            clear none
+            width 300px
+
+
+// curated article group, not including smart cards
+.article-group
+    // group everything as one card on mobile
+    @media $mob
+        {card}
+        border-top $border-big
+        box-shadow $depth-1
+        .card
+            border-bottom $border-micro
+            box-shadow none
+            margin $gutter-med $gutter-med 0
+            padding 0 0 $gutter-med
+            width auto
+
+        #p6,
+        #s6
+            border-bottom none
+
+    // desktop default is smart card on right, content on left
+    @media $med-plus
+        width s( 'calc(100% - (300px + %s))', $gutter-med )
+
+
+
+
+
+
+// @FIXME all below is a bunch of one offs for design, clean up / remove
+.items
+    @media $mob
+        // force titles to have same font on mobile
+        // @TODO could probably do this better
+        .title,
+        .tungsten,
+        .ambroise-hdr
+            color $black
+            font-family $brandon
+            font-size 18px
+            line-height 20px
+            text-transform none
+        // images in mobile always get margin-bottom
+        img
+            margin-bottom $gutter-med
+        // author is used specifically on text cards right now
+        // @TODO clean this up, this was rushed. use a mixin or something
+        .author
+            color rgba( 0, 0, 0, .5 )
+            display block
+            font-family $oxide
+            font-size 10px
+            font-style normal
+            font-weight 400
+            letter-spacing .08em
+            line-height 9px
+            margin-bottom 4px
+            text-transform uppercase
+            transition all $fast $timing
+
+
+@media $mob
+    .archive .article-group img
+        margin-bottom $gutter-med
