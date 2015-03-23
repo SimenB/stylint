@@ -17,14 +17,14 @@ const
 		borderNone: true, // check for use of border none and recommend border 0
 		brackets: true, // check for { or }, unless used in a hash
 		colons: false, // check for unecessary colons
-		colors: false, // check for hex values and suggest using a variable
+		colors: false, // check for hex colors used without variables
 		commaSpace: true, // check for spaces after commas (0, 0, 0, .18)
 		commentSpace: false, // check for space after line comment
 		cssLiteral: false, // if true disallow css literals
 		depthLimit: false, // set a maximum selector depth (dont nest more than 4 deep)
 		duplicates: true, // check if properties or selectors are duplicate
 		efficient: true, // check for margin 0 0 0 0 and recommend margin 0
-		emoji: false, // toggle icons on or off
+		emoji: false, // toggle emoji on or off
 		enforceVarStyle: false, // check for $ when declaring vars (doesnt check use)
 		enforceBlockStyle: false, // check for @block when defining blocks
 		extendPref: false, // prefer a specific syntax when using @extends (or @extend)
@@ -32,15 +32,16 @@ const
 		indentSpaces: 4, // how many spaces should we prefer when indenting, pass in false if hard tabs
 		leadingZero: true, // find cases where 0.# is used, prefer .#
 		maxWarnings: 10, // should we have a max amount of warnings, and error out if we go over
+		maxWarningsKill: false, // if over maxWarning count, kill process
 		mixed: false, // check for mixed spaces and tabs
-		namingConvention: false, // lowercase-dash, camelCase, lowercase-underscore, or false (dont check)
+		namingConvention: false, // lowercase-dash, camelCase, lowercase_underscore, BEM or false (dont check)
 		parenSpace: false, // check for extra space inside parens when defining or using mixins
 		placeholders: true, // only allow @extending of placeholder vars
-		quotePref: false, // enforce single or double quotes
+		quotePref: false, // single or double quotes, or false to not check
 		semicolons: false, // check for unecessary semicolons
 		trailingWhitespace: true, // check for trailing whitespace
 		universal: true, // check for use of * and recommend against it
-		valid: true, // check if prop or value is a valid assignment
+		valid: false, // check if prop or value is a valid assignment
 		zeroUnits: true, // check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
 		zIndexDuplicates: false, // just find duplicate z index values
 		zIndexNormalize: false // suggest a normalized z index value, base of whatever this is
@@ -49,6 +50,7 @@ const
 
 // turning on strict mode from this point
 app.state.strictMode = true;
+app.state.watching = true;
 
 describe('Core Methods: ', function() {
 	describe('Read: ', function() {
@@ -158,6 +160,11 @@ describe('Core Methods: ', function() {
 		});
 	});
 
+	// describe('Done: ', function() {
+	// 	sinon.spy( app, 'done' );
+	// 	var test = app.done( app );
+	// });
+
 	describe('Watch: ', function() {
 		sinon.spy( app, 'watch' );
 		var fileTest = app.watch( app, 'styl/test2.styl' );
@@ -207,14 +214,6 @@ describe('Core Methods: ', function() {
 });
 
 describe('Config: ', function() {
-
-	// describe('Default Config:', function() {
-	//     it('should deep equal mocked config', function() {
-	//         assert.deepEqual( app.config, defaultConfig );
-	//     });
-	// });
-
-	// @TODO this one is not that great
 	describe('Set Config Method:', function() {
 		var
 			testMethod = app.setConfig( '.stylintrc' ),
@@ -225,8 +224,8 @@ describe('Config: ', function() {
 		});
 
 		it('should return undefined if passed invalid path', function() {
-			should.Throw(function(){
-				app.setConfig( '.nonsenserc' )
+			should.Throw(function() {
+				app.setConfig( '.nonsenserc' );
 			}, Error);
 		});
 	});
@@ -244,10 +243,39 @@ describe('File parser: ', function() {
 		assert.equal( undefined, app.getFiles( '/styl/test2.styl' ) );
 	});
 
+	it('should throw if path is not a string', function() {
+		should.Throw(function() {
+			app.getFiles( 5 );
+		}, TypeError);
+	});
+
 	it('should throw if passed nothing', function() {
-		should.Throw(function(){
-			assert.equal( undefined, app.getFiles() );
+		should.Throw(function() {
+			app.getFiles();
 		}, Error);
+	});
+});
+
+describe('Emoji: ', function() {
+	it('all clear if on windows and option turned on should output smiley', function() {
+		assert.equal( ':)', app.emojiAllClear( true, 'windows' ) );
+	});
+
+	it('warning if on windows and option turned on should output frowney', function() {
+		assert.equal( ':(', app.emojiWarning( true, 'windows' ) );
+	});
+
+	it('all clear if on unix and option turned on should output emoji', function() {
+		assert.equal( '\uD83D\uDC4D  ', app.emojiAllClear( true ) );
+	});
+
+	it('warning if on unix and option turned on should output emoji', function() {
+		assert.equal( '\uD83D\uDCA9  ', app.emojiWarning( true ) );
+	});
+
+	it('both should output a blank string if option is off', function() {
+		assert.equal( '', app.emojiAllClear( false ) );
+		assert.equal( '', app.emojiWarning( false ) );
 	});
 });
 
@@ -278,10 +306,12 @@ describe('State: ', function() {
 		var defaultState = {
 			cssBlock: false,
 			dir: undefined,
+			exitCode: 0,
 			hash: false,
-			strictMode: true,
+			strictMode: false,
 			testsEnabled: true, // are we running linter tests
-			toggleBlock: false // @stylint off
+			toggleBlock: false, // @stylint off
+			watching: false
 		};
 
 		it('cssBlock should be false', function() {
@@ -292,8 +322,9 @@ describe('State: ', function() {
 			assert.equal( false, app.state.hash );
 		});
 
+		// we set this earlier for testing
 		it('strictMode should be true', function() {
-		    assert.equal( true, app.state.strictMode );
+			assert.equal( true, app.state.strictMode );
 		});
 
 		it('testsEnabled should be true', function() {
@@ -305,8 +336,6 @@ describe('State: ', function() {
 		});
 	});
 });
-
-app.state.watching = true;
 
 describe('Linter Style Checks: ', function() {
 	describe('alphabetical', function() {
@@ -1000,8 +1029,9 @@ describe('Linter Style Checks: ', function() {
 	});
 
 	describe('zero units', function() {
-		it('should return false if 0 found', function() {
+		it('should return false if 0 value is fine', function() {
 			assert.equal( false, app.zeroUnits('margin 0') );
+			assert.equal( false, app.zeroUnits('margin 50px') );
 		});
 
 		it('should return true if 0 + any unit type is found (0 is preferred)', function() {
@@ -1028,10 +1058,6 @@ describe('Linter Style Checks: ', function() {
 	});
 
 	describe('zIndex Duplicates', function() {
-		it('zCache at this point should be greater than 0', function() {
-			assert.equal( true, app.zCache.length > 0 );
-		});
-
 		it('should return false if z-index is not found on line', function() {
 			assert.equal( false, app.zIndexDupe('margin 0') );
 		});
@@ -1049,7 +1075,7 @@ describe('Linter Style Checks: ', function() {
 		});
 
 		it('zCache at this point should be greater than 0', function() {
-			assert.equal( true, app.zCache.length > 0 );
+			assert.equal( true, app.cache.zCache.length > 0 );
 		})
 	});
 

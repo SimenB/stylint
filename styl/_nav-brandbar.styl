@@ -1,0 +1,104 @@
+/**
+ * brandbar styles
+ * so, the actual primary and secondary section links inside global-nav
+ @TODO could use some cleanup
+*/
+
+
+// the 6 main sections of the site
+#nav-sections
+	transition( height, $fast, true )
+	max-width 931px // borders mean the width needs to be 1px narrower
+
+	// an individual section
+	li
+		height 100% // dont remove, needed
+		&:hover
+			a, i, span
+				color $white
+
+		// hide big icons by default
+		i
+			transition( height, $fast, true )
+			height 0
+
+		// link is 100% with padding
+		a
+			@media $med-max
+				padding 37% 25% 37%
+
+			@media $med-plus
+				padding 9px 7px
+				.hr-pinned.nav-active &
+					height 155px
+					padding 20% 0 1%
+
+		// if nav active expand
+		// @TODO use the existing col classes for this
+		.nav-active &
+			i
+				height 72px
+
+			@media $mob
+				width 50%
+
+			@media $sm
+				width 33.33%
+				&:nth-child( -n+3 )
+					border-bottom $border-micro
+
+			@media $med-plus
+				padding-bottom 16.6666666667% // for squarez
+
+		// only show by default if on desktop
+		@media $med-plus
+			display block
+			width 16.6666666667%
+			&:first-of-type
+				border-left $border-micro
+
+	// if nav button clicked show (if not already) and expand
+	.nav-active &
+		display block
+		// height 155px
+		@media $med-plus
+			height 155px
+
+	@media $mob
+		li:nth-child( 2n )
+			border-right 0
+		li:nth-child( -n+4 )
+			border-bottom $border-micro
+
+	// tablet size and below take over full screen
+	@media $med-max
+		{site-container}
+		border $border-micro
+		margin $gutter-med $gutter-med 0
+
+
+// secondary links (only visible on click)
+#secondary-sections
+	li:hover
+		a
+			color $black
+
+	@media $med-max
+		site-container()
+		li
+			border-bottom $border-micro
+
+	@media $med-plus
+		height 30px
+		a
+			padding 9px 7px
+		ul
+			width 580px
+
+
+
+// hides the icons when nav not active
+header:not( .nav-active )
+	#nav-sections
+		i
+			@extends $visually-hidden

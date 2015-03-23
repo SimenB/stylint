@@ -6,7 +6,6 @@ module.exports = function normalizeZIndex( line ) {
 
 	var arr;
 
-
 	// the most basic of checks, throw warning if zindex value not normalized
 	if ( line.indexOf( 'z-index' ) !== -1 ) {
 		arr = line.split(/[\s\t,:]/);
@@ -24,4 +23,4 @@ module.exports = function normalizeZIndex( line ) {
 			return false;
 		}
 	}
-}
+};

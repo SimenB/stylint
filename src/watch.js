@@ -21,14 +21,14 @@ module.exports = function watch( app, path ) {
 	// listen for changes, update 'dir' to curr file, wipe all the caches, do somethin
 	watcher.on('change', function( newPath ) {
 		app.state.dir = newPath;
-		app.warnings = [];
-		app.alphaCache = [];
-		app.selectorCache = [];
-		app.rootCache = [];
-		app.zCache = [];
-		app.prevLine = '';
-		app.prevFile = '';
-		app.prevContext = 0;
+		app.cache.warnings = [];
+		app.cache.alphaCache = [];
+		app.cache.selectorCache = [];
+		app.cache.rootCache = [];
+		app.cache.zCache = [];
+		app.cache.prevLine = '';
+		app.cache.prevFile = '';
+		app.cache.prevContext = 0;
 		return app.read( app, newPath );
 	});
 }
