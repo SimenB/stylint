@@ -87,6 +87,7 @@ var config = stampit().state({
 		maxWarningsKill: false, // if over maxWarning count, kill process
 		mixed: false, // check for mixed spaces and tabs
 		namingConvention: false, // lowercase-dash, camelCase, lowercase_underscore, BEM or false (dont check)
+		namingConventionStrict: false, // if true, then check classes and ids, if false just check variables
 		parenSpace: false, // check for extra space inside parens when defining or using mixins
 		placeholders: true, // only allow @extending of placeholder vars
 		quotePref: false, // single or double quotes, or false to not check

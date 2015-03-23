@@ -3,7 +3,7 @@
 var
 	alpha = /[A-Z]+/m,
 	// we dont care about default css names, only look at vars, classes, ids, etc
-	cssCheck = /^[$#.{:]+/m,
+	// cssCheck = /^[$#.{:]+/m,
 	// camelCase or CamelCase
 	camel = /^[$#.{:]+([a-zA-Z]|[${}])+([a-z]|[${}])+(([.A-Z0-9])+[a-z ]+)+\b/m,
 	// // lower-case-dashes-only
@@ -21,10 +21,19 @@ var
  * @returns true, false, or undefined true if convention correct, false if not, undefined if line not testable
  */
 module.exports = function checkNamingConvention( line, convention ) {
-	if ( typeof line !== 'string' || typeof convention === 'undefined' ) { return; }
+	if ( typeof line !== 'string' ||
+		typeof convention === 'undefined' ) {
+		return;
+	}
+
+	var firstCheck = /^[${:]+/m;
+
+	if ( this.config.namingConventionStrict === true ) {
+		firstCheck = /^[$#.{:]+/m;
+	}
 
 	// only run checks if on a class, id, or variable
-	if ( cssCheck.test( line ) && line.indexOf('::') === -1 ) {
+	if ( firstCheck.test( line ) && line.indexOf('::') === -1 ) {
 		// matches just lowercase first
 		if ( !alpha.test( line ) &&
 			line.indexOf('-') === -1 &&
