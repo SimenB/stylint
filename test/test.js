@@ -714,6 +714,7 @@ describe('Linter Style Checks: ', function() {
 				assert.equal( true, app.namingConvention('#block-{$class-name}', 'lowercase-dash') );
 				assert.equal( true, app.namingConvention(':{$var-name}', 'lowercase-dash') );
 				assert.equal( true, app.namingConvention('$varname', 'lowercase-dash') );
+				assert.equal( true, app.namingConvention('$varname = "Font Name"', 'lowercase-dash') );
 
 				assert.equal( true, app.namingConvention('$var_name_like_this =', 'lowercase_underscore') );
 				assert.equal( true, app.namingConvention('.class_name_like_this', 'lowercase_underscore') );
@@ -723,6 +724,7 @@ describe('Linter Style Checks: ', function() {
 				assert.equal( true, app.namingConvention('#block_{$var_name}', 'lowercase_underscore') );
 				assert.equal( true, app.namingConvention(':{$var_name}', 'lowercase_underscore') );
 				assert.equal( true, app.namingConvention('$varname', 'lowercase_underscore') );
+				assert.equal( true, app.namingConvention('$varname = "Font Name"', 'lowercase_underscore') );
 
 				assert.equal( true, app.namingConvention('$varNameLikeThis =', 'camelCase') );
 				assert.equal( true, app.namingConvention('.classNameLikeThis', 'camelCase') );
@@ -732,6 +734,7 @@ describe('Linter Style Checks: ', function() {
 				assert.equal( true, app.namingConvention('#block{$varName}', 'camelCase') );
 				assert.equal( true, app.namingConvention(':{$varName}', 'camelCase') );
 				assert.equal( true, app.namingConvention('$varname', 'camelCase') );
+				assert.equal( true, app.namingConvention('$varname = "Font-name"', 'camelCase') );
 
 				assert.equal( true, app.namingConvention('$var-name__like-this =', 'BEM') );
 				assert.equal( true, app.namingConvention('.class-name__like-this', 'BEM') );
@@ -742,6 +745,7 @@ describe('Linter Style Checks: ', function() {
 				assert.equal( true, app.namingConvention('#block__{$var-name}', 'BEM') );
 				assert.equal( true, app.namingConvention('#block{$var-name}', 'BEM') );
 				assert.equal( true, app.namingConvention('$varname', 'BEM') );
+				assert.equal( true, app.namingConvention('$varname = "Font Name"', 'BEM') );
 			});
 
 			it('false if not correct naming convention', function() {

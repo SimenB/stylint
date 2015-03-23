@@ -26,25 +26,27 @@ module.exports = function checkNamingConvention( line, convention ) {
 		return;
 	}
 
-	var firstCheck = /^[${:]+/m;
+	// use arr in test.js @TODO
+	var arr = line.split(' '),
+		firstCheck = /^[${:]+/m;
 
 	if ( this.config.namingConventionStrict === true ) {
 		firstCheck = /^[$#.{:]+/m;
 	}
 
 	// only run checks if on a class, id, or variable
-	if ( firstCheck.test( line ) && line.indexOf('::') === -1 ) {
+	if ( firstCheck.test( arr[0] ) && arr[0].indexOf('::') === -1 ) {
 		// matches just lowercase first
-		if ( !alpha.test( line ) &&
-			line.indexOf('-') === -1 &&
-			line.indexOf('_') === -1 ) {
+		if ( !alpha.test( arr[0] ) &&
+			arr[0].indexOf('-') === -1 &&
+			arr[0].indexOf('_') === -1 ) {
 			return true;
 		}
 		// then check conventions
 		else if ( convention === 'camelCase' ) {
-			if ( line.indexOf('-') === -1 &&
-				line.indexOf('_') === -1 &&
-				camel.test( line ) ) {
+			if ( arr[0].indexOf('-') === -1 &&
+				arr[0].indexOf('_') === -1 &&
+				camel.test( arr[0] ) ) {
 				return true;
 			}
 			else {
@@ -52,9 +54,9 @@ module.exports = function checkNamingConvention( line, convention ) {
 			}
 		}
 		else if ( convention === 'lowercase_underscore' ) {
-			if ( line.indexOf('-') === -1 &&
-				line.indexOf('_') !== -1 &&
-				!alpha.test( line ) ) {
+			if ( arr[0].indexOf('-') === -1 &&
+				arr[0].indexOf('_') !== -1 &&
+				!alpha.test( arr[0] ) ) {
 				return true;
 			}
 			else {
@@ -62,9 +64,9 @@ module.exports = function checkNamingConvention( line, convention ) {
 			}
 		}
 		else if ( convention === 'lowercase-dash' ) {
-			if ( line.indexOf('-') !== -1 &&
-				line.indexOf('_') === -1 &&
-				!alpha.test( line ) ) {
+			if ( arr[0].indexOf('-') !== -1 &&
+				arr[0].indexOf('_') === -1 &&
+				!alpha.test( arr[0] ) ) {
 				return true;
 			}
 			else {
@@ -72,7 +74,7 @@ module.exports = function checkNamingConvention( line, convention ) {
 			}
 		}
 		else if ( convention === 'BEM' ) {
-			if ( !alpha.test( line ) && bem.test( line ) ) {
+			if ( !alpha.test( arr[0] ) && bem.test( arr[0] ) ) {
 				return true;
 			}
 			else {
