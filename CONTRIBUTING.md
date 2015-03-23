@@ -21,6 +21,8 @@ Perform a cursory search to see if a similar issue has already been submitted.
 
 
 # Pull Requests
+No PR is too small! Documentation, typo fixing, code style fixes. You don't have to write a feature or tackle an existing issue to submit a PR.
+
 Submit your PR against the develop branch, not master.
 
 If your PR relates to an existing issue, please link to it in the PR.
