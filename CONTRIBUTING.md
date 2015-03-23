@@ -23,6 +23,8 @@ Perform a cursory search to see if a similar issue has already been submitted.
 # Pull Requests
 Submit your PR against the develop branch, not master.
 
+If your PR relates to an existing issue, please link to it in the PR.
+
 Include screenshots and animated GIFs in your pull request whenever possible.
 
 [Idiomatic](https://github.com/rwaldron/idiomatic.js/) JS style is preferred.
