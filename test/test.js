@@ -1009,6 +1009,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( false, app.valid( 'dog: irish-setter; }', valid ) );
 			assert.equal( false, app.valid( '{var name}', valid ) );
 			assert.equal( false, app.valid( 'div[attribute test]', valid ) );
+			assert.equal( false, app.valid( '::selects', valid ) );
 		});
 
 		it ('should return true if property is valid', function() {
@@ -1021,6 +1022,8 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, app.valid( 'for i in 0..9', valid ) );
 			assert.equal( true, app.valid( '&--append-class-name', valid ) );
 			assert.equal( true, app.valid( 'div[attribute]', valid ) );
+			assert.equal( true, app.valid( '::selection', valid ) );
+			assert.equal( true, app.valid( '[data-js]', valid ) );
 		});
 
 		it ('should return undefined if missing params', function() {

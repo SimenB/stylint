@@ -3,7 +3,7 @@
  * @TODO i need to generate a new svg and then clean all this up
  */
 
- @require './test'
+@require './test'
 
 $test = 'Exchange 4r'
 
@@ -14,6 +14,31 @@ $test = 'Exchange 4r'
 	border 0
 	border: 0
 	border:0
+	border-bottom 0
+	border-bottom none
+
+// Fails
+@font-face{
+}
+// Passes
+@font-face {
+}
+
+::selection
+	background #000
+	color #fff
+
+::-moz-selection
+	background #000
+	color #fff
+
+
+[data-js]
+	margin 0
+
+div[data-js]
+	padding 0
+
 
 /**
  * like col, this class must be applied to all ui elements as a base
