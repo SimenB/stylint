@@ -73,14 +73,16 @@ module.exports = function test( app, line, num, output, file ) {
 			}
 
 			// the only valid use of brackets is in a hash
-			if ( !app.config.brackets && app.hashStart(line) ) {
-				state.hash = true;
+			// @TODO prolly shouldn't return here
+			// there are checks we can do inside a hash
+			if ( app.hashStart(line) ) {
+				this.state.hash = true;
 				return;
 			}
 
 			// if the above equals true we check for the end of the hash
-			if ( !app.config.brackets && app.hashEnd( line, state.hash ) ) {
-				state.hash = false;
+			if ( app.hashEnd( line, this.state.hash ) ) {
+				this.state.hash = false;
 				return;
 			}
 
@@ -101,7 +103,7 @@ module.exports = function test( app, line, num, output, file ) {
 
 			// check for brackets (except in hash)
 			if ( app.config.brackets || state.strictMode ) {
-				if ( app.brackets( line, state.hash ) && !state.cssBlock ) {
+				if ( app.brackets( line ) && !state.cssBlock && !this.state.hash ) {
 					cache.warnings.push( 'unecessary bracket' + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 				}
 			}
@@ -222,7 +224,6 @@ module.exports = function test( app, line, num, output, file ) {
 
 			// check mixed spaces and tabs
 			if ( app.config.mixed || state.strictMode ) {
-				// console.log( app.config.indentSpaces );
 				// else check tabs against tabs and spaces against spaces
 				if ( app.mixed( line, arr, app.config.indentSpaces ) ) {
 					cache.warnings.push( 'mixed spaces and tabs' + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );

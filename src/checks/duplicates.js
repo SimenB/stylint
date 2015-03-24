@@ -52,13 +52,15 @@ module.exports = function duplicateSelectors( line, file ) {
 		// file specific check
 		if ( !this.config.globalDupe && this.prevFile !== file ) {
 			// check against prev line to make sure we're not in a list of selectors
-			if ( this.rootCache.indexOf( line ) !== -1 && this.prevLine.indexOf(',') === -1 ) {
+			if ( this.rootCache.indexOf( line ) !== -1 &&
+				this.prevLine.indexOf(',') === -1 ) {
 				isThereADupe = true;
 			}
 		}
 		// global check
 		else {
-			if ( this.rootCache.indexOf( line ) !== -1 && this.prevLine.indexOf(',') === -1 ) {
+			if ( this.rootCache.indexOf( line ) !== -1 &&
+				this.prevLine.indexOf(',') === -1 ) {
 				isThereADupe = true;
 			}
 		}
@@ -66,6 +68,7 @@ module.exports = function duplicateSelectors( line, file ) {
 		// undefined check is for whitespace
 		if ( typeof arr[0] !== 'undefined' &&
 			!syntaxIgnore.test( line ) &&
+			typeof this.prevLine !== 'undefined' &&
 			this.prevLine.indexOf(',') === -1 ) {
 			this.rootCache.push( line );
 		}

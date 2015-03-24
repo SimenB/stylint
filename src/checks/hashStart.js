@@ -1,7 +1,7 @@
 'use strict';
 
 // check if we're starting a hash
-var hashStarting = /\{$/;
+var hashStarting = /{$|{ $/;
 
 module.exports = function checkForHashStart( line ) {
 	if ( typeof line !== 'string' ) { return; }
