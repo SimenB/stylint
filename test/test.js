@@ -376,10 +376,14 @@ describe('Linter Style Checks: ', function() {
 	describe('border none', function() {
 		it('should return false if border none not present', function() {
 			assert.equal( false, app.borderNone('border 0') );
+			assert.equal( false, app.borderNone('border: 0') );
+			assert.equal( false, app.borderNone('border:0') );
 		});
 
 		it('should return true if border none is present', function() {
 			assert.equal( true, app.borderNone('border none') );
+			assert.equal( true, app.borderNone('border: none') );
+			assert.equal( true, app.borderNone('border:none') );
 		});
 
 		it('should return undefined if no border', function() {
