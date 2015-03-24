@@ -344,6 +344,7 @@
         "ruby-merge",
         "ruby-position",
         "running",
+        "selection",
         "shape-image-threshold",
         "shape-margin",
         "shape-outside",
@@ -369,6 +370,7 @@
         "table-column-span",
         "table-layout",
         "table-row-span",
+        "template",
         "text-align",
         "text-align-all",
         "text-align-last",
@@ -709,6 +711,7 @@
         "-moz-"
     ],
     "pseudo": [
+        "{",
         "::-moz-inner-focus",
         ":active",
         ":checked",
@@ -733,6 +736,7 @@
         ":only-of-type",
         ":optional",
         ":selection",
+        "::selection",
         ":target",
         ":visited"
     ]

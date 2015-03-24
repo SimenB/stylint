@@ -67,7 +67,7 @@ var config = stampit().state({
 	config: {
 		alphabetical: true, // check that properties are sorted alphabetically
 		borderNone: true, // check for use of border none and recommend border 0
-		brackets: true, // check for { or }, unless used in a hash
+		brackets: false, // check for { or }, unless used in a hash
 		colons: false, // check for unecessary colons
 		colors: false, // check for hex colors used without variables
 		commaSpace: true, // check for spaces after commas (0, 0, 0, .18)
