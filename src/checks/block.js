@@ -25,4 +25,4 @@ module.exports = function checkBlockStyle( line ) {
 			return true;
 		}
 	}
-}
+};

@@ -1,0 +1,468 @@
+/**
+ * Helper classes (floats, clears, colors, blah blah)
+ * media query specific classes at bottom
+*/
+
+/**
+ * @desc many many many helper classes for all breakpoints
+ * @returns .{breakpoint}-{property}-{direction}-{size}, example: sm-marg-r-big
+ */
+ // @stylint off
+for key, value in ( $directions )
+	.{value}
+		{value} 0
+
+	.border-{key}
+		border-{value} $border-micro
+
+	.border-{key}-big
+		border-{value} $border-big
+
+	.marg-{key}-25
+		margin-{value} $gutter-25
+
+	.pad-{key}-25
+		padding-{value} $gutter-25
+
+	.marg-{key}-50
+		margin-{value} $gutter-50
+
+	.pad-{key}-50
+		padding-{value} $gutter-50
+
+	for k, v in ( $sizes )
+		.{value}-{k}
+			{value} v
+
+		.marg-{key}-{k}
+			margin-{value} v
+
+		.pad-{key}-{k}
+			padding-{value} v
+
+		@media $mob
+			+prefix-classes( 'mob-' )
+				.marg-{key}-{k}
+					margin-{value} v
+				.pad-{key}-{k}
+					padding-{value} v
+
+		@media $sm
+			+prefix-classes( 'sm-' )
+				.marg-{key}-{k}
+					margin-{value} v
+				.pad-{key}-{k}
+					padding-{value} v
+
+		@media $med
+			+prefix-classes( 'med-' )
+				.marg-{key}-{k}
+					margin-{value} v
+				.pad-{key}-{k}
+					padding-{value} v
+
+		@media $big-plus
+			+prefix-classes( 'big-' )
+				.marg-{key}-{k}
+					margin-{value} v
+				.pad-{key}-{k}
+					padding-{value} v
+// @stylint on
+
+// all directions
+@media $mob
+	+prefix-classes( 'mob-' )
+		.marg
+			margin $gutter-med
+		.pad
+			padding $gutter-med
+
+@media $sm
+	+prefix-classes( 'sm-' )
+		.marg
+			margin $gutter-med
+		.pad
+			padding $gutter-med
+
+@media $med
+	+prefix-classes( 'med-' )
+		.marg
+			margin $gutter-med
+		.pad
+			padding $gutter-med
+
+@media $big-plus
+	+prefix-classes( 'big-' )
+		.marg
+			margin $gutter-med
+		.pad
+			padding $gutter-med
+
+
+/**
+ * @desc opacity helperz
+ * @returns opacity classes
+ */
+for $i in ( 0..9 )
+	.opacity-{$i}
+		opacity $i * .1
+
+
+/**
+ * @desc grayscale helperz
+ * @returns gray classes
+ */
+for $key, $value in $grays
+	.bg-gray-{$key}
+		background-color $value
+	.gray-{$key}
+		color $value
+
+
+/**
+ * @desc section color helperz
+ * @returns color classes for the 6 section colors
+ */
+for $key, $value in $section-colors
+	.bg-{$key}
+		background-color $value
+	.color-{$key}
+		color $value
+
+
+// force a thing to be absolute positioned
+.absolute
+	position absolute
+
+
+// or have a white bg
+.bg-white
+	background-color $white
+
+
+// this is a border. yes, that's what that looks like
+.border
+	border $border-micro
+
+// another one!
+// @TODO this is dumb, was faked up for design, remove
+.border-darker
+	border 1px solid #ccc
+
+
+// default box-shadow used on cards, header
+.box-shadow
+	box-shadow $depth-1
+
+
+// box-shadow, creates the illusion of depth
+.box-shadow-2
+	box-shadow $depth-2
+
+
+// box-shadow, creates the illusion of depth, use only on highest elements
+.box-shadow-3
+	box-shadow $depth-3
+
+
+// make a thing a button
+.button
+	@extends $button-base
+
+
+// centers an element, doesnt interfere with vertical margin
+.center
+	@extends $center
+
+
+// change shape of element into circle
+.circle
+	border-radius 50%
+
+
+// clearfix class version, break those floats
+.clearfix
+	@extends $clearfix
+
+
+// float an item to the left, only above mobile
+.float-l
+	float left
+
+
+// float an item to the right, only above mobile
+.float-r
+	float right
+
+
+// force hide
+.hide
+	display none !important
+	opacity 0
+
+
+// make a thing inline-block
+.inline-block
+	display inline-block
+
+
+/**
+ * just adds an opacity transition (opacity accelerated by default)
+ */
+.fade
+	transition( opacity, .35s, false )
+
+
+// fixed position
+.fixed
+	position fixed
+
+
+/**
+ * used when we want to combine transitions with display none or display block
+ * @requires prepareTransition jQuery plugin
+*/
+.is-transitioning
+	display block !important
+	visibility visible !important
+
+
+// Link underline helper class
+.link-underline
+	a
+		@extends $link-underline
+
+
+// Link underline helper class
+.link-underline-sm
+	a
+		@extends $link-underline-sm
+
+
+// Dark link underline class
+.link-underline-dark
+	a
+		@extends $link-underline-dark
+
+
+// Dark link underline class
+.link-underline-dark-sm
+	a
+		@extends $link-underline-dark-sm
+
+// No underline
+.no-underline
+	a
+		@extends $no-underline
+
+
+// remove list styles from article lists
+.list-none
+	list-style none !important
+	li:before
+		content '' !important
+		margin 0 !important
+		width 0 !important
+
+
+// marginz all around
+.marg
+	margin $gutter-med
+
+// sm margins all around
+.marg-sm
+	margin $gutter-sm
+
+
+// remove style helpers
+.no-border
+	border 0 !important
+
+
+// force no margins
+.no-marg
+	margin 0 !important
+
+
+// force no padding
+.no-pad
+	padding 0 !important
+
+
+// no scroll (literally, no scrollbar no scrollin)
+.no-scroll,
+.overflow-hide
+	overflow hidden
+
+
+// padding all around
+.pad-sm
+	padding $gutter-sm
+
+
+// padding all around
+.pad
+	padding $gutter-med
+
+
+// add relative to a thing
+.relative
+	position relative
+
+
+// force show
+.show
+	display block !important
+	opacity 1
+
+
+// center item, set width to max-width of site
+.site-container
+	site-container()
+
+// collapse smart card but not on mobile
+.squish
+	@media $mob-plus
+		{squish}
+
+
+// text align center
+.text-c
+	text-align center
+
+
+// text align right
+.text-r
+	text-align right
+
+// text align left
+.text-l
+	text-align left
+
+// same with you @TODO
+.sm-thumb
+	float left
+	height 50px
+	max-width 50px
+
+
+// hmmm @TODO could be cleaned up a bit
+.thumb
+	float left
+	height 75px
+	max-width 75px
+	width calc( 33% - 11.667px )
+
+
+// class version for applying via js or whatever
+.visually-hidden
+	@extends $visually-hidden
+
+
+// force a thing to be white
+.white
+	color $white
+
+
+// mobile > small tablet helpers
+@media $mob
+	.float-l-mob
+		float left
+	.float-r-mob
+		float right
+	.hide-mob
+		display none !important
+	.show-mob
+		display block
+	.no-float-mob
+		float none !important
+	.squish-mob
+		{squish}
+
+
+// small tablet only helpers
+@media $sm
+	.hide-sm
+		display none !important
+	.show-sm
+		display block
+	.float-l-sm
+		float left
+	.float-r-sm
+		float right
+	.no-float-sm
+		float none !important
+	.squish-sm
+		{squish}
+
+
+// big tablet only helpers
+@media $med
+	.hide-med
+		display none !important
+	.show-med
+		display block
+	.float-l-med
+		float left
+	.float-r-med
+		float right
+	.no-float-med
+		float none !important
+	.squish-med
+		{squish}
+
+
+// below 800px tall
+@media $short
+	.hide-short
+		display none !important
+	.show-short
+		display block
+	.squish-short
+		{squish}
+
+
+// below 1000px tall
+@media $tall
+	.hide-tall-tab
+		display none !important
+	.show-tall-tab
+		display block
+	.squish-tall-tab
+		{squish}
+
+
+// tablet and below 800px tall
+@media $short-tab
+	.hide-short-tab
+		display none !important
+	.show-short-tab
+		display block
+	.squish-short-tab
+		{squish}
+
+
+// tablet and below 1000px tall
+@media $tall-tab
+	.hide-tall-tab
+		display none !important
+	.show-tall-tab
+		display block
+	.squish-tall-tab
+		{squish}
+
+
+// desktop helpers
+@media $big-plus
+	.hide-big
+		display none !important
+	.show-big
+		display block
+	.float-l-big
+		float left
+	.float-r-big
+		float right
+	.no-float-big
+		float none !important
+	.squish-big
+		{squish}

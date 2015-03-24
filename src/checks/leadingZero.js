@@ -30,5 +30,4 @@ module.exports = function hasLeadingZero( line, arr ) {
 	else {
 		return false;
 	}
-
-}
+};

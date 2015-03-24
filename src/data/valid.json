@@ -1,9 +1,12 @@
 {
     "css": [
+        "{",
+        "}",
         "*",
         "&",
         ":root",
         "*::selection",
+        "@keyframes",
         "@font-face",
         "@media",
         "@supports",
@@ -184,6 +187,7 @@
         "font-weight",
         "footnote-display",
         "footnote-policy",
+        "from",
         "glyph-orientation-horizontal",
         "glyph-orientation-vertical",
         "grid (extra)",
@@ -215,6 +219,7 @@
         "initial-letter",
         "initial-letter-align",
         "inline-box-align",
+        "interpolation-mode",
         "isolation",
         "justify-content",
         "justify-items",
@@ -320,6 +325,7 @@
         "pitch",
         "pitch-range",
         "play-during",
+        "pointer-events",
         "position (extra)",
         "position",
         "presentation-level",
@@ -338,6 +344,7 @@
         "ruby-merge",
         "ruby-position",
         "running",
+        "selection",
         "shape-image-threshold",
         "shape-margin",
         "shape-outside",
@@ -363,6 +370,7 @@
         "table-column-span",
         "table-layout",
         "table-row-span",
+        "template",
         "text-align",
         "text-align-all",
         "text-align-last",
@@ -386,6 +394,7 @@
         "text-size-adjust",
         "text-transform",
         "text-underline-position",
+        "to",
         "top",
         "touch-action",
         "transform",
@@ -702,6 +711,7 @@
         "-moz-"
     ],
     "pseudo": [
+        "{",
         "::-moz-inner-focus",
         ":active",
         ":checked",
@@ -726,6 +736,7 @@
         ":only-of-type",
         ":optional",
         ":selection",
+        "::selection",
         ":target",
         ":visited"
     ]

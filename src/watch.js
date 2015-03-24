@@ -14,12 +14,21 @@ module.exports = function watch( app, path ) {
 
 	// initial watch msg
 	watcher.on('ready', function() {
+		app.state.watching = true;
 		return console.log( 'Watching: ', path, ' for changes.' );
 	});
 
-	// listen for changes, update 'dir' to curr file, do somethin
+	// listen for changes, update 'dir' to curr file, wipe all the caches, do somethin
 	watcher.on('change', function( newPath ) {
 		app.state.dir = newPath;
+		app.cache.warnings = [];
+		app.cache.alphaCache = [];
+		app.cache.selectorCache = [];
+		app.cache.rootCache = [];
+		app.cache.zCache = [];
+		app.cache.prevLine = '';
+		app.cache.prevFile = '';
+		app.cache.prevContext = 0;
 		return app.read( app, newPath );
 	});
 }

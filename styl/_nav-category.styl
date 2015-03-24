@@ -1,0 +1,94 @@
+/**
+ * category (and non category) styles for global nav
+ * basically, overrides a lot of the defaults in nav-brandbar
+ */
+
+// a lot of this just recently changed of nav icons
+// @TODO CLEAN ME UP
+#nav-cm,
+#secondary-sections
+	@media $med-plus
+		border-bottom $border-micro
+
+
+body:not( .category ):not( .single ),
+.magazine,
+.category-rawfile,
+.category-uncategorized,
+.primary-category-magazine,
+.primary-category-uncategorized
+	#logo-bar
+		border-bottom $border-micro
+
+
+.category
+	#logo-bar
+		@media $med-max
+			border-bottom $border-micro
+
+
+// #global-nav
+// 	@media $med
+// 		border-top $border-micro
+
+
+#secondary-sections
+	@media $med-plus
+		border-top $border-micro
+
+
+// .category
+// 	#global-nav
+// 		@media $med-plus
+// 			border-top $border-micro-white
+// 	// end global-nav
+
+// 	#nav-search
+// 		@media $med-max
+// 			input,
+// 			label
+// 				color $white
+// 	// end nav-search
+
+// 	#nav-sections
+// 		li
+// 			border-right $border-micro-white
+
+// 		@media $mob
+// 			li:first-of-type
+// 				border-left 0
+// 			li:nth-child( -n + 4 )
+// 				border-bottom $border-micro-white
+// 		// end mobile
+
+// 		@media $sm
+// 			li:nth-child( 3n )
+// 				border-right 0
+// 		// end small tablet
+
+// 		@media $med-max
+// 			border $border-micro-white
+// 		// end tablet max
+
+// 		@media $med-plus
+// 			li:first-of-type
+// 				border-left $border-micro-white
+// 		// end tablet plus
+// 	// end nav-sections
+
+// 	#secondary-sections
+// 		@media $med-max
+// 			li
+// 				border-bottom $border-micro-white
+// 		@media $med-plus
+// 			border-top $border-micro-white
+// 	// end secondary sections
+
+
+// // gotta get extra specific for this one @FiXME
+// .category
+// 	.nav-active
+// 		#nav-sections
+// 			@media $sm
+// 				li:nth-child( -n + 3 )
+// 					border-bottom $border-micro-white

@@ -1,0 +1,262 @@
+/**
+ * General vars, colors, fonts, block vars, hashes, etc
+*/
+
+
+// section colors
+$business = #009F5E// #6dc8b7
+$design = #A0C9CC // #28a3ab
+$entertainment = #41274B// #40264d
+$gear = #1F849F // #956771
+$science = #FFC036 // #fabf0b
+$security = #621200 // #f33946
+// $uncategorized = #CCCCCC // #f33946
+
+
+// other colors
+$dark-blue = #12679b
+$old-blue = #00aeef
+$light-blue = #b4e7f8
+
+
+// grays are in a hash at the bottom cause i loop through em in places
+$black = #000
+$white = #fff
+// i know white 2 is a weird name but oh well. white but transparent
+$white-2 = rgba( 255, 255, 255, .98 )
+
+
+$gray-1 = rgba( 0, 0, 0, .035 ) // lightest gray
+$gray-2 = rgba( 0, 0, 0, .06 ) // equivalent to #efefef (old lightest gray)
+$gray-3 = rgba( 0, 0, 0, .2 ) // equivalent to #ccc
+$gray-4 = rgba( 0, 0, 0, .4 ) // equivalent to #999
+$gray-5 = rgba( 0, 0, 0, .5 ) // equivalent to #666
+$gray-6 = rgba( 0, 0, 0, .8 ) // equivalent to #333
+$gray-7 = rgba( 0, 0, 0, .98 ) // basically, black but slightly transparent
+
+
+// vars for grid system and helpers
+$gutter-nano = 2px
+$gutter-micro = unit( $gutter-nano * 2, 'px' ) // 4
+$gutter-sm = unit( $gutter-micro * 2, 'px' ) // 8
+$gutter-med = unit( $gutter-sm * 2, 'px' ) // 16
+$gutter-big = unit( $gutter-med * 2, 'px' ) // 32
+$gutter-huge = unit( $gutter-big * 2, 'px' ) // 64
+
+
+// not part of the 'system' but still used
+$gutter-25 = 25px
+$gutter-50 = 50px
+
+
+// borders
+$border-micro = 1px solid rgba( 0, 0, 0, .18 )
+$border-micro-white = 1px solid rgba( 255, 255, 255, .18 )
+$border-sm = 1px solid $black
+$border = 3px solid $black
+$border-big = 10px solid $black
+
+
+// change this and ~*EVERYTHING CHANGES 4EVA*~
+$columns = 18
+
+
+// max width of site
+$max-width = 932px
+
+
+// depth vars
+$depth-1 = -1px 0 2px 0 rgba( 0, 0, 0, .12 )\, 1px 0 2px 0 rgba( 0, 0, 0, .12 )\, 0 1px 1px 0 rgba( 0, 0, 0, .24 )
+$depth-2 = -2px 0 2px 0 rgba( 0, 0, 0, .16 )\, 2px 0 2px 0 rgba( 0, 0, 0, .16 )\, 0 2px 2px 0 rgba( 0, 0, 0, .23 )
+$depth-3 = -3px -3px 3px 0 rgba( 0, 0, 0, .19 )\, 3px 0 3px 0 rgba( 0, 0, 0, .19 )\, 0 3px 3px 0 rgba( 0, 0, 0, .23 )
+
+
+// animation stuff.
+// used for every transition, to keep our animations consistent
+$timing = cubic-bezier( .33, .66, .66, 1 )
+
+
+// most animations are $fast, but a few are $slow and a couple are $very-slow
+$fast = .15s
+$slow = .35s
+$very-slow = .5s
+$molasses = 1s
+
+
+/**
+ * fonts
+ * ambroise = newspapery headline font
+ * proxima = captions
+ * exchange = the serif font used for body copy
+ * exchange ital = same as above but italic
+ * oxide = metadata font
+ * tungsten = special case headline for da big stories
+ */
+$helvetica-bold = HelveticaNeue-Bold, 'Helvetica Neue Bold', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif
+$ambroise = ambroise-francois-std, 'Bodoni 72', Didot, 'Hoe­fler Text', serif
+$brandon = brandon-text, 'Gill Sans', $helvetica-bold
+$proxima = proxima-nova, $helvetica-bold
+$exchange = 'Exchange SSm 4r', Georgia, serif
+$exchange-ital = 'Exchange SSm 4i', $exchange
+$oxide = ff-oxide-solid-web, $helvetica-bold
+$tungsten = 'tungsten', $proxima
+
+
+// breakpoints
+$mob = '( max-width 660px )'
+$mob-plus = '( min-width 661px )'
+
+$sm = '( min-width 661px ) and ( max-width 768px )'
+
+$med = '( min-width 769px ) and ( max-width 960px )'
+$med-max = '( max-width 768px )'
+$med-plus = '( min-width 769px )'
+
+$big = '( min-width 961px ) and ( max-width 1199px )'
+$big-max = '( max-width 960px )'
+$big-plus = '( min-width 961px )'
+
+$huge = '( min-width 1200px )'
+$huge-max = '( max-width 1200px )'
+
+$short = '( min-width 961px ) and ( max-height 900px )'
+$tall = '( min-width 961px ) and ( max-height 1200px )'
+$short-tab = '( min-width 769px ) and ( max-width 960px ) and ( max-height 900px )'
+$tall-tab = '( min-width 769px ) and ( max-width 960px ) and ( max-height 1200px )'
+
+
+// this crazy block is just for nav-icons
+// auto generated, dont bother editing it
+$business-color-sm = -63px -7px 40px 40px
+$business-white-sm = -113px -7px 40px 40px
+$design-color-sm = -213px -7px 40px 40px
+$design-white-sm = -313px -7px 40px 40px
+$entertainment-color-sm = -413px -7px 40px 40px
+$entertainment-white-sm = -513px -7px 40px 40px
+$gear-color-sm = -12px -7px 40px 40px
+$gear-white-sm = -560px -7px 40px 40px
+$science-color-sm = -460px -7px 40px 40px
+$science-white-sm = -360px -7px 40px 40px
+$security-color-sm = -263px -7px 40px 40px
+$security-white-sm = -163px -7px 40px 40px
+
+$business-color = -687px -5px 72px 72px
+$business-white = -1425px -5px 72px 72px
+$design-color = -1261px -5px 72px 72px
+$design-white = -605px -5px 72px 72px
+$entertainment-color = -933px -5px 72px 72px
+$entertainment-white = -769px -5px 72px 72px
+$gear-color = -1097px -5px 72px 72px
+$gear-white = -851px -5px 72px 72px
+$science-color = -1015px -5px 72px 72px
+$science-white = -1179px -5px 72px 72px
+$security-color = -1343px -5px 72px 72px
+$security-white = -1507px -5px 72px 72px
+
+
+/**
+ * @description All re-usable blocks, just adding them as needed for now
+ * @reference http://learnboost.github.io/stylus/docs/block.html
+*/
+big-title = @block
+	font-size 24px
+	line-height 26px
+	margin 5px
+
+
+/**
+ * make unto a thing a basic card
+ */
+card = @block
+	background $white
+	border-top $border
+	border-radius 1px // fixes drop shadow problem on mob
+	margin-bottom $gutter-med
+	position relative
+	width 100%
+
+
+/*
+ * puts flexbox on a thing, but no grid system ( limitation of block )
+ */
+flex-row = @block
+	display flex
+	flex-direction vertical
+	flex-wrap wrap
+
+
+/**
+ * sets max-width of site
+ */
+site-container = @block
+	margin-left auto
+	margin-right auto
+	max-width $max-width
+	position relative
+	width s( 'calc(100% - (%s * 2))', $gutter-med )
+
+
+/**
+ * collapses smart cards to only 3 stories
+ * @see helpers.styl for use
+ */
+squish = @block
+	max-height 403px
+	overflow hidden
+
+	.squish-hide
+		display none
+
+
+/**
+ * @description All hashes, just adding them as needed for now
+ * @reference http://learnboost.github.io/stylus/docs/hashes.html
+*/
+
+
+/**
+ * handy dandy directions hash
+ * see helpers.styl for an example
+ */
+$directions = {
+	t: top,
+	r: right,
+	b: bottom,
+	l: left
+}
+
+
+// hash for the various grays in use
+$grays = {
+	'1': rgba( 0, 0, 0, .035 ),
+	'2': rgba( 0, 0, 0, .06 ),
+	'3': rgba( 0, 0, 0, .2 ),
+	'4': rgba( 0, 0, 0, .4 ),
+	'5': rgba( 0, 0, 0, .5 ),
+	'6': rgba( 0, 0, 0, .8 ),
+}
+
+
+// everything is multiplied by 2.  2 : 4 : 8 : 16 : 32 : 64
+$sizes = {
+	nano: $gutter-nano,
+	micro: $gutter-micro,
+	sm: $gutter-sm,
+	med: $gutter-med,
+	big: $gutter-big,
+	huge: $gutter-huge
+}
+
+
+/**
+ * color hash for header category loopin'
+ * nav-base.styl has an example use case of this
+ */
+$section-colors = {
+	business: $business,
+	design: $design,
+	entertainment: $entertainment,
+	gear: $gear,
+	science: $science,
+	security: $security
+}

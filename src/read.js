@@ -14,7 +14,6 @@ module.exports = function read( app, path ) {
 	if ( path === process.cwd() ) {
 		app.getFiles( path + '/**/*.styl' );
 	}
-
 	/**
 	 * else we'll have either a filename or dir name to work with
 	 * if directory we use the glob logic to return an array of files to test

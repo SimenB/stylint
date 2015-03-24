@@ -1,0 +1,138 @@
+/**
+ * Card system.
+ * All types of cards and the stuff that goes in them.
+ * @FIXME lots of things too specific, needs more vars
+*/
+
+.my-unlikely-test
+    margin 0
+
+.show-content( $content = "Hello!" )
+show-content( $content = "Hello!" )
+
+.show-content( $content = 'Hello!' )
+show-content( $content = 'Hello!' )
+
+[class*="--button"]
+[class*='--button']
+
+[class*='--button'],
+[class*='--bigbutton'],
+input[type='text'],
+input[type='button']
+    border 1px solid $primary-color
+
+
+body { dog: irish-setter; banana: brown; hair-length: 10em; Lorem ipsum }
+body {
+    dog: irish-setter; banana: brown; hair-length: 10em; Lorem ipsum }
+
+// Fails and should
+body {
+    dog: irish-setter; banana: brown; hair-length: 10em; Lorem ipsum
+}
+body {
+    dog: irish-setter;
+    banana: brown;
+    hair-length: 10em;
+    Lorem ipsum
+}
+
+
+.card
+    transition( all, $fast, true )
+    @extends $card
+
+    // in grid, cards when hovered, on desktop, get raised
+    &:hover
+        .items &
+            @media $med-plus
+                box-shadow $depth-2
+                transform translate3d( 0, -3px, 0 )
+
+    // make text gray on hover
+    a:hover
+        .title,
+        .ambroise-hdr
+            color $gray-5
+
+
+// no box-shadow, card is inside a post
+.card.seamless
+    -ms-interpolation-mode bicubic
+    box-shadow none
+    pointer-events none
+
+
+// smart means things like most-popular, most-recent, etc
+.card.smart
+    border-top $border-big
+
+    @media $mob-plus
+        min-width 300px
+
+
+// more link at bottom of cards / search results / where-ever
+// @TODO are we gonna add these back?
+.more
+    margin-top 9px
+    vertical-align top
+    &:hover
+        color $black
+
+
+// unless squished (unlikely), these cards are always 682,
+// setting height here saves us some reflow time when the stories get loaded
+#most-pop,
+#latest-news
+    height 619px
+    a
+        height 107px
+
+
+// in list cards, the copy always floats, even on mobile
+.post-wrap
+    width calc( 66% - 6.333px )
+
+
+// science-blog cards are 2 columns even on mobile
+#science-card
+    .post-wrap
+        @media $mob
+            width 50%
+
+
+// unless squished (unlikely), this card is always 662,
+// setting height here saves us some reflow time when the stories get loaded
+#we-recommend
+    height 662px
+
+
+// top 3 card that goes at the bottom of articles, top 3 only
+// @FIXME whats with the random padding values that don't match any of our specs?
+// @FIXME whats with hard coding values that are available as helper classes?
+#top-3-prefooter
+    .top-item
+        padding-bottom 44px
+
+    @media $mob
+        &
+            border-bottom none
+        .marg-r-med
+            margin-right 0
+        .pad-r-med
+            padding-right 0
+        .border-r
+            border 0
+        .right-med
+            right 0
+        .border-box
+            border-bottom $border-micro
+            padding-bottom $gutter-med
+        .top-item
+            margin-bottom $gutter-med
+            padding-bottom 60px
+
+    @media $sm
+        .top-item
+            padding-bottom 56px

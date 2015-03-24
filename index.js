@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 /**
- * Stylus Lint (splinter) (the p is silent)
+ * Stylint
  * @description A basic, configurable, node based, stylus linter cli
+ *              app flow below
  *              read() -> parse() -> test() -> done()
- *              or
  *              watch() -> read() -> parse() -> test() -> done()
 */
 
@@ -12,17 +12,20 @@
 
 // all modules go here
 var
-	stampit = require('stampit'),
-	fs = require('fs'),
-	pathIsAbsolute = require('path-is-absolute'),
-	glob = require('glob').Glob,
-	done = require('./src/done'),
-	help = require('./src/help'),
-	read = require('./src/read'),
-	parse = require('./src/parse'),
-	test = require('./src/test'),
-	ver = require('./src/version'),
-	watch = require('./src/watch'),
+	// core modules or npm
+	done              = require('./src/done'),
+	fs                = require('fs'),
+	glob              = require('glob').Glob,
+	help              = require('./src/help'),
+	osType            = require('os').type().toLowerCase(),
+	parse             = require('./src/parse'),
+	pathIsAbsolute    = require('path-is-absolute'),
+	read              = require('./src/read'),
+	stampit           = require('stampit'),
+	test              = require('./src/test'),
+	ver               = require('./src/version'),
+	watch             = require('./src/watch'),
+	// linter tests below
 	alphabet          = require('./src/checks/alphabet'),
 	block             = require('./src/checks/block'),
 	borderNone        = require('./src/checks/borderNone'),
@@ -58,6 +61,7 @@ var
 
 /**
  * configuration related properties
+ * this is what the linter will run when no config file is passed
  */
 var config = stampit().state({
 	config: {
@@ -72,6 +76,7 @@ var config = stampit().state({
 		depthLimit: false, // set a maximum selector depth (dont nest more than 4 deep)
 		duplicates: true, // check if properties or selectors are duplicate
 		efficient: true, // check for margin 0 0 0 0 and recommend margin 0
+		emoji: false, // toggle emoji on or off
 		enforceVarStyle: false, // check for $ when declaring vars (doesnt check use)
 		enforceBlockStyle: false, // check for @block when defining blocks
 		extendPref: false, // prefer a specific syntax when using @extends (or @extend)
@@ -82,6 +87,7 @@ var config = stampit().state({
 		maxWarningsKill: false, // if over maxWarning count, kill process
 		mixed: false, // check for mixed spaces and tabs
 		namingConvention: false, // lowercase-dash, camelCase, lowercase_underscore, BEM or false (dont check)
+		namingConventionStrict: false, // if true, then check classes and ids, if false just check variables
 		parenSpace: false, // check for extra space inside parens when defining or using mixins
 		placeholders: true, // only allow @extending of placeholder vars
 		quotePref: false, // single or double quotes, or false to not check
@@ -96,7 +102,7 @@ var config = stampit().state({
 });
 
 
-// flags for the app
+// flags for the cli
 var flags = stampit().state({
 	flags: [
 		'-c',
@@ -119,22 +125,26 @@ var flags = stampit().state({
  * @return {Object} [i expose properties to the entire app]
  */
 var state = stampit().state({
+	cache: {
+		alphaCache: [],
+		prevContext: 0,
+		prevFile: '',
+		prevLine: '',
+		rootCache: [],
+		selectorCache: [],
+		warnings: [],
+		zCache: []
+	},
 	state: {
 		cssBlock: false,
 		dir: undefined,
+		exitCode: 0,
 		hash: false,
 		strictMode: false,
 		testsEnabled: true, // are we running linter tests
-		toggleBlock: false // @stylint off
-	},
-	warnings: [],
-	alphaCache: [],
-	selectorCache: [],
-	rootCache: [],
-	zCache: [],
-	prevLine: '',
-	prevFile: '',
-	prevContext: 0
+		toggleBlock: false, // @stylint off
+		watching: false
+	}
 });
 
 
@@ -143,17 +153,45 @@ var state = stampit().state({
  * @return {Object} [i expose the modules to the entire app, so we only do it once]
  */
 var coreMethods = stampit().methods({
+	emojiAllClear: function( emoji, os ) {
+		if ( emoji || this.config.emoji === true ) {
+			if ( os || osType.indexOf('windows') >= 0 ) {
+				return ':)';
+			}
+			else {
+				return '\uD83D\uDC4D  ';
+			}
+		}
+		else {
+			return '';
+		}
+	},
+	emojiWarning: function( emoji, os ) {
+		if ( emoji || this.config.emoji === true ) {
+			if ( os || osType.indexOf('windows') >= 0 ) {
+				return ':(';
+			}
+			else {
+				return '\uD83D\uDCA9  ';
+			}
+		}
+		else {
+			return '';
+		}
+	},
 	getFiles: function( path ) {
-		var app = this;
+		if ( typeof path !== 'string' ) {
+			throw TypeError('Path needs to be a string');
+		}
 
 		glob(path, {}, function( err, files ) {
 			if ( err ) { throw err; }
 			var len = files.length - 1;
 
 			files.forEach(function( file, i ) {
-				return app.parse( app, file, len, i );
-			});
-		});
+				return this.parse( this, file, len, i );
+			}.bind( this ));
+		}.bind( this ));
 	},
 	setConfig: function( path ) {
 		path = pathIsAbsolute( path ) ? path : process.cwd() + '/' + path;

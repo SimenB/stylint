@@ -1,0 +1,243 @@
+/**
+ * General article stylz
+*/
+
+
+/**
+ * middle column, where content actually goes
+ * class because there might be multiple 'blocks' broken up by full width ads, or full width 'sidebars'
+ */
+.content
+	@extends $body-copy
+
+	// @FIXME remove me when galleries are no longer being dumped into post content
+	.gallery
+		color #fff
+		display none
+
+	@media $med-plus
+		margin-right 350px
+
+	@media $big-plus
+		padding-left 100px
+
+	// double space for sub headers
+	> h1,
+	> h2,
+	> h3
+		margin $gutter-huge 0 $gutter-med
+
+	// videos, images, etc, get extra space above and below
+	video,
+	object,
+	iframe,
+	blockquote
+		margin $gutter-huge 0
+
+	p,
+	ul,
+	ol,
+	dl,
+	blockquote
+		&:empty
+			display none
+		i
+			display inline
+
+	p,
+	ul,
+	ol,
+	dl
+		margin-bottom 14px // half of line height
+
+	// slightly bigger than normal spec to align with body copy x-height
+	b,
+	strong
+		@extends $brandon
+		font-size 20px
+		line-height inherit
+
+	// blockquote is just a slightly smaller, grayed out p tag
+	blockquote
+		color $gray-5
+		font-size 15px
+		line-height 25px
+		// auto p problems :(
+		p
+			font-size inherit
+			line-height inherit
+
+	// big post-content header
+	h1
+		@extends $ambroise-hdr
+		margin $gutter-25 0
+
+	// default post-content sub head
+	h2
+		@extends $ambroise-hdr
+		margin $gutter-50 0 $gutter-sm
+	h3
+		@extends $brandon
+		font-size 24px
+		margin $gutter-50 0 $gutter-sm
+
+	// for unordered lists, we add a 'pipe' using before
+	ul
+		list-style-type disc
+		li:before
+			content '|'
+			float left
+			margin 0 7px 0 -3px
+
+	/**
+	 * because the before on the li is being used for the counter, ask writers to use p tags with ordered lists, and put the before there, best solution i have at the moment
+	 */
+	ol
+		counter-reset list-counter
+		li
+			counter-increment list-counter
+			&:before
+				content counter( list-counter )
+				float left
+				font-size 80%
+				margin-right 5px
+
+		// add extra space to nested lists
+		ol
+			margin-left $gutter-big
+
+		p
+			display inline
+			&:before
+				content '|'
+				margin-right $gutter-sm
+
+	li
+		@extends $clearfix
+		list-style-position inside
+		&:before
+			@extends $proxima
+			width 10px
+
+	// definition lists (science articles)
+	dt
+		@extends $proxima
+
+	// things like sidebars, pullquotes, and cards are asides
+	aside
+		margin $gutter-big 0
+		width 100%
+		@media ( min-width 850px )
+			margin 7px $gutter-big $gutter-med 0
+			width 300px
+
+	// image wrapper, should contain an anchor tag, an image tag, and a caption
+	// @TODO right now this only works on desktop, needs responsive adjustments
+	figure
+		margin $gutter-huge auto
+		@media $big-plus
+			margin $gutter-huge auto $gutter-huge -100px
+			// width of container + social buttons if carved
+			max-width calc( 100% + 100px )
+			width 100%
+
+	/**
+	* once the browser is wide enough for content + ad sidebar
+	* pull it out a bit to the left, lined up with social
+	* should be used in conjunction with asides (pullquotes, cards)
+	*/
+	.carve
+		carve()
+
+	// pq is like a card now, usually carved with attribution
+	.pullquote
+		carve()
+		pullquote()
+
+	// old galleries just get dumped into content-block as a list
+	.gallery-slides
+		@extends $list-none
+		li
+			margin-top $gutter-huge
+		.gallery-pic
+			margin-bottom $gutter-med
+
+	// first three words for articles
+	.lede
+		@extends $lede
+
+	// opinion sidebar bug
+	.wired-opinion
+		width 200px
+		h4
+			font-size 20px
+			font-style italic
+		p
+			font-size 12px
+		.opinion-title
+			cursor default
+		.read-more
+			cursor pointer
+
+	.category-reviews &
+		// Shortcode sidebar
+		#wired-tired,
+		#top-3-prefooter
+			@extends $proxima
+			color $gray-5
+			position relative
+
+			.tungsten
+				@extends $tungsten
+
+			// How we rate popup
+			#how-rate
+				absolute top 16px right 0 bottom 0 left 0
+				background-color $white
+				display none
+
+				.score-key
+					font-size 12px
+
+				span.tungsten
+					font-size 30px
+
+				h2
+					border-top $border-big
+
+			h2,
+			h3
+				padding 0
+
+			h2
+				margin $gutter-med 0 0
+
+			h3
+				margin 0 0 $gutter-med
+
+			h5
+				font-size 14px
+				line-height 18px
+				text-transform uppercase
+
+			p
+				@extends $brandon
+				font-size 14px
+				line-height 18px
+				margin-bottom $gutter-med
+			a
+				@extends $no-underline
+
+
+// entire post, including post-header and sidebars
+// 1: ensure post is tall enough for sidebars, even if not enough text
+.post
+	min-height 1200px // 1
+
+
+// wraps content-block and social
+.post-container
+	position relative
+	img:hover
+		cursor pointer // fallback
+		cursor zoom-in
