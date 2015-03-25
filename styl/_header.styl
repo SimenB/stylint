@@ -1,0 +1,154 @@
+/**
+ * Global Header
+ * contains styling for global header, logo, etc
+*/
+
+
+// on article pages, show headline in header on scroll
+#article-title
+	@extends $brandon
+	font-size 18px
+
+
+// center vertically
+#cat-hdr,
+#article-title
+	line-height 60px
+	.paged &
+		display none
+
+
+// sticky header at top of every page
+#global-header
+	transition( all, $fast, false )
+	box-shadow $depth-3
+	user-select none
+	// this z-index is because ads are giving themselves crazy high z-indexes
+	z-index 1000001
+
+	// also full height if nav open and not desktop
+	&.nav-active
+		@media $med-max
+			bottom 0
+			height 100%
+
+		@media $med-plus
+			height 245px
+			overflow visible
+
+	// full height if search (and not on mobile)
+	&.search-active
+		@media $mob-plus
+			bottom 0
+			height 100%
+
+	// big logo on home or tag pages
+	// since we're doing logic now on the php side, maybe just
+	// do classes here instead of custom stuff @TODO
+	.home &,
+	.search &,
+	.author &,
+	.notfound &
+		.ui-logo
+			background-position -3945px 15px
+			height 59px
+
+			@media $mob
+				background-position -2695px 20px
+
+	// Move out of the way if admin bar is on
+	.admin-bar &
+		margin-top $gutter-big
+
+	// 100% white bg on mobile, could probably be cleaned up
+	@media $med-max
+		background $white
+		height 60px
+
+		// Move out of the way if admin bar is on
+		.admin-bar &
+			margin-top auto
+
+	// not top, nav hidden, not tablet
+	@media $med-plus
+		height 90px
+		&.hr-not-top.hr-unpinned
+			height 60px
+
+
+// the main logo up top is positioned differently depending on location
+#hdr-logo
+	.category &,
+	.tag:not( .paged ) &
+		@media $mob-plus
+			absolute left 60px
+
+	.single &
+		@media $big-plus
+			absolute left 60px
+
+
+// @FIXME hi, what do i do
+body:not( .category )
+	#header-cm
+		background $white
+		height 296px
+		position relative
+		z-index 2
+
+
+body:not( .category )
+	margin 0
+
+// @FIXME hi, what do i do, and why do i need these importants?
+#header-cm-nav
+	transition( all, $fast, true )
+	li
+		border-left $border-micro
+		height 296px
+		width unit( $max-width / 3, 'px' )
+
+	.header-cm-newsletter
+		.cm-newsletter
+			width unit( $max-width / 3, 'px' ) !important
+
+	.header-cm-twitter
+			border-right $border-micro
+
+	h5
+		width 44%
+
+	h4
+		margin $gutter-med
+		padding 0 0 $gutter-med 0 !important
+
+
+// nav ui, logo, subscribe
+#logo-bar
+	height 60px
+	position relative
+	z-index 2
+
+
+// nav and search buttons on left
+#nav-tog,
+#search-tog
+	&:hover
+		opacity .5
+	i
+		margin 20px
+
+
+// subscribe button on right
+.subscribe
+	padding 20px
+	right 40px
+
+	@media $med-max
+		right 0
+
+
+// hide wp-admin-bar below desktop size
+@media $med-max
+	#wpadminbar
+		display none

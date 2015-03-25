@@ -1,0 +1,48 @@
+/**
+ * STICKIEZ
+*/
+
+.sticky
+	transition( opacity, $molasses, true )
+	@media $med-plus
+		fixed top 0
+		position -webkit-sticky
+
+	// not at top, scrollin down (nav hidden), or either with the nav active
+	&.hr-unpinned,
+	&.hr-not-top.hr-unpinned
+		@media $med-plus
+			top 85px
+
+	// not top, nav not hidden (but not open either)
+	&.hr-not-top
+		@media $med-plus
+			top 115px
+
+	// not at top, scrollin down, nav open
+	&.hr-pinned.hr-not-top
+		@media $med-plus
+			top 115px
+
+	// not at top, scrollin up, nav open
+	&.hr-pinned.hr-not-top.nav-active
+		@media $med-plus
+			top 277px
+
+	// article page, when you've reached the end of an article
+	&.stuck
+		position absolute
+		top auto !important // eh, whatevs, its either this or some overly specific thing
+
+	// do not make the sidebar sticky if the browser height will not accommodate the sidebar height due to rad
+	&.no-sticky
+		absolute top 0
+
+
+// sticky doesn't have bottom applied normally so specifity not needed here
+.stuck
+	bottom $gutter-med
+
+
+.no-sticky
+	bottom auto

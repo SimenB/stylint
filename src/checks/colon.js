@@ -11,4 +11,4 @@ module.exports = function checkForColon( line, areWeInAHash ) {
 	else {
 		return false;
 	}
-}
+};

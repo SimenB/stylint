@@ -18,4 +18,4 @@ module.exports = function checkCommaStyle( line ) {
 			return true;
 		}
 	}
-}
+};

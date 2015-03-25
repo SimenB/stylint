@@ -19,4 +19,4 @@ module.exports = function checkWhitespace( line ) {
 	else {
 		return false;
 	}
-}
+};

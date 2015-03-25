@@ -1,0 +1,191 @@
+/**
+ * Various Typographic Styles used throughout the site
+ */
+
+// put ambroise on a thing
+.ambroise
+	@extends $ambroise
+
+
+// default ambroise header
+.ambroise-hdr
+	@extends $ambroise-hdr
+
+
+// metadata all looks the same, however you want to call it
+.credit,
+time,
+.byline,
+.metatitle
+.meta,
+.metadata,
+.byline,
+.attribution
+	@extends $meta
+
+
+// these properties need to behave differently inside cards but look like metadata
+time,
+.byline-t,
+.metatitle
+	@extends $meta
+
+
+// default exchange spec for body copy
+.body-copy
+	@extends $body-copy
+
+
+// put brandon on a thing
+.brandon
+	@extends $brandon
+
+
+// grid metadata
+.credit,
+.meta,
+.metadata
+	#grid &,
+	.prefooter-single &
+		margin-bottom $gutter-nano
+
+
+// captions, caption icons
+.caption,
+figcaption,
+.wp-caption-text
+	@extends $caption
+
+	.content &
+		margin-top $gutter-med
+
+	img,
+	.illo,
+	.photo
+		display inline-block
+		max-width 18px
+
+	.credit
+		display inline
+
+
+// puts exchange on a thing
+.exchange
+	font-family $brandon
+
+	@media $mob-plus
+		font-family $exchange
+
+
+// puts small exchange on a thing
+.exchange-sm
+	line-clamp( 3, 16px )
+	@extends $exchange-sm
+	&.title
+		font-size 13px
+		line-height 16px
+
+
+// @TODO i think this can just be done with helper classes
+.metadata
+	@media $mob
+		li
+			float none
+			clear both
+
+
+/**
+ * put oxide on a thing
+ * if thing is a list, it's pipe gets oxide
+ */
+.oxide
+	@extends $oxide
+	li:before
+		@extends $oxide
+
+
+// put proxima on a thing
+.proxima
+	@extends $proxima
+
+
+// time is always below a title
+// @TODO this is dumb
+time
+	.card &,
+	.big-story &
+		margin-bottom -3px
+
+
+// default title used on grid pages
+// @TODO redundant, unwieldy, sloppy
+.title
+	font-size 18px
+	line-height 20px
+	&:hover
+		color $gray-5
+
+	&.clamp-3
+		line-clamp( 3, 20px )
+
+	&.clamp-5
+		line-clamp( 5, 20px )
+
+	&.big
+		@media $mob-plus
+			big-title()
+			&.clamp-3
+				line-clamp( 3, 27px )
+			&.clamp-5
+				line-clamp( 5, 27px )
+			&.clamp-6
+				line-clamp( 6, 27px )
+
+	&.sm-big
+		@media $sm
+			big-title()
+			&.clamp-3
+				line-clamp( 3, 27px )
+			&.clamp-5
+				line-clamp( 5, 27px )
+
+	&.med-big
+		@media $med
+			big-title()
+			&.clamp-3
+				line-clamp( 3, 27px )
+			&.clamp-5
+				line-clamp( 5, 27px )
+
+	&.big-big
+		@media $big-plus
+			big-title()
+			&.clamp-3
+				line-clamp( 3, 27px )
+			&.clamp-5
+				line-clamp( 5, 27px )
+
+
+// tungsten is the big big type
+.tungsten
+	@extends $tungsten
+
+	&.title
+		font-size 45px
+		line-height 36px
+
+	&.clamp-3
+		line-clamp( 3, 35.2px )
+
+	&.clamp-5
+		line-clamp( 6, 35.2px )
+
+	// @TODO dont hard code this?
+	@media $mob-plus
+		margin-top 6px
+
+.no-clamp
+	overflow visible
+	text-overflow clip
+	-webkit-line-clamp 1000
+	max-height none

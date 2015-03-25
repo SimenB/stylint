@@ -1,0 +1,70 @@
+/**
+ * @desc all of our UI elements in one svg
+ * @TODO i need to generate a new svg and then clean all this up
+ */
+
+@require './test'
+
+$test = 'Exchange 4r'
+
+.test
+	border none
+	border: none
+	border:none
+	border 0
+	border: 0
+	border:0
+	border-bottom 0
+	border-bottom none
+
+// Fails
+@font-face{
+}
+// Passes
+@font-face {
+}
+
+::selection
+	background #000
+	color #fff
+
+::-moz-selection
+	background #000
+	color #fff
+
+
+[data-js]
+	margin 0
+
+div[data-js]
+	padding 0
+
+
+/**
+ * like col, this class must be applied to all ui elements as a base
+ * then we use the other classes to pick our icons out
+ */
+.ui
+	transition( opacity, $fast, false )
+	@extends $somethin
+	background-image url( '../images/ui-dist/ui-dist-sprite.png' )
+	background-image url( '../images/ui-dist/ui-dist-sprite.svg' )
+	background-size auto 140px // the height of our svg as auto generated
+	display inline-block
+	size 30px
+
+	&:hover
+		opacity 1
+		cursor pointer
+
+	&.ui-large
+		background-size auto 230px
+		size 50px
+
+	&.ui-big
+		size 60px
+
+	// sometimes we add this to change the icon to an x
+	&.ui-close
+		background-position -315px 0
+

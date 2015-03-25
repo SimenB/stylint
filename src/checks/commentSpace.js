@@ -19,4 +19,4 @@ module.exports = function checkCommentStyle( line ) {
 			return true;
 		}
 	}
-}
+};

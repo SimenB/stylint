@@ -10,4 +10,4 @@ module.exports = function checkCssLiteral( line ) {
 	else {
 		return false;
 	}
-}
+};

@@ -16,8 +16,7 @@ module.exports = function sortAlphabetically( line, valid ) {
 		isItSorted = false,
 		textIndex = 0,
 		sortedArr = [],
-		validCSS = false,
-		validHTML = true;
+		validCSS = false;
 
 	// quick and dirty fixes for now, didnt' account for hard tabs for context check
 	// this just gets the number of indents so we don't throw false positives
@@ -53,7 +52,7 @@ module.exports = function sortAlphabetically( line, valid ) {
 
 	// push prop values into our 'cache' @TODO do i need that length check?
 	if ( typeof arr[0] !== 'undefined' && arr[0].length > 0 && currContext > 0 && !ignoreMe.test( line ) ) {
-		valid.css.forEach(function( val, index ) {
+		valid.css.forEach(function( val ) {
 			var i = 0, j = 0;
 
 			if ( arr[ 0 ] === val ) {
@@ -114,7 +113,7 @@ module.exports = function sortAlphabetically( line, valid ) {
 				}
 				// if match, check for valid css before we set it to true
 				else {
-					valid.css.forEach(function( val, index ) {
+					valid.css.forEach(function( val ) {
 						var i = 0, j = 0;
 
 						if ( this.alphaCache[ 0 ] === val ) {
@@ -137,16 +136,16 @@ module.exports = function sortAlphabetically( line, valid ) {
 						}
 					}.bind( this ));
 
-					valid.html.forEach(function( val, index ) {
-						var i = 0, j = 0;
+					valid.html.forEach(function( val ) {
+						var i = 0;
 
 						if ( this.alphaCache[ 0 ] === val ) {
 							isItSorted = true;
 							return;
 						}
 
-						for ( j; j < valid.pseudo.length; j++ ) {
-							if ( this.alphaCache[ 0 ] === ( val + valid.pseudo[ j ] ) ) {
+						for ( i; i < valid.pseudo.length; i++ ) {
+							if ( this.alphaCache[ 0 ] === ( val + valid.pseudo[ i ] ) ) {
 								isItSorted = true;
 								return;
 							}
@@ -163,7 +162,5 @@ module.exports = function sortAlphabetically( line, valid ) {
 	// save our curr context so we can use it to see our place
 	prevContext = currContext;
 
-	// console.log('is it sorted: ', isItSorted)
-
 	return isItSorted;
-}
+};

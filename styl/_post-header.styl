@@ -1,0 +1,93 @@
+/**
+ * Post Header = the area at the start of an article
+ * contains the metadata, headline, lead imagery / gallery
+*/
+
+
+// small inset lead art
+// @TODO just make this stuff classes
+#inset
+	background $white
+	border-top $border-big
+	margin $gutter-50 $gutter-50 $gutter-50 -100px
+	padding $gutter-med 0 0
+	position relative
+
+	.caption
+		border-bottom $border-micro
+
+	@media ( max-width 850px )
+		margin $gutter-big 0
+
+
+/**
+ * lead area above body copy
+ * metadata, headline, featured img / gallery
+ */
+#post-header
+	margin-bottom $gutter-50
+
+	// force imgs to be full width inside post-header
+	// overriding inline styles... @UGH
+	// also this not thing is a bit crazy right @FIXME
+	.no-gallery &
+		figure,
+		img:not( .photo ):not( .icon ):not( .illo ):not( .creative-commons ):not( .ill-icon )
+			min-width 100%
+
+	// space on the right if on normal post
+	&.standard
+		@media $med-plus
+			padding-right 350px
+
+	// this is a fix for a template bug (should not have image in post-header for inset posts) @TODO remove
+	&.inset
+		figure
+			display none
+
+	@media $mob
+		margin-bottom $gutter-25
+		
+		// breaks date and time to new line on mobile
+		.byline
+			display block
+
+
+// post headline defaults to mobile size and scales up big size
+// commented out bits will go back in later
+#post-title, #review-subtitle
+	font-size 45px
+	letter-spacing .0075em
+	line-height 38px
+	margin-bottom $gutter-25
+
+	// bigger headlines on bigger screens
+	@media $mob-plus
+		font-size 64px
+		line-height 55px
+		margin-bottom $gutter-50
+
+		// bigger title on wide posts
+		.wide &
+			font-size 80px
+			line-height 65px
+
+#post-title
+	@extends $ambroise
+
+#review-subtitle
+	@extends $tungsten
+	color $gray-5
+	margin-top $gutter-micro
+
+
+// if no gallery, make lead img expandable
+.no-gallery
+	#post-header
+		img:hover
+			cursor pointer // fallback
+			cursor zoom-in
+
+		.caption,
+		figcaption
+			margin-top $gutter-med

@@ -24,4 +24,4 @@ module.exports = function checkExtendStyle( line, pref ) {
 			return true;
 		}
 	}
-}
+};

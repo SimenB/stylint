@@ -1,0 +1,64 @@
+/**
+ * global header category styling logic. loops and such.
+ */
+
+
+// colors in the header for section pages
+for $key, $value in ( $section-colors )
+	// hover states for home and article pages (non category)
+	.nav-{$key}
+		a:hover
+			background $value
+
+	.category:not( .category-rawfile ).category-{$key},
+	.single:not( .category-rawfile ).primary-category-{$key}
+		.nav-{$key}
+			a
+				background-color $value
+				span
+					color $white
+
+	// active section (ie, body.design || body.business)
+	.category:not( .magazine ):not( .category-rawfile ).category-{$key},
+	.single:not( .category-rawfile ).primary-category-{$key}
+		// make bg match section color, except for search
+		#logo-bar,
+		#header-cm
+		// this adds a background color for email subscription field. not sure if we need this.
+		// #mce-EMAIL
+			background $value
+
+		.subscribe,
+		#cat-hdr
+			color $white
+
+		// below tablet size, search is rolled into the nav
+		#logo-bar
+			@media $med-max
+				background $value
+
+		// text and border colors for cm ads on category pages
+		#header-cm-nav
+			li
+				border-left $border-micro-white
+
+			.header-cm-twitter
+				border-right $border-micro-white
+
+			.border-b
+				border-bottom $border-micro-white
+
+			h4,
+			h5
+				color $white
+
+
+#global-header
+	.tag &,
+	.single &,
+	.category &
+		.ui-logo
+			margin 20px 0
+
+
+

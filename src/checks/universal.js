@@ -22,4 +22,4 @@ module.exports = function checkForUniversal( line ) {
 	else {
 		return false;
 	}
- }
+};

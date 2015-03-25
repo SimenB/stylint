@@ -1,0 +1,155 @@
+/**
+ * Grid system, flexbox specs
+*/
+
+
+/**
+ * @desc takes our gutter-medand total columns and builds us a grid
+ */
+col-width( $index )
+    $first-value = floor( (100% / $columns) * $index )
+    $second-value = unit( round( ($gutter-med / ($columns / $index) - $gutter-med) - 1, 3), 'px' )
+    $final-value = s( 'calc(%s + %s)', $first-value, $second-value )
+    return $final-value
+
+
+/**
+ * columns, duh.
+ * all columns will have this class
+ * so as to target them better without regex
+ */
+.col
+    position relative
+    @media $mob-plus
+        &.last,
+        &:last-child
+            margin-right 0
+
+
+// row = clearfix basically, no flexbox
+.row,
+.flex-row
+    transition(test, test, test)
+    @extends $clearfix
+    margin-left auto
+    magrin-left auto
+    margin-right auto
+    margin-right 5px
+    width 100%
+
+
+// row + flexbox functionality
+.flex-row
+    flex-row()
+
+
+/**
+ * loops through all columns, outputs grid for all breakpoints
+ * @TODO right now there are 4 main breakpoints. mob sm med big
+         we could prolly live with 3.
+ */
+for i in ( 1 )..( $columns )
+    // mobile grid
+    @media $mob
+        .mob-col-{i}
+            width col-width( i )
+        .mob-order-{i}
+            order i
+
+    // small tablet grid
+    @media $sm
+        .sm-col-{i}
+            width col-width( i )
+        .sm-order-{i}
+            order i
+
+    // tablet to small laptop/desktop grid
+    @media $med
+        .med-col-{i}
+            width col-width( i )
+        .med-order-{i}
+            order i
+
+    // big laptop and above
+    @media $big-plus
+        .big-col-{i}
+            width col-width( i )
+        .big-order-{i}
+            order i
+
+    /**
+     * stuff below this point are height based queries
+     */
+
+    // below 800px tall
+    @media $short
+        .short-order-{i}
+            order i
+
+    // below 1000px tall
+    @media $tall
+        .tall-order-{i} // HA HA HA HA HA HA  GET IT
+            order i
+
+    // tablet and below 800px tall
+    @media $short-tab
+        .short-tab-order-{i}
+            order i
+
+    // tablet and below 1000px tall
+    @media $tall-tab
+        .tall-tab-order-{i}
+            order i
+
+
+// mobile only flexbox
+@media $mob
+    .mob-flex-row
+        flex-row()
+
+
+// all columns past mobile size float by default
+@media $mob-plus
+    .flex-row
+        flex-direction horizontal
+    .col
+        float left
+        margin-right $gutter-med
+        &.reverse
+            float right
+            margin-left $gutter-med
+            margin-right 0
+
+
+// @TODO i feel like there must be a less verbose way of setting these
+// small tablet overrides
+@media $sm
+    .sm-flex-row
+        flex-row()
+        flex-direction horizontal
+    .sm-col-{$columns}
+        margin-right 0 !important
+        .title.exchange
+            font-family $exchange
+
+
+// big tablet overrides
+@media $med
+    .med-flex-row
+        flex-row()
+        flex-direction horizontal
+    .med-col-{$columns}
+        margin-right 0 !important
+        .title.exchange
+            font-family $exchange
+
+
+// desktop overrides
+@media $big-plus
+    .big-flex-row
+        flex-row()
+        flex-direction horizontal
+    .big-col-{$columns}
+        margin-right 0 !important
+        .title.exchange
+            font-family $exchange

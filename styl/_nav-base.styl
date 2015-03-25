@@ -1,0 +1,75 @@
+/**
+ * base nav styles and category styling (and paginate nav)
+ * @TODO i hate how convoluted this category stuff is getting, simplify if possible
+*/
+
+
+// primary and secondary sections
+#global-nav
+    transition( all, $fast, true )
+    height 30px
+
+    // if nav is open expand
+    .nav-active &
+        height 185px
+
+        // take over full screen on tablet or mobile
+        @media $med-max
+            display block
+            height 100%
+            // @TODO could prolly just make this a class
+            padding-bottom $gutter-huge
+
+     // if not at top and scrolling -down-
+    .hr-not-top.hr-unpinned &
+        @media $mob-plus
+            transform translate3d( 0, -100%, 0 )
+
+
+// the load more results guy on paginated pages in the footer
+.load-more
+    height 62px // 30px for icon + padding
+    width 200px
+
+
+// actual 1..Total page numbers in the footer
+.loop-pagination
+    vertical-align top
+
+    .search &
+        margin-top 0
+
+
+// the actual numbers inside loop-pagination in the footer
+.page-numbers
+    &:not( .next ):not( .prev )
+        display inline-block
+        margin 28px $gutter-med 0 0
+        vertical-align top
+
+    &.current
+        color $black
+
+
+// the 'paddle' arrows to go between sections / articles
+.paginate
+    transition( box-shadow, $fast, true )
+    top 50%
+    margin-top -30px
+    &:hover
+        box-shadow $depth-1
+
+    // neg values hide the borders
+    &.left
+        left -1px
+
+    &.right
+        right -1px
+
+    @media $huge-max
+        display none
+
+
+// the wp created paginators on paged pages
+.pagination
+    @extends $meta

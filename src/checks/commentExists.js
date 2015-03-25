@@ -13,4 +13,4 @@ module.exports = function checkForComment( line ) {
 	else {
 		return false;
 	}
-}
+};
