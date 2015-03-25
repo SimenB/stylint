@@ -47,13 +47,24 @@ you can also ping me [here](https://gitter.im/rossPatton/stylint)
 `stylint styl/ -w -c path/to/config/.configrc` Watch dir, use custom config
 
 
-## Example Gulp Usage
-So there's no gulp/grunt plugin for this yet, but no worries, just use a shell plugin like so:
+## Gulp
+You can use the raw module like below:
 
 ```
 gulp.task('stylint', shell.task([
     'stylint path/to/styl/ -c .stylintrc'
 ]));
+```
+
+Or use [gulp-stylint](https://github.com/danielhusar/gulp-stylint)
+```
+var gulp = require('gulp');
+var stylint = require('gulp-stylint');
+
+gulp.task('default', function () {
+    return gulp.src('src/*.styl')
+        .pipe(stylint())
+});
 ```
 
 
