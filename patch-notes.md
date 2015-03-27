@@ -1,3 +1,29 @@
+##### 0.9.4
+hotfix for duplicates check regression https://github.com/rossPatton/stylint/commit/29d42014d315e6ef9dfeebf20636b43f13f2377b
+
+##### 0.9.3
+https://github.com/rossPatton/stylint/issues/78
+
+https://github.com/rossPatton/stylint/pull/66
+
+https://github.com/rossPatton/stylint/issues/62
+
+https://github.com/rossPatton/stylint/issues/61
+
+https://github.com/rossPatton/stylint/issues/60
+
+https://github.com/rossPatton/stylint/pull/59
+
+https://github.com/rossPatton/stylint/issues/57
+
+https://github.com/rossPatton/stylint/issues/55
+
+https://github.com/rossPatton/stylint/issues/54
+
+https://github.com/rossPatton/stylint/issues/52
+
+https://github.com/rossPatton/stylint/issues/44
+
 ##### 0.9.2
 namingConvention improvements: https://github.com/rossPatton/stylint/issues/50
 
