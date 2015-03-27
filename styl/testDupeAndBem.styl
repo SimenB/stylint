@@ -1,0 +1,133 @@
+.pageContent {
+  padding: 1em 1em;
+}
+/*h1 {*/
+  /*margin: 0 0;*/
+  /*font-weight: normal;*/
+  /*color: #4D4D4D;*/
+  /*padding: 0 0 .5em 0;*/
+/*}*/
+.bankTitle {
+  font-weight: bold;
+  padding-right: 2em;
+}
+.createNewGroup {
+  float: right;
+  margin-top: -2em;
+  margin-right: 1em;
+}
+.accountList {
+  background-color: #E3E5E6;
+  padding: .5em .5em;
+  max-width: 50em;
+}
+.groupTitle {
+  font-size: 1.25em;
+  padding-bottom: .25em;
+  font-weight: bold;
+}
+.accountItem {
+  background-color: #f4f5f7;
+  padding: .5em .5em;
+  min-height: 4.5em;
+  margin-bottom: .3em;
+  margin-left: 0;
+  margin-right: 0;
+}
+.accountIcon,
+.accountDetails {
+  float: left;
+}
+.accountBalances {
+  float: right;
+  padding-right: .5em;
+  text-align: right;
+}
+.accountIcon {
+  height: 1.5em;
+  background-color: #c20000;
+  border-radius: 3em;
+  width: 1.5em;
+  margin-right: 1em;
+  margin-top: .25em;
+  text-align: center;
+  line-height: 1.5em;
+  color: #fff;
+  font-size: 2em;
+}
+.accountDetails {
+  padding: .25em 0;
+  max-width: 45%;
+}
+.bsbAndNumber {
+  font-weight: bold;
+}
+.accountBsb,
+.accountNumber {
+  display: inline-block;
+}
+.currentBalance
+{
+  font-size: 1.75em;
+  color: green;
+}
+.availableBalance
+{
+  font-size: .8em;
+}
+.negativeBalance {
+  color: #c20000;
+}
+.negativeBalance {
+  color: #c20000;
+}
+.accountName {
+  font-weight: bold;
+  font-size: 1.25em;
+}
+.totalCreditBalance,
+.totalDebitBalance,
+.netPosition {
+  text-align: right;
+  padding: .5em .5em;
+}
+.totalBalance {
+  font-size: 1.5em;
+  padding-left: .5em;
+}
+.netPosition {
+  font-weight: bold;
+}
+/* MOBILE STYLING */
+@media (max-width: 640px), screen and (max-device-width: 480px) {
+  .groupTitle {
+    padding-left: .5em;
+  }
+  /*h1 {*/
+    /*padding-left: .5em;*/
+  /*}*/
+  .accountList {
+    width: 100%;
+    max-width: 100%;
+    padding: .5em 0;
+  }
+  .pageContent {
+    padding: 1em 0;
+  }
+  .accountItem {
+    padding: .5em 0;
+  }
+  .accountIcon {
+    margin-left: .5em;
+    margin-right: .5em;
+  }
+  .currentBalance {
+    font-size: 1.5em;
+  }
+  .availableBalance {
+    font-size: .8em;
+  }
+  .bsbAndNumber {
+    font-size: .8em;
+  }
+}

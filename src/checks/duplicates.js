@@ -1,6 +1,6 @@
 'use strict';
 
-var syntaxIgnore = /[,{}]|(:after|:active|:before|@import|@require|@extend|@media|:hover|@font-face|src)/;
+var syntaxIgnore = /^{|[,}]|(:after|:active|:before|@import|@require|@extend|@media|:hover|@font-face|src)/;
 
 // check that selector properties are sorted alphabetically
 module.exports = function duplicateSelectors( line, file ) {
@@ -37,30 +37,30 @@ module.exports = function duplicateSelectors( line, file ) {
 	});
 
 	// if current context switched, reset array
-	if ( this.prevContext !== currContext ) {
-		this.selectorCache = [];
+	if ( this.cache.prevContext !== currContext ) {
+		this.cache.selectorCache = [];
 	}
 
 	// if root check not global, wipe on each new file
-	if ( this.prevFile !== file && !this.config.globalDupe ) {
-		this.rootCache = [];
+	if ( this.cache.prevFile !== file && !this.config.globalDupe ) {
+		this.cache.rootCache = [];
 	}
 
 	// keep track of and check root selectors too
 	if ( currContext === 0 ) {
 		// if curr line is already in our cache, we have a dupe
 		// file specific check
-		if ( !this.config.globalDupe && this.prevFile !== file ) {
+		if ( !this.config.globalDupe && this.cache.prevFile !== file ) {
 			// check against prev line to make sure we're not in a list of selectors
-			if ( this.rootCache.indexOf( line ) !== -1 &&
-				this.prevLine.indexOf(',') === -1 ) {
+			if ( this.cache.rootCache.indexOf( line ) !== -1 &&
+				this.cache.prevLine.indexOf(',') === -1 ) {
 				isThereADupe = true;
 			}
 		}
 		// global check
 		else {
-			if ( this.rootCache.indexOf( line ) !== -1 &&
-				this.prevLine.indexOf(',') === -1 ) {
+			if ( this.cache.rootCache.indexOf( line ) !== -1 &&
+				this.cache.prevLine.indexOf(',') === -1 ) {
 				isThereADupe = true;
 			}
 		}
@@ -68,26 +68,26 @@ module.exports = function duplicateSelectors( line, file ) {
 		// undefined check is for whitespace
 		if ( typeof arr[0] !== 'undefined' &&
 			!syntaxIgnore.test( line ) &&
-			typeof this.prevLine !== 'undefined' &&
-			this.prevLine.indexOf(',') === -1 ) {
-			this.rootCache.push( line );
+			typeof this.cache.prevLine !== 'undefined' &&
+			this.cache.prevLine.indexOf(',') === -1 ) {
+			this.cache.rootCache.push( line );
 		}
 	}
 
 	// if curr line is already in our cache, we have a dupe
-	if ( this.selectorCache.indexOf( arr[0] ) !== -1 ) {
+	if ( this.cache.selectorCache.indexOf( arr[0] ) !== -1 ) {
 		isThereADupe = true;
 	}
 
 	// cache the lines in the curr context
 	if ( typeof arr[0] !== 'undefined' && !syntaxIgnore.test(line) ) {
-		this.selectorCache.push( arr[0] );
+		this.cache.selectorCache.push( arr[0] );
 	}
 
 	// save our curr context so we can use it to see our place
-	this.prevFile = file;
-	this.prevLine = line;
-	this.prevContext = currContext;
+	this.cache.prevFile = file;
+	this.cache.prevLine = line;
+	this.cache.prevContext = currContext;
 
 	return isThereADupe;
 };
