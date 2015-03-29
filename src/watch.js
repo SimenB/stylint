@@ -31,4 +31,4 @@ module.exports = function watch( app, path ) {
 		app.cache.prevContext = 0;
 		return app.read( app, newPath );
 	});
-}
+};

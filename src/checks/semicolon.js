@@ -10,4 +10,4 @@ module.exports = function checkForSemicolons( line ) {
 	else {
 		return false;
 	}
-}
+};

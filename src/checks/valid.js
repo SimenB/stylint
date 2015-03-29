@@ -71,16 +71,15 @@ module.exports = function checkForValidProperties( line, valid ) {
 		});
 
 		valid.html.forEach(function( val ) {
-			var i = 0,
-				j = 0;
+			var i = 0;
 
 			if ( arr[ 0 ] === val ) {
 				isValid = true;
 				return;
 			}
 
-			for ( j; j < valid.pseudo.length; j++ ) {
-				if ( arr[ 0 ] === ( val + valid.pseudo[ j ] ) ) {
+			for ( i; i < valid.pseudo.length; i++ ) {
+				if ( arr[ 0 ] === ( val + valid.pseudo[ i ] ) ) {
 					isValid = true;
 					return;
 				}

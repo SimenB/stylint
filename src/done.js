@@ -41,4 +41,4 @@ module.exports = function done( app, kill ) {
 	if ( !app.state.watching ) {
 		process.exit( app.state.exitCode );
 	}
-}
+};

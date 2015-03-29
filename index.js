@@ -181,7 +181,7 @@ var coreMethods = stampit().methods({
 	},
 	getFiles: function( path ) {
 		if ( typeof path !== 'string' ) {
-			throw TypeError('Path needs to be a string');
+			throw new TypeError('Path needs to be a string');
 		}
 
 		glob(path, {}, function( err, files ) {

@@ -10,4 +10,4 @@ module.exports = function version( app, dir ) {
 			return console.log( '\nStylint version: ', JSON.parse( data ).version, '\n' );
 		}
 	);
-}
+};

@@ -9,4 +9,4 @@ module.exports = function help() {
 	console.log( '-c', '--config', '    Pass in location of custom config file' );
 	console.log( '-s', '--strict', '    Run all tests, regardless of config' );
 	console.log( '-v', '--version', '   Get current version\n' );
-}
+};

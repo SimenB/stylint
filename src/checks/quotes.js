@@ -25,7 +25,7 @@ module.exports = function checkQuoteStyle( line, quotePref ) {
 				}
 				// else error
 				else {
-					return false
+					return false;
 				}
 			}
 			else {
@@ -53,4 +53,4 @@ module.exports = function checkQuoteStyle( line, quotePref ) {
 			}
 		}
 	}
-}
+};

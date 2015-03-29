@@ -1,7 +1,5 @@
 'use strict';
 
-var tabs = /^(\t)/;
-
 // checks for extra space when declaring mixins before variables
 module.exports = function checkMixinStyle( line ) {
 	if ( typeof line !== 'string' ) { return; }

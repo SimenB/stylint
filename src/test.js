@@ -290,4 +290,4 @@ module.exports = function test( app, line, num, output, file ) {
 	if ( cache.warnings.length > app.config.maxWarnings && app.config.maxWarningsKill ) {
 		app.done( app, 'kill' );
 	}
-}
+};

@@ -55,4 +55,4 @@ module.exports = function parse( app, file, len, fileNum ) {
 			return app.done( app );
 		}
 	});
-}
+};
