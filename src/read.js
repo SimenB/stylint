@@ -20,13 +20,11 @@ module.exports = function read( app, path ) {
 	 */
 	else {
 		fs.stat(path, function( err, stats ) {
-			if ( err ) { throw err; }
-
 			if ( stats.isFile() ) {
 				return app.parse( app, path, 1, 1 );
 			}
-			else if ( stats.isDirectory() ) {
-				app.getFiles( path + '/**/*.styl' );
+			else {
+				return app.getFiles( path + '/**/*.styl' );
 			}
 		});
 	}

@@ -26,6 +26,13 @@ module.exports = function checkNesting( line, arr, limit, indentSpaces ) {
 		return str.length === 0;
 	});
 
+	// trim string and check if line starts with &:,
+	// if true then subtract one from count (for indents) and add one to limit (for spaces)
+	if ( amp.test( line.trim() ) ) {
+		count = count - 1;
+		limit = limit + 1;
+	}
+
 	// pref is defined (it is by default), then assume we indent with spaces
 	if ( indentSpaces ) {
 		if ( arr.length / indentSpaces > limit ) {
@@ -36,23 +43,15 @@ module.exports = function checkNesting( line, arr, limit, indentSpaces ) {
 		}
 	}
 	// if not we check hard tabs
+	// get all tabs, starting at beginning of string
+	while ( line.charAt( index++ ) === '\t' ) {
+		count++;
+	}
+
+	if ( count > limit ) {
+		return true;
+	}
 	else {
-
-		// get all tabs, starting at beginning of string
-		while ( line.charAt( index++ ) === '\t' ) {
-			count++;
-		}
-
-		// trim string and check if line starts with &:, if true then subtract one from count
-		if ( amp.test( line.trim() ) ) {
-			count = count - 1;
-		}
-
-		if ( count > limit ) {
-			return true;
-		}
-		else if ( count === 0 ) {
-			return false;
-		}
+		return false;
 	}
 };

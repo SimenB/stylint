@@ -9,7 +9,11 @@ var chokidar = require('chokidar');
  * @return {function}            [kick off linter on each change]
  */
 module.exports = function watch( app, path ) {
-	if ( typeof path === 'undefined' ) { return; }
+	if ( typeof app !== 'object' ||
+		typeof path !== 'string' ) {
+		return;
+	}
+
 	var watcher = chokidar.watch( path );
 
 	// initial watch msg
@@ -19,16 +23,5 @@ module.exports = function watch( app, path ) {
 	});
 
 	// listen for changes, update 'dir' to curr file, wipe all the caches, do somethin
-	watcher.on('change', function( newPath ) {
-		app.state.dir = newPath;
-		app.cache.warnings = [];
-		app.cache.alphaCache = [];
-		app.cache.selectorCache = [];
-		app.cache.rootCache = [];
-		app.cache.zCache = [];
-		app.cache.prevLine = '';
-		app.cache.prevFile = '';
-		app.cache.prevContext = 0;
-		return app.read( app, newPath );
-	});
+	watcher.on('change', app.resetOnChange.bind(this) );
 };

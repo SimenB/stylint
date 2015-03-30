@@ -6,39 +6,40 @@
  */
 module.exports = function done( app, kill ) {
 	var len = app.cache.warnings.length;
+	var war = []; // for returning warnings after we wipe the 'real' ones
 
-	app.cache.warnings.forEach(function( val ) {
-		console.log( 'Warning: ', val, '\n' );
-	});
+	app.msg = '\n' + app.emojiWarning() + len + ' Warnings';
 
 	// if you set a max it displays a slightly more annoying message (that'll show em!)
-	if ( app.config.maxWarnings && ( len > app.config.maxWarnings ) ) {
-		console.log( app.emojiWarning() + 'Stylint: ' + len + ' warnings. Max is set to: ' + app.config.maxWarnings );
-		app.state.exitCode = 1;
+	if ( kill === 'kill' ) {
+		app.msg += '\nStylint: too many errors, exiting';
+	}
+	else if ( app.config.maxWarnings && ( len > app.config.maxWarnings ) ) {
+		app.msg = app.emojiWarning() + 'Stylint: ' + len + ' warnings. Max is set to: ' + app.config.maxWarnings;
 	}
 	else if ( len === 0 ) {
-		console.log( app.emojiAllClear() + 'Stylint: You\'re all clear!' );
-	}
-	else {
-		console.log( '\n' + app.emojiWarning() + len + ' Warnings' );
-		app.state.exitCode = 1;
+		app.msg = app.emojiAllClear() + 'Stylint: You\'re all clear!';
+		app.state.exitCode = 0;
 	}
 
-	// if we got here via an error
-	if ( kill === 'kill' ) {
-		console.log('Stylint: too many errors, exiting');
-		app.state.exitCode = 2;
-
-		if ( !app.state.watching ) {
-			process.exit(2);
-		}
-		else {
-			app.cache.warnings = [];
-			return;
-		}
+	// when testing we want to silence the console a bit, so we have the quiet option
+	if ( !app.state.quiet ) {
+		app.cache.warnings.forEach(function( val ) {
+			console.log( 'Warning: ', val, '\n' );
+			return war.push( val );
+		});
+		console.log( app.msg );
 	}
 
 	if ( !app.state.watching ) {
 		process.exit( app.state.exitCode );
+	}
+	else {
+		app.cache.warnings = [];
+		return {
+			exitCode: app.state.exitCode,
+			msg: app.msg,
+			warnings: war
+		}
 	}
 };

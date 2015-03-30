@@ -49,11 +49,28 @@ const
 	};
 
 
-// turning on strict mode from this point
+// turn on strict mode from this point and turn off logging
+app.state.quiet = true;
 app.state.strictMode = true;
 app.state.watching = true;
 
 describe('Core Methods: ', function() {
+
+	describe('Done: ', function() {
+		it('should be a function', function() {
+			app.done.should.be.a( 'function' );
+		});
+
+		it('exit code should default to 1', function() {
+			assert.equal( 1, app.state.exitCode );
+		});
+
+		it('should return exit code of 1 if errs', function() {
+			app.cache.warnings = [0,1,2,3,4,5];
+			assert.equal( 1, app.done( app ).exitCode );
+		});
+	});
+
 	describe('Read: ', function() {
 		sinon.spy( app, 'read' );
 
@@ -126,6 +143,10 @@ describe('Core Methods: ', function() {
 		it('should return undefined if path doesnt exist', function() {
 			assert.equal( undefined, app.parse.getCall(3).returnValue );
 		});
+
+		it('should handle empty or one line files fine', function() {
+			assert.equal( undefined, app.parse( app, 'styl/oneLine.styl' ) );
+		});
 	});
 
 	describe('Test: ', function() {
@@ -155,16 +176,7 @@ describe('Core Methods: ', function() {
 		it('fifth param should be a string', function() {
 			app.test.getCall(0).args[4].should.be.a( 'string' );
 		});
-
-		it('should return undefined', function() {
-			assert.equal( undefined, app.test.getCall(0).returnValue );
-		});
 	});
-
-	// describe('Done: ', function() {
-	// 	sinon.spy( app, 'done' );
-	// 	var test = app.done( app );
-	// });
 
 	describe('Watch: ', function() {
 		sinon.spy( app, 'watch' );
@@ -172,6 +184,12 @@ describe('Core Methods: ', function() {
 
 		it('should be a function', function() {
 			app.watch.should.be.a( 'function' );
+		});
+
+		it('should return undefined', function() {
+			assert.equal( undefined, app.watch() );
+			assert.equal( undefined, app.watch( 'something' ) );
+			assert.equal( undefined, app.watch( 'something', {} ) );
 		});
 
 		it('first param should be the app object', function() {
@@ -184,6 +202,34 @@ describe('Core Methods: ', function() {
 
 		it('should return undefined', function() {
 			assert.equal( undefined, app.watch.getCall(0).returnValue );
+		});
+
+		it('reset on change should change dir to curr file', function() {
+			app.resetOnChange('./styl/_ads.styl');
+			assert.equal( true, app.state.dir === './styl/_ads.styl');
+		});
+
+		it('reset should reset all caches', function() {
+			app.resetOnChange('./styl/_ads.styl');
+			assert.equal( true,
+				app.cache.alphaCache.length === 0 &&
+				app.cache.rootCache.length === 0 &&
+				app.cache.selectorCache.length === 0 &&
+				app.cache.warnings.length === 0 &&
+				app.cache.zCache.length === 0
+			);
+		});
+
+		it('reset should set prevLine and prevFile to empty strings', function() {
+			app.resetOnChange('./styl/_ads.styl');
+			assert.equal( true,
+				app.cache.prevLine === '' &&
+				app.cache.prevFile === ''
+			);
+		});
+
+		it('reset should set prevContext to 0', function() {
+			assert.equal( true, app.cache.prevContext === 0 );
 		});
 	});
 
@@ -202,7 +248,7 @@ describe('Core Methods: ', function() {
 
 	describe('Version: ', function() {
 		sinon.spy( app, 'ver' );
-		var test = app.ver( app );
+		var test = app.ver( app, __dirname );
 
 		it('should be a function', function() {
 			app.ver.should.be.a( 'function' );
@@ -211,10 +257,14 @@ describe('Core Methods: ', function() {
 		it('should return a console log function', function() {
 			app.ver.getCall(0).returned( sinon.match.same( console.log ) );
 		});
-	});
-});
 
-describe('Config: ', function() {
+		it('should throw if no package.json found', function() {
+			should.Throw(function() {
+				app.ver( 5 );
+			}, Error);
+		});
+	});
+
 	describe('Set Config Method:', function() {
 		var
 			testMethod = app.setConfig( '.stylintrc' ),
@@ -230,111 +280,107 @@ describe('Config: ', function() {
 			}, Error);
 		});
 	});
-});
 
-describe('File parser: ', function() {
-	sinon.spy( app, 'getFiles' );
-	var test = app.getFiles( '/styl' );
+	describe('File parser: ', function() {
+		sinon.spy( app, 'getFiles' );
+		var test = app.getFiles( '/styl' );
 
-	it('should return app.parseFile if passed directory', function() {
-		app.getFiles.getCall(0).returned( sinon.match.same( app.parseFile ) );
+		it('should return app.parseFile if passed directory', function() {
+			app.getFiles.getCall(0).returned( sinon.match.same( app.parseFile ) );
+		});
+
+		it('should return undefined if passed filename', function() {
+			assert.equal( undefined, app.getFiles( '/styl/test2.styl' ) );
+		});
+
+		it('should throw if path is not a string', function() {
+			should.Throw(function() {
+				app.getFiles( 5 );
+			}, TypeError);
+		});
+
+		it('should throw if passed nothing', function() {
+			should.Throw(function() {
+				app.getFiles();
+			}, Error);
+		});
 	});
 
-	it('should return undefined if passed filename', function() {
-		assert.equal( undefined, app.getFiles( '/styl/test2.styl' ) );
-	});
+	describe('Emoji: ', function() {
+		it('all clear if on windows and option turned on should output smiley', function() {
+			assert.equal( ':)', app.emojiAllClear( true, 'windows' ) );
+		});
 
-	it('should throw if path is not a string', function() {
-		should.Throw(function() {
-			app.getFiles( 5 );
-		}, TypeError);
-	});
+		it('warning if on windows and option turned on should output frowney', function() {
+			assert.equal( ':(', app.emojiWarning( true, 'windows' ) );
+		});
 
-	it('should throw if passed nothing', function() {
-		should.Throw(function() {
-			app.getFiles();
-		}, Error);
-	});
-});
+		it('all clear if on unix and option turned on should output emoji', function() {
+			assert.equal( '\uD83D\uDC4D  ', app.emojiAllClear( true ) );
+		});
 
-describe('Emoji: ', function() {
-	it('all clear if on windows and option turned on should output smiley', function() {
-		assert.equal( ':)', app.emojiAllClear( true, 'windows' ) );
-	});
+		it('warning if on unix and option turned on should output emoji', function() {
+			assert.equal( '\uD83D\uDCA9  ', app.emojiWarning( true ) );
+		});
 
-	it('warning if on windows and option turned on should output frowney', function() {
-		assert.equal( ':(', app.emojiWarning( true, 'windows' ) );
-	});
-
-	it('all clear if on unix and option turned on should output emoji', function() {
-		assert.equal( '\uD83D\uDC4D  ', app.emojiAllClear( true ) );
-	});
-
-	it('warning if on unix and option turned on should output emoji', function() {
-		assert.equal( '\uD83D\uDCA9  ', app.emojiWarning( true ) );
-	});
-
-	it('both should output a blank string if option is off', function() {
-		assert.equal( '', app.emojiAllClear( false ) );
-		assert.equal( '', app.emojiWarning( false ) );
-	});
-});
-
-describe('Flags: ', function() {
-	describe('Default Flags:', function() {
-		var defaultFlags = [
-			'-c',
-			'-w',
-			'-s',
-			'-v',
-			'-h',
-			'--config',
-			'--watch',
-			'--strict',
-			'--version',
-			'--help',
-			'--harmony'
-		];
-
-		it('should deep equal mocked default flags', function() {
-			assert.deepEqual( app.flags, defaultFlags );
+		it('both should output a blank string if option is off', function() {
+			assert.equal( '', app.emojiAllClear( false ) );
+			assert.equal( '', app.emojiWarning( false ) );
 		});
 	});
 });
 
-describe('State: ', function() {
-	describe('Default State:', function() {
-		var defaultState = {
-			cssBlock: false,
-			dir: undefined,
-			exitCode: 0,
-			hash: false,
-			strictMode: false,
-			testsEnabled: true, // are we running linter tests
-			toggleBlock: false, // @stylint off
-			watching: false
-		};
+describe('Flags:', function() {
+	var defaultFlags = [
+		'-c',
+		'-w',
+		'-s',
+		'-v',
+		'-h',
+		'--config',
+		'--watch',
+		'--strict',
+		'--version',
+		'--help',
+		'--harmony'
+	];
 
-		it('cssBlock should be false', function() {
-			assert.equal( false, app.state.cssBlock );
-		});
+	it('should deep equal mocked default flags', function() {
+		assert.deepEqual( app.flags, defaultFlags );
+	});
+});
 
-		it('hash should be false', function() {
-			assert.equal( false, app.state.hash );
-		});
+describe('State:', function() {
+	var defaultState = {
+		cssBlock: false,
+		dir: undefined,
+		exitCode: 0,
+		hash: false,
+		strictMode: false,
+		testsEnabled: true, // are we running linter tests
+		toggleBlock: false, // @stylint off
+		watching: false
+	};
 
-		// we set this earlier for testing
-		it('strictMode should be true', function() {
-			assert.equal( true, app.state.strictMode );
-		});
+	it('cssBlock should be false', function() {
+		assert.equal( false, app.state.cssBlock );
+	});
 
-		it('testsEnabled should be true', function() {
-			assert.equal( true, app.state.testsEnabled );
-		});
+	it('hash should be false', function() {
+		assert.equal( false, app.state.hash );
+	});
 
-		it('toggleBlock should be false', function() {
-			assert.equal( false, app.state.toggleBlock );
-		});
+	// we set this earlier for testing
+	it('strictMode should be true', function() {
+		assert.equal( true, app.state.strictMode );
+	});
+
+	it('testsEnabled should be true', function() {
+		assert.equal( true, app.state.testsEnabled );
+	});
+
+	it('toggleBlock should be false', function() {
+		assert.equal( false, app.state.toggleBlock );
 	});
 });
 
@@ -844,18 +890,22 @@ describe('Linter Style Checks: ', function() {
 	});
 
 	describe('nesting', function() {
-		var test1 = 'margin 0',
-			test2 = '			margin 0',
-			test3 = '          margin 0',
-			test4 = '       margin 0',
-			test5 = '                   margin 0',
-			test6 = '					margin 0',
-			test7 = '		margin 0 )',
-			test8 = '       margin 0 )';
+		var test1 = 'margin 0';
+		var test2 = '			margin 0';
+		var test3 = '          margin 0';
+		var test4 = '       margin 0';
+		var test5 = '                   margin 0';
+		var test6 = '					margin 0';
+		var test7 = '		margin 0 )';
+		var test8 = '       margin 0 )';
+		var test9 = '&:hover';
+		var test10 = '.class-name';
 
 		it('should return false if less indents than 2nd param', function() {
 			assert.equal( false, app.nesting( test1, test1.split(' '), 4, 4 ) );
 			assert.equal( false, app.nesting( test2, test2.split(' '), 4, 4 ) );
+			assert.equal( false, app.nesting( test9, test9.split(' '), 4, false ) );
+			assert.equal( false, app.nesting( test10, test10.split(' '), 4, false ) );
 		});
 
 		it('should return true if more indents than 2nd param', function() {
@@ -1131,5 +1181,68 @@ describe('Linter Style Checks: ', function() {
 		it('should return undefined if missing params', function() {
 			assert.equal( undefined, app.zIndexNormalize() );
 		});
+	});
+});
+
+describe('Done, again: ', function() {
+	app.state.warnings = [];
+
+	it('exit code should be 0 if no errs', function() {
+		app.cache.warnings = [];
+		assert.equal( 0, app.done( app ).exitCode );
+	});
+
+	it('should return an object', function() {
+		assert.equal( true, typeof app.done( app ) === 'object' );
+	});
+
+	it('which should have a string as the 1st property', function() {
+		assert.equal( true, typeof app.done( app ).msg === 'string' );
+	});
+
+	it('which should have an array as the 2nd property', function() {
+		assert.equal( true, typeof app.done( app ).warnings.forEach !== 'undefined' );
+	});
+
+	it('msg should be the success message', function() {
+		var success = app.emojiAllClear() + 'Stylint: You\'re all clear!';
+		assert.equal( success, app.done( app ).msg );
+	});
+
+	it('msg should be the kill message', function() {
+		// passing in kill should kill the linter no matter how many errs there are
+		var kill = '\n0 Warnings\nStylint: too many errors, exiting';
+		assert.equal( kill, app.done( app, 'kill' ).msg );
+	});
+
+	it('msg should be the too many errors message', function() {
+		app.cache.warnings = [0,1,2,3,4,5,6,7,8,9,10];
+		var tooMany = app.emojiWarning() + 'Stylint: ' + app.cache.warnings.length + ' warnings. Max is set to: ' + app.config.maxWarnings;
+		assert.equal( tooMany, app.done( app ).msg );
+	});
+
+	it('msg should be the default errors message', function() {
+		app.cache.warnings = [0,1,2,3,4,5];
+		var initial = '\n' + app.emojiWarning() + app.cache.warnings.length + ' Warnings';
+		assert.equal( initial, app.done( app ).msg );
+	});
+
+	it('should output faked errors', function() {
+		app.cache.warnings = [0,1,2,3,4,5];
+		app.state.quiet = false;
+		app.done( app );
+		app.state.quiet = true;
+	});
+
+	it('should exit if watch off', function() {
+		sinon.spy( app, 'done' );
+		var test;
+
+		app.state.watching = false;
+		test = app.done( app );
+
+		app.done.getCall(0).returned( sinon.match.same( process.exit ) );
+
+		app.state.watching = true;
 	});
 });

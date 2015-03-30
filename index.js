@@ -127,6 +127,7 @@ var flags = stampit().state({
 var state = stampit().state({
 	cache: {
 		alphaCache: [],
+		msg: '',
 		prevContext: 0,
 		prevFile: '',
 		prevLine: '',
@@ -138,17 +139,18 @@ var state = stampit().state({
 	state: {
 		cssBlock: false,
 		dir: undefined,
-		exitCode: 0,
+		exitCode: 1,
 		hash: false,
 		strictMode: false,
 		testsEnabled: true, // are we running linter tests
 		toggleBlock: false, // @stylint off
+		quiet: false,
 		watching: false
 	}
 });
 
 
-/**
+/**`
  * @description i hold the functionality
  * @return {Object} [i expose the modules to the entire app, so we only do it once]
  */
@@ -193,8 +195,20 @@ var coreMethods = stampit().methods({
 			}.bind( this ));
 		}.bind( this ));
 	},
-	setConfig: function( path ) {
-		path = pathIsAbsolute( path ) ? path : process.cwd() + '/' + path;
+	resetOnChange: function( newPath ) {
+		this.state.dir = newPath;
+		this.cache.warnings = [];
+		this.cache.alphaCache = [];
+		this.cache.selectorCache = [];
+		this.cache.rootCache = [];
+		this.cache.zCache = [];
+		this.cache.prevLine = '';
+		this.cache.prevFile = '';
+		this.cache.prevContext = 0;
+		return this.read( this, newPath );
+	},
+	setConfig: function( potentialPath ) {
+		var path = pathIsAbsolute( potentialPath ) ? potentialPath : process.cwd() + '/' + potentialPath;
 		return JSON.parse( fs.readFileSync( path ) );
 	},
 	done: done,

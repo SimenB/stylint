@@ -23,17 +23,13 @@ module.exports = function parse( app, file, len, fileNum ) {
 				lineLen = lines.length - 1,
 				output = ' ';
 
-			if ( lineLen === 1 ) {
-				return ' ';
-			}
-			else {
-
+			if ( lineLen > 0 ) {
 				while ( lineLen-- ) {
 					output += '\n';
 				}
-
-				return output;
 			}
+
+			return output;
 		});
 
 		lines = lines.split('\n');
