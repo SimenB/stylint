@@ -6,12 +6,11 @@ var syntaxIgnore = /^{|[,}]|(:after|:active|:before|@import|@require|@extend|@me
 module.exports = function duplicateSelectors( line, file ) {
 	if ( typeof line !== 'string' ) { return; }
 
-	var
-		arr = line.split(/[\s\t]/),
-		isThereADupe = false,
-		textIndex = 0,
-		indentCount = 0,
-		currContext = 0;
+	var arr = line.split(/[\s\t]/);
+	var isThereADupe = false;
+	var textIndex = 0;
+	var indentCount = 0;
+	var currContext = 0;
 
 	// quick and dirty fixes for now, didnt' account for hard tabs for context check
 	// this just gets the number of indents so we don't throw false positives

@@ -18,8 +18,8 @@ module.exports = function checkNesting( line, arr, limit, indentSpaces ) {
 		return;
 	}
 
-	var count = 0,
-		index = 0;
+	var count = 0;
+	var index = 0;
 
 	// get all single spaces in the line
 	arr = arr.filter(function( str ) {

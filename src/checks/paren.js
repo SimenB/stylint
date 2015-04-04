@@ -4,13 +4,17 @@
 module.exports = function checkMixinStyle( line ) {
 	if ( typeof line !== 'string' ) { return; }
 
+	var hasExtraSpace;
+
 	// if mixin exists and it has params
 	if ( line.indexOf('(') !== -1 && line.indexOf('()') === -1 ) {
 		if ( line.indexOf('( ') === -1 || line.indexOf(' )') === -1) {
-			return false;
+			hasExtraSpace = false;
 		}
 		else {
-			return true;
+			hasExtraSpace = true;
 		}
 	}
+
+	return hasExtraSpace;
 };

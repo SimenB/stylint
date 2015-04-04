@@ -1,8 +1,9 @@
 'use strict';
 
-// check that commas are followed by spaces
+// check that quote style is consistent
 module.exports = function checkQuoteStyle( line, quotePref ) {
-	if ( typeof line !== 'string' || typeof quotePref !== 'string' ) {
+	if ( typeof line !== 'string' ||
+		typeof quotePref !== 'string' ) {
 		return;
 	}
 

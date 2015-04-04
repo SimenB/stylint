@@ -1,8 +1,7 @@
 'use strict';
 
-var
-	tabs  = /\t/,       // was a tab used, at all
-	spaces = /(  )+/;  // check for 2 or more spaces (if hard tabs, shouldn't find anything)
+var tabs  = /\t/; // was a tab used, at all
+var spaces = /(  )+/;  // check for 2 or more spaces (if hard tabs, shouldn't find anything)
 
 /**
  * check for mixed spaces and tabs
@@ -14,26 +13,20 @@ var
 module.exports = function checkMixedSpacesAndTabs( line, arr, indentSpaces ) {
 	if ( typeof line !== 'string' || typeof indentSpaces === 'undefined' ) { return; }
 
+	var isMixed = false;
+
 	// if this isnt set to false then we're indenting with spaces
 	if ( typeof indentSpaces === 'number' ) {
 		// look for hard tabs
 		if ( tabs.test( line ) ) {
-			return true;
-		}
-		// soft tabs, no hard tabs, all good
-		else {
-			return false;
+			isMixed = true;
 		}
 	}
 	// else you're a hard tab believer
-	else {
-		// look for 2 or more spaces
-		if ( spaces.test( line ) ) {
-			return true;
-		}
-		// hard tab, no spaces, all good
-		else {
-			return false;
-		}
+	// look for 2 or more spaces
+	else if ( spaces.test( line ) ) {
+		isMixed = true;
 	}
+
+	return isMixed;
 };

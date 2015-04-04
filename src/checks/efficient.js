@@ -9,6 +9,8 @@ module.exports = function checkForEfficiency( line, arr ) {
 		return;
 	}
 
+	var isEfficient = true;
+
 	// filter the array from the line with all white space removed
 	arr = arr.filter(function( str ) {
 		return str.length > 0;
@@ -26,39 +28,24 @@ module.exports = function checkForEfficiency( line, arr ) {
 			if ( arr.length === 3 ) {
 				// ex margin 0 0
 				if ( arr[1] === arr[2] )  {
-					return false;
-				}
-				else {
-					return true;
+					isEfficient = false;
 				}
 			}
 			// ex margin 0 5px 10px
-			else if ( arr.length === 4 ) {
+			else if ( arr.length === 4 && arr[1] === arr[3] ) {
 				// ex margin 0 5px 0
-				if ( arr[1] === arr[3] ) {
-					return false;
-				}
-				else {
-					return true;
-				}
+				isEfficient = false;
 			}
 			// ex margin 0 50px 10px 7px
 			else if ( arr.length === 5 ) {
-				// ex margin 0 5px 0 5px
-				if ( arr[1] === arr[3] && arr[2] === arr[4] ) {
-					return false;
-				}
-				// ex margin 0 5px 5px 5px
-				else if ( arr[1] !== arr[3] && arr[2] === arr[4] ) {
-					return false;
-				}
-				else {
-					return true;
+				// ex margin 0 5px 0 5px or
+				if ( ( arr[1] === arr[3] && arr[2] === arr[4] ) ||
+				 ( arr[1] !== arr[3] && arr[2] === arr[4] ) ) {
+					isEfficient = false;
 				}
 			}
 		}
-		else {
-			return true;
-		}
 	}
+
+	return isEfficient;
 };

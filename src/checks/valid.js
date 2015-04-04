@@ -1,11 +1,10 @@
 'use strict';
 
 // dont throw false positives on user created names or syntax
-var attributeRe = /\[\S+\]/,
-	elAttributeRe = /(?=\S)+\[\S+\]/,
-	ignoreMeRe = /[&$.#(=>]|({[\S]+})|(if)|(for)|(else)|(@block)/,
-	isNumRe = /\d(?=[px]|%|[em]|[rem]|[vh]|[vw]|[vmin]|[vmax]|[ex]|[ch]|[mm]|[cm]|[in]|[pt]|[pc]|[mozmm])/;
-
+var attributeRe = /^\[\S+\]/;
+var elAttributeRe = /(?=\S)+\[\S+\]/;
+var ignoreMeRe = /[&$.#(=>]|({[\S]+})|(if)|(for)|(else)|(@block)/;
+var isNumRe = /\d(?=[px]|%|[em]|[rem]|[vh]|[vw]|[vmin]|[vmax]|[ex]|[ch]|[mm]|[cm]|[in]|[pt]|[pc]|[mozmm])/;
 
 /**
 * check against a JSON of all valid css properties and values
@@ -20,15 +19,13 @@ module.exports = function checkForValidProperties( line, valid ) {
 	}
 
 	// split by tabs and spaces, tabs mess with pattern matching
-	var arr = line.split(/[\s\t,:]/),
-		isValid = false;
+	var arr = line.split(/[\s\t,:]/);
+	var isValid = false;
 
 	// remove white space
-	arr = arr.filter(
-		function( str ) {
-			return str.length > 0;
-		}
-	);
+	arr = arr.filter(function( str ) {
+		return str.length > 0;
+	});
 
 	// not empty, not something we ignore
 	if ( !ignoreMeRe.test( line ) &&
@@ -95,11 +92,5 @@ module.exports = function checkForValidProperties( line, valid ) {
 		isValid = true;
 	}
 
-	// return true if valid match found
-	if ( isValid ) {
-		return true;
-	}
-	else {
-		return false;
-	}
+	return isValid;
 };

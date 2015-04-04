@@ -1,9 +1,8 @@
 'use strict';
 
-var
-	eqRe = /( =)|( \=\n)/,
-	eqEndRe = /=$|=\s$/,
-	hashRe = /\{$/;
+var eqRe = /( =)|( \=\n)/;
+var eqEndRe = /=$|=\s$/;
+var hashRe = /\{$/;
 
 // checks for use of @block when declaring blocks
 module.exports = function checkBlockStyle( line ) {

@@ -1,22 +1,20 @@
 'use strict';
 
-var
-	prevContext = 0,
-	// dont throw false positives on user created names or syntax
-	ignoreMe = /^[.#]|[${}=>&*]|(&:)|(if)|(for)|(@block)(@import)(@media)(@extends)/;
+var prevContext = 0;
+// dont throw false positives on user created names or syntax
+var ignoreMe = /^[.#]|[${}=>&*]|(&:)|(if)|(for)|(@block)(@import)(@media)(@extends)/;
 
 // check that selector properties are sorted alphabetically
 module.exports = function sortAlphabetically( line, valid ) {
 	if ( typeof line !== 'string' || typeof valid !== 'object' ) { return; }
 
-	var
-		arr = line.split(/[\s\t,:]/),
-		indentCount = 0,
-		currContext = 0,
-		isItSorted = false,
-		textIndex = 0,
-		sortedArr = [],
-		validCSS = false;
+	var arr = line.split(/[\s\t,:]/);
+	var indentCount = 0;
+	var currContext = 0;
+	var isItSorted = false;
+	var textIndex = 0;
+	var sortedArr = [];
+	var validCSS = false;
 
 	// quick and dirty fixes for now, didnt' account for hard tabs for context check
 	// this just gets the number of indents so we don't throw false positives
