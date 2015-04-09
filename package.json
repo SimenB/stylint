@@ -31,7 +31,7 @@
   "preferGlobal": true,
   "devDependencies": {
     "chai": "1.10.0",
-    "chokidar": "0.12.3",
+    "chokidar": "1.0.1",
     "glob": "4.3.1",
     "mocha": "2.0.1",
     "sinon": "1.12.2",
