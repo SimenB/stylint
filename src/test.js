@@ -12,9 +12,9 @@ var valid = require('./data/getValid')();
  */
 module.exports = function test( app, line, num, output, file ) {
 	// just some convenience stuff
-	var arr = line.split(' '),
-		cache = app.cache,
-		state = app.state;
+	var arr = line.split(' ');
+	var cache = app.cache;
+	var state = app.state;
 
 	// check for @stylint off comments
 	if ( app.commentExists( line ) ) {
@@ -88,7 +88,7 @@ module.exports = function test( app, line, num, output, file ) {
 
 			// check for 0px (margin 0 is preferred over margin 0px | 0em | 0whatever)
 			if ( app.config.alphabetical || state.strictMode ) {
-				if ( !app.alphabet( line, valid ) ) {
+				if ( app.alphabet( line, app ) === false ) {
 					cache.warnings.push(  'Property is not in alphabetical order' + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 				}
 			}
@@ -115,9 +115,9 @@ module.exports = function test( app, line, num, output, file ) {
 				}
 			}
 
-			// check that commas are followed by a space
+			// check that selectors aren't being duplicated
 			if ( app.config.duplicates || state.strictMode ) {
-				if ( app.duplicates( line, file ) ) {
+				if ( app.duplicates( line, file, app ) ) {
 					cache.warnings.push( 'duplicate property or selector, consider merging' + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 				}
 			}

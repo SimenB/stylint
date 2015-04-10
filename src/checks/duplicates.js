@@ -3,90 +3,68 @@
 var syntaxIgnore = /^{|[,}]|(:after|:active|:before|@import|@require|@extend|@media|:hover|@font-face|src)/;
 
 // check that selector properties are sorted alphabetically
-module.exports = function duplicateSelectors( line, file ) {
-	if ( typeof line !== 'string' ) { return; }
-
-	var arr = line.split(/[\s\t]/);
-	var isThereADupe = false;
-	var textIndex = 0;
-	var indentCount = 0;
-	var currContext = 0;
-
-	// quick and dirty fixes for now, didnt' account for hard tabs for context check
-	// this just gets the number of indents so we don't throw false positives
-	if ( typeof this.config.indentSpaces !== 'number' ) {
-		while ( line.charAt( textIndex++ ) === '\t' ) {
-			currContext++;
-		}
-	}
-	else {
-		arr.forEach(function( val, i ) {
-			if ( arr[i].length === 0 ) {
-				indentCount++; // spaces or tabs
-			}
-			else {
-				currContext = indentCount / this.config.indentSpaces;
-			}
-		}.bind( this ));
+module.exports = function duplicateSelectors( line, file, app ) {
+	if ( typeof line !== 'string' ||
+		typeof file !== 'string' ||
+		typeof app !== 'object' ) {
+		return;
 	}
 
 	// remove blank spaces now that we have our context
-	arr = arr.filter(function( str ) {
-		return str.length > 0;
-	});
+	var arr = app.stripWhiteSpace( line );
+	var currContext = app.getContext( app.config.indentSpaces, line );
+	var isThereADupe = false;
+
+	// before we add an item to a cache array
+	// make sure it's not whitespace or syntax or whatever
+	function lineIsAcceptable( line ) {
+		return (
+			!syntaxIgnore.test(line) &&
+			typeof arr[0] !== 'undefined' &&
+			typeof app.cache.prevLine !== 'undefined' &&
+			app.cache.prevLine.indexOf(',') === -1
+		);
+	}
 
 	// if current context switched, reset array
-	if ( this.cache.prevContext !== currContext ) {
-		this.cache.selectorCache = [];
+	if ( app.cache.prevContext !== currContext || app.cache.prevFile !== file ) {
+		app.cache.selectorCache = [];
 	}
 
 	// if root check not global, wipe on each new file
-	if ( this.cache.prevFile !== file && !this.config.globalDupe ) {
-		this.cache.rootCache = [];
+	if ( !app.config.globalDupe && app.cache.prevFile !== file ) {
+		app.cache.rootCache = [];
 	}
 
 	// keep track of and check root selectors too
 	if ( currContext === 0 ) {
 		// if curr line is already in our cache, we have a dupe
-		// file specific check
-		if ( !this.config.globalDupe && this.cache.prevFile !== file ) {
-			// check against prev line to make sure we're not in a list of selectors
-			if ( this.cache.rootCache.indexOf( line ) !== -1 &&
-				this.cache.prevLine.indexOf(',') === -1 ) {
-				isThereADupe = true;
-			}
-		}
-		// global check
-		else {
-			if ( this.cache.rootCache.indexOf( line ) !== -1 &&
-				this.cache.prevLine.indexOf(',') === -1 ) {
-				isThereADupe = true;
-			}
+		if ( app.cache.prevLine.indexOf(',') === -1 &&
+			app.cache.rootCache.indexOf( line ) !== -1 ) {
+			isThereADupe = true;
 		}
 
 		// undefined check is for whitespace
-		if ( typeof arr[0] !== 'undefined' &&
-			!syntaxIgnore.test( line ) &&
-			typeof this.cache.prevLine !== 'undefined' &&
-			this.cache.prevLine.indexOf(',') === -1 ) {
-			this.cache.rootCache.push( line );
+		if ( lineIsAcceptable( line ) ) {
+			app.cache.rootCache.push( line );
+		}
+	}
+	// if selector is nested we check the selectorCache instead of rootCache
+	else {
+		if ( app.cache.prevLine.indexOf(',') === -1 &&
+			app.cache.selectorCache.indexOf( arr[0] ) !== -1 ) {
+			isThereADupe = true;
+		}
+		// cache the lines in the curr context
+		if ( lineIsAcceptable( line ) ) {
+			app.cache.selectorCache.push( arr[0] );
 		}
 	}
 
-	// if curr line is already in our cache, we have a dupe
-	if ( this.cache.selectorCache.indexOf( arr[0] ) !== -1 ) {
-		isThereADupe = true;
-	}
-
-	// cache the lines in the curr context
-	if ( typeof arr[0] !== 'undefined' && !syntaxIgnore.test(line) ) {
-		this.cache.selectorCache.push( arr[0] );
-	}
-
-	// save our curr context so we can use it to see our place
-	this.cache.prevFile = file;
-	this.cache.prevLine = line;
-	this.cache.prevContext = currContext;
+	// save our curr context so we can use it next time
+	app.cache.prevFile = file;
+	app.cache.prevLine = line;
+	app.cache.prevContext = currContext;
 
 	return isThereADupe;
 };

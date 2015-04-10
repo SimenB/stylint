@@ -2,7 +2,7 @@
 
 // dont throw false positives on user created names or syntax
 var attributeRe = /^\[\S+\]/;
-var elAttributeRe = /(?=\S)+\[\S+\]/;
+var elAttributeRe = /(?=\S)+\[\S+\]/gm;
 var ignoreMeRe = /[&$.#(=>]|({[\S]+})|(if)|(for)|(else)|(@block)/;
 var isNumRe = /\d(?=[px]|%|[em]|[rem]|[vh]|[vw]|[vmin]|[vmax]|[ex]|[ch]|[mm]|[cm]|[in]|[pt]|[pc]|[mozmm])/;
 
@@ -19,7 +19,7 @@ module.exports = function checkForValidProperties( line, valid ) {
 	}
 
 	// split by tabs and spaces, tabs mess with pattern matching
-	var arr = line.split(/[\s\t,:]/);
+	var arr = line.split(/[\s\t,]/);
 	var isValid = false;
 
 	// remove white space
@@ -30,22 +30,18 @@ module.exports = function checkForValidProperties( line, valid ) {
 	// not empty, not something we ignore
 	if ( !ignoreMeRe.test( line ) &&
 		this.state.hash === false &&
+		!attributeRe.test( arr[0] ) &&
+		!isNumRe.test( arr[0] ) &&
 		typeof arr[0] !== 'undefined' ) {
-
-		// if rule contains only an attribute, let it pass
-		// for now. will probably need parsing rules there
-		if ( attributeRe.test( arr[0] ) ) {
-			return true;
-		}
 
 		// if using an attribute selector ( div[madeUpAttribute] ), strip it out first ( div )
 		if ( elAttributeRe.test( arr[0] ) ) {
-			arr[0] = arr[0].replace(attributeRe, '');
+			arr[0] = arr[0].replace(elAttributeRe, '');
 		}
 
 		valid.css.forEach(function( val ) {
-			var i = 0,
-				j = 0;
+			var i = 0;
+			var j = 0;
 
 			if ( arr[ 0 ] === val ) {
 				isValid = true;
@@ -82,11 +78,6 @@ module.exports = function checkForValidProperties( line, valid ) {
 				}
 			}
 		});
-
-		// for keyframes, temporary solution hopefully
-		if ( isNumRe.test( arr[0] ) ) {
-			isValid = true;
-		}
 	}
 	else {
 		isValid = true;

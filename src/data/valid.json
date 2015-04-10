@@ -5,6 +5,7 @@
         "*",
         "&",
         ":root",
+        "::selection",
         "*::selection",
         "@keyframes",
         "@font-face",

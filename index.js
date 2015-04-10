@@ -181,6 +181,30 @@ var coreMethods = stampit().methods({
 			return '';
 		}
 	},
+	getContext: function( indentType, line ) {
+		var textIndex = 0;
+		var currContext = 0;
+		var whitespaceCount = 0;
+		var arr = line.split(/[\s\t]/);
+
+		if ( typeof indentType !== 'number' ) {
+			while ( line.charAt( textIndex++ ) === '\t' ) {
+				currContext++;
+			}
+		}
+		else {
+			arr.forEach(function( val, i ) {
+				if ( arr[i].length === 0 ) {
+					whitespaceCount++; // spaces or tabs
+				}
+				else {
+					currContext = whitespaceCount / this.config.indentSpaces;
+				}
+			}.bind(this));
+		}
+
+		return currContext;
+	},
 	getFiles: function( path ) {
 		if ( typeof path !== 'string' ) {
 			throw new TypeError('Path needs to be a string');
@@ -210,6 +234,14 @@ var coreMethods = stampit().methods({
 	setConfig: function( potentialPath ) {
 		var path = pathIsAbsolute( potentialPath ) ? potentialPath : process.cwd() + '/' + potentialPath;
 		return JSON.parse( fs.readFileSync( path ) );
+	},
+	// remove all whitespace from a string
+	stripWhiteSpace: function( str ) {
+		return str.split(/[\s\t]/).filter(
+			function( str ) {
+				return str.length > 0;
+			}
+		);
 	},
 	done: done,
 	help: help,

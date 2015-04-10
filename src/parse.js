@@ -1,6 +1,7 @@
 'use strict';
 
 var fs = require('fs');
+var stripCommentsRe = /(\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*+\/)/gm;
 
 
 /**
@@ -11,17 +12,15 @@ var fs = require('fs');
  * @returns test function
  */
 module.exports = function parse( app, file, len, fileNum ) {
-	var stripComments = /(\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*+\/)/gm;
-
 	return fs.readFile(file, { encoding: 'utf8' }, function( err, data ) {
 		if ( err ) { throw err; }
 		var lines;
 
 		// remove block comments / empty lines from files
-		lines = data.replace(stripComments, function( match ) {
-			var lines = match.split(/\r\n|\r|\n/),
-				lineLen = lines.length - 1,
-				output = ' ';
+		lines = data.replace(stripCommentsRe, function( match ) {
+			var lines = match.split(/\r\n|\r|\n/);
+			var lineLen = lines.length - 1;
+			var output = ' ';
 
 			if ( lineLen > 0 ) {
 				while ( lineLen-- ) {
