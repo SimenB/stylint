@@ -1,34 +1,24 @@
 'use strict';
 
-var openBracket = /\{$/;
-var closeBracket = /\}$/;
-var interpolation = /({\S)(\S)+[}]|([{]\S[}])/;
-
-module.exports = function checkForBrackets( line, areWeInAHash ) {
-	if ( typeof areWeInAHash === 'undefined' ||
-		typeof line !== 'string' ) {
+module.exports = function checkForBadBrackets( line, inHash ) {
+	if ( typeof line !== 'string' ||
+		typeof inHash === 'undefined' ) {
 		return;
 	}
 
-	// if interpolation we cool
-	if ( interpolation.test(line) ) {
-		return false;
+	var badBracket = false;
+	// just strips out interpolated variables
+	line = line.replace(/{\S+}/, '');
+
+	// ex: $hash = { is ok but .class = { is not
+	if ( line.indexOf('{') !== -1 && line.indexOf('=') === -1 ) {
+		badBracket = true;
 	}
-	// not interpolation, has a { or }
-	else if ( openBracket.test(line) ||
-		closeBracket.test(line) ) {
-		// ex .someClass {
-		if ( openBracket.test(line) && line.indexOf('=') === -1 ) {
-			return true;
-		}
-		// ex } when not in a hash and not an interpolated variable
-		else if ( closeBracket.test(line) && areWeInAHash ) {
-			return false;
-		}
-		// ex } when not in a hash and not an interpolated variable
-		else if ( closeBracket.test(line) && !areWeInAHash ) {
-			return true;
-		}
+
+	// ex: } is okay if ending a hash. otherwise it is not okay
+	if ( line.indexOf('}') !== -1 && !inHash ) {
+		badBracket = true;
 	}
-	// else no brackets, return undefined
+
+	return badBracket;
 };

@@ -12,7 +12,8 @@ module.exports = function read( app, path ) {
 	// if nothing passed in, default to linting the curr dir
 	// here we get all the files to parse first, then we pass to app.parse
 	if ( path === process.cwd() ) {
-		app.getFiles( path + '/**/*.styl' );
+		// console.log('read');
+		return app.getFiles( path + '/**/*.styl' );
 	}
 	/**
 	 * else we'll have either a filename or dir name to work with
