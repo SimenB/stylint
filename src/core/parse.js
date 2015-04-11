@@ -15,18 +15,19 @@ module.exports = function parse( app, file, len, fileNum ) {
 	return fs.readFile(file, { encoding: 'utf8' }, function( err, data ) {
 		if ( err ) { throw err; }
 		var lines = data.replace(stripCommentsRe, function( match ) {
-			var lines = match.split(/\r\n|\r|\n/);
-			var lineLen = lines.length - 1;
-			var output = ' ';
+			var linesNum = match.split(/\r\n|\r|\n/).length - 1;
+			var output = '';
 
-			if ( lineLen > 0 ) {
-				while ( lineLen-- ) {
-					output += '\n';
-				}
+			while ( linesNum-- ) {
+				output += '\n';
 			}
 
-			// output.split('\n');
-			// console.dir( output );
+			// if ( linesNum > 0 ) {
+			// 	while ( linesNum-- ) {
+			// 		output += '\n';
+			// 	}
+			// }
+
 			return output;
 		}).split('\n');
 
@@ -39,18 +40,16 @@ module.exports = function parse( app, file, len, fileNum ) {
 		 */
 		return lines.forEach(function( line, i ) {
 			i++; // line nos don't start at 0
-			// console.log( line );
-			app.line = line;
-			app.lineNo = i;
-			app.file = file;
-
-			// app, line, num, output, file
-			return app.test( app );
+			app.cache.line = line;
+			app.cache.lineArr = line.split('');
+			app.cache.lineNo = i;
+			app.cache.file = file;
+			return app.core.test( app );
 		});
 
 		// if at the last file, call the done function to output results
 		if ( fileNum === len ) {
-			return app.done( app );
+			return app.core.done( app );
 		}
 	});
 };

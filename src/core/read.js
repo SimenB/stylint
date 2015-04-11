@@ -22,7 +22,7 @@ module.exports = function read( app, path ) {
 	else {
 		fs.stat(path, function( err, stats ) {
 			if ( stats.isFile() ) {
-				return app.parse( app, path, 1, 1 );
+				return app.core.parse( app, path, 1, 1 );
 			}
 			else {
 				return app.getFiles( path + '/**/*.styl' );

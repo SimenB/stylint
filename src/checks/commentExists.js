@@ -1,16 +1,12 @@
 'use strict';
 
-// check for line comment on the line
-var hasComment = /(\/\/)/;
+// check for line comment anywhere on the line
+module.exports = function checkForComment( app ) {
+	var hasComment = false;
 
-module.exports = function checkForComment( line ) {
-	if ( typeof line !== 'string' ) { return; }
+	if ( app.cache.line.indexOf('//') !== -1 ) { //hasCommentRe.test(line) ) {
+		hasComment = true;
+	}
 
-	// ex }, but only if we've already establish that we're not in a hash
-	if ( hasComment.test(line) ) {
-		return true;
-	}
-	else {
-		return false;
-	}
+	return hasComment;
 };

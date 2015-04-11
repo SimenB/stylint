@@ -1,26 +1,21 @@
 'use strict';
 
 // dont throw false positives on user created names or syntax
-var ignoreMe = /^[.#]|[${}=>&*]|(&:)|(if)|(for)|(@block)(@import)(@media)(@extends)/;
+var ignoreMeRe = /^[.#]|[${}=>&*]|(&:)|(if)|(for)|(@block)(@import)(@media)(@extends)/;
 
 // check that selector properties are sorted alphabetically
-module.exports = function sortAlphabetically( line, app ) {
-	if ( typeof line !== 'string' ||
-		typeof app !== 'object' ) {
-		return;
-	}
-
+module.exports = function sortAlphabetically( app ) {
 	// dont check for alpbaetical order inside a hash
 	if ( app.state.hash ) { return; }
 
-	var arr = line.split(/[\s\t,:]/).filter(
+	var arr = app.cache.line.split(/[\s\t,:]/).filter(
 		function( str ) {
 			return str.length > 0;
 		}
 	);
 	var sortedArr = [];
 	var isItSorted = true;
-	var currContext = app.getContext( app.config.indentSpaces, line );
+	var currContext = app.getContext( app.config.indentSpaces, app.cache.line );
 
 	// if current context switched, reset array
 	if ( app.cache.prevContext !== currContext ) {
@@ -31,9 +26,9 @@ module.exports = function sortAlphabetically( line, app ) {
 	// if anythign is true just return early
 	if ( typeof arr[0] === 'undefined' ||
 		currContext === 0 ||
-		ignoreMe.test( line ) ||
-		line.indexOf('(') !== -1 ||
-		line.indexOf(')') !== -1 ) {
+		ignoreMeRe.test( app.cache.line ) ||
+		app.cache.line.indexOf('(') !== -1 ||
+		app.cache.line.indexOf(')') !== -1 ) {
 		return true;
 	}
 

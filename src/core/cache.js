@@ -10,6 +10,7 @@ module.exports = stampit().state({
 		context: 0, // basically how nested are we
 		file: '', // curr file we're testing
 		line: '', // curr line we're testing
+		lineArr: [], // the curr line, as an array
 		lineNo: 0, // curr line number we're testing
 		msg: '', // the done message (55 warnings blah blah)
 		prevContext: 0, // the previous context

@@ -1,20 +1,21 @@
 'use strict';
 
-var spaceAfter = /,[a-zA-Z]/;
-var spaceAfterNum = /,(?:\d*\.)?\d+/;
+var spaceAfterRe = /,[a-zA-Z]/;
+var spaceAfterNumRe = /,(?:\d*\.)?\d+/;
 
 // check that commas are followed by spaces
-module.exports = function checkCommaStyle( line ) {
-	if ( typeof line !== 'string' ) { return; }
+module.exports = function checkCommaStyle( app ) {
+	var badComma = true;
 
 	// if , is present on line
-	if ( line.indexOf(',') !== -1 && line.indexOf(',') !== line.length - 1 ) {
+	if ( app.cache.line.indexOf(',') !== -1 &&
+		app.cache.line.indexOf(',') !== app.cache.line.length - 1 ) {
 		// if no space after or space below
-		if ( spaceAfter.test(line) || spaceAfterNum.test(line) ) {
-			return false;
-		}
-		else {
-			return true;
+		if ( spaceAfterRe.test(app.cache.line) ||
+			spaceAfterNumRe.test(app.cache.line) ) {
+			badComma = false; //return false;
 		}
 	}
+
+	return badComma;
 };

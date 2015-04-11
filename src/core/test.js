@@ -1,7 +1,5 @@
 'use strict';
 
-var valid = require('../data/getValid')();
-
 /**
  * @description runs tests
  * @param  {string} line      [the curr line being tested, in its original form]
@@ -11,34 +9,51 @@ var valid = require('../data/getValid')();
  * @return void
  */
 module.exports = function test( app ) {
-	console.log( app.line );
+	// console.log( app.cache.line );
 	// just some convenience stuff
 	// var arr = app.line.split(' ');
 	var cache = app.cache;
 	var state = app.state;
+	var tests = app.__proto__.test;
 
-	// // console.log( line );
+	// tests.zIndexNormalize( app );
+	// console.log( app.cache.line );
 
-	// // check for @stylint off comments
-	// if ( app.commentExists( line ) ) {
+	// console.dir( app.__proto__ );
+	// tests.forEach(function( method ) {
+	// 	return method( app );
+	// });
+	// console.log( app.cache.line );
+	// for ( var method in tests ) {
+	// 	if ( tests.hasOwnProperty( method ) ) {
+	// 		// console.dir( tests[method] );
+	// 		tests[method]( app );
+	// 		// console.log( app.cache.line );
+	// 	}
+	// }
+
+	// check for @stylint off comments
+	// if ( app.commentExists( app ) ) {
 	// 	/**
 	// 	 * these first two tests determine if the rest of the tests should run
 	// 	 * if @stylint: off comment found, disable tests until @stylint: on comment found
 	// 	 */
-	// 	if ( line.indexOf('@stylint off') !== -1 ) {
+	// 	if ( app.cache.line.indexOf('@stylint off') !== -1 ) {
 	// 		state.toggleBlock = true;
 	// 		state.testsEnabled = false;
 	// 		return;
 	// 	}
 
-	// 	if ( state.toggleBlock && line.indexOf('@stylint on') !== -1 ) {
+	// 	if ( state.toggleBlock &&
+	// 		app.cache.line.indexOf('@stylint on') !== -1 ) {
 	// 		state.toggleBlock = false;
 	// 		state.testsEnabled = true;
 	// 	}
 	// }
 
 	// // by default we skip css literals, but if css literal option set to true we throw a warning
-	// if ( app.config.cssLiteral === false && line.indexOf('@css') !== -1 ) {
+	// if ( app.config.cssLiteral === false &&
+	// 	app.cache.line.indexOf('@css') !== -1 ) {
 	// 	state.cssBlock = true;
 	// 	return;
 	// }
@@ -57,13 +72,19 @@ module.exports = function test( app ) {
 
 	// // are we running any tests at all?
 	// if ( state.testsEnabled ) {
-
 	// 	for ( var method in app.__proto__ ) {
 	// 		if ( app.__proto__.hasOwnProperty( method ) ) {
-	// 			app.__proto__[method]( app, line, arr );
+	// 			console.dir( app.__proto__[method] );
+	// 			app.__proto__[method]( app );
 	// 		}
 	// 	}
 	// }
+
+	// if the latest round of tests put us over the limit
+	// output the list of errors, and throw
+	if ( cache.warnings.length > app.config.maxWarnings && app.config.maxWarningsKill ) {
+		app.done( app, 'kill' );
+	}
 
 		// // check for comment style (//dont do this. // do this)
 		// if ( app.commentExists(line) ) {
@@ -294,10 +315,4 @@ module.exports = function test( app ) {
 		// 	}
 		// }
 	// }
-
-	// if the latest round of tests put us over the limit
-	// output the list of errors, and throw
-	if ( cache.warnings.length > app.config.maxWarnings && app.config.maxWarningsKill ) {
-		app.done( app, 'kill' );
-	}
 };

@@ -3,12 +3,10 @@
 var borderRe = /(border):*(?!-)/;
 
 // checks for border none
-module.exports = function checkBorderNone( line ) {
-	if ( typeof line !== 'string' ) { return; }
-
+module.exports = function checkBorderNone( app ) {
 	// return true if border none found
-	if ( borderRe.test( line ) ) {
-		if ( line.indexOf('none') !== -1 ) {
+	if ( borderRe.test( app.cache.line ) ) {
+		if ( app.cache.line.indexOf('none') !== -1 ) {
 			return true;
 		}
 		// if border 0 on line, then we good

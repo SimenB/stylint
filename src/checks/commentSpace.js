@@ -1,22 +1,23 @@
 'use strict';
 
 // check for space after comment line
-var comment = /\/\/\s/;
+var commentRe = /\/\/\s/;
 
-module.exports = function checkCommentStyle( line ) {
-	if ( typeof line !== 'string' ) { return; }
+module.exports = function checkCommentStyle( app ) {
+	var badComment = true;
 
-	if ( line.indexOf('//') !== -1 ) {
+	if ( app.cache.line.indexOf('//') !== -1 ) {
 		// check for space after comment on it's own line, if no space, return warning
-		if ( line.indexOf('//') === 0 && !comment.test(line) ) {
-			return false;
+		if ( app.cache.line.indexOf('//') === 0
+			&& !commentRe.test(app.cache.line) ) {
+			badComment = false;
 		}
 		// check for space after comment if on same line, if no space, return warning
-		else if ( line.indexOf('http://') === -1 && !comment.test(line) ) {
-			return false;
-		}
-		else {
-			return true;
+		else if ( app.cache.line.indexOf('http://') === -1
+			&& !commentRe.test(app.cache.line) ) {
+			badComment = false;
 		}
 	}
+
+	return badComment;
 };

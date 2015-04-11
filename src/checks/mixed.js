@@ -10,21 +10,19 @@ var spaces = /(  )+/;  // check for 2 or more spaces (if hard tabs, shouldn't fi
  * @return {boolean} true if mixed spaces and tabs, false if not
  * @todo  this is kinda not 100% reliable in it's current form
  */
-module.exports = function checkMixedSpacesAndTabs( line, arr, indentSpaces ) {
-	if ( typeof line !== 'string' || typeof indentSpaces === 'undefined' ) { return; }
-
+module.exports = function checkMixedSpacesAndTabs( app ) {
 	var isMixed = false;
 
 	// if this isnt set to false then we're indenting with spaces
-	if ( typeof indentSpaces === 'number' ) {
+	if ( typeof app.config.indentSpaces === 'number' ) {
 		// look for hard tabs
-		if ( tabs.test( line ) ) {
+		if ( tabs.test( app.cache.line ) ) {
 			isMixed = true;
 		}
 	}
 	// else you're a hard tab believer
 	// look for 2 or more spaces
-	else if ( spaces.test( line ) ) {
+	else if ( spaces.test( app.cache.line ) ) {
 		isMixed = true;
 	}
 

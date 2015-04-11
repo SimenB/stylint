@@ -1,20 +1,18 @@
 'use strict';
 
-var
-	hasComment = /(\/\/)/,
-	startWithLineComment = /(^\/\/)/;
+var hasCommentRe = /(\/\/)/;
+var startsWithCommentRe = /(^\/\/)/;
 
 // check for line comment on the line
-module.exports = function checkForStart( line ) {
-	if ( typeof line !== 'string' ) { return; }
+module.exports = function checkForStart( app ) {
+	var startsWithComment = false;
 
-	if ( hasComment.test(line) ) {
+	if ( hasCommentRe.test(app.cache.line) ) {
 		// ex }, but only if we've already establish that we're not in a hash
-		if ( startWithLineComment.test(line.trim()) ) {
-			return true;
-		}
-		else {
-			return false;
+		if ( startsWithCommentRe.test(app.cache.line.trim()) ) {
+			startsWithComment = true;
 		}
 	}
+
+	return startsWithComment;
 };

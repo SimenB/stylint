@@ -1,13 +1,9 @@
 'use strict';
 
 // check that quote style is consistent with config
-module.exports = function checkQuoteStyle( line, quotePref ) {
-	if ( typeof line !== 'string' ||
-		typeof quotePref !== 'string' ) {
-		return;
-	}
-
-	var innerCheck; // just hoisted. check for inner quotes which are valid '""'
+module.exports = function checkQuoteStyle( app ) {
+	var line = app.cache.line; // convenience
+	var quotePref = app.config.quotePref; // convenience
 	var badQuotes = false;
 
 	// check if ' or " is present on the line at all

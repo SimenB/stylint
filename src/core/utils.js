@@ -10,30 +10,28 @@ var stampit           = require('stampit');
  */
 module.exports = stampit().methods({
 	emojiAllClear: function( emoji, os ) {
+		var emojiClear = '';
 		if ( emoji || this.config.emoji === true ) {
 			if ( os || osType.indexOf('windows') >= 0 ) {
-				return ':)';
+				emojiClear = ':)';
 			}
 			else {
-				return '\uD83D\uDC4D  ';
+				emojiClear = '\uD83D\uDC4D  ';
 			}
 		}
-		else {
-			return '';
-		}
+		return emojiClear;
 	},
 	emojiWarning: function( emoji, os ) {
+		var emojiWarning = '';
 		if ( emoji || this.config.emoji === true ) {
 			if ( os || osType.indexOf('windows') >= 0 ) {
-				return ':(';
+				emojiWarning = ':(';
 			}
 			else {
-				return '\uD83D\uDCA9  ';
+				emojiWarning = '\uD83D\uDCA9  ';
 			}
 		}
-		else {
-			return '';
-		}
+		return emojiWarning;
 	},
 	getContext: function( indentType, line ) {
 		var textIndex = 0;
@@ -64,15 +62,13 @@ module.exports = stampit().methods({
 			throw new TypeError('Path needs to be a string');
 		}
 
-		// console.log('get files');
-
 		glob(path, {}, function( err, files ) {
 			if ( err ) { throw err; }
 			var len = files.length - 1;
 
 			files.forEach(function( file, i ) {
 				// console.log( file );
-				return this.parse( this, file, len, i );
+				return this.core.parse( this, file, len, i );
 			}.bind( this ));
 		}.bind( this ));
 	},
@@ -86,18 +82,16 @@ module.exports = stampit().methods({
 		this.cache.prevLine = '';
 		this.cache.prevFile = '';
 		this.cache.prevContext = 0;
-		return this.read( this, newPath );
+		return this.core.read( this, newPath );
 	},
 	setConfig: function( potentialPath ) {
 		var path = pathIsAbsolute( potentialPath ) ? potentialPath : process.cwd() + '/' + potentialPath;
 		return JSON.parse( fs.readFileSync( path ) );
 	},
-	// remove all whitespace from a string
-	stripWhiteSpace: function( str ) {
-		return str.split(/[\s\t]/).filter(
-			function( str ) {
-				return str.length > 0;
-			}
-		);
+	// remove all whitespace from a string, customizable regex
+	stripWhiteSpace: function( re, str ) {
+		return str.split(re).filter(function( str ) {
+			return str.length > 0;
+		});
 	}
 });

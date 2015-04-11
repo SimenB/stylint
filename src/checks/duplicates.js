@@ -1,25 +1,19 @@
 'use strict';
 
-var syntaxIgnore = /^{|[,}]|(:after|:active|:before|@import|@require|@extend|@media|:hover|@font-face|src)/;
+var syntaxIgnoreRe = /^{|[,}]|(:after|:active|:before|@import|@require|@extend|@media|:hover|@font-face|src)/;
 
 // check that selector properties are sorted alphabetically
-module.exports = function duplicateSelectors( line, file, app ) {
-	if ( typeof line !== 'string' ||
-		typeof file !== 'string' ||
-		typeof app !== 'object' ) {
-		return;
-	}
-
+module.exports = function duplicateSelectors( app ) {
 	// remove blank spaces now that we have our context
-	var arr = app.stripWhiteSpace( line );
-	var currContext = app.getContext( app.config.indentSpaces, line );
+	var arr = app.stripWhiteSpace( new RegExp(/[\s\t]/), app.cache.line );
+	var currContext = app.getContext( app.config.indentSpaces, app.cache.line );
 	var isThereADupe = false;
 
 	// before we add an item to a cache array
 	// make sure it's not whitespace or syntax or whatever
-	function lineIsAcceptable( line ) {
+	function _lineIsAcceptable( line ) {
 		return (
-			!syntaxIgnore.test(line) &&
+			!syntaxIgnoreRe.test(line) &&
 			typeof arr[0] !== 'undefined' &&
 			typeof app.cache.prevLine !== 'undefined' &&
 			app.cache.prevLine.indexOf(',') === -1
@@ -27,12 +21,12 @@ module.exports = function duplicateSelectors( line, file, app ) {
 	}
 
 	// if current context switched, reset array
-	if ( app.cache.prevContext !== currContext || app.cache.prevFile !== file ) {
+	if ( app.cache.prevContext !== currContext || app.cache.prevFile !== app.cache.file ) {
 		app.cache.selectorCache = [];
 	}
 
 	// if root check not global, wipe on each new file
-	if ( !app.config.globalDupe && app.cache.prevFile !== file ) {
+	if ( !app.config.globalDupe && app.cache.prevFile !== app.cache.file ) {
 		app.cache.rootCache = [];
 	}
 
@@ -40,13 +34,13 @@ module.exports = function duplicateSelectors( line, file, app ) {
 	if ( currContext === 0 ) {
 		// if curr line is already in our cache, we have a dupe
 		if ( app.cache.prevLine.indexOf(',') === -1 &&
-			app.cache.rootCache.indexOf( line ) !== -1 ) {
+			app.cache.rootCache.indexOf( app.cache.line ) !== -1 ) {
 			isThereADupe = true;
 		}
 
 		// undefined check is for whitespace
-		if ( lineIsAcceptable( line ) ) {
-			app.cache.rootCache.push( line );
+		if ( _lineIsAcceptable( app.cache.line ) ) {
+			app.cache.rootCache.push( app.cache.line );
 		}
 	}
 	// if selector is nested we check the selectorCache instead of rootCache
@@ -56,14 +50,14 @@ module.exports = function duplicateSelectors( line, file, app ) {
 			isThereADupe = true;
 		}
 		// cache the lines in the curr context
-		if ( lineIsAcceptable( line ) ) {
+		if ( _lineIsAcceptable( app.cache.line ) ) {
 			app.cache.selectorCache.push( arr[0] );
 		}
 	}
 
 	// save our curr context so we can use it next time
-	app.cache.prevFile = file;
-	app.cache.prevLine = line;
+	app.cache.prevFile = app.cache.file;
+	app.cache.prevLine = app.cache.line;
 	app.cache.prevContext = currContext;
 
 	return isThereADupe;

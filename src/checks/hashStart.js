@@ -1,16 +1,16 @@
 'use strict';
 
 // check if we're starting a hash
-var hashStarting = /{$|{ $/;
+var hashStartRe = /{$|{ $/;
 
-module.exports = function checkForHashStart( line ) {
-	if ( typeof line !== 'string' ) { return; }
+module.exports = function checkForHashStart( app ) {
+	var hashStart = false;
 
 	// ex colorsHash = {
-	if ( hashStarting.test(line) && line.indexOf('=') !== -1 ) {
-		return true;
+	if ( hashStartRe.test(app.cache.line) &&
+		app.cache.line.indexOf('=') !== -1 ) {
+		hashStart = true;
 	}
-	else {
-		return false;
-	}
+
+	return hashStart;
 };

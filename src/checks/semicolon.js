@@ -1,13 +1,12 @@
 'use strict';
 
 // check for semicolons
-module.exports = function checkForSemicolons( line ) {
-	if ( typeof line !== 'string' ) { return; }
+module.exports = function checkForSemicolons( app ) {
+	var hasSemicolon = false;
 
-	if ( line.indexOf(';') !== -1 ) {
-		return true;
+	if ( app.cache.line.indexOf(';') !== -1 ) {
+		hasSemicolon = true;
 	}
-	else {
-		return false;
-	}
+
+	return hasSemicolon;
 };

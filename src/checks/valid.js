@@ -12,24 +12,16 @@ var isNumRe = /\d(?=[px]|%|[em]|[rem]|[vh]|[vw]|[vmin]|[vmax]|[ex]|[ch]|[mm]|[cm
 * @returns true if valid
 * @returns undefined if not testable (hmmm)
 */
-module.exports = function checkForValidProperties( line, valid ) {
-	if ( typeof line !== 'string' ||
-		typeof valid === 'undefined' ) {
-		return;
-	}
-
+module.exports = function checkForValidProperties( app ) {
 	// split by tabs and spaces, tabs mess with pattern matching
-	var arr = line.split(/[\s\t,]/);
+	// var arr = app.cache.line.split(/[\s\t,]/);
+	var line = app.cache.line; // convenience
 	var isValid = false;
-
-	// remove white space
-	arr = arr.filter(function( str ) {
-		return str.length > 0;
-	});
+	var arr = app.stripWhiteSpace(new RegExp(/[\s\t,]/), app.cache.line);
 
 	// not empty, not something we ignore
 	if ( !ignoreMeRe.test( line ) &&
-		this.state.hash === false &&
+		app.state.hash === false &&
 		!attributeRe.test( arr[0] ) &&
 		!isNumRe.test( arr[0] ) &&
 		typeof arr[0] !== 'undefined' ) {
@@ -39,7 +31,7 @@ module.exports = function checkForValidProperties( line, valid ) {
 			arr[0] = arr[0].replace(elAttributeRe, '');
 		}
 
-		valid.css.forEach(function( val ) {
+		app.valid.css.forEach(function( val ) {
 			var i = 0;
 			var j = 0;
 
@@ -48,22 +40,22 @@ module.exports = function checkForValidProperties( line, valid ) {
 				return;
 			}
 
-			for ( i; i < valid.prefixes.length; i++ ) {
-				if ( arr[ 0 ] === ( valid.prefixes[ i ] + val ) ) {
+			for ( i; i < app.valid.prefixes.length; i++ ) {
+				if ( arr[ 0 ] === ( app.valid.prefixes[ i ] + val ) ) {
 					isValid = true;
 					return;
 				}
 			}
 
-			for ( j; j < valid.pseudo.length; j++ ) {
-				if ( arr[ 0 ] === ( val + valid.pseudo[ j ] ) ) {
+			for ( j; j < app.valid.pseudo.length; j++ ) {
+				if ( arr[ 0 ] === ( val + app.valid.pseudo[ j ] ) ) {
 					isValid = true;
 					return;
 				}
 			}
 		});
 
-		valid.html.forEach(function( val ) {
+		app.valid.html.forEach(function( val ) {
 			var i = 0;
 
 			if ( arr[ 0 ] === val ) {
@@ -71,8 +63,8 @@ module.exports = function checkForValidProperties( line, valid ) {
 				return;
 			}
 
-			for ( i; i < valid.pseudo.length; i++ ) {
-				if ( arr[ 0 ] === ( val + valid.pseudo[ i ] ) ) {
+			for ( i; i < app.valid.pseudo.length; i++ ) {
+				if ( arr[ 0 ] === ( val + app.valid.pseudo[ i ] ) ) {
 					isValid = true;
 					return;
 				}

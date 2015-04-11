@@ -1,10 +1,10 @@
 'use strict';
 
-var alpha = /[A-Z]+/m;
+var alphaRe = /[A-Z]+/m;
 // camelCase or CamelCase
-var camel = /^[$#.{:]+([a-zA-Z]|[${}])+([a-z]|[${}])+(([.A-Z0-9])+[a-z ]+)+\b/m;
+var camelRe = /^[$#.{:]+([a-zA-Z]|[${}])+([a-z]|[${}])+(([.A-Z0-9])+[a-z ]+)+\b/m;
 // BEM (http://bem.info/method/)
-var bem = /^([$.#{:][${a-z]([-]?[${}a-z0-9]+)*(_{2}[${}a-z0-9]([-]?[${}a-z0-9]+)*)?((_[${}a-z0-9]([-]?[a-z0-9}]+)*){2})*)\b/m;
+var bemRe = /^([$.#{:][${a-z]([-]?[${}a-z0-9]+)*(_{2}[${}a-z0-9]([-]?[${}a-z0-9]+)*)?((_[${}a-z0-9]([-]?[a-z0-9}]+)*){2})*)\b/m;
 
 
 /**
@@ -13,66 +13,56 @@ var bem = /^([$.#{:][${a-z]([-]?[${}a-z0-9]+)*(_{2}[${}a-z0-9]([-]?[${}a-z0-9]+)
  * @param {string} [convention] the naming convention to test againt. can be 'camelCase'|'underscore'|'dash'|'BEM'
  * @returns true, false, or undefined true if convention correct, false if not, undefined if line not testable
  */
-module.exports = function checkNamingConvention( line, convention ) {
-	if ( typeof line !== 'string' ||
-		typeof convention === 'undefined' ) {
-		return;
-	}
+module.exports = function checkNamingConvention( app ) {
+	var firstCheckRe = /^[${:]+/m;
+	var arr = app.cache.lineArr; // convenience
+	var badConvention = false;
 
-	// use arr in test.js @TODO
-	var arr = line.split(' ');
-	var firstCheck = /^[${:]+/m;
-
-	if ( this.config.namingConventionStrict === true ) {
-		firstCheck = /^[$#.{:]+/m;
+	if ( app.config.namingConventionStrict === true ) {
+		firstCheckRe = /^[$#.{:]+/m; // more stricter regex
 	}
 
 	// only run checks if on a class, id, or variable
-	if ( firstCheck.test( arr[0] ) && arr[0].indexOf('::') === -1 ) {
+	if ( firstCheckRe.test( arr[0] ) && arr[0].indexOf('::') === -1 ) {
 		// matches just lowercase first
-		if ( !alpha.test( arr[0] ) &&
+		if ( !alphaRe.test( arr[0] ) &&
 			arr[0].indexOf('-') === -1 &&
 			arr[0].indexOf('_') === -1 ) {
-			return true;
+			badConvention = true;
+			// return true;
 		}
 		// then check conventions
-		else if ( convention === 'camelCase' ) {
+		else if ( app.config.namingConvention === 'camelCase' ) {
 			if ( arr[0].indexOf('-') === -1 &&
 				arr[0].indexOf('_') === -1 &&
-				camel.test( arr[0] ) ) {
-				return true;
-			}
-			else {
-				return false;
+				camelRe.test( arr[0] ) ) {
+				badConvention = true;
+				// return true;
 			}
 		}
-		else if ( convention === 'lowercase_underscore' ) {
+		else if ( app.config.namingConvention === 'lowercase_underscore' ) {
 			if ( arr[0].indexOf('-') === -1 &&
 				arr[0].indexOf('_') !== -1 &&
-				!alpha.test( arr[0] ) ) {
-				return true;
-			}
-			else {
-				return false;
+				!alphaRe.test( arr[0] ) ) {
+				badConvention = true;
+				// return true;
 			}
 		}
-		else if ( convention === 'lowercase-dash' ) {
+		else if ( app.config.namingConvention === 'lowercase-dash' ) {
 			if ( arr[0].indexOf('-') !== -1 &&
 				arr[0].indexOf('_') === -1 &&
-				!alpha.test( arr[0] ) ) {
-				return true;
-			}
-			else {
-				return false;
+				!alphaRe.test( arr[0] ) ) {
+				badConvention = true;
+				// return true;
 			}
 		}
-		else if ( convention === 'BEM' ) {
-			if ( !alpha.test( arr[0] ) && bem.test( arr[0] ) ) {
-				return true;
-			}
-			else {
-				return false;
+		else if ( app.config.namingConvention === 'BEM' ) {
+			if ( !alphaRe.test( arr[0] ) && bemRe.test( arr[0] ) ) {
+				badConvention = true;
+				// return true;
 			}
 		}
 	}
+
+	return badConvention;
 };

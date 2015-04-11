@@ -1,13 +1,12 @@
 'use strict';
 
 // if we disallowed css literals, check for them and return true if found
-module.exports = function checkCssLiteral( line ) {
-	if ( typeof line !== 'string' ) { return; }
+module.exports = function checkCssLiteral( app ) {
+	var cssLiteral = false;
 
-	if ( line.indexOf('@css') !== -1 ) {
+	if ( app.cache.line.indexOf('@css') !== -1 ) {
 		return true;
 	}
-	else {
-		return false;
-	}
+
+	return cssLiteral;
 };

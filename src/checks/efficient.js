@@ -3,18 +3,14 @@
 var valueRe = /(margin|padding)+[:| ]/;
 
 // check for 0 0 0 0 or 50px 0 50px 0 type mistakes
-module.exports = function checkForEfficiency( line ) {
-	if ( typeof line !== 'string' ) {
-		return;
-	}
-
+module.exports = function checkForEfficiency( app ) {
 	// line doesnt have margin or padding then there's nothin to do here
-	if ( !valueRe.test(line) ) {
+	if ( !valueRe.test(app.cache.line) ) {
 		return;
 	}
 
 	var isEfficient = true;
-	var arr = this.stripWhiteSpace(line);
+	var arr = app.stripWhiteSpace( new RegExp(/[\s\t]/), app.cache.line );
 
 	// if margin or padding we run the tests
 	// if line is potentially inefficient it needs to be at least this long
