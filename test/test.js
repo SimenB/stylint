@@ -602,7 +602,9 @@ describe('Linter Style Checks: ', function() {
 			test10 = 'margin 5px 0 0',
 			test11 = 'margin 0',
 			test12 = 'margin 5px',
-			test13 = '.not-margin-or-padding';
+			test13 = '.not-margin-or-padding',
+			test14 = 'margin: 0',
+			test15 = 'padding: 5px 5px';
 
 		it('should return false if value is not efficient', function() {
 			assert.equal( false, app.efficient( test1, test1.split(' ') ) );
@@ -612,6 +614,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( false, app.efficient( test5, test5.split(' ') ) );
 			assert.equal( false, app.efficient( test6, test6.split(' ') ) );
 			assert.equal( false, app.efficient( test7, test7.split(' ') ) );
+			assert.equal( false, app.efficient( test15, test15.split(' ') ) );
 		});
 
 		it('should return true if value is efficient', function() {
@@ -620,6 +623,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, app.efficient( test10, test10.split(' ') ) );
 			assert.equal( true, app.efficient( test11, test11.split(' ') ) );
 			assert.equal( true, app.efficient( test12, test12.split(' ') ) );
+			assert.equal( true, app.efficient( test14, test14.split(' ') ) );
 		});
 
 		it('should return undefined if missing params', function() {
