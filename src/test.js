@@ -186,6 +186,20 @@ module.exports = function test( app, line, num, output, file ) {
 				}
 			}
 
+			// check for hard to read one liners
+			if ( app.config.stackedProperties || state.strictMode ) {
+				if ( app.stackedProperties(line) ) {
+					cache.warnings.push( 'properties should be one to a line.' + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+				}
+			}
+
+			// check for outline none when it should be outline 0
+			if ( app.config.outlineNone || state.strictMode ) {
+				if ( app.outlineNone(line) ) {
+					cache.warnings.push( 'outline 0 is preferred to outline none.' + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+				}
+			}
+
 			// check for * selector (* is discouraged)
 			if ( app.config.universal || state.strictMode ) {
 				if ( app.universal( line, arr ) ) {

@@ -45,10 +45,12 @@ var
 	mixed             = require('./src/checks/mixed'),
 	namingConvention  = require('./src/checks/namingConvention'),
 	nesting           = require('./src/checks/nesting'),
+	outlineNone       = require('./src/checks/outlineNone'),
 	paren             = require('./src/checks/paren'),
 	placeholder       = require('./src/checks/placeholder'),
 	quotes            = require('./src/checks/quotes'),
 	semicolon         = require('./src/checks/semicolon'),
+	stackedProperties = require('./src/checks/stackedProperties'),
 	startsWithComment = require('./src/checks/startsWithComment'),
 	universal         = require('./src/checks/universal'),
 	valid             = require('./src/checks/valid'),
@@ -88,13 +90,15 @@ var config = stampit().state({
 		mixed: false, // check for mixed spaces and tabs
 		namingConvention: false, // lowercase-dash, camelCase, lowercase_underscore, BEM or false (dont check)
 		namingConventionStrict: false, // if true, then check classes and ids, if false just check variables
+		outlineNone: true, // prefer outline 0 to outline none
 		parenSpace: false, // check for extra space inside parens when defining or using mixins
 		placeholders: true, // only allow @extending of placeholder vars
 		quotePref: false, // single or double quotes, or false to not check
 		semicolons: false, // check for unecessary semicolons
+		stackedProperties: true, // discourage one-liners
 		trailingWhitespace: true, // check for trailing whitespace
 		universal: true, // check for use of * and recommend against it
-		valid: false, // check if prop or value is a valid assignment
+		valid: true, // check if prop or value is a valid assignment
 		zeroUnits: true, // check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
 		zIndexDuplicates: false, // just find duplicate z index values
 		zIndexNormalize: false // suggest a normalized z index value, base of whatever this is
@@ -242,11 +246,13 @@ var testMethods = stampit().methods({
 	mixed: mixed,
 	namingConvention: namingConvention,
 	nesting: nesting,
+	outlineNone: outlineNone,
 	paren: paren,
 	placeholder: placeholder,
 	quotes: quotes,
 	semicolon: semicolon,
 	startsWithComment: startsWithComment,
+	stackedProperties: stackedProperties,
 	universal: universal,
 	valid: valid,
 	varStyle: varStyle,

@@ -930,6 +930,22 @@ describe('Linter Style Checks: ', function() {
 		});
 	});
 
+	describe('outline none', function() {
+		it('should return false if no outline none found', function() {
+			assert.equal( false, app.outlineNone('outline 0') );
+			assert.equal( false, app.outlineNone('outline: 0') );
+		});
+
+		it('should return true if outline none found', function() {
+			assert.equal( true, app.outlineNone('outline none') );
+			assert.equal( true, app.outlineNone('outline: none') );
+		});
+
+		it('should return undefined if missing params', function() {
+			assert.equal( undefined, app.outlineNone() );
+		});
+	});
+
 	describe('paren style', function() {
 		it('should return false if no parens spacing found', function() {
 			assert.equal( false, app.paren('myMixin(param1, param2)') );
@@ -965,7 +981,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, app.placeholder() );
 		});
 	});
-// .show-content( $content = "Hello!" ) {
+
 	describe('quote style', function() {
 		it('should return false if incorrect quote style used', function() {
 			assert.equal( false, app.quotes( '$var = "test string" ', 'single' ) );
@@ -1017,6 +1033,21 @@ describe('Linter Style Checks: ', function() {
 
 		it('should return undefined if params missing', function() {
 			assert.equal( undefined, app.semicolon() );
+		});
+	});
+
+	describe('stacked properties', function() {
+		it('should return false if not a one liner', function() {
+			assert.equal( false, app.stackedProperties('margin 0 auto') );
+		});
+
+		it('should return true if one liner', function() {
+			assert.equal( true, app.stackedProperties('margin 0 auto; padding: 5px;') );
+			assert.equal( true, app.stackedProperties('margin 0 auto; padding: 5px;') );
+		});
+
+		it('should return undefined if params missing', function() {
+			assert.equal( undefined, app.stackedProperties() );
 		});
 	});
 
