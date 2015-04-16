@@ -989,11 +989,13 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( false, app.quotes( '.show-content( $content = "Hello!" )', 'single' ) );
 			assert.equal( false, app.quotes( '.show-content( $content = "Hello!" ) {', 'single' ) );
 			assert.equal( false, app.quotes( '[class*="--button"]', 'single' ) );
+			assert.equal( false, app.quotes( '[class*="--button"] {', 'single' ) );
 			assert.equal( false, app.quotes( "$var = 'test string' ", 'double' ) );
 			assert.equal( false, app.quotes( "$var = 'test \"substring\" string' ", 'double' ) );
 			assert.equal( false, app.quotes( ".show-content( $content = 'Hello!' )", 'double' ) );
 			assert.equal( false, app.quotes( ".show-content( $content = 'Hello!' ) {", 'double' ) );
 			assert.equal( false, app.quotes( "[class*='--button']", 'double' ) );
+			assert.equal( false, app.quotes( "[class*='--button'] {", 'double' ) );
 		});
 
 		it('should return true if correct quote style used', function() {

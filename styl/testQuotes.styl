@@ -1,0 +1,13 @@
+// Passes but shouldn't
+[class*="--button"] {
+    border: 1px solid $primary-color;
+}
+
+// Last line passes but shouldn't
+// Other lines fail as expected
+[class*="--button"],
+[class*="--bigbutton"],
+input[type="text"],
+input[type="button"] {
+    border: 1px solid $primary-color;
+}
