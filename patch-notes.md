@@ -1,3 +1,12 @@
+##### 0.9.5
+fix issue with efficient check: https://github.com/rossPatton/stylint/issues/91
+
+add stackedProperties check: https://github.com/rossPatton/stylint/issues/77
+
+which also 'solves' this imo: https://github.com/rossPatton/stylint/issues/63
+
+resolve issue where hash check interfered with quotes check: https://github.com/rossPatton/stylint/issues/47
+
 ##### 0.9.4
 hotfix for duplicates check regression https://github.com/rossPatton/stylint/commit/29d42014d315e6ef9dfeebf20636b43f13f2377b
 
