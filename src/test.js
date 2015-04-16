@@ -258,7 +258,7 @@ module.exports = function test( app, line, num, output, file ) {
 				}
 				// else check tabs against tabs and spaces against spaces
 				if ( app.nesting( line, arr, app.config.depthLimit, app.config.indentSpaces ) ) {
-					cache.warnings.push( 'selector depth greater than', app.config.depthLimit + ':' + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+					cache.warnings.push( 'selector depth greater than ' + app.config.depthLimit + ':' + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 				}
 			}
 

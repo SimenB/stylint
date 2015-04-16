@@ -75,7 +75,7 @@ var config = stampit().state({
 		commaSpace: true, // check for spaces after commas (0, 0, 0, .18)
 		commentSpace: false, // check for space after line comment
 		cssLiteral: false, // if true disallow css literals
-		depthLimit: false, // set a maximum selector depth (dont nest more than 4 deep)
+		depthLimit: 3, // set a maximum selector depth (dont nest more than 4 deep)
 		duplicates: true, // check if properties or selectors are duplicate
 		efficient: true, // check for margin 0 0 0 0 and recommend margin 0
 		emoji: false, // toggle emoji on or off
@@ -83,7 +83,7 @@ var config = stampit().state({
 		enforceBlockStyle: false, // check for @block when defining blocks
 		extendPref: false, // prefer a specific syntax when using @extends (or @extend)
 		globalDupe: false, // throw duplicate selector warning across all files instead of curr file
-		indentSpaces: 4, // how many spaces should we prefer when indenting, pass in false if hard tabs
+		indentSpaces: 2, // how many spaces should we prefer when indenting, pass in false if hard tabs
 		leadingZero: true, // find cases where 0.# is used, prefer .#
 		maxWarnings: 10, // should we have a max amount of warnings, and error out if we go over
 		maxWarningsKill: false, // if over maxWarning count, kill process
