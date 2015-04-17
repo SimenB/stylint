@@ -140,7 +140,7 @@ Example:
 ```
 
 
-### sortOrder (default: false, false | 'alphabetical' | 'grouped' | Array)
+### sortOrder (default: false, false | 'alphabetical' | 'grouped' | {Array})
 Enforce a particular sort order when declaring properties. Throws a warning if you don't follow the order. If set to false, allow any order.
 
 Example if `'alphabetical'`:
@@ -212,6 +212,8 @@ over this:
     margin 0
     padding 0
 ```
+
+When set to `'grouped'` or `{Array}` throws a warning if properties that are not defined in the ordering array are not after those that should be ordered.
 
 
 ### borderNone (default: true, boolean)
