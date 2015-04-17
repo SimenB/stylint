@@ -1,5 +1,4 @@
 {
-  "alphabetical": false,
   "borderNone": true,
   "brackets": false,
   "colons": false,
@@ -24,6 +23,7 @@
   "parenSpace": false,
   "placeholders": false,
   "semicolons": false,
+  "sortOrder": false,
   "universal": true,
   "valid": true,
   "whitespace": true,
