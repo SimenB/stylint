@@ -165,7 +165,7 @@ over this:
     float left
 ```
 
-Example if `'grouped'` ([order based on property groups](src/data/ordering.json)):
+Example if `'grouped'` ([based on predefined grouped ordering](src/data/ordering.json#L2)):
 
 prefer this:
 ```
