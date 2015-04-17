@@ -493,7 +493,7 @@ describe('Linter Style Checks: ', function() {
 			it('should return true if correct sort order with mocked sort order cache', function() {
 				var expectedCache = [ 'z-index', 'animation', 'top', 'width', 'border' ];
 
-				assert.equal( [ 'z-index', 'animation', 'top' ], app.config.sortOrder );
+				assert.deepEqual( [ 'z-index', 'animation', 'top' ], app.config.sortOrder );
 				assert.equal( 1, app.cache.sortOrderCache.length );
 				assert.equal( true, app.sortOrder( indent + 'animation', valid, app.config.sortOrder ) );
 				assert.equal( true, app.sortOrder( indent + 'top', valid, app.config.sortOrder ) );
@@ -506,7 +506,7 @@ describe('Linter Style Checks: ', function() {
 			it('false if not correct sort order with mocked sort order cache', function() {
 				var expectedCache = [ 'z-index', 'top', 'animation' ];
 
-				assert.equal( [ 'z-index', 'animation', 'top' ], app.config.sortOrder );
+				assert.deepEqual( [ 'z-index', 'animation', 'top' ], app.config.sortOrder );
 				assert.equal( 1, app.cache.sortOrderCache.length );
 				assert.equal( true, app.sortOrder( indent + 'top', valid, app.config.sortOrder ) );
 				assert.equal( false, app.sortOrder( indent + 'animation', valid, app.config.sortOrder ) );
