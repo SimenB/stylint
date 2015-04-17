@@ -109,7 +109,7 @@ The default settings are pretty weak and unopinionated (I think). If you want to
     "placeholders": true,
     "quotePref": false,
     "semicolons": false,
-    "sortOrder": "alphabetical",
+    "sortOrder": false,
     "universal": true,
     "valid": false,
     "whitespace": true,
