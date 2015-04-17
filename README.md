@@ -83,7 +83,6 @@ The default settings are pretty weak and unopinionated (I think). If you want to
 
 ```
 {
-    "alphabetical": true,
     "borderNone": true,
     "brackets": false,
     "colons": false,
@@ -110,6 +109,7 @@ The default settings are pretty weak and unopinionated (I think). If you want to
     "placeholders": true,
     "quotePref": false,
     "semicolons": false,
+    "sortOrder": "alphabetical",
     "universal": true,
     "valid": false,
     "whitespace": true,
@@ -140,10 +140,10 @@ Example:
 ```
 
 
-### alphabetical (default: true, boolean)
-Prefer alphabetical ordering when declaring properties.
+### sortOrder (default: 'alphabetical', false | 'alphabetical' | 'grouped' | Array)
+Enforce a particular sort order when declaring properties. Throws a warning if you don't follow the order. If set to false, allow any order.
 
-Example if true:
+Example if `'alphabetical'`:
 
 prefer this:
 ```
