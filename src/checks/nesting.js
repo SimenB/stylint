@@ -1,6 +1,7 @@
 'use strict';
 
-var amp = /^(\&\:)/;  // check if using & selector before we count tabs
+// conditions in which we want to decrement the count
+var decrementRe = /^(\&\:)/;
 
 /**
  * check nesting depth
@@ -28,7 +29,7 @@ module.exports = function checkNesting( line, arr, limit, indentSpaces ) {
 
 	// trim string and check if line starts with &:,
 	// if true then subtract one from count (for indents) and add one to limit (for spaces)
-	if ( amp.test( line.trim() ) ) {
+	if ( decrementRe.test( line.trim() ) ) {
 		count = count - 1;
 		limit = limit + 1;
 	}

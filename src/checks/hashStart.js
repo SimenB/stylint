@@ -1,13 +1,17 @@
 'use strict';
 
 // check if we're starting a hash
-var hashStarting = /{$|{ $/;
+var hashStartingRe = /{$|{ $/;
+var stripMixinsRe = /(\(.*\))/;
 
 module.exports = function checkForHashStart( line ) {
 	if ( typeof line !== 'string' ) { return; }
 
+	// console.log( 'not supposed to sbe here' );
+	var newLine = line.replace(stripMixinsRe, '');
+
 	// ex colorsHash = {
-	if ( hashStarting.test(line) && line.indexOf('=') !== -1 ) {
+	if ( hashStartingRe.test(newLine) && newLine.indexOf('= ') !== -1 && newLine.indexOf('*=') === -1 ) {
 		return true;
 	}
 	else {
