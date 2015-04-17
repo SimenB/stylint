@@ -258,11 +258,11 @@ describe('Core Methods: ', function() {
 			app.ver.getCall(0).returned( sinon.match.same( console.log ) );
 		});
 
-		it('should throw if no package.json found', function() {
-			should.Throw(function() {
-				app.ver( 5 );
-			}, Error);
-		});
+		// it('should throw if no package.json found', function() {
+		// 	should.Throw(function() {
+		// 		app.ver( 5 );
+		// 	}, Error);
+		// });
 	});
 
 	describe('Set Config Method:', function() {
@@ -990,12 +990,14 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( false, app.quotes( '.show-content( $content = "Hello!" ) {', 'single' ) );
 			assert.equal( false, app.quotes( '[class*="--button"]', 'single' ) );
 			assert.equal( false, app.quotes( '[class*="--button"] {', 'single' ) );
+			assert.equal( false, app.quotes( 'show-content( $content = "Hello!" ) {', 'single' ) );
 			assert.equal( false, app.quotes( "$var = 'test string' ", 'double' ) );
 			assert.equal( false, app.quotes( "$var = 'test \"substring\" string' ", 'double' ) );
 			assert.equal( false, app.quotes( ".show-content( $content = 'Hello!' )", 'double' ) );
 			assert.equal( false, app.quotes( ".show-content( $content = 'Hello!' ) {", 'double' ) );
 			assert.equal( false, app.quotes( "[class*='--button']", 'double' ) );
 			assert.equal( false, app.quotes( "[class*='--button'] {", 'double' ) );
+			assert.equal( false, app.quotes( "show-content( $content = 'Hello!' ) {", 'double' ) );
 		});
 
 		it('should return true if correct quote style used', function() {

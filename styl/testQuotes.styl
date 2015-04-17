@@ -11,3 +11,9 @@ input[type="text"],
 input[type="button"] {
     border: 1px solid $primary-color;
 }
+
+show-content( $content = "Hello!" ) {
+    &::before {
+        content: $content;
+    }
+}
