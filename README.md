@@ -140,7 +140,7 @@ Example:
 ```
 
 
-### sortOrder (default: 'alphabetical', false | 'alphabetical' | 'grouped' | Array)
+### sortOrder (default: false, false | 'alphabetical' | 'grouped' | Array)
 Enforce a particular sort order when declaring properties. Throws a warning if you don't follow the order. If set to false, allow any order.
 
 Example if `'alphabetical'`:
@@ -148,18 +148,69 @@ Example if `'alphabetical'`:
 prefer this:
 ```
 .some-class
-    border 1px solid black
-    margin 0
-    padding 0
-
+    display block
+    float left
+    position absolute
+    right 10px
+    top 0
 ```
 
 over this:
 ```
 .some-class
-    padding 0
+    position absolute
+    top 0
+    right 10px
+    display block
+    float left
+```
+
+Example if `'grouped'` ([order based on property groups](blob/develop/src/data/ordering.json)):
+
+prefer this:
+```
+.some-class
+    position absolute
+    top 0
+    right 10px
+    display block
+    float left
+```
+
+over this:
+```
+.some-class
+    display block
+    float left
+    position absolute
+    right 10px
+    top 0
+```
+
+Example if `[ 'margin', 'padding', 'float', 'position' ]`:
+
+prefer this:
+```
+.some-class
     margin 0
-    border 1px solid black
+    padding 0
+    float left
+    position absolute
+    right 10px
+    top 0
+    display block
+```
+
+over this:
+```
+.some-class
+    display block
+    float left
+    position absolute
+    right 10px
+    top 0
+    margin 0
+    padding 0
 ```
 
 
