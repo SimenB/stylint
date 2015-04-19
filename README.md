@@ -83,7 +83,6 @@ The default settings are pretty weak and unopinionated (I think). If you want to
 
 ```
 {
-    "alphabetical": true,
     "borderNone": true,
     "brackets": false,
     "colons": false,
@@ -110,6 +109,7 @@ The default settings are pretty weak and unopinionated (I think). If you want to
     "placeholders": true,
     "quotePref": false,
     "semicolons": false,
+    "sortOrder": false,
     "stackedProperties": true,
     "universal": true,
     "valid": false,
@@ -138,29 +138,6 @@ Example:
     color: white;
 }
 // @stylint on
-```
-
-
-### alphabetical (default: true, boolean)
-Prefer alphabetical ordering when declaring properties.
-
-Example if true:
-
-prefer this:
-```
-.some-class
-    border 1px solid black
-    margin 0
-    padding 0
-
-```
-
-over this:
-```
-.some-class
-    padding 0
-    margin 0
-    border 1px solid black
 ```
 
 
@@ -360,6 +337,82 @@ over
 Look for unecessary semicolons.
 
 Example: prefer `margin 0` over `margin 0;`
+
+
+### sortOrder (default: false, false | 'alphabetical' | 'grouped' | {Array})
+Enforce a particular sort order when declaring properties. Throws a warning if you don't follow the order. If set to false, allow any order.
+
+Example if `'alphabetical'`:
+
+prefer this:
+```
+.some-class
+    display block
+    float left
+    position absolute
+    right 10px
+    top 0
+```
+
+over this:
+```
+.some-class
+    position absolute
+    top 0
+    right 10px
+    display block
+    float left
+```
+
+Example if `'grouped'` ([based on predefined grouped ordering](src/data/ordering.json#L2)):
+
+prefer this:
+```
+.some-class
+    position absolute
+    top 0
+    right 10px
+    display block
+    float left
+```
+
+over this:
+```
+.some-class
+    display block
+    float left
+    position absolute
+    right 10px
+    top 0
+```
+
+Example if `[ 'margin', 'padding', 'float', 'position' ]`:
+
+prefer this:
+```
+.some-class
+    margin 0
+    padding 0
+    float left
+    position absolute
+    right 10px
+    top 0
+    display block
+```
+
+over this:
+```
+.some-class
+    display block
+    float left
+    position absolute
+    right 10px
+    top 0
+    margin 0
+    padding 0
+```
+
+When set to `'grouped'` or `{Array}` throws a warning if properties that are not defined in the ordering array are not after those that should be ordered.
 
 
 ### universal (default: true, boolean)

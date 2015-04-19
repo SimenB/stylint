@@ -3,7 +3,6 @@ var stampit = require('stampit');
 // very simple, 1 purpose methods, that run regex/indexOf checks on strings
 module.exports = stampit().methods({
 	test: {
-		alphabet: require('../checks/alphabet'),
 		block: require('../checks/block'),
 		borderNone: require('../checks/borderNone'),
 		brackets: require('../checks/brackets'),
@@ -26,6 +25,7 @@ module.exports = stampit().methods({
 		placeholder: require('../checks/placeholder'),
 		quotes: require('../checks/quotes'),
 		semicolon: require('../checks/semicolon'),
+		sortOrder: require('../checks/sortOrder'),
 		startsWithComment: require('../checks/startsWithComment'),
 		universal: require('../checks/universal'),
 		valid: require('../checks/valid'),

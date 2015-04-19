@@ -1,5 +1,6 @@
 'use strict';
 
+
 // dont throw false positives on user created names or syntax
 var ignoreMeRe = /^[.#]|[${}=>&*]|(&:)|(if)|(for)|(@block)(@import)(@media)(@extends)/;
 

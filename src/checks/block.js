@@ -29,4 +29,6 @@ module.exports = function checkBlockStyle( app ) {
 	if ( blockStyleCorrect === false ) {
 		app.cache.warnings.push( 'block variables must include @block' + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
 	}
+
+	return blockStyleCorrect;
 };

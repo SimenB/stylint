@@ -21,6 +21,7 @@ module.exports = stampit().methods({
 		}
 		return emojiClear;
 	},
+
 	emojiWarning: function( emoji, os ) {
 		var emojiWarning = '';
 		if ( emoji || this.config.emoji === true ) {
@@ -33,6 +34,7 @@ module.exports = stampit().methods({
 		}
 		return emojiWarning;
 	},
+
 	getContext: function( indentType, line ) {
 		var textIndex = 0;
 		var currContext = 0;
@@ -57,6 +59,7 @@ module.exports = stampit().methods({
 
 		return currContext;
 	},
+
 	getFiles: function( path ) {
 		if ( typeof path !== 'string' ) {
 			throw new TypeError('Path needs to be a string');
@@ -72,6 +75,7 @@ module.exports = stampit().methods({
 			}.bind( this ));
 		}.bind( this ));
 	},
+
 	resetOnChange: function( newPath ) {
 		this.state.dir = newPath;
 		this.cache.warnings = [];
@@ -84,10 +88,12 @@ module.exports = stampit().methods({
 		this.cache.prevContext = 0;
 		return this.core.read( this, newPath );
 	},
+
 	setConfig: function( potentialPath ) {
 		var path = pathIsAbsolute( potentialPath ) ? potentialPath : process.cwd() + '/' + potentialPath;
 		return JSON.parse( fs.readFileSync( path ) );
 	},
+
 	// remove all whitespace from a string, customizable regex
 	stripWhiteSpace: function( re, str ) {
 		return str.split(re).filter(function( str ) {
