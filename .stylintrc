@@ -23,7 +23,7 @@
     "placeholders": true,
     "quotePref": "single",
     "semicolons": false,
-    "sortorder": true,
+    "sortorder": [ "margin", "padding", "float", "position" ],
     "universal": true,
     "valid": false,
     "whitespace": true,
