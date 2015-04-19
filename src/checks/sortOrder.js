@@ -5,8 +5,8 @@ var ignoreMe = /^[.#]|[${}=>&*]|(&:)|(if)|(for)|(@block)(@import)(@media)(@exten
 
 // check that selector properties are sorted accordingly
 // original params: line, valid, sortOrder
-module.exports = function checkSortOrder( app ) {
-	var arr = line.split(/[\s\t,:]/);
+module.exports = function checkSortOrder() {
+	var arr = this.cache.line.split(/[\s\t,:]/);
 	var indentCount = 0;
 	var currContext = 0;
 	var isItSorted = false;
@@ -17,7 +17,7 @@ module.exports = function checkSortOrder( app ) {
 	// quick and dirty fixes for now, didnt' account for hard tabs for context check
 	// this just gets the number of indents so we don't throw false positives
 	if ( typeof this.config.indentSpaces !== 'number' ) {
-		while ( line.charAt( textIndex++ ) === '\t' ) {
+		while ( this.cache.line.charAt( textIndex++ ) === '\t' ) {
 			currContext++;
 		}
 	}
@@ -29,7 +29,7 @@ module.exports = function checkSortOrder( app ) {
 			else {
 				currContext = indentCount / this.config.indentSpaces;
 			}
-		}.bind( this ));
+		});
 	}
 
 	// if current context switched, reset array
@@ -47,8 +47,8 @@ module.exports = function checkSortOrder( app ) {
 	});
 
 	// push prop values into our 'cache' @TODO do i need that length check?
-	if ( typeof arr[0] !== 'undefined' && arr[0].length > 0 && currContext > 0 && !ignoreMe.test( line ) ) {
-		valid.css.forEach(function( val ) {
+	if ( typeof arr[0] !== 'undefined' && arr[0].length > 0 && currContext > 0 && !ignoreMe.test( this.cache.line ) ) {
+		this.valid.css.forEach(function( val ) {
 			var i = 0, j = 0;
 
 			if ( arr[ 0 ] === val ) {
@@ -56,15 +56,15 @@ module.exports = function checkSortOrder( app ) {
 				return;
 			}
 
-			for ( i; i < valid.prefixes.length; i++ ) {
-				if ( arr[ 0 ] === ( valid.prefixes[ i ] + val ) ) {
+			for ( i; i < this.valid.prefixes.length; i++ ) {
+				if ( arr[ 0 ] === ( this.valid.prefixes[ i ] + val ) ) {
 					validCSS = true;
 					return;
 				}
 			}
 
-			for ( j; j < valid.pseudo.length; j++ ) {
-				if ( arr[ 0 ] === ( val + valid.pseudo[ j ] ) ) {
+			for ( j; j < this.valid.pseudo.length; j++ ) {
+				if ( arr[ 0 ] === ( val + this.valid.pseudo[ j ] ) ) {
 					validCSS = true;
 					return;
 				}
@@ -79,11 +79,11 @@ module.exports = function checkSortOrder( app ) {
 		return true;
 	}
 
-	if ( line.indexOf('(') !== -1 && line.indexOf(')') !== -1 ) {
+	if ( this.cache.line.indexOf('(') !== -1 && this.cache.line.indexOf(')') !== -1 ) {
 		return true;
 	}
 
-	if ( ignoreMe.test( line ) || this.cache.sortOrderCache.length < 1 ) {
+	if ( ignoreMe.test( this.cache.line ) || this.cache.sortOrderCache.length < 1 ) {
 		return true;
 	}
 
@@ -91,11 +91,12 @@ module.exports = function checkSortOrder( app ) {
 	sortedArr = this.cache.sortOrderCache.slice(0);
 
 	// and then sort it
-	if ( sortOrder === 'alphabetical' ) {
+	if ( this.config.sortOrder === 'alphabetical' ) {
 		sortedArr = sortedArr.sort();
-	} else if ( sortOrder === 'grouped' || Array.isArray(sortOrder) ) {
+	}
+	else if ( this.config.sortOrder === 'grouped' || Array.isArray(this.config.sortOrder) ) {
 		// use custom ordering if specified, or fall back to in-built grouped ordering
-		var orderingArr = Array.isArray(sortOrder) ? sortOrder : ordering.grouped;
+		var orderingArr = Array.isArray(sortOrder) ? this.config.sortOrder : ordering.grouped;
 
 		sortedArr = sortedArr.sort(function( a, b ) {
 			var aIndex = orderingArr.indexOf(a),
@@ -106,7 +107,8 @@ module.exports = function checkSortOrder( app ) {
 
 			if (aIndex < bIndex) {
 				return -1;
-			} else if (bIndex < aIndex) {
+			}
+			else if (bIndex < aIndex) {
 				return 1;
 			}
 		});
@@ -126,7 +128,7 @@ module.exports = function checkSortOrder( app ) {
 				}
 				// if match, check for valid css before we set it to true
 				else {
-					valid.css.forEach(function( val ) {
+					this.valid.css.forEach(function( val ) {
 						var i = 0, j = 0;
 
 						if ( this.cache.sortOrderCache[ 0 ] === val ) {
@@ -134,22 +136,22 @@ module.exports = function checkSortOrder( app ) {
 							return;
 						}
 
-						for ( i; i < valid.prefixes.length; i++ ) {
-							if ( this.cache.sortOrderCache[ 0 ] === ( valid.prefixes[ i ] + val ) ) {
+						for ( i; i < this.valid.prefixes.length; i++ ) {
+							if ( this.cache.sortOrderCache[ 0 ] === ( this.valid.prefixes[ i ] + val ) ) {
 								isItSorted = true;
 								return;
 							}
 						}
 
-						for ( j; j < valid.pseudo.length; j++ ) {
-							if ( this.cache.sortOrderCache[ 0 ] === ( val + valid.pseudo[ j ] ) ) {
+						for ( j; j < this.valid.pseudo.length; j++ ) {
+							if ( this.cache.sortOrderCache[ 0 ] === ( val + this.valid.pseudo[ j ] ) ) {
 								isItSorted = true;
 								return;
 							}
 						}
 					}.bind( this ));
 
-					valid.html.forEach(function( val ) {
+					this.valid.html.forEach(function( val ) {
 						var i = 0;
 
 						if ( this.cache.sortOrderCache[ 0 ] === val ) {
@@ -157,8 +159,8 @@ module.exports = function checkSortOrder( app ) {
 							return;
 						}
 
-						for ( i; i < valid.pseudo.length; i++ ) {
-							if ( this.cache.sortOrderCache[ 0 ] === ( val + valid.pseudo[ i ] ) ) {
+						for ( i; i < this.valid.pseudo.length; i++ ) {
+							if ( this.cache.sortOrderCache[ 0 ] === ( val + this.valid.pseudo[ i ] ) ) {
 								isItSorted = true;
 								return;
 							}
@@ -174,6 +176,10 @@ module.exports = function checkSortOrder( app ) {
 
 	// save our curr context so we can use it to see our place
 	this.cache.prevContext = currContext;
+
+	if ( !isItSorted ) {
+		this.cache.warnings.push( 'prefer ' + this.config.sortOrder + ' when sorting properties. \nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + this.cache.line.trim() );
+	}
 
 	return isItSorted;
 };

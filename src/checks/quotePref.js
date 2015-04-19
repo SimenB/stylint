@@ -1,9 +1,9 @@
 'use strict';
 
 // check that quote style is consistent with config
-module.exports = function checkQuoteStyle( app ) {
-	var line = app.cache.line; // convenience
-	var quotePref = app.config.quotePref; // convenience
+module.exports = function checkQuoteStyle() {
+	var line = this.cache.line; // convenience
+	var quotePref = this.config.quotePref; // convenience
 	var badQuotes = false;
 
 	// check if ' or " is present on the line at all
@@ -36,7 +36,7 @@ module.exports = function checkQuoteStyle( app ) {
 	}
 
 	if ( badQuotes === true ) {
-		cache.warnings.push( 'preferred quote style is ' + quotePref + ' quotes' + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
+		cache.warnings.push( 'preferred quote style is ' + quotePref + ' quotes' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + this.cache.line.trim() );
 	}
 
 	return badQuotes;

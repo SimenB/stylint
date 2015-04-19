@@ -3,7 +3,7 @@
 var outlineRe = /(outline):*(?!-)/;
 
 // checks for outline none
-module.exports = function checkOutlineNone( line ) {
+module.exports = function checkOutlineNone() {
 	if ( typeof line !== 'string' ) { return; }
 
 	var hasOutlineNone = false;
@@ -13,6 +13,10 @@ module.exports = function checkOutlineNone( line ) {
 		if ( line.indexOf('none') !== -1 ) {
 			hasOutlineNone = true;
 		}
+	}
+
+	if ( hasOutlineNone === true ) {
+		this.cache.warnings.push( 'prefer outline 0 over outline none:' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + this.cache.line.trim() );
 	}
 
 	return hasOutlineNone;

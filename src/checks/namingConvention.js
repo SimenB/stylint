@@ -13,12 +13,12 @@ var bemRe = /^([$.#{:][${a-z]([-]?[${}a-z0-9]+)*(_{2}[${}a-z0-9]([-]?[${}a-z0-9]
  * @param {string} [convention] the naming convention to test againt. can be 'camelCase'|'underscore'|'dash'|'BEM'
  * @returns true, false, or undefined true if convention correct, false if not, undefined if line not testable
  */
-module.exports = function checkNamingConvention( app ) {
+module.exports = function checkNamingConvention() {
 	var firstCheckRe = /^[${:]+/m;
-	var arr = app.cache.lineArr; // convenience
+	var arr = this.cache.lineArr; // convenience
 	var badConvention = false;
 
-	if ( app.config.namingConventionStrict === true ) {
+	if ( this.config.namingConventionStrict === true ) {
 		firstCheckRe = /^[$#.{:]+/m; // more stricter regex
 	}
 
@@ -32,7 +32,7 @@ module.exports = function checkNamingConvention( app ) {
 			// return true;
 		}
 		// then check conventions
-		else if ( app.config.namingConvention === 'camelCase' ) {
+		else if ( this.config.namingConvention === 'camelCase' ) {
 			if ( arr[0].indexOf('-') === -1 &&
 				arr[0].indexOf('_') === -1 &&
 				camelRe.test( arr[0] ) ) {
@@ -40,7 +40,7 @@ module.exports = function checkNamingConvention( app ) {
 				// return true;
 			}
 		}
-		else if ( app.config.namingConvention === 'lowercase_underscore' ) {
+		else if ( this.config.namingConvention === 'lowercase_underscore' ) {
 			if ( arr[0].indexOf('-') === -1 &&
 				arr[0].indexOf('_') !== -1 &&
 				!alphaRe.test( arr[0] ) ) {
@@ -48,7 +48,7 @@ module.exports = function checkNamingConvention( app ) {
 				// return true;
 			}
 		}
-		else if ( app.config.namingConvention === 'lowercase-dash' ) {
+		else if ( this.config.namingConvention === 'lowercase-dash' ) {
 			if ( arr[0].indexOf('-') !== -1 &&
 				arr[0].indexOf('_') === -1 &&
 				!alphaRe.test( arr[0] ) ) {
@@ -56,7 +56,7 @@ module.exports = function checkNamingConvention( app ) {
 				// return true;
 			}
 		}
-		else if ( app.config.namingConvention === 'BEM' ) {
+		else if ( this.config.namingConvention === 'BEM' ) {
 			if ( !alphaRe.test( arr[0] ) && bemRe.test( arr[0] ) ) {
 				badConvention = true;
 				// return true;
@@ -65,7 +65,7 @@ module.exports = function checkNamingConvention( app ) {
 	}
 
 	if ( badConvention === true ) {
-		app.cache.warnings.push( 'preferred naming convention is ' + app.config.namingConvention + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
+		this.cache.warnings.push( 'preferred naming convention is ' + this.config.namingConvention + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + this.cache.line.trim() );
 	}
 
 	return badConvention;

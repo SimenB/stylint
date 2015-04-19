@@ -11,8 +11,8 @@ var stripCommentsRe = /(\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*+\/)/gm;
  * @param  {number} fileNum     [the current file being parsed (# of len) ]
  * @returns test function
  */
-module.exports = function parse( app, file, len, fileNum ) {
-	return fs.readFile(file, { encoding: 'utf8' }, function( err, data ) {
+module.exports = function parse() {
+	return fs.readFile(this.cache.file, { encoding: 'utf8' }, function( err, data ) {
 		if ( err ) { throw err; }
 		var lines = data.replace(stripCommentsRe, function( match ) {
 			var linesNum = match.split(/\r\n|\r|\n/).length - 1;
@@ -40,16 +40,15 @@ module.exports = function parse( app, file, len, fileNum ) {
 		 */
 		return lines.forEach(function( line, i ) {
 			i++; // line nos don't start at 0
-			app.cache.line = line;
-			app.cache.lineArr = line.split('');
-			app.cache.lineNo = i;
-			app.cache.file = file;
-			return app.core.test( app );
-		});
+			this.cache.line = line;
+			this.cache.lineArr = line.split('');
+			this.cache.lineNo = i;
+			return this.lint();
+		}.bind(this));
 
 		// if at the last file, call the done function to output results
-		if ( fileNum === len ) {
-			return app.core.done( app );
+		if ( this.cache.fileNo === this.cache.filesLen ) {
+			return this.done();
 		}
-	});
+	}.bind(this));
 };

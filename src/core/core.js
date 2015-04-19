@@ -5,13 +5,11 @@ var stampit = require('stampit');
  * @return {Object} [i expose the modules to the entire app, so we only do it once]
  */
 module.exports = stampit().methods({
-	core: {
-		done: require('./done'),
-		help: require('./help'),
-		read: require('./read'),
-		parse: require('./parse'),
-		test: require('./test'),
-		ver: require('./version'),
-		watch: require('./watch')
-	}
+	done: require('./done'),
+	help: require('./help'),
+	read: require('./read'),
+	parse: require('./parse'),
+	lint: require('./lint'),
+	ver: require('./version'),
+	watch: require('./watch')
 });

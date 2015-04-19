@@ -1,15 +1,15 @@
 'use strict';
 
 // if we disallowed css literals, check for them and return true if found
-module.exports = function checkCssLiteral( app ) {
+module.exports = function checkCssLiteral() {
 	var cssLiteral = false;
 
-	if ( app.cache.line.indexOf('@css') !== -1 ) {
+	if ( this.cache.line.indexOf('@css') !== -1 ) {
 		return true;
 	}
 
 	if ( cssLiteral === true ) {
-		app.cache.warnings.push( 'refrain from using css literals' + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
+		this.cache.warnings.push( 'refrain from using css literals' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + this.cache.line.trim() );
 		return;
 	}
 

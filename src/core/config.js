@@ -6,7 +6,7 @@ var stampit = require('stampit');
  */
 module.exports = stampit().state({
 	config: {
-		alphabetical: true, // check that properties are sorted alphabetically
+		blockStyle: false, // check for @block when defining blocks
 		borderNone: true, // check for use of border none and recommend border 0
 		brackets: true, // check for { or }, unless used in a hash
 		colons: false, // check for unecessary colons
@@ -18,8 +18,6 @@ module.exports = stampit().state({
 		duplicates: true, // check if properties or selectors are duplicate
 		efficient: true, // check for margin 0 0 0 0 and recommend margin 0
 		emoji: false, // toggle emoji on or off
-		enforceVarStyle: false, // check for $ when declaring vars (doesnt check use)
-		enforceBlockStyle: false, // check for @block when defining blocks
 		extendPref: false, // prefer a specific syntax when using @extends (or @extend)
 		globalDupe: false, // throw duplicate selector warning across all files instead of curr file
 		indentSpaces: 4, // how many spaces should we prefer when indenting, pass in false if hard tabs
@@ -33,9 +31,11 @@ module.exports = stampit().state({
 		placeholders: true, // only allow @extending of placeholder vars
 		quotePref: false, // single or double quotes, or false to not check
 		semicolons: false, // check for unecessary semicolons
+		sortOrder: false, // alphabetical, grouped, Array<String> or false (no check)
 		trailingWhitespace: true, // check for trailing whitespace
 		universal: true, // check for use of * and recommend against it
 		valid: false, // check if prop or value is a valid assignment
+		varStyle: false, // check for $ when declaring vars (doesnt check use)
 		zeroUnits: true, // check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
 		zIndexDuplicates: false, // just find duplicate z index values
 		zIndexNormalize: false // suggest a normalized z index value, base of whatever this is

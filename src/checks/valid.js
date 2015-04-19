@@ -12,16 +12,16 @@ var isNumRe = /\d(?=[px]|%|[em]|[rem]|[vh]|[vw]|[vmin]|[vmax]|[ex]|[ch]|[mm]|[cm
 * @returns true if valid
 * @returns undefined if not testable (hmmm)
 */
-module.exports = function checkForValidProperties( app ) {
+module.exports = function checkForValidProperties() {
 	// split by tabs and spaces, tabs mess with pattern matching
-	// var arr = app.cache.line.split(/[\s\t,]/);
-	var line = app.cache.line; // convenience
+	// var arr = this.cache.line.split(/[\s\t,]/);
+	var line = this.cache.line; // convenience
 	var isValid = false;
-	var arr = app.stripWhiteSpace(new RegExp(/[\s\t,]/), app.cache.line);
+	var arr = this.stripWhiteSpace(new RegExp(/[\s\t,]/), this.cache.line);
 
 	// not empty, not something we ignore
 	if ( !ignoreMeRe.test( line ) &&
-		app.state.hash === false &&
+		this.state.hash === false &&
 		!attributeRe.test( arr[0] ) &&
 		!isNumRe.test( arr[0] ) &&
 		typeof arr[0] !== 'undefined' ) {
@@ -31,7 +31,7 @@ module.exports = function checkForValidProperties( app ) {
 			arr[0] = arr[0].replace(elAttributeRe, '');
 		}
 
-		app.valid.css.forEach(function( val ) {
+		this.valid.css.forEach(function( val ) {
 			var i = 0;
 			var j = 0;
 
@@ -40,22 +40,22 @@ module.exports = function checkForValidProperties( app ) {
 				return;
 			}
 
-			for ( i; i < app.valid.prefixes.length; i++ ) {
-				if ( arr[ 0 ] === ( app.valid.prefixes[ i ] + val ) ) {
+			for ( i; i < this.valid.prefixes.length; i++ ) {
+				if ( arr[ 0 ] === ( this.valid.prefixes[ i ] + val ) ) {
 					isValid = true;
 					return;
 				}
 			}
 
-			for ( j; j < app.valid.pseudo.length; j++ ) {
-				if ( arr[ 0 ] === ( val + app.valid.pseudo[ j ] ) ) {
+			for ( j; j < this.valid.pseudo.length; j++ ) {
+				if ( arr[ 0 ] === ( val + this.valid.pseudo[ j ] ) ) {
 					isValid = true;
 					return;
 				}
 			}
 		});
 
-		app.valid.html.forEach(function( val ) {
+		this.valid.html.forEach(function( val ) {
 			var i = 0;
 
 			if ( arr[ 0 ] === val ) {
@@ -63,8 +63,8 @@ module.exports = function checkForValidProperties( app ) {
 				return;
 			}
 
-			for ( i; i < app.valid.pseudo.length; i++ ) {
-				if ( arr[ 0 ] === ( val + app.valid.pseudo[ i ] ) ) {
+			for ( i; i < this.valid.pseudo.length; i++ ) {
+				if ( arr[ 0 ] === ( val + this.valid.pseudo[ i ] ) ) {
 					isValid = true;
 					return;
 				}
@@ -76,7 +76,7 @@ module.exports = function checkForValidProperties( app ) {
 	}
 
 	if ( isValid === false ) {
-		app.cache.warnings.push( 'property is not valid' + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
+		this.cache.warnings.push( 'property is not valid' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + this.cache.line.trim() );
 	}
 
 	return isValid;

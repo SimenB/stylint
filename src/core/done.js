@@ -8,6 +8,8 @@ module.exports = function done( app, kill ) {
 	var len = app.cache.warnings.length;
 	var war = []; // for returning warnings after we wipe the 'real' ones
 
+	// console.log( 'i should be called' );
+
 	app.msg = '\n' + app.emojiWarning() + len + ' Warnings';
 
 	// if you set a max it displays a slightly more annoying message (that'll show em!)

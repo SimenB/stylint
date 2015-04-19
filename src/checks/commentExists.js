@@ -1,10 +1,10 @@
 'use strict';
 
 // check for line comment anywhere on the line
-module.exports = function checkForComment( app ) {
+module.exports = function checkForComment() {
 	var hasComment = false;
 
-	if ( app.cache.line.indexOf('//') !== -1 ) { //hasCommentRe.test(line) ) {
+	if ( this.cache.line.indexOf('//') !== -1 ) { //hasCommentRe.test(line) ) {
 		hasComment = true;
 	}
 

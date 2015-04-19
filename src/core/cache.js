@@ -9,6 +9,8 @@ module.exports = stampit().state({
 		alphaCache: [], // we keep a context based arr of selectors here to check alpha order
 		context: 0, // basically how nested are we
 		file: '', // curr file we're testing
+		filesLen: 0, // # of files we're testing
+		fileNo: 0, // curr # of filesLen we're on
 		line: '', // curr line we're testing
 		lineArr: [], // the curr line, as an array
 		lineNo: 0, // curr line number we're testing

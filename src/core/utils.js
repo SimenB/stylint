@@ -60,19 +60,21 @@ module.exports = stampit().methods({
 		return currContext;
 	},
 
-	getFiles: function( path ) {
-		if ( typeof path !== 'string' ) {
+	getFiles: function( dir ) {
+		if ( typeof dir !== 'string' ) {
 			throw new TypeError('Path needs to be a string');
 		}
 
-		glob(path, {}, function( err, files ) {
+		glob(dir, {}, function( err, files ) {
 			if ( err ) { throw err; }
-			var len = files.length - 1;
+			this.cache.filesLen = files.length - 1;
 
-			files.forEach(function( file, i ) {
-				// console.log( file );
-				return this.core.parse( this, file, len, i );
+			return files.forEach(function( file, i ) {
+				this.cache.file = file;
+				this.cache.fileNo = i;
+				return this.parse();
 			}.bind( this ));
+
 		}.bind( this ));
 	},
 

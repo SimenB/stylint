@@ -13,12 +13,12 @@ module.exports = stampit().enclose(function () {
 
 	// display help message if user types --help
 	if ( process.argv.indexOf('-h') !== -1 || process.argv.indexOf('--help') !== -1 ) {
-		return this.core.help( this );
+		return this.help( this );
 	}
 
 	// output version # from package.json
 	if ( process.argv.indexOf('-v') !== -1 || process.argv.indexOf('--version') !== -1 ) {
-		return this.core.ver( this, __dirname );
+		return this.ver( this, __dirname );
 	}
 
 	// turn on strict if strict flag passed
@@ -40,9 +40,8 @@ module.exports = stampit().enclose(function () {
 
 	// fire watch or read based on flag
 	if ( process.argv.indexOf('-w') !== -1 || process.argv.indexOf('--watch') !== -1 ) {
-		return this.core.watch( this, this.state.dir );
+		return this.watch();
 	}
-	else {
-		return this.core.read( this, this.state.dir );
-	}
+
+	return this.read();
 });

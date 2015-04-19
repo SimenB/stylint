@@ -4,9 +4,9 @@
 var hashStartRe = /{$|{ $/;
 var stripMixinsRe = /(\(.*\))/;
 
-module.exports = function checkForHashStart( app ) {
+module.exports = function checkForHashStart() {
 	var hashStart = false;
-	var strippedLine = app.cache.line.replace(stripMixinsRe, '');
+	var strippedLine = this.cache.line.replace(stripMixinsRe, '');
 
 	// ex colorsHash = {
 	if ( hashStartRe.test(strippedLine) &&

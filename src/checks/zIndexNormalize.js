@@ -1,20 +1,16 @@
 'use strict';
 
 // check for z-index values that aren't normalized
-module.exports = function normalizeZIndex( app ) {
-	if ( app.cache.line.indexOf( 'z-index' ) === -1 ) {
-		return;
-	}
-
+module.exports = function normalizeZIndex() {
 	var badZIndex = false;
-	var arr = app.stripWhiteSpace( new RegExp(/[\s\t,:]/), app.cache.line );
+	var arr = this.stripWhiteSpace( new RegExp(/[\s\t,:]/), this.cache.line );
 
-	if ( arr[ arr.length - 1 ] % app.config.zIndexNormalize !== 0 ) {
+	if ( arr[ arr.length - 1 ] % this.config.zIndexNormalize !== 0 ) {
 		badZIndex = true; // return true;
 	}
 
 	if ( badZIndex === true ) {
-		app.cache.warnings.push( 'this z-index value is not normalized' + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
+		this.cache.warnings.push( 'this z-index value is not normalized' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + this.cache.line.trim() );
 	}
 
 	return badZIndex;

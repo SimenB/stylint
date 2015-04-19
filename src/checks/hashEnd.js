@@ -3,11 +3,11 @@
 var hashEndingRe = /^\}/;
 
 // check if we're ending a hash
-module.exports = function checkForHashEnd( app ) {
+module.exports = function checkForHashEnd() {
 	var hashEnded = false;
 
 	// ex }, but only if we've already establish that we're in a hash'
-	if ( hashEndingRe.test(app.cache.line) && app.state.hash ) {
+	if ( hashEndingRe.test(this.cache.line) && this.state.hash ) {
 		hashEnded = true;
 	}
 

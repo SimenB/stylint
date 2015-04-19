@@ -8,13 +8,8 @@ var chokidar = require('chokidar');
  * @param  {string} customConfig [path to config object]
  * @return {function}            [kick off linter on each change]
  */
-module.exports = function watch( app, path ) {
-	if ( typeof app !== 'object' ||
-		typeof path !== 'string' ) {
-		return;
-	}
-
-	var watcher = chokidar.watch( path );
+module.exports = function watch( app  ) {
+	var watcher = chokidar.watch( app.state.dir );
 
 	// initial watch msg
 	watcher.on('ready', function() {
