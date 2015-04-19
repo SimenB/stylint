@@ -1,8 +1,6 @@
 'use strict';
 
-var
-	spaceAfter = /,[a-zA-Z]/,
-	spaceAfterNum = /,(?:\d*\.)?\d+/;
+var noSpaceRe = /,\S/gm;
 
 // check that commas are followed by spaces
 module.exports = function checkCommaStyle( line ) {
@@ -10,8 +8,8 @@ module.exports = function checkCommaStyle( line ) {
 
 	// if , is present on line
 	if ( line.indexOf(',') !== -1 && line.indexOf(',') !== line.length - 1 ) {
-		// if no space after or space below
-		if ( spaceAfter.test(line) || spaceAfterNum.test(line) ) {
+		// if no space after comma (newlines are okay)
+		if ( noSpaceRe.test(line) ) {
 			return false;
 		}
 		else {

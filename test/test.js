@@ -644,6 +644,10 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, app.comma('0, 0, 0, .18') );
 		});
 
+		it('should return true if newline after comma', function() {
+			assert.equal( true, app.comma('.className,\n') );
+		});
+
 		it('should return undefined if missing params', function() {
 			assert.equal( undefined, app.comma('.no-need-for-comma') );
 			assert.equal( undefined, app.comma() );
@@ -1391,15 +1395,15 @@ describe('Done, again: ', function() {
 		app.state.quiet = true;
 	});
 
-	it('should exit if watch off', function() {
-		sinon.spy( app, 'done' );
-		var test;
+	// it('should exit if watch off', function() {
+	// 	sinon.spy( app, 'done' );
+	// 	var test;
 
-		app.state.watching = false;
-		test = app.done( app );
+	// 	app.state.watching = false;
+	// 	test = app.done( app );
 
-		app.done.getCall(0).returned( sinon.match.same( process.exit ) );
+	// 	app.done.getCall(0).returned( sinon.match.same( process.exit ) );
 
-		app.state.watching = true;
-	});
+	// 	app.state.watching = true;
+	// });
 });
