@@ -1,13 +1,15 @@
 'use strict';
 
-var
-	prevContext = 0,
-	// dont throw false positives on user created names or syntax
-	ignoreMe = /^[.#]|[${}=>&*]|(&:)|(if)|(for)|(@block)(@import)(@media)(@extends)/;
+var ignoreMe = /^[.#]|[${}=>&*]|(&:)|(if)|(for)|(@block)(@import)(@media)(@extends)/,
+	ordering = require('../data/ordering.json');
 
-// check that selector properties are sorted alphabetically
-module.exports = function sortAlphabetically( line, valid ) {
-	if ( typeof line !== 'string' || typeof valid !== 'object' ) { return; }
+// check that selector properties are sorted accordingly
+module.exports = function checkSortOrder( line, valid, sortOrder ) {
+	if ( typeof line !== 'string' ||
+		typeof valid !== 'object' ||
+		typeof sortOrder === 'undefined' ) {
+		return;
+	}
 
 	var
 		arr = line.split(/[\s\t,:]/),
@@ -37,8 +39,8 @@ module.exports = function sortAlphabetically( line, valid ) {
 	}
 
 	// if current context switched, reset array
-	if ( prevContext !== currContext ) {
-		this.alphaCache = [];
+	if ( this.cache.prevContext !== currContext ) {
+		this.cache.sortOrderCache = [];
 	}
 
 	// we don't alphabetize the root yet
@@ -76,7 +78,7 @@ module.exports = function sortAlphabetically( line, valid ) {
 		}.bind( this ));
 
 		if ( validCSS ) {
-			this.alphaCache.push( arr[ 0 ] );
+			this.cache.sortOrderCache.push( arr[ 0 ] );
 		}
 	}
 	else {
@@ -87,27 +89,44 @@ module.exports = function sortAlphabetically( line, valid ) {
 		return true;
 	}
 
-	if ( ignoreMe.test( line ) || this.alphaCache.length < 1 ) {
+	if ( ignoreMe.test( line ) || this.cache.sortOrderCache.length < 1 ) {
 		return true;
 	}
 
 	// create a copy of the cache for comparison
-	this.alphaCache.forEach(function( val, i ) {
-		sortedArr.push( this.alphaCache[i] );
-	}.bind( this ));
+	sortedArr = this.cache.sortOrderCache.slice(0);
 
 	// and then sort it
-	sortedArr = sortedArr.sort();
+	if ( sortOrder === 'alphabetical' ) {
+		sortedArr = sortedArr.sort();
+	} else if ( sortOrder === 'grouped' || Array.isArray(sortOrder) ) {
+		// use custom ordering if specified, or fall back to in-built grouped ordering
+		var orderingArr = Array.isArray(sortOrder) ? sortOrder : ordering.grouped;
+
+		sortedArr = sortedArr.sort(function( a, b ) {
+			var aIndex = orderingArr.indexOf(a),
+				bIndex = orderingArr.indexOf(b);
+
+			// allow properties does not exist in ordering array to be last in order
+			if (bIndex < 0) bIndex = orderingArr.length;
+
+			if (aIndex < bIndex) {
+				return -1;
+			} else if (bIndex < aIndex) {
+				return 1;
+			}
+		});
+	}
 
 	// now compare
-	if ( this.alphaCache.length === sortedArr.length ) {
+	if ( this.cache.sortOrderCache.length === sortedArr.length ) {
 
-		if ( this.state.hash === false && currContext === prevContext ) {
+		if ( this.state.hash === false && currContext === this.cache.prevContext ) {
 
 			// compare each value individually
-			this.alphaCache.forEach(function( val, i ) {
+			this.cache.sortOrderCache.forEach(function( val, i ) {
 				// if any value doesn't match quit the forEach
-				if ( sortedArr[i] !== this.alphaCache[i] ) {
+				if ( sortedArr[i] !== this.cache.sortOrderCache[i] ) {
 					isItSorted = false;
 					return;
 				}
@@ -116,20 +135,20 @@ module.exports = function sortAlphabetically( line, valid ) {
 					valid.css.forEach(function( val ) {
 						var i = 0, j = 0;
 
-						if ( this.alphaCache[ 0 ] === val ) {
+						if ( this.cache.sortOrderCache[ 0 ] === val ) {
 							isItSorted = true;
 							return;
 						}
 
 						for ( i; i < valid.prefixes.length; i++ ) {
-							if ( this.alphaCache[ 0 ] === ( valid.prefixes[ i ] + val ) ) {
+							if ( this.cache.sortOrderCache[ 0 ] === ( valid.prefixes[ i ] + val ) ) {
 								isItSorted = true;
 								return;
 							}
 						}
 
 						for ( j; j < valid.pseudo.length; j++ ) {
-							if ( this.alphaCache[ 0 ] === ( val + valid.pseudo[ j ] ) ) {
+							if ( this.cache.sortOrderCache[ 0 ] === ( val + valid.pseudo[ j ] ) ) {
 								isItSorted = true;
 								return;
 							}
@@ -139,13 +158,13 @@ module.exports = function sortAlphabetically( line, valid ) {
 					valid.html.forEach(function( val ) {
 						var i = 0;
 
-						if ( this.alphaCache[ 0 ] === val ) {
+						if ( this.cache.sortOrderCache[ 0 ] === val ) {
 							isItSorted = true;
 							return;
 						}
 
 						for ( i; i < valid.pseudo.length; i++ ) {
-							if ( this.alphaCache[ 0 ] === ( val + valid.pseudo[ i ] ) ) {
+							if ( this.cache.sortOrderCache[ 0 ] === ( val + valid.pseudo[ i ] ) ) {
 								isItSorted = true;
 								return;
 							}
@@ -160,7 +179,7 @@ module.exports = function sortAlphabetically( line, valid ) {
 	}
 
 	// save our curr context so we can use it to see our place
-	prevContext = currContext;
+	this.cache.prevContext = currContext;
 
 	return isItSorted;
 };

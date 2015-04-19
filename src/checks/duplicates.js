@@ -2,7 +2,7 @@
 
 var syntaxIgnore = /^{|[,}]|(:after|:active|:before|@import|@require|@extend|@media|:hover|@font-face|src)/;
 
-// check that selector properties are sorted alphabetically
+// check if selectors are duplicate
 module.exports = function duplicateSelectors( line, file ) {
 	if ( typeof line !== 'string' ) { return; }
 

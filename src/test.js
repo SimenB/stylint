@@ -86,10 +86,14 @@ module.exports = function test( app, line, num, output, file ) {
 				return;
 			}
 
-			// check for 0px (margin 0 is preferred over margin 0px | 0em | 0whatever)
-			if ( app.config.alphabetical || state.strictMode ) {
-				if ( !app.alphabet( line, valid ) ) {
-					cache.warnings.push(  'Property is not in alphabetical order' + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+			// check for sort order preference
+			if ( app.config.sortOrder || state.strictMode ) {
+				if ( state.strictMode && app.config.sortOrder === false ) {
+					app.config.sortOrder = 'alphabetical';
+				}
+
+				if ( app.sortOrder(line, valid, app.config.sortOrder) === false ) {
+					cache.warnings.push( 'preferred sort order is ' + app.config.sortOrder + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 				}
 			}
 

@@ -26,7 +26,6 @@ var
 	ver               = require('./src/version'),
 	watch             = require('./src/watch'),
 	// linter tests below
-	alphabet          = require('./src/checks/alphabet'),
 	block             = require('./src/checks/block'),
 	borderNone        = require('./src/checks/borderNone'),
 	brackets          = require('./src/checks/brackets'),
@@ -50,6 +49,7 @@ var
 	placeholder       = require('./src/checks/placeholder'),
 	quotes            = require('./src/checks/quotes'),
 	semicolon         = require('./src/checks/semicolon'),
+	sortOrder         = require('./src/checks/sortOrder'),
 	stackedProperties = require('./src/checks/stackedProperties'),
 	startsWithComment = require('./src/checks/startsWithComment'),
 	universal         = require('./src/checks/universal'),
@@ -67,7 +67,6 @@ var
  */
 var config = stampit().state({
 	config: {
-		alphabetical: true, // check that properties are sorted alphabetically
 		borderNone: true, // check for use of border none and recommend border 0
 		brackets: true, // check for { or }, unless used in a hash
 		colons: false, // check for unecessary colons
@@ -95,6 +94,7 @@ var config = stampit().state({
 		placeholders: true, // only allow @extending of placeholder vars
 		quotePref: false, // single or double quotes, or false to not check
 		semicolons: false, // check for unecessary semicolons
+		sortOrder: false, // alphabetical, grouped, Array or false (don't check)
 		stackedProperties: true, // discourage one-liners
 		trailingWhitespace: true, // check for trailing whitespace
 		universal: true, // check for use of * and recommend against it
@@ -130,13 +130,13 @@ var flags = stampit().state({
  */
 var state = stampit().state({
 	cache: {
-		alphaCache: [],
 		msg: '',
 		prevContext: 0,
 		prevFile: '',
 		prevLine: '',
 		rootCache: [],
 		selectorCache: [],
+		sortOrderCache: [],
 		warnings: [],
 		zCache: []
 	},
@@ -202,7 +202,7 @@ var coreMethods = stampit().methods({
 	resetOnChange: function( newPath ) {
 		this.state.dir = newPath;
 		this.cache.warnings = [];
-		this.cache.alphaCache = [];
+		this.cache.sortOrderCache = [];
 		this.cache.selectorCache = [];
 		this.cache.rootCache = [];
 		this.cache.zCache = [];
@@ -227,7 +227,6 @@ var coreMethods = stampit().methods({
 
 // very simple, 1 purpose methods, that run regex/indexOf checks on strings
 var testMethods = stampit().methods({
-	alphabet: alphabet,
 	block: block,
 	borderNone: borderNone,
 	brackets: brackets,
@@ -251,6 +250,7 @@ var testMethods = stampit().methods({
 	placeholder: placeholder,
 	quotes: quotes,
 	semicolon: semicolon,
+	sortOrder: sortOrder,
 	startsWithComment: startsWithComment,
 	stackedProperties: stackedProperties,
 	universal: universal,
