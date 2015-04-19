@@ -343,40 +343,6 @@ describe('State:', function() {
 });
 
 describe('Linter Style Checks: ', function() {
-	describe('alphabetical', function() {
-		beforeEach(function() {
-			app.cache.prevContext = 1;
-		})
-
-		it('should return false with mocked alpha cache', function() {
-			app.cache.alphaCache = [ '    z-index 1', '    margin 5px', '    padding 5px' ];
-			assert.equal( false, app.alphabet( '    border 0', app ) );
-		});
-
-		it('should return true with mocked alpha cache', function() {
-			app.cache.alphaCache = [ '    border', '    margin', '    padding' ];
-			assert.equal( true, app.alphabet( '    z-index', app ) );
-		});
-
-		it('test with tabs on, should return true', function() {
-			app.config.indentSpaces = false;
-			assert.equal( true, app.alphabet( '			z-index', app ) );
-			app.config.indentSpaces = 4;
-		});
-
-		it('should return undefined if in hash', function() {
-			app.state.hash = true;
-			assert.equal( undefined, app.alphabet( '			z-index', app ) );
-			app.state.hash = false;
-		});
-
-		it('should return undefined if missing params', function() {
-			assert.equal( undefined, app.alphabet( undefined, app ) );
-			assert.equal( undefined, app.alphabet( 'z-index' ) );
-			assert.equal( undefined, app.alphabet() );
-		});
-	});
-
 	describe('block style', function() {
 		it('should return false if block style incorrect', function() {
 			assert.equal( false, app.block('myBlock = ') );
@@ -502,6 +468,10 @@ describe('Linter Style Checks: ', function() {
 
 		it('should return true if space after commas', function() {
 			assert.equal( true, app.comma('0, 0, 0, .18') );
+		});
+
+		it('should return true if newline after comma', function() {
+			assert.equal( true, app.comma('.className,\n') );
 		});
 
 		it('should return undefined if missing params', function() {
@@ -1072,6 +1042,136 @@ describe('Linter Style Checks: ', function() {
 
 		it('should return undefined if params missing', function() {
 			assert.equal( undefined, app.semicolon() );
+		});
+	});
+
+	describe('sort order', function() {
+		var indent = ' ';
+
+		beforeEach(function() {
+			app.cache.prevContext = indent.length / app.config.indentSpaces;
+		});
+
+		it('should return undefined if missing params', function() {
+			assert.equal( undefined, app.sortOrder( undefined, valid, undefined ) );
+			assert.equal( undefined, app.sortOrder( undefined, valid ) );
+			assert.equal( undefined, app.sortOrder( 'z-index' ) );
+			assert.equal( undefined, app.sortOrder() );
+		});
+
+		it('should ignore root level properties', function() {
+			app.cache.sortOrderCache = [ 'border', 'margin', 'padding' ];
+
+			assert.equal( 3, app.cache.sortOrderCache.length );
+			assert.equal( true, app.sortOrder( 'z-index', valid, app.config.sortOrder ));
+			assert.equal( 0, app.cache.sortOrderCache.length );
+		});
+
+		describe('disabled', function() {
+			beforeEach(function() {
+				app.config.sortOrder = false;
+			});
+
+			it('should allow any order when disabled', function() {
+				var expectedCache = [ 'background', 'z-index', 'border', 'width' ];
+
+				assert.equal( false, app.config.sortOrder );
+				assert.equal( true, app.sortOrder( indent + 'background', valid, app.config.sortOrder ) );
+				assert.equal( true, app.sortOrder( indent + 'z-index', valid, app.config.sortOrder ) );
+				assert.equal( true, app.sortOrder( indent + 'border', valid, app.config.sortOrder ) );
+				assert.equal( true, app.sortOrder( indent + 'width', valid, app.config.sortOrder ) );
+				assert.equal( expectedCache.length, app.cache.sortOrderCache.length );
+				assert.deepEqual( expectedCache, app.cache.sortOrderCache );
+			});
+		});
+
+		describe('alphabetical', function() {
+			beforeEach(function() {
+				app.config.sortOrder = 'alphabetical';
+				app.cache.sortOrderCache = [ 'border', 'margin', 'padding' ];
+			});
+
+			it('should return true if correct sort order with mocked sort order cache', function() {
+				var expectedCache = [ 'border', 'margin', 'padding', 'position', 'z-index' ];
+
+				assert.equal( 'alphabetical', app.config.sortOrder );
+				assert.equal( 3, app.cache.sortOrderCache.length );
+				assert.equal( true, app.sortOrder( indent + 'position', valid, app.config.sortOrder ) );
+				assert.equal( true, app.sortOrder( indent + 'z-index', valid, app.config.sortOrder ) );
+				assert.equal( expectedCache.length, app.cache.sortOrderCache.length );
+				assert.deepEqual( expectedCache, app.cache.sortOrderCache );
+			});
+
+			it('false if not correct sort order with mocked sort order cache', function() {
+				var expectedCache = [ 'border', 'margin', 'padding', 'line-height', 'background' ];
+
+				assert.equal( 'alphabetical', app.config.sortOrder );
+				assert.equal( 3, app.cache.sortOrderCache.length );
+				assert.equal( false, app.sortOrder( indent + 'line-height', valid, app.config.sortOrder ) );
+				assert.equal( false, app.sortOrder( indent + 'background', valid, app.config.sortOrder ) );
+				assert.equal( expectedCache.length, app.cache.sortOrderCache.length );
+				assert.deepEqual( expectedCache, app.cache.sortOrderCache );
+			});
+		});
+
+		describe('grouped', function() {
+			beforeEach(function() {
+				app.config.sortOrder = 'grouped';
+				app.cache.sortOrderCache = [ 'position', 'right' ];
+			});
+
+			it('should return true if correct sort order with mocked sort order cache', function() {
+				var expectedCache = [ 'position', 'right', 'bottom', 'z-index', 'width' ];
+
+				assert.equal( 'grouped', app.config.sortOrder );
+				assert.equal( 2, app.cache.sortOrderCache.length );
+				assert.equal( true, app.sortOrder( indent + 'bottom', valid, app.config.sortOrder ) );
+				assert.equal( true, app.sortOrder( indent + 'z-index', valid, app.config.sortOrder ) );
+				assert.equal( true, app.sortOrder( indent + 'width', valid, app.config.sortOrder ) );
+				assert.equal( expectedCache.length, app.cache.sortOrderCache.length );
+				assert.deepEqual( expectedCache, app.cache.sortOrderCache );
+			});
+
+			it('false if not correct sort order with mocked sort order cache', function() {
+				var expectedCache = [ 'position', 'right', 'top' ];
+
+				assert.equal( 'grouped', app.config.sortOrder );
+				assert.equal( 2, app.cache.sortOrderCache.length );
+				assert.equal( false, app.sortOrder( indent + 'top', valid, app.config.sortOrder ) );
+				assert.equal( expectedCache.length, app.cache.sortOrderCache.length );
+				assert.deepEqual( expectedCache, app.cache.sortOrderCache );
+			});
+		});
+
+		describe('Array', function() {
+			beforeEach(function() {
+				app.config.sortOrder = [ 'z-index', 'animation', 'top' ];
+				app.cache.sortOrderCache = [ 'z-index' ];
+			});
+
+			it('should return true if correct sort order with mocked sort order cache', function() {
+				var expectedCache = [ 'z-index', 'animation', 'top', 'width', 'border' ];
+
+				assert.deepEqual( [ 'z-index', 'animation', 'top' ], app.config.sortOrder );
+				assert.equal( 1, app.cache.sortOrderCache.length );
+				assert.equal( true, app.sortOrder( indent + 'animation', valid, app.config.sortOrder ) );
+				assert.equal( true, app.sortOrder( indent + 'top', valid, app.config.sortOrder ) );
+				assert.equal( true, app.sortOrder( indent + 'width', valid, app.config.sortOrder ) );
+				assert.equal( true, app.sortOrder( indent + 'border', valid, app.config.sortOrder ) );
+				assert.equal( expectedCache.length, app.cache.sortOrderCache.length );
+				assert.deepEqual( expectedCache, app.cache.sortOrderCache );
+			});
+
+			it('false if not correct sort order with mocked sort order cache', function() {
+				var expectedCache = [ 'z-index', 'top', 'animation' ];
+
+				assert.deepEqual( [ 'z-index', 'animation', 'top' ], app.config.sortOrder );
+				assert.equal( 1, app.cache.sortOrderCache.length );
+				assert.equal( true, app.sortOrder( indent + 'top', valid, app.config.sortOrder ) );
+				assert.equal( false, app.sortOrder( indent + 'animation', valid, app.config.sortOrder ) );
+				assert.equal( expectedCache.length, app.cache.sortOrderCache.length );
+				assert.deepEqual( expectedCache, app.cache.sortOrderCache );
+			});
 		});
 	});
 

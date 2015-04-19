@@ -1,3 +1,8 @@
+##### 0.9.6
+sortOrder check added: replaces alphabetical check: https://github.com/rossPatton/stylint/pull/92
+
+improvement to comma check
+
 ##### 0.9.5
 fix issue with efficient check: https://github.com/rossPatton/stylint/issues/91
 
