@@ -86,9 +86,9 @@ module.exports = function test( app, line, num, output, file ) {
 				return;
 			}
 
-			// check for sort order preference
-			if ( app.config.sortOrder || state.strictMode ) {
-				if ( state.strictMode && app.config.sortOrder === false ) {
+			// check for sort order preference (alphabetical checks are there for backwards compat)
+			if ( app.config.sortOrder || state.strictMode || app.config.alphabetical ) {
+				if ( ( state.strictMode && app.config.sortOrder === false ) || app.config.alphabetical ) {
 					app.config.sortOrder = 'alphabetical';
 				}
 
