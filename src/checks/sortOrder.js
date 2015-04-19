@@ -29,7 +29,7 @@ module.exports = function checkSortOrder() {
 			else {
 				currContext = indentCount / this.config.indentSpaces;
 			}
-		});
+		}.bind(this));
 	}
 
 	// if current context switched, reset array

@@ -8,9 +8,9 @@ var ampRe = /^(\&\:)/;  // check if using & selector before we count tabs
  * @param  {number} limit the total number of indents allowed, not counting &: selectors
  * @param  {number} indentSpaces  default is 4. if no indents found will check depth using spaces
  * @return {boolean} true if nesting is too deep, false if not
- * @todo  this is kinda not 100% reliable in it's current form
+ * @todo  this is kinda not 100% reliable in it's current form, also could be refactors
  */
-module.exports = function checkNesting() {
+module.exports = function depthLimit() {
 	var count = 0;
 	var index = 0;
 	var limit = this.config.depthLimit;

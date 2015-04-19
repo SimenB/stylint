@@ -2,11 +2,11 @@
 
 // check for line comment anywhere on the line
 module.exports = function checkForComment() {
-	var hasComment = false;
+	this.state.hasComment = false;
 
-	if ( this.cache.line.indexOf('//') !== -1 ) { //hasCommentRe.test(line) ) {
-		hasComment = true;
+	if ( this.cache.line.indexOf('//') !== -1 ) {
+		this.state.hasComment = true;
 	}
 
-	return hasComment;
+	return this.state.hasComment;
 };

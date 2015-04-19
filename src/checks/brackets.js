@@ -1,8 +1,6 @@
 'use strict';
 
 module.exports = function checkForBadBrackets() {
-	if ( this.state.cssBlock || this.state.hash ) { return; }
-
 	var badBracket = false;
 
 	// just strips out interpolated variables, simplifies the check

@@ -11,20 +11,21 @@ var fs = require('fs');
 module.exports = function read() {
 	// if nothing passed in, default to linting the curr dir
 	// here we get all the files to parse first, then we pass to app.parse
-	if ( this.state.dir === process.cwd() ) {
-		console.log( this.state.dir );
-		return this.getFiles( this.state.dir + '/**/*.styl' );
+	if ( this.state.path === process.cwd() ) {
+		// console.log( this.state.dir );
+		return this.getFiles( this.state.path + '/**/*.styl' );
 	}
 	/**
 	 * else we'll have either a filename or dir name to work with
 	 * if directory we use the glob logic to return an array of files to test
 	 */
 	else {
-		fs.stat(this.state.dir, function( err, stats ) {
+		fs.stat(this.state.path, function( err, stats ) {
 			if ( stats.isFile() ) {
-				console.log( stats );
-				// app.cache.file =
-				return this.parse( app, this.state.dir, 1, 1 );
+				this.cache.filesLen = 1;
+				this.cache.file = this.state.path;
+				this.cache.fileNo = 1;
+				return this.parse();
 			}
 
 			return this.getFiles( this.state.dir + '/**/*.styl' );

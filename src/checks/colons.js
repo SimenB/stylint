@@ -5,7 +5,7 @@ module.exports = function checkForColon() {
 	var badColon = false;
 
 	// : is allowed in hashes
-	if ( this.state.hash && this.cache.line.indexOf(': ') !== -1 ) {
+	if ( !this.state.hash && this.cache.line.indexOf(': ') !== -1 ) {
 		badColon = true;
 	}
 

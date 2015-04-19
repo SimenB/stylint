@@ -38,7 +38,7 @@ module.exports = function parse() {
 		 * @param  {string} [line] the line of stylus to test
 		 * @return {function} run test
 		 */
-		return lines.forEach(function( line, i ) {
+		lines.forEach(function( line, i ) {
 			i++; // line nos don't start at 0
 			this.cache.line = line;
 			this.cache.lineArr = line.split('');

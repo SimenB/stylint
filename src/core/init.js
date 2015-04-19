@@ -5,10 +5,10 @@ module.exports = stampit().enclose(function () {
 
 	// if path/ passed in use that for the dir
 	if ( process.argv[2] && this.flags.indexOf( process.argv[2] ) === -1 ) {
-		this.state.dir = process.argv[2];
+		this.state.path = process.argv[2];
 	}
 	else {
-		this.state.dir = process.cwd();
+		this.state.path = process.cwd();
 	}
 
 	// display help message if user types --help

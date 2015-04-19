@@ -4,44 +4,41 @@
  * @description outputs our error messages when compvare (or a thumbs up if no errors)
  * @return void
  */
-module.exports = function done( app, kill ) {
-	var len = app.cache.warnings.length;
+module.exports = function done() {
+	var len = this.cache.warnings.length;
 	var war = []; // for returning warnings after we wipe the 'real' ones
 
-	// console.log( 'i should be called' );
-
-	app.msg = '\n' + app.emojiWarning() + len + ' Warnings';
+	this.cache.msg = '\n' + this.emojiWarning() + len + ' Warnings';
 
 	// if you set a max it displays a slightly more annoying message (that'll show em!)
-	if ( kill === 'kill' ) {
-		app.msg += '\nStylint: too many errors, exiting';
+	if ( this.state.kill === 'kill' ) {
+		this.cache.msg += '\nStylint: too many errors, exiting';
 	}
-	else if ( app.config.maxWarnings && ( len > app.config.maxWarnings ) ) {
-		app.msg = app.emojiWarning() + 'Stylint: ' + len + ' warnings. Max is set to: ' + app.config.maxWarnings;
+	else if ( this.config.maxWarnings && ( len > this.config.maxWarnings ) ) {
+		this.cache.msg = this.emojiWarning() + 'Stylint: ' + len + ' warnings. Max is set to: ' + this.config.maxWarnings;
 	}
 	else if ( len === 0 ) {
-		app.msg = app.emojiAllClear() + 'Stylint: You\'re all clear!';
-		app.state.exitCode = 0;
+		this.cache.msg = this.emojiAllClear() + 'Stylint: You\'re all clear!';
+		this.state.exitCode = 0;
 	}
 
 	// when testing we want to silence the console a bit, so we have the quiet option
-	if ( !app.state.quiet ) {
-		app.cache.warnings.forEach(function( val ) {
+	if ( !this.state.quiet ) {
+		this.cache.warnings.forEach(function( val ) {
 			console.log( 'Warning: ', val, '\n' );
 			return war.push( val );
 		});
-		console.log( app.msg );
+		console.log( this.cache.msg );
 	}
 
-	if ( !app.state.watching ) {
-		process.exit( app.state.exitCode );
+	if ( !this.state.watching ) {
+		return process.exit( this.state.exitCode );
 	}
-	else {
-		app.cache.warnings = [];
-		return {
-			exitCode: app.state.exitCode,
-			msg: app.msg,
-			warnings: war
-		}
+
+	this.cache.warnings = [];
+	return {
+		exitCode: this.state.exitCode,
+		msg: this.cache.msg,
+		warnings: war
 	}
 };

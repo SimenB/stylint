@@ -1,7 +1,7 @@
 'use strict';
 
 // check for z-index values that are duplicated elsewhere
-module.exports = function deDupeZIndex() {
+module.exports = function zIndexDuplicates() {
 	var arr = this.cache.line.split(/[\s\t,:]/);
 	var context = this.getContext(this.config.indentSpaces, this.cache.line);
 	var isItADupe = false;
@@ -10,7 +10,7 @@ module.exports = function deDupeZIndex() {
 		if ( this.cache.zCache[i][0] === arr[ arr.length - 1 ] && context === this.cache.zCache[i][1] ) {
 			isItADupe = true;
 		}
-	});
+	}.bind(this));
 
 	this.cache.zCache.push( [ arr[ arr.length - 1 ], context ] );
 

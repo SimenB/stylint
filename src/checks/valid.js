@@ -53,7 +53,7 @@ module.exports = function checkForValidProperties() {
 					return;
 				}
 			}
-		});
+		}.bind(this));
 
 		this.valid.html.forEach(function( val ) {
 			var i = 0;
@@ -69,7 +69,7 @@ module.exports = function checkForValidProperties() {
 					return;
 				}
 			}
-		});
+		}.bind(this));
 	}
 	else {
 		isValid = true;

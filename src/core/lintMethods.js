@@ -4,9 +4,8 @@ var stampit = require('stampit');
 module.exports = stampit().methods({
 	lintMethods: {
 		blockStyle: require('../checks/blockStyle'),
-		borderNone: require('../checks/borderNone'),
 		brackets: require('../checks/brackets'),
-		colon: require('../checks/colon'),
+		colons: require('../checks/colons'),
 		colors: require('../checks/colors'),
 		commaSpace: require('../checks/commaSpace'),
 		commentSpace: require('../checks/commentSpace'),
@@ -18,6 +17,7 @@ module.exports = stampit().methods({
 		leadingZero: require('../checks/leadingZero'),
 		mixed: require('../checks/mixed'),
 		namingConvention: require('../checks/namingConvention'),
+		noNone: require('../checks/noNone'),
 		parenSpace: require('../checks/parenSpace'),
 		placeholders: require('../checks/placeholders'),
 		quotePref: require('../checks/quotePref'),

@@ -6,12 +6,9 @@ var noSpaceRe = /,\S/gm;
 module.exports = function checkCommaStyle() {
 	var badComma = false;
 
-	// if , is present on line
-	if ( this.cache.line.indexOf(',') !== -1 ) {
-		// if no space after comma (newlines are okay)
-		if ( noSpaceRe.test(line) ) {
-			badComma = true;
-		}
+	// if , is present on line and its a BAD ONE
+	if ( noSpaceRe.test(this.cache.line) ) {
+		badComma = true;
 	}
 
 	if ( badComma === true ) {

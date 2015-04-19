@@ -7,7 +7,6 @@ var stampit = require('stampit');
 module.exports = stampit().state({
 	config: {
 		blockStyle: false, // check for @block when defining blocks
-		borderNone: true, // check for use of border none and recommend border 0
 		brackets: true, // check for { or }, unless used in a hash
 		colons: false, // check for unecessary colons
 		colors: false, // check for hex colors used without variables
@@ -27,6 +26,7 @@ module.exports = stampit().state({
 		mixed: false, // check for mixed spaces and tabs
 		namingConvention: false, // lowercase-dash, camelCase, lowercase_underscore, BEM or false (dont check)
 		namingConventionStrict: false, // if true, then check classes and ids, if false just check variables
+		noNone: true, // check for use of border none or outline none, prefer 0
 		parenSpace: false, // check for extra space inside parens when defining or using mixins
 		placeholders: true, // only allow @extending of placeholder vars
 		quotePref: false, // single or double quotes, or false to not check

@@ -15,15 +15,7 @@ module.exports = function checkBlockStyle() {
 			eqEndRe.test( this.cache.line ) ) {
 
 			blockStyleCorrect = false;
-			// if = at end of line, but no value or @block
-			// return false;
 		}
-		// else if ( this.cache.line.indexOf( '@block' ) !== -1 &&
-		// 	!hashRe.test( this.cache.line ) &&
-		// 	!eqEndRe.test( this.cache.line ) ) {
-		// 	// if = is present, @block is present, not a hash, and no = at the end
-		// 	return true;
-		// }
 	}
 
 	if ( blockStyleCorrect === false ) {
