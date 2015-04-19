@@ -48,7 +48,7 @@ you can also ping me [here](https://gitter.im/rossPatton/stylint)
 
 
 ## Gulp
-You can use the raw module like below:
+You can use the raw module with [gulp-shell](https://github.com/sun-zheng-an/gulp-shell) like below:
 
 ```
 gulp.task('stylint', shell.task([
