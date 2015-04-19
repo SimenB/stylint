@@ -53,6 +53,9 @@ module.exports = function checkNesting( app ) {
 		}
 	}
 
+	if ( badNesting === true ) {
+		app.cache.warnings.push( 'selector depth greater than', app.config.depthLimit + ':' + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
+	}
 
 	return badNesting;
 };

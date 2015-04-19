@@ -75,5 +75,9 @@ module.exports = function checkForValidProperties( app ) {
 		isValid = true;
 	}
 
+	if ( isValid === false ) {
+		app.cache.warnings.push( 'property is not valid' + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
+	}
+
 	return isValid;
 };

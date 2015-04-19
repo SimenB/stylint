@@ -9,5 +9,9 @@ module.exports = function checkForColon( app ) {
 		badColon = true;
 	}
 
+	if ( badColon === true ) {
+		app.cache.warnings.push( 'unecessary colon found:' + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
+	}
+
 	return badColon;
 };

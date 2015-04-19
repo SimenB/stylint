@@ -24,5 +24,9 @@ module.exports = function checkVarStyle( app ) {
 		}
 	}
 
+	if ( isValidVar === false ) {
+		app.cache.warnings.push( 'variables must be prefixed with the $ sign.' + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
+	}
+
 	return isValidVar;
 };

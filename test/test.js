@@ -634,22 +634,6 @@ describe('Linter Style Checks: ', function() {
 	});
 
 	describe('efficient', function() {
-		// var test1 = 'margin 0 0 0 0';
-		// var test2 = 'margin 0 0 0';
-		// var test3 = 'margin 0 0';
-		// var test4 = 'margin 0 5px 0 5px';
-		// var test5 = 'margin 5px 0 5px';
-
-		// var test6 = 'margin 5px 0 5px 0';
-		// var test7 = 'margin 0 5px 0';
-		// var test8 = 'margin 0 5px';
-		// var test9 = 'margin 5px 0';
-		// var test10 = 'margin 5px 0 0';
-		// var test11 = 'margin 0';
-		// var test12 = 'margin 5px';
-		// var test13 = '.border-strong';
-		// var test14 = 'margin 0 5px 5px 5px';
-
 		it('should return false if value is not efficient', function() {
 			assert.equal( false, app.efficient( 'margin 0 0 0 0' ) );
 			assert.equal( false, app.efficient( 'margin: 0 0 0' ) );
@@ -975,6 +959,22 @@ describe('Linter Style Checks: ', function() {
 		});
 	});
 
+	describe('outline none', function() {
+		it('should return false if no outline none found', function() {
+			assert.equal( false, app.outlineNone('outline 0') );
+			assert.equal( false, app.outlineNone('outline: 0') );
+		});
+
+		it('should return true if outline none found', function() {
+			assert.equal( true, app.outlineNone('outline none') );
+			assert.equal( true, app.outlineNone('outline: none') );
+		});
+
+		it('should return undefined if missing params', function() {
+			assert.equal( undefined, app.outlineNone() );
+		});
+	});
+
 	describe('paren style', function() {
 		it('should return false if no parens spacing found', function() {
 			assert.equal( false, app.paren('myMixin(param1, param2)') );
@@ -1020,16 +1020,20 @@ describe('Linter Style Checks: ', function() {
 
 	describe('quote style', function() {
 		it('should return false if correct quote style used', function() {
-			assert.equal( false, app.quotes( "$var = 'test string' ", 'single' ) );
-			assert.equal( false, app.quotes( "$var = 'test \"substring\" string' ", 'single' ) );
-			assert.equal( false, app.quotes( ".show-content( $content = 'Hello!' )", 'single' ) );
-			assert.equal( false, app.quotes( ".show-content( $content = 'Hello!' ) {", 'single' ) );
-			assert.equal( false, app.quotes( "[class*='--button']", 'single' ) );
-			assert.equal( false, app.quotes( '$var = "test string" ', 'double' ) );
-			assert.equal( false, app.quotes( '$var = "test \'substring\' string" ', 'double' ) );
-			assert.equal( false, app.quotes( '.show-content( $content = "Hello!" )', 'double' ) );
-			assert.equal( false, app.quotes( '.show-content( $content = "Hello!" ) {', 'double' ) );
-			assert.equal( false, app.quotes( '[class*="--button"]', 'double' ) );
+			assert.equal( false, app.quotes( '$var = "test string" ', 'single' ) );
+			assert.equal( false, app.quotes( '$var = "test \'substring\' string"', 'single' ) );
+			assert.equal( false, app.quotes( '.show-content( $content = "Hello!" )', 'single' ) );
+			assert.equal( false, app.quotes( '.show-content( $content = "Hello!" ) {', 'single' ) );
+			assert.equal( false, app.quotes( '[class*="--button"]', 'single' ) );
+			assert.equal( false, app.quotes( '[class*="--button"] {', 'single' ) );
+			assert.equal( false, app.quotes( 'show-content( $content = "Hello!" ) {', 'single' ) );
+			assert.equal( false, app.quotes( "$var = 'test string' ", 'double' ) );
+			assert.equal( false, app.quotes( "$var = 'test \"substring\" string' ", 'double' ) );
+			assert.equal( false, app.quotes( ".show-content( $content = 'Hello!' )", 'double' ) );
+			assert.equal( false, app.quotes( ".show-content( $content = 'Hello!' ) {", 'double' ) );
+			assert.equal( false, app.quotes( "[class*='--button']", 'double' ) );
+			assert.equal( false, app.quotes( "[class*='--button'] {", 'double' ) );
+			assert.equal( false, app.quotes( "show-content( $content = 'Hello!' ) {", 'double' ) );
 		});
 
 		it('should return false if no quotes found', function() {
@@ -1068,6 +1072,21 @@ describe('Linter Style Checks: ', function() {
 
 		it('should return undefined if params missing', function() {
 			assert.equal( undefined, app.semicolon() );
+		});
+	});
+
+	describe('stacked properties', function() {
+		it('should return false if not a one liner', function() {
+			assert.equal( false, app.stackedProperties('margin 0 auto') );
+		});
+
+		it('should return true if one liner', function() {
+			assert.equal( true, app.stackedProperties('margin 0 auto; padding: 5px;') );
+			assert.equal( true, app.stackedProperties('margin 0 auto; padding: 5px;') );
+		});
+
+		it('should return undefined if params missing', function() {
+			assert.equal( undefined, app.stackedProperties() );
 		});
 	});
 

@@ -35,5 +35,9 @@ module.exports = function checkQuoteStyle( app ) {
 		}
 	}
 
+	if ( badQuotes === true ) {
+		cache.warnings.push( 'preferred quote style is ' + quotePref + ' quotes' + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
+	}
+
 	return badQuotes;
 };

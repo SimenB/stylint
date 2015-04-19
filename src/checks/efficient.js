@@ -37,5 +37,9 @@ module.exports = function checkForEfficiency( app ) {
 		}
 	}
 
+	if ( isEfficient === false ) {
+		app.cache.warnings.push( 'the value on this line could be more succinct:' + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
+	}
+
 	return isEfficient;
 };

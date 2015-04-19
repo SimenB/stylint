@@ -60,5 +60,9 @@ module.exports = function duplicateSelectors( app ) {
 	app.cache.prevLine = app.cache.line;
 	app.cache.prevContext = currContext;
 
+	if ( isThereADupe === true ) {
+		app.cache.warnings.push( 'duplicate property or selector, consider merging' + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
+	}
+
 	return isThereADupe;
 };

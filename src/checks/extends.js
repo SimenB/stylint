@@ -19,5 +19,9 @@ module.exports = function checkExtendStyle( app ) {
 		}
 	}
 
+	if ( extendsCorrect === false ) {
+		app.cache.warnings.push( 'please use the ' + app.config.extendPref + ' syntax when extending' + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
+	}
+
 	return extendsCorrect;
 };

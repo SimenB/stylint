@@ -10,5 +10,9 @@ module.exports = function checkForZeroUnits( app ) {
 		badZero = true;
 	}
 
+	if ( badZero === true ) {
+		app.cache.warnings.push(  '0 is preferred. Unit value is unnecessary' + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
+	}
+
 	return badZero;
 };

@@ -13,5 +13,9 @@ module.exports = function normalizeZIndex( app ) {
 		badZIndex = true; // return true;
 	}
 
+	if ( badZIndex === true ) {
+		app.cache.warnings.push( 'this z-index value is not normalized' + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
+	}
+
 	return badZIndex;
 };

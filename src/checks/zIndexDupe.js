@@ -18,5 +18,9 @@ module.exports = function deDupeZIndex( app ) {
 
 	app.cache.zCache.push( [ arr[ arr.length - 1 ], context ] );
 
+	if ( isItADupe === true ) {
+		app.cache.warnings.push(  'this z-index value is already being used elsewhere' + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
+	}
+
 	return isItADupe;
 };

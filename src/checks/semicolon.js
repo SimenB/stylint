@@ -8,5 +8,9 @@ module.exports = function checkForSemicolons( app ) {
 		hasSemicolon = true;
 	}
 
+	if ( hasSemicolon === true ) {
+		app.cache.warnings.push( 'unecessary semicolon found:' + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
+	}
+
 	return hasSemicolon;
 };

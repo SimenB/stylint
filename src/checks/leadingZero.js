@@ -20,11 +20,10 @@ module.exports = function hasLeadingZero( app ) {
 				zeroFound = true;
 			}
 		});
-		// for ( i; i < len; i++ ) {
-		// 	if ( leadingZero.test( arr[i] ) ) {
-		// 		zeroFound = true;
-		// 	}
-		// }
+	}
+
+	if ( zeroFound === true ) {
+		app.cache.warnings.push( 'leading zeros for decimal points are unecessary' + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
 	}
 
 	return zeroFound;

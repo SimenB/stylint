@@ -110,6 +110,7 @@ The default settings are pretty weak and unopinionated (I think). If you want to
     "placeholders": true,
     "quotePref": false,
     "semicolons": false,
+    "stackedProperties": true,
     "universal": true,
     "valid": false,
     "whitespace": true,
@@ -338,6 +339,21 @@ Enforce consistent quotation style.
 
 Example if `'single'`: prefer `$var = 'some string'` over `$var = "some string"`
 Example if `'double'`: prefer `$var = "some string"` over `$var = 'some string'`
+
+
+### stackedProperties (default: true, boolean)
+No one-liners. Enforce putting properties on new lines.
+
+Example if `true`: prefer
+
+```
+.className
+    padding 0
+```
+
+over
+
+`.className { padding 0 }`
 
 
 ### semicolons (default: false, boolean)

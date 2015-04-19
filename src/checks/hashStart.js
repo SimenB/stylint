@@ -2,13 +2,15 @@
 
 // check if we're starting a hash
 var hashStartRe = /{$|{ $/;
+var stripMixinsRe = /(\(.*\))/;
 
 module.exports = function checkForHashStart( app ) {
 	var hashStart = false;
+	var strippedLine = app.cache.line.replace(stripMixinsRe, '');
 
 	// ex colorsHash = {
-	if ( hashStartRe.test(app.cache.line) &&
-		app.cache.line.indexOf('=') !== -1 ) {
+	if ( hashStartRe.test(strippedLine) &&
+		strippedLine.indexOf('=') !== -1 ) {
 		hashStart = true;
 	}
 

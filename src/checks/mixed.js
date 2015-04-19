@@ -26,5 +26,9 @@ module.exports = function checkMixedSpacesAndTabs( app ) {
 		isMixed = true;
 	}
 
+	if ( isMixed === true ) {
+		app.cache.warnings.push( 'mixed spaces and tabs' + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
+	}
+
 	return isMixed;
 };

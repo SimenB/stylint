@@ -22,5 +22,9 @@ module.exports = function checkForUniversal( app ) {
 		hasUniversal = false;
 	}
 
+	if ( hasUniversal === true ) {
+		app.cache.warnings.push( '* selector is slow. Consider a different selector.' + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
+	}
+
 	return hasUniversal;
 };

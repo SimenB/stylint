@@ -19,5 +19,9 @@ module.exports = function checkCommentStyle( app ) {
 		}
 	}
 
+	if ( badComment === false ) {
+		app.cache.warnings.push( 'line comments require a space after //' + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
+	}
+
 	return badComment;
 };

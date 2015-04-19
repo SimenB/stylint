@@ -14,5 +14,9 @@ module.exports = function checkMixinStyle( app ) {
 		}
 	}
 
+	if ( hasExtraSpace === false ) {
+		app.cache.warnings.push( '( param1, param2 ) is preferred over (param1, param2)' + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
+	}
+
 	return hasExtraSpace;
 };

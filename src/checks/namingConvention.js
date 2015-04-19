@@ -64,5 +64,9 @@ module.exports = function checkNamingConvention( app ) {
 		}
 	}
 
+	if ( badConvention === true ) {
+		app.cache.warnings.push( 'preferred naming convention is ' + app.config.namingConvention + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
+	}
+
 	return badConvention;
 };

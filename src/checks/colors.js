@@ -11,5 +11,9 @@ module.exports = function checkHexColors( app ) {
 		badHex = true;
 	}
 
+	if ( badHex === true ) {
+		app.cache.warnings.push( 'hexidecimal color should be a variable:' + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
+	}
+
 	return badHex;
 };

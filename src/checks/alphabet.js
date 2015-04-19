@@ -54,5 +54,9 @@ module.exports = function sortAlphabetically( app ) {
 	// save our curr context so we can use it next time
 	app.cache.prevContext = currContext;
 
+	if ( isItSorted === false ) {
+		cache.warnings.push(  'Property is not in alphabetical order' + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
+	}
+
 	return isItSorted;
 };

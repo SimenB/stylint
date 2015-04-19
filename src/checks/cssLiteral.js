@@ -8,5 +8,10 @@ module.exports = function checkCssLiteral( app ) {
 		return true;
 	}
 
+	if ( cssLiteral === true ) {
+		app.cache.warnings.push( 'refrain from using css literals' + '\nFile: ' + app.cache.file + '\nLine: ' + app.cache.lineNo + ': ' + app.cache.line.trim() );
+		return;
+	}
+
 	return cssLiteral;
 };
