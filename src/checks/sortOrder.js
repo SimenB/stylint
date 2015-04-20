@@ -1,12 +1,12 @@
 'use strict';
 
-var ignoreMe = /^[.#]|[${}=>&*]|(&:)|(if)|(for)|(@block)(@import)(@media)(@extends)/,
-	ordering = require('../data/ordering.json');
+var ignoreMe = /^[.#]|[${}=>&*]|(&:)|(if)|(for)|(@block)(@import)(@media)(@extends)/;
+var ordering = require('../data/ordering.json');
 
 // check that selector properties are sorted accordingly
 // original params: line, valid, sortOrder
-module.exports = function checkSortOrder() {
-	var arr = this.cache.line.split(/[\s\t,:]/);
+module.exports = function checkSortOrder(line) {
+	var arr = line.split(/[\s\t,:]/);
 	var indentCount = 0;
 	var currContext = 0;
 	var isItSorted = false;
@@ -17,7 +17,7 @@ module.exports = function checkSortOrder() {
 	// quick and dirty fixes for now, didnt' account for hard tabs for context check
 	// this just gets the number of indents so we don't throw false positives
 	if ( typeof this.config.indentSpaces !== 'number' ) {
-		while ( this.cache.line.charAt( textIndex++ ) === '\t' ) {
+		while ( line.charAt( textIndex++ ) === '\t' ) {
 			currContext++;
 		}
 	}
@@ -47,7 +47,7 @@ module.exports = function checkSortOrder() {
 	});
 
 	// push prop values into our 'cache' @TODO do i need that length check?
-	if ( typeof arr[0] !== 'undefined' && arr[0].length > 0 && currContext > 0 && !ignoreMe.test( this.cache.line ) ) {
+	if ( typeof arr[0] !== 'undefined' && arr[0].length > 0 && currContext > 0 && !ignoreMe.test( line ) ) {
 		this.valid.css.forEach(function( val ) {
 			var i = 0, j = 0;
 
@@ -79,11 +79,11 @@ module.exports = function checkSortOrder() {
 		return true;
 	}
 
-	if ( this.cache.line.indexOf('(') !== -1 && this.cache.line.indexOf(')') !== -1 ) {
+	if ( line.indexOf('(') !== -1 && line.indexOf(')') !== -1 ) {
 		return true;
 	}
 
-	if ( ignoreMe.test( this.cache.line ) || this.cache.sortOrderCache.length < 1 ) {
+	if ( ignoreMe.test( line ) || this.cache.sortOrderCache.length < 1 ) {
 		return true;
 	}
 
@@ -178,7 +178,7 @@ module.exports = function checkSortOrder() {
 	this.cache.prevContext = currContext;
 
 	if ( !isItSorted ) {
-		this.cache.warnings.push( 'prefer ' + this.config.sortOrder + ' when sorting properties. \nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + this.cache.line.trim() );
+		this.cache.warnings.push( 'prefer ' + this.config.sortOrder + ' when sorting properties. \nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
 	}
 
 	return isItSorted;

@@ -1,24 +1,20 @@
 'use strict';
 
-var hexRe = /#(?:[0-9a-f]{3}){1,2}/igm;
+var hexRe = /#(?:[0-9a-f]{3}){1,2}/im;
 
 // if we disallowed hex colors, check for them and return true if found
-module.exports = function checkHexColors() {
+module.exports = function checkHexColors(line) {
+	if ( line.indexOf('=') !== -1 ) { return; }
 	var badHex = false;
 
 	// so basically if we're using #hex colors outside of a var declaration
-	if ( hexRe.test( this.cache.line ) && this.cache.line.indexOf('=') === -1 ) {
+	if ( hexRe.test( line ) ) {
 		badHex = true;
 	}
 
 	if ( badHex === true ) {
-		this.cache.warnings.push( 'hexidecimal color should be a variable:' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + this.cache.line.trim() );
+		this.cache.warnings.push( 'hexidecimal color should be a variable:' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
 	}
-
-	// @TODO this is madness - if i comment this out the test fails
-	console.log( this.cache.line )
-	console.log( this.cache.line.indexOf('=') === -1 );
-	console.log( hexRe.test( this.cache.line ) );
 
 	return badHex;
 };

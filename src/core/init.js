@@ -13,12 +13,12 @@ module.exports = stampit().enclose(function () {
 
 	// display help message if user types --help
 	if ( process.argv.indexOf('-h') !== -1 || process.argv.indexOf('--help') !== -1 ) {
-		return this.help( this );
+		return this.help();
 	}
 
 	// output version # from package.json
 	if ( process.argv.indexOf('-v') !== -1 || process.argv.indexOf('--version') !== -1 ) {
-		return this.ver( this, __dirname );
+		return this.ver( __dirname );
 	}
 
 	// turn on strict if strict flag passed

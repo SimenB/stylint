@@ -10,7 +10,7 @@ var ampRe = /^(\&\:)/;  // check if using & selector before we count tabs
  * @return {boolean} true if nesting is too deep, false if not
  * @todo  this is kinda not 100% reliable in it's current form, also could be refactors
  */
-module.exports = function depthLimit() {
+module.exports = function depthLimit(line) {
 	var count = 0;
 	var index = 0;
 	var limit = this.config.depthLimit;
@@ -23,7 +23,7 @@ module.exports = function depthLimit() {
 
 	// trim string and check if line starts with &:,
 	// if true then subtract one from count (for indents) and add one to limit (for spaces)
-	if ( ampRe.test( this.cache.line.trim() ) ) {
+	if ( ampRe.test( line.trim() ) ) {
 		count = count - 1;
 		limit = limit + 1;
 	}
@@ -47,7 +47,7 @@ module.exports = function depthLimit() {
 	}
 
 	if ( badNesting === true ) {
-		this.cache.warnings.push( 'selector depth greater than', this.config.depthLimit + ':' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + this.cache.line.trim() );
+		this.cache.warnings.push( 'selector depth greater than', this.config.depthLimit + ':' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
 	}
 
 	return badNesting;

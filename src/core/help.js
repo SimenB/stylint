@@ -1,4 +1,5 @@
 'use strict';
+
 // called when -h or --help used, just displays options
 module.exports = function help() {
 	console.log( '\nStylint' );

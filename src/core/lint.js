@@ -20,7 +20,7 @@ module.exports = function lint() {
 	for ( var method in lintMethods ) {
 		if ( lintMethods.hasOwnProperty( method ) ) {
 			if ( this.config[method] || this.state.strictMode ) {
-				lintMethods[method].call(this);
+				lintMethods[method].call(this, this.cache.line);
 			}
 		}
 	}

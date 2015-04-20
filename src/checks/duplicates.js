@@ -3,10 +3,10 @@
 var syntaxIgnoreRe = /^{|[,}]|(:after|:active|:before|@import|@require|@extend|@media|:hover|@font-face|src)/;
 
 // check that selector properties are sorted alphabetically
-module.exports = function duplicateSelectors() {
+module.exports = function duplicateSelectors(line) {
 	// remove blank spaces now that we have our context
-	var arr = this.stripWhiteSpace( new RegExp(/[\s\t]/), this.cache.line );
-	var currContext = this.getContext( this.config.indentSpaces, this.cache.line );
+	var arr = this.stripWhiteSpace( new RegExp(/[\s\t]/), line );
+	var currContext = this.getContext( this.config.indentSpaces, line );
 	var isThereADupe = false;
 
 	// before we add an item to a cache array
@@ -34,13 +34,13 @@ module.exports = function duplicateSelectors() {
 	if ( currContext === 0 ) {
 		// if curr line is already in our cache, we have a dupe
 		if ( this.cache.prevLine.indexOf(',') === -1 &&
-			this.cache.rootCache.indexOf( this.cache.line ) !== -1 ) {
+			this.cache.rootCache.indexOf( line ) !== -1 ) {
 			isThereADupe = true;
 		}
 
 		// undefined check is for whitespace
 		if ( _lineIsAcceptable( this ) ) {
-			this.cache.rootCache.push( this.cache.line );
+			this.cache.rootCache.push( line );
 		}
 	}
 	// if selector is nested we check the selectorCache instead of rootCache
@@ -57,11 +57,11 @@ module.exports = function duplicateSelectors() {
 
 	// save our curr context so we can use it next time
 	this.cache.prevFile = this.cache.file;
-	this.cache.prevLine = this.cache.line;
+	this.cache.prevLine = line;
 	this.cache.prevContext = currContext;
 
 	if ( isThereADupe === true ) {
-		this.cache.warnings.push( 'duplicate property or selector, consider merging' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + this.cache.line.trim() );
+		this.cache.warnings.push( 'duplicate property or selector, consider merging' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
 	}
 
 	return isThereADupe;

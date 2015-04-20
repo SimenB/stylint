@@ -12,12 +12,10 @@ var isNumRe = /\d(?=[px]|%|[em]|[rem]|[vh]|[vw]|[vmin]|[vmax]|[ex]|[ch]|[mm]|[cm
 * @returns true if valid
 * @returns undefined if not testable (hmmm)
 */
-module.exports = function checkForValidProperties() {
+module.exports = function checkForValidProperties(line) {
 	// split by tabs and spaces, tabs mess with pattern matching
-	// var arr = this.cache.line.split(/[\s\t,]/);
-	var line = this.cache.line; // convenience
 	var isValid = false;
-	var arr = this.stripWhiteSpace(new RegExp(/[\s\t,]/), this.cache.line);
+	var arr = this.stripWhiteSpace(new RegExp(/[\s\t,]/), line);
 
 	// not empty, not something we ignore
 	if ( !ignoreMeRe.test( line ) &&
@@ -76,7 +74,7 @@ module.exports = function checkForValidProperties() {
 	}
 
 	if ( isValid === false ) {
-		this.cache.warnings.push( 'property is not valid' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + this.cache.line.trim() );
+		this.cache.warnings.push( 'property is not valid' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
 	}
 
 	return isValid;

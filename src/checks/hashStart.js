@@ -4,7 +4,7 @@
 var hashStartRe = /{$|{ $/;
 var stripMixinsRe = /(\(.*\))/;
 
-module.exports = function checkForHashStart() {
+module.exports = function checkForHashStart(line) {
 	var hashStart = false;
 	var strippedLine = this.cache.line.replace(stripMixinsRe, '');
 

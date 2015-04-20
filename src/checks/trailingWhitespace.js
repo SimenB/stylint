@@ -8,17 +8,17 @@ var anythingElseRe = /[^ \t]/; // anything BUT whitespace (we dont want to retur
  * @param  {string} line  the line being tested
  * @return {boolean} true if whitespace found, false if not
  */
-module.exports = function checkWhitespace() {
+module.exports = function checkWhitespace(line) {
 	var hasWhitespace = false;
 
 	// not an empty line, with whitespace at the end
-	if ( anythingElseRe.test(this.cache.line) &&
-		whitespaceRe.test(this.cache.line) ) {
+	if ( anythingElseRe.test(line) &&
+		whitespaceRe.test(line) ) {
 		hasWhitespace = true; // return true;
 	}
 
 	if ( hasWhitespace === true ) {
-		this.cache.warnings.push( 'trailing whitespace' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + this.cache.line.trim() );
+		this.cache.warnings.push( 'trailing whitespace' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
 	}
 
 	return hasWhitespace;

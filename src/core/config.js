@@ -32,6 +32,7 @@ module.exports = stampit().state({
 		quotePref: false, // single or double quotes, or false to not check
 		semicolons: false, // check for unecessary semicolons
 		sortOrder: false, // alphabetical, grouped, Array<String> or false (no check)
+		stackedProperties: false, // no one liners
 		trailingWhitespace: true, // check for trailing whitespace
 		universal: true, // check for use of * and recommend against it
 		valid: false, // check if prop or value is a valid assignment

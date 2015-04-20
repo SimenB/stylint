@@ -4,7 +4,7 @@ var hasCommentRe = /(\/\/)/;
 var startsWithCommentRe = /(^\/\/)/;
 
 // check for line comment on the line
-module.exports = function checkForStart() {
+module.exports = function checkForStart(line) {
 	var startsWithComment = false;
 
 	if ( hasCommentRe.test(this.cache.line) ) {

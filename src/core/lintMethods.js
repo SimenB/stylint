@@ -23,6 +23,7 @@ module.exports = stampit().methods({
 		quotePref: require('../checks/quotePref'),
 		semicolons: require('../checks/semicolons'),
 		sortOrder: require('../checks/sortOrder'),
+		stackedProperties: require('../checks/stackedProperties'),
 		trailingWhitespace: require('../checks/trailingWhitespace'),
 		universal: require('../checks/universal'),
 		valid: require('../checks/valid'),

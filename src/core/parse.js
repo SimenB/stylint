@@ -22,16 +22,8 @@ module.exports = function parse() {
 				output += '\n';
 			}
 
-			// if ( linesNum > 0 ) {
-			// 	while ( linesNum-- ) {
-			// 		output += '\n';
-			// 	}
-			// }
-
 			return output;
 		}).split('\n');
-
-		// console.log( lines );
 
 		/**
 		 * so, this function trims each line and then tests it
@@ -41,7 +33,7 @@ module.exports = function parse() {
 		lines.forEach(function( line, i ) {
 			i++; // line nos don't start at 0
 			this.cache.line = line;
-			this.cache.lineArr = line.split('');
+			this.cache.lineArr = line.split(' ');
 			this.cache.lineNo = i;
 			return this.lint();
 		}.bind(this));

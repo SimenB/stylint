@@ -3,14 +3,12 @@
 var valueRe = /(margin|padding)+[:| ]/;
 
 // check for 0 0 0 0 or 50px 0 50px 0 type mistakes
-module.exports = function checkForEfficiency() {
+module.exports = function checkForEfficiency(line) {
 	// line doesnt have margin or padding then there's nothin to do here
-	if ( !valueRe.test(this.cache.line) ) {
-		return;
-	}
+	if ( !valueRe.test(line) ) { return; }
 
 	var isEfficient = true;
-	var arr = this.stripWhiteSpace( new RegExp(/[\s\t]/), this.cache.line );
+	var arr = this.stripWhiteSpace( new RegExp(/[\s\t]/), line );
 
 	// if margin or padding we run the tests
 	// if line is potentially inefficient it needs to be at least this long
@@ -38,7 +36,7 @@ module.exports = function checkForEfficiency() {
 	}
 
 	if ( isEfficient === false ) {
-		this.cache.warnings.push( 'the value on this line could be more succinct:' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + this.cache.line.trim() );
+		this.cache.warnings.push( 'the value on this line could be more succinct:' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
 	}
 
 	return isEfficient;
