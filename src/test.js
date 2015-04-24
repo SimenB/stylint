@@ -93,7 +93,9 @@ module.exports = function test( app, line, num, output, file ) {
 				}
 
 				if ( app.sortOrder(line, valid, app.config.sortOrder) === false ) {
-					cache.warnings.push( 'preferred sort order is ' + app.config.sortOrder + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
+					var preferredSortOrder = Array.isArray(app.config.sortOrder) ? '{Array}' : app.config.sortOrder;
+
+					cache.warnings.push( 'preferred sort order is ' + preferredSortOrder + '\nFile: ' + file + '\nLine: ' + num + ': ' + output );
 				}
 			}
 
