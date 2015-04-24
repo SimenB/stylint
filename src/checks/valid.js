@@ -19,6 +19,12 @@ module.exports = function checkForValidProperties( line, valid ) {
 		return;
 	}
 
+	if ( !this.state.keyframes ) {
+		if ( line.indexOf('from') !== -1 || line.indexOf('to') !== -1 ) {
+			return false;
+		}
+	}
+
 	// split by tabs and spaces, tabs mess with pattern matching
 	var arr = line.split(/[\s\t,:]/),
 		isValid = false;

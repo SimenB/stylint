@@ -718,6 +718,35 @@ describe('Linter Style Checks: ', function() {
 		});
 	});
 
+	describe('keyframes end', function() {
+		it('should return true if keyframes active and context set to 0', function() {
+			app.state.keyframes = true;
+			assert.equal( true, app.keyframesEnd('.newClass') );
+		});
+
+		it('should return false if line doesnt have a context of zero', function() {
+			assert.equal( false, app.keyframesEnd('		from {') );
+		});
+
+		it('should return undefined if missing params', function() {
+			assert.equal( undefined, app.keyframesEnd() );
+		});
+	});
+
+	describe('keyframes start', function() {
+		it('should return true if line has @keyframes', function() {
+			assert.equal( true, app.keyframesStart('@keyframes {') );
+		});
+
+		it('should return false if line isnt a start of @keyframes', function() {
+			assert.equal( false, app.keyframesStart('margin 0') );
+		});
+
+		it('should return undefined if missing params', function() {
+			assert.equal( undefined, app.keyframesStart() );
+		});
+	});
+
 	describe('mixed spaces and tabs', function() {
 		it('should return false if no mixed spaces and tabs found', function() {
 			var
@@ -1276,6 +1305,7 @@ describe('Linter Style Checks: ', function() {
 
 	describe('zero units', function() {
 		it('should return false if 0 value is fine', function() {
+			app.state.keyframes = false;
 			assert.equal( false, app.zeroUnits('margin 0') );
 			assert.equal( false, app.zeroUnits('margin 50px') );
 		});
@@ -1296,6 +1326,11 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, app.zeroUnits('margin 0mozmm') );
 			assert.equal( true, app.zeroUnits('margin 0ex') );
 			assert.equal( true, app.zeroUnits('margin 0ch') );
+		});
+
+		it('should return undefined if in keyframes', function() {
+			app.state.keyframes = true;
+			assert.equal( undefined, app.zeroUnits('0% {') );
 		});
 
 		it('should return undefined if missing params', function() {

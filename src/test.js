@@ -56,6 +56,16 @@ module.exports = function test( app, line, num, output, file ) {
 	if ( state.testsEnabled ) {
 
 		// check for comment style (//dont do this. // do this)
+		if ( !state.keyframes && app.keyframesStart(line) ) {
+			state.keyframes = true;
+			return;
+		}
+
+		if ( state.keyframes && app.keyframesEnd(line) ) {
+			state.keyframes = false;
+		}
+
+		// check for comment style (//dont do this. // do this)
 		if ( app.commentExists(line) ) {
 			if ( app.config.commentSpace || state.strictMode ) {
 				if ( app.commentSpace(line) === false ) {
