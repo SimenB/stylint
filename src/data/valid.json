@@ -280,6 +280,8 @@
         "min-zoom",
         "mix-blend-mode",
         "move-to",
+        "mso-table-lspace",
+        "mso-table-rspace",
         "nav-down",
         "nav-index",
         "nav-left",
