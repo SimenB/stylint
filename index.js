@@ -41,6 +41,8 @@ var
 	hashStart         = require('./src/checks/hashStart'),
 	colors            = require('./src/checks/colors'),
 	leadingZero       = require('./src/checks/leadingZero'),
+	keyframesEnd       = require('./src/checks/keyframeEnd'),
+	keyframesStart     = require('./src/checks/keyframeStart'),
 	mixed             = require('./src/checks/mixed'),
 	namingConvention  = require('./src/checks/namingConvention'),
 	nesting           = require('./src/checks/nesting'),
@@ -145,6 +147,7 @@ var state = stampit().state({
 		dir: undefined,
 		exitCode: 1,
 		hash: false,
+		keyframes: false,
 		strictMode: false,
 		testsEnabled: true, // are we running linter tests
 		toggleBlock: false, // @stylint off
@@ -242,6 +245,8 @@ var testMethods = stampit().methods({
 	hashEnd: hashEnd,
 	hashStart: hashStart,
 	leadingZero: leadingZero,
+	keyframesEnd: keyframesEnd,
+	keyframesStart: keyframesStart,
 	mixed: mixed,
 	namingConvention: namingConvention,
 	nesting: nesting,
