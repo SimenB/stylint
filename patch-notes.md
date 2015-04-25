@@ -1,3 +1,10 @@
+##### 0.9.7
+added mso-table-lspace and mso-table-rspace to property whitelist (outlook)
+
+fix this issue: https://github.com/rossPatton/stylint/issues/95
+
+fix this issue: https://github.com/rossPatton/stylint/issues/96
+
 ##### 0.9.6
 sortOrder check added: replaces alphabetical check: https://github.com/rossPatton/stylint/pull/92
 
