@@ -1078,6 +1078,39 @@ describe('Linter Style Checks: ', function() {
 		});
 	});
 
+	describe('keyframes end', function() {
+		var keyframesEndTest = app.lintMethods.keyframesEnd.bind(app);
+
+		it('should return true if keyframes active and context set to 0', function() {
+			app.state.keyframes = true;
+			assert.equal( true, keyframesEndTest('.newClass') );
+		});
+
+		it('should return false if line doesnt have a context of zero', function() {
+			assert.equal( false, keyframesEndTest('		from {') );
+		});
+
+		it('should return undefined if missing params', function() {
+			assert.equal( undefined, keyframesEndTest() );
+		});
+	});
+
+	describe('keyframes start', function() {
+		var keyframesStartTest = app.lintMethods.keyframesStart.bind(app);
+
+		it('should return true if line has @keyframes', function() {
+			assert.equal( true, keyframesStartTest('@keyframes {') );
+		});
+
+		it('should return false if line isnt a start of @keyframes', function() {
+			assert.equal( false, keyframesStartTest('margin 0') );
+		});
+
+		it('should return undefined if missing params', function() {
+			assert.equal( undefined, keyframesStartTest() );
+		});
+	});
+
 	describe('noNone: prefer 0 over none', function() {
 		var noneTest = app.lintMethods.noNone.bind(app);
 
@@ -1470,6 +1503,11 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, zeroTest('margin 0mozmm') );
 			assert.equal( true, zeroTest('margin 0ex') );
 			assert.equal( true, zeroTest('margin 0ch') );
+		});
+
+		it('should return undefined if in keyframes', function() {
+			assert.equal( undefined, zeroTest('from 0%') );
+			assert.equal( undefined, zeroTest('0% {') );
 		});
 	});
 

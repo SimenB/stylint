@@ -6,6 +6,7 @@ var elAttributeRe = /(?=\S)+\[\S+\]/gm;
 var ignoreMeRe = /[&$.#(=>]|({[\S]+})|(if)|(for)|(else)|(@block)/;
 var isNumRe = /\d(?=[px]|%|[em]|[rem]|[vh]|[vw]|[vmin]|[vmax]|[ex]|[ch]|[mm]|[cm]|[in]|[pt]|[pc]|[mozmm])/;
 
+
 /**
 * check against a JSON of all valid css properties and values
 * @returns false if property or value not considered valid
@@ -16,6 +17,13 @@ module.exports = function checkForValidProperties(line) {
 	// split by tabs and spaces, tabs mess with pattern matching
 	var isValid = false;
 	var arr = this.stripWhiteSpace(new RegExp(/[\s\t,]/), line);
+
+	// from and to are keyframes specific properties
+	if ( !this.state.keyframes ) {
+		if ( line.indexOf('from') !== -1 || line.indexOf('to') !== -1 ) {
+			return false;
+		}
+	}
 
 	// not empty, not something we ignore
 	if ( !ignoreMeRe.test( line ) &&

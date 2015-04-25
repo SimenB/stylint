@@ -25,7 +25,7 @@
     "semicolons": false,
     "sortorder": [ "margin", "padding", "float", "position" ],
     "universal": true,
-    "valid": false,
+    "valid": true,
     "whitespace": true,
     "zeroUnits": true,
     "zIndexDuplicates": false,

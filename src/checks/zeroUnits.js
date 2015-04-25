@@ -4,6 +4,7 @@ var isNumRe = /[ :]0(?=[px]|%|[em]|[rem]|[vh]|[vw]|[vmin]|[vmax]|[ex]|[ch]|[mm]|
 
 // check for 0unit (0 is preferred)
 module.exports = function checkForZeroUnits(line) {
+	if ( this.state.keyframes ) { return; }
 	var badZero = false;
 
 	if ( isNumRe.test( line ) ) {
