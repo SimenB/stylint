@@ -8,15 +8,15 @@ var chokidar = require('chokidar');
  * @param  {string} customConfig [path to config object]
  * @return {function}            [kick off linter on each change]
  */
-module.exports = function watch( app  ) {
-	var watcher = chokidar.watch( app.state.dir );
+module.exports = function watch() {
+	var watcher = chokidar.watch( this.state.path );
 
 	// initial watch msg
 	watcher.on('ready', function() {
-		app.state.watching = true;
-		return console.log( 'Watching: ', path, ' for changes.' );
-	});
+		this.state.watching = true;
+		return console.log( 'Watching: ', this.state.path, ' for changes.' );
+	}.bind(this));
 
 	// listen for changes, update 'dir' to curr file, wipe all the caches, do somethin
-	watcher.on('change', app.resetOnChange.bind(this) );
+	watcher.on('change', this.resetOnChange.bind(this) );
 };

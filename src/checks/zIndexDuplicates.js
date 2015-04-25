@@ -3,7 +3,7 @@
 // check for z-index values that are duplicated elsewhere
 module.exports = function zIndexDuplicates(line) {
 	var arr = line.split(/[\s\t,:]/);
-	var context = this.getContext(this.config.indentSpaces, line);
+	var context = this.getContext(line);
 	var isItADupe = false;
 
 	this.cache.zCache.forEach(function( val, i ) {

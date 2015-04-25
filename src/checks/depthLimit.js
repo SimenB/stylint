@@ -1,6 +1,6 @@
 'use strict';
 
-var ampRe = /^(\&\:)/;  // check if using & selector before we count tabs
+var ampRe = /^&/;  // check if using & selector before we count tabs
 
 /**
  * check nesting depth
@@ -11,39 +11,18 @@ var ampRe = /^(\&\:)/;  // check if using & selector before we count tabs
  * @todo  this is kinda not 100% reliable in it's current form, also could be refactors
  */
 module.exports = function depthLimit(line) {
-	var count = 0;
-	var index = 0;
-	var limit = this.config.depthLimit;
+	var context = this.getContext(line);
 	var badNesting = false;
 
-	// get all single spaces in the line (NOT stripping out whitespace, the opposite)
-	var arr = this.cache.lineArr.filter(function( str ) {
-		return str.length === 0;
-	});
-
-	// trim string and check if line starts with &:,
-	// if true then subtract one from count (for indents) and add one to limit (for spaces)
+	// trim string and check if line starts with &
+	// reduce context in that case
+	// @TODO not really ideal
 	if ( ampRe.test( line.trim() ) ) {
-		count = count - 1;
-		limit = limit + 1;
+		context = context - 1;
 	}
 
-	// pref is defined (it is by default), then assume we indent with spaces
-	if ( this.config.indentSpaces ) {
-		if ( arr.length / this.config.indentSpaces > limit ) {
-			badNesting = true; // return true;
-		}
-	}
-	else {
-		// if not we check hard tabs
-		// get all tabs, starting at beginning of string
-		while ( line.charAt( index++ ) === '\t' ) {
-			count++;
-		}
-
-		if ( count > limit ) {
-			badNesting = true; // return true;
-		}
+	if ( context > this.config.depthLimit ) {
+		badNesting = true; // return true;
 	}
 
 	if ( badNesting === true ) {

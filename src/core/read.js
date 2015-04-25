@@ -9,11 +9,13 @@ var fs = require('fs');
  * @returns parse function
  */
 module.exports = function read() {
+	console.log( 'read called' );
+	console.log( this.state.path );
 	// if nothing passed in, default to linting the curr dir
 	// here we get all the files to parse first, then we pass to app.parse
 	if ( this.state.path === process.cwd() ) {
 		// console.log( this.state.dir );
-		return this.getFiles( this.state.path + '/**/*.styl' );
+		return this.getFiles(this.state.path + '/**/*.styl');
 	}
 	/**
 	 * else we'll have either a filename or dir name to work with
@@ -28,7 +30,7 @@ module.exports = function read() {
 				return this.parse();
 			}
 
-			return this.getFiles( this.state.dir + '/**/*.styl' );
+			return this.getFiles( this.state.path + '/**/*.styl' );
 		}.bind(this));
 	}
 };

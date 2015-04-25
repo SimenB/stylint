@@ -9,8 +9,9 @@ module.exports = stampit().state({
 		cssBlock: false, // are we in a css literal
 		exitCode: 1, // err or no err
 		hash: false, // are we in a hash
+		keyframes: false, // are we in @keyframes
 		killSwitch: false, // are we over our warning limit
-		path: undefined, // curr dir || file
+		path: '', // curr dir || file
 		strictMode: false, // run all tests regardless?
 		testsEnabled: true, // are we running linter tests
 		toggleBlock: false, // @stylint off

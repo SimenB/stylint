@@ -35,29 +35,30 @@ module.exports = stampit().methods({
 		return emojiWarning;
 	},
 
-	getContext: function( indentType, line ) {
-		var textIndex = 0;
-		var currContext = 0;
-		var whitespaceCount = 0;
-		var arr = line.split(/[\s\t]/);
+	getContext: function( line ) {
+		var i = 0;
+		var context = 0;
+		var whitespace = 0;
+		var arr = [];
 
-		if ( typeof indentType !== 'number' ) {
-			while ( line.charAt( textIndex++ ) === '\t' ) {
-				currContext++;
+		if ( this.config.indentPref === 'tabs' ) {
+			while ( line.charAt( i++ ) === '\t' ) {
+				context++;
 			}
 		}
-		else {
+		else if ( typeof this.config.indentPref === 'number' ) {
+			arr = line.split(/[\s\t]/);
 			arr.forEach(function( val, i ) {
 				if ( arr[i].length === 0 ) {
-					whitespaceCount++; // spaces or tabs
+					whitespace++; // spaces or tabs
 				}
 				else {
-					currContext = whitespaceCount / this.config.indentSpaces;
+					context = whitespace / this.config.indentPref;
 				}
 			}.bind(this));
 		}
 
-		return currContext;
+		return context;
 	},
 
 	getFiles: function( dir ) {
@@ -79,7 +80,7 @@ module.exports = stampit().methods({
 	},
 
 	resetOnChange: function( newPath ) {
-		this.state.dir = newPath;
+		this.state.path = newPath;
 		this.cache.warnings = [];
 		this.cache.alphaCache = [];
 		this.cache.selectorCache = [];
@@ -88,7 +89,10 @@ module.exports = stampit().methods({
 		this.cache.prevLine = '';
 		this.cache.prevFile = '';
 		this.cache.prevContext = 0;
-		return this.core.read( this, newPath );
+
+		if ( this.state.watching ) {
+			return this.read();
+		}
 	},
 
 	setConfig: function( potentialPath ) {

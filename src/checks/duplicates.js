@@ -6,12 +6,12 @@ var syntaxIgnoreRe = /^{|[,}]|(:after|:active|:before|@import|@require|@extend|@
 module.exports = function duplicateSelectors(line) {
 	// remove blank spaces now that we have our context
 	var arr = this.stripWhiteSpace( new RegExp(/[\s\t]/), line );
-	var currContext = this.getContext( this.config.indentSpaces, line );
+	var currContext = this.getContext(line);
 	var isThereADupe = false;
 
 	// before we add an item to a cache array
 	// make sure it's not whitespace or syntax or whatever
-	function _lineIsAcceptable( app ) {
+	function _lineIsAcceptable(app) {
 		return (
 			!syntaxIgnoreRe.test(app.cache.line) &&
 			typeof arr[0] !== 'undefined' &&

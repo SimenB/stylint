@@ -19,7 +19,7 @@ module.exports = stampit().state({
 		emoji: false, // toggle emoji on or off
 		extendPref: false, // prefer a specific syntax when using @extends (or @extend)
 		globalDupe: false, // throw duplicate selector warning across all files instead of curr file
-		indentSpaces: 4, // how many spaces should we prefer when indenting, pass in false if hard tabs
+		indentPref: 4, // how many spaces should we prefer when indenting, pass in false if hard tabs
 		leadingZero: true, // find cases where 0.# is used, prefer .#
 		maxWarnings: 10, // should we have a max amount of warnings, and error out if we go over
 		maxWarningsKill: false, // if over maxWarning count, kill process
