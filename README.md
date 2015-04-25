@@ -1,5 +1,7 @@
 ## stylint - cli stylus linter.
 
+## you're looking at the 1.0 branch, which still has a long ways to go before release
+
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rossPatton/stylint?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Code Climate](https://codeclimate.com/github/rossPatton/stylint/badges/gpa.svg)](https://codeclimate.com/github/rossPatton/stylint) [![Test Coverage](https://codeclimate.com/github/rossPatton/stylint/badges/coverage.svg)](https://codeclimate.com/github/rossPatton/stylint)
 
 [![NPM](https://nodei.co/npm/stylint.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/stylint/)
