@@ -7,7 +7,6 @@ var stampit = require('stampit');
 module.exports = stampit().state({
 	cache: {
 		alphaCache: [], // we keep a context based arr of selectors here to check alpha order
-		context: 0, // basically how nested are we
 		file: '', // curr file we're testing
 		filesLen: 0, // # of files we're testing
 		fileNo: 0, // curr # of filesLen we're on
@@ -15,7 +14,6 @@ module.exports = stampit().state({
 		lineArr: [], // the curr line, as an array
 		lineNo: 0, // curr line number we're testing
 		msg: '', // the done message (55 warnings blah blah)
-		prevContext: 0, // the previous context
 		prevFile: '', // the previous file
 		prevLine: '', // the previous line
 		rootCache: [], // array of all selectors at the root level. file specific unless global turned on

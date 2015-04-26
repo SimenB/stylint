@@ -11,7 +11,7 @@ var ampRe = /^&/;  // check if using & selector before we count tabs
  * @todo  this is kinda not 100% reliable in it's current form, also could be refactors
  */
 module.exports = function depthLimit(line) {
-	var context = this.getContext(line);
+	var context = this.state.context;
 	var badNesting = false;
 
 	// trim string and check if line starts with &

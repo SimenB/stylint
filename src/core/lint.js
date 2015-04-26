@@ -13,6 +13,13 @@ module.exports = function lint() {
 	var state = this.state;
 	var lintMethods = this.__proto__.lintMethods;
 
+	if ( ( !this.state.hash && this.stateMethods.hashStart(this.cache.line) ) ||
+	 	( this.state.hash && this.stateMethods.hashEnd(this.cache.line) ) ) {
+		return;
+	}
+
+	this.setContext(this.cache.line); // set context and prev context state
+
 	// @TODO methods that will determine state should go here
 	// checks stuff like if a stylint toggle is on or off, whether we're in a hash, etc
 

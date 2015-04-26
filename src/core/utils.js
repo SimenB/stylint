@@ -35,34 +35,6 @@ module.exports = stampit().methods({
 		return emojiWarning;
 	},
 
-	getContext: function( line ) {
-		this.state.prevContext = this.state.context;
-		var i = 0;
-		var context = 0;
-		var whitespace = 0;
-		var arr = [];
-
-		if ( this.config.indentPref === 'tabs' ) {
-			while ( line.charAt( i++ ) === '\t' ) {
-				context++;
-			}
-		}
-		else if ( typeof this.config.indentPref === 'number' ) {
-			arr = line.split(/[\s\t]/);
-			arr.forEach(function( val, i ) {
-				if ( arr[i].length === 0 ) {
-					whitespace++; // spaces or tabs
-				}
-				else {
-					context = whitespace / this.config.indentPref;
-				}
-			}.bind(this));
-		}
-
-		this.state.context = context;
-		return context;
-	},
-
 	getFiles: function( dir ) {
 		if ( typeof dir !== 'string' ) {
 			throw new TypeError('Path needs to be a string');
@@ -100,6 +72,34 @@ module.exports = stampit().methods({
 	setConfig: function( potentialPath ) {
 		var path = pathIsAbsolute( potentialPath ) ? potentialPath : process.cwd() + '/' + potentialPath;
 		return JSON.parse( fs.readFileSync( path ) );
+	},
+
+	setContext: function( line ) {
+		this.state.prevContext = this.state.context;
+		var i = 0;
+		var context = 0;
+		var whitespace = 0;
+		var arr = [];
+
+		if ( this.config.indentPref === 'tabs' ) {
+			while ( line.charAt( i++ ) === '\t' ) {
+				context++;
+			}
+		}
+		else if ( typeof this.config.indentPref === 'number' ) {
+			arr = line.split(/[\s\t]/);
+			arr.forEach(function( val, i ) {
+				if ( arr[i].length === 0 ) {
+					whitespace++; // spaces or tabs
+				}
+				else {
+					context = whitespace / this.config.indentPref;
+				}
+			}.bind(this));
+		}
+
+		this.state.context = context;
+		return context;
 	},
 
 	// remove all whitespace from a string, customizable regex

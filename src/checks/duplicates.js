@@ -6,7 +6,6 @@ var syntaxIgnoreRe = /^{|[,}]|(:after|:active|:before|@import|@require|@extend|@
 module.exports = function duplicateSelectors(line) {
 	// remove blank spaces now that we have our context
 	var arr = this.stripWhiteSpace( new RegExp(/[\s\t]/), line );
-	var currContext = this.getContext(line);
 	var isThereADupe = false;
 
 	// before we add an item to a cache array
@@ -21,7 +20,7 @@ module.exports = function duplicateSelectors(line) {
 	}
 
 	// if current context switched, reset array
-	if ( this.cache.prevContext !== currContext || this.cache.prevFile !== this.cache.file ) {
+	if ( this.state.prevContext !== this.state.context || this.cache.prevFile !== this.cache.file ) {
 		this.cache.selectorCache = [];
 	}
 
@@ -31,7 +30,7 @@ module.exports = function duplicateSelectors(line) {
 	}
 
 	// keep track of and check root selectors too
-	if ( currContext === 0 ) {
+	if ( this.state.context === 0 ) {
 		// if curr line is already in our cache, we have a dupe
 		if ( this.cache.prevLine.indexOf(',') === -1 &&
 			this.cache.rootCache.indexOf( line ) !== -1 ) {
@@ -58,7 +57,7 @@ module.exports = function duplicateSelectors(line) {
 	// save our curr context so we can use it next time
 	this.cache.prevFile = this.cache.file;
 	this.cache.prevLine = line;
-	this.cache.prevContext = currContext;
+	this.state.prevContext = this.state.context;
 
 	if ( isThereADupe === true ) {
 		this.cache.warnings.push( 'duplicate property or selector, consider merging' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );

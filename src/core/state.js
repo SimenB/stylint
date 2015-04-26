@@ -14,6 +14,7 @@ module.exports = stampit().state({
 		keyframes: false, // are we in @keyframes
 		killSwitch: false, // are we over our warning limit
 		path: '', // curr dir || file
+		prevContext: 0, // save the last context as well
 		strictMode: false, // run all tests regardless?
 		testsEnabled: true, // are we running linter tests
 		toggleBlock: false, // @stylint off
