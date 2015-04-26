@@ -4,14 +4,14 @@
 var hashStartRe = /{$|{ $/;
 var stripMixinsRe = /(\(.*\))/;
 
-module.exports = function checkForHashStart(line) {
+module.exports = function hashStart(line) {
 	var hashStart = false;
-	var strippedLine = this.cache.line.replace(stripMixinsRe, '');
+	var strippedLine = line.replace(stripMixinsRe, '');
 
 	// ex colorsHash = {
-	if ( hashStartRe.test(strippedLine) &&
-		strippedLine.indexOf('=') !== -1 ) {
+	if ( hashStartRe.test(strippedLine) && strippedLine.indexOf('=') !== -1 ) {
 		hashStart = true;
+		this.state.hash = true;
 	}
 
 	return hashStart;

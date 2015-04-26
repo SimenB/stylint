@@ -9,8 +9,6 @@ var fs = require('fs');
  * @returns parse function
  */
 module.exports = function read() {
-	console.log( 'read called' );
-	console.log( this.state.path );
 	// if nothing passed in, default to linting the curr dir
 	// here we get all the files to parse first, then we pass to app.parse
 	if ( this.state.path === process.cwd() ) {
@@ -22,7 +20,11 @@ module.exports = function read() {
 	 * if directory we use the glob logic to return an array of files to test
 	 */
 	else {
-		fs.stat(this.state.path, function( err, stats ) {
+		fs.stat(this.state.path, function(err, stats) {
+			if ( !stats ) {
+				throw Error('Stylint Error: No such file or dir exists');
+			}
+
 			if ( stats.isFile() ) {
 				this.cache.filesLen = 1;
 				this.cache.file = this.state.path;
@@ -30,6 +32,7 @@ module.exports = function read() {
 				return this.parse();
 			}
 
+			// else it's a directory, so pass a glob to getFiles
 			return this.getFiles( this.state.path + '/**/*.styl' );
 		}.bind(this));
 	}

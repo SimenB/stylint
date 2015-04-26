@@ -1,14 +1,15 @@
 'use strict';
 
-var hashEndingRe = /^\}/;
+var hashEndRe = /^\}/;
 
 // check if we're ending a hash
-module.exports = function checkForHashEnd(line) {
+module.exports = function hashEnd(line) {
 	var hashEnded = false;
 
 	// ex }, but only if we've already establish that we're in a hash'
-	if ( hashEndingRe.test(this.cache.line) && this.state.hash ) {
+	if (this.state.hash && hashEndRe.test(line) ) {
 		hashEnded = true;
+		this.state.hash = false;
 	}
 
 	return hashEnded;

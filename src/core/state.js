@@ -6,8 +6,10 @@ var stampit = require('stampit');
  */
 module.exports = stampit().state({
 	state: {
+		context: 0, // what is our level of nesting?
 		cssBlock: false, // are we in a css literal
 		exitCode: 1, // err or no err
+		hasComment: false, // checks for // in a line
 		hash: false, // are we in a hash
 		keyframes: false, // are we in @keyframes
 		killSwitch: false, // are we over our warning limit

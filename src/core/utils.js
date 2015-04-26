@@ -36,6 +36,7 @@ module.exports = stampit().methods({
 	},
 
 	getContext: function( line ) {
+		this.state.prevContext = this.state.context;
 		var i = 0;
 		var context = 0;
 		var whitespace = 0;
@@ -58,6 +59,7 @@ module.exports = stampit().methods({
 			}.bind(this));
 		}
 
+		this.state.context = context;
 		return context;
 	},
 
