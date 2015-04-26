@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function checkForBadBrackets(line) {
+module.exports = function brackets(line) {
 	var badBracket = false;
 	var line = line.replace(/{\S+}/, '');
 

@@ -18,12 +18,20 @@ module.exports = function parse() {
 			var linesNum = match.split(/\r\n|\r|\n/).length - 1;
 			var output = '';
 
-			while ( linesNum-- ) {
-				output += '\n';
+			if ( linesNum > 0 ) {
+				while ( linesNum-- ) {
+					output += '\n';
+				}
 			}
 
+			// while ( linesNum-- ) {
+			// 	output += '\n';
+			// }
+
 			return output;
-		}).split('\n');
+		});
+
+		lines = lines.split('\n');
 
 		/**
 		 * so, this function trims each line and then tests it
@@ -35,7 +43,7 @@ module.exports = function parse() {
 			this.cache.line = line;
 			this.cache.lineArr = line.split(' ');
 			this.cache.lineNo = i;
-			return this.lint();
+			return this.setState();
 		}.bind(this));
 
 		// if at the last file, call the done function to output results

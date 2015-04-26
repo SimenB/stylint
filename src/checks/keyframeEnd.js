@@ -2,11 +2,11 @@
 
 // check if we're defining keyframe animations, which have some special rules
 module.exports = function keyframeEnd( line ) {
-	var isKeyframeOver = false;
+	if ( !this.state.keyframes ) { return; }
 
 	if ( this.state.keyframes && this.state.context === 0 ) {
-		isKeyframeOver = true;
+		this.state.keyframes = false;
 	}
 
-	return isKeyframeOver;
+	return this.state.keyframes;
 };

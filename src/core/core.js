@@ -9,6 +9,7 @@ module.exports = stampit().methods({
 	help: require('./help'),
 	read: require('./read'),
 	parse: require('./parse'),
+	setState: require('./setState'),
 	lint: require('./lint'),
 	ver: require('./version'),
 	watch: require('./watch')

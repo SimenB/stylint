@@ -5,14 +5,13 @@ var hashStartRe = /{$|{ $/;
 var stripMixinsRe = /(\(.*\))/;
 
 module.exports = function hashStart(line) {
-	var hashStart = false;
+	if ( this.state.hash ) { return; }
 	var strippedLine = line.replace(stripMixinsRe, '');
 
 	// ex colorsHash = {
 	if ( hashStartRe.test(strippedLine) && strippedLine.indexOf('=') !== -1 ) {
-		hashStart = true;
 		this.state.hash = true;
 	}
 
-	return hashStart;
+	return this.state.hash;
 };

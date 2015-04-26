@@ -8,6 +8,8 @@ module.exports = stampit().methods({
 		hashStart: require('../checks/hashStart'),
 		keyframeEnd: require('../checks/keyframeEnd'),
 		keyframeStart: require('../checks/keyframeStart'),
-		startsWithComment: require('../checks/startsWithComment')
+		startsWithComment: require('../checks/startsWithComment'),
+		stylintOff: require('../checks/stylintOff'),
+		stylintOn: require('../checks/stylintOn')
 	}
 });

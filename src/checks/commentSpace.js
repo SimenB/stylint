@@ -4,16 +4,17 @@
 var commentRe = /\/\/\s/;
 
 module.exports = function commentSpace(line) {
+	if ( !this.state.hasComment ) { return; }
 	var badComment = true;
 
 	// check for space after comment on it's own line, if no space, return warning
-	if ( line.indexOf('//') === 0
-		&& !commentRe.test(line) ) {
+	if ( line.indexOf('//') === 0 &&
+		!commentRe.test(line) ) {
 		badComment = false;
 	}
 	// check for space after comment if on same line, if no space, return warning
-	else if ( line.indexOf('http://') === -1
-		&& !commentRe.test(line) ) {
+	else if ( line.indexOf('http://') === -1 &&
+		!commentRe.test(line) ) {
 		badComment = false;
 	}
 
