@@ -15,6 +15,7 @@ module.exports = function lint() {
 		if ( lintMethods.hasOwnProperty( method ) ) {
 			if ( this.config[method] || this.state.strictMode ) {
 				lintMethods[method].call(this, this.cache.line);
+				// console.log(lintMethods[method])
 			}
 		}
 	}

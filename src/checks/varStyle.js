@@ -5,7 +5,7 @@ var hashRe = /\{$/;
 var varCheckRe = /\$\w+/;
 
 // check that $ is used when declaring vars
-module.exports = function checkVarStyle(line) {
+module.exports = function varStyle(line) {
 	var isValidVar = false;
 
 	// make sure it's not a block or hash

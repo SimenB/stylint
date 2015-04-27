@@ -1,7 +1,7 @@
 'use strict';
 
 // check if we're defining keyframe animations, which have some special rules
-module.exports = function keyframeStart( line ) {
+module.exports = function keyframesStart( line ) {
 	if ( this.state.keyframes ) { return; }
 
 	if ( line.indexOf('@keyframe') !== -1 ) {

@@ -15,8 +15,6 @@ module.exports = stampit().methods({
 		efficient: require('../checks/efficient'),
 		extendPref: require('../checks/extendPref'),
 		leadingZero: require('../checks/leadingZero'),
-		keyframesEnd: require('../checks/keyframeEnd'),
-		keyframesStart: require('../checks/keyframeStart'),
 		mixed: require('../checks/mixed'),
 		namingConvention: require('../checks/namingConvention'),
 		noNone: require('../checks/noNone'),

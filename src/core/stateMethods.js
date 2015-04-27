@@ -6,8 +6,8 @@ module.exports = stampit().methods({
 		commentExists: require('../checks/commentExists'),
 		hashEnd: require('../checks/hashEnd'),
 		hashStart: require('../checks/hashStart'),
-		keyframeEnd: require('../checks/keyframeEnd'),
-		keyframeStart: require('../checks/keyframeStart'),
+		keyframesEnd: require('../checks/keyframesEnd'),
+		keyframesStart: require('../checks/keyframesStart'),
 		startsWithComment: require('../checks/startsWithComment'),
 		stylintOff: require('../checks/stylintOff'),
 		stylintOn: require('../checks/stylintOn')

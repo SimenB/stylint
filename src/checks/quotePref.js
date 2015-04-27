@@ -1,7 +1,7 @@
 'use strict';
 
 // check that quote style is consistent with config
-module.exports = function checkQuoteStyle(line) {
+module.exports = function quotePref(line) {
 	var quotePref = this.config.quotePref; // convenience
 	var badQuotes = false;
 

@@ -3,7 +3,7 @@
 var valueRe = /(margin|padding)+[:| ]/;
 
 // check for 0 0 0 0 or 50px 0 50px 0 type mistakes
-module.exports = function checkForEfficiency(line) {
+module.exports = function efficient(line) {
 	// line doesnt have margin or padding then there's nothin to do here
 	if ( !valueRe.test(line) ) { return; }
 

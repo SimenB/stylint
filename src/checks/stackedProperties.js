@@ -1,7 +1,7 @@
 'use strict';
 
 // one liners are bad for you
-module.exports = function checkForOneLiners(line) {
+module.exports = function stackedProperties(line) {
 	var isOneLiner = false;
 	var arr = line.trim().split(';');
 

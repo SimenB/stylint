@@ -3,7 +3,7 @@
 var leadingZeroRe = /( |,)(0\.)+|(^0\.)+/;
 
 // check for leading 0
-module.exports = function hasLeadingZero(line) {
+module.exports = function leadingZero(line) {
 	var zeroFound = false;
 	var arr = this.stripWhiteSpace( new RegExp(/[\s\t]/), line );
 

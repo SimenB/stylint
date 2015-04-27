@@ -3,7 +3,7 @@
 var hexRe = /#(?:[0-9a-f]{3}){1,2}/im;
 
 // if we disallowed hex colors, check for them and return true if found
-module.exports = function checkHexColors(line) {
+module.exports = function colors(line) {
 	if ( line.indexOf('=') !== -1 ) { return; }
 	var badHex = false;
 

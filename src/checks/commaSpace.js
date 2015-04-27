@@ -3,7 +3,7 @@
 var noSpaceRe = /,\S/gm;
 
 // check that commas are followed by spaces
-module.exports = function checkCommaStyle(line) {
+module.exports = function commaSpace(line) {
 	var badComma = false;
 
 	// if , is present on line and its a BAD ONE

@@ -1,183 +1,95 @@
 'use strict';
 
-var ignoreMe = /^[.#]|[${}=>&*]|(&:)|(if)|(for)|(@block)(@import)(@media)(@extends)/;
+var ignoreMeRe = /^[.#]|[${}=>&*]|(&:)|(if)|(for)|(@block)(@import)(@media)(@extends)/;
 var ordering = require('../data/ordering.json');
+
 
 // check that selector properties are sorted accordingly
 // original params: line, valid, sortOrder
-module.exports = function checkSortOrder(line) {
-	var arr = line.split(/[\s\t,:]/);
-	var indentCount = 0;
-	var currContext = 0;
-	var isItSorted = false;
-	var textIndex = 0;
-	var sortedArr = [];
-	var validCSS = false;
+module.exports = function sortOrder(line) {
+	// we don't alphabetize the root yet
+	if ( this.state.context === 0 || this.state.hash || ignoreMeRe.test(line) ) {
+		return;
+	}
 
-	// quick and dirty fixes for now, didnt' account for hard tabs for context check
-	// this just gets the number of indents so we don't throw false positives
-	if ( typeof this.config.indentSpaces !== 'number' ) {
-		while ( line.charAt( textIndex++ ) === '\t' ) {
-			currContext++;
-		}
-	}
-	else {
-		arr.forEach(function( val, i ) {
-			if ( arr[i].length === 0 ) {
-				indentCount++; // spaces or tabs
-			}
-			else {
-				currContext = indentCount / this.config.indentSpaces;
-			}
-		}.bind(this));
-	}
+	/*
+	 * 1 we strip out mixins, and whitespace, and get the line as an array
+	 * 2 we need a sorted array to compare our cache against
+	 * 3 equals the custom sorting array via the config (or the ordering json)
+	 * 4 assume sorted by default
+	 */
+	var arr = this.stripWhiteSpace( new RegExp(/[\s\t,:]/), line.replace(/(\(.+\))/,'') ); // 1
+	var sortedArr = []; // 2
+	var orderingArr = []; // 3
+	var isItSorted = true; // 4
 
 	// if current context switched, reset array
-	if ( this.cache.prevContext !== currContext ) {
+	if ( this.state.context !== this.state.prevContext ) {
 		this.cache.sortOrderCache = [];
 	}
 
-	// we don't alphabetize the root yet
-	if ( currContext === 0 ) {
-		return true;
-	}
+	// then we push the latest property to the cache
+	this.cache.sortOrderCache.push(arr[0]);
 
-	arr = arr.filter(function( str ) {
-		return str.length > 0;
-	});
-
-	// push prop values into our 'cache' @TODO do i need that length check?
-	if ( typeof arr[0] !== 'undefined' && arr[0].length > 0 && currContext > 0 && !ignoreMe.test( line ) ) {
-		this.valid.css.forEach(function( val ) {
-			var i = 0, j = 0;
-
-			if ( arr[ 0 ] === val ) {
-				validCSS = true;
-				return;
-			}
-
-			for ( i; i < this.valid.prefixes.length; i++ ) {
-				if ( arr[ 0 ] === ( this.valid.prefixes[ i ] + val ) ) {
-					validCSS = true;
-					return;
-				}
-			}
-
-			for ( j; j < this.valid.pseudo.length; j++ ) {
-				if ( arr[ 0 ] === ( val + this.valid.pseudo[ j ] ) ) {
-					validCSS = true;
-					return;
-				}
-			}
-		}.bind( this ));
-
-		if ( validCSS ) {
-			this.cache.sortOrderCache.push( arr[ 0 ] );
-		}
-	}
-	else {
-		return true;
-	}
-
-	if ( line.indexOf('(') !== -1 && line.indexOf(')') !== -1 ) {
-		return true;
-	}
-
-	if ( ignoreMe.test( line ) || this.cache.sortOrderCache.length < 1 ) {
-		return true;
-	}
-
-	// create a copy of the cache for comparison
+	// create a copy of the cache now for comparison against
 	sortedArr = this.cache.sortOrderCache.slice(0);
 
-	// and then sort it
+	// and then sort it (by default alphabetically)
 	if ( this.config.sortOrder === 'alphabetical' ) {
 		sortedArr = sortedArr.sort();
 	}
+	// if not default, we can either use the grouped option
+	// or a custom sorting order, specificed by a config file
 	else if ( this.config.sortOrder === 'grouped' || Array.isArray(this.config.sortOrder) ) {
 		// use custom ordering if specified, or fall back to in-built grouped ordering
-		var orderingArr = Array.isArray(sortOrder) ? this.config.sortOrder : ordering.grouped;
+		orderingArr = Array.isArray(this.config.sortOrder) ? this.config.sortOrder : ordering.grouped;
 
-		sortedArr = sortedArr.sort(function( a, b ) {
-			var aIndex = orderingArr.indexOf(a),
-				bIndex = orderingArr.indexOf(b);
 
-			// allow properties does not exist in ordering array to be last in order
-			if (bIndex < 0) bIndex = orderingArr.length;
+		console.log( 'pre-sorted', sortedArr );
+		// console.log( 'ordered by', orderingArr );
+		/**
+		 * @description iterate over our cache copy, and sort it according to our config
+		 * @return {boolean} true if ordered correctly, false if not
+		 */
+		sortedArr = sortedArr.sort(function(a, b) {
+			var aIndex = orderingArr.indexOf(a);
+			var bIndex = orderingArr.indexOf(b);
 
+			// allow properties that don't exist in ordering array to be last
+			if (bIndex < 0) {
+				bIndex = orderingArr.length;
+			}
+
+			// -1 if our 'sorted (not yet sorted)' array is not in the right order
 			if (aIndex < bIndex) {
 				return -1;
 			}
+			// and 1 if it is
 			else if (bIndex < aIndex) {
 				return 1;
 			}
 		});
+
+		console.log( 'sorted', sortedArr );
+		console.log( 'cache', this.cache.sortOrderCache );
 	}
 
-	// now compare
+	// now compare our two arrays
+	// one sorted according to the config, and one as appears in the file
 	if ( this.cache.sortOrderCache.length === sortedArr.length ) {
-
-		if ( this.state.hash === false && currContext === this.cache.prevContext ) {
-
+		if ( this.state.context === this.state.prevContext ) {
 			// compare each value individually
-			this.cache.sortOrderCache.forEach(function( val, i ) {
+			this.cache.sortOrderCache.forEach(function(val, i) {
 				// if any value doesn't match quit the forEach
 				if ( sortedArr[i] !== this.cache.sortOrderCache[i] ) {
 					isItSorted = false;
 					return;
 				}
-				// if match, check for valid css before we set it to true
-				else {
-					this.valid.css.forEach(function( val ) {
-						var i = 0, j = 0;
-
-						if ( this.cache.sortOrderCache[ 0 ] === val ) {
-							isItSorted = true;
-							return;
-						}
-
-						for ( i; i < this.valid.prefixes.length; i++ ) {
-							if ( this.cache.sortOrderCache[ 0 ] === ( this.valid.prefixes[ i ] + val ) ) {
-								isItSorted = true;
-								return;
-							}
-						}
-
-						for ( j; j < this.valid.pseudo.length; j++ ) {
-							if ( this.cache.sortOrderCache[ 0 ] === ( val + this.valid.pseudo[ j ] ) ) {
-								isItSorted = true;
-								return;
-							}
-						}
-					}.bind( this ));
-
-					this.valid.html.forEach(function( val ) {
-						var i = 0;
-
-						if ( this.cache.sortOrderCache[ 0 ] === val ) {
-							isItSorted = true;
-							return;
-						}
-
-						for ( i; i < this.valid.pseudo.length; i++ ) {
-							if ( this.cache.sortOrderCache[ 0 ] === ( val + this.valid.pseudo[ i ] ) ) {
-								isItSorted = true;
-								return;
-							}
-						}
-					}.bind( this ));
-				}
 			}.bind( this ));
-		}
-		else {
-			isItSorted = true;
 		}
 	}
 
-	// save our curr context so we can use it to see our place
-	this.cache.prevContext = currContext;
-
-	if ( !isItSorted ) {
+	if ( isItSorted === false ) {
 		this.cache.warnings.push( 'prefer ' + this.config.sortOrder + ' when sorting properties. \nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
 	}
 

@@ -1,7 +1,7 @@
 'use strict';
 
 // check for z-index values that aren't normalized
-module.exports = function normalizeZIndex(line) {
+module.exports = function zIndexNormalize(line) {
 	var badZIndex = false;
 	var arr = this.stripWhiteSpace( new RegExp(/[\s\t,:]/), line );
 

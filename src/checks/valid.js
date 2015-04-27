@@ -13,7 +13,7 @@ var isNumRe = /\d(?=[px]|%|[em]|[rem]|[vh]|[vw]|[vmin]|[vmax]|[ex]|[ch]|[mm]|[cm
 * @returns true if valid
 * @returns undefined if not testable (hmmm)
 */
-module.exports = function checkForValidProperties(line) {
+module.exports = function valid(line) {
 	// split by tabs and spaces, tabs mess with pattern matching
 	var isValid = false;
 	var arr = this.stripWhiteSpace(new RegExp(/[\s\t,]/), line);

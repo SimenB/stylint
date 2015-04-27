@@ -1,7 +1,7 @@
 'use strict';
 
 // check for specified extend preference
-module.exports = function checkExtendStyle(line) {
+module.exports = function extendPref(line) {
 	if ( line.indexOf('@extend') === -1 ) { return; }
 	var extendsCorrect = true;
 

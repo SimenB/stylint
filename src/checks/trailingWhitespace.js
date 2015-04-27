@@ -8,7 +8,7 @@ var anythingElseRe = /[^ \t]/; // anything BUT whitespace (we dont want to retur
  * @param  {string} line  the line being tested
  * @return {boolean} true if whitespace found, false if not
  */
-module.exports = function checkWhitespace(line) {
+module.exports = function trailingWhitespace(line) {
 	var hasWhitespace = false;
 
 	// not an empty line, with whitespace at the end

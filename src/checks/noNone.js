@@ -2,8 +2,8 @@
 
 var noneRe = /((border)|(outline))+(:|\s)+(none)+(?!-)/;
 
-// checks for border none
-module.exports = function checkBorderNone(line) {
+// checks for border none or outline none
+module.exports = function noNone(line) {
 	var badBorder = false;
 
 	// return true if border none found

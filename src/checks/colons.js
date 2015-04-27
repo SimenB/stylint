@@ -1,7 +1,7 @@
 'use strict';
 
 // check for colons
-module.exports = function checkForColon(line) {
+module.exports = function colons(line) {
 	var badColon = false;
 
 	// : is allowed in hashes
