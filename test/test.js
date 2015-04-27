@@ -44,12 +44,8 @@ describe('State:', function() {
 // describe('Core Methods: ', function() {
 
 // 	describe('Done: ', function() {
-// 		// it('should be a function', function() {
-// 		// 	app.done.should.be.a('function');
-// 		// });
-
-// 		it('exit code should default to 1', function() {
-// 			assert.equal( 1, app.state.exitCode );
+// 		it('should be a function', function() {
+// 			app.done.should.be.a('function');
 // 		});
 
 // 		it('exit code of 1 if errs', function() {
@@ -1347,6 +1343,13 @@ describe('Linter Style Checks: ', function() {
 	describe('valid property:', function() {
 		const validTest = lint.valid.bind(app);
 
+		it ('false if from or to used INSIDE keyframes', function() {
+			app.state.keyframes = true;
+			assert.equal( true, validTest( 'from 0%') );
+			assert.equal( true, validTest( 'to 100%') );
+			app.state.keyframes = false;
+		});
+
 		it ('false if property not valid', function() {
 			assert.equal( false, validTest( 'marg 0 auto') );
 			assert.equal( false, validTest( 'pad 0') );
@@ -1360,21 +1363,13 @@ describe('Linter Style Checks: ', function() {
 		it ('true if property is valid', function() {
 			assert.equal( true, validTest( 'padding 0') );
 			assert.equal( true, validTest( '-webkit-border-radius 0') );
-			assert.equal( true, validTest( '.el:hover') );
 			assert.equal( true, validTest( 'input') );
 			assert.equal( true, validTest( 'body') );
-			assert.equal( true, validTest( '$const-name = ') );
-			assert.equal( true, validTest( '{const-name}') );
-			assert.equal( true, validTest( 'my-hash = {') );
-			assert.equal( true, validTest( 'for i in 0..9') );
-			assert.equal( true, validTest( '&--append-class-name') );
-			assert.equal( true, validTest( 'div[attribute]') );
 			assert.equal( true, validTest( '::selection') );
 			assert.equal( true, validTest( 'div:hover') );
 			assert.equal( true, validTest( 'button:active') );
-			assert.equal( true, validTest( '#id:hover') );
 			assert.equal( true, validTest( 'p:optional') );
-			assert.equal( true, validTest( '[data-js]') );
+			assert.equal( true, validTest( 'div[attribute]') );
 		});
 
 		it ('undefined if from or to used outside keyframes', function() {
@@ -1383,10 +1378,15 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, validTest( 'to 100%') );
 		});
 
-		it ('false if from or to used INSIDE keyframes', function() {
-			app.state.keyframes = true;
-			assert.equal( true, validTest( 'from 0%') );
-			assert.equal( true, validTest( 'to 100%') );
+		it ('undefined if class, id, interpolation, attribute, etc', function() {
+			assert.equal( undefined, validTest( '.el:hover') );
+			assert.equal( undefined, validTest( '$const-name = ') );
+			assert.equal( undefined, validTest( '{const-name}') );
+			assert.equal( undefined, validTest( 'my-hash = {') );
+			assert.equal( undefined, validTest( 'for i in 0..9') );
+			assert.equal( undefined, validTest( '&--append-class-name') );
+			assert.equal( undefined, validTest( '[data-js]') );
+			assert.equal( undefined, validTest( '#id:hover') );
 		});
 	});
 
@@ -1532,14 +1532,14 @@ describe('Linter Style Checks: ', function() {
 // 		app.state.quiet = true;
 // 	});
 
-	// it('should exit if watch off', function() {
-	// 	sinon.spy( app, 'done' );
-	// 	const test;
+// 	it('should exit if watch off', function() {
+// 		sinon.spy( app, 'done' );
+// 		const test;
 
-	// 	app.state.watching = false;
-	// 	test = app.done( app );
+// 		app.state.watching = false;
+// 		test = app.done( app );
 
-	// 	app.done.getCall(0).returned( sinon.match.same( process.exit ) );
-	// 	app.state.watching = true;
-	// });
+// 		app.done.getCall(0).returned( sinon.match.same( process.exit ) );
+// 		app.state.watching = true;
+// 	});
 // });

@@ -1,10 +1,10 @@
 'use strict';
 
 // dont throw false positives on user created names or syntax
-var attributeRe = /^\[\S+\]/;
-var elAttributeRe = /(?=\S)+\[\S+\]/gm;
-var ignoreMeRe = /[&$.#(=>]|({[\S]+})|(if)|(for)|(else)|(@block)/;
-var isNumRe = /\d(?=[px]|%|[em]|[rem]|[vh]|[vw]|[vmin]|[vmax]|[ex]|[ch]|[mm]|[cm]|[in]|[pt]|[pc]|[mozmm])/;
+var attrRe = /^\[\S+\]/;
+var elAttrRe = /(?=\S)+\[\S+\]/gm;
+var ignoreRe = /[&$.#(=>]|({[\S]+})|(if)|(for)|(else)|(@block)/;
+var numRe = /\d(?=[px]|%|[em]|[rem]|[vh]|[vw]|[vmin]|[vmax]|[ex]|[ch]|[mm]|[cm]|[in]|[pt]|[pc]|[mozmm])/;
 
 
 /**
@@ -14,6 +14,22 @@ var isNumRe = /\d(?=[px]|%|[em]|[rem]|[vh]|[vw]|[vmin]|[vmax]|[ex]|[ch]|[mm]|[cm
 * @returns undefined if not testable (hmmm)
 */
 module.exports = function valid(line) {
+	// split by tabs and spaces, tabs mess with pattern matching
+	var isValid = false;
+	var arr = this.stripWhiteSpace(new RegExp(/[\s\t,]/), line);
+
+	// in order, ignore line if:
+	// 1 we are in a hash
+	// 2 classname, varname, id, or syntax. basically, ignore if custom
+	// 3 if the selector only consists of an attr (which can be custom)
+	// 4 if it's a number
+	if ( this.state.hash || // 1
+		ignoreRe.test(line) || // 2
+		attrRe.test(arr[0]) || // 3
+		numRe.test(arr[0]) ) { // 4
+		return;
+	}
+
 	// from and to are keyframes specific properties, but arent valid outside that context
 	if ( !this.state.keyframes ) {
 		if ( line.indexOf('from ') !== -1 || line.indexOf('to ') !== -1 ) {
@@ -21,61 +37,45 @@ module.exports = function valid(line) {
 		}
 	}
 
-	// split by tabs and spaces, tabs mess with pattern matching
-	var isValid = false;
-	var arr = this.stripWhiteSpace(new RegExp(/[\s\t,]/), line);
+	// if using an attribute selector ( div[madeUpAttribute] ), strip it out first ( div )
+	if ( elAttrRe.test( arr[0] ) ) {
+		arr[0] = arr[0].replace(elAttrRe, '');
+	}
 
-	// not empty, not something we ignore
-	if ( !ignoreMeRe.test( line ) &&
-		this.state.hash === false &&
-		!attributeRe.test( arr[0] ) &&
-		!isNumRe.test( arr[0] ) &&
-		typeof arr[0] !== 'undefined' ) {
-
-		// if using an attribute selector ( div[madeUpAttribute] ), strip it out first ( div )
-		if ( elAttributeRe.test( arr[0] ) ) {
-			arr[0] = arr[0].replace(elAttributeRe, '');
+	this.valid.css.forEach(function(css) {
+		// if property matches (border, margin)
+		if ( arr[0] === css ) {
+			isValid = true;
+			return;
 		}
 
-		this.valid.css.forEach(function(val) {
-			var i = 0;
-			var j = 0;
-
-			// if property matches (border, margin)
-			if ( arr[ 0 ] === val ) {
+		// if prefix + property matches (-webkit-border-radius)
+		this.valid.prefixes.forEach(function(prefix) {
+			if ( arr[0] === prefix + css ) {
 				isValid = true;
 				return;
 			}
-
-			// if property + prefix matches (-webkit-border-radius)
-			for ( i; i < this.valid.prefixes.length; i++ ) {
-				if ( arr[ 0 ] === ( this.valid.prefixes[ i ] + val ) ) {
-					isValid = true;
-					return;
-				}
-			}
 		}.bind(this));
+	}.bind(this));
 
-		this.valid.html.forEach(function( val ) {
-			var i = 0;
-
+	// if the above didn't find a valid property
+	// try the html array
+	if ( !isValid ) {
+		this.valid.html.forEach(function(html) {
 			// if property matches (div, article)
-			if ( arr[ 0 ] === val ) {
+			if ( arr[0] === html ) {
 				isValid = true;
 				return;
 			}
 
-			// if property matches + pseudo matches (a:hover, button:focus)
-			for ( i; i < this.valid.pseudo.length; i++ ) {
-				if ( arr[ 0 ] === ( val + this.valid.pseudo[ i ] ) ) {
+			// if property + pseudo matches (a:hover, button:focus)
+			this.valid.pseudo.forEach(function(pseudo) {
+				if ( arr[0] === html + pseudo ) {
 					isValid = true;
 					return;
 				}
-			}
+			}.bind(this));
 		}.bind(this));
-	}
-	else {
-		isValid = true;
 	}
 
 	if ( isValid === false ) {
