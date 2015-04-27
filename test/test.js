@@ -431,6 +431,7 @@ describe('Linter Style Checks: ', function() {
 		const cssTest = lint.cssLiteral.bind(app);
 
 		it('false if @css is not used', function() {
+			app.state.cssLiteral = false;
 			assert.equal( false, cssTest('margin 0') );
 			assert.equal( false, cssTest('@extends $placeholderconst') );
 			assert.equal( false, cssTest('@require "lint.styl"') );
@@ -642,45 +643,53 @@ describe('Linter Style Checks: ', function() {
 		it('app.state.hash should be true after hash start', function() {
 			assert.equal( true, app.state.hash );
 		});
+
+		it('undefined if in a hash', function() {
+			assert.equal( undefined, hashTest('myHash = {') );
+		});
 	});
 
 	describe('hash end', function() {
 		const hashTest = state.hashEnd.bind(app);
 
-		it('false if hash end } not found', function() {
-			app.state.hash = false;
-			assert.equal( false, hashTest('margin 0') );
-			assert.equal( false, hashTest('myHash = {') );
+		it('false if in hash and valid } found', function() {
+			app.state.hash = true;
 			assert.equal( false, hashTest('}') );
-
-			app.state.hash = true;
-			assert.equal( false, hashTest('margin 0') );
-			app.state.hash = true;
-			assert.equal( false, hashTest('myHash = {') );
 		});
 
-		it('true if in hash and valid } found', function() {
+		it('true if hash end } not found', function() {
 			app.state.hash = true;
-			assert.equal( true, hashTest('}') );
+			assert.equal( true, hashTest('margin 0') );
+			assert.equal( true, hashTest('myHash = {') );
 		});
 
 		it('after finding end of hash, hash state should equal false', function() {
+			app.state.hash = true;
+			assert.equal( false, hashTest('}') );
 			assert.equal( false, app.state.hash );
+		});
+
+		it('undefined if not in a hash', function() {
+			app.state.hash = false;
+			assert.equal( undefined, hashTest('margin 0') );
+			assert.equal( undefined, hashTest('myHash = {') );
+			assert.equal( undefined, hashTest('}') );
 		});
 	});
 
 	describe('keyframes end', function() {
 		const keyframesEndTest = lint.keyframesEnd.bind(app);
 
-		it('true if keyframes active and context set to 0', function() {
+		it('false if keyframes active and context set to 0 (keyframes ended)', function() {
 			app.state.keyframes = true;
 			app.state.context = 0;
-			assert.equal( true, keyframesEndTest('.newClass') );
+			assert.equal( false, keyframesEndTest('.newClass') );
 		});
 
-		it('false if line doesnt have a context of zero', function() {
+		it('true if line doesnt have a context of zero', function() {
+			app.state.keyframes = true;
 			app.state.context = 1;
-			assert.equal( false, keyframesEndTest('		from {') );
+			assert.equal( true, keyframesEndTest('		from {') );
 		});
 	});
 
@@ -688,10 +697,12 @@ describe('Linter Style Checks: ', function() {
 		const keyframesStartTest = lint.keyframesStart.bind(app);
 
 		it('true if line has @keyframes', function() {
+			app.state.keyframes = false;
 			assert.equal( true, keyframesStartTest('@keyframes {') );
 		});
 
 		it('false if line isnt a start of @keyframes', function() {
+			app.state.keyframes = false;
 			assert.equal( false, keyframesStartTest('margin 0') );
 		});
 	});
@@ -736,309 +747,155 @@ describe('Linter Style Checks: ', function() {
 		});
 	});
 
-	describe('naming convention: strict true', function() {
-		app.config.namingConventionStrict = true;
+	describe('naming convention', function() {
 		const conventionTest = lint.namingConvention.bind(app);
+
+		beforeEach(function() {
+			app.config.namingConventionStrict = true;
+		});
+
+		afterEach(function() {
+			app.config.namingConventionStrict = false;
+		})
 
 		it('false if correct naming convention: lowercase-dash', function() {
 			app.config.namingConvention = 'lowercase-dash';
-			const test1 = '$const-name-like-this =';
-			const test2 = '.class-name-like-this';
-			const test3 = '#id-name-like-this';
-			const test4 = '.block-{$class-name}';
-			const test5 = '#{$class-name}';
-			const test6 = '#block-{$class-name}';
-			const test7 = ':{$const-name}';
-			const test8 = '$constname';
-			const test9 = '$constname = "Font Name"';
 
-			app.cache.lineArr = test1.split(' ');
-			assert.equal( false, conventionTest('$const-name-like-this =') );
-			app.cache.lineArr = test2.split(' ');
+			assert.equal( false, conventionTest('$var-name-like-this =') );
 			assert.equal( false, conventionTest('.class-name-like-this') );
-			app.cache.lineArr = test3.split(' ');
 			assert.equal( false, conventionTest('#id-name-like-this') );
-			app.cache.lineArr = test4.split(' ');
 			assert.equal( false, conventionTest('.block-{$class-name}') );
-			app.cache.lineArr = test5.split(' ');
 			assert.equal( false, conventionTest('#{$class-name}') );
-			app.cache.lineArr = test6.split(' ');
 			assert.equal( false, conventionTest('#block-{$class-name}') );
-			app.cache.lineArr = test7.split(' ');
 			assert.equal( false, conventionTest(':{$const-name}') );
-			app.cache.lineArr = test8.split(' ');
 			assert.equal( false, conventionTest('$constname') );
-			app.cache.lineArr = test9.split(' ');
 			assert.equal( false, conventionTest('$constname = "Font Name"') );
 		});
 
 		it('false if correct naming convention: lowercase_underscore', function() {
 			app.config.namingConvention = 'lowercase_underscore';
-			const test1 = '$const_name_like_this =';
-			const test2 = '.class_name_like_this';
-			const test3 = '#id_name_like_this';
-			const test4 = '.block_{$class_name}';
-			const test5 = '#{$class_name}';
-			const test6 = '#block_{$class_name}';
-			const test7 = ':{$const_name}';
-			const test8 = '$constname';
-			const test9 = '$constname = "Font Name"';
 
-			app.cache.lineArr = test1.split(' ');
 			assert.equal( false, conventionTest('$const_name_like_this =') );
-			app.cache.lineArr = test2.split(' ');
 			assert.equal( false, conventionTest('.class_name_like_this') );
-			app.cache.lineArr = test3.split(' ');
 			assert.equal( false, conventionTest('#id_name_like_this') );
-			app.cache.lineArr = test4.split(' ');
 			assert.equal( false, conventionTest('.block_{$const_name}') );
-			app.cache.lineArr = test5.split(' ');
 			assert.equal( false, conventionTest('#{$const_name}') );
-			app.cache.lineArr = test6.split(' ');
 			assert.equal( false, conventionTest('#block_{$const_name}') );
-			app.cache.lineArr = test7.split(' ');
 			assert.equal( false, conventionTest(':{$const_name}') );
-			app.cache.lineArr = test8.split(' ');
 			assert.equal( false, conventionTest('$constname') );
-			app.cache.lineArr = test9.split(' ');
 			assert.equal( false, conventionTest('$constname = "Font Name"') );
 		});
 
 		it('false if correct naming convention: camelCase', function() {
 			app.config.namingConvention = 'camelCase';
-			const test1 = '$constNameLikeThis =';
-			const test2 = '.classNameLikeThis';
-			const test3 = '#idNameLikeThis';
-			const test4 = '.block{$constName}';
-			const test5 = '#{$constName}';
-			const test6 = '#block{$constName}';
-			const test7 = ':{$constName}';
-			const test8 = '$constName';
-			const test9 = '$constname';
-			const test10 = '$constname = "Font Name"';
 
-			app.cache.lineArr = test1.split(' ');
-			assert.equal( false, conventionTest('$constNameLikeThis =') );
-			app.cache.lineArr = test2.split(' ');
+			assert.equal( false, conventionTest('$varNameLikeThis =') );
 			assert.equal( false, conventionTest('.classNameLikeThis') );
-			app.cache.lineArr = test3.split(' ');
 			assert.equal( false, conventionTest('#idNameLikeThis') );
-			app.cache.lineArr = test4.split(' ');
-			assert.equal( false, conventionTest('.block{$constName}') );
-			app.cache.lineArr = test5.split(' ');
-			assert.equal( false, conventionTest('#{$constName}') );
-			app.cache.lineArr = test6.split(' ');
-			assert.equal( false, conventionTest('#block{$constName}') );
-			app.cache.lineArr = test7.split(' ');
-			assert.equal( false, conventionTest(':{$constName}') );
-			app.cache.lineArr = test8.split(' ');
-			assert.equal( false, conventionTest('$constname') );
-			app.cache.lineArr = test9.split(' ');
-			assert.equal( false, conventionTest('$constname = "Font-name"') );
+			assert.equal( false, conventionTest('.block{$varName}') );
+			assert.equal( false, conventionTest('#{$varName}') );
+			assert.equal( false, conventionTest('#block{$varName}') );
+			assert.equal( false, conventionTest(':{$varName}') );
+			assert.equal( false, conventionTest('$varname') );
+			assert.equal( false, conventionTest('$varname = "Font-name"') );
 		});
 
-		it('true if correct naming convention: BEM', function() {
+		it('false if correct naming convention: BEM', function() {
 			app.config.namingConvention = 'BEM';
-			const test1 = '$const-name__like-this =';
-			const test2 = '.class-name__like-this';
-			const test3 = '#id-name__like-this';
-			const test4 = '.block-{$const__name}';
-			const test5 = '#{$const__name}';
-			const test6 = ':{$const__name}';
-			const test7 = '#block__{$const-name}';
-			const test8 = '#block{$const-name}';
-			const test9 = '$constname';
-			const test10 = '$constname = "Font Name"';
 
-			app.cache.lineArr = test1.split(' ');
-			assert.equal( false, conventionTest('$const-name__like-this =') );
-			app.cache.lineArr = test2.split(' ');
+			assert.equal( false, conventionTest('$var-name__like-this =') );
 			assert.equal( false, conventionTest('.class-name__like-this') );
-			app.cache.lineArr = test3.split(' ');
 			assert.equal( false, conventionTest('#id-name__like-this') );
-			app.cache.lineArr = test4.split(' ');
-			assert.equal( false, conventionTest('.block-{$const__name}') );
-			app.cache.lineArr = test5.split(' ');
-			assert.equal( false, conventionTest('#{$const__name}') );
-			app.cache.lineArr = test6.split(' ');
-			assert.equal( false, conventionTest(':{$const__name}') );
-			app.cache.lineArr = test7.split(' ');
-			assert.equal( false, conventionTest('#block__{$const-name}') );
-			app.cache.lineArr = test8.split(' ');
-			assert.equal( false, conventionTest('#block{$const-name}') );
-			app.cache.lineArr = test9.split(' ');
-			assert.equal( false, conventionTest('$constname') );
-			app.cache.lineArr = test10.split(' ');
-			assert.equal( false, conventionTest('$constname = "Font Name"') );
+			assert.equal( false, conventionTest('.block-{$var__name}') );
+			assert.equal( false, conventionTest('#{$var__name}') );
+			assert.equal( false, conventionTest(':{$var__name}') );
+			assert.equal( false, conventionTest('#block__{$var-name}') );
+			assert.equal( false, conventionTest('#block{$var-name}') );
+			assert.equal( false, conventionTest('$varname') );
+			assert.equal( false, conventionTest('$varname = "Font Name"') );
 		});
 
-		it('true if not correct naming convention: lowercase-dash', function() {
+		it('true if NOT correct naming convention: lowercase-dash', function() {
 			app.config.namingConvention = 'lowercase-dash';
-			const test1 = '$const_name_like_this =';
-			const test2 = '.class_name_like_this';
-			const test3 = '#id_name_like_this';
-			const test4 = '.block_{$const-name}';
-			const test5 = '#{$const_name}';
-			const test6 = '#block_{$const_name}';
-			const test7 = ':{$const_name}';
-			const test8 = '.block_{$const-name}';
 
-			app.cache.lineArr = test1.split(' ');
-			assert.equal( true, conventionTest(test1) );
-			app.cache.lineArr = test2.split(' ');
-			assert.equal( true, conventionTest(test2) );
-			app.cache.lineArr = test3.split(' ');
-			assert.equal( true, conventionTest(test3) );
-			app.cache.lineArr = test4.split(' ');
-			assert.equal( true, conventionTest(test4) );
-			app.cache.lineArr = test5.split(' ');
-			assert.equal( true, conventionTest(test5) );
-			app.cache.lineArr = test6.split(' ');
-			assert.equal( true, conventionTest(test6) );
-			app.cache.lineArr = test7.split(' ');
-			assert.equal( true, conventionTest(test7) );
-			app.cache.lineArr = test8.split(' ');
-			assert.equal( true, conventionTest(test8) );
+			assert.equal( true, conventionTest('$var_name_like_this =') );
+			assert.equal( true, conventionTest('.class_name_like_this') );
+			assert.equal( true, conventionTest('#id_name_like_this') );
+			assert.equal( true, conventionTest('.block_{$var-name}') );
+			assert.equal( true, conventionTest('#{$var_name}') );
+			assert.equal( true, conventionTest('#block_{$var_name}') );
+			assert.equal( true, conventionTest(':{$var_name}') );
+			assert.equal( true, conventionTest('.block_{$var-name}') );
 		});
 
-		it('true if not correct naming convention: lowercase_underscore', function() {
+		it('true if NOT correct naming convention: lowercase_underscore', function() {
 			app.config.namingConvention = 'lowercase_underscore';
-			const test1 = '$const-name-like-this =';
-			const test2 = '.class-name-like-this';
-			const test3 = '#id-name-like-this';
-			const test4 = '.block-{$const-name}';
-			const test5 = '#{$const-name}';
-			const test6 = '#block-{$const-name}';
-			const test7 = ':{$const-name}';
-			const test8 = '.block-{$constName}';
-			const test9 = '#{$constName}';
-			const test10 = '#block-{$constName}';
-			const test11 = ':{$constName}';
-			const test12 = '.block_{$const-name}';
 
-			app.cache.lineArr = test1.split(' ');
 			assert.equal( true, conventionTest('$const-name-like-this =') );
-			app.cache.lineArr = test2.split(' ');
 			assert.equal( true, conventionTest('.class-name-like-this') );
-			app.cache.lineArr = test3.split(' ');
 			assert.equal( true, conventionTest('#id-name-like-this') );
-			app.cache.lineArr = test4.split(' ');
 			assert.equal( true, conventionTest('.block-{$const-name}') );
-			app.cache.lineArr = test5.split(' ');
 			assert.equal( true, conventionTest('#{$const-name}') );
-			app.cache.lineArr = test6.split(' ');
 			assert.equal( true, conventionTest('#block-{$const-name}') );
-			app.cache.lineArr = test7.split(' ');
 			assert.equal( true, conventionTest(':{$const-name}') );
-			app.cache.lineArr = test8.split(' ');
 			assert.equal( true, conventionTest('.block-{$constName}') );
-			app.cache.lineArr = test9.split(' ');
 			assert.equal( true, conventionTest('#{$constName}') );
-			app.cache.lineArr = test10.split(' ');
 			assert.equal( true, conventionTest('#block-{$constName}') );
-			app.cache.lineArr = test11.split(' ');
 			assert.equal( true, conventionTest(':{$constName}') );
-			app.cache.lineArr = test12.split(' ');
 			assert.equal( true, conventionTest('.block_{$const-name}') );
 		});
 
-		it('true if not correct naming convention: camelCase', function() {
+		it('true if NOT correct naming convention: camelCase', function() {
 			app.config.namingConvention = 'camelCase';
-			const test1 = '$const-name-like-this =';
-			const test2 = '.class-name-like-this';
-			const test3 = '#id-name-like-this';
-			const test4 = '$const_name_like_this =';
-			const test5 = '.class_name_like_this';
-			const test6 = '#id_name_like_this';
-			const test7 = '.block{$const-name}';
-			const test8 = '#{$const-name}';
-			const test9 = '.block{$const_name}';
-			const test10 = '#{$const_name}';
-			const test11 = '.block{$const-name}';
-			const test12 = '#{$const-name}';
-			const test13 = ':{$const-name}';
-			const test14 = '.block_{$const-name}';
-			const test15 = '#block{$const-name}';
 
-			app.cache.lineArr = test1.split(' ');
 			assert.equal( true, conventionTest('$const-name-like-this =') );
-			app.cache.lineArr = test2.split(' ');
 			assert.equal( true, conventionTest('.class-name-like-this') );
-			app.cache.lineArr = test3.split(' ');
 			assert.equal( true, conventionTest('#id-name-like-this') );
-			app.cache.lineArr = test4.split(' ');
 			assert.equal( true, conventionTest('$const_name_like_this =') );
-			app.cache.lineArr = test5.split(' ');
 			assert.equal( true, conventionTest('.class_name_like_this') );
-			app.cache.lineArr = test6.split(' ');
 			assert.equal( true, conventionTest('#id_name_like_this') );
-			app.cache.lineArr = test7.split(' ');
 			assert.equal( true, conventionTest('.block{$const-name}') );
-			app.cache.lineArr = test8.split(' ');
 			assert.equal( true, conventionTest('#{$const-name}') );
-			app.cache.lineArr = test9.split(' ');
 			assert.equal( true, conventionTest('#block{$const-name}') );
-			app.cache.lineArr = test10.split(' ');
 			assert.equal( true, conventionTest(':{$const-name}') );
-			app.cache.lineArr = test11.split(' ');
 			assert.equal( true, conventionTest('.block{$const_name}') );
-			app.cache.lineArr = test12.split(' ');
+			assert.equal( true, conventionTest('.block{$const-name}') );
 			assert.equal( true, conventionTest('#{$const_name}') );
-			app.cache.lineArr = test13.split(' ');
-			assert.equal( true, conventionTest('#block{$const_name}') );
-			app.cache.lineArr = test14.split(' ');
 			assert.equal( true, conventionTest(':{$const_name}') );
-			app.cache.lineArr = test15.split(' ');
 			assert.equal( true, conventionTest('.block_{$const-name}') );
 		});
 
 		it('true if not correct naming convention: BEM', function() {
 			app.config.namingConvention = 'BEM';
-			const test1 = '.classNameLikeThis';
-			const test2 = '#id_name_like_this';
-			const test3 = '.block_{$constName}';
-			const test4 = '#{$constName}';
-			const test5 = '#block_{$const-name}';
-			const test6 = '.block_{$const-name}';
 
-			app.cache.lineArr = test1.split(' ');
 			assert.equal( true, conventionTest('.classNameLikeThis') );
-			app.cache.lineArr = test2.split(' ');
 			assert.equal( true, conventionTest('#id_name_like_this') );
-			app.cache.lineArr = test3.split(' ');
 			assert.equal( true, conventionTest('.block_{$constName}') );
-			app.cache.lineArr = test4.split(' ');
 			assert.equal( true, conventionTest('#{$constName}') );
-			app.cache.lineArr = test5.split(' ');
 			assert.equal( true, conventionTest('#block_{$const-name}') );
-			app.cache.lineArr = test6.split(' ');
 			assert.equal( true, conventionTest('.block_{$const-name}') );
 		});
 	});
 
-	describe('naming convention: strict false', function() {
-		app.config.namingConventionStrict = false;
+	describe('naming convention: strict turned off: ', function() {
+		const conventionTest = lint.namingConvention.bind(app);
+
+		beforeEach(function() {
+			app.config.namingConventionStrict = false;
+		});
 
 		it('false if using classes or ids', function() {
-			const test1 = '.class_name_like_this';
-			const test2 = '#id_name_like_this';
-			const test3 = '.class-name-like-this';
-			const test4 = '#id-name-like-this';
-			const test5 = '.class-name-like-this';
-			const test6 = '#id-name-like-this';
-
-			app.cache.lineArr = test1.split(' ');
 			assert.equal( false, conventionTest('.class_name_like_this') );
-			app.cache.lineArr = test2.split(' ');
 			assert.equal( false, conventionTest('#id_name_like_this') );
-			app.cache.lineArr = test3.split(' ');
 			assert.equal( false, conventionTest('.class-name-like-this') );
-			app.cache.lineArr = test4.split(' ');
 			assert.equal( false, conventionTest('#id-name-like-this') );
-			app.cache.lineArr = test5.split(' ');
 			assert.equal( false, conventionTest('.class-name-like-this') );
-			app.cache.lineArr = test6.split(' ');
 			assert.equal( false, conventionTest('#id-name-like-this') );
+		});
+
+		it('false if passed made up or incorrect convention', function() {
+			app.config.namingConvention = 'somethin';
+			assert.equal( false, conventionTest('$var_name_like_this') );
 		});
 	});
 

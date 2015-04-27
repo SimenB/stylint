@@ -11,7 +11,6 @@ module.exports = stampit().state({
 		filesLen: 0, // # of files we're testing
 		fileNo: 0, // curr # of filesLen we're on
 		line: '', // curr line we're testing
-		lineArr: [], // the curr line, as an array
 		lineNo: 0, // curr line number we're testing
 		msg: '', // the done message (55 warnings blah blah)
 		prevFile: '', // the previous file
