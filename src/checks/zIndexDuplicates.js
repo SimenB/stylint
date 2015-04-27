@@ -6,7 +6,8 @@ module.exports = function zIndexDuplicates(line) {
 	var isItADupe = false;
 
 	this.cache.zCache.forEach(function( val, i ) {
-		if ( this.cache.zCache[i][0] === arr[ arr.length - 1 ] && this.state.context === this.cache.zCache[i][1] ) {
+		if ( this.cache.zCache[i][0] === arr[ arr.length - 1 ] &&
+			this.state.context === this.cache.zCache[i][1] ) {
 			isItADupe = true;
 		}
 	}.bind(this));

@@ -3,7 +3,7 @@
 var syntaxIgnoreRe = /^{|[,}]|(:after|:active|:before|@import|@require|@extend|@media|:hover|@font-face|src)/;
 
 // check that selector properties are sorted alphabetically
-module.exports = function duplicateSelectors(line) {
+module.exports = function duplicates(line) {
 	// remove blank spaces now that we have our context
 	var arr = this.stripWhiteSpace( new RegExp(/[\s\t]/), line );
 	var isThereADupe = false;
@@ -12,12 +12,19 @@ module.exports = function duplicateSelectors(line) {
 	// make sure it's not whitespace or syntax or whatever
 	function _lineIsAcceptable(app) {
 		return (
-			!syntaxIgnoreRe.test(app.cache.line) &&
+			!syntaxIgnoreRe.test(line) &&
 			typeof arr[0] !== 'undefined' &&
-			typeof app.cache.prevLine !== 'undefined' &&
-			app.cache.prevLine.indexOf(',') === -1
+			line.indexOf(',') === -1
 		);
 	}
+
+	// console.log( this );
+	console.log( 'prevLine: ', this.cache.prevLine );
+	console.log( 'line: ', line );
+	console.log( 'prevFile: ', this.cache.prevFile );
+	console.log( 'file: ', this.cache.file );
+	console.log( 'prevContext: ', this.state.prevContext );
+	console.log( 'context: ', this.state.context );
 
 	// if current context switched, reset array
 	if ( this.state.prevContext !== this.state.context || this.cache.prevFile !== this.cache.file ) {
@@ -32,33 +39,26 @@ module.exports = function duplicateSelectors(line) {
 	// keep track of and check root selectors too
 	if ( this.state.context === 0 ) {
 		// if curr line is already in our cache, we have a dupe
-		if ( this.cache.prevLine.indexOf(',') === -1 &&
-			this.cache.rootCache.indexOf( line ) !== -1 ) {
-			isThereADupe = true;
-		}
+		if ( _lineIsAcceptable(this) ) {
+			if ( this.cache.rootCache.indexOf(line) !== -1 ) {
+				isThereADupe = true;
+			}
 
-		// undefined check is for whitespace
-		if ( _lineIsAcceptable( this ) ) {
 			this.cache.rootCache.push( line );
 		}
 	}
 	// if selector is nested we check the selectorCache instead of rootCache
 	else {
-		if ( this.cache.prevLine.indexOf(',') === -1 &&
-			this.cache.selectorCache.indexOf( arr[0] ) !== -1 ) {
-			isThereADupe = true;
-		}
-		// cache the lines in the curr context
-		if ( _lineIsAcceptable( this ) ) {
+		console.log( arr[0] );
+		console.log( this.cache.selectorCache )
+		if ( _lineIsAcceptable(this) ) {
+			if ( this.cache.selectorCache.indexOf(arr[0]) !== -1 ) {
+				isThereADupe = true;
+			}
+
 			this.cache.selectorCache.push( arr[0] );
 		}
 	}
-
-	// save our curr context so we can use it next time
-	this.cache.prevFile = this.cache.file;
-	this.cache.prevLine = line;
-	this.state.prevContext = this.state.context;
-
 	if ( isThereADupe === true ) {
 		this.cache.warnings.push( 'duplicate property or selector, consider merging' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
 	}

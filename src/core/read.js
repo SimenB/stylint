@@ -27,8 +27,8 @@ module.exports = function read() {
 
 			if ( stats.isFile() ) {
 				this.cache.filesLen = 1;
-				this.cache.file = this.state.path;
 				this.cache.fileNo = 1;
+				this.cache.file = this.state.path;
 				return this.parse();
 			}
 

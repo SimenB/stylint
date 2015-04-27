@@ -425,6 +425,11 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, commentSpaceTest('// test') );
 			assert.equal( true, commentSpaceTest('margin 0 auto // test') );
 		});
+
+		it('undefined if line has no comment', function() {
+			app.state.hasComment = false;
+			assert.equal( undefined, commentSpaceTest('.test') );
+		});
 	});
 
 	describe('css literal', function() {
@@ -439,6 +444,11 @@ describe('Linter Style Checks: ', function() {
 
 		it('true if @css is used ', function() {
 			assert.equal( true, cssTest('@css {') );
+		});
+
+		it('undefined if already in css literal', function() {
+			app.state.cssBlock = true;
+			assert.equal( undefined, cssTest('.test') );
 		});
 	});
 
@@ -482,79 +492,125 @@ describe('Linter Style Checks: ', function() {
 	describe('duplicates', function() {
 		const dupeTest = lint.duplicates.bind(app);
 
-		beforeEach(function() {
-			app.cache.selectorCache = ['margin-bottom', 'margin-top', 'z-index'];
-			app.cache.rootCache = ['.test', 'body', '.test2'];
-		});
-
-		it('test with tabs on, false', function() {
-			app.config.indentSpaces = false;
+		it('tabs: false if no dupe, not root, diff context, same selector', function() {
+			app.config.indentPref = 'tabs';
 			app.cache.file = 'file.styl';
-			app.setContext('\t\t.test');
-			assert.equal( false, dupeTest('\t\t.test') );
-			app.config.indentSpaces = 4;
+			app.cache.prevFile = 'file.styl'
+			app.setContext('	.test'); // 1
+			dupeTest('	.test');
+			app.setContext('			.test'); // 3
+			assert.equal( false, dupeTest('			.test') );
 		});
 
-		it('false if nested selector on multiple files', function() {
+		it('tabs: false if globalDupe off, diff files, same context, same selector', function() {
 			app.config.globalDupe = true;
 			app.cache.prevFile = 'file5.styl';
 			app.cache.file = 'file6.styl';
-			app.setContext('	.test'); // prevContext
-			app.setContext('	.test'); // context
+			app.setContext('	.test'); // 1
+			app.setContext('	.test'); // 1
 			assert.equal( false, dupeTest('	.test') );
 			app.config.globalDupe = false;
 		});
 
-		it('false if previous nested selector was in a list', function() {
+		it('tabs: false if prev selector was in a list, same file, same context, same selector', function() {
+			app.cache.prevFile = 'file.styl';
 			app.cache.file = 'file.styl';
 			app.setContext('	.classy,'); // to set the context
+			dupeTest('	.classy,'); // prev selecto
 			assert.equal( false, dupeTest('	.classy') );
 		});
 
-		it('false if nested selector is in a list', function() {
-			app.cache.file = 'file.styl';
-			assert.equal( false, dupeTest('		.class,') );
+		it('tabs: false if selector is in a list', function() {
+			assert.equal( false, dupeTest('	.classy,') );
 		});
 
-		it('false if previous selector was in a list', function() {
-			app.setContext('.test3,'); // to set the context
-			app.cache.file = 'file.styl';
-			assert.equal( false, dupeTest('.test3') );
-		});
-
-		it('false if global dupe off and file changed', function() {
-			dupeTest('.test4'); // to set the context
+		it('tabs: false if global dupe off and file changed', function() {
+			dupeTest('	.test4'); // to set the context
 			app.cache.prevFile = 'file.styl';
 			app.cache.file = 'file2.styl';
 			app.config.globalDupe = false;
-			assert.equal( false, dupeTest('.test4') );
+			assert.equal( false, dupeTest('	.test4') );
 		});
 
-		it('true if nested selector is duplicate', function() {
-			app.setContext('   .test'); // to set the context
-			dupeTest('   .test')
+		it('spaces: false if no dupe, not root, diff context, same selector', function() {
+			app.config.indentPref = 4;
+			app.cache.file = 'file.styl';
+			app.cache.prevFile = 'file.styl'
+			app.setContext('    .test'); // 1
+			dupeTest('    .test');
+			app.setContext('            .test'); // 3
+			assert.equal( false, dupeTest('            .test') );
+		});
+
+		it('spaces: false if globalDupe off, diff files, same context, same selector', function() {
+			app.config.globalDupe = true;
+			app.cache.prevFile = 'file5.styl';
+			app.cache.file = 'file6.styl';
+			app.setContext('    .test'); // 1
+			app.setContext('    .test'); // 1
+			assert.equal( false, dupeTest('    .test') );
+			app.config.globalDupe = false;
+		});
+
+		it('spaces: false if prev selector was in a list, same file, same context, same selector', function() {
 			app.cache.prevFile = 'file.styl';
 			app.cache.file = 'file.styl';
-			assert.equal( true, dupeTest('   .test') );
+			app.setContext('    .classy,'); // to set the context
+			dupeTest('    .classy,'); // prev selector
+			assert.equal( false, dupeTest('    .classy') );
 		});
 
-		it('true if nested selector is duplicate, tab version', function() {
-			app.cache.file = 'file.styl';
-			dupeTest('	.tab'); // to set the context
-			app.cache.file = 'file.styl';
-			assert.equal( true, dupeTest('	.tab') );
+		it('spaces: false if selector is in a list', function() {
+			assert.equal( false, dupeTest('    .classy,') );
 		});
 
-		it('true if root selector is duplicate', function() {
-			app.cache.file = 'file.styl';
-			dupeTest('.test'); // to set the context
-			app.cache.file = 'file.styl';
-			assert.equal( true, dupeTest('.test') );
+		it('space: false if global dupe off and file changed', function() {
+			dupeTest('    .test4'); // to set the context
+			app.cache.prevFile = 'file.styl';
+			app.cache.file = 'file2.styl';
+			app.config.globalDupe = false;
+			assert.equal( false, dupeTest('    .test4') );
 		});
 
-		it('check root selector across several files', function() {
+		it('false if root selector dupe was in list', function() {
+			app.state.context = 0;
+			app.state.prevContext = 0;
+			app.config.globalDupe = false;
+			app.cache.file = 'file.styl';
+			dupeTest('.test,'); // to set the context
+			assert.equal( false, dupeTest('.test') );
+		});
+
+		it('tabs: true if nested selector is dupe', function() {
+			app.cache.prevFile = 'file.styl';
+			app.cache.file = 'file.styl';
+			app.state.context = 1;
+			app.state.prevContext = 1;
+			dupeTest('	.test');
+			assert.equal( true, dupeTest('	.test') );
+		});
+
+		it('spaces: true if nested selector is dupe', function() {
+			app.cache.prevFile = 'file.styl';
+			app.cache.file = 'file.styl';
+			app.state.context = 1;
+			app.state.prevContext = 1;
+			dupeTest('    .test2');
+			assert.equal( true, dupeTest('    .test2') );
+		});
+
+		it('true if root selector is dupe, same file', function() {
+			app.state.context = 0;
+			app.state.prevContext = 0;
+			dupeTest('.test3'); // to set the context
+			assert.equal( true, dupeTest('.test3') );
+		});
+
+		it('true if root selector is dupe, global dupe test', function() {
+			app.state.context = 0;
+			app.state.prevContext = 0;
 			app.config.globalDupe = true;
-			app.cache.file = 'file.styl';
+			app.cache.prevFile = 'file.styl';
 			dupeTest('.test'); // to set the context
 			app.cache.file = 'file2.styl';
 			assert.equal( true, dupeTest('.test') );
@@ -691,6 +747,11 @@ describe('Linter Style Checks: ', function() {
 			app.state.context = 1;
 			assert.equal( true, keyframesEndTest('		from {') );
 		});
+
+		it('undefined if NOT already in @keyframes', function() {
+			app.state.keyframes = false;
+			assert.equal( undefined, keyframesEndTest('margin 0') );
+		});
 	});
 
 	describe('keyframes start', function() {
@@ -704,6 +765,11 @@ describe('Linter Style Checks: ', function() {
 		it('false if line isnt a start of @keyframes', function() {
 			app.state.keyframes = false;
 			assert.equal( false, keyframesStartTest('margin 0') );
+		});
+
+		it('undefined if already in @keyframes', function() {
+			app.state.keyframes = true;
+			assert.equal( undefined, keyframesStartTest('margin 0') );
 		});
 	});
 
@@ -1175,6 +1241,44 @@ describe('Linter Style Checks: ', function() {
 				assert.equal( expectedCache.length, app.cache.sortOrderCache.length );
 				assert.deepEqual( expectedCache, app.cache.sortOrderCache );
 			});
+		});
+	});
+
+	describe('stylint off toggle:', function() {
+		const toggleTest = state.stylintOff.bind(app);
+
+		it('false if tests enabled and toggle found', function() {
+			app.state.testsEnabled = true;
+			assert.equal( false, toggleTest('@stylint off') );
+		});
+
+		it('true if tests enabled and toggle not found', function() {
+			app.state.testsEnabled = true;
+			assert.equal( true, toggleTest('margin 0 auto') );
+		});
+
+		it('undefined if tests already disabled', function() {
+			app.state.testsEnabled = false;
+			assert.equal( undefined, toggleTest('@stylint on') );
+		});
+	});
+
+	describe('stylint on toggle:', function() {
+		const toggleTest = state.stylintOn.bind(app);
+
+		it('false if tests disabled and toggle not found', function() {
+			app.state.testsEnabled = false;
+			assert.equal( false, toggleTest('margin 0 auto') );
+		});
+
+		it('true if tests disabled and toggle found', function() {
+			app.state.testsEnabled = false;
+			assert.equal( true, toggleTest('@stylint on') );
+		});
+
+		it('undefined if tests already enabled', function() {
+			app.state.testsEnabled = true;
+			assert.equal( undefined, toggleTest('@stylint on') );
 		});
 	});
 

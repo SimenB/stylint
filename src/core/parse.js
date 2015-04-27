@@ -41,7 +41,6 @@ module.exports = function parse() {
 		lines.forEach(function( line, i ) {
 			i++; // line nos don't start at 0
 			this.cache.line = line;
-			this.cache.lineArr = line.split(' ');
 			this.cache.lineNo = i;
 			return this.setState();
 		}.bind(this));

@@ -44,7 +44,7 @@ module.exports = stampit().methods({
 			if ( err ) { throw err; }
 			this.cache.filesLen = files.length - 1;
 
-			return files.forEach(function( file, i ) {
+			return files.forEach(function(file, i) {
 				this.cache.file = file;
 				this.cache.fileNo = i;
 				return this.parse();
@@ -99,6 +99,8 @@ module.exports = stampit().methods({
 		}
 
 		this.state.context = context;
+		console.log( 'setContext (prev):', this.state.prevContext );
+		console.log( 'setContext:', context );
 		return context;
 	},
 

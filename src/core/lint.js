@@ -18,4 +18,8 @@ module.exports = function lint() {
 			}
 		}
 	}
+
+	// save our curr context so we can use it next time
+	this.cache.prevFile = this.cache.file;
+	this.cache.prevLine = this.cache.line;
 };
