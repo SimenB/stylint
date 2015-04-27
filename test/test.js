@@ -41,245 +41,245 @@ describe('State:', function() {
 	});
 });
 
-// describe('Core Methods: ', function() {
+describe('Core Methods: ', function() {
 
-// 	describe('Done: ', function() {
-// 		// it('should be a function', function() {
-// 		// 	app.done.should.be.a('function');
-// 		// });
+	describe('Done: ', function() {
+		// it('should be a function', function() {
+		// 	app.done.should.be.a('function');
+		// });
 
-// 		it('exit code should default to 1', function() {
-// 			assert.equal( 1, app.state.exitCode );
-// 		});
+		it('exit code should default to 1', function() {
+			assert.equal( 1, app.state.exitCode );
+		});
 
-// 		it('exit code of 1 if errs', function() {
-// 			app.cache.warnings = [0,1,2,3,4,5];
-// 			assert.equal( 1, app.done( app ).exitCode );
-// 		});
-// 	});
+		it('exit code of 1 if errs', function() {
+			app.cache.warnings = [0,1,2,3,4,5];
+			assert.equal( 1, app.done( app ).exitCode );
+		});
+	});
 
-// 	describe('Read: ', function() {
-// 		sinon.spy( app, 'read' );
+	describe('Read: ', function() {
+		sinon.spy( app, 'read' );
 
-// 		app.state.path = 'styl/';
-// 		const dirTest = app.read();
-// 		app.state.path = 'styl/test2.styl';
-// 		const fileTest = app.read();
-// 		app.state.path = process.cwd();
-// 		const cwdTest = app.read();
+		app.state.path = 'styl/';
+		const dirTest = app.read();
+		app.state.path = 'styl/test2.styl';
+		const fileTest = app.read();
+		app.state.path = process.cwd();
+		const cwdTest = app.read();
 
-// 		it('should be a function', function() {
-// 			app.read.should.be.a('function');
-// 		});
+		it('should be a function', function() {
+			app.read.should.be.a('function');
+		});
 
-// 		it('return parse function if passed a dir', function() {
-// 			app.read.getCall(0).returned( sinon.match.same( app.parse ) );
-// 		});
+		it('return parse function if passed a dir', function() {
+			app.read.getCall(0).returned( sinon.match.same( app.parse ) );
+		});
 
-// 		it('return parse function if passed a filename', function() {
-// 			app.read.getCall(1).returned( sinon.match.same( app.parse ) );
-// 		});
+		it('return parse function if passed a filename', function() {
+			app.read.getCall(1).returned( sinon.match.same( app.parse ) );
+		});
 
-// 		it('return parse function if nothing passed', function() {
-// 			app.read.getCall(2).returned( sinon.match.same( app.parse ) );
-// 		});
-// 	});
+		it('return parse function if nothing passed', function() {
+			app.read.getCall(2).returned( sinon.match.same( app.parse ) );
+		});
+	});
 
-// 	describe('Parse: ', function() {
-// 		sinon.spy( app, 'parse' );
-// 		app.state.path = 'styl/test2.styl';
-// 		const lintTest = app.parse();
-// 		app.cache.fileNo = app.cache.filesLen;
-// 		const doneTest = app.parse();
-// 		app.state.path = 'styl/oneLine.styl';
-// 		const oneLineTest = app.parse();
+	describe('Parse: ', function() {
+		sinon.spy( app, 'parse' );
+		app.state.path = 'styl/test2.styl';
+		const lintTest = app.parse();
+		app.cache.fileNo = app.cache.filesLen;
+		const doneTest = app.parse();
+		app.state.path = 'styl/oneLine.styl';
+		const oneLineTest = app.parse();
 
-// 		it('should be a function', function() {
-// 			app.parse.should.be.a( 'function' );
-// 		});
+		it('should be a function', function() {
+			app.parse.should.be.a( 'function' );
+		});
 
-// 		it('lint function returned if passed a filename', function() {
-// 			app.parse.getCall(0).returned( sinon.match.same( app.lint ) );
-// 		});
+		it('lint function returned if passed a filename', function() {
+			app.parse.getCall(0).returned( sinon.match.same( app.lint ) );
+		});
 
-// 		it('returns app.done when done parsing last file', function() {
-// 			app.parse.getCall(1).returned( sinon.match.same( app.done ) );
-// 		});
+		it('returns app.done when done parsing last file', function() {
+			app.parse.getCall(1).returned( sinon.match.same( app.done ) );
+		});
 
-// 		it('should handle empty or one line files fine', function() {
-// 			app.parse.getCall(2).returned( sinon.match.same( app.lint ) );
-// 		});
-// 	});
+		it('should handle empty or one line files fine', function() {
+			app.parse.getCall(2).returned( sinon.match.same( app.lint ) );
+		});
+	});
 
-// 	describe('Lint: ', function() {
-// 		sinon.spy( app, 'lint' );
-// 		const test = app.lint( app, '  margin 0 auto ', 5, 'margin 0 auto', 'styl/test2.styl' );
+	describe('Lint: ', function() {
+		sinon.spy( app, 'lint' );
+		const test = app.lint( app, '  margin 0 auto ', 5, 'margin 0 auto', 'styl/test2.styl' );
 
-// 		it('should be a function', function() {
-// 			app.lint.should.be.a( 'function' );
-// 		});
+		it('should be a function', function() {
+			app.lint.should.be.a( 'function' );
+		});
 
-// 		it('first param should be the app object', function() {
-// 			assert.deepEqual( app.lint.getCall(0).args[0], app );
-// 		});
+		it('first param should be the app object', function() {
+			assert.deepEqual( app.lint.getCall(0).args[0], app );
+		});
 
-// 		it('second param should be a string', function() {
-// 			app.lint.getCall(0).args[1].should.be.a( 'string' );
-// 		});
+		it('second param should be a string', function() {
+			app.lint.getCall(0).args[1].should.be.a( 'string' );
+		});
 
-// 		it('third param should be a number', function() {
-// 			app.lint.getCall(0).args[2].should.be.a( 'number' );
-// 		});
+		it('third param should be a number', function() {
+			app.lint.getCall(0).args[2].should.be.a( 'number' );
+		});
 
-// 		it('fourth param should be a string', function() {
-// 			app.lint.getCall(0).args[3].should.be.a( 'string' );
-// 		});
+		it('fourth param should be a string', function() {
+			app.lint.getCall(0).args[3].should.be.a( 'string' );
+		});
 
-// 		it('fifth param should be a string', function() {
-// 			app.lint.getCall(0).args[4].should.be.a( 'string' );
-// 		});
-// 	});
+		it('fifth param should be a string', function() {
+			app.lint.getCall(0).args[4].should.be.a( 'string' );
+		});
+	});
 
-// 	describe('Watch: ', function() {
-// 		sinon.spy( app, 'watch' );
-// 		// call it so we can use spy
-// 		app.watch( app );
+	describe('Watch: ', function() {
+		sinon.spy( app, 'watch' );
+		// call it so we can use spy
+		app.watch( app );
 
-// 		it('should be a function', function() {
-// 			app.watch.should.be.a( 'function' );
-// 		});
+		it('should be a function', function() {
+			app.watch.should.be.a( 'function' );
+		});
 
-// 		it('first param should be the app object', function() {
-// 			assert.deepEqual( app, app.watch.getCall(0).args[0] );
-// 		});
-// 	});
+		it('first param should be the app object', function() {
+			assert.deepEqual( app, app.watch.getCall(0).args[0] );
+		});
+	});
 
-// 	describe('Help: ', function() {
-// 		sinon.spy( app, 'help' );
-// 		const test = app.help( app );
+	describe('Help: ', function() {
+		sinon.spy( app, 'help' );
+		const test = app.help( app );
 
-// 		it('should be a function', function() {
-// 			app.help.should.be.a( 'function' );
-// 		});
+		it('should be a function', function() {
+			app.help.should.be.a( 'function' );
+		});
 
-// 		it('undefined', function() {
-// 			assert.equal( undefined, app.help.getCall(0).returnValue );
-// 		});
-// 	});
+		it('undefined', function() {
+			assert.equal( undefined, app.help.getCall(0).returnValue );
+		});
+	});
 
-// 	describe('Version: ', function() {
-// 		sinon.spy( app, 'ver' );
-// 		const test = app.ver( app, __dirname );
+	describe('Version: ', function() {
+		sinon.spy( app, 'ver' );
+		const test = app.ver( app, __dirname );
 
-// 		it('should be a function', function() {
-// 			app.ver.should.be.a( 'function' );
-// 		});
+		it('should be a function', function() {
+			app.ver.should.be.a( 'function' );
+		});
 
-// 		it('a console log function', function() {
-// 			app.ver.getCall(0).returned( sinon.match.same( console.log ) );
-// 		});
-// 	});
+		it('a console log function', function() {
+			app.ver.getCall(0).returned( sinon.match.same( console.log ) );
+		});
+	});
 
-// 	describe('Set Config Method:', function() {
-// 		const testMethod = app.setConfig( '.stylintrc' );
-// 		const testConfig = JSON.parse( fs.readFileSync( process.cwd() + '/.stylintrc' ) );
+	describe('Set Config Method:', function() {
+		const testMethod = app.setConfig( '.stylintrc' );
+		const testConfig = JSON.parse( fs.readFileSync( process.cwd() + '/.stylintrc' ) );
 
-// 		it('should update config state if passed a valid path', function() {
-// 			assert.deepEqual( testMethod, testConfig );
-// 		});
+		it('should update config state if passed a valid path', function() {
+			assert.deepEqual( testMethod, testConfig );
+		});
 
-// 		it('undefined if passed invalid path', function() {
-// 			should.Throw(function() {
-// 				app.setConfig( '.nonsenserc' );
-// 			}, Error);
-// 		});
-// 	});
+		it('undefined if passed invalid path', function() {
+			should.Throw(function() {
+				app.setConfig( '.nonsenserc' );
+			}, Error);
+		});
+	});
 
-// 	describe('Get Files: ', function() {
-// 		sinon.spy( app, 'getFiles' );
-// 		const test = app.getFiles( '/styl' );
+	describe('Get Files: ', function() {
+		sinon.spy( app, 'getFiles' );
+		const test = app.getFiles( '/styl' );
 
-// 		it('app.parseFile if passed directory', function() {
-// 			app.getFiles.getCall(0).returned( sinon.match.same( app.parseFile ) );
-// 		});
+		it('app.parseFile if passed directory', function() {
+			app.getFiles.getCall(0).returned( sinon.match.same( app.parseFile ) );
+		});
 
-// 		it('undefined if passed filename', function() {
-// 			assert.equal( undefined, app.getFiles( '/styl/test2.styl' ) );
-// 		});
+		it('undefined if passed filename', function() {
+			assert.equal( undefined, app.getFiles( '/styl/test2.styl' ) );
+		});
 
-// 		it('should throw if path is not a string', function() {
-// 			should.Throw(function() {
-// 				app.getFiles( 5 );
-// 			}, TypeError);
-// 		});
+		it('should throw if path is not a string', function() {
+			should.Throw(function() {
+				app.getFiles( 5 );
+			}, TypeError);
+		});
 
-// 		it('should throw if passed nothing', function() {
-// 			should.Throw(function() {
-// 				app.getFiles();
-// 			}, Error);
-// 		});
-// 	});
+		it('should throw if passed nothing', function() {
+			should.Throw(function() {
+				app.getFiles();
+			}, Error);
+		});
+	});
 
-// 	describe('Emoji: ', function() {
-// 		it('all clear if on windows and option turned on should output smiley', function() {
-// 			assert.equal( ':)', app.emojiAllClear( true, 'windows' ) );
-// 		});
+	describe('Emoji: ', function() {
+		it('all clear if on windows and option turned on should output smiley', function() {
+			assert.equal( ':)', app.emojiAllClear( true, 'windows' ) );
+		});
 
-// 		it('warning if on windows and option turned on should output frowney', function() {
-// 			assert.equal( ':(', app.emojiWarning( true, 'windows' ) );
-// 		});
+		it('warning if on windows and option turned on should output frowney', function() {
+			assert.equal( ':(', app.emojiWarning( true, 'windows' ) );
+		});
 
-// 		it('all clear if on unix and option turned on should output emoji', function() {
-// 			assert.equal( '\uD83D\uDC4D  ', app.emojiAllClear( true ) );
-// 		});
+		it('all clear if on unix and option turned on should output emoji', function() {
+			assert.equal( '\uD83D\uDC4D  ', app.emojiAllClear( true ) );
+		});
 
-// 		it('warning if on unix and option turned on should output emoji', function() {
-// 			assert.equal( '\uD83D\uDCA9  ', app.emojiWarning( true ) );
-// 		});
+		it('warning if on unix and option turned on should output emoji', function() {
+			assert.equal( '\uD83D\uDCA9  ', app.emojiWarning( true ) );
+		});
 
-// 		it('both should output a blank string if option is off', function() {
-// 			assert.equal( '', app.emojiAllClear( false ) );
-// 			assert.equal( '', app.emojiWarning( false ) );
-// 		});
-// 	});
+		it('both should output a blank string if option is off', function() {
+			assert.equal( '', app.emojiAllClear( false ) );
+			assert.equal( '', app.emojiWarning( false ) );
+		});
+	});
 
-// 	describe('Reset (after change)', function() {
-// 		const resetTest = app.resetOnChange.bind(app);
+	describe('Reset (after change)', function() {
+		const resetTest = app.resetOnChange.bind(app);
 
-// 		beforeEach(function() {
-// 			app.state.watching = false;
-// 		});
+		beforeEach(function() {
+			app.state.watching = false;
+		});
 
-// 		it('reset on change should change dir to curr file', function() {
-// 			resetTest('../styl/_ads.styl');
-// 			assert.equal( true, app.state.path === '../styl/_ads.styl');
-// 		});
+		it('reset on change should change dir to curr file', function() {
+			resetTest('../styl/_ads.styl');
+			assert.equal( true, app.state.path === '../styl/_ads.styl');
+		});
 
-// 		it('reset should reset all caches', function() {
-// 			resetTest('../styl/_ads.styl');
-// 			assert.equal( true,
-// 				app.cache.alphaCache.length === 0 &&
-// 				app.cache.rootCache.length === 0 &&
-// 				app.cache.selectorCache.length === 0 &&
-// 				app.cache.warnings.length === 0 &&
-// 				app.cache.zCache.length === 0
-// 			);
-// 		});
+		it('reset should reset all caches', function() {
+			resetTest('../styl/_ads.styl');
+			assert.equal( true,
+				app.cache.alphaCache.length === 0 &&
+				app.cache.rootCache.length === 0 &&
+				app.cache.selectorCache.length === 0 &&
+				app.cache.warnings.length === 0 &&
+				app.cache.zCache.length === 0
+			);
+		});
 
-// 		it('reset should set prevLine and prevFile to empty strings', function() {
-// 			resetTest('../styl/_ads.styl');
-// 			assert.equal( true,
-// 				app.cache.prevLine === '' &&
-// 				app.cache.prevFile === ''
-// 			);
-// 		});
+		it('reset should set prevLine and prevFile to empty strings', function() {
+			resetTest('../styl/_ads.styl');
+			assert.equal( true,
+				app.cache.prevLine === '' &&
+				app.cache.prevFile === ''
+			);
+		});
 
-// 		it('reset should set prevContext to 0', function() {
-// 			resetTest('../styl/_ads.styl');
-// 			assert.equal( true, app.cache.prevContext === 0 );
-// 		});
-// 	});
-// });
+		it('reset should set prevContext to 0', function() {
+			resetTest('../styl/_ads.styl');
+			assert.equal( true, app.cache.prevContext === 0 );
+		});
+	});
+});
 
 describe('Linter Style Checks: ', function() {
 	const lint = app.lintMethods;

@@ -18,14 +18,6 @@ module.exports = function duplicates(line) {
 		);
 	}
 
-	// console.log( this );
-	console.log( 'prevLine: ', this.cache.prevLine );
-	console.log( 'line: ', line );
-	console.log( 'prevFile: ', this.cache.prevFile );
-	console.log( 'file: ', this.cache.file );
-	console.log( 'prevContext: ', this.state.prevContext );
-	console.log( 'context: ', this.state.context );
-
 	// if current context switched, reset array
 	if ( this.state.prevContext !== this.state.context || this.cache.prevFile !== this.cache.file ) {
 		this.cache.selectorCache = [];
@@ -49,8 +41,6 @@ module.exports = function duplicates(line) {
 	}
 	// if selector is nested we check the selectorCache instead of rootCache
 	else {
-		console.log( arr[0] );
-		console.log( this.cache.selectorCache )
 		if ( _lineIsAcceptable(this) ) {
 			if ( this.cache.selectorCache.indexOf(arr[0]) !== -1 ) {
 				isThereADupe = true;

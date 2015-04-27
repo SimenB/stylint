@@ -99,8 +99,6 @@ module.exports = stampit().methods({
 		}
 
 		this.state.context = context;
-		console.log( 'setContext (prev):', this.state.prevContext );
-		console.log( 'setContext:', context );
 		return context;
 	},
 
