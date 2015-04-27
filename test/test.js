@@ -757,6 +757,10 @@ describe('Linter Style Checks: ', function() {
 	describe('keyframes start', function() {
 		const keyframesStartTest = state.keyframesStart.bind(app);
 
+		afterEach(function() {
+			app.state.keyframes = false;
+		});
+
 		it('true if line has @keyframes', function() {
 			app.state.keyframes = false;
 			assert.equal( true, keyframesStartTest('@keyframes {') );
@@ -1340,7 +1344,7 @@ describe('Linter Style Checks: ', function() {
 		});
 	});
 
-	describe('valid property: check is css property is valid', function() {
+	describe('valid property:', function() {
 		const validTest = lint.valid.bind(app);
 
 		it ('false if property not valid', function() {
@@ -1350,6 +1354,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( false, validTest( '{const name}') );
 			assert.equal( false, validTest( 'div[attribute test]') );
 			assert.equal( false, validTest( '::selects') );
+			assert.equal( false, validTest( 'nonsense:active') );
 		});
 
 		it ('true if property is valid', function() {
@@ -1366,9 +1371,22 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, validTest( 'div[attribute]') );
 			assert.equal( true, validTest( '::selection') );
 			assert.equal( true, validTest( 'div:hover') );
+			assert.equal( true, validTest( 'button:active') );
 			assert.equal( true, validTest( '#id:hover') );
 			assert.equal( true, validTest( 'p:optional') );
 			assert.equal( true, validTest( '[data-js]') );
+		});
+
+		it ('undefined if from or to used outside keyframes', function() {
+			app.state.keyframes = false;
+			assert.equal( undefined, validTest( 'from 0%') );
+			assert.equal( undefined, validTest( 'to 100%') );
+		});
+
+		it ('false if from or to used INSIDE keyframes', function() {
+			app.state.keyframes = true;
+			assert.equal( true, validTest( 'from 0%') );
+			assert.equal( true, validTest( 'to 100%') );
 		});
 	});
 

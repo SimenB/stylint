@@ -14,16 +14,16 @@ var isNumRe = /\d(?=[px]|%|[em]|[rem]|[vh]|[vw]|[vmin]|[vmax]|[ex]|[ch]|[mm]|[cm
 * @returns undefined if not testable (hmmm)
 */
 module.exports = function valid(line) {
+	// from and to are keyframes specific properties, but arent valid outside that context
+	if ( !this.state.keyframes ) {
+		if ( line.indexOf('from ') !== -1 || line.indexOf('to ') !== -1 ) {
+			return;
+		}
+	}
+
 	// split by tabs and spaces, tabs mess with pattern matching
 	var isValid = false;
 	var arr = this.stripWhiteSpace(new RegExp(/[\s\t,]/), line);
-
-	// from and to are keyframes specific properties
-	if ( !this.state.keyframes ) {
-		if ( line.indexOf('from') !== -1 || line.indexOf('to') !== -1 ) {
-			return false;
-		}
-	}
 
 	// not empty, not something we ignore
 	if ( !ignoreMeRe.test( line ) &&
@@ -37,24 +37,19 @@ module.exports = function valid(line) {
 			arr[0] = arr[0].replace(elAttributeRe, '');
 		}
 
-		this.valid.css.forEach(function( val ) {
+		this.valid.css.forEach(function(val) {
 			var i = 0;
 			var j = 0;
 
+			// if property matches (border, margin)
 			if ( arr[ 0 ] === val ) {
 				isValid = true;
 				return;
 			}
 
+			// if property + prefix matches (-webkit-border-radius)
 			for ( i; i < this.valid.prefixes.length; i++ ) {
 				if ( arr[ 0 ] === ( this.valid.prefixes[ i ] + val ) ) {
-					isValid = true;
-					return;
-				}
-			}
-
-			for ( j; j < this.valid.pseudo.length; j++ ) {
-				if ( arr[ 0 ] === ( val + this.valid.pseudo[ j ] ) ) {
 					isValid = true;
 					return;
 				}
@@ -64,11 +59,13 @@ module.exports = function valid(line) {
 		this.valid.html.forEach(function( val ) {
 			var i = 0;
 
+			// if property matches (div, article)
 			if ( arr[ 0 ] === val ) {
 				isValid = true;
 				return;
 			}
 
+			// if property matches + pseudo matches (a:hover, button:focus)
 			for ( i; i < this.valid.pseudo.length; i++ ) {
 				if ( arr[ 0 ] === ( val + this.valid.pseudo[ i ] ) ) {
 					isValid = true;

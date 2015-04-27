@@ -76,17 +76,15 @@ module.exports = function sortOrder(line) {
 
 	// now compare our two arrays
 	// one sorted according to the config, and one as appears in the file
-	if ( this.cache.sortOrderCache.length === sortedArr.length ) {
-		if ( this.state.context === this.state.prevContext ) {
-			// compare each value individually
-			this.cache.sortOrderCache.forEach(function(val, i) {
-				// if any value doesn't match quit the forEach
-				if ( sortedArr[i] !== this.cache.sortOrderCache[i] ) {
-					isItSorted = false;
-					return;
-				}
-			}.bind( this ));
-		}
+	if ( this.state.context === this.state.prevContext ) {
+		// compare each value individually
+		this.cache.sortOrderCache.forEach(function(val, i) {
+			// if any value doesn't match quit the forEach
+			if ( sortedArr[i] !== this.cache.sortOrderCache[i] ) {
+				isItSorted = false;
+				return;
+			}
+		}.bind( this ));
 	}
 
 	if ( isItSorted === false ) {
