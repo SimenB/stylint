@@ -16,7 +16,6 @@ module.exports = function hasLeadingZero( line, arr ) {
 
 	// return true if leading zero found and not used as part of range
 	if ( line.indexOf('0.') !== -1 && line.indexOf('0..') === -1) {
-		// console.log( arr );
 		for ( i; i < len; i++ ) {
 			if ( leadingZero.test( arr[i] ) ) {
 				zeroFound = true;

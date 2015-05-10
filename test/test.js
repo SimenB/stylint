@@ -1253,6 +1253,10 @@ describe('Linter Style Checks: ', function() {
 		});
 
 		it ('should return true if property is valid', function() {
+			assert.equal( true, app.valid( '	border-bottom 0', valid ) );
+			assert.equal( true, app.valid( '	margin-right 0', valid ) );
+			assert.equal( true, app.valid( 'border-bottom 0', valid ) );
+			assert.equal( true, app.valid( 'margin-top 0', valid ) );
 			assert.equal( true, app.valid( 'padding 0', valid ) );
 			assert.equal( true, app.valid( 'input', valid ) );
 			assert.equal( true, app.valid( 'body', valid ) );

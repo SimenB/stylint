@@ -20,7 +20,7 @@ module.exports = function checkForValidProperties( line, valid ) {
 	}
 
 	if ( !this.state.keyframes ) {
-		if ( line.indexOf('from') !== -1 || line.indexOf('to') !== -1 ) {
+		if ( line.match(/((from)|(to))(?= |\n|{)+/) ) {
 			return false;
 		}
 	}

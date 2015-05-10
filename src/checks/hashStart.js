@@ -7,7 +7,6 @@ var stripMixinsRe = /(\(.*\))/;
 module.exports = function checkForHashStart( line ) {
 	if ( typeof line !== 'string' ) { return; }
 
-	// console.log( 'not supposed to sbe here' );
 	var newLine = line.replace(stripMixinsRe, '');
 
 	// ex colorsHash = {

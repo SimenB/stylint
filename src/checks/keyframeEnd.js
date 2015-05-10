@@ -29,8 +29,6 @@ module.exports = function keyframeEnd( line ) {
 		}.bind( this ));
 	}
 
-	// console.log( this );
-
 	if ( this.state.keyframes && currContext === 0 ) {
 		isKeyframeOver = true;
 	}

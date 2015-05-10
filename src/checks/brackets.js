@@ -11,8 +11,6 @@ module.exports = function checkForBrackets( line, areWeInAHash ) {
 		return;
 	}
 
-	// console.log( areWeInAHash );
-
 	// if interpolation we cool
 	if ( interpolation.test(line) ) {
 		return false;

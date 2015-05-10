@@ -1,3 +1,6 @@
+##### 0.9.8
+minor bug fix: some valid properties (anything with -bottom) were coming up as non-valid.
+
 ##### 0.9.7
 added mso-table-lspace and mso-table-rspace to property whitelist (outlook)
 
