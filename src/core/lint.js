@@ -7,15 +7,15 @@
 module.exports = function lint() {
 	var cache = this.cache;
 	var state = this.state;
-	var lintMethods = this.__proto__.lintMethods;
+	var checks = this.__proto__.lintMethods;
+
 
 	// @TODO methods that will determine state should go here
 	// checks stuff like if a stylint toggle is on or off, whether we're in a hash, etc
-	for ( var method in lintMethods ) {
-		if ( lintMethods.hasOwnProperty( method ) ) {
+	for ( var method in checks ) {
+		if ( checks.hasOwnProperty( method ) ) {
 			if ( this.config[method] || this.state.strictMode ) {
-				lintMethods[method].call(this, this.cache.line);
-				// console.log(lintMethods[method])
+				checks[method].call(this, this.cache.line);
 			}
 		}
 	}

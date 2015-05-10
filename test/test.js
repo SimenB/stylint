@@ -1361,6 +1361,8 @@ describe('Linter Style Checks: ', function() {
 		});
 
 		it ('true if property is valid', function() {
+			assert.equal( true, validTest( 'border-bottom 0') );
+			assert.equal( true, validTest( 'margin-top 0') );
 			assert.equal( true, validTest( 'padding 0') );
 			assert.equal( true, validTest( '-webkit-border-radius 0') );
 			assert.equal( true, validTest( 'input') );

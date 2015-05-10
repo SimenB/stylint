@@ -1,10 +1,15 @@
 'use strict';
 
-// dont throw false positives on user created names or syntax
-var attrRe = /^\[\S+\]/;
-var elAttrRe = /(?=\S)+\[\S+\]/gm;
-var ignoreRe = /[&$.#(=>]|({[\S]+})|(if)|(for)|(else)|(@block)/;
-var numRe = /\d(?=[px]|%|[em]|[rem]|[vh]|[vw]|[vmin]|[vmax]|[ex]|[ch]|[mm]|[cm]|[in]|[pt]|[pc]|[mozmm])/;
+// 1 grab attribute selectors that are by themselves
+// 2 grab attribute selectors paired with an element
+// 3 ignore syntax
+// 4 ignore numbers
+// 5 from / to are only valid inside @keyframe
+var attrRe = /^\[\S+\]/; // 1
+var elAttrRe = /(?=\S)+\[\S+\]/gm; // 2
+var ignoreRe = /[&$.#(=>]|({[\S]+})|(if)|(for)|(else)|(@block)/; // 3
+var numRe = /\d(?=[px]|%|[em]|[rem]|[vh]|[vw]|[vmin]|[vmax]|[ex]|[ch]|[mm]|[cm]|[in]|[pt]|[pc]|[mozmm])/; // 4
+var keyRe = /((from)|(to))(?= |\n|{)+/; // 5
 
 
 /**
@@ -31,10 +36,8 @@ module.exports = function valid(line) {
 	}
 
 	// from and to are keyframes specific properties, but arent valid outside that context
-	if ( !this.state.keyframes ) {
-		if ( line.indexOf('from ') !== -1 || line.indexOf('to ') !== -1 ) {
-			return;
-		}
+	if ( !this.state.keyframes && line.match(keyRe) ) {
+		return;
 	}
 
 	// if using an attribute selector ( div[madeUpAttribute] ), strip it out first ( div )
@@ -42,39 +45,15 @@ module.exports = function valid(line) {
 		arr[0] = arr[0].replace(elAttrRe, '');
 	}
 
-	this.valid.css.forEach(function(css) {
-		// if property matches (border, margin)
-		if ( arr[0] === css ) {
-			isValid = true;
-			return;
-		}
-
-		// if prefix + property matches (-webkit-border-radius)
-		this.valid.prefixes.forEach(function(prefix) {
-			if ( arr[0] === prefix + css ) {
-				isValid = true;
-				return;
-			}
-		}.bind(this));
+	// initial check for basic css, will return true at first match
+	isValid = this.valid.css.some(function(css) {
+		return ( arr[0] === css ) || this.checkPrefix( arr[0], css );
 	}.bind(this));
 
-	// if the above didn't find a valid property
-	// try the html array
+	// if no match yet, try html
 	if ( !isValid ) {
-		this.valid.html.forEach(function(html) {
-			// if property matches (div, article)
-			if ( arr[0] === html ) {
-				isValid = true;
-				return;
-			}
-
-			// if property + pseudo matches (a:hover, button:focus)
-			this.valid.pseudo.forEach(function(pseudo) {
-				if ( arr[0] === html + pseudo ) {
-					isValid = true;
-					return;
-				}
-			}.bind(this));
+		isValid = this.valid.html.some(function(html) {
+			return ( arr[0] === html ) || this.checkPseudo( arr[0], html );
 		}.bind(this));
 	}
 
