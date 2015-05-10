@@ -18,17 +18,12 @@ var stampit  = require('stampit');
 // and methods and compose them into one mega object
 // appropriately namespaced, with methods on the prototype, and this set correctly
 var Lint = stampit().compose(
-	require('./src/core/cache'),
-	require('./src/core/config'),
-	require('./src/core/core'),
-	require('./src/core/flags'),
-	require('./src/core/init'),
-	require('./src/core/state'),
-	require('./src/core/setState'),
-	require('./src/core/lintMethods'),
-	require('./src/core/stateMethods'),
-	require('./src/core/utils'),
-	require('./src/core/valid')
+	require('./src/data/'),
+	require('./src/core/'),
+	require('./src/core/methods/lint'),
+	require('./src/core/methods/state'),
+	require('./src/core/methods/utils'),
+	require('./src/kickoff')
 ).create();
 
 

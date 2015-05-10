@@ -1,7 +1,7 @@
 'use strict';
 
 var ignoreMeRe = /^[.#]|[${}=>&*]|(&:)|(if)|(for)|(@block)(@import)(@media)(@extends)/;
-var ordering = require('../data/ordering.json');
+var ordering = require('../data/json/ordering.json');
 
 
 // check that selector properties are sorted accordingly
@@ -44,9 +44,6 @@ module.exports = function sortOrder(line) {
 		// use custom ordering if specified, or fall back to in-built grouped ordering
 		orderingArr = Array.isArray(this.config.sortOrder) ? this.config.sortOrder : ordering.grouped;
 
-
-		console.log( 'pre-sorted', sortedArr );
-		// console.log( 'ordered by', orderingArr );
 		/**
 		 * @description iterate over our cache copy, and sort it according to our config
 		 * @return {boolean} true if ordered correctly, false if not
@@ -69,9 +66,6 @@ module.exports = function sortOrder(line) {
 				return 1;
 			}
 		});
-
-		console.log( 'sorted', sortedArr );
-		console.log( 'cache', this.cache.sortOrderCache );
 	}
 
 	// now compare our two arrays

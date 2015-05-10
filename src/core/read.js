@@ -15,25 +15,24 @@ module.exports = function read() {
 		// console.log( this.state.dir );
 		return this.getFiles(this.state.path + '/**/*.styl');
 	}
+
 	/**
 	 * else we'll have either a filename or dir name to work with
 	 * if directory we use the glob logic to return an array of files to test
 	 */
-	else {
-		fs.stat(this.state.path, function(err, stats) {
-			if ( !stats ) {
-				throw Error('Stylint Error: No such file or dir exists');
-			}
+	return fs.stat(this.state.path, function(err, stats) {
+		if ( !stats ) {
+			throw Error('Stylint Error: No such file or dir exists');
+		}
 
-			if ( stats.isFile() ) {
-				this.cache.filesLen = 1;
-				this.cache.fileNo = 1;
-				this.cache.file = this.state.path;
-				return this.parse();
-			}
+		if ( stats.isFile() ) {
+			this.cache.filesLen = 1;
+			this.cache.fileNo = 1;
+			this.cache.file = this.state.path;
+			return this.parse();
+		}
 
-			// else it's a directory, so pass a glob to getFiles
-			return this.getFiles( this.state.path + '/**/*.styl' );
-		}.bind(this));
-	}
+		// else it's a directory, so pass a glob to getFiles
+		return this.getFiles( this.state.path + '/**/*.styl' );
+	}.bind(this));
 };

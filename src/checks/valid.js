@@ -5,12 +5,13 @@
 // 3 ignore syntax
 // 4 ignore numbers
 // 5 from / to are only valid inside @keyframe
+// 6 the actual JSON we will use to determine validity
 var attrRe = /^\[\S+\]/; // 1
 var elAttrRe = /(?=\S)+\[\S+\]/gm; // 2
 var ignoreRe = /[&$.#(=>]|({[\S]+})|(if)|(for)|(else)|(@block)/; // 3
 var numRe = /\d(?=[px]|%|[em]|[rem]|[vh]|[vw]|[vmin]|[vmax]|[ex]|[ch]|[mm]|[cm]|[in]|[pt]|[pc]|[mozmm])/; // 4
 var keyRe = /((from)|(to))(?= |\n|{)+/; // 5
-
+var validJSON = require('../data/json/valid.json'); // 6
 
 /**
 * check against a JSON of all valid css properties and values
@@ -46,14 +47,14 @@ module.exports = function valid(line) {
 	}
 
 	// initial check for basic css, will return true at first match
-	isValid = this.valid.css.some(function(css) {
-		return ( arr[0] === css ) || this.checkPrefix( arr[0], css );
+	isValid = validJSON.css.some(function(css) {
+		return ( arr[0] === css ) || this.checkPrefix( arr[0], css, validJSON );
 	}.bind(this));
 
 	// if no match yet, try html
 	if ( !isValid ) {
-		isValid = this.valid.html.some(function(html) {
-			return ( arr[0] === html ) || this.checkPseudo( arr[0], html );
+		isValid = validJSON.html.some(function(html) {
+			return ( arr[0] === html ) || this.checkPseudo( arr[0], html, validJSON );
 		}.bind(this));
 	}
 

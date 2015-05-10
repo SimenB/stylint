@@ -13,25 +13,21 @@ var stripCommentsRe = /(\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*+\/)/gm;
  */
 module.exports = function parse() {
 	return fs.readFile(this.cache.file, { encoding: 'utf8' }, function( err, data ) {
-		if ( err ) { throw err; }
+		if ( err ) { throw new Error('readFile err. Did you pass in a correct filename?'); }
+
 		var lines = data.replace(stripCommentsRe, function( match ) {
 			var linesNum = match.split(/\r\n|\r|\n/).length - 1;
 			var output = '';
 
-			if ( linesNum > 0 ) {
-				while ( linesNum-- ) {
-					output += '\n';
-				}
+			while ( linesNum-- ) {
+				output += '\n';
 			}
-
-			// while ( linesNum-- ) {
-			// 	output += '\n';
-			// }
 
 			return output;
 		});
 
 		lines = lines.split('\n');
+
 
 		/**
 		 * so, this function trims each line and then tests it

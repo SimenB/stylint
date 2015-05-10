@@ -5,6 +5,7 @@
  * @return void
  */
 module.exports = function done() {
+	// console.log('done called');
 	var len = this.cache.warnings.length;
 	var war = []; // for returning warnings after we wipe the 'real' ones
 

@@ -1,6 +1,6 @@
 var stampit = require('stampit');
 
-module.exports = stampit().enclose(function () {
+module.exports = function init() {
 	var configIndex;
 
 	// if path/ passed in use that for the dir
@@ -44,4 +44,4 @@ module.exports = stampit().enclose(function () {
 	}
 
 	return this.read();
-});
+};

@@ -9,14 +9,14 @@ var stampit           = require('stampit');
  * @return {Object} [i expose the modules to the entire app, so we only do it once]
  */
 module.exports = stampit().methods({
-	checkPrefix: function(prop, css) {
-		return this.valid.prefixes.some(function(prefix) {
+	checkPrefix: function(prop, css, valid) {
+		return valid.prefixes.some(function(prefix) {
 			return prop === prefix + css;
 		});
 	},
 
-	checkPseudo: function(prop, html) {
-		return this.valid.pseudo.some(function(pseudo) {
+	checkPseudo: function(prop, html, valid) {
+		return valid.pseudo.some(function(pseudo) {
 			return prop === html + pseudo;
 		});
 	},
