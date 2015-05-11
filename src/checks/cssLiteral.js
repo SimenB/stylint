@@ -2,15 +2,16 @@
 
 // if we disallowed css literals, check for them and return true if found
 module.exports = function cssLiteral(line) {
-	if ( this.state.cssLiteral ) { return; }
+	if ( this.state.hashOrCSS ) { return; }
+	var isCSSLiteral = false;
 
 	if ( line.indexOf('@css') !== -1 ) {
-		this.state.cssLiteral = true;
+		isCSSLiteral = true;
 	}
 
-	if ( this.state.cssLiteral === true ) {
+	if ( isCSSLiteral === true ) {
 		this.cache.warnings.push( 'refrain from using css literals' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
 	}
 
-	return this.state.cssLiteral;
+	return isCSSLiteral;
 };

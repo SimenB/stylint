@@ -9,14 +9,14 @@ var chokidar = require('chokidar');
  * @return {function}            [kick off linter on each change]
  */
 module.exports = function watch() {
-	var watcher = chokidar.watch( this.state.path );
+	this.watcher = chokidar.watch( this.state.path );
 
 	// initial watch msg
-	watcher.on('ready', function() {
+	this.watcher.on('ready', function() {
 		this.state.watching = true;
 		return console.log( 'Watching: ', this.state.path, ' for changes.' );
 	}.bind(this));
 
 	// listen for changes, update 'dir' to curr file, wipe all the caches, do somethin
-	watcher.on('change', this.resetOnChange.bind(this) );
+	this.watcher.on('change', this.resetOnChange.bind(this) );
 };

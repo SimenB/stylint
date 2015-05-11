@@ -13,5 +13,6 @@ module.exports = stampit().methods({
 	setState: require('./state'),
 	lint: require('./lint'),
 	ver: require('./ver'),
-	watch: require('./watch')
+	watch: require('./watch'),
+	watcher: undefined
 });

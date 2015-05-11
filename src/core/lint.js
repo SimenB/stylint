@@ -16,6 +16,10 @@ module.exports = function lint() {
 		if ( checks.hasOwnProperty( method ) ) {
 			if ( this.config[method] || this.state.strictMode ) {
 				checks[method].call(this, this.cache.line);
+
+				if ( this.config.maxWarningsKill && cache.warnings.length > this.config.maxWarnings ) {
+					return this.done('kill');
+				}
 			}
 		}
 	}

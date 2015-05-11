@@ -12,7 +12,6 @@ module.exports = function read() {
 	// if nothing passed in, default to linting the curr dir
 	// here we get all the files to parse first, then we pass to app.parse
 	if ( this.state.path === process.cwd() ) {
-		// console.log( this.state.dir );
 		return this.getFiles(this.state.path + '/**/*.styl');
 	}
 
@@ -31,8 +30,9 @@ module.exports = function read() {
 			this.cache.file = this.state.path;
 			return this.parse();
 		}
-
-		// else it's a directory, so pass a glob to getFiles
-		return this.getFiles( this.state.path + '/**/*.styl' );
+		else {
+			// else it's a directory, so pass a glob to getFiles
+			return this.getFiles( this.state.path + '/**/*.styl' );
+		}
 	}.bind(this));
 };

@@ -5,43 +5,22 @@
 
 const fs = require('fs');
 const assert = require('assert');
+const chokidar = require('chokidar');
+const touch = require('touch');
 const should = require('chai').should();
 const sinon = require('sinon');
 const app = require('../index');
-// const valid = require('../src/data/getValid')();
 
-// turn on strict mode from this point and turn off logging
+// turn on strict mode from this point and turn off unecessary logging
 app.state.quiet = true;
-app.state.strictMode = true;
 app.state.watching = true;
-
-// describe('State:', function() {
-// 	it('cssBlock should default to false', function() {
-// 		assert.equal( false, app.state.cssBlock );
-// 	});
-
-// 	it('exitCode should default to 1', function() {
-// 		assert.equal( 1, app.state.exitCode );
-// 	});
-
-// 	it('hash should default to false', function() {
-// 		assert.equal( false, app.state.hash );
-// 	});
-
-// 	it('strictMode should be true', function() {
-// 		assert.equal( true, app.state.strictMode );
-// 	});
-
-// 	it('testsEnabled should default to true', function() {
-// 		assert.equal( true, app.state.testsEnabled );
-// 	});
-
-// 	it('toggleBlock should default to false', function() {
-// 		assert.equal( false, app.state.toggleBlock );
-// 	});
-// });
+app.cache.dir = '/Users/ross/Developer/workspace/stylus-lint/';
 
 describe('Core Methods: ', function() {
+
+	beforeEach(function() {
+		app.state.strictMode = false;
+	});
 
 	describe('Done: ', function() {
 		it('should be a function', function() {
@@ -89,6 +68,7 @@ describe('Core Methods: ', function() {
 			process.argv[2] = '-s';
 			app.init();
 			assert.equal( true, app.state.strictMode );
+			app.state.strictMode = false;
 		});
 
 		it('use custom config if passed -c flag', function() {
@@ -121,26 +101,25 @@ describe('Core Methods: ', function() {
 	describe('Read: ', function() {
 		sinon.spy( app, 'read' );
 
-		app.state.path = 'styl/';
-		const dirTest = app.read();
-		app.state.path = 'styl/test2.styl';
-		const fileTest = app.read();
-		app.state.path = process.cwd();
-		const cwdTest = app.read();
-
 		it('should be a function', function() {
 			app.read.should.be.a('function');
 		});
 
 		it('return parse function if passed a dir', function() {
+			app.state.path = 'styl/';
+			app.read();
 			app.read.getCall(0).returned( sinon.match.same( app.parse ) );
 		});
 
 		it('return parse function if passed a filename', function() {
+			app.state.path = 'styl/test2.styl';
+			app.read();
 			app.read.getCall(1).returned( sinon.match.same( app.parse ) );
 		});
 
 		it('return parse function if nothing passed', function() {
+			app.state.path = process.cwd();
+			app.read();
 			app.read.getCall(2).returned( sinon.match.same( app.parse ) );
 		});
 	});
@@ -172,119 +151,127 @@ describe('Core Methods: ', function() {
 		});
 
 		it('throws err if passed non-existant file name', function() {
-			app.cache.file = 'iJustMadeThisUp.jpg';
-			assert.throws(app.parse, Error, 'readFile err. Did you pass in a correct filename?');
+			app.cache.file = undefined;
+			assert.throws(
+				app.parse,
+				Error,
+				'readFile err. Did you pass in a correct filename?'
+			);
 		});
 	});
 
 	describe('Lint: ', function() {
 		sinon.spy( app, 'lint' );
-		const test = app.lint( app, '  margin 0 auto ', 5, 'margin 0 auto', 'styl/test2.styl' );
+		app.lint( app, '  margin 0 auto ', 5, 'margin 0 auto', 'styl/test2.styl' );
 
 		it('should be a function', function() {
 			app.lint.should.be.a( 'function' );
-		});
-
-		it('first param should be the app object', function() {
-			assert.deepEqual( app.lint.getCall(0).args[0], app );
-		});
-
-		it('second param should be a string', function() {
-			app.lint.getCall(0).args[1].should.be.a( 'string' );
-		});
-
-		it('third param should be a number', function() {
-			app.lint.getCall(0).args[2].should.be.a( 'number' );
-		});
-
-		it('fourth param should be a string', function() {
-			app.lint.getCall(0).args[3].should.be.a( 'string' );
-		});
-
-		it('fifth param should be a string', function() {
-			app.lint.getCall(0).args[4].should.be.a( 'string' );
 		});
 	});
 
 	describe('Watch: ', function() {
 		sinon.spy( app, 'watch' );
-		// call it so we can use spy
-		app.watch( app );
+
+		beforeEach(function() {
+			app.watcher = undefined;
+		})
 
 		it('should be a function', function() {
 			app.watch.should.be.a( 'function' );
 		});
 
-		it('first param should be the app object', function() {
-			assert.deepEqual( app, app.watch.getCall(0).args[0] );
+		it('watcher should be undefined if not called yet', function() {
+			assert.equal( true, typeof app.watcher === 'undefined' );
+		});
+
+		it('should set watcher if called', function() {
+			app.watch();
+			assert.equal( true, typeof app.watcher !== 'undefined' );
+		});
+
+		it('should call ready event when fired', function() {
+			app.watcher = chokidar.watch(app.state.path);
+			app.watcher.on('ready', function() {
+				assert(true);
+			});
+		});
+
+		it('should call change event when file changed', function() {
+			app.watcher = chokidar.watch('styl/test.styl');
+			app.watcher.on('change', function() {
+				assert(true);
+			});
+			touch('styl/test.styl');
 		});
 	});
 
 	describe('Help: ', function() {
 		sinon.spy( app, 'help' );
-		const test = app.help( app );
 
 		it('should be a function', function() {
 			app.help.should.be.a( 'function' );
 		});
 
 		it('undefined', function() {
+			app.help( app );
 			assert.equal( undefined, app.help.getCall(0).returnValue );
 		});
 	});
 
 	describe('Version: ', function() {
 		sinon.spy( app, 'ver' );
-		const test = app.ver( app, __dirname );
 
 		it('should be a function', function() {
 			app.ver.should.be.a( 'function' );
 		});
 
 		it('a console log function', function() {
-			app.ver.getCall(0).returned( sinon.match.same( console.log ) );
+			app.ver();
+			app.ver.getCall(0).returned( sinon.match.same( fs.readFile ) );
 		});
 	});
 });
 
 describe('Utility Methods: ', function() {
-	describe('Set Config:', function() {
+	beforeEach(function() {
+		app.state.strictMode = false;
+	});
+
+	describe('Set Config should:', function() {
 		const testMethod = app.setConfig( '.stylintrc' );
 		const testConfig = JSON.parse( fs.readFileSync( process.cwd() + '/.stylintrc' ) );
 
-		it('should update config state if passed a valid path', function() {
+		it('update config state if passed a valid path', function() {
 			assert.deepEqual( testMethod, testConfig );
 		});
 
-		it('undefined if passed invalid path', function() {
-			should.Throw(function() {
-				app.setConfig( '.nonsenserc' );
-			}, Error);
+		it('throw if passed invalid path', function() {
+			assert.throws(
+				app.setConfig,
+				TypeError,
+				'setConfig err. Expected string, but received: ' + typeof dir
+			);
 		});
 	});
 
-	describe('Get Files: ', function() {
+	describe('Get Files should: ', function() {
 		sinon.spy( app, 'getFiles' );
-		const test = app.getFiles( '/styl' );
 
-		it('app.parseFile if passed directory', function() {
-			app.getFiles.getCall(0).returned( sinon.match.same( app.parseFile ) );
+		it('return app.parse if passed directory', function() {
+			app.getFiles( '/styl' );
+			app.getFiles.getCall(0).returned( sinon.match.same( app.parse ) );
 		});
 
-		it('undefined if passed filename', function() {
+		it('return undefined if passed filename', function() {
 			assert.equal( undefined, app.getFiles( '/styl/test2.styl' ) );
 		});
 
-		it('should throw if path is not a string', function() {
-			should.Throw(function() {
-				app.getFiles( 5 );
-			}, TypeError);
-		});
-
-		it('should throw if passed nothing', function() {
-			should.Throw(function() {
-				app.getFiles();
-			}, Error);
+		it('throw if path is not a string', function() {
+			assert.throws(
+				app.getFiles,
+				TypeError,
+				'getFiles err. Expected string, but received: ' + typeof dir
+			);
 		});
 	});
 
@@ -347,11 +334,31 @@ describe('Utility Methods: ', function() {
 			assert.equal( true, app.cache.prevContext === 0 );
 		});
 	});
+
+	describe('trim comment should: ', function() {
+		const trimTest = app.trimComment.bind(app);
+
+		it ('do nothing if line has no comment', function() {
+			assert.equal( '.noCommentOnThisLine ', trimTest('.noCommentOnThisLine ') );
+		});
+
+		it ('do nothing if comment is 1st character', function() {
+			assert.equal( '// .noCommentOnThisLine ', trimTest('// .noCommentOnThisLine ') );
+		});
+
+		it ('trim comment if not first character', function() {
+			assert.equal( '.noCommentOnThisLine', trimTest('.noCommentOnThisLine //') );
+		});
+	});
 })
 
 describe('Linter Style Checks: ', function() {
 	const lint = app.lintMethods;
 	const state = app.stateMethods;
+
+	beforeEach(function() {
+		app.state.strictMode = true;
+	});
 
 	describe('blockStyle: prefer @block when defining block consts', function() {
 		const blockTest = lint.blockStyle.bind(app);
@@ -399,21 +406,6 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, bracketsTest('.className {') );
 			assert.equal( true, bracketsTest('.{interpolated}-class {') );
 			assert.equal( true, bracketsTest('}') );
-		});
-	});
-
-	describe('comment exists', function() {
-		const existsTest = state.commentExists.bind(app);
-
-		it ('false if // not present at all on line', function() {
-			assert.equal( false, existsTest('.noCommentOnThisLine ') );
-		});
-
-		it ('true if // is present anywhere on the line', function() {
-			assert.equal( true, existsTest('//test') );
-			assert.equal( true, existsTest('margin 0 auto //test') );
-			assert.equal( true, existsTest('margin 0 auto // test') );
-			assert.equal( true, existsTest('// test') );
 		});
 	});
 
@@ -484,13 +476,21 @@ describe('Linter Style Checks: ', function() {
 	describe('comment space: prefer "// Comment" over "//Comment"', function() {
 		const commentSpaceTest = lint.commentSpace.bind(app);
 
+		beforeEach(function() {
+			app.state.hasComment = true;
+		});
+
 		it('false if line comment doesnt have a space after it', function() {
-			assert.equal( false, commentSpaceTest('//test') );
+			app.cache.comment = '//test';
+			assert.equal( false, commentSpaceTest('margin //test') );
+			app.cache.comment = 'margin 0 auto //test';
 			assert.equal( false, commentSpaceTest('margin 0 auto //test') );
 		});
 
 		it('true if line comment has space after it', function() {
+			app.cache.comment = '// test';
 			assert.equal( true, commentSpaceTest('// test') );
+			app.cache.comment = 'margin 0 auto // test';
 			assert.equal( true, commentSpaceTest('margin 0 auto // test') );
 		});
 
@@ -504,7 +504,7 @@ describe('Linter Style Checks: ', function() {
 		const cssTest = lint.cssLiteral.bind(app);
 
 		it('false if @css is not used', function() {
-			app.state.cssLiteral = false;
+			app.state.hashOrCSS = false;
 			assert.equal( false, cssTest('margin 0') );
 			assert.equal( false, cssTest('@extends $placeholderconst') );
 			assert.equal( false, cssTest('@require "lint.styl"') );
@@ -515,7 +515,7 @@ describe('Linter Style Checks: ', function() {
 		});
 
 		it('undefined if already in css literal', function() {
-			app.state.cssBlock = true;
+			app.state.hashOrCSS = true;
 			assert.equal( undefined, cssTest('.test') );
 		});
 	});
@@ -526,33 +526,33 @@ describe('Linter Style Checks: ', function() {
 		it('false if less indents than depth limit', function() {
 			app.config.depthLimit = 4;
 			app.config.indentPref = 4;
-			app.setContext('margin 0');
+			app.state.context = app.setContext('margin 0');
 			assert.equal( false, nestTest('margin 0') );
-			app.setContext('			margin 0');
+			app.state.context = app.setContext('			margin 0');
 			assert.equal( false, nestTest('			margin 0') );
 			app.config.indentPref = 'tabs';
-			app.setContext('&:hover');
+			app.state.context = app.setContext('&:hover');
 			assert.equal( false, nestTest('&:hover') );
-			app.setContext('.class-name');
+			app.state.context = app.setContext('.class-name');
 			assert.equal( false, nestTest('.class-name') );
 		});
 
 		it('true if more indents than depth limit', function() {
 			app.config.depthLimit = 2;
 			app.config.indentPref = 2;
-			app.setContext('       margin 0');
+			app.state.context = app.setContext('       margin 0');
 			assert.equal( true, nestTest('       margin 0') );
 			app.config.indentPref = 4;
-			app.setContext('          margin 0');
+			app.state.context = app.setContext('          margin 0');
 			assert.equal( true, nestTest('          margin 0') );
 			app.config.depthLimit = 4;
-			app.setContext('                   margin 0');
+			app.state.context = app.setContext('                   margin 0');
 			assert.equal( true, nestTest('                   margin 0') );
 			app.config.indentPref = 'tabs';
-			app.setContext('					margin 0');
+			app.state.context = app.setContext('					margin 0');
 			assert.equal( true, nestTest('					margin 0') );
 			app.config.depthLimit = 1;
-			app.setContext('		margin 0 )');
+			app.state.context = app.setContext('		margin 0 )');
 			assert.equal( true, nestTest('		margin 0 )') );
 		});
 	});
@@ -564,9 +564,9 @@ describe('Linter Style Checks: ', function() {
 			app.config.indentPref = 'tabs';
 			app.cache.file = 'file.styl';
 			app.cache.prevFile = 'file.styl'
-			app.setContext('	.test'); // 1
+			app.state.context = app.setContext('	.test'); // 1
 			dupeTest('	.test');
-			app.setContext('			.test'); // 3
+			app.state.context = app.setContext('			.test'); // 3
 			assert.equal( false, dupeTest('			.test') );
 		});
 
@@ -574,8 +574,8 @@ describe('Linter Style Checks: ', function() {
 			app.config.globalDupe = true;
 			app.cache.prevFile = 'file5.styl';
 			app.cache.file = 'file6.styl';
-			app.setContext('	.test'); // 1
-			app.setContext('	.test'); // 1
+			app.state.context = app.setContext('	.test'); // 1
+			app.state.context = app.setContext('	.test'); // 1
 			assert.equal( false, dupeTest('	.test') );
 			app.config.globalDupe = false;
 		});
@@ -583,7 +583,7 @@ describe('Linter Style Checks: ', function() {
 		it('tabs: false if prev selector was in a list, same file, same context, same selector', function() {
 			app.cache.prevFile = 'file.styl';
 			app.cache.file = 'file.styl';
-			app.setContext('	.classy,'); // to set the context
+			app.state.context = app.setContext('	.classy,'); // to set the context
 			dupeTest('	.classy,'); // prev selecto
 			assert.equal( false, dupeTest('	.classy') );
 		});
@@ -604,9 +604,9 @@ describe('Linter Style Checks: ', function() {
 			app.config.indentPref = 4;
 			app.cache.file = 'file.styl';
 			app.cache.prevFile = 'file.styl'
-			app.setContext('    .test'); // 1
+			app.state.context = app.setContext('    .test'); // 1
 			dupeTest('    .test');
-			app.setContext('            .test'); // 3
+			app.state.context = app.setContext('            .test'); // 3
 			assert.equal( false, dupeTest('            .test') );
 		});
 
@@ -614,8 +614,8 @@ describe('Linter Style Checks: ', function() {
 			app.config.globalDupe = true;
 			app.cache.prevFile = 'file5.styl';
 			app.cache.file = 'file6.styl';
-			app.setContext('    .test'); // 1
-			app.setContext('    .test'); // 1
+			app.state.context = app.setContext('    .test'); // 1
+			app.state.context = app.setContext('    .test'); // 1
 			assert.equal( false, dupeTest('    .test') );
 			app.config.globalDupe = false;
 		});
@@ -623,7 +623,7 @@ describe('Linter Style Checks: ', function() {
 		it('spaces: false if prev selector was in a list, same file, same context, same selector', function() {
 			app.cache.prevFile = 'file.styl';
 			app.cache.file = 'file.styl';
-			app.setContext('    .classy,'); // to set the context
+			app.state.context = app.setContext('    .classy,'); // to set the context
 			dupeTest('    .classy,'); // prev selector
 			assert.equal( false, dupeTest('    .classy') );
 		});
@@ -751,7 +751,11 @@ describe('Linter Style Checks: ', function() {
 	});
 
 	describe('hash start', function() {
-		const hashTest = state.hashStart.bind(app);
+		const hashTest = state.hashOrCSSStart.bind(app);
+
+		beforeEach(function() {
+			app.state.hashOrCSS = false;
+		});
 
 		it('false if hash start not found', function() {
 			assert.equal( false, hashTest('$myconst =') );
@@ -764,37 +768,39 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, hashTest('myHash = {') );
 		});
 
-		it('app.state.hash should be true after hash start', function() {
-			assert.equal( true, app.state.hash );
+		it('app.state.hashOrCSS should be true after hash start', function() {
+			hashTest('myHash = {');
+			assert.equal( true, app.state.hashOrCSS );
 		});
 
 		it('undefined if in a hash', function() {
+			app.state.hashOrCSS = true;
 			assert.equal( undefined, hashTest('myHash = {') );
 		});
 	});
 
 	describe('hash end', function() {
-		const hashTest = state.hashEnd.bind(app);
+		const hashTest = state.hashOrCSSEnd.bind(app);
 
 		it('false if in hash and valid } found', function() {
-			app.state.hash = true;
+			app.state.hashOrCSS = true;
 			assert.equal( false, hashTest('}') );
 		});
 
 		it('true if hash end } not found', function() {
-			app.state.hash = true;
+			app.state.hashOrCSS = true;
 			assert.equal( true, hashTest('margin 0') );
 			assert.equal( true, hashTest('myHash = {') );
 		});
 
 		it('after finding end of hash, hash state should equal false', function() {
-			app.state.hash = true;
+			app.state.hashOrCSS = true;
 			assert.equal( false, hashTest('}') );
 			assert.equal( false, app.state.hash );
 		});
 
 		it('undefined if not in a hash', function() {
-			app.state.hash = false;
+			app.state.hashOrCSS = false;
 			assert.equal( undefined, hashTest('margin 0') );
 			assert.equal( undefined, hashTest('myHash = {') );
 			assert.equal( undefined, hashTest('}') );
@@ -1194,7 +1200,6 @@ describe('Linter Style Checks: ', function() {
 
 	describe('sort order', function() {
 		const sortTest = lint.sortOrder.bind(app);
-		const indent = ' ';
 
 		beforeEach(function() {
 			app.state.prevContext = 1;
@@ -1229,10 +1234,10 @@ describe('Linter Style Checks: ', function() {
 				const expectedCache = [ 'background', 'z-index', 'border', 'width' ];
 
 				assert.equal( false, app.config.sortOrder );
-				assert.equal( true, sortTest( indent + 'background', valid, app.config.sortOrder ) );
-				assert.equal( true, sortTest( indent + 'z-index', valid, app.config.sortOrder ) );
-				assert.equal( true, sortTest( indent + 'border', valid, app.config.sortOrder ) );
-				assert.equal( true, sortTest( indent + 'width', valid, app.config.sortOrder ) );
+				assert.equal( true, sortTest( '	background' ) );
+				assert.equal( true, sortTest( '	z-index' ) );
+				assert.equal( true, sortTest( '	border' ) );
+				assert.equal( true, sortTest( '	width' ) );
 				assert.equal( expectedCache.length, app.cache.sortOrderCache.length );
 				assert.deepEqual( expectedCache, app.cache.sortOrderCache );
 			});
@@ -1558,6 +1563,7 @@ describe('Linter Style Checks: ', function() {
 
 describe('Done, again: ', function() {
 	app.state.warnings = [];
+	app.config.maxWarningsKill = true;
 
 	it('exit code should be 0 if no errs', function() {
 		app.cache.warnings = [];
@@ -1582,9 +1588,8 @@ describe('Done, again: ', function() {
 	});
 
 	it('msg should be the kill message', function() {
-		// passing in kill should kill the linter no matter how many errs there are
-		const kill = '\n0 Warnings\nStylint: too many errors, exiting';
-		assert.equal( kill, app.done( app, 'kill' ).msg );
+		assert.equal( true, app.done().msg );
+		assert.equal( true, app.done().msg.indexOf('too many errors') !== -1 );
 	});
 
 	it('msg should be the too many errors message', function() {

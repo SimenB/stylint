@@ -12,9 +12,9 @@ var stripCommentsRe = /(\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*+\/)/gm;
  * @returns test function
  */
 module.exports = function parse() {
+	// console.log( this.cache.file );
 	return fs.readFile(this.cache.file, { encoding: 'utf8' }, function( err, data ) {
-		if ( err ) { throw new Error('readFile err. Did you pass in a correct filename?'); }
-
+		// console.log( data );
 		var lines = data.replace(stripCommentsRe, function( match ) {
 			var linesNum = match.split(/\r\n|\r|\n/).length - 1;
 			var output = '';
@@ -36,8 +36,10 @@ module.exports = function parse() {
 		 */
 		lines.forEach(function( line, i ) {
 			i++; // line nos don't start at 0
-			this.cache.line = line;
+
+			this.cache.line = this.trimComment(line);
 			this.cache.lineNo = i;
+
 			return this.setState();
 		}.bind(this));
 

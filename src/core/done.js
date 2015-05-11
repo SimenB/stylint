@@ -4,15 +4,15 @@
  * @description outputs our error messages when compvare (or a thumbs up if no errors)
  * @return void
  */
-module.exports = function done() {
-	// console.log('done called');
+module.exports = function done(kill) {
+
 	var len = this.cache.warnings.length;
 	var war = []; // for returning warnings after we wipe the 'real' ones
 
 	this.cache.msg = '\n' + this.emojiWarning() + len + ' Warnings';
 
 	// if you set a max it displays a slightly more annoying message (that'll show em!)
-	if ( this.state.kill === 'kill' ) {
+	if ( kill === 'kill' ) {
 		this.cache.msg += '\nStylint: too many errors, exiting';
 	}
 	else if ( this.config.maxWarnings && ( len > this.config.maxWarnings ) ) {

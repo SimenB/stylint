@@ -1,4 +1,4 @@
-var stampit = require('stampit');
+var path = require('path');
 
 /**
  * @description i hold the state
@@ -6,6 +6,7 @@ var stampit = require('stampit');
  */
 module.exports = {
 	alphaCache: [], // we keep a context based arr of selectors here to check alpha order
+	comment: '', // the current line comment on the line
 	file: '', // curr file we're testing
 	filesLen: 0, // # of files we're testing
 	fileNo: 0, // curr # of filesLen we're on
@@ -14,6 +15,7 @@ module.exports = {
 	msg: '', // the done message (55 warnings blah blah)
 	prevFile: '', // the previous file
 	prevLine: '', // the previous line
+	dir: path.dirname(require.main.filename), // index.js directory
 	rootCache: [], // array of all selectors at the root level. file specific unless global turned on
 	selectorCache: [], // array of selectors in the current context
 	warnings: [], // array of the errors detected so far

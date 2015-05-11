@@ -8,13 +8,7 @@ module.exports = function commentSpace(line) {
 	var badComment = true;
 
 	// check for space after comment on it's own line, if no space, return warning
-	if ( line.indexOf('//') === 0 &&
-		!commentRe.test(line) ) {
-		badComment = false;
-	}
-	// check for space after comment if on same line, if no space, return warning
-	else if ( line.indexOf('http://') === -1 &&
-		!commentRe.test(line) ) {
+	if ( !commentRe.test(this.cache.comment) && this.cache.comment.indexOf('http://') === -1 ) {
 		badComment = false;
 	}
 

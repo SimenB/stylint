@@ -1,5 +1,3 @@
-var stampit = require('stampit');
-
 // flags for the cli
 module.exports = [
 	'-c',

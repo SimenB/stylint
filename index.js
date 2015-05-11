@@ -23,7 +23,7 @@ var Lint = stampit().compose(
 	require('./src/core/methods/lint'),
 	require('./src/core/methods/state'),
 	require('./src/core/methods/utils'),
-	require('./src/kickoff')
+	stampit().enclose( require('./src/core/init') )
 ).create();
 
 

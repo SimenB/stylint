@@ -1,5 +1,3 @@
-var stampit = require('stampit');
-
 module.exports = function init() {
 	var configIndex;
 
@@ -18,7 +16,7 @@ module.exports = function init() {
 
 	// output version # from package.json
 	if ( process.argv.indexOf('-v') !== -1 || process.argv.indexOf('--version') !== -1 ) {
-		return this.ver( __dirname );
+		return this.ver();
 	}
 
 	// turn on strict if strict flag passed

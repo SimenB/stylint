@@ -49,11 +49,12 @@ module.exports = stampit().methods({
 
 	getFiles: function( dir ) {
 		if ( typeof dir !== 'string' ) {
-			throw new TypeError('Path needs to be a string');
+			throw new TypeError('getFiles err. Expected string, but received: ' + typeof dir);
 		}
 
 		glob(dir, {}, function( err, files ) {
 			if ( err ) { throw err; }
+
 			this.cache.filesLen = files.length - 1;
 
 			return files.forEach(function(file, i) {
@@ -82,6 +83,10 @@ module.exports = stampit().methods({
 	},
 
 	setConfig: function( potentialPath ) {
+		if ( typeof potentialPath !== 'string' ) {
+			throw new TypeError('setConfig err. Expected string, but received: ' + typeof dir);
+		}
+
 		var path = pathIsAbsolute( potentialPath ) ? potentialPath : process.cwd() + '/' + potentialPath;
 		return JSON.parse( fs.readFileSync( path ) );
 	},
@@ -110,7 +115,6 @@ module.exports = stampit().methods({
 			}.bind(this));
 		}
 
-		this.state.context = context;
 		return context;
 	},
 
@@ -119,5 +123,19 @@ module.exports = stampit().methods({
 		return str.split(re).filter(function( str ) {
 			return str.length > 0;
 		});
+	},
+
+	trimComment: function(line) {
+		this.state.hasComment = false;
+		var startsWithCommentRe = /(^\/\/)/;
+
+		if ( line.indexOf('//') !== -1 &&
+			!startsWithCommentRe.test( line.trim() ) ) {
+			this.cache.comment = line.slice( line.indexOf('//'), -1 );
+			line = line.slice( 0, line.indexOf('//') - 1 );
+			this.state.hasComment = true;
+		}
+
+		return line;
 	}
 });
