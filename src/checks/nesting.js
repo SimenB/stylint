@@ -3,6 +3,7 @@
 // conditions in which we want to decrement the count
 var decrementRe = /^(\&\:)/;
 
+
 /**
  * check nesting depth
  * @param  {string} line  the line being tested
@@ -20,12 +21,14 @@ module.exports = function checkNesting( line, arr, limit, indentSpaces ) {
 	}
 
 	var count = 0,
-		index = 0;
+		index = 0,
+		indents = line.search(/\S/);
 
-	// get all single spaces in the line
-	arr = arr.filter(function( str ) {
-		return str.length === 0;
-	});
+	if ( indents === -1 ) {
+		return;
+	}
+
+	arr = line.slice( 0, indents );
 
 	// trim string and check if line starts with &:,
 	// if true then subtract one from count (for indents) and add one to limit (for spaces)

@@ -1,3 +1,12 @@
+##### 0.9.9
+make universal less greedy
+
+minor bug fix, some valid properties coming up as non-valid: https://github.com/rossPatton/stylint/issues/100
+
+duplicates was reporting false positives if sortOrder also on. this has been fixed in the 1.0 branch but wasn't brought over
+
+nesting / depthlimit check was counting extra white space between properties and value. technically, that's bad practice but it should be a separate check so lets remove that from the check: https://github.com/rossPatton/stylint/issues/101
+
 ##### 0.9.8
 minor bug fix: some valid properties (anything with -bottom) were coming up as non-valid.
 
