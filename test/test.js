@@ -924,12 +924,16 @@ describe('Linter Style Checks: ', function() {
 		var test8 = '       margin 0 )';
 		var test9 = '&:hover';
 		var test10 = '.class-name';
+		var test11 = '    .class-name                ';
+		var test12 = '		.class-name					';
 
 		it('should return false if less indents than 2nd param', function() {
 			assert.equal( false, app.nesting( test1, test1.split(' '), 4, 4 ) );
 			assert.equal( false, app.nesting( test2, test2.split(' '), 4, 4 ) );
 			assert.equal( false, app.nesting( test9, test9.split(' '), 4, false ) );
 			assert.equal( false, app.nesting( test10, test10.split(' '), 4, false ) );
+			assert.equal( false, app.nesting( test11, test11.split(' '), 4, 4 ) );
+			assert.equal( false, app.nesting( test12, test12.split(' '), 4, false ) );
 		});
 
 		it('should return true if more indents than 2nd param', function() {
@@ -1223,18 +1227,18 @@ describe('Linter Style Checks: ', function() {
 
 	describe('universal selector', function() {
 		it('should return false if no invalid * is found', function() {
-			var test = 'return ( $width*$height )',
-				test2 = 'content: "*"';
-
-			assert.equal( false, app.universal('img'), ['img'] );
-			assert.equal( false, app.universal( test, test.split(' ') ) );
-			assert.equal( false, app.universal( test2, test2.split(' ') ) );
+			assert.equal( false, app.universal('img') );
+			assert.equal( false, app.universal('return ( $width*$height )') );
+			assert.equal( false, app.universal('content: "*"') );
+			assert.equal( false, app.universal('@require "../singles/**/*"') );
+			assert.equal( false, app.universal('padding unit( 5*5, "px" )') );
 		});
 
 		it('should return true if * is found', function() {
-			assert.equal( true, app.universal( '*', ['*'] ) );
-			assert.equal( true, app.universal( '*:before', ['*:before'] ) );
-			assert.equal( true, app.universal( '*::after', ['*::after'] ) );
+			assert.equal( true, app.universal('*') );
+			assert.equal( true, app.universal('*:before') );
+			assert.equal( true, app.universal('*::after') );
+			assert.equal( true, app.universal('div *') );
 		});
 
 		it('should return undefined if missing params', function() {
@@ -1268,6 +1272,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, app.valid( 'div[attribute]', valid ) );
 			assert.equal( true, app.valid( '::selection', valid ) );
 			assert.equal( true, app.valid( '[data-js]', valid ) );
+			assert.equal( true, app.valid( 'background linear-gradient(to top, grey 50%, transparent 50%)', valid ) );
 		});
 
 		it ('should return undefined if missing params', function() {

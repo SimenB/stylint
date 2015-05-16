@@ -1,6 +1,6 @@
 'use strict';
 
-var universalRe = /( |\w|\d|'|"|\*)(\*)( |\w|\d|'|"|\*|\$|\=)/;
+var universalRe = /( |\w|\d|'|"|\*|\/)(\*)( |\w|\d|'|"|\*|\$|\=)/;
 
 /**
 * check for * selector.
