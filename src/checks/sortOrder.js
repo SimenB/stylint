@@ -16,21 +16,22 @@ module.exports = function checkSortOrder( line, valid, sortOrder ) {
 		indentCount = 0,
 		currContext = 0,
 		isItSorted = false,
-		textIndex = 0,
 		sortedArr = [],
 		validCSS = false;
 
 	// quick and dirty fixes for now, didnt' account for hard tabs for context check
 	// this just gets the number of indents so we don't throw false positives
 	if ( typeof this.config.indentSpaces !== 'number' ) {
-		while ( line.charAt( textIndex++ ) === '\t' ) {
-			currContext++;
-		}
+		arr.forEach(function( val, i ) {
+			if ( arr[i] === '\t' ) {
+				currContext++;
+			}
+		});
 	}
 	else {
 		arr.forEach(function( val, i ) {
 			if ( arr[i].length === 0 ) {
-				indentCount++; // spaces or tabs
+				indentCount++;
 			}
 			else {
 				currContext = indentCount / this.config.indentSpaces;
