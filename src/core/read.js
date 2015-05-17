@@ -1,6 +1,7 @@
 'use strict';
 
 var fs = require('fs');
+var async = require('async');
 
 /**
  * @description determines what files to read, creates an array of them, and passes it to be parsed
@@ -28,7 +29,8 @@ module.exports = function read() {
 			this.cache.filesLen = 1;
 			this.cache.fileNo = 1;
 			this.cache.file = this.state.path;
-			return this.parse();
+			this.cache.files = [this.state.path];
+			return async.map(this.cache.files, fs.readFile, this.parse.bind(this) );
 		}
 		else if ( stats.isDirectory() ) {
 			return this.getFiles( this.state.path + '/**/*.styl' );

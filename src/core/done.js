@@ -1,11 +1,9 @@
 'use strict';
 
 /**
- * @description outputs our error messages when compvare (or a thumbs up if no errors)
- * @return void
+ * @description outputs our error messages (or a thumbs up if no errors)
  */
-module.exports = function done(kill) {
-
+module.exports = function done( kill ) {
 	var len = this.cache.warnings.length;
 	var war = []; // for returning warnings after we wipe the 'real' ones
 
@@ -29,9 +27,11 @@ module.exports = function done(kill) {
 			console.log( 'Warning: ', val, '\n' );
 			return war.push( val );
 		});
+
 		console.log( this.cache.msg );
 	}
 
+	// dont kill the linter if watch is watchin
 	if ( !this.state.watching ) {
 		return process.exit( this.state.exitCode );
 	}

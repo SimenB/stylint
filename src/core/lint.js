@@ -9,13 +9,10 @@ module.exports = function lint() {
 	var state = this.state;
 	var checks = this.__proto__.lintMethods;
 
-
-	// @TODO methods that will determine state should go here
-	// checks stuff like if a stylint toggle is on or off, whether we're in a hash, etc
 	for ( var method in checks ) {
 		if ( checks.hasOwnProperty( method ) ) {
-			if ( this.config[method] || this.state.strictMode ) {
-				checks[method].call(this, this.cache.line);
+			if ( this.config[method] || state.strictMode ) {
+				checks[method].call( this, cache.line );
 
 				if ( this.config.maxWarningsKill && cache.warnings.length > this.config.maxWarnings ) {
 					return this.done('kill');

@@ -8,7 +8,7 @@ var ordering = require('../data/json/ordering.json');
 // original params: line, valid, sortOrder
 module.exports = function sortOrder(line) {
 	// we don't alphabetize the root yet
-	if ( this.state.context === 0 || this.state.hash || ignoreMeRe.test(line) ) {
+	if ( this.state.context === '0' || this.state.hash || ignoreMeRe.test(line) ) {
 		return;
 	}
 
@@ -40,29 +40,29 @@ module.exports = function sortOrder(line) {
 	}
 	// if not default, we can either use the grouped option
 	// or a custom sorting order, specificed by a config file
-	else if ( this.config.sortOrder === 'grouped' || Array.isArray(this.config.sortOrder) ) {
+	else if ( this.config.sortOrder === 'grouped' || Array.isArray( this.config.sortOrder ) ) {
 		// use custom ordering if specified, or fall back to in-built grouped ordering
-		orderingArr = Array.isArray(this.config.sortOrder) ? this.config.sortOrder : ordering.grouped;
+		orderingArr = Array.isArray( this.config.sortOrder ) ? this.config.sortOrder : ordering.grouped;
 
 		/**
 		 * @description iterate over our cache copy, and sort it according to our config
 		 * @return {boolean} true if ordered correctly, false if not
 		 */
-		sortedArr = sortedArr.sort(function(a, b) {
-			var aIndex = orderingArr.indexOf(a);
-			var bIndex = orderingArr.indexOf(b);
+		sortedArr = sortedArr.sort(function( a, b ) {
+			var aIndex = orderingArr.indexOf( a );
+			var bIndex = orderingArr.indexOf( b );
 
 			// allow properties that don't exist in ordering array to be last
-			if (bIndex < 0) {
+			if ( bIndex < 0 ) {
 				bIndex = orderingArr.length;
 			}
 
 			// -1 if our 'sorted (not yet sorted)' array is not in the right order
-			if (aIndex < bIndex) {
+			if ( aIndex < bIndex ) {
 				return -1;
 			}
 			// and 1 if it is
-			else if (bIndex < aIndex) {
+			else if ( bIndex < aIndex ) {
 				return 1;
 			}
 		});

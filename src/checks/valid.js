@@ -6,11 +6,11 @@
 // 4 ignore numbers
 // 5 from / to are only valid inside @keyframe
 // 6 the actual JSON we will use to determine validity
-var attrOrMixinRe = /\[\S+\]|({[\S]+})|(\([\S]+\))|(\(\))/; // 1
-var elAttrRe = /(?=\S)+\[\S+\]/gm; // 2
+var attrOrMixinRe = /^\[\S+\]|({[\S]+})|(\([\S ]+\))|(\(\))/; // 1
+var elAttrRe = /(?=\S)+\[\S+\]/; // 2
 var ignoreRe = /[&$.#=>]|(if)|(for)|(else)|(@block)/; // 3
 var numRe = /\d(?=[px]|%|[em]|[rem]|[vh]|[vw]|[vmin]|[vmax]|[ex]|[ch]|[mm]|[cm]|[in]|[pt]|[pc]|[mozmm])/; // 4
-var keyRe = /((from)|(to))+(?= $| {| \d|\n|{)/gm; // 5
+var keyRe = /((from)|(to))+(?= $| {| \d|\n|{)/; // 5
 var validJSON = require('../data/json/valid.json'); // 6
 
 /**
@@ -36,7 +36,7 @@ module.exports = function valid(line) {
 	// 4 if it's a number
 	if ( this.state.hash || // 1
 		ignoreRe.test(line) || // 2
-		attrOrMixinRe.test(arr[0]) || // 3
+		attrOrMixinRe.test(line) || // 3
 		numRe.test(arr[0]) ) { // 4
 		isValid = true;
 	}

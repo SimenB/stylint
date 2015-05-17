@@ -1,5 +1,4 @@
 {
-    "borderNone": true,
     "brackets": true,
     "colons": true,
     "colors": true,
@@ -14,23 +13,23 @@
     "enforceVarStyle": true,
     "extendPref": "@extends",
     "globalDupe": false,
-    "indentSpaces": false,
+    "indentPref": "tabs",
     "leadingZero": true,
     "maxWarnings": 10,
     "maxWarningsKill": false,
     "mixed": true,
     "namingConvention": "lowercase-dash",
     "namingConventionStrict": true,
+    "noNone": true,
     "parenSpace": true,
     "placeholders": true,
     "quotePref": "single",
     "semicolons": true,
-    "sortOrder": "alphabetical",
+    "sortOrder": false,
     "stackedProperties": true,
     "universal": true,
     "valid": true,
     "whitespace": true,
     "zeroUnits": true,
-    "zIndexDuplicates": false,
-    "zIndexNormalize": false
+    "zIndexNormalize": 5
 }

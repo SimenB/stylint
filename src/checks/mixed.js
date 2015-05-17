@@ -10,12 +10,12 @@ var spaces = /(  )+/;  // check for 2 or more spaces (if hard tabs, shouldn't fi
  * @return {boolean} true if mixed spaces and tabs, false if not
  * @todo  this is kinda not 100% reliable in it's current form
  */
-module.exports = function mixed(line) {
+module.exports = function mixed( line ) {
 	var isMixed = false;
 
 	// if this isnt set to false then we're indenting with spaces, so check for tabs
-	if ( typeof this.config.indentSpaces === 'number' ) {
-		if ( tabs.test(line) ) {
+	if ( typeof this.config.indentPref === 'number' ) {
+		if ( tabs.test( line ) ) {
 			isMixed = true;
 		}
 	}

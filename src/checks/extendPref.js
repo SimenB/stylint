@@ -7,7 +7,7 @@ module.exports = function extendPref(line) {
 
 	// prefer @extends to @extend
 	// extremely petty, i know
-	if ( this.config.extendsPref === '@extends' ) {
+	if ( this.config.extendPref === '@extends' ) {
 		if ( line.indexOf('@extends ') === -1 ) {
 			extendsCorrect = false;
 		}

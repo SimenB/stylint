@@ -1,4 +1,5 @@
 var fs                = require('fs');
+var async             = require('async');
 var glob              = require('glob').Glob;
 var osType            = require('os').type().toLowerCase();
 var pathIsAbsolute    = require('path-is-absolute');
@@ -16,7 +17,7 @@ module.exports = stampit().methods({
 	},
 
 	checkPseudo: function(prop, html, valid) {
-		return valid.pseudo.some(function(pseudo) {
+		return valid.pseudo.some(function( pseudo ) {
 			return prop === html + pseudo;
 		});
 	},
@@ -49,14 +50,14 @@ module.exports = stampit().methods({
 
 	getFiles: function( dir ) {
 		if ( typeof dir !== 'string' ) {
-			throw new TypeError('getFiles err. Expected string, but received: ' + typeof dir);
+			throw new TypeError( 'getFiles err. Expected string, but received: ' + typeof dir );
 		}
 
 		glob(dir, {}, function( err, files ) {
 			if ( err ) { throw err; }
 			this.cache.filesLen = files.length - 1;
 			this.cache.files = files;
-			return this.parse();
+			return async.map( this.cache.files, fs.readFile, this.parse.bind( this ) )
 		}.bind( this ));
 	},
 
@@ -109,35 +110,12 @@ module.exports = stampit().methods({
 			}.bind(this));
 		}
 
-		return context;
-	},
-
-	stripBlockComments: function(err, res) {
-		if ( err ) { throw err; }
-		var stripCommentsRe = /\/\*(?!\/)(.|[\r\n]|\n)+?\*\/\n?\n?/gm;
-
-		return res.forEach(function(file, i) {
-			this.cache.file = this.cache.files[i];
-			this.cache.fileNo = i;
-
-			file = file.toString().replace( stripCommentsRe, '' );
-
-			file.split('\n').forEach(function( line, i ) {
-				i++; // line nos don't start at 0
-				this.cache.line = this.trimComment(line);
-				this.cache.lineNo = i;
-				return this.setState();
-			}.bind(this) );
-
-			if ( this.cache.fileNo === res.length - 1 ) {
-				return this.done();
-			}
-		}.bind(this) );
+		return context.toString();
 	},
 
 	// remove all whitespace from a string, customizable regex
 	stripWhiteSpace: function( re, str ) {
-		return str.split(re).filter(function( str ) {
+		return str.split( re ).filter(function( str ) {
 			return str.length > 0;
 		});
 	},
@@ -148,6 +126,7 @@ module.exports = stampit().methods({
 
 		if ( line.indexOf('//') !== -1 &&
 			!startsWithCommentRe.test( line.trim() ) ) {
+
 			this.cache.comment = line.slice( line.indexOf('//'), -1 );
 			line = line.slice( 0, line.indexOf('//') - 1 );
 			this.state.hasComment = true;

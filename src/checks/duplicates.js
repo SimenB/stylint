@@ -1,54 +1,40 @@
 'use strict';
 
-var syntaxIgnoreRe = /^{|[,}]|(:after|:active|:before|@import|@require|@extend|@media|:hover|@font-face|src)/;
+var isLineBadRe = /^{|[,}]|(:after|:active|:before|@import|@require|@extend|@media|:hover|@font-face|src)|,$/;
 
 // check that selector properties are sorted alphabetically
-module.exports = function duplicates(line) {
-	// remove blank spaces now that we have our context
+module.exports = function duplicates( line ) {
 	var arr = this.stripWhiteSpace( new RegExp(/[\s\t]/), line );
 	var isThereADupe = false;
 
-	// before we add an item to a cache array
-	// make sure it's not whitespace or syntax or whatever
-	function _lineIsAcceptable(app) {
-		return (
-			!syntaxIgnoreRe.test(line) &&
-			typeof arr[0] !== 'undefined' &&
-			line.indexOf(',') === -1
-		);
-	}
-
-	// if current context switched, reset array
-	if ( this.state.prevContext !== this.state.context || this.cache.prevFile !== this.cache.file ) {
-		this.cache.selectorCache = [];
-	}
-
-	// if root check not global, wipe on each new file
+	// if root check not global, obliterate cache on each new file
 	if ( !this.config.globalDupe && this.cache.prevFile !== this.cache.file ) {
-		this.cache.rootCache = [];
+		this.cache.sCache = {};
 	}
 
-	// keep track of and check root selectors too
-	if ( this.state.context === 0 ) {
-		// if curr line is already in our cache, we have a dupe
-		if ( _lineIsAcceptable(this) ) {
-			if ( this.cache.rootCache.indexOf(line) !== -1 ) {
-				isThereADupe = true;
-			}
+	// if cache for curr context doesn't exist yet (or was obliterated), make one
+	if ( typeof this.cache.sCache[ this.state.context ] === 'undefined' ) {
+		this.cache.sCache[ this.state.context ] = [];
+	}
 
-			this.cache.rootCache.push( line );
+	// if current context root again, reset arrays except root
+	// basically, root can persist across files potentially
+	// caches above root only persist as long as they are within their context
+	if ( this.state.context !== this.state.prevContext ) {
+		Object.keys( this.cache.sCache ).forEach(function( val ) {
+			if ( val === '0' ) { return; }
+			this.cache.sCache[val] = [];
+		}.bind(this));
+	}
+
+	if ( line.indexOf(',') === -1 && this.cache.prevLine.indexOf(',') === -1 && !isLineBadRe.test( line ) ) {
+		if ( this.cache.sCache[ this.state.context ].indexOf( arr[0] ) !== -1 ) {
+			isThereADupe = true;
 		}
-	}
-	// if selector is nested we check the selectorCache instead of rootCache
-	else {
-		if ( _lineIsAcceptable(this) ) {
-			if ( this.cache.selectorCache.indexOf(arr[0]) !== -1 ) {
-				isThereADupe = true;
-			}
 
-			this.cache.selectorCache.push( arr[0] );
-		}
+		this.cache.sCache[ this.state.context ].push( arr[0] );
 	}
+
 	if ( isThereADupe === true ) {
 		this.cache.warnings.push( 'duplicate property or selector, consider merging' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
 	}

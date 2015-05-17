@@ -29,7 +29,6 @@ module.exports = stampit().methods({
 		valid: require('../../checks/valid'),
 		varStyle: require('../../checks/varStyle'),
 		zeroUnits: require('../../checks/zeroUnits'),
-		zIndexDuplicates: require('../../checks/zIndexDuplicates'),
 		zIndexNormalize: require('../../checks/zIndexNormalize')
 	}
 });

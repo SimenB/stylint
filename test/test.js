@@ -131,23 +131,25 @@ describe('Core Methods: ', function() {
 			app.parse.should.be.a( 'function' );
 		});
 
-		it('return setState if passed a filename', function() {
-			app.cache.fileNo = app.cache.filesLen - 1;
-			app.cache.file = 'styl/test2.styl';
-			app.parse();
-			app.parse.getCall(0).returned( sinon.match.same( app.setState ) );
+		it('return a forEach if passed a filename', function() {
+			app.parse(false, ['styl/test2.styl']);
+			app.parse.getCall(0).returned( sinon.match.same( ['styl/test2.styl'].forEach ) );
+		});
+
+		it('return a forEach if passed a list of files', function() {
+			app.parse(false, ['styl/test2.styl, styl/test.styl']);
+			app.parse.getCall(1).returned( sinon.match.same( ['styl/test2.styl, styl/test.styl'].forEach ) );
 		});
 
 		it('handle empty or one line files fine', function() {
-			app.cache.file = 'styl/oneLine.styl';
-			app.parse();
-			app.parse.getCall(1).returned( sinon.match.same( app.setState ) );
+			app.parse(false, ['styl/oneLine.styl']);
+			app.parse.getCall(2).returned( sinon.match.same( ['styl/oneLine.styl'].forEach ) );
 		});
 
 		it('returns app.done when done parsing last file', function() {
 			app.cache.fileNo = app.cache.filesLen;
-			app.parse();
-			app.parse.getCall(2).returned( sinon.match.same( app.done ) );
+			app.parse(false, ['styl/test2.styl']);
+			app.parse.getCall(3).returned( sinon.match.same( app.done ) );
 		});
 
 		it('throws err if passed non-existant file name', function() {
@@ -657,8 +659,8 @@ describe('Linter Style Checks: ', function() {
 		it('tabs: true if nested selector is dupe', function() {
 			app.cache.prevFile = 'file.styl';
 			app.cache.file = 'file.styl';
-			app.state.context = 1;
-			app.state.prevContext = 1;
+			app.state.context = '1';
+			app.state.prevContext = '1';
 			dupeTest('	.test');
 			assert.equal( true, dupeTest('	.test') );
 		});
@@ -666,22 +668,22 @@ describe('Linter Style Checks: ', function() {
 		it('spaces: true if nested selector is dupe', function() {
 			app.cache.prevFile = 'file.styl';
 			app.cache.file = 'file.styl';
-			app.state.context = 1;
-			app.state.prevContext = 1;
+			app.state.context = '1';
+			app.state.prevContext = '1';
 			dupeTest('    .test2');
 			assert.equal( true, dupeTest('    .test2') );
 		});
 
 		it('true if root selector is dupe, same file', function() {
-			app.state.context = 0;
-			app.state.prevContext = 0;
+			app.state.context = '0';
+			app.state.prevContext = '0';
 			dupeTest('.test3'); // to set the context
 			assert.equal( true, dupeTest('.test3') );
 		});
 
 		it('true if root selector is dupe, global dupe test', function() {
-			app.state.context = 0;
-			app.state.prevContext = 0;
+			app.state.context = '0';
+			app.state.prevContext = '0';
 			app.config.globalDupe = true;
 			app.cache.prevFile = 'file.styl';
 			dupeTest('.test'); // to set the context
@@ -737,16 +739,16 @@ describe('Linter Style Checks: ', function() {
 		const extendTest = lint.extendPref.bind(app);
 
 		it('false if value doesnt match preferred style', function() {
-			app.config.extendsPref = '@extends';
+			app.config.extendPref = '@extends';
 			assert.equal( false, extendTest('@extend $placeHolderconst') );
-			app.config.extendsPref = '@extend';
+			app.config.extendPref = '@extend';
 			assert.equal( false, extendTest('@extends $placeHolderconst') );
 		});
 
 		it('true if value matches preferred style', function() {
-			app.config.extendsPref = '@extend';
+			app.config.extendPref = '@extend';
 			assert.equal( true, extendTest('@extend $placeHolderconst') );
-			app.config.extendsPref = '@extends';
+			app.config.extendPref = '@extends';
 			assert.equal( true, extendTest('@extends $placeHolderconst') );
 		});
 
@@ -875,23 +877,23 @@ describe('Linter Style Checks: ', function() {
 		const mixed = lint.mixed.bind(app);
 
 		it('false if no mixed spaces and tabs found: spaces preferred', function() {
-			app.config.indentSpaces = 4;
+			app.config.indentPref = 4;
 			assert.equal( false, mixed('    margin 0') );
 		});
 
 		it('false if no mixed spaces and tabs found: tabs preferred', function() {
-			app.config.indentSpaces = false;
+			app.config.indentPref = 'tabs';
 			assert.equal( false, mixed('	margin 0') );
 		});
 
 		it('true if spaces and tabs are mixed: spaces preferred', function() {
-			app.config.indentSpaces = 4;
+			app.config.indentPref = 4;
 			assert.equal( true, mixed('	  margin 0') );
 			assert.equal( true, mixed('	padding 0em') );
 		});
 
 		it('true if spaces and tabs are mixed: tabs preferred', function() {
-			app.config.indentSpaces = false;
+			app.config.indentPref = 'tabs';
 			assert.equal( true, mixed('	    margin 0') );
 		});
 	});
@@ -1216,14 +1218,14 @@ describe('Linter Style Checks: ', function() {
 		});
 
 		it('undefined if root level', function() {
-			app.state.context = 0;
+			app.state.context = '0';
 			assert.equal( undefined, sortTest('margin 0'));
 		});
 
 		it('cache length should only be 1 (the current prop) if context switched', function() {
 			app.cache.sortOrderCache = [ 'border', 'margin', 'padding' ];
-			app.state.prevContext = 0;
-			app.state.context = 1;
+			app.state.prevContext = '0';
+			app.state.context = '1';
 
 			assert.equal( 3, app.cache.sortOrderCache.length );
 			sortTest('margin 0');
@@ -1461,7 +1463,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, validTest('background linear-gradient(to top, grey 50%, transparent 50%)') );
 		});
 
-		it ('true if class, id, interpolation, attribute, etc', function() {
+		it ('true if class, id, interpolation, attribute, mixin etc', function() {
 			assert.equal( true, validTest( '.el:hover') );
 			assert.equal( true, validTest( '$const-name = ') );
 			assert.equal( true, validTest( '{const-name}') );
@@ -1470,6 +1472,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, validTest( '&--append-class-name') );
 			assert.equal( true, validTest( '[data-js]') );
 			assert.equal( true, validTest( '#id:hover') );
+			assert.equal( true, validTest('transition( opacity )') );
 		});
 
 		it ('undefined if from or to used outside keyframes', function() {
@@ -1535,99 +1538,86 @@ describe('Linter Style Checks: ', function() {
 		});
 	});
 
-	describe('zIndex Duplicates', function() {
-		const zDupeTest = lint.zIndexDuplicates.bind(app);
-
-		it('false if z-index is not found on line', function() {
-			assert.equal( false, zDupeTest('margin 0') );
-		});
-
-		it('false if z-index is unique', function() {
-			assert.equal( false, zDupeTest('z-index 1230981241237') );
-		});
-
-		it('true if z-index is duplicated', function() {
-			assert.equal( true, zDupeTest('z-index 0') );
-		});
-
-		it('zCache at this point should be greater than 0', function() {
-			assert.equal( true, app.cache.zCache.length > 0 );
-		})
-	});
-
 	describe('zIndex Normalizer', function() {
+		app.config.zIndexNormalize = 5;
 		const zNormalizrTest = lint.zIndexNormalize.bind(app);
 
 		it('false if z index value already normalized', function() {
-			app.config.zIndexNormalize = 5;
 			assert.equal( false, zNormalizrTest('z-index 5') );
-			assert.equal( false, zNormalizrTest('margin 0') );
+		});
+
+		it('false if no z-index', function() {
+			assert.equal( false, zNormalizrTest('margin 5px') );
 		});
 
 		it('true if z index value needs to be normalized', function() {
 			assert.equal( true, zNormalizrTest('z-index 4') );
 		});
+
+		it('undefined if 0 or -1', function() {
+			assert.equal( undefined, zNormalizrTest('z-index -1') );
+			assert.equal( undefined, zNormalizrTest('z-index 0') );
+		});
 	});
 });
 
-// describe('Done, again: ', function() {
-// 	app.state.warnings = [];
-// 	app.config.maxWarningsKill = true;
+describe('Done, again: ', function() {
+	app.state.warnings = [];
+	app.config.maxWarningsKill = true;
 
-// 	it('exit code should be 0 if no errs', function() {
-// 		app.cache.warnings = [];
-// 		assert.equal( 0, app.done( app ).exitCode );
-// 	});
+	it('exit code should be 0 if no errs', function() {
+		app.cache.warnings = [];
+		assert.equal( 0, app.done( app ).exitCode );
+	});
 
-// 	it('an object', function() {
-// 		assert.equal( true, typeof app.done( app ) === 'object' );
-// 	});
+	it('an object', function() {
+		assert.equal( true, typeof app.done( app ) === 'object' );
+	});
 
-// 	it('which should have a string as the 1st property', function() {
-// 		assert.equal( true, typeof app.done( app ).msg === 'string' );
-// 	});
+	it('which should have a string as the 1st property', function() {
+		assert.equal( true, typeof app.done( app ).msg === 'string' );
+	});
 
-// 	it('which should have an array as the 2nd property', function() {
-// 		assert.equal( true, typeof app.done( app ).warnings.forEach !== 'undefined' );
-// 	});
+	it('which should have an array as the 2nd property', function() {
+		assert.equal( true, typeof app.done( app ).warnings.forEach !== 'undefined' );
+	});
 
-// 	it('msg should be the success message', function() {
-// 		const success = app.emojiAllClear() + 'Stylint: You\'re all clear!';
-// 		assert.equal( success, app.done( app ).msg );
-// 	});
+	it('msg should be the success message', function() {
+		const success = app.emojiAllClear() + 'Stylint: You\'re all clear!';
+		assert.equal( success, app.done( app ).msg );
+	});
 
-// 	it('msg should be the kill message', function() {
-// 		assert.equal( true, app.done().msg );
-// 		assert.equal( true, app.done().msg.indexOf('too many errors') !== -1 );
-// 	});
+	it('msg should be the kill message', function() {
+		assert.equal( true, app.done('kill').msg.indexOf('too many errors') !== -1 );
+	});
 
-// 	it('msg should be the too many errors message', function() {
-// 		app.cache.warnings = [0,1,2,3,4,5,6,7,8,9,10];
-// 		const tooMany = app.emojiWarning() + 'Stylint: ' + app.cache.warnings.length + ' warnings. Max is set to: ' + app.config.maxWarnings;
-// 		assert.equal( tooMany, app.done( app ).msg );
-// 	});
+	it('msg should be the too many errors message', function() {
+		app.cache.warnings = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+		const tooMany = app.emojiWarning() + 'Stylint: ' + app.cache.warnings.length + ' warnings. Max is set to: ' + app.config.maxWarnings;
+		assert.equal( tooMany, app.done( app ).msg );
+	});
 
-// 	it('msg should be the default errors message', function() {
-// 		app.cache.warnings = [0,1,2,3,4,5];
-// 		const initial = '\n' + app.emojiWarning() + app.cache.warnings.length + ' Warnings';
-// 		assert.equal( initial, app.done( app ).msg );
-// 	});
+	it('msg should be the default errors message', function() {
+		app.cache.warnings = [0,1,2,3,4,5];
+		const initial = '\n' + app.emojiWarning() + app.cache.warnings.length + ' Warnings';
+		assert.equal( initial, app.done( app ).msg );
+	});
 
-// 	it('should output faked errors', function() {
-// 		app.cache.warnings = [0,1,2,3,4,5];
-// 		app.state.quiet = false;
-// 		app.done( app );
-// 		app.state.quiet = true;
-// 	});
+	it('should output faked errors', function() {
+		app.cache.warnings = [0,1,2,3,4,5];
+		app.state.quiet = false;
+		app.done( app );
+		app.state.quiet = true;
+	});
 
-// 	it('should exit if watch off', function() {
-// 		sinon.spy( app, 'done' );
-// 		const test;
+	it('should exit if watch off', function() {
+		sinon.spy( app, 'done' );
+		const test;
 
-// 		app.state.watching = false;
-// 		test = app.done( app );
+		app.state.watching = false;
+		test = app.done( app );
 
-// 		app.done.getCall(0).returned( sinon.match.same( process.exit ) );
-// 		app.state.watching = true;
-// 	});
-// });
+		app.done.getCall(0).returned( sinon.match.same( process.exit ) );
+		app.state.watching = true;
+	});
+});

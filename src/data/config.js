@@ -18,8 +18,8 @@ module.exports = {
 	globalDupe: false, // throw duplicate selector warning across all files instead of curr file
 	indentPref: 4, // how many spaces should we prefer when indenting, pass in false if hard tabs
 	leadingZero: true, // find cases where 0.# is used, prefer .#
-	maxWarnings: 1, // should we have a max amount of warnings, and error out if we go over
-	maxWarningsKill: true, // if over maxWarning count, kill process
+	maxWarnings: 10, // should we have a max amount of warnings, and error out if we go over
+	maxWarningsKill: false, // if over maxWarning count, kill process
 	mixed: false, // check for mixed spaces and tabs
 	namingConvention: false, // lowercase-dash, camelCase, lowercase_underscore, BEM or false (dont check)
 	namingConventionStrict: false, // if true, then check classes and ids, if false just check variables
@@ -35,6 +35,5 @@ module.exports = {
 	valid: false, // check if prop or value is a valid assignment
 	varStyle: false, // check for $ when declaring vars (doesnt check use)
 	zeroUnits: true, // check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
-	zIndexDuplicates: false, // just find duplicate z index values
 	zIndexNormalize: false // suggest a normalized z index value, base of whatever this is
 };
