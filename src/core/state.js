@@ -9,6 +9,10 @@ module.exports = function setState() {
 	var line = this.cache.line;
 	var stateM = this.__proto__.stateMethods;
 
+	if ( line.length === 0 ) {
+		return;
+	}
+
 	if ( stateM.stylintOn.call(this, line) || stateM.stylintOff.call(this, line) === false ) {
 		return;
 	}

@@ -54,15 +54,9 @@ module.exports = stampit().methods({
 
 		glob(dir, {}, function( err, files ) {
 			if ( err ) { throw err; }
-
 			this.cache.filesLen = files.length - 1;
-
-			return files.forEach(function(file, i) {
-				this.cache.file = file;
-				this.cache.fileNo = i;
-				return this.parse();
-			}.bind( this ));
-
+			this.cache.files = files;
+			return this.parse();
 		}.bind( this ));
 	},
 
@@ -116,6 +110,29 @@ module.exports = stampit().methods({
 		}
 
 		return context;
+	},
+
+	stripBlockComments: function(err, res) {
+		if ( err ) { throw err; }
+		var stripCommentsRe = /\/\*(?!\/)(.|[\r\n]|\n)+?\*\/\n?\n?/gm;
+
+		return res.forEach(function(file, i) {
+			this.cache.file = this.cache.files[i];
+			this.cache.fileNo = i;
+
+			file = file.toString().replace( stripCommentsRe, '' );
+
+			file.split('\n').forEach(function( line, i ) {
+				i++; // line nos don't start at 0
+				this.cache.line = this.trimComment(line);
+				this.cache.lineNo = i;
+				return this.setState();
+			}.bind(this) );
+
+			if ( this.cache.fileNo === res.length - 1 ) {
+				return this.done();
+			}
+		}.bind(this) );
 	},
 
 	// remove all whitespace from a string, customizable regex

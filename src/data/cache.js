@@ -7,7 +7,8 @@ var path = require('path');
 module.exports = {
 	alphaCache: [], // we keep a context based arr of selectors here to check alpha order
 	comment: '', // the current line comment on the line
-	file: '', // curr file we're testing
+	file: '', // curr filename we're testing
+	files: [], // all files as an arr
 	filesLen: 0, // # of files we're testing
 	fileNo: 0, // curr # of filesLen we're on
 	line: '', // curr line we're testing

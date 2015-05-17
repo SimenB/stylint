@@ -293,6 +293,7 @@ describe('Utility Methods: ', function() {
 		});
 
 		it('both should output a blank string if option is off', function() {
+			app.config.emoji = false;
 			assert.equal( '', app.emojiAllClear( false ) );
 			assert.equal( '', app.emojiWarning( false ) );
 		});

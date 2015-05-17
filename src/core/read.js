@@ -20,7 +20,7 @@ module.exports = function read() {
 	 * if directory we use the glob logic to return an array of files to test
 	 */
 	return fs.stat(this.state.path, function(err, stats) {
-		if ( !stats ) {
+		if ( !stats || err ) {
 			throw Error('Stylint Error: No such file or dir exists');
 		}
 
@@ -30,8 +30,7 @@ module.exports = function read() {
 			this.cache.file = this.state.path;
 			return this.parse();
 		}
-		else {
-			// else it's a directory, so pass a glob to getFiles
+		else if ( stats.isDirectory() ) {
 			return this.getFiles( this.state.path + '/**/*.styl' );
 		}
 	}.bind(this));
