@@ -6,11 +6,11 @@
 // 4 ignore numbers
 // 5 from / to are only valid inside @keyframe
 // 6 the actual JSON we will use to determine validity
-var attrRe = /^\[\S+\]/; // 1
+var attrOrMixinRe = /^\[\S+\]|({[\S]+})/; // 1
 var elAttrRe = /(?=\S)+\[\S+\]/gm; // 2
-var ignoreRe = /[&$.#(=>]|({[\S]+})|(if)|(for)|(else)|(@block)/; // 3
+var ignoreRe = /[&$.#=>]|(if)|(for)|(else)|(@block)/; // 3
 var numRe = /\d(?=[px]|%|[em]|[rem]|[vh]|[vw]|[vmin]|[vmax]|[ex]|[ch]|[mm]|[cm]|[in]|[pt]|[pc]|[mozmm])/; // 4
-var keyRe = /((from)|(to))(?= |\n|{)+/; // 5
+var keyRe = /((from)|(to))+(?= $| {| \d|\n|{)/gm; // /((from)|(to))(?= |\n|{)+/; // 5
 var validJSON = require('../data/json/valid.json'); // 6
 
 /**
@@ -24,32 +24,36 @@ module.exports = function valid(line) {
 	var isValid = false;
 	var arr = this.stripWhiteSpace(new RegExp(/[\s\t,]/), line);
 
-	// in order, ignore line if:
-	// 1 we are in a hash
-	// 2 classname, varname, id, or syntax. basically, ignore if custom
-	// 3 if the selector only consists of an attr (which can be custom)
-	// 4 if it's a number
-	if ( this.state.hash || // 1
-		ignoreRe.test(line) || // 2
-		attrRe.test(arr[0]) || // 3
-		numRe.test(arr[0]) ) { // 4
-		return;
-	}
-
 	// from and to are keyframes specific properties, but arent valid outside that context
 	if ( !this.state.keyframes && line.match(keyRe) ) {
 		return;
 	}
 
+	// in order, ignore line if:
+	// 1 we are in a hash
+	// 2 classname, varname, id, or syntax. basically, ignore if custom or part of the language
+	// 3 if the selector only consists of an attr or mixin (which can be custom)
+	// 4 if it's a number
+	if ( this.state.hash || // 1
+		ignoreRe.test(line) || // 2
+		attrOrMixinRe.test(arr[0]) || // 3
+		numRe.test(arr[0]) ) { // 4
+		isValid = true;
+	}
+
 	// if using an attribute selector ( div[madeUpAttribute] ), strip it out first ( div )
-	if ( elAttrRe.test( arr[0] ) ) {
-		arr[0] = arr[0].replace(elAttrRe, '');
+	if ( !isValid ) {
+		if ( elAttrRe.test( arr[0] ) ) {
+			arr[0] = arr[0].replace(elAttrRe, '');
+		}
 	}
 
 	// initial check for basic css, will return true at first match
-	isValid = validJSON.css.some(function(css) {
-		return ( arr[0] === css ) || this.checkPrefix( arr[0], css, validJSON );
-	}.bind(this));
+	if ( !isValid ) {
+		isValid = validJSON.css.some(function(css) {
+			return ( arr[0] === css ) || this.checkPrefix( arr[0], css, validJSON );
+		}.bind(this));
+	}
 
 	// if no match yet, try html
 	if ( !isValid ) {

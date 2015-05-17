@@ -1,6 +1,6 @@
 {
   "name": "stylint",
-  "version": "0.9.7",
+  "version": "1.0.0",
   "description": "A linter for stylus",
   "author": "Ross Patton",
   "license": "ISC",
@@ -31,12 +31,9 @@
   "preferGlobal": true,
   "devDependencies": {
     "chai": "1.10.0",
-    "chokidar": "1.0.1",
-    "glob": "4.3.1",
     "istanbul": "0.3.5",
     "mocha": "2.0.1",
     "sinon": "1.12.2",
-    "stampit": "1.1.0",
     "touch": "0.0.3"
   },
   "dependencies": {

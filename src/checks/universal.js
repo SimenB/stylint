@@ -1,7 +1,7 @@
 'use strict';
 
 // checks if * is a valid use case or not
-var universalRe = /(?!^)(\S| |\t)(\*)(\s|\w|\d|\$|\=)/;
+var universalRe = /( |\w|\d|'|"|\*|\/)(\*)( |\w|\d|'|"|\*|\$|\=)/;    //  /(?!^)(\S| |\t)(\*)(\s|\w|\d|\$|\=)/;
 
 /**
 * check for * selector.
