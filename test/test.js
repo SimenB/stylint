@@ -363,17 +363,37 @@ describe('Linter Style Checks: ', function() {
 		app.state.strictMode = true;
 	});
 
-	describe('blockStyle: prefer @block when defining block consts', function() {
-		const blockTest = lint.blockStyle.bind(app);
+	describe('blocks: prefer @block when defining block vars', function() {
+		const blockTest = lint.blocks.bind(app);
 
 		it('false if block style incorrect', function() {
-			const test1 = 'myBlock = ';
-			const test2 = 'myBlock =';
-			assert.equal( false, blockTest(test1) );
-			assert.equal( false, blockTest(test2) );
+			assert.equal( false, blockTest('myBlock = ') );
+			assert.equal( false, blockTest('myBlock =') );
 		});
 
 		it('true if block style correct', function() {
+			assert.equal( true, blockTest('myBlock = @block') );
+			assert.equal( true, blockTest('myBlock = @block ') );
+		});
+
+		it('undefined if block style not applicable', function() {
+			assert.equal( undefined, blockTest('.class') );
+		});
+	});
+
+	describe('blocks: disallow @block when defining block vars', function() {
+		const blockTest = lint.blocks.bind(app);
+
+		beforeEach(function() {
+			app.config.blocks = 'never';
+		});
+
+		it('false if block style IS correct', function() {
+			assert.equal( false, blockTest('myBlock = ') );
+			assert.equal( false, blockTest('myBlock =') );
+		});
+
+		it('true if block style NOT correct', function() {
 			assert.equal( true, blockTest('myBlock = @block') );
 			assert.equal( true, blockTest('myBlock = @block ') );
 		});
@@ -387,14 +407,14 @@ describe('Linter Style Checks: ', function() {
 		const bracketsTest = lint.brackets.bind(app);
 
 		it('false if bracket found, but not illegal: in hash', function() {
-			app.state.hash = true;
-			assert.equal( false, bracketsTest('}') );
-			assert.equal( false, bracketsTest('{interpolation}') );
-			assert.equal( false, bracketsTest('.class-name-with-{i}') );
+			app.state.hashOrCSS = true;
+			assert.equal( undefined, bracketsTest('}') );
+			assert.equal( undefined, bracketsTest('{interpolation}') );
+			assert.equal( undefined, bracketsTest('.class-name-with-{i}') );
 		});
 
 		it('false if bracket found but not illegal: not in a hash', function() {
-			app.state.hash = false;
+			app.state.hashOrCSS = false;
 			assert.equal( false, bracketsTest('{interpolation}') );
 			assert.equal( false, bracketsTest('.class-name-with-{i}') );
 		});
@@ -451,7 +471,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, colorsTest('#fff') );
 		});
 
-		it('undefined if hex color is being assigned to a constiable', function () {
+		it('undefined if hex color is being assigned to a variable', function () {
 			assert.equal( undefined, colorsTest('$foobar ?= #fff') );
 			assert.equal( undefined, colorsTest('$foobar = #fff') );
 		});

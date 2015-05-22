@@ -3,7 +3,7 @@
  * this is what the linter will run when no config file is passed
  */
 module.exports = {
-	blockStyle: false, // check for @block when defining blocks
+	blocks: 'always', // check for @block when defining blocks
 	brackets: true, // check for { or }, unless used in a hash
 	colons: false, // check for unecessary colons
 	colors: false, // check for hex colors used without variables

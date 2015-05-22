@@ -3,7 +3,7 @@ var stampit = require('stampit');
 // very simple, 1 purpose methods, that run regex/indexOf checks on strings
 module.exports = stampit().methods({
 	lintMethods: {
-		blockStyle: require('../../checks/blockStyle'),
+		blocks: require('../../checks/blocks'),
 		brackets: require('../../checks/brackets'),
 		colons: require('../../checks/colons'),
 		colors: require('../../checks/colors'),
