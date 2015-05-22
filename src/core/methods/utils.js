@@ -120,10 +120,12 @@ module.exports = stampit().methods({
 		});
 	},
 
-	trimComment: function(line) {
+	// removes line comments and interpolation
+	trimLine: function( line ) {
 		this.state.hasComment = false;
 		var startsWithCommentRe = /(^\/\/)/;
 
+		// strip line comments
 		if ( line.indexOf('//') !== -1 &&
 			!startsWithCommentRe.test( line.trim() ) ) {
 
@@ -131,6 +133,9 @@ module.exports = stampit().methods({
 			line = line.slice( 0, line.indexOf('//') - 1 );
 			this.state.hasComment = true;
 		}
+
+		// strip interpolated variables
+		line = line.replace(/{\S+}/, '');
 
 		return line;
 	}

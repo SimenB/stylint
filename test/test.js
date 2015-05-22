@@ -338,8 +338,8 @@ describe('Utility Methods: ', function() {
 		});
 	});
 
-	describe('trim comment should: ', function() {
-		const trimTest = app.trimComment.bind(app);
+	describe('trim line should: ', function() {
+		const trimTest = app.trimLine.bind(app);
 
 		it ('do nothing if line has no comment', function() {
 			assert.equal( '.noCommentOnThisLine ', trimTest('.noCommentOnThisLine ') );
@@ -351,6 +351,10 @@ describe('Utility Methods: ', function() {
 
 		it ('trim comment if not first character', function() {
 			assert.equal( '.noCommentOnThisLine', trimTest('.noCommentOnThisLine //') );
+		});
+
+		it ('trim interpolated variables', function() {
+			assert.equal( '.test-', trimTest('.test-{interpolation}') );
 		});
 	});
 })
@@ -400,10 +404,40 @@ describe('Linter Style Checks: ', function() {
 
 		it('undefined if block style not applicable', function() {
 			assert.equal( undefined, blockTest('.class') );
+			assert.equal( undefined, blockTest('input[type="submit"]') );
 		});
 	});
 
-	describe('brackets', function() {
+	// describe('brackets: always use brackets when defining selectors', function() {
+	// 	const bracketsTest = lint.brackets.bind(app);
+
+	// 	it('false if bracket found, but not illegal: in hash', function() {
+	// 		app.state.hashOrCSS = true;
+	// 		assert.equal( undefined, bracketsTest('}') );
+	// 		assert.equal( undefined, bracketsTest('{interpolation}') );
+	// 		assert.equal( undefined, bracketsTest('.class-name-with-{i}') );
+	// 	});
+
+	// 	it('false if bracket found but not illegal: not in a hash', function() {
+	// 		app.state.hashOrCSS = false;
+	// 		assert.equal( false, bracketsTest('{interpolation}') );
+	// 		assert.equal( false, bracketsTest('.class-name-with-{i}') );
+	// 	});
+
+	// 	it('true if illegal bracket found on line (not interpolation, not hash): in hash', function() {
+	// 		app.state.hash = true;
+	// 		assert.equal( true, bracketsTest('.className {') );
+	// 	});
+
+	// 	it('true if illegal bracket found on line (not interpolation, not hash): not in hash', function() {
+	// 		app.state.hash = false;
+	// 		assert.equal( true, bracketsTest('.className {') );
+	// 		assert.equal( true, bracketsTest('.{interpolated}-class {') );
+	// 		assert.equal( true, bracketsTest('}') );
+	// 	});
+	// });
+
+	describe('brackets: disallow brackets when defining selectors', function() {
 		const bracketsTest = lint.brackets.bind(app);
 
 		it('false if bracket found, but not illegal: in hash', function() {
@@ -420,12 +454,12 @@ describe('Linter Style Checks: ', function() {
 		});
 
 		it('true if illegal bracket found on line (not interpolation, not hash): in hash', function() {
-			app.state.hash = true;
+			app.state.hashOrCSS = true;
 			assert.equal( true, bracketsTest('.className {') );
 		});
 
 		it('true if illegal bracket found on line (not interpolation, not hash): not in hash', function() {
-			app.state.hash = false;
+			app.state.hashOrCSS = false;
 			assert.equal( true, bracketsTest('.className {') );
 			assert.equal( true, bracketsTest('.{interpolated}-class {') );
 			assert.equal( true, bracketsTest('}') );
@@ -1581,63 +1615,63 @@ describe('Linter Style Checks: ', function() {
 	});
 });
 
-describe('Done, again: ', function() {
-	app.state.warnings = [];
-	app.config.maxWarningsKill = true;
+// describe('Done, again: ', function() {
+// 	app.state.warnings = [];
+// 	app.config.maxWarningsKill = true;
 
-	it('exit code should be 0 if no errs', function() {
-		app.cache.warnings = [];
-		assert.equal( 0, app.done( app ).exitCode );
-	});
+// 	it('exit code should be 0 if no errs', function() {
+// 		app.cache.warnings = [];
+// 		assert.equal( 0, app.done( app ).exitCode );
+// 	});
 
-	it('an object', function() {
-		assert.equal( true, typeof app.done( app ) === 'object' );
-	});
+// 	it('an object', function() {
+// 		assert.equal( true, typeof app.done( app ) === 'object' );
+// 	});
 
-	it('which should have a string as the 1st property', function() {
-		assert.equal( true, typeof app.done( app ).msg === 'string' );
-	});
+// 	it('which should have a string as the 1st property', function() {
+// 		assert.equal( true, typeof app.done( app ).msg === 'string' );
+// 	});
 
-	it('which should have an array as the 2nd property', function() {
-		assert.equal( true, typeof app.done( app ).warnings.forEach !== 'undefined' );
-	});
+// 	it('which should have an array as the 2nd property', function() {
+// 		assert.equal( true, typeof app.done( app ).warnings.forEach !== 'undefined' );
+// 	});
 
-	it('msg should be the success message', function() {
-		const success = app.emojiAllClear() + 'Stylint: You\'re all clear!';
-		assert.equal( success, app.done( app ).msg );
-	});
+// 	it('msg should be the success message', function() {
+// 		const success = app.emojiAllClear() + 'Stylint: You\'re all clear!';
+// 		assert.equal( success, app.done( app ).msg );
+// 	});
 
-	it('msg should be the kill message', function() {
-		assert.equal( true, app.done('kill').msg.indexOf('too many errors') !== -1 );
-	});
+// 	it('msg should be the kill message', function() {
+// 		assert.equal( true, app.done('kill').msg.indexOf('too many errors') !== -1 );
+// 	});
 
-	it('msg should be the too many errors message', function() {
-		app.cache.warnings = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
-		const tooMany = app.emojiWarning() + 'Stylint: ' + app.cache.warnings.length + ' warnings. Max is set to: ' + app.config.maxWarnings;
-		assert.equal( tooMany, app.done( app ).msg );
-	});
+// 	it('msg should be the too many errors message', function() {
+// 		app.cache.warnings = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+// 		const tooMany = app.emojiWarning() + 'Stylint: ' + app.cache.warnings.length + ' warnings. Max is set to: ' + app.config.maxWarnings;
+// 		assert.equal( tooMany, app.done( app ).msg );
+// 	});
 
-	it('msg should be the default errors message', function() {
-		app.cache.warnings = [0,1,2,3,4,5];
-		const initial = '\n' + app.emojiWarning() + app.cache.warnings.length + ' Warnings';
-		assert.equal( initial, app.done( app ).msg );
-	});
+// 	it('msg should be the default errors message', function() {
+// 		app.cache.warnings = [0,1,2,3,4,5];
+// 		const initial = '\n' + app.emojiWarning() + app.cache.warnings.length + ' Warnings';
+// 		assert.equal( initial, app.done( app ).msg );
+// 	});
 
-	it('should output faked errors', function() {
-		app.cache.warnings = [0,1,2,3,4,5];
-		app.state.quiet = false;
-		app.done( app );
-		app.state.quiet = true;
-	});
+// 	it('should output faked errors', function() {
+// 		app.cache.warnings = [0,1,2,3,4,5];
+// 		app.state.quiet = false;
+// 		app.done( app );
+// 		app.state.quiet = true;
+// 	});
 
-	it('should exit if watch off', function() {
-		sinon.spy( app, 'done' );
-		const test;
+// 	it('should exit if watch off', function() {
+// 		sinon.spy( app, 'done' );
+// 		const test;
 
-		app.state.watching = false;
-		test = app.done( app );
+// 		app.state.watching = false;
+// 		test = app.done( app );
 
-		app.done.getCall(0).returned( sinon.match.same( process.exit ) );
-		app.state.watching = true;
-	});
-});
+// 		app.done.getCall(0).returned( sinon.match.same( process.exit ) );
+// 		app.state.watching = true;
+// 	});
+// });

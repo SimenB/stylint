@@ -25,7 +25,7 @@ module.exports = function parse( err, res ) {
 		// updating cache as we go, and passing to the next step
 		file.split('\n').forEach(function( line, i ) {
 			i++; // line nos don't start at 0
-			this.cache.line = this.trimComment(line);
+			this.cache.line = this.trimLine(line);
 			this.cache.lineNo = i;
 			return this.setState();
 		}.bind(this) );

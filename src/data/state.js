@@ -9,6 +9,7 @@ module.exports = {
 	hashOrCSS: false, // are we in a hash
 	keyframes: false, // are we in @keyframes
 	killSwitch: false, // are we over our warning limit
+	openBracket: false, // is there an unclosed bracket
 	path: '', // curr dir || file
 	prevContext: 0, // save the last context as well
 	strictMode: false, // run all tests regardless?
