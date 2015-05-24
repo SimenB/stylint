@@ -129,7 +129,7 @@ module.exports = stampit().methods({
 		if ( line.indexOf('//') !== -1 &&
 			!startsWithCommentRe.test( line.trim() ) ) {
 
-			this.cache.comment = line.slice( line.indexOf('//'), -1 );
+			this.cache.comment = line.slice( line.indexOf('//'), line.length );
 			line = line.slice( 0, line.indexOf('//') - 1 );
 			this.state.hasComment = true;
 		}

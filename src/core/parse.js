@@ -17,13 +17,13 @@ module.exports = function parse( err, res ) {
 
 		// strip out block comments, but dont destroy line history
 		// to do these we replace block comments with new lines
-		file = file.toString().replace( stripCommentsRe, function( str ) {
+		var lines = file.toString().replace( stripCommentsRe, function( str ) {
 			return ( new Array( str.split(/\r\n|\r|\n/).length ) ).join('\n');
-		});
+		}).split('\n');
 
 		// now that we have a clean file, iterate over it
 		// updating cache as we go, and passing to the next step
-		file.split('\n').forEach(function( line, i ) {
+		lines.forEach(function( line, i ) {
 			i++; // line nos don't start at 0
 			this.cache.line = this.trimLine(line);
 			this.cache.lineNo = i;

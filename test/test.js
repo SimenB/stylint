@@ -573,11 +573,12 @@ describe('Linter Style Checks: ', function() {
 	});
 
 
-	describe('comment space: prefer "// Comment" over "//Comment"', function() {
+	describe('comment space: prefer spaces after line comments', function() {
 		const commentSpaceTest = lint.commentSpace.bind(app);
 
 		beforeEach(function() {
 			app.state.hasComment = true;
+			app.config.commentSpace = 'always';
 		});
 
 		it('false if line comment doesnt have a space after it', function() {
@@ -599,6 +600,41 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, commentSpaceTest('.test') );
 		});
 	});
+
+
+	describe('comment space: prefer NO spaces after line comments', function() {
+		const commentSpaceTest = lint.commentSpace.bind(app);
+
+		beforeEach(function() {
+			app.state.hasComment = true;
+			app.config.commentSpace = 'never';
+		});
+
+		it('false if line comment doesnt have a space after it', function() {
+			app.cache.comment = '//test';
+			assert.equal( false, commentSpaceTest('margin //test') );
+			app.cache.comment = 'margin 0 auto //test';
+			assert.equal( false, commentSpaceTest('margin 0 auto //test') );
+		});
+
+		it('true if line comment has space after it', function() {
+			app.cache.comment = '// test';
+			assert.equal( true, commentSpaceTest('// test') );
+			app.cache.comment = 'margin 0 auto // test';
+			assert.equal( true, commentSpaceTest('margin 0 auto // test') );
+		});
+
+		it('undefined if line has no comment', function() {
+			app.state.hasComment = false;
+			assert.equal( undefined, commentSpaceTest('.test') );
+		});
+
+		it('undefined if url', function() {
+			app.state.hasComment = true;
+			assert.equal( undefined, commentSpaceTest('http://wired.com') );
+		});
+	});
+
 
 	describe('css literal', function() {
 		const cssTest = lint.cssLiteral.bind(app);
@@ -955,12 +991,11 @@ describe('Linter Style Checks: ', function() {
 		});
 	});
 
-	describe('leading zero', function() {
+	describe('leading zero: prefer 0.9 over .9', function() {
 		const zeroTest = lint.leadingZero.bind(app);
 
-		it('true if line has a zero before a decimal point and not part of range', function() {
-			assert.equal( true, zeroTest('color (0, 0, 0, 0.18)') );
-			assert.equal( true, zeroTest('color (0,0,0,0.18)') );
+		beforeEach(function() {
+			app.config.leadingZero = 'always';
 		});
 
 		it('false if leading zero not found', function() {
@@ -968,7 +1003,51 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( false, zeroTest('color (0,0,0,.18)') );
 			assert.equal( false, zeroTest('for $ in (0..9)') );
 		});
+
+		it('false if range', function() {
+			assert.equal( false, zeroTest('for 0..9') );
+			assert.equal( false, zeroTest('for 0...9') );
+		});
+
+		it('true if line has a zero before a decimal point and not part of range', function() {
+			assert.equal( true, zeroTest('color (0, 0, 0, 0.18)') );
+			assert.equal( true, zeroTest('color (0,0,0,0.18)') );
+		});
+
+		it('undefined if no . in line', function() {
+			assert.equal( undefined, zeroTest('margin auto') );
+		});
 	});
+
+
+	describe('leading zero: prefer .9 or 0.9', function() {
+		const zeroTest = lint.leadingZero.bind(app);
+
+		beforeEach(function() {
+			app.config.leadingZero = 'never';
+		});
+
+		it('false if leading zero not found', function() {
+			assert.equal( false, zeroTest('color (0, 0, 0, .18)') );
+			assert.equal( false, zeroTest('color (0,0,0,.18)') );
+			assert.equal( false, zeroTest('for $ in (0..9)') );
+		});
+
+		it('false if range', function() {
+			assert.equal( false, zeroTest('for 0..9') );
+			assert.equal( false, zeroTest('for 0...9') );
+		});
+
+		it('true if line has a zero before a decimal point and', function() {
+			assert.equal( true, zeroTest('color (0, 0, 0, 0.18)') );
+			assert.equal( true, zeroTest('color (0,0,0,0.18)') );
+		});
+
+		it('undefined if no . in line', function() {
+			assert.equal( undefined, zeroTest('margin auto') );
+		});
+	});
+
 
 	describe('mixed spaces and tabs', function() {
 		const mixed = lint.mixed.bind(app);
