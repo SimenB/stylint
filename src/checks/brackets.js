@@ -1,10 +1,13 @@
 'use strict';
 
-var selRe = /^[#.]+/m;
+var selRe = /^[#.]+/;
+var commaRe = /,$/;
 
 module.exports = function brackets( line ) {
 	if ( this.state.hashOrCSS ) { return; }
 	if ( this.config.brackets === 'always' && !selRe.test(line) ) { return; }
+	if ( commaRe.test(line) ) { return; }
+
 	var bracket = false;
 
 	if ( this.config.brackets === 'never' ) {

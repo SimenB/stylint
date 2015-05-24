@@ -522,17 +522,53 @@ describe('Linter Style Checks: ', function() {
 	describe('comma space: prefer space after commas', function() {
 		const commaTest = lint.commaSpace.bind(app);
 
-		it('false if space after comma, or no comma', function() {
-			assert.equal( false, commaTest('0, 0, 0, .18') );
-			assert.equal( false, commaTest('margin 0') );
+		beforeEach(function() {
+			app.config.commaSpace = 'always';
 		});
 
-		it('false if newline after comma', function() {
-			assert.equal( false, commaTest('.className,\n') );
+		it('undefined if no comma on line', function() {
+			assert.equal( undefined, commaTest('margin 0') );
+		});
+
+		it('undefined if comma is last character', function() {
+			assert.equal( undefined, commaTest('.class,') );
+		});
+
+		it('false if space after comma', function() {
+			assert.equal( false, commaTest('0, 0, 0, .18') );
 		});
 
 		it('true if no space after commas', function() {
 			assert.equal( true, commaTest('0,0, 0, .18') );
+			assert.equal( true, commaTest('0,0,0,.18') );
+			assert.equal( true, commaTest('mixin( $param1,$param2 )') );
+		});
+	});
+
+
+	describe('comma space: prefer NO space after commas', function() {
+		const commaTest = lint.commaSpace.bind(app);
+
+		beforeEach(function() {
+			app.config.commaSpace = 'never';
+		});
+
+		it('undefined if no comma on line', function() {
+			assert.equal( undefined, commaTest('margin 0') );
+		});
+
+		it('undefined if comma is last character', function() {
+			assert.equal( undefined, commaTest('.class,') );
+		});
+
+		it('false if space after comma', function() {
+			assert.equal( false, commaTest('0, 0, 0, .18') );
+		});
+
+		it('true if no space after commas', function() {
+			assert.equal( true, commaTest('0,0, 0, .18') );
+			assert.equal( true, commaTest('0,0,0,.18') );
+			assert.equal( true, commaTest('mixin( $param1,$param2 )') );
 		});
 	});
 
