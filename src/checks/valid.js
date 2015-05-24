@@ -30,11 +30,11 @@ module.exports = function valid(line) {
 	}
 
 	// in order, let line be considered valid if:
-	// 1 we are in a hash
+	// 1 we are in a hash or css block
 	// 2 classname, varname, id, or syntax. basically, ignore if custom or part of the language
 	// 3 if the selector only consists of an attr or mixin (which can be custom)
 	// 4 if it's a number
-	if ( this.state.hash || // 1
+	if ( this.state.hashOrCSS || // 1
 		ignoreRe.test(line) || // 2
 		attrOrMixinRe.test(line) || // 3
 		numRe.test(arr[0]) ) { // 4

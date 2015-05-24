@@ -408,61 +408,68 @@ describe('Linter Style Checks: ', function() {
 		});
 	});
 
-	// describe('brackets: always use brackets when defining selectors', function() {
-	// 	const bracketsTest = lint.brackets.bind(app);
-
-	// 	it('false if bracket found, but not illegal: in hash', function() {
-	// 		app.state.hashOrCSS = true;
-	// 		assert.equal( undefined, bracketsTest('}') );
-	// 		assert.equal( undefined, bracketsTest('{interpolation}') );
-	// 		assert.equal( undefined, bracketsTest('.class-name-with-{i}') );
-	// 	});
-
-	// 	it('false if bracket found but not illegal: not in a hash', function() {
-	// 		app.state.hashOrCSS = false;
-	// 		assert.equal( false, bracketsTest('{interpolation}') );
-	// 		assert.equal( false, bracketsTest('.class-name-with-{i}') );
-	// 	});
-
-	// 	it('true if illegal bracket found on line (not interpolation, not hash): in hash', function() {
-	// 		app.state.hash = true;
-	// 		assert.equal( true, bracketsTest('.className {') );
-	// 	});
-
-	// 	it('true if illegal bracket found on line (not interpolation, not hash): not in hash', function() {
-	// 		app.state.hash = false;
-	// 		assert.equal( true, bracketsTest('.className {') );
-	// 		assert.equal( true, bracketsTest('.{interpolated}-class {') );
-	// 		assert.equal( true, bracketsTest('}') );
-	// 	});
-	// });
-
-	describe('brackets: disallow brackets when defining selectors', function() {
+	describe('brackets: always use brackets', function() {
 		const bracketsTest = lint.brackets.bind(app);
 
-		it('false if bracket found, but not illegal: in hash', function() {
+		beforeEach(function() {
+			app.config.brackets = 'always';
+		});
+
+		it('undefined if in hash', function() {
 			app.state.hashOrCSS = true;
 			assert.equal( undefined, bracketsTest('}') );
 			assert.equal( undefined, bracketsTest('{interpolation}') );
 			assert.equal( undefined, bracketsTest('.class-name-with-{i}') );
 		});
 
-		it('false if bracket found but not illegal: not in a hash', function() {
+		it('true if bracket found, not in hash', function() {
 			app.state.hashOrCSS = false;
-			assert.equal( false, bracketsTest('{interpolation}') );
-			assert.equal( false, bracketsTest('.class-name-with-{i}') );
+			app.state.openBracket = true;
+			assert.equal( true, bracketsTest('.class-name {') );
+			assert.equal( true, bracketsTest('#id {') );
 		});
 
-		it('true if illegal bracket found on line (not interpolation, not hash): in hash', function() {
+		it('false if no bracket found', function() {
+			app.state.hashOrCSS = false;
+			assert.equal( false, bracketsTest('.class-name') );
+			assert.equal( false, bracketsTest('#id') );
+		});
+	});
+
+	describe('brackets: disallow brackets', function() {
+		const bracketsTest = lint.brackets.bind(app);
+
+		beforeEach(function() {
+			app.config.brackets = 'never';
+		});
+
+		it('undefined if in hash', function() {
 			app.state.hashOrCSS = true;
-			assert.equal( true, bracketsTest('.className {') );
+			assert.equal( undefined, bracketsTest('}') );
+			assert.equal( undefined, bracketsTest('{interpolation}') );
+			assert.equal( undefined, bracketsTest('.class-name-with-{i}') );
 		});
 
-		it('true if illegal bracket found on line (not interpolation, not hash): not in hash', function() {
+		it('true if bracket found, not in hash', function() {
 			app.state.hashOrCSS = false;
-			assert.equal( true, bracketsTest('.className {') );
-			assert.equal( true, bracketsTest('.{interpolated}-class {') );
+			assert.equal( true, bracketsTest('.class-name {') );
+			assert.equal( true, bracketsTest('div {') );
 			assert.equal( true, bracketsTest('}') );
+		});
+
+		it('false if no bracket found', function() {
+			app.state.hashOrCSS = false;
+			assert.equal( false, bracketsTest('.class-name') );
+			assert.equal( false, bracketsTest('div') );
+		});
+	});
+
+	describe('brackets: incorrect config', function() {
+		const bracketsTest = lint.brackets.bind(app);
+
+		it('should return false', function() {
+			app.config.brackets = 'something';
+			assert.equal( false, bracketsTest('div {') );
 		});
 	});
 

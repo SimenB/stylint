@@ -3,7 +3,8 @@
 var selRe = /^[#.]+/m;
 
 module.exports = function brackets( line ) {
-	if ( this.state.hashOrCSS || !selRe.test( line ) ) { return; }
+	if ( this.state.hashOrCSS ) { return; }
+	if ( this.config.brackets === 'always' && !selRe.test(line) ) { return; }
 	var bracket = false;
 
 	if ( this.config.brackets === 'never' ) {
@@ -35,7 +36,7 @@ module.exports = function brackets( line ) {
 		this.cache.warnings.push( 'unecessary bracket' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
 	}
 	else if ( this.config.brackets === 'always' && !bracket ) {
-		this.cache.warnings.push( 'brackets must always be used with selectors' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
+		this.cache.warnings.push( 'always use brackets when defining selectors' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
 	}
 
 	return bracket;
