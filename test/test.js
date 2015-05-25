@@ -952,7 +952,7 @@ describe('Linter Style Checks: ', function() {
 
 		it('false if keyframes active and context set to 0 (keyframes ended)', function() {
 			app.state.keyframes = true;
-			app.state.context = 0;
+			app.state.context = '0';
 			assert.equal( false, keyframesEndTest('.newClass') );
 		});
 
@@ -1801,16 +1801,21 @@ describe('Linter Style Checks: ', function() {
 		});
 	});
 
-	describe('zero units', function() {
+
+	describe('zero units: prefer no unit values', function() {
 		const zeroTest = lint.zeroUnits.bind(app);
 
-		it('false if 0 value is fine', function() {
+		beforeEach(function() {
 			app.state.keyframes = false;
+			app.config.zeroUnits = 'never';
+		});
+
+		it('false if 0 value does not have unit values', function() {
 			assert.equal( false, zeroTest('margin 0') );
 			assert.equal( false, zeroTest('margin 50px') );
 		});
 
-		it('true if 0 + any unit type is found (0 is preferred)', function() {
+		it('true if 0 + any unit type is found', function() {
 			assert.equal( true, zeroTest('margin 0px') );
 			assert.equal( true, zeroTest('margin 0em') );
 			assert.equal( true, zeroTest('margin 0rem') );
@@ -1834,7 +1839,61 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, zeroTest('0% {') );
 			app.state.keyframes = false;
 		});
+
+		it('undefined if no 0 on line', function() {
+			assert.equal( undefined, zeroTest('margin auto') );
+			assert.equal( undefined, zeroTest('padding 53px') );
+		});
 	});
+
+
+	describe('zero units: prefer unit values', function() {
+		const zeroTest = lint.zeroUnits.bind(app);
+
+		beforeEach(function() {
+			app.state.keyframes = false;
+			app.config.zeroUnits = 'always';
+		});
+
+		it('false if 0 value does not have unit values', function() {
+			assert.equal( false, zeroTest('margin 0') );
+		});
+
+		it('true if value is above 0 (like 50px)', function() {
+			assert.equal( true, zeroTest('margin 50px') );
+		});
+
+		it('true if 0 + any unit type is found', function() {
+			assert.equal( true, zeroTest('margin 0px') );
+			assert.equal( true, zeroTest('margin 0em') );
+			assert.equal( true, zeroTest('margin 0rem') );
+			assert.equal( true, zeroTest('margin 0pt') );
+			assert.equal( true, zeroTest('margin 0pc') );
+			assert.equal( true, zeroTest('margin 0vh') );
+			assert.equal( true, zeroTest('margin 0vw') );
+			assert.equal( true, zeroTest('margin 0vmin') );
+			assert.equal( true, zeroTest('margin 0vmax') );
+			assert.equal( true, zeroTest('margin 0mm') );
+			assert.equal( true, zeroTest('margin 0cm') );
+			assert.equal( true, zeroTest('margin 0in') );
+			assert.equal( true, zeroTest('margin 0mozmm') );
+			assert.equal( true, zeroTest('margin 0ex') );
+			assert.equal( true, zeroTest('margin 0ch') );
+		});
+
+		it('undefined if in keyframes', function() {
+			app.state.keyframes = true;
+			assert.equal( undefined, zeroTest('from 0%') );
+			assert.equal( undefined, zeroTest('0% {') );
+			app.state.keyframes = false;
+		});
+
+		it('undefined if no 0 on line', function() {
+			assert.equal( undefined, zeroTest('margin auto') );
+			assert.equal( undefined, zeroTest('padding 53px') );
+		});
+	});
+
 
 	describe('zIndex Normalizer', function() {
 		app.config.zIndexNormalize = 5;
