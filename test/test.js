@@ -1226,43 +1226,78 @@ describe('Linter Style Checks: ', function() {
 		});
 	});
 
-	describe('noNone: prefer 0 over none', function() {
-		const noneTest = lint.noNone.bind(app);
+	describe('none: prefer 0 over none', function() {
+		const noneTest = lint.none.bind(app);
 
-		it('false if border none not present', function() {
-			app.cache.line = 'border 0';
-			assert.equal( false, noneTest() );
-			app.cache.line = 'border: 0';
-			assert.equal( false, noneTest() );
-			app.cache.line = 'border:0';
-			assert.equal( false, noneTest() );
+		beforeEach(function() {
+			app.config.none = 'never';
 		});
 
-		it('false if no outline none found', function() {
-			app.cache.line = 'outline 0';
-			assert.equal( false, noneTest() );
-			app.cache.line = 'outline: 0';
-			assert.equal( false, noneTest() );
-			app.cache.line = 'outline:0';
-			assert.equal( false, noneTest() );
+		it('false if border 0', function() {
+			assert.equal( false, noneTest('border 0') );
+			assert.equal( false, noneTest('border: 0') );
+			assert.equal( false, noneTest('border:0') );
 		});
 
-		it('true if border none is present', function() {
-			app.cache.line = 'border none';
-			assert.equal( true, noneTest() );
-			app.cache.line = 'border: none';
-			assert.equal( true, noneTest() );
-			app.cache.line = 'border:none';
-			assert.equal( true, noneTest() );
+		it('false if outline 0', function() {
+			assert.equal( false, noneTest('outline 0') );
+			assert.equal( false, noneTest('outline: 0') );
+			assert.equal( false, noneTest('outline:0') );
 		});
 
-		it('true if outline none found', function() {
-			app.cache.line = 'outline none';
-			assert.equal( true, noneTest() );
-			app.cache.line = 'outline: none';
-			assert.equal( true, noneTest() );
-			app.cache.line = 'outline:none';
-			assert.equal( true, noneTest() );
+		it('true if border none', function() {
+			assert.equal( true, noneTest('border none') );
+			assert.equal( true, noneTest('border: none') );
+			assert.equal( true, noneTest('border:none') );
+		});
+
+		it('true if outline none', function() {
+			assert.equal( true, noneTest('outline none') );
+			assert.equal( true, noneTest('outline: none') );
+			assert.equal( true, noneTest('outline:none') );
+		});
+
+		it('undefined if border or outline not on line', function() {
+			assert.equal( undefined, noneTest('margin 0') );
+			assert.equal( undefined, noneTest('padding inherit') );
+		});
+	});
+
+
+	describe('none: prefer none over 0', function() {
+		const noneTest = lint.none.bind(app);
+
+		beforeEach(function() {
+			app.config.none = 'always';
+		});
+
+		it('false if border 0', function() {
+			assert.equal( false, noneTest('border 0') );
+			assert.equal( false, noneTest('border: 0') );
+			assert.equal( false, noneTest('border:0') );
+		});
+
+		it('false if outline 0', function() {
+			assert.equal( false, noneTest('outline 0') );
+			assert.equal( false, noneTest('outline: 0') );
+			assert.equal( false, noneTest('outline:0') );
+		});
+
+		it('true if border none', function() {
+			assert.equal( true, noneTest('border none') );
+			assert.equal( true, noneTest('border: none') );
+			assert.equal( true, noneTest('border:none') );
+		});
+
+		it('true if outline none', function() {
+			assert.equal( true, noneTest('outline none') );
+			assert.equal( true, noneTest('outline: none') );
+			assert.equal( true, noneTest('outline:none') );
+		});
+
+		it('undefined if border or outline not on line', function() {
+			assert.equal( undefined, noneTest('margin 0') );
+			assert.equal( undefined, noneTest('padding inherit') );
 		});
 	});
 

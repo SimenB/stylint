@@ -17,13 +17,13 @@ module.exports = {
 	extendPref: false, // prefer a specific syntax when using @extends (or @extend)
 	globalDupe: false, // throw duplicate selector warning across all files instead of curr file
 	indentPref: 4, // how many spaces should we prefer when indenting, pass in false if hard tabs
-	leadingZero: 'always', // find cases where 0.# is used, prefer .# @TODO make jscs
+	leadingZero: false, // find cases where 0.# is used, prefer .#
 	maxWarnings: 10, // should we have a max amount of warnings, and error out if we go over
 	maxWarningsKill: false, // if over maxWarning count, kill process
 	mixed: false, // check for mixed spaces and tabs
 	namingConvention: false, // lowercase-dash, camelCase, lowercase_underscore, BEM or false (dont check)
 	namingConventionStrict: false, // if true, then check classes and ids, if false just check variables
-	noNone: true, // check for use of border none or outline none, prefer 0 @TODO make jscs
+	none: 'never', // check for use of border none or outline none, prefer 0
 	parenSpace: false, // check for extra space inside parens when defining or using mixins @TODO make jscs
 	placeholders: true, // only allow @extending of placeholder vars @TODO make jscs
 	quotePref: false, // single or double quotes, or false to not check

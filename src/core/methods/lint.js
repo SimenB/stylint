@@ -17,7 +17,7 @@ module.exports = stampit().methods({
 		leadingZero: require('../../checks/leadingZero'),
 		mixed: require('../../checks/mixed'),
 		namingConvention: require('../../checks/namingConvention'),
-		noNone: require('../../checks/noNone'),
+		none: require('../../checks/none'),
 		parenSpace: require('../../checks/parenSpace'),
 		placeholders: require('../../checks/placeholders'),
 		quotePref: require('../../checks/quotePref'),
