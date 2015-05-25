@@ -24,8 +24,9 @@ module.exports = {
 	namingConvention: false, // lowercase-dash, camelCase, lowercase_underscore, BEM or false (dont check)
 	namingConventionStrict: false, // if true, then check classes and ids, if false just check variables
 	none: 'never', // check for use of border none or outline none, prefer 0
-	parenSpace: false, // check for extra space inside parens when defining or using mixins @TODO make jscs
-	placeholders: true, // only allow @extending of placeholder vars @TODO make jscs
+	parenSpace: false, // check for extra space inside parens
+	placeholders: 'always', // only allow @extending of placeholder vars
+	prefixVarsWithDollar: 'never', // check for $ when declaring vars (doesnt check use)
 	quotePref: false, // single or double quotes, or false to not check
 	semicolons: false, // check for unecessary semicolons @TODO make jscs
 	sortOrder: false, // alphabetical, grouped, Array<String> or false (no check)
@@ -33,7 +34,6 @@ module.exports = {
 	trailingWhitespace: true, // check for trailing whitespace
 	universal: true, // check for use of * and recommend against it
 	valid: false, // check if prop or value is a valid assignment
-	varStyle: false, // check for $ when declaring vars (doesnt check use) @todo make jscs
 	zeroUnits: true, // check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead @todo make jscs
 	zIndexNormalize: false // suggest a normalized z index value, base of whatever this is
 };

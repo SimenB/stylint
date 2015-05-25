@@ -8,7 +8,7 @@
 // 6 the actual JSON we will use to determine validity
 var attrOrMixinRe = /^\[\S+\]|({[\S]+})|(\([\S ]+\))|(\(\))/; // 1
 var elAttrRe = /(?=\S)+\[\S+\]/; // 2
-var ignoreRe = /[&$.#=>]|(if)|(for)|(else)|(@block)/; // 3
+var ignoreRe = /[&$.#=>]|(if)|(for)|(else)|(@block)|(calc)/; // 3
 var numRe = /\d(?=[px]|%|[em]|[rem]|[vh]|[vw]|[vmin]|[vmax]|[ex]|[ch]|[mm]|[cm]|[in]|[pt]|[pc]|[mozmm])/; // 4
 var keyRe = /((from)|(to))+(?= $| {| \d|\n|{)/; // 5
 var validJSON = require('../data/json/valid.json'); // 6
@@ -20,14 +20,12 @@ var validJSON = require('../data/json/valid.json'); // 6
 * @returns undefined if not testable (hmmm)
 */
 module.exports = function valid(line) {
-	// split by tabs and spaces, tabs mess with pattern matching
-	var isValid = false;
-	var arr = this.stripWhiteSpace(new RegExp(/[\s\t,:]/), line);
-
 	// from and to are keyframes specific properties, but arent valid outside that context
-	if ( !this.state.keyframes && line.match(keyRe) ) {
-		return;
-	}
+	if ( !this.state.keyframes && line.match(keyRe) ) { return; }
+
+	// 1 split by tabs and spaces, tabs mess with pattern matching
+	var isValid = false;
+	var arr = this.stripWhiteSpace( new RegExp(/[\s\t,:]/), line ); // 1
 
 	// in order, let line be considered valid if:
 	// 1 we are in a hash or css block
@@ -41,7 +39,7 @@ module.exports = function valid(line) {
 		isValid = true;
 	}
 
-	// not match yet, if using an attr selector ( div[madeUpAttribute] ), strip it out first ( div )
+	// no match yet, if using an attr selector ( div[madeUpAttribute] ), strip it out first ( div )
 	if ( !isValid ) {
 		if ( elAttrRe.test( arr[0] ) ) {
 			arr[0] = arr[0].replace(elAttrRe, '');

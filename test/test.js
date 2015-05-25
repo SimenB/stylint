@@ -1301,28 +1301,58 @@ describe('Linter Style Checks: ', function() {
 		});
 	});
 
-	describe('paren style', function() {
+	describe('parens: prefer ( param ) over (param)', function() {
 		const parenTest = lint.parenSpace.bind(app);
 
-		it('false if no parens spacing found', function() {
+		beforeEach(function() {
+			app.config.parenSpace = 'always';
+		});
+
+		it('false if no extra space', function() {
 			assert.equal( false, parenTest('myMixin(param1, param2)') );
 		});
 
-		it('false if no parens on line', function() {
-			assert.equal( true, parenTest('.notAMixin ') );
+		it('true if has extra spaces', function() {
+			assert.equal( true, parenTest('myMixin( param1, param2 )') );
 		});
 
-		it('true if correct parens spacing found', function() {
-			assert.equal( true, parenTest('myMixin( param1, param2 )') );
+		it('undefined if no parens on line', function() {
+			assert.equal( undefined, parenTest('.notAMixin ') );
 		});
 	});
 
-	describe('placeholder style', function() {
+
+	describe('parens: prefer (param) over ( param )', function() {
+		const parenTest = lint.parenSpace.bind(app);
+
+		beforeEach(function() {
+			app.config.parenSpace = 'never';
+		});
+
+		it('false if no extra space', function() {
+			assert.equal( false, parenTest('myMixin(param1, param2)') );
+		});
+
+		it('true if has extra spaces', function() {
+			assert.equal( true, parenTest('myMixin( param1, param2 )') );
+		});
+
+		it('undefined if no parens on line', function() {
+			assert.equal( undefined, parenTest('.notAMixin ') );
+		});
+	});
+
+
+	describe('placeholders: prefer $var over .class when extending: ', function() {
 		const placeholderTest = lint.placeholders.bind(app);
 
-		it('false if placeholder const not used', function() {
-			assert.equal( false, placeholderTest('@extend .notPlaceholderconst') );
-			assert.equal( false, placeholderTest('@extends .notPlaceholderconst') );
+		beforeEach(function() {
+			app.config.placeholders = 'always';
+		});
+
+		it('false if placeholder var not used', function() {
+			assert.equal( false, placeholderTest('@extend .notVar') );
+			assert.equal( false, placeholderTest('@extends .notVar') );
 		});
 
 		it('false if @extend by itself', function() {
@@ -1330,15 +1360,94 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( false, placeholderTest('@extends') );
 		});
 
-		it('true if no extend found', function() {
-			assert.equal( true, placeholderTest('margin 0') );
-		});
-
-		it('true if placeholder const is used', function() {
+		it('true if placeholder var is used', function() {
 			assert.equal( true, placeholderTest('@extends $placeholderconst') );
 			assert.equal( true, placeholderTest('@extend $placeholderconst') );
 		});
+
+		it('undefined if no extend found', function() {
+			assert.equal( undefined, placeholderTest('margin 0') );
+		});
 	});
+
+
+	describe('placeholders: prefer $var over .class when extending: ', function() {
+		const placeholderTest = lint.placeholders.bind(app);
+
+		beforeEach(function() {
+			app.config.placeholders = 'never';
+		});
+
+		it('false if placeholder var not used', function() {
+			assert.equal( false, placeholderTest('@extend .notVar') );
+			assert.equal( false, placeholderTest('@extends .notVar') );
+		});
+
+		it('false if @extend by itself', function() {
+			assert.equal( false, placeholderTest('@extend$placeholderconst') );
+			assert.equal( false, placeholderTest('@extends') );
+		});
+
+		it('true if placeholder var is used', function() {
+			assert.equal( true, placeholderTest('@extends $placeholderconst') );
+			assert.equal( true, placeholderTest('@extend $placeholderconst') );
+		});
+
+		it('undefined if no extend found', function() {
+			assert.equal( undefined, placeholderTest('margin 0') );
+		});
+	});
+
+
+	describe('prefix var with $: always', function() {
+		const varTest = lint.prefixVarsWithDollar.bind(app);
+
+		beforeEach(function() {
+			app.config.prefixVarsWithDollar = 'always';
+		});
+
+		it('false if $ is missing when declaring variable', function() {
+			assert.equal( false, varTest('var = 0') );
+		});
+
+		it('false if $ is missing when defining mixin parameters', function() {
+			app.state.context = '0';
+			assert.equal( false, varTest('myMixin( param, $param2 )') );
+		});
+
+		it('true if $ is found and is correct', function() {
+			assert.equal( true, varTest('$my-var = 0') );
+			assert.equal( true, varTest('$first-value = floor( (100% / $columns) * $index )') );
+		});
+
+		it('undefined if @block var', function() {
+			assert.equal( undefined, varTest('var = @block') );
+		});
+	});
+
+
+	describe('prefix var with $: never', function() {
+		const varTest = lint.prefixVarsWithDollar.bind(app);
+
+		beforeEach(function() {
+			app.config.prefixVarsWithDollar = 'never';
+		});
+
+		it('false if $ is missing', function() {
+			assert.equal( false, varTest('var = 0') );
+			assert.equal( false, varTest('transition( param, param )') );
+		});
+
+		it('true if $ is found anywhere on line', function() {
+			assert.equal( true, varTest('margin $gutter') );
+			assert.equal( true, varTest('transition $param $param') );
+		});
+
+		it('undefined if @block var', function() {
+			assert.equal( undefined, varTest('var = @block') );
+		});
+	});
+
 
 	describe('quote style', function() {
 		const quoteTest = lint.quotePref.bind(app);
@@ -1689,28 +1798,6 @@ describe('Linter Style Checks: ', function() {
 		it ('undefined if from or to used outside keyframes', function() {
 			assert.equal( undefined, validTest( 'from 0%') );
 			assert.equal( undefined, validTest( 'to 100%') );
-		});
-	});
-
-	/**
-	 * would like to have this be smarter
-	 * ideally it would know whether or not a $ should be used based on context
-	 * right now it just checks if $ is used when defining a const and thats it
-	 */
-	describe('var style check', function() {
-		const varTest = lint.varStyle.bind(app);
-
-		it('false if $ is missing', function() {
-			assert.equal( false, varTest('myconst = 0') );
-		});
-
-		it('false if $ if block const', function() {
-			assert.equal( false, varTest('myconst = @block') );
-		});
-
-		it('true if $ is found (and correct', function() {
-			assert.equal( true, varTest('$myconst = 0') );
-			assert.equal( true, varTest('$first-value = floor( (100% / $columns) * $index )') );
 		});
 	});
 

@@ -20,6 +20,7 @@ module.exports = stampit().methods({
 		none: require('../../checks/none'),
 		parenSpace: require('../../checks/parenSpace'),
 		placeholders: require('../../checks/placeholders'),
+		prefixVarsWithDollar: require('../../checks/prefixVarsWithDollar'),
 		quotePref: require('../../checks/quotePref'),
 		semicolons: require('../../checks/semicolons'),
 		sortOrder: require('../../checks/sortOrder'),
@@ -27,7 +28,6 @@ module.exports = stampit().methods({
 		trailingWhitespace: require('../../checks/trailingWhitespace'),
 		universal: require('../../checks/universal'),
 		valid: require('../../checks/valid'),
-		varStyle: require('../../checks/varStyle'),
 		zeroUnits: require('../../checks/zeroUnits'),
 		zIndexNormalize: require('../../checks/zIndexNormalize')
 	}
