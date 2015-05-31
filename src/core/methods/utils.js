@@ -100,17 +100,15 @@ module.exports = stampit().methods({
 		var i = 0;
 		var context = 0;
 		var whitespace = 0;
-		var arr = [];
 
 		if ( this.config.indentPref === 'tabs' ) {
 			while ( line.charAt( i++ ) === '\t' ) {
 				context++;
 			}
 		}
-		else if ( typeof this.config.indentPref === 'number' ) {
-			arr = line.split(/[\s\t]/);
-			arr.forEach(function( val, i ) {
-				if ( arr[i].length === 0 ) {
+		if ( typeof this.config.indentPref === 'number' ) {
+			line.split(/[\s\t]/).forEach(function(val) {
+				if ( val.length === 0 ) {
 					whitespace++; // spaces or tabs
 				}
 				else {

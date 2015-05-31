@@ -82,7 +82,7 @@ module.exports = function sortOrder(line) {
 	}
 
 	if ( !sorted ) {
-		this.msg('prefer ' + conf + ' when sorting properties');
+		this.msg('prefer ' + this.state.conf + ' when sorting properties');
 	}
 
 	return sorted;

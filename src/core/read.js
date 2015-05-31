@@ -32,7 +32,7 @@ module.exports = function read() {
 			this.cache.files = [this.state.path];
 			return async.map(this.cache.files, fs.readFile, this.parse.bind(this) );
 		}
-		else if ( stats.isDirectory() ) {
+		if ( stats.isDirectory() ) {
 			return this.getFiles( this.state.path + '/**/*.styl' );
 		}
 	}.bind(this));

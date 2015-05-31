@@ -12,11 +12,13 @@ var spaces = /(  )+/; // check for 2 or more spaces (if hard tabs, shouldn't fin
  */
 module.exports = function mixed(line) {
 	var isMixed = false;
-	var isNum = typeof this.state.conf === 'number';
+	var isNum = typeof this.config.indentPref === 'number';
 
 	// if this isnt set to false then we're indenting with spaces, so check for tabs
-	if ( isNum && tabs.test(line) ) {
-		isMixed = true;
+	if ( isNum ) {
+		if ( tabs.test(line) ) {
+			isMixed = true;
+		}
 	}
 	// else you're a hard tab believer (go you)
 	// look for 2 or more spaces

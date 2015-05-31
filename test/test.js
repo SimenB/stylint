@@ -240,7 +240,7 @@ describe('Utility Methods: ', function() {
 	});
 
 	describe('Set Config should:', function() {
-		const testMethod = app.setConfig( '.stylintrc' );
+		const testMethod = app.setConfig('.stylintrc');
 		const testConfig = JSON.parse( fs.readFileSync( process.cwd() + '/.stylintrc' ) );
 
 		it('update config state if passed a valid path', function() {
@@ -365,14 +365,17 @@ describe('Linter Style Checks: ', function() {
 
 	beforeEach(function() {
 		app.state.strictMode = true;
+		app.state.conf = 'always';
+		app.state.severity = 'warning';
+	});
+
+	afterEach(function() {
+		app.cache.warnings = [];
+		app.cache.errs = [];
 	});
 
 	describe('blocks: prefer @block when defining block vars', function() {
 		const blockTest = lint.blocks.bind(app);
-
-		beforeEach(function() {
-			app.config.blocks = 'always';
-		});
 
 		it('false if block style incorrect', function() {
 			assert.equal( false, blockTest('myBlock = ') );
@@ -380,17 +383,6 @@ describe('Linter Style Checks: ', function() {
 		});
 
 		it('true if block style correct', function() {
-			assert.equal( true, blockTest('myBlock = @block') );
-			assert.equal( true, blockTest('myBlock = @block ') );
-		});
-
-		it('test with object config', function() {
-			app.config.blocks = {
-				enforce: 'always',
-				severity: 'warning'
-			};
-			assert.equal( false, blockTest('myBlock = ') );
-			assert.equal( false, blockTest('myBlock =') );
 			assert.equal( true, blockTest('myBlock = @block') );
 			assert.equal( true, blockTest('myBlock = @block ') );
 		});
@@ -404,7 +396,7 @@ describe('Linter Style Checks: ', function() {
 		const blockTest = lint.blocks.bind(app);
 
 		beforeEach(function() {
-			app.config.blocks = 'never';
+			app.state.conf = 'never';
 		});
 
 		it('false if block style IS correct', function() {
@@ -413,17 +405,6 @@ describe('Linter Style Checks: ', function() {
 		});
 
 		it('true if block style NOT correct', function() {
-			assert.equal( true, blockTest('myBlock = @block') );
-			assert.equal( true, blockTest('myBlock = @block ') );
-		});
-
-		it('test with object config', function() {
-			app.config.blocks = {
-				enforce: 'never',
-				severity: 'warning'
-			};
-			assert.equal( false, blockTest('myBlock = ') );
-			assert.equal( false, blockTest('myBlock =') );
 			assert.equal( true, blockTest('myBlock = @block') );
 			assert.equal( true, blockTest('myBlock = @block ') );
 		});
@@ -437,10 +418,6 @@ describe('Linter Style Checks: ', function() {
 	describe('brackets: always use brackets', function() {
 		const bracketsTest = lint.brackets.bind(app);
 
-		beforeEach(function() {
-			app.config.brackets = 'always';
-		});
-
 		it('false if no bracket found', function() {
 			app.state.hashOrCSS = false;
 			assert.equal( false, bracketsTest('.class-name') );
@@ -450,17 +427,6 @@ describe('Linter Style Checks: ', function() {
 		it('true if bracket found, not in hash', function() {
 			app.state.hashOrCSS = false;
 			app.state.openBracket = true;
-			assert.equal( true, bracketsTest('.class-name {') );
-			assert.equal( true, bracketsTest('#id {') );
-		});
-
-		it('test with object config', function() {
-			app.config.brackets = {
-				enforce: 'always',
-				severity: 'warning'
-			};
-			assert.equal( false, bracketsTest('.class-name') );
-			assert.equal( false, bracketsTest('#id') );
 			assert.equal( true, bracketsTest('.class-name {') );
 			assert.equal( true, bracketsTest('#id {') );
 		});
@@ -477,7 +443,7 @@ describe('Linter Style Checks: ', function() {
 		const bracketsTest = lint.brackets.bind(app);
 
 		beforeEach(function() {
-			app.config.brackets = 'never';
+			app.state.conf = 'never';
 		});
 
 		it('false if no bracket found', function() {
@@ -487,24 +453,12 @@ describe('Linter Style Checks: ', function() {
 		});
 
 		it('false if incorrect config', function() {
-			app.config.brackets = 'something';
+			app.state.conf = 'something';
 			assert.equal( false, bracketsTest('div {') );
 		});
 
 		it('true if bracket found, not in hash', function() {
 			app.state.hashOrCSS = false;
-			assert.equal( true, bracketsTest('.class-name {') );
-			assert.equal( true, bracketsTest('div {') );
-			assert.equal( true, bracketsTest('}') );
-		});
-
-		it('test with object config', function() {
-			app.config.brackets = {
-				enforce: 'never',
-				severity: 'warning'
-			};
-			assert.equal( false, bracketsTest('.class-name') );
-			assert.equal( false, bracketsTest('div') );
 			assert.equal( true, bracketsTest('.class-name {') );
 			assert.equal( true, bracketsTest('div {') );
 			assert.equal( true, bracketsTest('}') );
@@ -535,8 +489,8 @@ describe('Linter Style Checks: ', function() {
 		const colonTest = lint.colons.bind(app);
 
 		beforeEach(function() {
-			app.config.colons = true;
-		})
+			app.state.conf = true;
+		});
 
 		it('false if no unecessary colons found', function() {
 			assert.equal( false, colonTest('margin 0 auto') );
@@ -548,41 +502,20 @@ describe('Linter Style Checks: ', function() {
 			app.state.hash = false;
 			assert.equal( true, colonTest('margin: 0 auto') );
 		});
-
-		it('test with object config', function() {
-			app.config.colons = {
-				enforce: true,
-				severity: 'warning'
-			};
-			assert.equal( false, colonTest('margin 0 auto') );
-			app.state.hash = true;
-			assert.equal( false, colonTest('key: value') );
-			app.state.hash = false;
-			assert.equal( true, colonTest('margin: 0 auto') );
-		});
 	});
 
 	describe('colors', function () {
 		const colorsTest = lint.colors.bind(app);
 
 		beforeEach(function() {
-			app.config.colors = true;
-		})
+			app.state.conf = true;
+		});
 
 		it('false if a line doesnt have a hex color', function () {
 			assert.equal( false, colorsTest('.foo') );
 		});
 
 		it('true if line has hex color', function () {
-			assert.equal( true, colorsTest('#fff') );
-		});
-
-		it('test with object config', function() {
-			app.config.colors = {
-				enforce: true,
-				severity: 'warning'
-			};
-			assert.equal( false, colorsTest('.foo') );
 			assert.equal( true, colorsTest('#fff') );
 		});
 
@@ -596,26 +529,11 @@ describe('Linter Style Checks: ', function() {
 	describe('comma space: prefer space after commas', function() {
 		const commaTest = lint.commaSpace.bind(app);
 
-		beforeEach(function() {
-			app.config.commaSpace = 'always';
-		});
-
 		it('false if space after comma', function() {
 			assert.equal( false, commaTest('0, 0, 0, .18') );
 		});
 
 		it('true if no space after commas', function() {
-			assert.equal( true, commaTest('0,0, 0, .18') );
-			assert.equal( true, commaTest('0,0,0,.18') );
-			assert.equal( true, commaTest('mixin( $param1,$param2 )') );
-		});
-
-		it('test with object config', function() {
-			app.config.commaSpace = {
-				enforce: 'always',
-				severity: 'warning'
-			};
-			assert.equal( false, commaTest('0, 0, 0, .18') );
 			assert.equal( true, commaTest('0,0, 0, .18') );
 			assert.equal( true, commaTest('0,0,0,.18') );
 			assert.equal( true, commaTest('mixin( $param1,$param2 )') );
@@ -635,7 +553,7 @@ describe('Linter Style Checks: ', function() {
 		const commaTest = lint.commaSpace.bind(app);
 
 		beforeEach(function() {
-			app.config.commaSpace = 'never';
+			app.state.conf = 'never';
 		});
 
 		it('false if space after comma', function() {
@@ -643,17 +561,6 @@ describe('Linter Style Checks: ', function() {
 		});
 
 		it('true if no space after commas', function() {
-			assert.equal( true, commaTest('0,0, 0, .18') );
-			assert.equal( true, commaTest('0,0,0,.18') );
-			assert.equal( true, commaTest('mixin( $param1,$param2 )') );
-		});
-
-		it('test with object config', function() {
-			app.config.commaSpace = {
-				enforce: 'never',
-				severity: 'warning'
-			};
-			assert.equal( false, commaTest('0, 0, 0, .18') );
 			assert.equal( true, commaTest('0,0, 0, .18') );
 			assert.equal( true, commaTest('0,0,0,.18') );
 			assert.equal( true, commaTest('mixin( $param1,$param2 )') );
@@ -674,7 +581,6 @@ describe('Linter Style Checks: ', function() {
 
 		beforeEach(function() {
 			app.state.hasComment = true;
-			app.config.commentSpace = 'always';
 		});
 
 		it('false if line comment doesnt have a space after it', function() {
@@ -683,17 +589,6 @@ describe('Linter Style Checks: ', function() {
 		});
 
 		it('true if line comment has space after it', function() {
-			app.cache.comment = '// test';
-			assert.equal( true, commentSpaceTest('') );
-		});
-
-		it('test with object config', function() {
-			app.config.commaSpace = {
-				enforce: 'always',
-				severity: 'warning'
-			};
-			app.cache.comment = '//test';
-			assert.equal( false, commentSpaceTest('') );
 			app.cache.comment = '// test';
 			assert.equal( true, commentSpaceTest('') );
 		});
@@ -710,7 +605,7 @@ describe('Linter Style Checks: ', function() {
 
 		beforeEach(function() {
 			app.state.hasComment = true;
-			app.config.commentSpace = 'never';
+			app.state.conf = 'never';
 		});
 
 		it('false if line comment doesnt have a space after it', function() {
@@ -719,17 +614,6 @@ describe('Linter Style Checks: ', function() {
 		});
 
 		it('true if line comment has space after it', function() {
-			app.cache.comment = '// test';
-			assert.equal( true, commentSpaceTest('') );
-		});
-
-		it('test with object config', function() {
-			app.config.commaSpace = {
-				enforce: 'never',
-				severity: 'warning'
-			};
-			app.cache.comment = '//test';
-			assert.equal( false, commentSpaceTest('') );
 			app.cache.comment = '// test';
 			assert.equal( true, commentSpaceTest('') );
 		});
@@ -934,37 +818,41 @@ describe('Linter Style Checks: ', function() {
 	describe('efficient: prefer margin 0 over margin 0 0 0 0', function() {
 		const efficientTest = lint.efficient.bind(app);
 
-		it('false if value is not efficient', function() {
-			assert.equal( false, efficientTest('margin 0 0 0 0') );
-			assert.equal( false, efficientTest('margin 0 0 0') );
-			assert.equal( false, efficientTest('margin 0 0') );
-			assert.equal( false, efficientTest('margin 0 5px 0 5px') );
-			assert.equal( false, efficientTest('margin 5px 0 5px') );
-			assert.equal( false, efficientTest('margin 5px 0 5px 0') );
-			assert.equal( false, efficientTest('margin 0 5px 0') );
-			assert.equal( false, efficientTest('margin 0 5px 5px 5px') );
-			assert.equal( false, efficientTest('padding 0 0 0 0') );
-			assert.equal( false, efficientTest('padding 0 0 0') );
-			assert.equal( false, efficientTest('padding 0 0') );
-			assert.equal( false, efficientTest('padding 0 5px 0 5px') );
-			assert.equal( false, efficientTest('padding 5px 0 5px') );
-			assert.equal( false, efficientTest('padding 5px 0 5px 0') );
-			assert.equal( false, efficientTest('padding 0 5px 0') );
-			assert.equal( false, efficientTest('padding 0 5px 5px 5px') );
+		beforeEach(function() {
+			app.state.conf = true;
 		});
 
-		it('true if value is efficient', function() {
-			assert.equal( true, efficientTest('margin 0 5px') );
-			assert.equal( true, efficientTest('margin: 5px 0') );
-			assert.equal( true, efficientTest('margin 5px 0 0') );
-			assert.equal( true, efficientTest('margin 0') );
-			assert.equal( true, efficientTest('margin 5px') );
-			assert.equal( true, efficientTest('padding 0 5px') );
-			assert.equal( true, efficientTest('padding 5px 0') );
-			assert.equal( true, efficientTest('padding 5px 0 0') );
-			assert.equal( true, efficientTest('padding: 0') );
-			assert.equal( true, efficientTest('padding 5px') );
-			assert.equal( true, efficientTest('padding: 1px 2px 3px 4px') );
+		it('false if value is efficient', function() {
+			assert.equal( false, efficientTest('margin 0 5px') );
+			assert.equal( false, efficientTest('margin: 5px 0') );
+			assert.equal( false, efficientTest('margin 5px 0 0') );
+			assert.equal( false, efficientTest('margin 0') );
+			assert.equal( false, efficientTest('margin 5px') );
+			assert.equal( false, efficientTest('padding 0 5px') );
+			assert.equal( false, efficientTest('padding 5px 0') );
+			assert.equal( false, efficientTest('padding 5px 0 0') );
+			assert.equal( false, efficientTest('padding: 0') );
+			assert.equal( false, efficientTest('padding 5px') );
+			assert.equal( false, efficientTest('padding: 1px 2px 3px 4px') );
+		});
+
+		it('true if value is not efficient', function() {
+			assert.equal( true, efficientTest('margin 0 0 0 0') );
+			assert.equal( true, efficientTest('margin 0 0 0') );
+			assert.equal( true, efficientTest('margin 0 0') );
+			assert.equal( true, efficientTest('margin 0 5px 0 5px') );
+			assert.equal( true, efficientTest('margin 5px 0 5px') );
+			assert.equal( true, efficientTest('margin 5px 0 5px 0') );
+			assert.equal( true, efficientTest('margin 0 5px 0') );
+			assert.equal( true, efficientTest('margin 0 5px 5px 5px') );
+			assert.equal( true, efficientTest('padding 0 0 0 0') );
+			assert.equal( true, efficientTest('padding 0 0 0') );
+			assert.equal( true, efficientTest('padding 0 0') );
+			assert.equal( true, efficientTest('padding 0 5px 0 5px') );
+			assert.equal( true, efficientTest('padding 5px 0 5px') );
+			assert.equal( true, efficientTest('padding 5px 0 5px 0') );
+			assert.equal( true, efficientTest('padding 0 5px 0') );
+			assert.equal( true, efficientTest('padding 0 5px 5px 5px') );
 		});
 
 		it('undefined if nothing to test', function() {
@@ -973,25 +861,43 @@ describe('Linter Style Checks: ', function() {
 		});
 	});
 
-	describe('extends style: prefer @extends over @extend (or vice versa)', function() {
+	describe('extends style: prefer @extends over @extend', function() {
 		const extendTest = lint.extendPref.bind(app);
 
-		it('false if value doesnt match preferred style', function() {
-			app.config.extendPref = '@extends';
-			assert.equal( false, extendTest('@extend $placeHolderconst') );
-			app.config.extendPref = '@extend';
+		beforeEach(function() {
+			app.state.conf = '@extends';
+		});
+
+		it('false if value already matches preferred style', function() {
 			assert.equal( false, extendTest('@extends $placeHolderconst') );
 		});
 
-		it('true if value matches preferred style', function() {
-			app.config.extendPref = '@extend';
+		it('true if value doesnt match preferred style', function() {
 			assert.equal( true, extendTest('@extend $placeHolderconst') );
-			app.config.extendPref = '@extends';
+		});
+
+		it('undefined if no extend on line', function() {
+			assert.equal( undefined, extendTest('$var = #fff') );
+		});
+	});
+
+	describe('extends style: prefer @extend over @extends', function() {
+		const extendTest = lint.extendPref.bind(app);
+
+		beforeEach(function() {
+			app.state.conf = '@extend';
+		});
+
+		it('false if value already matches preferred style', function() {
+			assert.equal( false, extendTest('@extend $placeHolderconst') );
+		});
+
+		it('true if value doesnt match preferred style', function() {
 			assert.equal( true, extendTest('@extends $placeHolderconst') );
 		});
 
 		it('undefined if no extend on line', function() {
-			assert.equal( undefined, extendTest('$const = #fff') );
+			assert.equal( undefined, extendTest('$var = #fff') );
 		});
 	});
 
@@ -1099,10 +1005,6 @@ describe('Linter Style Checks: ', function() {
 	describe('leading zero: prefer 0.9 over .9', function() {
 		const zeroTest = lint.leadingZero.bind(app);
 
-		beforeEach(function() {
-			app.config.leadingZero = 'always';
-		});
-
 		it('false if leading zero not found', function() {
 			assert.equal( false, zeroTest('color (0, 0, 0, .18)') );
 			assert.equal( false, zeroTest('color (0,0,0,.18)') );
@@ -1129,7 +1031,7 @@ describe('Linter Style Checks: ', function() {
 		const zeroTest = lint.leadingZero.bind(app);
 
 		beforeEach(function() {
-			app.config.leadingZero = 'never';
+			app.state.conf = 'never';
 		});
 
 		it('false if leading zero not found', function() {
@@ -1191,7 +1093,7 @@ describe('Linter Style Checks: ', function() {
 		})
 
 		it('false if correct naming convention: lowercase-dash', function() {
-			app.config.namingConvention = 'lowercase-dash';
+			app.state.conf = 'lowercase-dash';
 
 			assert.equal( false, conventionTest('$var-name-like-this =') );
 			assert.equal( false, conventionTest('.class-name-like-this') );
@@ -1205,7 +1107,7 @@ describe('Linter Style Checks: ', function() {
 		});
 
 		it('false if correct naming convention: lowercase_underscore', function() {
-			app.config.namingConvention = 'lowercase_underscore';
+			app.state.conf = 'lowercase_underscore';
 
 			assert.equal( false, conventionTest('$const_name_like_this =') );
 			assert.equal( false, conventionTest('.class_name_like_this') );
@@ -1219,7 +1121,7 @@ describe('Linter Style Checks: ', function() {
 		});
 
 		it('false if correct naming convention: camelCase', function() {
-			app.config.namingConvention = 'camelCase';
+			app.state.conf = 'camelCase';
 
 			assert.equal( false, conventionTest('$varNameLikeThis =') );
 			assert.equal( false, conventionTest('.classNameLikeThis') );
@@ -1233,7 +1135,7 @@ describe('Linter Style Checks: ', function() {
 		});
 
 		it('false if correct naming convention: BEM', function() {
-			app.config.namingConvention = 'BEM';
+			app.state.conf = 'BEM';
 
 			assert.equal( false, conventionTest('$var-name__like-this =') );
 			assert.equal( false, conventionTest('.class-name__like-this') );
@@ -1248,7 +1150,7 @@ describe('Linter Style Checks: ', function() {
 		});
 
 		it('true if NOT correct naming convention: lowercase-dash', function() {
-			app.config.namingConvention = 'lowercase-dash';
+			app.state.conf = 'lowercase-dash';
 
 			assert.equal( true, conventionTest('$var_name_like_this =') );
 			assert.equal( true, conventionTest('.class_name_like_this') );
@@ -1261,7 +1163,7 @@ describe('Linter Style Checks: ', function() {
 		});
 
 		it('true if NOT correct naming convention: lowercase_underscore', function() {
-			app.config.namingConvention = 'lowercase_underscore';
+			app.state.conf = 'lowercase_underscore';
 
 			assert.equal( true, conventionTest('$const-name-like-this =') );
 			assert.equal( true, conventionTest('.class-name-like-this') );
@@ -1278,7 +1180,7 @@ describe('Linter Style Checks: ', function() {
 		});
 
 		it('true if NOT correct naming convention: camelCase', function() {
-			app.config.namingConvention = 'camelCase';
+			app.state.conf = 'camelCase';
 
 			assert.equal( true, conventionTest('$const-name-like-this =') );
 			assert.equal( true, conventionTest('.class-name-like-this') );
@@ -1298,7 +1200,7 @@ describe('Linter Style Checks: ', function() {
 		});
 
 		it('true if not correct naming convention: BEM', function() {
-			app.config.namingConvention = 'BEM';
+			app.state.conf = 'BEM';
 
 			assert.equal( true, conventionTest('.classNameLikeThis') );
 			assert.equal( true, conventionTest('#id_name_like_this') );
@@ -1326,7 +1228,7 @@ describe('Linter Style Checks: ', function() {
 		});
 
 		it('false if passed made up or incorrect convention', function() {
-			app.config.namingConvention = 'somethin';
+			app.state.conf = 'somethin';
 			assert.equal( false, conventionTest('$var_name_like_this') );
 		});
 	});
@@ -1558,9 +1460,9 @@ describe('Linter Style Checks: ', function() {
 		const quoteTest = lint.quotePref.bind(app);
 
 		it('false if correct quote style used: single', function() {
-			app.config.quotePref = 'single';
-			assert.equal( false, quoteTest("$const = 'test string' ") );
-			assert.equal( false, quoteTest("$const = 'test \"substring\" string' ") );
+			app.state.conf = 'single';
+			assert.equal( false, quoteTest("$var = 'test string' ") );
+			assert.equal( false, quoteTest("$var = 'test \"substring\" string' ") );
 			assert.equal( false, quoteTest(".show-content( $content = 'Hello!' )") );
 			assert.equal( false, quoteTest(".show-content( $content = 'Hello!' ) {") );
 			assert.equal( false, quoteTest("[class*='--button']") );
@@ -1569,9 +1471,9 @@ describe('Linter Style Checks: ', function() {
 		});
 
 		it('false if correct quote style used: double', function() {
-			app.config.quotePref = 'double';
-			assert.equal( false, quoteTest('$const = "test string" ') );
-			assert.equal( false, quoteTest('$const = "test \'substring\' string"') );
+			app.state.conf = 'double';
+			assert.equal( false, quoteTest('$var = "test string" ') );
+			assert.equal( false, quoteTest('$var = "test \'substring\' string"') );
 			assert.equal( false, quoteTest('.show-content( $content = "Hello!" )') );
 			assert.equal( false, quoteTest('.show-content( $content = "Hello!" ) {') );
 			assert.equal( false, quoteTest('[class*="--button"]') );
@@ -1579,29 +1481,26 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( false, quoteTest('show-content( $content = "Hello!" ) {') );
 		});
 
-		it('false if no quotes found', function() {
-			app.config.quotePref = 'double';
-			assert.equal( false, quoteTest('$const = #000 ') );
-			app.config.quotePref = 'single';
-			assert.equal( false, quoteTest('$const = #000 ') );
-		});
-
 		it('true if incorrect quote style used: single', function() {
-			app.config.quotePref = 'single';
-			assert.equal( true, quoteTest('$const = "test string" ') );
-			assert.equal( true, quoteTest('$const = "test \'substring\' string"') );
+			app.state.conf = 'single';
+			assert.equal( true, quoteTest('$var = "test string" ') );
+			assert.equal( true, quoteTest('$var = "test \'substring\' string"') );
 			assert.equal( true, quoteTest('.show-content( $content = "Hello!" )') );
 			assert.equal( true, quoteTest('.show-content( $content = "Hello!" ) {') );
 			assert.equal( true, quoteTest('[class*="--button"]') );
 		});
 
 		it('true if incorrect quote style used: double', function() {
-			app.config.quotePref = 'double';
-			assert.equal( true, quoteTest("$const = 'test string' ") );
-			assert.equal( true, quoteTest("$const = 'test \"substring\" string' ") );
+			app.state.conf = 'double';
+			assert.equal( true, quoteTest("$var = 'test string' ") );
+			assert.equal( true, quoteTest("$var = 'test \"substring\" string' ") );
 			assert.equal( true, quoteTest(".show-content( $content = 'Hello!' )") );
 			assert.equal( true, quoteTest(".show-content( $content = 'Hello!' ) {") );
 			assert.equal( true, quoteTest("[class*='--button']") );
+		});
+
+		it('undefined if no quotes on line', function() {
+			assert.equal( undefined, quoteTest('$var = #000 ') );
 		});
 	});
 
@@ -1659,13 +1558,13 @@ describe('Linter Style Checks: ', function() {
 
 		describe('disabled', function() {
 			beforeEach(function() {
-				app.config.sortOrder = false;
+				app.state.conf = false;
 			});
 
 			it('should allow any order when disabled', function() {
 				const expectedCache = [ 'background', 'z-index', 'border', 'width' ];
 
-				assert.equal( false, app.config.sortOrder );
+				assert.equal( false, app.state.conf );
 				assert.equal( true, sortTest( '	background' ) );
 				assert.equal( true, sortTest( '	z-index' ) );
 				assert.equal( true, sortTest( '	border' ) );
@@ -1677,7 +1576,7 @@ describe('Linter Style Checks: ', function() {
 
 		describe('alphabetical', function() {
 			beforeEach(function() {
-				app.config.sortOrder = 'alphabetical';
+				app.state.conf = 'alphabetical';
 				app.cache.sortOrderCache = [ 'border', 'margin', 'padding' ];
 			});
 
@@ -1688,7 +1587,7 @@ describe('Linter Style Checks: ', function() {
 			it('true if correct sort order with mocked sort order cache', function() {
 				const expectedCache = [ 'border', 'margin', 'padding', 'position', 'z-index' ];
 
-				assert.equal( 'alphabetical', app.config.sortOrder );
+				assert.equal( 'alphabetical', app.state.conf );
 				assert.equal( 3, app.cache.sortOrderCache.length );
 				assert.equal( true, sortTest('	position absolute') );
 				assert.equal( true, sortTest('	z-index 1') );
@@ -1699,7 +1598,7 @@ describe('Linter Style Checks: ', function() {
 			it('false if not correct sort order with mocked sort order cache', function() {
 				const expectedCache = [ 'border', 'margin', 'padding', 'line-height', 'background' ];
 
-				assert.equal( 'alphabetical', app.config.sortOrder );
+				assert.equal( 'alphabetical', app.state.conf );
 				assert.equal( 3, app.cache.sortOrderCache.length );
 				assert.equal( false, sortTest('	line-height 1') );
 				assert.equal( false, sortTest('	background none') );
@@ -1710,7 +1609,7 @@ describe('Linter Style Checks: ', function() {
 
 		describe('grouped', function() {
 			beforeEach(function() {
-				app.config.sortOrder = 'grouped';
+				app.state.conf = 'grouped';
 				app.cache.sortOrderCache = [ 'position', 'right' ];
 			});
 
@@ -1726,7 +1625,7 @@ describe('Linter Style Checks: ', function() {
 			it('false if not correct sort order with mocked sort order cache', function() {
 				const expectedCache = [ 'position', 'right', 'top' ];
 
-				assert.equal( 'grouped', app.config.sortOrder );
+				assert.equal( 'grouped', app.state.conf );
 				assert.equal( 2, app.cache.sortOrderCache.length );
 				assert.equal( false, sortTest('top 0') );
 				assert.equal( expectedCache.length, app.cache.sortOrderCache.length );
@@ -1736,7 +1635,7 @@ describe('Linter Style Checks: ', function() {
 			it('true if correct sort order with mocked sort order cache', function() {
 				const expectedCache = [ 'position', 'right', 'bottom', 'z-index', 'width' ];
 
-				assert.equal( 'grouped', app.config.sortOrder );
+				assert.equal( 'grouped', app.state.conf );
 				assert.equal( 2, app.cache.sortOrderCache.length );
 				assert.equal( true, sortTest('bottom 0') );
 				assert.equal( true, sortTest('z-index 1') );
@@ -1748,7 +1647,7 @@ describe('Linter Style Checks: ', function() {
 
 		describe('Array', function() {
 			beforeEach(function() {
-				app.config.sortOrder = [ 'z-index', 'animation', 'top' ];
+				app.state.conf = [ 'z-index', 'animation', 'top' ];
 				app.cache.sortOrderCache = [ 'z-index' ];
 			});
 
@@ -1759,7 +1658,7 @@ describe('Linter Style Checks: ', function() {
 			it('false if not correct sort order with mocked sort order cache', function() {
 				const expectedCache = [ 'z-index', 'top', 'animation' ];
 
-				assert.deepEqual( [ 'z-index', 'animation', 'top' ], app.config.sortOrder );
+				assert.deepEqual( [ 'z-index', 'animation', 'top' ], app.state.conf );
 				assert.equal( 1, app.cache.sortOrderCache.length );
 				assert.equal( true, sortTest('top 50px') );
 				assert.equal( false, sortTest('animation fade-out') );
@@ -1770,7 +1669,7 @@ describe('Linter Style Checks: ', function() {
 			it('true if correct sort order with mocked sort order cache', function() {
 				const expectedCache = [ 'z-index', 'animation', 'top', 'width', 'border' ];
 
-				assert.deepEqual( [ 'z-index', 'animation', 'top' ], app.config.sortOrder );
+				assert.deepEqual( [ 'z-index', 'animation', 'top' ], app.state.conf );
 				assert.equal( 1, app.cache.sortOrderCache.length );
 				assert.equal( true, sortTest('animation fade-in') );
 				assert.equal( true, sortTest('top 0') );
@@ -1912,7 +1811,7 @@ describe('Linter Style Checks: ', function() {
 
 		beforeEach(function() {
 			app.state.keyframes = false;
-			app.config.zeroUnits = 'never';
+			app.state.conf = 'never';
 		});
 
 		it('false if 0 value does not have unit values', function() {
@@ -1957,7 +1856,7 @@ describe('Linter Style Checks: ', function() {
 
 		beforeEach(function() {
 			app.state.keyframes = false;
-			app.config.zeroUnits = 'always';
+			app.state.conf = 'always';
 		});
 
 		it('false if 0 value does not have unit values', function() {
@@ -2001,8 +1900,11 @@ describe('Linter Style Checks: ', function() {
 
 
 	describe('zIndex Normalizer', function() {
-		app.config.zIndexNormalize = 5;
 		const zNormalizrTest = lint.zIndexNormalize.bind(app);
+
+		beforeEach(function() {
+			app.state.conf = 5;
+		});
 
 		it('false if z index value already normalized', function() {
 			assert.equal( false, zNormalizrTest('z-index 5') );
@@ -2025,60 +1927,48 @@ describe('Linter Style Checks: ', function() {
 
 
 describe('Done, again: ', function() {
-	app.state.warnings = [];
-	app.config.maxWarningsKill = true;
 
-	it('exit code should be 0 if no errs', function() {
+	beforeEach(function() {
+		app.state.quiet = true;
+		app.cache.errs = [];
 		app.cache.warnings = [];
-		assert.equal( 0, app.done( app ).exitCode );
 	});
 
-	it('an object', function() {
-		assert.equal( true, typeof app.done( app ) === 'object' );
+	it('should return an object', function() {
+		assert.equal( true, typeof app.done() === 'object' );
 	});
 
-	it('which should have a string as the 1st property', function() {
-		assert.equal( true, typeof app.done( app ).msg === 'string' );
+	it('which should have msg as a property', function() {
+		assert.equal( true, typeof app.done().msg === 'string' );
 	});
 
-	it('which should have an array as the 2nd property', function() {
-		assert.equal( true, typeof app.done( app ).warnings.forEach !== 'undefined' );
+	it('exit code should be 0 if no errs or warnings', function() {
+		assert.equal( 0, app.done().exitCode );
 	});
 
 	it('msg should be the success message', function() {
-		const success = app.emojiAllClear() + 'Stylint: You\'re all clear!';
-		assert.equal( success, app.done( app ).msg );
+		const success = 'Stylint: You\'re all clear!';
+		assert.equal( success, app.done().msg );
+	});
+
+	it('msg should be the default warnings/errors message', function() {
+		app.state.quiet = false;
+		app.config.maxWarnings = 10;
+		app.config.maxErrors = 10;
+		app.cache.warnings = [0,1,2,3,4];
+		app.cache.errs = [0,1,2,3,4];
+		const msg = '\nStylint: 5 Errors. (Max Errors: 10)\nStylint: 5 Warnings. (Max Warnings: 10)'
+		assert.equal( msg, app.done( app ).msg );
 	});
 
 	it('msg should be the kill message', function() {
-		assert.equal( true, app.done('kill').msg.indexOf('too many errors') !== -1 );
-	});
-
-	it('msg should be the too many errors message', function() {
-		app.cache.warnings = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
-		const tooMany = app.emojiWarning() + 'Stylint: ' + app.cache.warnings.length + ' warnings. Max is set to: ' + app.config.maxWarnings;
-		assert.equal( tooMany, app.done( app ).msg );
-	});
-
-	it('msg should be the default errors message', function() {
-		app.cache.warnings = [0,1,2,3,4,5];
-		const initial = '\n' + app.emojiWarning() + app.cache.warnings.length + ' Warnings';
-		assert.equal( initial, app.done( app ).msg );
-	});
-
-	it('should output faked errors', function() {
-		app.cache.warnings = [0,1,2,3,4,5];
-		app.state.quiet = false;
-		app.done( app );
-		app.state.quiet = true;
+		assert.equal( true, app.done('kill').msg.indexOf('Over Error or Warning Limit') !== -1 );
 	});
 
 	it('should exit if watch off', function() {
-		sinon.spy( app, 'done' );
-		const test;
-
 		app.state.watching = false;
-		test = app.done( app );
+		sinon.spy( app, 'done' );
+		app.done();
 
 		app.done.getCall(0).returned( sinon.match.same( process.exit ) );
 		app.state.watching = true;

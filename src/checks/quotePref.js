@@ -2,6 +2,10 @@
 
 // check that quote style is consistent with config
 module.exports = function quotePref(line) {
+	if ( line.indexOf('"') === -1 && line.indexOf("'") === -1 ) {
+		return;
+	}
+
 	var badQuotes = false;
 
 	// if '' quotes preferred and "" quotes are on the line
@@ -32,7 +36,7 @@ module.exports = function quotePref(line) {
 	}
 
 	if ( badQuotes ) {
-		this.msg('preferred quote style is ' + conf + ' quotes');
+		this.msg('preferred quote style is ' + this.state.conf + ' quotes');
 	}
 
 	return badQuotes;
