@@ -2,21 +2,16 @@
 
 // one liners are bad for you
 module.exports = function stackedProperties(line) {
-	var isOneLiner = false;
-	var arr = line.trim().split(';');
-
-	// remove whitespace
-	arr = arr.filter(function( str ) {
-		return str.length > 0;
-	});
+	var oneLiner = false;
+	var arr = this.splitAndStrip( ';', line.trim() );
 
 	if ( arr && arr.length > 1 ) {
-		isOneLiner =  true;
+		oneLiner =  true;
 	}
 
-	if ( isOneLiner === true ) {
-		this.cache.warnings.push( 'avoid one liners. put properties on their own line. ' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
+	if ( oneLiner ) {
+		this.msg('avoid one liners. put properties on their own line');
 	}
 
-	return isOneLiner;
+	return oneLiner;
 };

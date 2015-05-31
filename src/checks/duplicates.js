@@ -1,11 +1,11 @@
 'use strict';
 
-var isLineBadRe = /^{|[,}]|(:after|:active|:before|@import|@require|@extend|@media|:hover|@font-face|src)|,$/;
+var ignoreRe = /^{|[,}]|(:after|:active|:before|@import|@require|@extend|@media|:hover|@font-face|src)|,$/;
 
 // check that selector properties are sorted alphabetically
-module.exports = function duplicates( line ) {
-	var arr = this.stripWhiteSpace( new RegExp(/[\s\t]/), line );
-	var isThereADupe = false;
+module.exports = function duplicates(line) {
+	var arr = this.splitAndStrip( new RegExp(/[\s\t]/), line );
+	var dupe = false;
 
 	// if root check not global, obliterate cache on each new file
 	if ( !this.config.globalDupe && this.cache.prevFile !== this.cache.file ) {
@@ -27,17 +27,17 @@ module.exports = function duplicates( line ) {
 		}.bind(this));
 	}
 
-	if ( line.indexOf(',') === -1 && this.cache.prevLine.indexOf(',') === -1 && !isLineBadRe.test( line ) ) {
+	if ( line.indexOf(',') === -1 && this.cache.prevLine.indexOf(',') === -1 && !ignoreRe.test( line ) ) {
 		if ( this.cache.sCache[ this.state.context ].indexOf( arr[0] ) !== -1 ) {
-			isThereADupe = true;
+			dupe = true;
 		}
 
 		this.cache.sCache[ this.state.context ].push( arr[0] );
 	}
 
-	if ( isThereADupe === true ) {
-		this.cache.warnings.push( 'duplicate property or selector, consider merging' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
+	if ( dupe ) {
+		this.msg('duplicate property or selector, consider merging');
 	}
 
-	return isThereADupe;
+	return dupe;
 };

@@ -20,13 +20,12 @@ module.exports = function commaSpace(line) {
 	}
 
 	// if spaces should be follow commas, but there is no space on the line
-	if ( this.config.commaSpace === 'always' && noSpaceAfterComma ) {
-		this.cache.warnings.push( 'commas must be followed by a space for readability' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
+	if ( this.state.conf === 'always' && noSpaceAfterComma ) {
+		this.msg('commas must be followed by a space for readability');
 	}
-
 	// if spaces should not be followed by a comma, but there are spaces anyway
-	if ( this.config.commaSpace === 'never' && !noSpaceAfterComma ) {
-		this.cache.warnings.push( 'spaces after commas are not allowed' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
+	else if ( this.state.conf === 'never' && !noSpaceAfterComma ) {
+		this.msg('spaces after commas are not allowed');
 	}
 
 	return noSpaceAfterComma;

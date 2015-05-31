@@ -2,6 +2,7 @@
 
 var ampRe = /^&/;  // check if using & selector before we count tabs
 
+
 /**
  * check nesting depth
  * @param  {string} line  the line being tested
@@ -22,11 +23,11 @@ module.exports = function depthLimit(line) {
 	}
 
 	if ( context > this.config.depthLimit ) {
-		badNesting = true; // return true;
+		badNesting = true;
 	}
 
-	if ( badNesting === true ) {
-		this.cache.warnings.push( 'selector depth greater than', this.config.depthLimit + ':' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
+	if ( badNesting ) {
+		this.msg('selector depth greater than' + this.config.depthLimit);
 	}
 
 	return badNesting;

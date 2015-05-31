@@ -31,7 +31,7 @@ module.exports = function namingConvention(line) {
 
 			// check conventions
 			// $varName
-			if ( this.config.namingConvention === 'camelCase' ) {
+			if ( this.state.conf === 'camelCase' ) {
 				// if no A-Z present, or - present, or _ present
 				if ( arr[0].indexOf('-') !== -1 ||
 					arr[0].indexOf('_') !== -1 ||
@@ -40,7 +40,7 @@ module.exports = function namingConvention(line) {
 				}
 			}
 			// $var_name
-			else if ( this.config.namingConvention === 'lowercase_underscore' ) {
+			else if ( this.state.conf === 'lowercase_underscore' ) {
 				// if no _ present, or - present, or A-Z present
 				if ( arr[0].indexOf('-') !== -1 ||
 					arr[0].indexOf('_') === -1 ||
@@ -49,7 +49,7 @@ module.exports = function namingConvention(line) {
 				}
 			}
 			// $var-name
-			else if ( this.config.namingConvention === 'lowercase-dash' ) {
+			else if ( this.state.conf === 'lowercase-dash' ) {
 				// if no - present, or _ present, or A-Z present
 				if ( arr[0].indexOf('-') === -1 ||
 					arr[0].indexOf('_') !== -1 ||
@@ -58,7 +58,7 @@ module.exports = function namingConvention(line) {
 				}
 			}
 			// $var__element
-			else if ( this.config.namingConvention === 'BEM' ) {
+			else if ( this.state.conf === 'BEM' ) {
 				// if A-Z or not following BEM specification
 				if ( upperRe.test( arr[0] ) || !bemRe.test( arr[0] ) ) {
 					badConvention = true;
@@ -67,8 +67,8 @@ module.exports = function namingConvention(line) {
 		}
 	}
 
-	if ( badConvention === true ) {
-		this.cache.warnings.push( 'preferred naming convention is ' + this.config.namingConvention + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
+	if ( badConvention ) {
+		this.msg('preferred naming convention is ' + this.config.namingConvention);
 	}
 
 	return badConvention;

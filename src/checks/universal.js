@@ -18,8 +18,8 @@ module.exports = function universal(line) {
 		}
 	}
 
-	if ( hasUniversal === true ) {
-		this.cache.warnings.push( '* selector is slow. Consider a different selector.' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
+	if ( hasUniversal ) {
+		this.msg('* selector is disallowed');
 	}
 
 	return hasUniversal;

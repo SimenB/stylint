@@ -3,14 +3,14 @@
 var selRe = /^[#.]+/;
 var commaRe = /,$/;
 
-module.exports = function brackets( line ) {
+module.exports = function brackets(line) {
 	if ( this.state.hashOrCSS ) { return; }
-	if ( this.config.brackets === 'always' && !selRe.test(line) ) { return; }
+	if ( this.state.conf === 'always' && !selRe.test(line) ) { return; }
 	if ( commaRe.test(line) ) { return; }
 
 	var bracket = false;
 
-	if ( this.config.brackets === 'never' ) {
+	if ( this.state.conf === 'never' ) {
 		// ex: $hash = { is ok but .class = { is not
 		if ( line.indexOf('{') !== -1 && line.indexOf('=') === -1 ) {
 			bracket = true;
@@ -22,7 +22,7 @@ module.exports = function brackets( line ) {
 			this.state.openBracket = false;
 		}
 	}
-	else if ( this.config.brackets === 'always' ) {
+	else if ( this.state.conf === 'always' ) {
 		// ex: $hash = { is ok but .class = { is not
 		if ( line.indexOf('{') !== -1 && line.indexOf('=') === -1 ) {
 			bracket = true;
@@ -35,11 +35,11 @@ module.exports = function brackets( line ) {
 		}
 	}
 
-	if ( this.config.brackets === 'never' && bracket ) {
-		this.cache.warnings.push( 'unecessary bracket' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
+	if ( this.state.conf === 'never' && bracket ) {
+		this.msg('unecessary bracket');
 	}
-	else if ( this.config.brackets === 'always' && !bracket ) {
-		this.cache.warnings.push( 'always use brackets when defining selectors' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
+	else if ( this.state.conf === 'always' && !bracket ) {
+		this.msg('always use brackets when defining selectors');
 	}
 
 	return bracket;

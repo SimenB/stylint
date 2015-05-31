@@ -9,8 +9,8 @@ module.exports = function cssLiteral(line) {
 		isCSSLiteral = true;
 	}
 
-	if ( isCSSLiteral === true ) {
-		this.cache.warnings.push( 'refrain from using css literals' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
+	if ( isCSSLiteral ) {
+		this.msg('css literals are disallowed');
 	}
 
 	return isCSSLiteral;

@@ -18,10 +18,10 @@ module.exports = function sortOrder(line) {
 	 * 3 equals the custom sorting array via the config (or the ordering json)
 	 * 4 assume sorted by default
 	 */
-	var arr = this.stripWhiteSpace( new RegExp(/[\s\t,:]/), line.replace(/(\(.+\))/,'') ); // 1
+	var arr = this.splitAndStrip( new RegExp(/[\s\t,:]/), line.replace(/(\(.+\))/,'') ); // 1
 	var sortedArr = []; // 2
 	var orderingArr = []; // 3
-	var isItSorted = true; // 4
+	var sorted = true; // 4
 
 	// if current context switched, reset array
 	if ( this.state.context !== this.state.prevContext ) {
@@ -35,14 +35,14 @@ module.exports = function sortOrder(line) {
 	sortedArr = this.cache.sortOrderCache.slice(0);
 
 	// and then sort it (by default alphabetically)
-	if ( this.config.sortOrder === 'alphabetical' ) {
+	if ( this.state.conf === 'alphabetical' ) {
 		sortedArr = sortedArr.sort();
 	}
 	// if not default, we can either use the grouped option
 	// or a custom sorting order, specificed by a config file
-	else if ( this.config.sortOrder === 'grouped' || Array.isArray( this.config.sortOrder ) ) {
+	else if ( this.state.conf === 'grouped' || Array.isArray( this.state.conf ) ) {
 		// use custom ordering if specified, or fall back to in-built grouped ordering
-		orderingArr = Array.isArray( this.config.sortOrder ) ? this.config.sortOrder : ordering.grouped;
+		orderingArr = Array.isArray( this.state.conf ) ? this.state.conf : ordering.grouped;
 
 		/**
 		 * @description iterate over our cache copy, and sort it according to our config
@@ -75,15 +75,15 @@ module.exports = function sortOrder(line) {
 		this.cache.sortOrderCache.forEach(function(val, i) {
 			// if any value doesn't match quit the forEach
 			if ( sortedArr[i] !== this.cache.sortOrderCache[i] ) {
-				isItSorted = false;
+				sorted = false;
 				return;
 			}
 		}.bind( this ));
 	}
 
-	if ( isItSorted === false ) {
-		this.cache.warnings.push( 'prefer ' + this.config.sortOrder + ' when sorting properties. \nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
+	if ( !sorted ) {
+		this.msg('prefer ' + conf + ' when sorting properties');
 	}
 
-	return isItSorted;
+	return sorted;
 };

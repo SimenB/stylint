@@ -370,12 +370,27 @@ describe('Linter Style Checks: ', function() {
 	describe('blocks: prefer @block when defining block vars', function() {
 		const blockTest = lint.blocks.bind(app);
 
+		beforeEach(function() {
+			app.config.blocks = 'always';
+		});
+
 		it('false if block style incorrect', function() {
 			assert.equal( false, blockTest('myBlock = ') );
 			assert.equal( false, blockTest('myBlock =') );
 		});
 
 		it('true if block style correct', function() {
+			assert.equal( true, blockTest('myBlock = @block') );
+			assert.equal( true, blockTest('myBlock = @block ') );
+		});
+
+		it('test with object config', function() {
+			app.config.blocks = {
+				enforce: 'always',
+				severity: 'warning'
+			};
+			assert.equal( false, blockTest('myBlock = ') );
+			assert.equal( false, blockTest('myBlock =') );
 			assert.equal( true, blockTest('myBlock = @block') );
 			assert.equal( true, blockTest('myBlock = @block ') );
 		});
@@ -402,6 +417,17 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, blockTest('myBlock = @block ') );
 		});
 
+		it('test with object config', function() {
+			app.config.blocks = {
+				enforce: 'never',
+				severity: 'warning'
+			};
+			assert.equal( false, blockTest('myBlock = ') );
+			assert.equal( false, blockTest('myBlock =') );
+			assert.equal( true, blockTest('myBlock = @block') );
+			assert.equal( true, blockTest('myBlock = @block ') );
+		});
+
 		it('undefined if block style not applicable', function() {
 			assert.equal( undefined, blockTest('.class') );
 			assert.equal( undefined, blockTest('input[type="submit"]') );
@@ -415,11 +441,10 @@ describe('Linter Style Checks: ', function() {
 			app.config.brackets = 'always';
 		});
 
-		it('undefined if in hash', function() {
-			app.state.hashOrCSS = true;
-			assert.equal( undefined, bracketsTest('}') );
-			assert.equal( undefined, bracketsTest('{interpolation}') );
-			assert.equal( undefined, bracketsTest('.class-name-with-{i}') );
+		it('false if no bracket found', function() {
+			app.state.hashOrCSS = false;
+			assert.equal( false, bracketsTest('.class-name') );
+			assert.equal( false, bracketsTest('#id') );
 		});
 
 		it('true if bracket found, not in hash', function() {
@@ -429,10 +454,22 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, bracketsTest('#id {') );
 		});
 
-		it('false if no bracket found', function() {
-			app.state.hashOrCSS = false;
+		it('test with object config', function() {
+			app.config.brackets = {
+				enforce: 'always',
+				severity: 'warning'
+			};
 			assert.equal( false, bracketsTest('.class-name') );
 			assert.equal( false, bracketsTest('#id') );
+			assert.equal( true, bracketsTest('.class-name {') );
+			assert.equal( true, bracketsTest('#id {') );
+		});
+
+		it('undefined if in hash', function() {
+			app.state.hashOrCSS = true;
+			assert.equal( undefined, bracketsTest('}') );
+			assert.equal( undefined, bracketsTest('{interpolation}') );
+			assert.equal( undefined, bracketsTest('.class-name-with-{i}') );
 		});
 	});
 
@@ -443,11 +480,15 @@ describe('Linter Style Checks: ', function() {
 			app.config.brackets = 'never';
 		});
 
-		it('undefined if in hash', function() {
-			app.state.hashOrCSS = true;
-			assert.equal( undefined, bracketsTest('}') );
-			assert.equal( undefined, bracketsTest('{interpolation}') );
-			assert.equal( undefined, bracketsTest('.class-name-with-{i}') );
+		it('false if no bracket found', function() {
+			app.state.hashOrCSS = false;
+			assert.equal( false, bracketsTest('.class-name') );
+			assert.equal( false, bracketsTest('div') );
+		});
+
+		it('false if incorrect config', function() {
+			app.config.brackets = 'something';
+			assert.equal( false, bracketsTest('div {') );
 		});
 
 		it('true if bracket found, not in hash', function() {
@@ -457,19 +498,23 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, bracketsTest('}') );
 		});
 
-		it('false if no bracket found', function() {
-			app.state.hashOrCSS = false;
+		it('test with object config', function() {
+			app.config.brackets = {
+				enforce: 'never',
+				severity: 'warning'
+			};
 			assert.equal( false, bracketsTest('.class-name') );
 			assert.equal( false, bracketsTest('div') );
+			assert.equal( true, bracketsTest('.class-name {') );
+			assert.equal( true, bracketsTest('div {') );
+			assert.equal( true, bracketsTest('}') );
 		});
-	});
 
-	describe('brackets: incorrect config', function() {
-		const bracketsTest = lint.brackets.bind(app);
-
-		it('should return false', function() {
-			app.config.brackets = 'something';
-			assert.equal( false, bracketsTest('div {') );
+		it('undefined if in hash', function() {
+			app.state.hashOrCSS = true;
+			assert.equal( undefined, bracketsTest('}') );
+			assert.equal( undefined, bracketsTest('{interpolation}') );
+			assert.equal( undefined, bracketsTest('.class-name-with-{i}') );
 		});
 	});
 
@@ -489,6 +534,10 @@ describe('Linter Style Checks: ', function() {
 	describe('colon: prefer margin 0 over margin: 0', function() {
 		const colonTest = lint.colons.bind(app);
 
+		beforeEach(function() {
+			app.config.colons = true;
+		})
+
 		it('false if no unecessary colons found', function() {
 			assert.equal( false, colonTest('margin 0 auto') );
 			app.state.hash = true;
@@ -499,16 +548,41 @@ describe('Linter Style Checks: ', function() {
 			app.state.hash = false;
 			assert.equal( true, colonTest('margin: 0 auto') );
 		});
+
+		it('test with object config', function() {
+			app.config.colons = {
+				enforce: true,
+				severity: 'warning'
+			};
+			assert.equal( false, colonTest('margin 0 auto') );
+			app.state.hash = true;
+			assert.equal( false, colonTest('key: value') );
+			app.state.hash = false;
+			assert.equal( true, colonTest('margin: 0 auto') );
+		});
 	});
 
 	describe('colors', function () {
 		const colorsTest = lint.colors.bind(app);
+
+		beforeEach(function() {
+			app.config.colors = true;
+		})
 
 		it('false if a line doesnt have a hex color', function () {
 			assert.equal( false, colorsTest('.foo') );
 		});
 
 		it('true if line has hex color', function () {
+			assert.equal( true, colorsTest('#fff') );
+		});
+
+		it('test with object config', function() {
+			app.config.colors = {
+				enforce: true,
+				severity: 'warning'
+			};
+			assert.equal( false, colorsTest('.foo') );
 			assert.equal( true, colorsTest('#fff') );
 		});
 
@@ -526,14 +600,6 @@ describe('Linter Style Checks: ', function() {
 			app.config.commaSpace = 'always';
 		});
 
-		it('undefined if no comma on line', function() {
-			assert.equal( undefined, commaTest('margin 0') );
-		});
-
-		it('undefined if comma is last character', function() {
-			assert.equal( undefined, commaTest('.class,') );
-		});
-
 		it('false if space after comma', function() {
 			assert.equal( false, commaTest('0, 0, 0, .18') );
 		});
@@ -542,6 +608,25 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, commaTest('0,0, 0, .18') );
 			assert.equal( true, commaTest('0,0,0,.18') );
 			assert.equal( true, commaTest('mixin( $param1,$param2 )') );
+		});
+
+		it('test with object config', function() {
+			app.config.commaSpace = {
+				enforce: 'always',
+				severity: 'warning'
+			};
+			assert.equal( false, commaTest('0, 0, 0, .18') );
+			assert.equal( true, commaTest('0,0, 0, .18') );
+			assert.equal( true, commaTest('0,0,0,.18') );
+			assert.equal( true, commaTest('mixin( $param1,$param2 )') );
+		});
+
+		it('undefined if no comma on line', function() {
+			assert.equal( undefined, commaTest('margin 0') );
+		});
+
+		it('undefined if comma is last character', function() {
+			assert.equal( undefined, commaTest('.class,') );
 		});
 	});
 
@@ -553,14 +638,6 @@ describe('Linter Style Checks: ', function() {
 			app.config.commaSpace = 'never';
 		});
 
-		it('undefined if no comma on line', function() {
-			assert.equal( undefined, commaTest('margin 0') );
-		});
-
-		it('undefined if comma is last character', function() {
-			assert.equal( undefined, commaTest('.class,') );
-		});
-
 		it('false if space after comma', function() {
 			assert.equal( false, commaTest('0, 0, 0, .18') );
 		});
@@ -569,6 +646,25 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, commaTest('0,0, 0, .18') );
 			assert.equal( true, commaTest('0,0,0,.18') );
 			assert.equal( true, commaTest('mixin( $param1,$param2 )') );
+		});
+
+		it('test with object config', function() {
+			app.config.commaSpace = {
+				enforce: 'never',
+				severity: 'warning'
+			};
+			assert.equal( false, commaTest('0, 0, 0, .18') );
+			assert.equal( true, commaTest('0,0, 0, .18') );
+			assert.equal( true, commaTest('0,0,0,.18') );
+			assert.equal( true, commaTest('mixin( $param1,$param2 )') );
+		});
+
+		it('undefined if no comma on line', function() {
+			assert.equal( undefined, commaTest('margin 0') );
+		});
+
+		it('undefined if comma is last character', function() {
+			assert.equal( undefined, commaTest('.class,') );
 		});
 	});
 
@@ -583,16 +679,23 @@ describe('Linter Style Checks: ', function() {
 
 		it('false if line comment doesnt have a space after it', function() {
 			app.cache.comment = '//test';
-			assert.equal( false, commentSpaceTest('margin //test') );
-			app.cache.comment = 'margin 0 auto //test';
-			assert.equal( false, commentSpaceTest('margin 0 auto //test') );
+			assert.equal( false, commentSpaceTest('') );
 		});
 
 		it('true if line comment has space after it', function() {
 			app.cache.comment = '// test';
-			assert.equal( true, commentSpaceTest('// test') );
-			app.cache.comment = 'margin 0 auto // test';
-			assert.equal( true, commentSpaceTest('margin 0 auto // test') );
+			assert.equal( true, commentSpaceTest('') );
+		});
+
+		it('test with object config', function() {
+			app.config.commaSpace = {
+				enforce: 'always',
+				severity: 'warning'
+			};
+			app.cache.comment = '//test';
+			assert.equal( false, commentSpaceTest('') );
+			app.cache.comment = '// test';
+			assert.equal( true, commentSpaceTest('') );
 		});
 
 		it('undefined if line has no comment', function() {
@@ -612,26 +715,28 @@ describe('Linter Style Checks: ', function() {
 
 		it('false if line comment doesnt have a space after it', function() {
 			app.cache.comment = '//test';
-			assert.equal( false, commentSpaceTest('margin //test') );
-			app.cache.comment = 'margin 0 auto //test';
-			assert.equal( false, commentSpaceTest('margin 0 auto //test') );
+			assert.equal( false, commentSpaceTest('') );
 		});
 
 		it('true if line comment has space after it', function() {
 			app.cache.comment = '// test';
-			assert.equal( true, commentSpaceTest('// test') );
-			app.cache.comment = 'margin 0 auto // test';
-			assert.equal( true, commentSpaceTest('margin 0 auto // test') );
+			assert.equal( true, commentSpaceTest('') );
+		});
+
+		it('test with object config', function() {
+			app.config.commaSpace = {
+				enforce: 'never',
+				severity: 'warning'
+			};
+			app.cache.comment = '//test';
+			assert.equal( false, commentSpaceTest('') );
+			app.cache.comment = '// test';
+			assert.equal( true, commentSpaceTest('') );
 		});
 
 		it('undefined if line has no comment', function() {
 			app.state.hasComment = false;
 			assert.equal( undefined, commentSpaceTest('.test') );
-		});
-
-		it('undefined if url', function() {
-			app.state.hasComment = true;
-			assert.equal( undefined, commentSpaceTest('http://wired.com') );
 		});
 	});
 
@@ -1918,63 +2023,64 @@ describe('Linter Style Checks: ', function() {
 	});
 });
 
-// describe('Done, again: ', function() {
-// 	app.state.warnings = [];
-// 	app.config.maxWarningsKill = true;
 
-// 	it('exit code should be 0 if no errs', function() {
-// 		app.cache.warnings = [];
-// 		assert.equal( 0, app.done( app ).exitCode );
-// 	});
+describe('Done, again: ', function() {
+	app.state.warnings = [];
+	app.config.maxWarningsKill = true;
 
-// 	it('an object', function() {
-// 		assert.equal( true, typeof app.done( app ) === 'object' );
-// 	});
+	it('exit code should be 0 if no errs', function() {
+		app.cache.warnings = [];
+		assert.equal( 0, app.done( app ).exitCode );
+	});
 
-// 	it('which should have a string as the 1st property', function() {
-// 		assert.equal( true, typeof app.done( app ).msg === 'string' );
-// 	});
+	it('an object', function() {
+		assert.equal( true, typeof app.done( app ) === 'object' );
+	});
 
-// 	it('which should have an array as the 2nd property', function() {
-// 		assert.equal( true, typeof app.done( app ).warnings.forEach !== 'undefined' );
-// 	});
+	it('which should have a string as the 1st property', function() {
+		assert.equal( true, typeof app.done( app ).msg === 'string' );
+	});
 
-// 	it('msg should be the success message', function() {
-// 		const success = app.emojiAllClear() + 'Stylint: You\'re all clear!';
-// 		assert.equal( success, app.done( app ).msg );
-// 	});
+	it('which should have an array as the 2nd property', function() {
+		assert.equal( true, typeof app.done( app ).warnings.forEach !== 'undefined' );
+	});
 
-// 	it('msg should be the kill message', function() {
-// 		assert.equal( true, app.done('kill').msg.indexOf('too many errors') !== -1 );
-// 	});
+	it('msg should be the success message', function() {
+		const success = app.emojiAllClear() + 'Stylint: You\'re all clear!';
+		assert.equal( success, app.done( app ).msg );
+	});
 
-// 	it('msg should be the too many errors message', function() {
-// 		app.cache.warnings = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
-// 		const tooMany = app.emojiWarning() + 'Stylint: ' + app.cache.warnings.length + ' warnings. Max is set to: ' + app.config.maxWarnings;
-// 		assert.equal( tooMany, app.done( app ).msg );
-// 	});
+	it('msg should be the kill message', function() {
+		assert.equal( true, app.done('kill').msg.indexOf('too many errors') !== -1 );
+	});
 
-// 	it('msg should be the default errors message', function() {
-// 		app.cache.warnings = [0,1,2,3,4,5];
-// 		const initial = '\n' + app.emojiWarning() + app.cache.warnings.length + ' Warnings';
-// 		assert.equal( initial, app.done( app ).msg );
-// 	});
+	it('msg should be the too many errors message', function() {
+		app.cache.warnings = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+		const tooMany = app.emojiWarning() + 'Stylint: ' + app.cache.warnings.length + ' warnings. Max is set to: ' + app.config.maxWarnings;
+		assert.equal( tooMany, app.done( app ).msg );
+	});
 
-// 	it('should output faked errors', function() {
-// 		app.cache.warnings = [0,1,2,3,4,5];
-// 		app.state.quiet = false;
-// 		app.done( app );
-// 		app.state.quiet = true;
-// 	});
+	it('msg should be the default errors message', function() {
+		app.cache.warnings = [0,1,2,3,4,5];
+		const initial = '\n' + app.emojiWarning() + app.cache.warnings.length + ' Warnings';
+		assert.equal( initial, app.done( app ).msg );
+	});
 
-// 	it('should exit if watch off', function() {
-// 		sinon.spy( app, 'done' );
-// 		const test;
+	it('should output faked errors', function() {
+		app.cache.warnings = [0,1,2,3,4,5];
+		app.state.quiet = false;
+		app.done( app );
+		app.state.quiet = true;
+	});
 
-// 		app.state.watching = false;
-// 		test = app.done( app );
+	it('should exit if watch off', function() {
+		sinon.spy( app, 'done' );
+		const test;
 
-// 		app.done.getCall(0).returned( sinon.match.same( process.exit ) );
-// 		app.state.watching = true;
-// 	});
-// });
+		app.state.watching = false;
+		test = app.done( app );
+
+		app.done.getCall(0).returned( sinon.match.same( process.exit ) );
+		app.state.watching = true;
+	});
+});

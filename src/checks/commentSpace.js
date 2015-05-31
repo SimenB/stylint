@@ -5,7 +5,7 @@ var commentRe = /\/\/ /;
 
 module.exports = function commentSpace(line) {
 	if ( !this.state.hasComment ) { return; }
-	if ( line.indexOf('http://') !== -1 ) { return; }
+	// if ( line.indexOf('http://') !== -1 ) { return; }
 
 	var spaceAfterComment = false;
 
@@ -14,12 +14,11 @@ module.exports = function commentSpace(line) {
 		spaceAfterComment = true;
 	}
 
-	if ( this.config.commentSpace === 'always' && !spaceAfterComment ) {
-		this.cache.warnings.push( 'line comments require a space after //' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() + ' ' + this.cache.comment );
+	if ( this.state.conf === 'always' && !spaceAfterComment ) {
+		this.msg('line comments require a space after //');
 	}
-
-	if ( this.config.commentSpace === 'never' && spaceAfterComment ) {
-		this.cache.warnings.push( 'spaces after line comments disallowed' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() + ' ' + this.cache.comment );
+	else if ( this.state.conf === 'never' && spaceAfterComment ) {
+		this.msg('spaces after line comments disallowed');
 	}
 
 	return spaceAfterComment;

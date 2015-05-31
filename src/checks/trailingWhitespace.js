@@ -9,17 +9,17 @@ var anythingElseRe = /[^ \t]/; // anything BUT whitespace (we dont want to retur
  * @return {boolean} true if whitespace found, false if not
  */
 module.exports = function trailingWhitespace(line) {
-	var hasWhitespace = false;
+	var whitespace = false;
 
 	// not an empty line, with whitespace at the end
 	if ( anythingElseRe.test(line) &&
 		whitespaceRe.test(line) ) {
-		hasWhitespace = true; // return true;
+		whitespace = true;
 	}
 
-	if ( hasWhitespace === true ) {
-		this.cache.warnings.push( 'trailing whitespace' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
+	if ( whitespace ) {
+		this.msg('trailing whitespace');
 	}
 
-	return hasWhitespace;
+	return whitespace;
 };

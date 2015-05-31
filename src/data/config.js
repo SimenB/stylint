@@ -1,39 +1,73 @@
 /**
- * configuration related properties
+ * default configuration object
  * this is what the linter will run when no config file is passed
  */
 module.exports = {
-	blocks: false, // check for @block when defining blocks
-	brackets: false, // check for { or }, unless used in a hash
-	colons: false, // check for unecessary colons @TODO make jscs
-	colors: false, // check for hex colors used without variables
-	commaSpace: false, // check for spaces after commas (0, 0, 0, .18)
-	commentSpace: false, // check for space after line comment
-	cssLiteral: false, // if true disallow css literals
-	depthLimit: false, // set a maximum selector depth (dont nest more than 4 deep)
-	duplicates: true, // check if properties or selectors are duplicate
-	efficient: true, // check for margin 0 0 0 0 and recommend margin 0
-	emoji: false, // toggle emoji on or off @TODO make it just a reporter options
-	extendPref: false, // prefer a specific syntax when using @extends (or @extend)
-	globalDupe: false, // throw duplicate selector warning across all files instead of curr file
-	indentPref: 4, // how many spaces should we prefer when indenting, pass in false if hard tabs
-	leadingZero: false, // find cases where 0.# is used, prefer .#
-	maxWarnings: 10, // should we have a max amount of warnings, and error out if we go over
-	maxWarningsKill: false, // if over maxWarning count, kill process
-	mixed: false, // check for mixed spaces and tabs
-	namingConvention: false, // lowercase-dash, camelCase, lowercase_underscore, BEM or false (dont check)
-	namingConventionStrict: false, // if true, then check classes and ids, if false just check variables
-	none: 'never', // check for use of border none or outline none, prefer 0
-	parenSpace: false, // check for extra space inside parens
-	placeholders: 'always', // only allow @extending of placeholder vars
-	prefixVarsWithDollar: false, // check for $ when declaring vars (doesnt check use)
-	quotePref: false, // single or double quotes, or false to not check
-	semicolons: false, // check for unecessary semicolons @TODO make jscs
-	sortOrder: false, // alphabetical, grouped, Array<String> or false (no check)
-	stackedProperties: false, // no one liners
-	trailingWhitespace: true, // check for trailing whitespace
-	universal: true, // check for use of * and recommend against it
-	valid: false, // check if prop or value is a valid assignment
-	zeroUnits: false, // check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
-	zIndexNormalize: false // suggest a normalized z index value, base of whatever this is
+	// check for @block when defining blocks
+	blocks: {
+		expect: 'never',
+		error: true,
+	},
+	// check for { or }, unless used in a hash
+	brackets: false,
+	// check for unecessary colons @TODO make jscs
+	colons: false,
+	// check for hex colors used without variables
+	colors: false,
+	// check for spaces after commas (0, 0, 0, .18)
+	commaSpace: false,
+	// check for space after line comment
+	commentSpace: false,
+	// if true disallow css literals
+	cssLiteral: false,
+	// set a maximum selector depth (dont nest more than 4 deep)
+	depthLimit: false,
+	// check if properties or selectors are duplicate
+	duplicates: true,
+	// check for margin 0 0 0 0 and recommend margin 0 // @TODO make jscs
+	efficient: true,
+	// prefer a specific syntax when using @extends (or @extend)
+	extendPref: '@extends',
+	// throw duplicate selector warning across all files instead of curr file
+	globalDupe: false,
+	// how many spaces should we prefer when indenting, pass in false if hard tabs
+	indentPref: 4,
+	// find cases where 0.# is used, prefer .#
+	leadingZero: false,
+	// exit if over error limit
+	maxErrors: false,
+	// exit if over warning limit
+	maxWarnings: false,
+	// check for mixed spaces and tabs
+	mixed: false,
+	// lowercase-dash, camelCase, lowercase_underscore, BEM or false (dont check)
+	namingConvention: false,
+	// if true, then check classes and ids, if false just check variables
+	namingConventionStrict: false,
+	// check for use of border none or outline none, prefer 0
+	none: 'never',
+	// check for extra space inside parens
+	parenSpace: false,
+	// only allow @extending of placeholder vars
+	placeholders: 'always',
+	// check for $ when declaring vars (doesnt check use)
+	prefixVarsWithDollar: false,
+	// single or double quotes, or false to not check
+	quotePref: false,
+	// check for unecessary semicolons @TODO make jscs
+	semicolons: false,
+	// alphabetical, grouped, Array<String> or false (no check)
+	sortOrder: false,
+	// no one liners
+	stackedProperties: true,
+	// check for trailing whitespace
+	trailingWhitespace: true,
+	// check for use of * and recommend against it
+	universal: true,
+	// check if prop or value is a valid assignment
+	valid: false,
+	// check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
+	zeroUnits: false,
+	// suggest a normalized z index value, base of whatever this is
+	zIndexNormalize: false
 };

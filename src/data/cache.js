@@ -6,6 +6,7 @@ var path = require('path');
  */
 module.exports = {
 	comment: '', // the current line comment on the line
+	errs: [], // array of errors detected so far
 	file: '', // curr filename we're testing
 	files: [], // all files as an arr
 	filesLen: 0, // # of files we're testing

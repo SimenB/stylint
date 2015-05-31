@@ -6,6 +6,7 @@ var parensWithSpaceRe = /\(\s+|\s\)+/;
 // checks for extra space when declaring mixins before variables
 module.exports = function parenSpace(line) {
 	if ( !parensRe.test(line) ) { return; }
+
 	var hasSpaces = false;
 
 	// if mixin exists and it has params
@@ -13,12 +14,11 @@ module.exports = function parenSpace(line) {
 		hasSpaces = true;
 	}
 
-	if ( this.config.parenSpace === 'always' && !hasSpaces ) {
-		this.cache.warnings.push( '( param1, param2 ) is preferred over (param1, param2)' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
+	if ( this.state.conf === 'always' && !hasSpaces ) {
+		this.msg('( param1, param2 ) is preferred over (param1, param2)');
 	}
-
-	if ( this.config.parenSpace === 'never' && hasSpaces ) {
-		this.cache.warnings.push( '(param1, param2) is preferred over ( param1, param2 )' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
+	else if ( this.state.conf === 'never' && hasSpaces ) {
+		this.msg('(param1, param2) is preferred over ( param1, param2 )');
 	}
 
 	return hasSpaces;

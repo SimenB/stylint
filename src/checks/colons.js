@@ -2,16 +2,16 @@
 
 // check for colons
 module.exports = function colons(line) {
-	var badColon = false;
+	var colon = false;
 
 	// : is allowed in hashes
-	if ( !this.state.hash && line.indexOf(': ') !== -1 ) {
-		badColon = true;
+	if ( !this.state.hash && line.indexOf(':') !== -1 ) {
+		colon = true;
 	}
 
-	if ( badColon === true ) {
-		this.cache.warnings.push( 'unecessary colon found:' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
+	if ( colon ) {
+		this.msg('unecessary colon found');
 	}
 
-	return badColon;
+	return colon;
 };

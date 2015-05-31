@@ -3,25 +3,22 @@
 // check for specified extend preference
 module.exports = function extendPref(line) {
 	if ( line.indexOf('@extend') === -1 ) { return; }
-	var extendsCorrect = true;
+
+	var extendIncorrect = false;
 
 	// prefer @extends to @extend
 	// extremely petty, i know
-	if ( this.config.extendPref === '@extends' ) {
-		if ( line.indexOf('@extends ') === -1 ) {
-			extendsCorrect = false;
-		}
+	if ( this.state.conf === '@extends' && line.indexOf('@extends ') === -1 ) {
+		extendIncorrect = true;
 	}
 	// else @extend is your pref
-	else {
-		if ( line.indexOf('@extend ') === -1 ) {
-			extendsCorrect = false;
-		}
+	else if ( this.state.conf === '@extend' && line.indexOf('@extend ') === -1 ) {
+		extendIncorrect = true;
 	}
 
-	if ( extendsCorrect === false ) {
-		this.cache.warnings.push( 'please use the ' + this.config.extendPref + ' syntax when extending' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
+	if ( extendIncorrect ) {
+		this.msg('please use ' + this.state.conf);
 	}
 
-	return extendsCorrect;
+	return extendIncorrect;
 };

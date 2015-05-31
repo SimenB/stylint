@@ -3,8 +3,9 @@
 var eqEndRe = /=$|=\s$/;
 
 // depending on settings, enforce of disallow @block when defining block vars
-module.exports = function blocks( line ) {
+module.exports = function blocks(line) {
 	if ( line.indexOf('=') === -1 ) { return; }
+
 	var block;
 
 	// if = ends the line and not a block var or hash
@@ -15,11 +16,11 @@ module.exports = function blocks( line ) {
 		block = true;
 	}
 
-	if ( this.config.blocks === 'always' && !block ) {
-		this.cache.warnings.push( 'block variables must include @block' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
+	if ( this.state.conf === 'always' && !block ) {
+		this.msg('block variables must include @block');
 	}
-	else if ( this.config.blocks === 'never' && block ) {
-		this.cache.warnings.push( '@block is not allowed' + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + line.trim() );
+	else if ( this.state.conf === 'never' && block ) {
+		this.msg('@block is not allowed');
 	}
 
 	return block;

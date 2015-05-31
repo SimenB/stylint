@@ -5,6 +5,7 @@ var osType            = require('os').type().toLowerCase();
 var pathIsAbsolute    = require('path-is-absolute');
 var stampit           = require('stampit');
 
+
 /**`
  * @description collection of utility functions for the linter
  * @return {Object} [i expose the modules to the entire app, so we only do it once]
@@ -61,6 +62,14 @@ module.exports = stampit().methods({
 		}.bind( this ));
 	},
 
+	// takes a string, outputs said string + reporter boilerplate
+	// @TODO hook up reporter boilerplate
+	msg: function(msg) {
+		var arr;
+		this.state.severity === 'Warning' ? arr = this.cache.warnings : arr = this.cache.errs;
+		return arr.push( this.state.severity + ': ' + msg + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + this.cache.line.trim() );
+	},
+
 	resetOnChange: function( newPath ) {
 		this.state.path = newPath;
 		this.cache.warnings = [];
@@ -113,8 +122,8 @@ module.exports = stampit().methods({
 		return context.toString();
 	},
 
-	// remove all whitespace from a string, customizable regex
-	stripWhiteSpace: function( re, str ) {
+	// strip all whitespace from a string, customizable regex, returns new array
+	splitAndStrip: function( re, str ) {
 		return str.split( re ).filter(function( str ) {
 			return str.length > 0;
 		});
@@ -135,8 +144,6 @@ module.exports = stampit().methods({
 		}
 
 		// strip interpolated variables
-		line = line.replace(/{\S+}/, '');
-
-		return line;
+		return line.replace(/{\S+}/, '');
 	}
 });
