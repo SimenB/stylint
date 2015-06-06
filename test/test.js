@@ -1410,7 +1410,7 @@ describe('Linter Style Checks: ', function() {
 		const varTest = lint.prefixVarsWithDollar.bind(app);
 
 		beforeEach(function() {
-			app.config.prefixVarsWithDollar = 'always';
+			app.state.conf = 'always';
 		});
 
 		it('false if $ is missing when declaring variable', function() {
@@ -1437,7 +1437,7 @@ describe('Linter Style Checks: ', function() {
 		const varTest = lint.prefixVarsWithDollar.bind(app);
 
 		beforeEach(function() {
-			app.config.prefixVarsWithDollar = 'never';
+			app.state.conf = 'never';
 		});
 
 		it('false if $ is missing', function() {
@@ -1930,6 +1930,7 @@ describe('Done, again: ', function() {
 
 	beforeEach(function() {
 		app.state.quiet = true;
+		app.state.watching = true;
 		app.cache.errs = [];
 		app.cache.warnings = [];
 	});
