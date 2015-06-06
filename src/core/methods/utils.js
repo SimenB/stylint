@@ -11,45 +11,19 @@ var stampit           = require('stampit');
  * @return {Object} [i expose the modules to the entire app, so we only do it once]
  */
 module.exports = stampit().methods({
-	checkPrefix: function(prop, css, valid) {
+	checkPrefix: function( prop, css, valid ) {
 		return valid.prefixes.some(function(prefix) {
 			return prop === prefix + css;
 		});
 	},
 
-	checkPseudo: function(prop, html, valid) {
+	checkPseudo: function( prop, html, valid ) {
 		return valid.pseudo.some(function( pseudo ) {
 			return prop === html + pseudo;
 		});
 	},
 
-	emojiAllClear: function( emoji, os ) {
-		var emojiClear = '';
-		if ( emoji || this.config.emoji === true ) {
-			if ( os || osType.indexOf('windows') >= 0 ) {
-				emojiClear = ':)';
-			}
-			else {
-				emojiClear = '\uD83D\uDC4D  ';
-			}
-		}
-		return emojiClear;
-	},
-
-	emojiWarning: function( emoji, os ) {
-		var emojiWarning = '';
-		if ( emoji || this.config.emoji === true ) {
-			if ( os || osType.indexOf('windows') >= 0 ) {
-				emojiWarning = ':(';
-			}
-			else {
-				emojiWarning = '\uD83D\uDCA9  ';
-			}
-		}
-		return emojiWarning;
-	},
-
-	getFiles: function( dir ) {
+	getFiles: function(dir) {
 		if ( typeof dir !== 'string' ) {
 			throw new TypeError( 'getFiles err. Expected string, but received: ' + typeof dir );
 		}
@@ -64,14 +38,20 @@ module.exports = stampit().methods({
 
 	// takes a string, outputs said string + reporter boilerplate
 	// @TODO hook up reporter boilerplate
-	msg: function(msg) {
+	msg: function( msg ) {
 		var arr;
+		var output;
+
+		// determine which group the msg belongs to
 		this.state.severity === 'Warning' ? arr = this.cache.warnings : arr = this.cache.errs;
-		return arr.push( this.state.severity + ': ' + msg + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + this.cache.line.trim() );
+
+		// push the final output
+		return arr.push( this.reporter( msg ) );
 	},
 
 	resetOnChange: function( newPath ) {
-		this.state.path = newPath;
+		this.state.path = newPath ? newPath : '';
+		this.cache.errs = [];
 		this.cache.warnings = [];
 		this.cache.alphaCache = [];
 		this.cache.selectorCache = [];

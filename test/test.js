@@ -78,23 +78,16 @@ describe('Core Methods: ', function() {
 			assert.deepEqual( app.config, app.setConfig('./.stylintrc') );
 		});
 
-		it('use custom config if passed --config flag', function() {
-			process.argv[2] = '--config';
-			process.argv[3] = './.stylintrc';
-			app.init();
-			assert.deepEqual( app.config, app.setConfig('./.stylintrc') );
-		});
-
 		it('call watch if passed -w flag', function() {
 			process.argv[2] = '-w';
 			app.init();
-			app.init.getCall(7).returned( sinon.match.same( app.watch ) );
+			app.init.getCall(6).returned( sinon.match.same( app.watch ) );
 		});
 
 		it('return read if no flags', function() {
 			process.argv[2] = undefined;
 			app.init();
-			app.init.getCall(8).returned( sinon.match.same( app.read ) );
+			app.init.getCall(7).returned( sinon.match.same( app.read ) );
 		});
 	});
 
@@ -274,30 +267,6 @@ describe('Utility Methods: ', function() {
 				TypeError,
 				'getFiles err. Expected string, but received: ' + typeof dir
 			);
-		});
-	});
-
-	describe('Emoji: ', function() {
-		it('all clear if on windows and option turned on should output smiley', function() {
-			assert.equal( ':)', app.emojiAllClear( true, 'windows' ) );
-		});
-
-		it('warning if on windows and option turned on should output frowney', function() {
-			assert.equal( ':(', app.emojiWarning( true, 'windows' ) );
-		});
-
-		it('all clear if on unix and option turned on should output emoji', function() {
-			assert.equal( '\uD83D\uDC4D  ', app.emojiAllClear( true ) );
-		});
-
-		it('warning if on unix and option turned on should output emoji', function() {
-			assert.equal( '\uD83D\uDCA9  ', app.emojiWarning( true ) );
-		});
-
-		it('both should output a blank string if option is off', function() {
-			app.config.emoji = false;
-			assert.equal( '', app.emojiAllClear( false ) );
-			assert.equal( '', app.emojiWarning( false ) );
 		});
 	});
 
@@ -1926,52 +1895,52 @@ describe('Linter Style Checks: ', function() {
 });
 
 
-describe('Done, again: ', function() {
+// describe('Done, again: ', function() {
 
-	beforeEach(function() {
-		app.state.quiet = true;
-		app.state.watching = true;
-		app.cache.errs = [];
-		app.cache.warnings = [];
-	});
+// 	beforeEach(function() {
+// 		app.state.quiet = true;
+// 		app.state.watching = true;
+// 		app.cache.errs = [];
+// 		app.cache.warnings = [];
+// 	});
 
-	it('should return an object', function() {
-		assert.equal( true, typeof app.done() === 'object' );
-	});
+// 	it('should return an object', function() {
+// 		assert.equal( true, typeof app.done() === 'object' );
+// 	});
 
-	it('which should have msg as a property', function() {
-		assert.equal( true, typeof app.done().msg === 'string' );
-	});
+// 	it('which should have msg as a property', function() {
+// 		assert.equal( true, typeof app.done().msg === 'string' );
+// 	});
 
-	it('exit code should be 0 if no errs or warnings', function() {
-		assert.equal( 0, app.done().exitCode );
-	});
+// 	it('exit code should be 0 if no errs or warnings', function() {
+// 		assert.equal( 0, app.done().exitCode );
+// 	});
 
-	it('msg should be the success message', function() {
-		const success = 'Stylint: You\'re all clear!';
-		assert.equal( success, app.done().msg );
-	});
+// 	it('msg should be the success message', function() {
+// 		const success = 'Stylint: You\'re all clear!';
+// 		assert.equal( success, app.done().msg );
+// 	});
 
-	it('msg should be the default warnings/errors message', function() {
-		app.state.quiet = false;
-		app.config.maxWarnings = 10;
-		app.config.maxErrors = 10;
-		app.cache.warnings = [0,1,2,3,4];
-		app.cache.errs = [0,1,2,3,4];
-		const msg = '\nStylint: 5 Errors. (Max Errors: 10)\nStylint: 5 Warnings. (Max Warnings: 10)'
-		assert.equal( msg, app.done( app ).msg );
-	});
+// 	it('msg should be the default warnings/errors message', function() {
+// 		app.state.quiet = false;
+// 		app.config.maxWarnings = 10;
+// 		app.config.maxErrors = 10;
+// 		app.cache.warnings = [0,1,2,3,4];
+// 		app.cache.errs = [0,1,2,3,4];
+// 		const msg = '\nStylint: 5 Errors. (Max Errors: 10)\nStylint: 5 Warnings. (Max Warnings: 10)'
+// 		assert.equal( msg, app.done( app ).msg );
+// 	});
 
-	it('msg should be the kill message', function() {
-		assert.equal( true, app.done('kill').msg.indexOf('Over Error or Warning Limit') !== -1 );
-	});
+// 	it('msg should be the kill message', function() {
+// 		assert.equal( true, app.done('kill').msg.indexOf('Over Error or Warning Limit') !== -1 );
+// 	});
 
-	it('should exit if watch off', function() {
-		app.state.watching = false;
-		sinon.spy( app, 'done' );
-		app.done();
+// 	it('should exit if watch off', function() {
+// 		app.state.watching = false;
+// 		sinon.spy( app, 'done' );
+// 		app.done();
 
-		app.done.getCall(0).returned( sinon.match.same( process.exit ) );
-		app.state.watching = true;
-	});
-});
+// 		app.done.getCall(0).returned( sinon.match.same( process.exit ) );
+// 		app.state.watching = true;
+// 	});
+// });

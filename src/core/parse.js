@@ -32,7 +32,7 @@ module.exports = function parse( err, res ) {
 
 		// if on the last file, call the done function to output success or error msg
 		if ( this.cache.fileNo === res.length - 1 ) {
-			return this.done();
+			return this.reporter('', 'done');
 		}
 	}.bind(this) );
 };

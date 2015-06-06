@@ -22,10 +22,10 @@ module.exports = function lint() {
 				checks[method].call( this, cache.line );
 				// if check puts us over either limit, kill stylint
 				if ( maxErrs && cache.errs.length > this.config.maxErrors ) {
-					return this.done('kill');
+					return this.reporter('', 'done', 'kill');
 				}
 				if ( maxWarnings && cache.errs.length > this.config.maxWarnings ) {
-					return this.done('kill');
+					return this.reporter('', 'done', 'kill');
 				}
 			}
 		}

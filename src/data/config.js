@@ -54,6 +54,8 @@ module.exports = {
 	prefixVarsWithDollar: false,
 	// single or double quotes, or false to not check
 	quotePref: false,
+	// default reporter
+	reporter: '../core/reporter',
 	// check for unecessary semicolons @TODO make jscs
 	semicolons: false,
 	// alphabetical, grouped, Array<String> or false (no check)
