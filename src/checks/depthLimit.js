@@ -14,6 +14,7 @@ var ampRe = /^&/;  // check if using & selector before we count tabs
 module.exports = function depthLimit(line) {
 	var context = this.state.context;
 	var badNesting = false;
+	var depthLimit = this.config.depthLimit ? this.config.depthLimit : 5;
 
 	// trim string and check if line starts with &
 	// reduce context in that case
@@ -22,12 +23,12 @@ module.exports = function depthLimit(line) {
 		context = context - 1;
 	}
 
-	if ( context > this.config.depthLimit ) {
+	if ( context > depthLimit ) {
 		badNesting = true;
 	}
 
 	if ( badNesting ) {
-		this.msg('selector depth greater than' + this.config.depthLimit);
+		this.msg('selector depth greater than ' + depthLimit);
 	}
 
 	return badNesting;

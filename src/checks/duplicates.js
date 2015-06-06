@@ -7,6 +7,9 @@ module.exports = function duplicates(line) {
 	var arr = this.splitAndStrip( new RegExp(/[\s\t]/), line );
 	var dupe = false;
 
+	// console.log( 'dupin', this.cache.line );
+	// console.log( this.cache.sCache );
+
 	// if root check not global, obliterate cache on each new file
 	if ( !this.config.globalDupe && this.cache.prevFile !== this.cache.file ) {
 		this.cache.sCache = {};

@@ -5,7 +5,7 @@ var path = require('path');
  * @return {Object} [i expose properties to the entire app]
  */
 module.exports = {
-	comment: '', // the current line comment on the line
+	comment: '', // the current line comment on the line, if there is one
 	errs: [], // array of errors detected so far
 	file: '', // curr filename we're testing
 	files: [], // all files as an arr
