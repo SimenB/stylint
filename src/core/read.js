@@ -22,7 +22,7 @@ module.exports = function read() {
 	 */
 	return fs.stat(this.state.path, function(err, stats) {
 		if ( !stats || err ) {
-			throw Error('Stylint Error: No such file or dir exists');
+			throw Error('Stylint Error: No such file or dir exists!');
 		}
 
 		if ( stats.isFile() ) {

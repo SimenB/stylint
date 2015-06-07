@@ -4,9 +4,15 @@ module.exports = function init() {
 	if ( this.config.reporter ) {
 		this.reporter = require( this.config.reporter );
 	}
+	else {
+		this.reporter = require('./reporter');
+	}
 
 	// if path/ passed in use that for the dir
-	if ( process.argv[2] && this.flags.indexOf( process.argv[2] ) === -1 ) {
+	if ( this.path ) {
+		this.state.path = this.path;
+	}
+	else if ( process.argv[2] && this.flags.indexOf( process.argv[2] ) === -1 ) {
 		this.state.path = process.argv[2];
 	}
 	else {
@@ -24,13 +30,13 @@ module.exports = function init() {
 	}
 
 	// turn on strict if strict flag passed
-	if ( process.argv.indexOf('--strict') !== -1 ) {
+	if ( process.argv.indexOf('--strict') !== -1 || this.config.strictMode ) {
 		this.state.strictMode = true;
 	}
 
 	// if -c flag used
 	if ( process.argv.indexOf('--config') !== -1 ) {
-		this.config = this.setConfig( process.argv[process.argv.indexOf('-c') + 1] );
+		this.config = this.setConfig( process.argv[process.argv.indexOf('--config') + 1] );
 	}
 
 	// fire watch or read based on flag

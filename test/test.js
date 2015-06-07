@@ -9,7 +9,7 @@ const chokidar = require('chokidar');
 const touch = require('touch');
 const should = require('chai').should();
 const sinon = require('sinon');
-const app = require('../index');
+const app = require('../index').create();
 
 // turn on strict mode from this point and turn off unecessary logging
 app.state.quiet = true;
@@ -52,34 +52,34 @@ describe('Core Methods: ', function() {
 			assert.equal( app.state.path, process.cwd() );
 		});
 
-		it('return help if passed a -h flag', function() {
-			process.argv[2] = '-h';
+		it('return help if passed a --help flag', function() {
+			process.argv[2] = '--help';
 			app.init();
 			app.init.getCall(2).returned( sinon.match.same( app.help ) );
 		});
 
-		it('return version if passed -v flag', function() {
-			process.argv[2] = '-v';
+		it('return version if passed --version flag', function() {
+			process.argv[2] = '--version';
 			app.init();
 			app.init.getCall(3).returned( sinon.match.same( app.ver ) );
 		});
 
-		it('toggle strict mode if passed -s flag', function() {
-			process.argv[2] = '-s';
+		it('toggle strict mode if passed --strict flag', function() {
+			process.argv[2] = '--strict';
 			app.init();
 			assert.equal( true, app.state.strictMode );
 			app.state.strictMode = false;
 		});
 
-		it('use custom config if passed -c flag', function() {
-			process.argv[2] = '-c';
+		it('use custom config if passed --config flag', function() {
+			process.argv[2] = '--config';
 			process.argv[3] = './.stylintrc';
 			app.init();
 			assert.deepEqual( app.config, app.setConfig('./.stylintrc') );
 		});
 
-		it('call watch if passed -w flag', function() {
-			process.argv[2] = '-w';
+		it('call watch if passed --watch flag', function() {
+			process.argv[2] = '--watch';
 			app.init();
 			app.init.getCall(6).returned( sinon.match.same( app.watch ) );
 		});
@@ -1895,52 +1895,52 @@ describe('Linter Style Checks: ', function() {
 });
 
 
-// describe('Done, again: ', function() {
+describe('Done, again: ', function() {
 
-// 	beforeEach(function() {
-// 		app.state.quiet = true;
-// 		app.state.watching = true;
-// 		app.cache.errs = [];
-// 		app.cache.warnings = [];
-// 	});
+	beforeEach(function() {
+		app.state.quiet = true;
+		app.state.watching = true;
+		app.cache.errs = [];
+		app.cache.warnings = [];
+	});
 
-// 	it('should return an object', function() {
-// 		assert.equal( true, typeof app.done() === 'object' );
-// 	});
+	it('should return an object', function() {
+		assert.equal( true, typeof app.done() === 'object' );
+	});
 
-// 	it('which should have msg as a property', function() {
-// 		assert.equal( true, typeof app.done().msg === 'string' );
-// 	});
+	it('which should have msg as a property', function() {
+		assert.equal( true, typeof app.done().msg === 'string' );
+	});
 
-// 	it('exit code should be 0 if no errs or warnings', function() {
-// 		assert.equal( 0, app.done().exitCode );
-// 	});
+	it('exit code should be 0 if no errs or warnings', function() {
+		assert.equal( 0, app.done().exitCode );
+	});
 
-// 	it('msg should be the success message', function() {
-// 		const success = 'Stylint: You\'re all clear!';
-// 		assert.equal( success, app.done().msg );
-// 	});
+	it('msg should be the success message', function() {
+		const success = 'Stylint: You\'re all clear!';
+		assert.equal( success, app.done().msg );
+	});
 
-// 	it('msg should be the default warnings/errors message', function() {
-// 		app.state.quiet = false;
-// 		app.config.maxWarnings = 10;
-// 		app.config.maxErrors = 10;
-// 		app.cache.warnings = [0,1,2,3,4];
-// 		app.cache.errs = [0,1,2,3,4];
-// 		const msg = '\nStylint: 5 Errors. (Max Errors: 10)\nStylint: 5 Warnings. (Max Warnings: 10)'
-// 		assert.equal( msg, app.done( app ).msg );
-// 	});
+	it('msg should be the default warnings/errors message', function() {
+		app.state.quiet = false;
+		app.config.maxWarnings = 10;
+		app.config.maxErrors = 10;
+		app.cache.warnings = [0,1,2,3,4];
+		app.cache.errs = [0,1,2,3,4];
+		const msg = '\nStylint: 5 Errors. (Max Errors: 10)\nStylint: 5 Warnings. (Max Warnings: 10)'
+		assert.equal( msg, app.done( app ).msg );
+	});
 
-// 	it('msg should be the kill message', function() {
-// 		assert.equal( true, app.done('kill').msg.indexOf('Over Error or Warning Limit') !== -1 );
-// 	});
+	it('msg should be the kill message', function() {
+		assert.equal( true, app.done('kill').msg.indexOf('Over Error or Warning Limit') !== -1 );
+	});
 
-// 	it('should exit if watch off', function() {
-// 		app.state.watching = false;
-// 		sinon.spy( app, 'done' );
-// 		app.done();
+	it('should exit if watch off', function() {
+		app.state.watching = false;
+		sinon.spy( app, 'done' );
+		app.done();
 
-// 		app.done.getCall(0).returned( sinon.match.same( process.exit ) );
-// 		app.state.watching = true;
-// 	});
-// });
+		app.done.getCall(0).returned( sinon.match.same( process.exit ) );
+		app.state.watching = true;
+	});
+});

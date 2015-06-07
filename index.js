@@ -24,8 +24,6 @@ var Lint = stampit().compose(
 	require('./src/core/methods/state'),
 	require('./src/core/methods/utils'),
 	stampit().enclose( require('./src/core/init') )
-).create();
+);
 
-
-// let us 'share' our light with others
 module.exports = Lint;
