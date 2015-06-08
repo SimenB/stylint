@@ -1,0 +1,534 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Stylint by rossPatton</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Stylint</h1>
+        <p>CLI Linter for Stylus.</p>
+
+        <p class="view"><a href="https://github.com/rossPatton/stylint">View the Project on GitHub <small>rossPatton/stylint</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/rossPatton/stylint/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/rossPatton/stylint/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/rossPatton/stylint">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="stylint---cli-stylus-linter" class="anchor" href="#stylint---cli-stylus-linter" aria-hidden="true"><span class="octicon octicon-link"></span></a>stylint - cli stylus linter.</h1>
+
+<p><a href="https://github.com/rossPatton/stylint/blob/master/patch-notes.md">patch notes</a></p>
+
+<p><a href="https://github.com/rossPatton/stylint/issues">known issues</a></p>
+
+<p>If you have any problems with the linter just create a ticket there and I will respond.</p>
+
+<p>Same thing if you have any feature requests.</p>
+
+<p>I will gladly accept pull requests if you want to do the work yourself.</p>
+
+<p>you can also ping me <a href="https://gitter.im/rossPatton/stylint">here</a></p>
+
+<h2>
+<a id="cli" class="anchor" href="#cli" aria-hidden="true"><span class="octicon octicon-link"></span></a>CLI</h2>
+
+<p><code>-h</code> or <code>--help</code>    Display list of commands</p>
+
+<p><code>-w</code> or <code>--watch</code>   Watch file or directory and run lint on change</p>
+
+<p><code>-c</code> or <code>--config</code>  Pass in location of custom config file</p>
+
+<p><code>-s</code> or <code>--strict</code>  Run all tests, regardless of config</p>
+
+<p><code>-v</code> or <code>--version</code> Display current version</p>
+
+<h2>
+<a id="example-cli-usage" class="anchor" href="#example-cli-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example CLI Usage:</h2>
+
+<p><code>stylint</code> Run stylint on cwd</p>
+
+<p><code>stylint path/to/styl -s</code> Run stylint in strict mode, for masochists</p>
+
+<p><code>stylint path/to/filename.styl</code> Run stylint on a file</p>
+
+<p><code>stylint path/to/dir -w</code> Watch dir, run stylint on file change</p>
+
+<p><code>stylint -h</code> Get list of commands</p>
+
+<p><code>stylint -v</code> Get version number</p>
+
+<p><code>stylint -c path/to/config/.configrc</code> Run stylint with custom config settings</p>
+
+<p><code>stylint styl/ -w -c path/to/config/.configrc</code> Watch dir, use custom config</p>
+
+<h2>
+<a id="gulp" class="anchor" href="#gulp" aria-hidden="true"><span class="octicon octicon-link"></span></a>Gulp</h2>
+
+<p>You can use the raw module with <a href="https://github.com/sun-zheng-an/gulp-shell">gulp-shell</a> like below:</p>
+
+<pre><code>gulp.task('stylint', shell.task([
+    'stylint path/to/styl/ -c .stylintrc'
+]));
+</code></pre>
+
+<p>Or use <a href="https://github.com/danielhusar/gulp-stylint">gulp-stylint</a></p>
+
+<pre><code>var gulp = require('gulp');
+var stylint = require('gulp-stylint');
+
+gulp.task('default', function () {
+    return gulp.src('src/*.styl')
+        .pipe(stylint())
+});
+</code></pre>
+
+<h2>
+<a id="why-write-this-tool" class="anchor" href="#why-write-this-tool" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why Write This Tool?</h2>
+
+<p>Stylus is my CSS pre-processor of choice and the lack of a decent linter (or really, any linter) was an annoying pain point. So I thought I'd try my hand at writing what I thought my ideal linter would look like.</p>
+
+<h2>
+<a id="why-use-this-tool" class="anchor" href="#why-use-this-tool" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why Use This Tool?</h2>
+
+<p>To catch little mistakes (duplication of rules for instance) and to enforce a code style guide. This is particularly important with Stylus, which is unopinionated when it comes to syntax. Ideally by 1.0 or earlier this tool will eventually allow you to enforce as little, or as much, syntax as you like.</p>
+
+<h2>
+<a id="options" class="anchor" href="#options" aria-hidden="true"><span class="octicon octicon-link"></span></a>Options</h2>
+
+<p>The following is a list of the options available to stylint. Use the <code>-c</code> or <code>--config</code> flag to pass in the location of your custom <code>.stylintrc</code> config file if you want to change the defaults. Alternatively, you could pass the <code>-s</code> or <code>--strict</code> flag to run stylint as though everything was set to true, config file or not.</p>
+
+<p>The default settings are pretty weak and unopinionated (I think). If you want to enforce a particular styleguide, you'll have to set up your own config file. Below is the default config.</p>
+
+<pre><code>{
+    "borderNone": true,
+    "brackets": false,
+    "colons": false,
+    "colors": false,
+    "commaSpace": true,
+    "commentSpace": false,
+    "cssLiteral": false,
+    "depthLimit": false,
+    "duplicates": true,
+    "efficient": true,
+    "emoji": false,
+    "enforceBlockStyle": false,
+    "enforceVarStyle": false,
+    "extendPref": false,
+    "globalDupe": false,
+    "indentSpaces": 4,
+    "leadingZero": true,
+    "maxWarnings": 10,
+    "maxWarningsKill": false,
+    "mixed": false,
+    "namingConvention": false,
+    "namingConventionStrict": false,
+    "parenSpace": false,
+    "placeholders": true,
+    "quotePref": false,
+    "semicolons": false,
+    "sortOrder": false,
+    "stackedProperties": true,
+    "universal": true,
+    "valid": false,
+    "whitespace": true,
+    "zeroUnits": true,
+    "zIndexDuplicates": false,
+    "zIndexNormalize": false
+}
+</code></pre>
+
+<h3>
+<a id="warning-toggle-inline-comment-stylint-off--stylint-on" class="anchor" href="#warning-toggle-inline-comment-stylint-off--stylint-on" aria-hidden="true"><span class="octicon octicon-link"></span></a>warning toggle (inline comment: @stylint off || @stylint on)</h3>
+
+<p>Disable linting for a particular block of code by placing <code>@stylint off</code> in a line comment. Re-enable by placing <code>@stylint on</code> in a line comment further down. Stylint will not test any lines until turned back on. Use this to suppress warnings on a case-by-case basis. By default the linter will check every line except for <a href="https://github.com/css" class="user-mention">@css</a> blocks or places where certain rules have exceptions.</p>
+
+<p>For example, let's say you want to enforce <code>namingConvention: "lowercase_underscore"</code>, but you're also styling elements from the Bootstrap framework. You can use the <code>@stylint off</code> toggle to prevent warnings in places where you're referencing Bootstrap classes.</p>
+
+<p>Example:</p>
+
+<div class="highlight highlight-stylus"><pre><span class="pl-e">.button_block</span><span class="pl-e"> </span>{
+    <span class="pl-c1">background</span>: <span class="pl-c1">silver</span>;
+    <span class="pl-c1">padding</span>: <span class="pl-c1">4<span class="pl-k">px</span></span>;
+}
+<span class="pl-c">// @stylint off</span>
+<span class="pl-e">.button_block</span><span class="pl-e"> </span><span class="pl-e">.btn-default</span><span class="pl-e"> </span>{
+    <span class="pl-c1">background-color</span>: <span class="pl-c1">green</span>;
+    <span class="pl-c1">color</span>: <span class="pl-c1">white</span>;
+}
+<span class="pl-c">// @stylint on</span></pre></div>
+
+<h3>
+<a id="bordernone-default-true-boolean" class="anchor" href="#bordernone-default-true-boolean" aria-hidden="true"><span class="octicon octicon-link"></span></a>borderNone (default: true, boolean)</h3>
+
+<p>Check for places where <code>border 0</code> could be used instead of border none.</p>
+
+<p>Example if true: prefer <code>border 0</code> over <code>border none</code></p>
+
+<h3>
+<a id="brackets-default-false-boolean" class="anchor" href="#brackets-default-false-boolean" aria-hidden="true"><span class="octicon octicon-link"></span></a>brackets (default: false, boolean)</h3>
+
+<p>Brackets are optional in stylus (except in hashes). If set to true, throws a warning if a bracket is used outside of a hash.</p>
+
+<p>Example if true: prefer <code>.some-class-name</code> over <code>.some-class-name {</code></p>
+
+<h3>
+<a id="colons-default-false-boolean" class="anchor" href="#colons-default-false-boolean" aria-hidden="true"><span class="octicon octicon-link"></span></a>colons (default: false, boolean)</h3>
+
+<p>Checks for existence of unecessary colons. Does not throw a warning if colon is used inside a hash.</p>
+
+<p>Example if true: prefer <code>margin 0</code> over <code>margin: 0</code></p>
+
+<h3>
+<a id="colors-default-false-boolean" class="anchor" href="#colors-default-false-boolean" aria-hidden="true"><span class="octicon octicon-link"></span></a>colors (default: false, boolean)</h3>
+
+<p>Checks for hexidecimal color values, and suggest using a variable instead.</p>
+
+<p>Example if true: prefer <code>color $red</code> over <code>color #f00</code></p>
+
+<h3>
+<a id="commaspace-default-true-boolean" class="anchor" href="#commaspace-default-true-boolean" aria-hidden="true"><span class="octicon octicon-link"></span></a>commaSpace (default: true, boolean)</h3>
+
+<p>Enforce spaces after commas.</p>
+
+<p>Example if true: prefer <code>rgba(0, 0, 0, .18)</code> over <code>rgba(0,0,0,.18)</code></p>
+
+<h3>
+<a id="commentspace-default-false-boolean" class="anchor" href="#commentspace-default-false-boolean" aria-hidden="true"><span class="octicon octicon-link"></span></a>commentSpace (default: false, boolean)</h3>
+
+<p>Enforce spaces after line comments.</p>
+
+<p>Example if true: prefer <code>// comment</code> over <code>//comment</code></p>
+
+<h3>
+<a id="cssliteral-default-false-boolean" class="anchor" href="#cssliteral-default-false-boolean" aria-hidden="true"><span class="octicon octicon-link"></span></a>cssLiteral (default: false, boolean)</h3>
+
+<p>By default Stylint ignores <code>@css</code> blocks. If set to true however, it will throw a warning if <code>@css</code> is used.</p>
+
+<p>Example if true: <code>@css</code> will throw a warning</p>
+
+<h3>
+<a id="depthlimit-default-false-number-or-false" class="anchor" href="#depthlimit-default-false-number-or-false" aria-hidden="true"><span class="octicon octicon-link"></span></a>depthLimit (default: false, number or false)</h3>
+
+<p>Set the max selector depth. If set to 4, max selector depth will be 4 indents. Pseudo selectors like <code>&amp;:first-child</code> or <code>&amp;:hover</code> won't count towards the limit.</p>
+
+<p>Set to false if you don't want to check for this.</p>
+
+<h3>
+<a id="duplicates-default-true-boolean" class="anchor" href="#duplicates-default-true-boolean" aria-hidden="true"><span class="octicon octicon-link"></span></a>duplicates (default: true, boolean)</h3>
+
+<p>Checks if selector or property duplicated unnecessarily. By default, only checks on a file-by-file basis, but if <code>globalDupes: true</code> is set, then it will also check for duplicates globally (for root values only).</p>
+
+<p>Example if true: the following will throw a warning:</p>
+
+<pre><code>.test
+    margin 0
+    margin 5px
+</code></pre>
+
+<h3>
+<a id="efficient-default-true-boolean" class="anchor" href="#efficient-default-true-boolean" aria-hidden="true"><span class="octicon octicon-link"></span></a>efficient (default: true, boolean)</h3>
+
+<p>Check for places where properties can be written more efficiently.</p>
+
+<p>Example if true: prefer <code>margin 0</code> over <code>margin 0 0</code></p>
+
+<h3>
+<a id="emoji-default-false-boolean" class="anchor" href="#emoji-default-false-boolean" aria-hidden="true"><span class="octicon octicon-link"></span></a>emoji (default: false, boolean)</h3>
+
+<p>Do you want a happy face with your sucess/warning messages? of course you do</p>
+
+<h3>
+<a id="enforceblockstyle-default-false-boolean" class="anchor" href="#enforceblockstyle-default-false-boolean" aria-hidden="true"><span class="octicon octicon-link"></span></a>enforceBlockStyle (default: false, boolean)</h3>
+
+<p>Enforce use of <code>@block</code> when defining a block variable.</p>
+
+<p>Example: prefer <code>myBlock = @block</code> over <code>myBlock =</code></p>
+
+<h3>
+<a id="enforcevarstyle-default-false-boolean" class="anchor" href="#enforcevarstyle-default-false-boolean" aria-hidden="true"><span class="octicon octicon-link"></span></a>enforceVarStyle (default: false, boolean)</h3>
+
+<p>Enforce use of <code>$</code> when defining a variable. In Stylus using a <code>$</code> when defining a variable is optional, but is a good idea if you want to prevent ambiguity. Not including the <code>$</code> sets up situations where you wonder: "Is this a variable or a value?" For instance: <code>padding $default</code> is easier to understand than <code>padding default</code>.</p>
+
+<p>Yes, <code>default</code> isn't an acceptable value for <code>padding</code>, but at first glance you might not catch that. And now if you try to set <code>cursor default</code>, it's not going to behave the way you expect. All this pain and heartache could've been avoided if you just used a <code>$</code>.</p>
+
+<p>Example: prefer <code>$my-var = 0</code> over <code>my-var = 0</code></p>
+
+<h3>
+<a id="extendpref-default-false-string-or-false" class="anchor" href="#extendpref-default-false-string-or-false" aria-hidden="true"><span class="octicon octicon-link"></span></a>extendPref (default: false, string or false)</h3>
+
+<p>Pass in either <code>@extend</code> or <code>@extends</code> and then enforce that. Both are valid in Stylus. It doesn't really matter which one you use. I prefer <code>@extends</code> myself.</p>
+
+<p>Example if set to <code>@extends</code>: prefer <code>@extends $some-var</code> over <code>@extend $some-var</code></p>
+
+<p>Example if set to <code>@extend</code>: prefer <code>@extend $some-var</code> over <code>@extend $some-var</code></p>
+
+<h3>
+<a id="globaldupe-default-false-boolean" class="anchor" href="#globaldupe-default-false-boolean" aria-hidden="true"><span class="octicon octicon-link"></span></a>globalDupe (default: false, boolean)</h3>
+
+<p>Works in conjunction with duplicates. Does nothing on its own. If false, duplicates will check for dupes within individual files only. If true, duplicates will check for dupes across all files.</p>
+
+<p>Example if true: the following will throw a warning</p>
+
+<pre><code>&gt;&gt;&gt; file1.styl
+.test
+    margin 0
+
+&gt;&gt;&gt; file2.styl
+.test
+    margin 5px
+</code></pre>
+
+<h3>
+<a id="indentspaces-default-4-number-or-false" class="anchor" href="#indentspaces-default-4-number-or-false" aria-hidden="true"><span class="octicon octicon-link"></span></a>indentSpaces (default: 4, number or false)</h3>
+
+<p>This works in conjunction with depthLimit. If you indent with spaces this is the number of spaces you indent with. If you use hard tabs, set this value to false.</p>
+
+<p>By default this value is 4, so if you indent with hard tabs or 2 spaces you'll need to manually set this value in a custom <code>.stylintrc</code> file. With default settings, this means the depth limit is 4 indents of 4 spaces each.</p>
+
+<h3>
+<a id="leadingzero-default-true-boolean" class="anchor" href="#leadingzero-default-true-boolean" aria-hidden="true"><span class="octicon octicon-link"></span></a>leadingZero (default: true, boolean)</h3>
+
+<p>Checking for unnecessary leading zeroes on decimal points. You don't need them.</p>
+
+<p>Example: prefer <code>rgba( 0, 0, 0, .5 )</code> over <code>rgba( 0, 0, 0, 0.5 )</code></p>
+
+<h3>
+<a id="maxwarnings-default-10-number" class="anchor" href="#maxwarnings-default-10-number" aria-hidden="true"><span class="octicon octicon-link"></span></a>maxWarnings (default: 10, number)</h3>
+
+<p>Set 'max' number of warnings. Currently this just displays a slightly sterner message. Womp womp.</p>
+
+<h3>
+<a id="maxwarningskill-default-false-boolean" class="anchor" href="#maxwarningskill-default-false-boolean" aria-hidden="true"><span class="octicon octicon-link"></span></a>maxWarningsKill (default: false, boolean)</h3>
+
+<p>If set to true, then Stylint will throw an error if total # of warnings goes over the limit set in maxWarnings.</p>
+
+<h3>
+<a id="mixed-default-false-boolean-relies-on-indentpref" class="anchor" href="#mixed-default-false-boolean-relies-on-indentpref" aria-hidden="true"><span class="octicon octicon-link"></span></a>mixed (default: false, boolean, relies on indentPref)</h3>
+
+<p>Returns true if mixed spaces and tabs are found. If a number is passed to indentPref (4 is the default), it assumes soft tabs (ie, spaces), and if false is passed to indentPref it assumes hard tabs.</p>
+
+<p>If soft tabs, throws warning if hard tabs used. If hard tabs, throws warning if unnecessary extra spaces found.</p>
+
+<p>Example if indentPref: 4 and mixed: true: prefer <code>\s\s\s\smargin\s0</code> over <code>\tmargin\s0</code></p>
+
+<p>Example if indentPref: 2 and mixed: true: prefer <code>\s\smargin\s0</code> over <code>\tmargin\s0</code></p>
+
+<p>Example if indentPref: false and mixed: true: prefer <code>\tmargin\s0</code> over <code>\s\s\s\smargin\s0</code></p>
+
+<h3>
+<a id="namingconvention-default-false-false--lowercase-dash--lowercase_underscore--camelcase--bem" class="anchor" href="#namingconvention-default-false-false--lowercase-dash--lowercase_underscore--camelcase--bem" aria-hidden="true"><span class="octicon octicon-link"></span></a>namingConvention (default: false, false | 'lowercase-dash' | 'lowercase_underscore' | 'camelCase' | 'BEM')</h3>
+
+<p>Enforce a particular naming convention when declaring classes, ids, and variables. Throws a warning if you don't follow the convention. If set to false, allow any convention.</p>
+
+<p>Example if set to <code>'lowercase-dash'</code>: prefer <code>$var-name</code> over <code>$var_name</code> or <code>$varName</code></p>
+
+<p>Example if set to <code>'lowercase_underscore'</code>: prefer <code>$var_name</code> over <code>$var-name</code> or <code>$varName</code></p>
+
+<p>Example if set to <code>'camelCase'</code>: prefer <code>$varName</code> over <code>$var_name</code> or <code>$var-name</code></p>
+
+<p>Example if set to <code>'BEM'</code>: prefer <code>$var__like--this</code> over <code>$var_name</code> or <code>$varName</code></p>
+
+<h3>
+<a id="namingconventionstrict-default-false-boolean" class="anchor" href="#namingconventionstrict-default-false-boolean" aria-hidden="true"><span class="octicon octicon-link"></span></a>namingConventionStrict (default: false, boolean)</h3>
+
+<p>By default, namingConvention only looks at variable names. If namingConventionStrict is set to true, namingConvention will also look at class and id names.</p>
+
+<p>This is useful if you have little or no 3rd party css in your codebase.</p>
+
+<h3>
+<a id="parenspace-default-false-boolean" class="anchor" href="#parenspace-default-false-boolean" aria-hidden="true"><span class="octicon octicon-link"></span></a>parenSpace (default: false, boolean)</h3>
+
+<p>Enforce use of extra spaces inside parens.</p>
+
+<p>This option used to be called mixinSpace, and you can still call it that if you want, but I will remove the old option by 1.0 probably.</p>
+
+<p>Example: prefer <code>my-mixin( $myParam )</code> over <code>my-mixin($myParam)</code></p>
+
+<h3>
+<a id="placeholder-default-false-boolean" class="anchor" href="#placeholder-default-false-boolean" aria-hidden="true"><span class="octicon octicon-link"></span></a>placeholder (default: false, boolean)</h3>
+
+<p>Enforce extending placeholder vars when using <code>@extend(s)</code></p>
+
+<p>Example: prefer <code>@extends $placeholder</code> over <code>$extends .some-class</code></p>
+
+<h3>
+<a id="quotepref-default-false-false--single--double" class="anchor" href="#quotepref-default-false-false--single--double" aria-hidden="true"><span class="octicon octicon-link"></span></a>quotePref (default: false, false | 'single' | 'double')</h3>
+
+<p>Enforce consistent quotation style.</p>
+
+<p>Example if <code>'single'</code>: prefer <code>$var = 'some string'</code> over <code>$var = "some string"</code>
+Example if <code>'double'</code>: prefer <code>$var = "some string"</code> over <code>$var = 'some string'</code></p>
+
+<h3>
+<a id="stackedproperties-default-true-boolean" class="anchor" href="#stackedproperties-default-true-boolean" aria-hidden="true"><span class="octicon octicon-link"></span></a>stackedProperties (default: true, boolean)</h3>
+
+<p>No one-liners. Enforce putting properties on new lines.</p>
+
+<p>Example if <code>true</code>: prefer</p>
+
+<pre><code>.className
+    padding 0
+</code></pre>
+
+<p>over</p>
+
+<p><code>.className { padding 0 }</code></p>
+
+<h3>
+<a id="semicolons-default-false-boolean" class="anchor" href="#semicolons-default-false-boolean" aria-hidden="true"><span class="octicon octicon-link"></span></a>semicolons (default: false, boolean)</h3>
+
+<p>Look for unecessary semicolons.</p>
+
+<p>Example: prefer <code>margin 0</code> over <code>margin 0;</code></p>
+
+<h3>
+<a id="sortorder-default-false-false--alphabetical--grouped--array" class="anchor" href="#sortorder-default-false-false--alphabetical--grouped--array" aria-hidden="true"><span class="octicon octicon-link"></span></a>sortOrder (default: false, false | 'alphabetical' | 'grouped' | {Array})</h3>
+
+<p>Enforce a particular sort order when declaring properties. Throws a warning if you don't follow the order. If set to false, allow any order.</p>
+
+<p>Example if <code>'alphabetical'</code>:</p>
+
+<p>prefer this:</p>
+
+<pre><code>.some-class
+    display block
+    float left
+    position absolute
+    right 10px
+    top 0
+</code></pre>
+
+<p>over this:</p>
+
+<pre><code>.some-class
+    position absolute
+    top 0
+    right 10px
+    display block
+    float left
+</code></pre>
+
+<p>Example if <code>'grouped'</code> (<a href="src/data/ordering.json#L2">based on predefined grouped ordering</a>):</p>
+
+<p>prefer this:</p>
+
+<pre><code>.some-class
+    position absolute
+    top 0
+    right 10px
+    display block
+    float left
+</code></pre>
+
+<p>over this:</p>
+
+<pre><code>.some-class
+    display block
+    float left
+    position absolute
+    right 10px
+    top 0
+</code></pre>
+
+<p>Example if <code>[ 'margin', 'padding', 'float', 'position' ]</code>:</p>
+
+<p>prefer this:</p>
+
+<pre><code>.some-class
+    margin 0
+    padding 0
+    float left
+    position absolute
+    right 10px
+    top 0
+    display block
+</code></pre>
+
+<p>over this:</p>
+
+<pre><code>.some-class
+    display block
+    float left
+    position absolute
+    right 10px
+    top 0
+    margin 0
+    padding 0
+</code></pre>
+
+<p>When set to <code>'grouped'</code> or <code>{Array}</code> throws a warning if properties that are not defined in the ordering array are not after those that should be ordered.</p>
+
+<h3>
+<a id="universal-default-true-boolean" class="anchor" href="#universal-default-true-boolean" aria-hidden="true"><span class="octicon octicon-link"></span></a>universal (default: true, boolean)</h3>
+
+<p>Looks for instances of the inefficient * selector. Lots of resets use this, for good reason (resetting box model), but past that you really don't need this selector, and you should avoid it if possible.</p>
+
+<h3>
+<a id="valid-default-false-boolean" class="anchor" href="#valid-default-false-boolean" aria-hidden="true"><span class="octicon octicon-link"></span></a>valid (default: false, boolean)</h3>
+
+<p>Check that a property is a valid CSS or HTML property. Currently just checks properties, value checks will come soon.</p>
+
+<p>Example if true: <code>marg 0</code> will throw a warning, prefer <code>margin 0</code></p>
+
+<h3>
+<a id="whitespace-default-true-boolean" class="anchor" href="#whitespace-default-true-boolean" aria-hidden="true"><span class="octicon octicon-link"></span></a>whitespace (default: true, boolean)</h3>
+
+<p>Looks for trailing whitespace. Throws a warning if any found.</p>
+
+<h3>
+<a id="zerounits-default-true-boolean" class="anchor" href="#zerounits-default-true-boolean" aria-hidden="true"><span class="octicon octicon-link"></span></a>zeroUnits (default: true, boolean)</h3>
+
+<p>Looks for instances of <code>0px</code>. You don't need the px. Checks all units, not just px.</p>
+
+<p>Example: prefer <code>margin-right 0</code> over <code>margin-right 0em</code></p>
+
+<h3>
+<a id="zindexduplicates-default-false-boolean" class="anchor" href="#zindexduplicates-default-false-boolean" aria-hidden="true"><span class="octicon octicon-link"></span></a>zIndexDuplicates (default: false, boolean)</h3>
+
+<p>If a z-index value has been used before, throw a warning. Is this useful? WHO KNOWS.</p>
+
+<p>Example if true: the follow throws a warning</p>
+
+<pre><code>.test
+    z-index 5
+
+.test
+    z-index 5
+</code></pre>
+
+<p>Doesn't take into considering stacking contexts yet so, and i'm not sure it ever will, so good luck if you try to use this. Small projects might get some use out of this.</p>
+
+<h3>
+<a id="zindexnormalize-default-false-number-or-false" class="anchor" href="#zindexnormalize-default-false-number-or-false" aria-hidden="true"><span class="octicon octicon-link"></span></a>zIndexNormalize (default: false, number or false)</h3>
+
+<p>Enforce some (very) basic z-index sanity. Any number passed in will be used as the base for your z-index values. Throws an error if your value is not normalized.</p>
+
+<p>Example if set to 5: prefer <code>z-index 10</code> over <code>z-index 9</code>
+Example if set to 10: prefer <code>z-index 20</code> over <code>z-index 15</code>
+Example if set to 50: prefer <code>z-index 100</code> over <code>z-index 75</code></p>
+
+<p>Doesn't take into considering stacking contexts yet so, and i'm not sure it ever will, so good luck if you try to use this. Small projects might get some use out of this.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/rossPatton">rossPatton</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
