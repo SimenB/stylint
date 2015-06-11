@@ -11,7 +11,7 @@ var fs = require('fs');
  * @returns test function
  */
 module.exports = function parse( app, file, len, fileNum ) {
-	var stripComments = /\G[^"'\/]*(?:'[^']*'|"[^"]*"|\/\/[^\r\n]+|\/[^*]|(\/\*(?:.|\r|\n)*?\*\/))/g;
+	var stripComments = /(^(\/\*)|^([ \t](\/\*)))(?!\/)(.|[\r\n]|\n)+?\*\/\n?\n?/gm;
 
 	return fs.readFile(file, { encoding: 'utf8' }, function( err, data ) {
 		if ( err ) { throw err; }
