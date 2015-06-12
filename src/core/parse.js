@@ -1,6 +1,6 @@
 'use strict';
 
-var stripCommentsRe = /(^(\/\*)|^([ \t](\/\*)))(?!\/)(.|[\r\n]|\n)+?\*\/\n?\n?/gm;
+var stripCommentsRe = /(^(\/\*)|([ \t'"](\/\*)))(?!\/)(.|[\r\n]|\n)+?\*\/\n?\n?/gm;
 
 
 /**

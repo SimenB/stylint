@@ -9,12 +9,15 @@ const chokidar = require('chokidar');
 const touch = require('touch');
 const should = require('chai').should();
 const sinon = require('sinon');
-const app = require('../index').create();
+const app = require('../index')().create();
+
 
 // turn on strict mode from this point and turn off unecessary logging
 app.state.quiet = true;
 app.state.watching = true;
 app.cache.dir = '/Users/ross/Developer/workspace/stylus-lint/';
+
+
 
 describe('Core Methods: ', function() {
 
@@ -91,78 +94,78 @@ describe('Core Methods: ', function() {
 		});
 	});
 
-	describe('Read: ', function() {
-		sinon.spy( app, 'read' );
+	// describe('Read: ', function() {
+	// 	sinon.spy( app, 'read' );
 
-		it('should be a function', function() {
-			app.read.should.be.a('function');
-		});
+	// 	it('should be a function', function() {
+	// 		app.read.should.be.a('function');
+	// 	});
 
-		it('return parse function if passed a dir', function() {
-			app.state.path = 'styl/';
-			app.read();
-			app.read.getCall(0).returned( sinon.match.same( app.parse ) );
-		});
+	// 	it('return parse function if passed a dir', function() {
+	// 		app.state.path = 'styl/';
+	// 		app.read();
+	// 		app.read.getCall(0).returned( sinon.match.same( app.parse ) );
+	// 	});
 
-		it('return parse function if passed a filename', function() {
-			app.state.path = 'styl/test2.styl';
-			app.read();
-			app.read.getCall(1).returned( sinon.match.same( app.parse ) );
-		});
+	// 	it('return parse function if passed a filename', function() {
+	// 		app.state.path = 'styl/test2.styl';
+	// 		app.read();
+	// 		app.read.getCall(1).returned( sinon.match.same( app.parse ) );
+	// 	});
 
-		it('return parse function if nothing passed', function() {
-			app.state.path = process.cwd();
-			app.read();
-			app.read.getCall(2).returned( sinon.match.same( app.parse ) );
-		});
-	});
+	// 	it('return parse function if nothing passed', function() {
+	// 		app.state.path = process.cwd();
+	// 		app.read();
+	// 		app.read.getCall(2).returned( sinon.match.same( app.parse ) );
+	// 	});
+	// });
 
-	describe('Parse should: ', function() {
-		sinon.spy( app, 'parse' );
+	// describe('Parse should: ', function() {
+	// 	sinon.spy( app, 'parse' );
 
-		it('be a function', function() {
-			app.parse.should.be.a( 'function' );
-		});
+	// 	it('be a function', function() {
+	// 		app.parse.should.be.a( 'function' );
+	// 	});
 
-		it('return a forEach if passed a filename', function() {
-			app.parse(false, ['styl/test2.styl']);
-			app.parse.getCall(0).returned( sinon.match.same( ['styl/test2.styl'].forEach ) );
-		});
+	// 	it('return a forEach if passed a filename', function() {
+	// 		app.parse(false, ['styl/test2.styl']);
+	// 		app.parse.getCall(0).returned( sinon.match.same( ['styl/test2.styl'].forEach ) );
+	// 	});
 
-		it('return a forEach if passed a list of files', function() {
-			app.parse(false, ['styl/test2.styl, styl/test.styl']);
-			app.parse.getCall(1).returned( sinon.match.same( ['styl/test2.styl, styl/test.styl'].forEach ) );
-		});
+	// 	it('return a forEach if passed a list of files', function() {
+	// 		app.parse(false, ['styl/test2.styl, styl/test.styl']);
+	// 		app.parse.getCall(1).returned( sinon.match.same( ['styl/test2.styl, styl/test.styl'].forEach ) );
+	// 	});
 
-		it('handle empty or one line files fine', function() {
-			app.parse(false, ['styl/oneLine.styl']);
-			app.parse.getCall(2).returned( sinon.match.same( ['styl/oneLine.styl'].forEach ) );
-		});
+	// 	it('handle empty or one line files fine', function() {
+	// 		app.parse(false, ['styl/oneLine.styl']);
+	// 		app.parse.getCall(2).returned( sinon.match.same( ['styl/oneLine.styl'].forEach ) );
+	// 	});
 
-		it('returns app.done when done parsing last file', function() {
-			app.cache.fileNo = app.cache.filesLen;
-			app.parse(false, ['styl/test2.styl']);
-			app.parse.getCall(3).returned( sinon.match.same( app.done ) );
-		});
+	// 	it('returns app.done when done parsing last file', function() {
+	// 		app.cache.fileNo = app.cache.filesLen;
+	// 		app.parse(false, ['styl/test2.styl']);
+	// 		app.parse.getCall(3).returned( sinon.match.same( app.done ) );
+	// 	});
 
-		it('throws err if passed non-existant file name', function() {
-			app.cache.file = undefined;
-			assert.throws(
-				app.parse,
-				Error,
-				'readFile err. Did you pass in a correct filename?'
-			);
-		});
-	});
+	// 	it('throws err if passed non-existant file name', function() {
+	// 		app.cache.file = undefined;
+	// 		assert.throws(
+	// 			app.parse,
+	// 			Error,
+	// 			'readFile err. Did you pass in a correct filename?'
+	// 		);
+	// 	});
+	// });
 
-	describe('Lint: ', function() {
-		sinon.spy( app, 'lint' );
-		app.lint( app, '  margin 0 auto ', 5, 'margin 0 auto', 'styl/test2.styl' );
+	// describe('Lint: ', function() {
+	// 	sinon.spy( app, 'lint' );
+	// 	app.lint( app, '  margin 0 auto ', 5, 'margin 0 auto', 'styl/test2.styl' );
 
-		it('should be a function', function() {
-			app.lint.should.be.a( 'function' );
-		});
-	});
+	// 	it('should be a function', function() {
+	// 		app.lint.should.be.a( 'function' );
+	// 	});
+	// });
 
 	describe('Watch: ', function() {
 		sinon.spy( app, 'watch' );
@@ -197,6 +200,47 @@ describe('Core Methods: ', function() {
 				assert(true);
 			});
 			touch('styl/test.styl');
+		});
+	});
+
+	describe('Reporter should: ', function() {
+		sinon.spy( app, 'reporter' );
+
+		it('be a function', function() {
+			app.reporter.should.be.a( 'function' );
+		});
+
+		it('return correctly formatted msg', function() {
+			app.state.severity = 'Warning';
+			app.cache.file = 'testReporter';
+			app.cache.lineNo = '1';
+			app.cache.line = 'Reporter Lyfe*';
+
+			// app.reporter('universal disallowed');
+			assert.equal( 'Warning: universal disallowed\nFile: testReporter\nLine: 1: Reporter Lyfe*', app.reporter('universal disallowed') );
+		});
+
+		it('return done() if done passed in', function() {
+			const expectedDoneObj = {
+				"exitCode": 0,
+				"msg": "Stylint: You're all clear!"
+			};
+
+			assert.equal(
+				0, app.reporter('reporter test', 'done').exitCode
+			);
+		});
+
+		it('return done() and kill if kill passed in', function() {
+			const expectedDoneObj = {
+				"exitCode": 1,
+				"msg": "Stylint: You're all clear!"
+			};
+
+			assert.equal(
+				true,
+				app.reporter('reporter test', 'done', 'kill').msg.indexOf('Over Error or Warning Limit') !== -1
+			);
 		});
 	});
 
@@ -1898,6 +1942,7 @@ describe('Linter Style Checks: ', function() {
 describe('Done, again: ', function() {
 
 	beforeEach(function() {
+		app.cache.msg = '';
 		app.state.quiet = true;
 		app.state.watching = true;
 		app.cache.errs = [];
@@ -1916,23 +1961,14 @@ describe('Done, again: ', function() {
 		assert.equal( 0, app.done().exitCode );
 	});
 
-	it('msg should be the success message', function() {
-		const success = 'Stylint: You\'re all clear!';
-		assert.equal( success, app.done().msg );
-	});
-
 	it('msg should be the default warnings/errors message', function() {
 		app.state.quiet = false;
 		app.config.maxWarnings = 10;
 		app.config.maxErrors = 10;
 		app.cache.warnings = [0,1,2,3,4];
 		app.cache.errs = [0,1,2,3,4];
-		const msg = '\nStylint: 5 Errors. (Max Errors: 10)\nStylint: 5 Warnings. (Max Warnings: 10)'
-		assert.equal( msg, app.done( app ).msg );
-	});
-
-	it('msg should be the kill message', function() {
-		assert.equal( true, app.done('kill').msg.indexOf('Over Error or Warning Limit') !== -1 );
+		app.cache.msg = '\nStylint: 5 Errors. (Max Errors: 10)\nStylint: 5 Warnings. (Max Warnings: 10)'
+		assert.equal( app.cache.msg, app.done( app ).msg );
 	});
 
 	it('should exit if watch off', function() {
