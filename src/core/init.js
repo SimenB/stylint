@@ -9,10 +9,8 @@ module.exports = function init() {
 	}
 
 	// if path/ passed in use that for the dir
-	if ( this.path ) {
-		this.state.path = this.path;
-	}
-	else if ( process.argv[2] && this.flags.indexOf( process.argv[2] ) === -1 ) {
+	if ( typeof this.state.path !== 'undefined' &&
+		process.argv[2] && this.flags.indexOf( process.argv[2] ) === -1 ) {
 		this.state.path = process.argv[2];
 	}
 	else {

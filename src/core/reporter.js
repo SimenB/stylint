@@ -14,13 +14,10 @@ module.exports = function reporter( msg, done, kill ) {
 		else if ( this.cache.errs.length === 0 &&
 			this.cache.warnings.length === 0 ) {
 			this.cache.msg = 'Stylint: You\'re all clear!';
-			this.state.exitCode = 0;
 		}
 
 		return this.done();
 	}
-
-	// console.log( this.state.severity + ': ' + msg + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + this.cache.line.trim() );
 
 	return this.state.severity + ': ' + msg + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + this.cache.line.trim();
 }

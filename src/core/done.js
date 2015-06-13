@@ -7,6 +7,15 @@ module.exports = function done() {
 	var warningsOrErrors = [];
 	var msg = '';
 
+	// if no warnings or errors
+	if ( this.cache.errs.length === 0 &&
+		this.cache.warnings.length === 0 ) {
+		this.state.exitCode = 0;
+	}
+	else {
+		this.state.exitCode = 1;
+	}
+
 	// when testing we want to silence the console a bit, so we have the quiet option
 	if ( !this.state.quiet ) {
 		this.cache.errs.forEach(function(err) {

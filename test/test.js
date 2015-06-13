@@ -18,7 +18,6 @@ app.state.watching = true;
 app.cache.dir = '/Users/ross/Developer/workspace/stylus-lint/';
 
 
-
 describe('Core Methods: ', function() {
 
 	beforeEach(function() {
@@ -28,11 +27,6 @@ describe('Core Methods: ', function() {
 	describe('Done: ', function() {
 		it('should be a function', function() {
 			app.done.should.be.a('function');
-		});
-
-		it('exit code of 1 if errs', function() {
-			app.cache.warnings = [0,1,2,3,4,5];
-			assert.equal( 1, app.done( app ).exitCode );
 		});
 	});
 
@@ -1961,6 +1955,12 @@ describe('Done, again: ', function() {
 		assert.equal( 0, app.done().exitCode );
 	});
 
+	it('exit code of 1 if not clear', function() {
+		app.cache.warnings = [0,1,2,3,4];
+		app.cache.errs = [0,1,2,3,4];
+		assert.equal( 1, app.done().exitCode );
+	});
+
 	it('msg should be the default warnings/errors message', function() {
 		app.state.quiet = false;
 		app.config.maxWarnings = 10;
@@ -1968,15 +1968,15 @@ describe('Done, again: ', function() {
 		app.cache.warnings = [0,1,2,3,4];
 		app.cache.errs = [0,1,2,3,4];
 		app.cache.msg = '\nStylint: 5 Errors. (Max Errors: 10)\nStylint: 5 Warnings. (Max Warnings: 10)'
-		assert.equal( app.cache.msg, app.done( app ).msg );
+		assert.equal( app.cache.msg, app.done().msg );
 	});
 
-	it('should exit if watch off', function() {
-		app.state.watching = false;
-		sinon.spy( app, 'done' );
-		app.done();
+	// it('should exit if watch off', function() {
+	// 	app.state.watching = false;
+	// 	sinon.spy( app, 'done' );
+	// 	app.done();
 
-		app.done.getCall(0).returned( sinon.match.same( process.exit ) );
-		app.state.watching = true;
-	});
+	// 	app.done.getCall(0).returned( sinon.match.same( process.exit ) );
+	// 	app.state.watching = true;
+	// });
 });
