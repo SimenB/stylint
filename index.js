@@ -32,7 +32,7 @@ module.exports = function( path, config ) {
 
 	if ( config ) {
 		customConfig = stampit().state({
-			config: config,
+			config: config
 		});
 	}
 

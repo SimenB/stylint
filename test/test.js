@@ -37,6 +37,30 @@ describe('Core Methods: ', function() {
 			app.init.should.be.a('function');
 		});
 
+		// it('set path if one passed in (via module)', function() {
+		// 	// const testPath = require('../index')('./styl/');
+
+		// 	assert.throws(
+		// 		require('../index')('./styl/').create(),
+		// 		Error,
+		// 		'Stylint Error: No such file or dir exists!'
+		// 	);
+		// });
+
+		// it('set config if one passed in (via module)', function() {
+		// 	// const testConfig = require('../index')('./styl/', {
+		// 	// 	brackets: false
+		// 	// });
+
+		// 	assert.throws(
+		// 		require('../index')('./styl/', {
+		// 			brackets: false
+		// 		}).create(),
+		// 		Error,
+		// 		'Stylint Error: No such file or dir exists!'
+		// 	);
+		// });
+
 		it('set path if one passed in', function() {
 			process.argv[2] = 'styl/';
 			app.init();
@@ -88,78 +112,78 @@ describe('Core Methods: ', function() {
 		});
 	});
 
-	// describe('Read: ', function() {
-	// 	sinon.spy( app, 'read' );
+	describe('Read: ', function() {
+		sinon.spy( app, 'read' );
 
-	// 	it('should be a function', function() {
-	// 		app.read.should.be.a('function');
-	// 	});
+		it('should be a function', function() {
+			app.read.should.be.a('function');
+		});
 
-	// 	it('return parse function if passed a dir', function() {
-	// 		app.state.path = 'styl/';
-	// 		app.read();
-	// 		app.read.getCall(0).returned( sinon.match.same( app.parse ) );
-	// 	});
+		it('return parse function if passed a dir', function() {
+			app.state.path = 'styl/';
+			app.read();
+			app.read.getCall(0).returned( sinon.match.same( app.parse ) );
+		});
 
-	// 	it('return parse function if passed a filename', function() {
-	// 		app.state.path = 'styl/test2.styl';
-	// 		app.read();
-	// 		app.read.getCall(1).returned( sinon.match.same( app.parse ) );
-	// 	});
+		it('return parse function if passed a filename', function() {
+			app.state.path = 'styl/test2.styl';
+			app.read();
+			app.read.getCall(1).returned( sinon.match.same( app.parse ) );
+		});
 
-	// 	it('return parse function if nothing passed', function() {
-	// 		app.state.path = process.cwd();
-	// 		app.read();
-	// 		app.read.getCall(2).returned( sinon.match.same( app.parse ) );
-	// 	});
-	// });
+		it('return parse function if nothing passed', function() {
+			app.state.path = process.cwd();
+			app.read();
+			app.read.getCall(2).returned( sinon.match.same( app.parse ) );
+		});
+	});
 
-	// describe('Parse should: ', function() {
-	// 	sinon.spy( app, 'parse' );
+	describe('Parse should: ', function() {
+		sinon.spy( app, 'parse' );
 
-	// 	it('be a function', function() {
-	// 		app.parse.should.be.a( 'function' );
-	// 	});
+		it('be a function', function() {
+			app.parse.should.be.a( 'function' );
+		});
 
-	// 	it('return a forEach if passed a filename', function() {
-	// 		app.parse(false, ['styl/test2.styl']);
-	// 		app.parse.getCall(0).returned( sinon.match.same( ['styl/test2.styl'].forEach ) );
-	// 	});
+		it('return a forEach if passed a filename', function() {
+			app.parse(false, ['styl/test2.styl']);
+			app.parse.getCall(0).returned( sinon.match.same( ['styl/test2.styl'].forEach ) );
+		});
 
-	// 	it('return a forEach if passed a list of files', function() {
-	// 		app.parse(false, ['styl/test2.styl, styl/test.styl']);
-	// 		app.parse.getCall(1).returned( sinon.match.same( ['styl/test2.styl, styl/test.styl'].forEach ) );
-	// 	});
+		it('return a forEach if passed a list of files', function() {
+			app.parse(false, ['styl/test2.styl, styl/test.styl']);
+			app.parse.getCall(1).returned( sinon.match.same( ['styl/test2.styl, styl/test.styl'].forEach ) );
+		});
 
-	// 	it('handle empty or one line files fine', function() {
-	// 		app.parse(false, ['styl/oneLine.styl']);
-	// 		app.parse.getCall(2).returned( sinon.match.same( ['styl/oneLine.styl'].forEach ) );
-	// 	});
+		it('handle empty or one line files fine', function() {
+			app.parse(false, ['styl/oneLine.styl']);
+			app.parse.getCall(2).returned( sinon.match.same( ['styl/oneLine.styl'].forEach ) );
+		});
 
-	// 	it('returns app.done when done parsing last file', function() {
-	// 		app.cache.fileNo = app.cache.filesLen;
-	// 		app.parse(false, ['styl/test2.styl']);
-	// 		app.parse.getCall(3).returned( sinon.match.same( app.done ) );
-	// 	});
+		it('returns app.done when done parsing last file', function() {
+			app.cache.fileNo = app.cache.filesLen;
+			app.parse(false, ['styl/test2.styl']);
+			app.parse.getCall(3).returned( sinon.match.same( app.done ) );
+		});
 
-	// 	it('throws err if passed non-existant file name', function() {
-	// 		app.cache.file = undefined;
-	// 		assert.throws(
-	// 			app.parse,
-	// 			Error,
-	// 			'readFile err. Did you pass in a correct filename?'
-	// 		);
-	// 	});
-	// });
+		it('throws err if passed non-existant file name', function() {
+			app.cache.file = undefined;
+			assert.throws(
+				app.parse,
+				Error,
+				'readFile err. Did you pass in a correct filename?'
+			);
+		});
+	});
 
-	// describe('Lint: ', function() {
-	// 	sinon.spy( app, 'lint' );
-	// 	app.lint( app, '  margin 0 auto ', 5, 'margin 0 auto', 'styl/test2.styl' );
+	describe('Lint: ', function() {
+		sinon.spy( app, 'lint' );
+		app.lint( app, '  margin 0 auto ', 5, 'margin 0 auto', 'styl/test2.styl' );
 
-	// 	it('should be a function', function() {
-	// 		app.lint.should.be.a( 'function' );
-	// 	});
-	// });
+		it('should be a function', function() {
+			app.lint.should.be.a( 'function' );
+		});
+	});
 
 	describe('Watch: ', function() {
 		sinon.spy( app, 'watch' );

@@ -34,19 +34,42 @@ you can also ping me [here](https://gitter.im/rossPatton/stylint)
 ## Example CLI Usage:
 `stylint` Run stylint on cwd
 
-`stylint path/to/styl -s` Run stylint in strict mode, for masochists
+`stylint path/to/styl --strict` Run stylint in strict mode, for masochists
 
 `stylint path/to/filename.styl` Run stylint on a file
 
-`stylint path/to/dir -w` Watch dir, run stylint on file change
+`stylint path/to/dir --watch` Watch dir, run stylint on file change
 
-`stylint -h` Get list of commands
+`stylint --help` Get list of commands
 
-`stylint -v` Get version number
+`stylint --version` Get version number
 
-`stylint -c path/to/config/.configrc` Run stylint with custom config settings
+`stylint --config path/to/config/.configrc` Run stylint with custom config settings
 
-`stylint styl/ -w -c path/to/config/.configrc` Watch dir, use custom config
+`stylint styl/ --watch -c path/to/config/.configrc` Watch dir, use custom config
+
+
+## Using it as a module
+Stylint uses stampit, and you can require it like follows:
+
+```
+const stylint = require('stylint');
+```
+
+Use is as follows:
+```
+stylint().create();
+```
+
+It can optionally take in 2 parameters.
+1: Custom path
+2: Configuration option (in place of using an .rc config file)
+```
+stylint('./path/to/stylus/', {
+	brackets: 'never',
+	mixed: true
+}).create()
+``
 
 
 ## Gulp
@@ -54,7 +77,7 @@ You can use the raw module with [gulp-shell](https://github.com/sun-zheng-an/gul
 
 ```
 gulp.task('stylint', shell.task([
-    'stylint path/to/styl/ -c .stylintrc'
+	'stylint path/to/styl/ -c .stylintrc'
 ]));
 ```
 
@@ -64,8 +87,8 @@ var gulp = require('gulp');
 var stylint = require('gulp-stylint');
 
 gulp.task('default', function () {
-    return gulp.src('src/*.styl')
-        .pipe(stylint())
+	return gulp.src('src/*.styl')
+		.pipe(stylint())
 });
 ```
 
@@ -85,45 +108,44 @@ The default settings are pretty weak and unopinionated (I think). If you want to
 
 ```
 {
-    "borderNone": true,
-    "brackets": false,
-    "colons": false,
-    "colors": false,
-    "commaSpace": true,
-    "commentSpace": false,
-    "cssLiteral": false,
-    "depthLimit": false,
-    "duplicates": true,
-    "efficient": true,
-    "emoji": false,
-    "enforceBlockStyle": false,
-    "enforceVarStyle": false,
-    "extendPref": false,
-    "globalDupe": false,
-    "indentSpaces": 4,
-    "leadingZero": true,
-    "maxWarnings": 10,
-    "maxWarningsKill": false,
-    "mixed": false,
-    "namingConvention": false,
-    "namingConventionStrict": false,
-    "parenSpace": false,
-    "placeholders": true,
-    "quotePref": false,
-    "semicolons": false,
-    "sortOrder": false,
-    "stackedProperties": true,
-    "universal": true,
-    "valid": false,
-    "whitespace": true,
-    "zeroUnits": true,
-    "zIndexDuplicates": false,
-    "zIndexNormalize": false
+	blocks: false,
+	brackets: 'never',
+	colons: 'always',
+	colors: false,
+	commaSpace: 'always',
+	commentSpace: false,
+	cssLiteral: false,
+	depthLimit: false,
+	duplicates: true,
+	efficient: true,
+	extendPref: false,
+	globalDupe: false,
+	indentPref: false,
+	leadingZero: false,
+	maxErrors: false,
+	maxWarnings: false,
+	mixed: false,
+	namingConvention: false,
+	namingConventionStrict: false,
+	none: 'never',
+	parenSpace: false,
+	placeholders: 'always',
+	prefixVarsWithDollar: 'always',
+	quotePref: 'single',
+	reporter: '../core/reporter',
+	semicolons: 'never',
+	sortOrder: false,
+	stackedProperties: 'never',
+	trailingWhitespace: 'never',
+	universal: false,
+	valid: 'always',
+	zeroUnits: 'never',
+	zIndexNormalize: false
 }
 ```
 
 
-### warning toggle (inline comment: @stylint off || @stylint on)
+### warning toggle ( inline comment: @stylint off || @stylint on )
 Disable linting for a particular block of code by placing `@stylint off` in a line comment. Re-enable by placing `@stylint on` in a line comment further down. Stylint will not test any lines until turned back on. Use this to suppress warnings on a case-by-case basis. By default the linter will check every line except for @css blocks or places where certain rules have exceptions.
 
 For example, let's say you want to enforce `namingConvention: "lowercase_underscore"`, but you're also styling elements from the Bootstrap framework. You can use the `@stylint off` toggle to prevent warnings in places where you're referencing Bootstrap classes.
@@ -131,43 +153,88 @@ For example, let's say you want to enforce `namingConvention: "lowercase_undersc
 Example:
 ```stylus
 .button_block {
-    background: silver;
-    padding: 4px;
+	background: silver;
+	padding: 4px;
 }
 // @stylint off
 .button_block .btn-default {
-    background-color: green;
-    color: white;
+	background-color: green;
+	color: white;
 }
 // @stylint on
 ```
 
 
-### borderNone (default: true, boolean)
-Check for places where `border 0` could be used instead of border none.
+### ignore toggle ( inline comment: @stylint ignore )
+A toggle that works like the block comment, but just for one line. Useful for cases where you want to include fallback css for browser support.
 
-Example if true: prefer `border 0` over `border none`
-
-
-### brackets (default: false, boolean)
-Brackets are optional in stylus (except in hashes). If set to true, throws a warning if a bracket is used outside of a hash.
-
-Example if true: prefer `.some-class-name ` over `.some-class-name {`
-
-
-### colons (default: false, boolean)
-Checks for existence of unecessary colons. Does not throw a warning if colon is used inside a hash.
-
-Example if true: prefer `margin 0` over `margin: 0`
+Example:
+```stylus
+.button-zoom
+	cursor pointer // @stylint ignore
+	cursor zoom-in
+// @stylint on
+```
 
 
-### colors (default: false, boolean)
-Checks for hexidecimal color values, and suggest using a variable instead.
+### handling severity
+Stylint allows you to specify 2 levels of severity, Warning or Error, if a problem is found with your Stylus. By default, everything is a Warning.
+
+This works together with the maxWarnings and maxErrors config options, so you could error out if you get a single Error, but allow say, up to 5 Warnings.
+
+In your config file, you can pass in a string (usually always or never), false (usually you should leave this rule out of the config), or an object. The object lets you set the rule, as well as the severity
+
+Examples:
+```stylus
+// below sets brackets to throw an Error instead of a Warning if a bracket is found
+brackets: {
+	expect: 'never',
+	error: true
+}
+
+// below sets brackets to throw an Warning if a bracket is found
+brackets: {
+	expect: 'never'
+}
+
+// which is equivalent to:
+brackets: 'never'
+```
+
+
+### blocks ( default: false, 'always' || 'never' || false )
+When 'always' expect the `@block` keyword when defining block variables.
+When 'never', expect no `@block` keyword when defining block variables.
+When false, do not check either way.
+
+Example if 'always': prefer `my-block = @block ` over `my-block = `
+Example if 'never': prefer `my-block = ` over `my-block = @block `
+If falsy does not check this rule.
+
+
+### brackets ( default: 'never', 'always' || 'never' || false )
+When 'always', expect {} when declaring a selector.
+When 'never', expect no brackets when declaring a selector.
+
+Example if 'always': prefer `.some-class-name {` over `.some-class-name`
+Example if 'never': prefer `.some-class-name ` over `.some-class-name {`
+
+
+### colons ( default: 'always', 'always' || 'never' || false )
+When 'always', expect : when declaring a property.
+When 'never', expect no : when declaring a property.
+
+Example if 'always': prefer `margin: 0` over `margin 0`
+Example if 'never: prefer `margin 0` over `margin: 0`
+
+
+### colors ( default: false, 'always' || false )
+When 'always', force variables when defining hex values
 
 Example if true: prefer `color $red` over `color #f00`
 
 
-### commaSpace (default: true, boolean)
+### commaSpace ( default: false, 'always' || 'never' || false )
 Enforce spaces after commas.
 
 Example if true: prefer `rgba(0, 0, 0, .18)` over `rgba(0,0,0,.18)`
@@ -197,8 +264,8 @@ Checks if selector or property duplicated unnecessarily. By default, only checks
 Example if true: the following will throw a warning:
 ```
 .test
-    margin 0
-    margin 5px
+	margin 0
+	margin 5px
 ```
 
 
@@ -241,11 +308,11 @@ Example if true: the following will throw a warning
 ```
 >>> file1.styl
 .test
-    margin 0
+	margin 0
 
 >>> file2.styl
 .test
-    margin 5px
+	margin 5px
 ```
 
 
@@ -299,6 +366,15 @@ By default, namingConvention only looks at variable names. If namingConventionSt
 This is useful if you have little or no 3rd party css in your codebase.
 
 
+### none ( default: 'never'. options: 'always' || never' || false  )
+If 'always' check for places where `border none` could be used instead of `border 0`.
+If 'never' check for places where `border 0` could be used instead of `border none`.
+If false, ignore this rule.
+
+Example if 'always': prefer `border none` over `border 0`
+Example if 'never': prefer `border 0` over `border none`
+
+
 ### parenSpace (default: false, boolean)
 Enforce use of extra spaces inside parens.
 
@@ -327,7 +403,7 @@ Example if `true`: prefer
 
 ```
 .className
-    padding 0
+	padding 0
 ```
 
 over
@@ -349,21 +425,21 @@ Example if `'alphabetical'`:
 prefer this:
 ```
 .some-class
-    display block
-    float left
-    position absolute
-    right 10px
-    top 0
+	display block
+	float left
+	position absolute
+	right 10px
+	top 0
 ```
 
 over this:
 ```
 .some-class
-    position absolute
-    top 0
-    right 10px
-    display block
-    float left
+	position absolute
+	top 0
+	right 10px
+	display block
+	float left
 ```
 
 Example if `'grouped'` ([based on predefined grouped ordering](src/data/ordering.json#L2)):
@@ -371,21 +447,21 @@ Example if `'grouped'` ([based on predefined grouped ordering](src/data/ordering
 prefer this:
 ```
 .some-class
-    position absolute
-    top 0
-    right 10px
-    display block
-    float left
+	position absolute
+	top 0
+	right 10px
+	display block
+	float left
 ```
 
 over this:
 ```
 .some-class
-    display block
-    float left
-    position absolute
-    right 10px
-    top 0
+	display block
+	float left
+	position absolute
+	right 10px
+	top 0
 ```
 
 Example if `[ 'margin', 'padding', 'float', 'position' ]`:
@@ -393,25 +469,25 @@ Example if `[ 'margin', 'padding', 'float', 'position' ]`:
 prefer this:
 ```
 .some-class
-    margin 0
-    padding 0
-    float left
-    position absolute
-    right 10px
-    top 0
-    display block
+	margin 0
+	padding 0
+	float left
+	position absolute
+	right 10px
+	top 0
+	display block
 ```
 
 over this:
 ```
 .some-class
-    display block
-    float left
-    position absolute
-    right 10px
-    top 0
-    margin 0
-    padding 0
+	display block
+	float left
+	position absolute
+	right 10px
+	top 0
+	margin 0
+	padding 0
 ```
 
 When set to `'grouped'` or `{Array}` throws a warning if properties that are not defined in the ordering array are not after those that should be ordered.
@@ -443,10 +519,10 @@ If a z-index value has been used before, throw a warning. Is this useful? WHO KN
 Example if true: the follow throws a warning
 ```
 .test
-    z-index 5
+	z-index 5
 
 .test
-    z-index 5
+	z-index 5
 ```
 
 Doesn't take into considering stacking contexts yet so, and i'm not sure it ever will, so good luck if you try to use this. Small projects might get some use out of this.
