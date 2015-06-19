@@ -147,6 +147,10 @@ describe('Core Methods: ', function() {
 		it('should handle empty or one line files fine', function() {
 			assert.equal( undefined, app.parse( app, 'styl/oneLine.styl' ) );
 		});
+
+		it('should not hang everything when stripping comments from files with require globs', function() {
+			var test = app.parse( app, 'styl/comments.styl' );
+		});
 	});
 
 	describe('Test: ', function() {

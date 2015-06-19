@@ -1,3 +1,8 @@
+#### 0.9.10
+fix edge case issue caused file globbing that could potentially cause stylint to hang
+
+
+
 ##### 0.9.9
 make universal less greedy
 
