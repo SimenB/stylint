@@ -11,7 +11,7 @@ module.exports = {
 	// check for { or }, unless used in a hash
 	brackets: false,
 	// check for unecessary colons @TODO make jscs
-	colons: false,
+	colons: 'never',
 	// check for hex colors used without variables
 	colors: false,
 	// check for spaces after commas (0, 0, 0, .18)
@@ -24,8 +24,8 @@ module.exports = {
 	depthLimit: false,
 	// check if properties or selectors are duplicate
 	duplicates: true,
-	// check for margin 0 0 0 0 and recommend margin 0 // @TODO make jscs
-	efficient: true,
+	// check for margin 0 0 0 0 and recommend margin 0
+	efficient: 'always',
 	// prefer a specific syntax when using @extends (or @extend)
 	extendPref: '@extends',
 	// throw duplicate selector warning across all files instead of curr file
@@ -41,7 +41,7 @@ module.exports = {
 	// check for mixed spaces and tabs
 	mixed: false,
 	// lowercase-dash, camelCase, lowercase_underscore, BEM or false (dont check)
-	namingConvention: false,
+	namingConvention: 'lowercase-dash',
 	// if true, then check classes and ids, if false just check variables
 	namingConventionStrict: false,
 	// check for use of border none or outline none, prefer 0
@@ -51,13 +51,13 @@ module.exports = {
 	// only allow @extending of placeholder vars
 	placeholders: 'always',
 	// check for $ when declaring vars (doesnt check use)
-	prefixVarsWithDollar: false,
+	prefixVarsWithDollar: 'always',
 	// single or double quotes, or false to not check
-	quotePref: false,
+	quotePref: 'single',
 	// default reporter
 	reporter: '../core/reporter',
 	// check for unecessary semicolons @TODO make jscs
-	semicolons: false,
+	semicolons: 'never',
 	// alphabetical, grouped, Array<String> or false (no check)
 	sortOrder: false,
 	// no one liners

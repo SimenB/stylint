@@ -37,30 +37,6 @@ describe('Core Methods: ', function() {
 			app.init.should.be.a('function');
 		});
 
-		// it('set path if one passed in (via module)', function() {
-		// 	// const testPath = require('../index')('./styl/');
-
-		// 	assert.throws(
-		// 		require('../index')('./styl/').create(),
-		// 		Error,
-		// 		'Stylint Error: No such file or dir exists!'
-		// 	);
-		// });
-
-		// it('set config if one passed in (via module)', function() {
-		// 	// const testConfig = require('../index')('./styl/', {
-		// 	// 	brackets: false
-		// 	// });
-
-		// 	assert.throws(
-		// 		require('../index')('./styl/', {
-		// 			brackets: false
-		// 		}).create(),
-		// 		Error,
-		// 		'Stylint Error: No such file or dir exists!'
-		// 	);
-		// });
-
 		it('set path if one passed in', function() {
 			process.argv[2] = 'styl/';
 			app.init();
@@ -850,40 +826,86 @@ describe('Linter Style Checks: ', function() {
 		const efficientTest = lint.efficient.bind(app);
 
 		beforeEach(function() {
-			app.state.conf = true;
+			app.state.conf = 'always';
 		});
 
-		it('false if value is efficient', function() {
-			assert.equal( false, efficientTest('margin 0 5px') );
-			assert.equal( false, efficientTest('margin: 5px 0') );
-			assert.equal( false, efficientTest('margin 5px 0 0') );
-			assert.equal( false, efficientTest('margin 0') );
-			assert.equal( false, efficientTest('margin 5px') );
-			assert.equal( false, efficientTest('padding 0 5px') );
-			assert.equal( false, efficientTest('padding 5px 0') );
-			assert.equal( false, efficientTest('padding 5px 0 0') );
-			assert.equal( false, efficientTest('padding: 0') );
-			assert.equal( false, efficientTest('padding 5px') );
-			assert.equal( false, efficientTest('padding: 1px 2px 3px 4px') );
+		it('false if value is not efficient', function() {
+			assert.equal( false, efficientTest('margin 0 0 0 0') );
+			assert.equal( false, efficientTest('margin 0 0 0') );
+			assert.equal( false, efficientTest('margin 0 0') );
+			assert.equal( false, efficientTest('margin 0 5px 0 5px') );
+			assert.equal( false, efficientTest('margin 5px 0 5px') );
+			assert.equal( false, efficientTest('margin 5px 0 5px 0') );
+			assert.equal( false, efficientTest('margin 0 5px 0') );
+			assert.equal( false, efficientTest('margin 0 5px 5px 5px') );
+			assert.equal( false, efficientTest('padding 0 0 0 0') );
+			assert.equal( false, efficientTest('padding 0 0 0') );
+			assert.equal( false, efficientTest('padding 0 0') );
+			assert.equal( false, efficientTest('padding 0 5px 0 5px') );
+			assert.equal( false, efficientTest('padding 5px 0 5px') );
+			assert.equal( false, efficientTest('padding 5px 0 5px 0') );
+			assert.equal( false, efficientTest('padding 0 5px 0') );
+			assert.equal( false, efficientTest('padding 0 5px 5px 5px') );
 		});
 
-		it('true if value is not efficient', function() {
-			assert.equal( true, efficientTest('margin 0 0 0 0') );
-			assert.equal( true, efficientTest('margin 0 0 0') );
-			assert.equal( true, efficientTest('margin 0 0') );
-			assert.equal( true, efficientTest('margin 0 5px 0 5px') );
-			assert.equal( true, efficientTest('margin 5px 0 5px') );
-			assert.equal( true, efficientTest('margin 5px 0 5px 0') );
-			assert.equal( true, efficientTest('margin 0 5px 0') );
-			assert.equal( true, efficientTest('margin 0 5px 5px 5px') );
-			assert.equal( true, efficientTest('padding 0 0 0 0') );
-			assert.equal( true, efficientTest('padding 0 0 0') );
-			assert.equal( true, efficientTest('padding 0 0') );
-			assert.equal( true, efficientTest('padding 0 5px 0 5px') );
-			assert.equal( true, efficientTest('padding 5px 0 5px') );
-			assert.equal( true, efficientTest('padding 5px 0 5px 0') );
-			assert.equal( true, efficientTest('padding 0 5px 0') );
-			assert.equal( true, efficientTest('padding 0 5px 5px 5px') );
+		it('true if value is efficient', function() {
+			assert.equal( true, efficientTest('margin 0 5px') );
+			assert.equal( true, efficientTest('margin: 5px 0') );
+			assert.equal( true, efficientTest('margin 5px 0 0') );
+			assert.equal( true, efficientTest('margin 0') );
+			assert.equal( true, efficientTest('margin 5px') );
+			assert.equal( true, efficientTest('padding 0 5px') );
+			assert.equal( true, efficientTest('padding 5px 0') );
+			assert.equal( true, efficientTest('padding 5px 0 0') );
+			assert.equal( true, efficientTest('padding: 0') );
+			assert.equal( true, efficientTest('padding 5px') );
+			assert.equal( true, efficientTest('padding: 1px 2px 3px 4px') );
+		});
+
+		it('undefined if nothing to test', function() {
+			app.cache.line = 'border 0';
+			assert.equal( undefined, efficientTest() );
+		});
+	});
+
+	describe('efficient: prefer margin 0 0 0 0 over margin 0', function() {
+		const efficientTest = lint.efficient.bind(app);
+
+		beforeEach(function() {
+			app.state.conf = 'never';
+		});
+
+		it('false if value is not efficient', function() {
+			assert.equal( false, efficientTest('margin 0 0 0 0') );
+			assert.equal( false, efficientTest('margin 0 0 0') );
+			assert.equal( false, efficientTest('margin 0 0') );
+			assert.equal( false, efficientTest('margin 0 5px 0 5px') );
+			assert.equal( false, efficientTest('margin 5px 0 5px') );
+			assert.equal( false, efficientTest('margin 5px 0 5px 0') );
+			assert.equal( false, efficientTest('margin 0 5px 0') );
+			assert.equal( false, efficientTest('margin 0 5px 5px 5px') );
+			assert.equal( false, efficientTest('padding 0 0 0 0') );
+			assert.equal( false, efficientTest('padding 0 0 0') );
+			assert.equal( false, efficientTest('padding 0 0') );
+			assert.equal( false, efficientTest('padding 0 5px 0 5px') );
+			assert.equal( false, efficientTest('padding 5px 0 5px') );
+			assert.equal( false, efficientTest('padding 5px 0 5px 0') );
+			assert.equal( false, efficientTest('padding 0 5px 0') );
+			assert.equal( false, efficientTest('padding 0 5px 5px 5px') );
+		});
+
+		it('true if value is efficient', function() {
+			assert.equal( true, efficientTest('margin 0 5px') );
+			assert.equal( true, efficientTest('margin: 5px 0') );
+			assert.equal( true, efficientTest('margin 5px 0 0') );
+			assert.equal( true, efficientTest('margin 0') );
+			assert.equal( true, efficientTest('margin 5px') );
+			assert.equal( true, efficientTest('padding 0 5px') );
+			assert.equal( true, efficientTest('padding 5px 0') );
+			assert.equal( true, efficientTest('padding 5px 0 0') );
+			assert.equal( true, efficientTest('padding: 0') );
+			assert.equal( true, efficientTest('padding 5px') );
+			assert.equal( true, efficientTest('padding: 1px 2px 3px 4px') );
 		});
 
 		it('undefined if nothing to test', function() {
