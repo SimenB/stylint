@@ -1557,10 +1557,14 @@ describe('Linter Style Checks: ', function() {
 		});
 	});
 
-	describe('semicolon', function() {
+	describe('semicolon never (prefer margin 0 to margin 0;)', function() {
 		const semiTest = lint.semicolons.bind(app);
 
-		it('false if no semicolon is found', function() {
+		beforeEach(function() {
+			app.state.conf = 'never';
+		});
+
+		it('undefined if no semicolon is found', function() {
 			assert.equal( false, semiTest('margin 0 auto') );
 		});
 
@@ -1568,6 +1572,35 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, semiTest('margin 0 auto;') );
 		});
 	});
+
+	describe('semicolon always (prefer margin 0; to margin 0)', function() {
+		const semiTest = lint.semicolons.bind(app);
+
+		beforeEach(function() {
+			app.state.conf = 'always';
+		});
+
+		it('false if no semicolon is found', function() {
+			app.state.context = 1;
+			assert.equal( false, semiTest('margin 0 auto') );
+		});
+
+		it('undefined if root level', function() {
+			app.state.context = 0;
+			assert.equal( false, semiTest('margin 0 auto') );
+		});
+
+		it('undefined if class or id', function() {
+			assert.equal( false, semiTest('.class 0 auto') );
+			assert.equal( false, semiTest('#id 0 auto') );
+		});
+
+		it('true if semicolon found', function() {
+			app.state.context = 1;
+			assert.equal( true, semiTest('margin 0 auto;') );
+		});
+	});
+
 
 	describe('stacked properties', function() {
 		const stackedTest = lint.stackedProperties.bind(app);

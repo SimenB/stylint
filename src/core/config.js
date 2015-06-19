@@ -13,7 +13,7 @@ module.exports = {
 	// check for unecessary colons @TODO make jscs
 	colons: 'never',
 	// check for hex colors used without variables
-	colors: false,
+	colors: 'always',
 	// check for spaces after commas (0, 0, 0, .18)
 	commaSpace: false,
 	// check for space after line comment
@@ -57,7 +57,7 @@ module.exports = {
 	// default reporter
 	reporter: '../core/reporter',
 	// check for unecessary semicolons @TODO make jscs
-	semicolons: 'never',
+	semicolons: 'always',
 	// alphabetical, grouped, Array<String> or false (no check)
 	sortOrder: false,
 	// no one liners
