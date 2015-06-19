@@ -1,0 +1,46 @@
+'use strict';
+
+/**
+ * @description sets values like context, determine whether we even run tests, etc
+ * @return Function
+ */
+module.exports = function setState() {
+	this.state.context = this.setContext(this.cache.line);
+	var line = this.cache.line;
+	var stateM = this.__proto__.stateMethods;
+
+	// if empty line
+	if ( line.length === 0 ) {
+		return;
+	}
+
+	// ignore the current line if @stylint ignore
+	if ( this.cache.comment.indexOf('@stylint ignore') !== -1 ) {
+		return;
+	}
+
+	// if @stylint on / off commands found in the code
+	if ( stateM.stylintOn.call(this, line) || stateM.stylintOff.call(this, line) === false ) {
+		return;
+	}
+
+	// if hash starting / ending, set state and return early
+	if ( stateM.hashOrCSSStart.call(this, line) || stateM.hashOrCSSEnd.call(this, line) ) {
+		return;
+	}
+
+	// if starting / ending keyframes
+	if ( stateM.keyframesStart.call(this, line) || stateM.keyframesEnd.call(this, line) ) {
+		return;
+	}
+
+	// if entire line is comment
+	if ( stateM.startsWithComment.call(this, line) ) {
+		return;
+	}
+
+	// run tests if we made it this far
+	if ( this.state.testsEnabled  ) {
+		return this.lint();
+	}
+};

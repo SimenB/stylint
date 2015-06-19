@@ -1,6 +1,7 @@
 'use strict';
 
-var stripCommentsRe = /(^(\/\*)|([ \t'"](\/\*)))(?!\/)(.|[\r\n]|\n)+?\*\/\n?\n?/gm;
+// strips out comments and urls
+var cleanFileRe = /url\(.+\)|(^(\/\*)|([ \t'"](\/\*)))(?!\/)(.|[\r\n]|\n)+?\*\/\n?\n?/gm;
 
 
 /**
@@ -17,7 +18,7 @@ module.exports = function parse( err, res ) {
 
 		// strip out block comments, but dont destroy line history
 		// to do these we replace block comments with new lines
-		var lines = file.toString().replace( stripCommentsRe, function( str ) {
+		var lines = file.toString().replace( cleanFileRe, function( str ) {
 			return ( new Array( str.split(/\r\n|\r|\n/).length ) ).join('\n');
 		}).split('\n');
 

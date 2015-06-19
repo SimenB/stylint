@@ -11,7 +11,7 @@ var elAttrRe = /(?=\S)+\[\S+\]/; // 2
 var ignoreRe = /[&$.#=>]|(if)|(for)|(else)|(@block)|(calc)/; // 3
 var numRe = /\d(?=[px]|%|[em]|[rem]|[vh]|[vw]|[vmin]|[vmax]|[ex]|[ch]|[mm]|[cm]|[in]|[pt]|[pc]|[mozmm])/; // 4
 var keyRe = /((from)|(to))+(?= $| {| \d|\n|{)/; // 5
-var validJSON = require('../data/json/valid.json'); // 6
+var validJSON = require('../data/valid.json'); // 6
 
 
 /**

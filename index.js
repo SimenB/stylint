@@ -37,7 +37,6 @@ module.exports = function( path, config ) {
 	}
 
 	Lint = stampit().compose(
-		require('./src/data/'),
 		require('./src/core/'),
 		require('./src/core/methods/lint'),
 		require('./src/core/methods/state'),

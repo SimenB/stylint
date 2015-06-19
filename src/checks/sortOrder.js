@@ -1,7 +1,7 @@
 'use strict';
 
 var ignoreMeRe = /^[.#]|[${}=>&*]|(&:)|(if)|(for)|(@block)(@import)(@media)(@extends)/;
-var ordering = require('../data/json/ordering.json');
+var ordering = require('../data/ordering.json');
 
 
 // check that selector properties are sorted accordingly

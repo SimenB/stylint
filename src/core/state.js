@@ -1,46 +1,21 @@
-'use strict';
-
 /**
- * @description sets values like context, determine whether we even run tests, etc
- * @return Function
+ * @description i hold the state
+ * @return {Object} [i expose properties to the entire app]
  */
-module.exports = function setState() {
-	this.state.context = this.setContext(this.cache.line);
-	var line = this.cache.line;
-	var stateM = this.__proto__.stateMethods;
-
-	// if empty line
-	if ( line.length === 0 ) {
-		return;
-	}
-
-	// ignore the current line if @stylint ignore
-	if ( this.cache.comment.indexOf('@stylint ignore') !== -1 ) {
-		return;
-	}
-
-	// if @stylint on / off commands found in the code
-	if ( stateM.stylintOn.call(this, line) || stateM.stylintOff.call(this, line) === false ) {
-		return;
-	}
-
-	// if hash starting / ending, set state and return early
-	if ( stateM.hashOrCSSStart.call(this, line) || stateM.hashOrCSSEnd.call(this, line) ) {
-		return;
-	}
-
-	// if starting / ending keyframes
-	if ( stateM.keyframesStart.call(this, line) || stateM.keyframesEnd.call(this, line) ) {
-		return;
-	}
-
-	// if entire line is comment
-	if ( stateM.startsWithComment.call(this, line) ) {
-		return;
-	}
-
-	// run tests if we made it this far
-	if ( this.state.testsEnabled  ) {
-		return this.lint();
-	}
+module.exports = {
+	conf: false, // config for currently running check ('always' || 'never' || etc)
+	context: 0, // what is our level of nesting?
+	exitCode: 1, // err or no err
+	hasComment: false, // checks for // in a line
+	hashOrCSS: false, // are we in a hash
+	keyframes: false, // are we in @keyframes
+	killSwitch: false, // are we over our warning limit
+	openBracket: false, // is there an unclosed bracket
+	path: '', // curr dir || file
+	prevContext: 0, // save the last context as well
+	severity: 'warning', // severity level for current check
+	strictMode: false, // run all tests regardless?
+	testsEnabled: true, // are we running linter tests
+	quiet: false, // turn off console logs
+	watching: false // are we watching
 };
