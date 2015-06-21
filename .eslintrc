@@ -120,6 +120,10 @@
 		"valid-typeof": 1,
 		"vars-on-top": 0,
 		"wrap-iife": [2, "inside"],
-		"yoda": [2, "never"]
+		"yoda": [2, "never"],
+		"handle-callback-err": 1,
+		"no-mixed-requires": 0,
+		"no-new-require": 1,
+		"no-sync": 0
 	}
 }

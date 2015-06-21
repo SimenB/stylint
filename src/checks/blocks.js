@@ -6,7 +6,7 @@ var eqEndRe = /=$|=\s$/;
 /**
  * @description depending on settings, enforce of disallow @block when defining block vars
  * @param {string} [line] curr line being linted
- * @returns {boolean | undefined} true if bracket found, false if not, undefined if we skip
+ * @returns {boolean | undefined} true if @block found, false if not, undefined if we skip
  */
 var blocks = function( line ) {
 	if ( line.indexOf( '=' ) === -1 ) { return; }
