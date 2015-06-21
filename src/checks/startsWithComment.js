@@ -1,15 +1,21 @@
 'use strict';
 
-var startsWithCommentRe = /(^\/\/)/;
+var commentRe = /(^\/\/)/;
 
-// check for line comment on the line
-module.exports = function startsWithComment(line) {
-	var startsWithComment = false;
+/**
+ * @description check if line starts with comment
+ * @param  {string} [line] curr line being linted
+ * @return {boolean} true if comment found, false if not
+ */
+var startsWithComment = function( line ) {
+	var starts = false;
 
 	// ex }, but only if we've already establish that we're not in a hash
-	if ( line.indexOf('//') !== -1 && startsWithCommentRe.test( line.trim() ) ) {
-		startsWithComment = true;
+	if ( line.indexOf( '//' ) !== -1 && commentRe.test( line.trim() ) ) {
+		starts = true;
 	}
 
-	return startsWithComment;
+	return starts;
 };
+
+module.exports = startsWithComment;

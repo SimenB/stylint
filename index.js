@@ -11,39 +11,39 @@
 'use strict';
 
 // our stampit modules
-var stampit  = require('stampit');
+var stampit = require( 'stampit' );
 
 // let there be light ( * )
 // basically, with stampit we take a bunch of different objects
 // and methods and compose them into one mega object
 // appropriately namespaced, with methods on the prototype, and this set correctly
 module.exports = function( path, config ) {
-	var Lint
+	var Lint;
 	var customPath;
 	var customConfig;
 
 	if ( path ) {
-		customPath = stampit().state({
+		customPath = stampit().state( {
 			state: {
 				path: path
 			}
-		});
+		} );
 	}
 
 	if ( config ) {
-		customConfig = stampit().state({
+		customConfig = stampit().state( {
 			config: config
-		});
+		} );
 	}
 
 	Lint = stampit().compose(
-		require('./src/core/'),
-		require('./src/core/methods/lint'),
-		require('./src/core/methods/state'),
-		require('./src/core/methods/utils'),
+		require( './src/core/' ),
+		require( './src/core/methods/lint' ),
+		require( './src/core/methods/state' ),
+		require( './src/core/methods/utils' ),
 		customPath,
 		customConfig,
-		stampit().enclose( require('./src/core/init') )
+		stampit().enclose( require( './src/core/init' ) )
 	);
 
 	return Lint;

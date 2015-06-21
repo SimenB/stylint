@@ -1,14 +1,17 @@
 'use strict';
 
 var ignoreMeRe = /^[.#]|[${}=>&*]|(&:)|(if)|(for)|(@block)(@import)(@media)(@extends)/;
-var ordering = require('../data/ordering.json');
+var ordering = require( '../data/ordering.json' );
 
 
-// check that selector properties are sorted accordingly
-// original params: line, valid, sortOrder
-module.exports = function sortOrder(line) {
+/**
+ * @description check that selector properties are sorted accordingly
+ * @param  {string} [line] curr line being linted
+ * @return {boolean} true if in order, false if not
+ */
+var sortOrder = function( line ) {
 	// we don't alphabetize the root yet
-	if ( this.state.context === '0' || this.state.hash || ignoreMeRe.test(line) ) {
+	if ( this.state.context === '0' || this.state.hash || ignoreMeRe.test( line ) ) {
 		return;
 	}
 
@@ -18,7 +21,9 @@ module.exports = function sortOrder(line) {
 	 * 3 equals the custom sorting array via the config (or the ordering json)
 	 * 4 assume sorted by default
 	 */
-	var arr = this.splitAndStrip( new RegExp(/[\s\t,:]/), line.replace(/(\(.+\))/,'') ); // 1
+	var arr = this.splitAndStrip(
+		new RegExp( /[\s\t,:]/ ), line.replace( /(\(.+\))/, '' )
+	); // 1
 	var sortedArr = []; // 2
 	var orderingArr = []; // 3
 	var sorted = true; // 4
@@ -29,10 +34,10 @@ module.exports = function sortOrder(line) {
 	}
 
 	// then we push the latest property to the cache
-	this.cache.sortOrderCache.push(arr[0]);
+	this.cache.sortOrderCache.push( arr[0] );
 
 	// create a copy of the cache now for comparison against
-	sortedArr = this.cache.sortOrderCache.slice(0);
+	sortedArr = this.cache.sortOrderCache.slice( 0 );
 
 	// and then sort it (by default alphabetically)
 	if ( this.state.conf === 'alphabetical' ) {
@@ -44,11 +49,8 @@ module.exports = function sortOrder(line) {
 		// use custom ordering if specified, or fall back to in-built grouped ordering
 		orderingArr = Array.isArray( this.state.conf ) ? this.state.conf : ordering.grouped;
 
-		/**
-		 * @description iterate over our cache copy, and sort it according to our config
-		 * @return {boolean} true if ordered correctly, false if not
-		 */
-		sortedArr = sortedArr.sort(function( a, b ) {
+		// iterate over our cache copy, and sort it according to our config
+		sortedArr = sortedArr.sort( function( a, b ) {
 			var aIndex = orderingArr.indexOf( a );
 			var bIndex = orderingArr.indexOf( b );
 
@@ -65,25 +67,27 @@ module.exports = function sortOrder(line) {
 			else if ( bIndex < aIndex ) {
 				return 1;
 			}
-		});
+		} );
 	}
 
 	// now compare our two arrays
 	// one sorted according to the config, and one as appears in the file
 	if ( this.state.context === this.state.prevContext ) {
 		// compare each value individually
-		this.cache.sortOrderCache.forEach(function(val, i) {
+		this.cache.sortOrderCache.forEach( function( val, i ) {
 			// if any value doesn't match quit the forEach
 			if ( sortedArr[i] !== this.cache.sortOrderCache[i] ) {
 				sorted = false;
 				return;
 			}
-		}.bind( this ));
+		}.bind( this ) );
 	}
 
 	if ( !sorted ) {
-		this.msg('prefer ' + this.state.conf + ' when sorting properties');
+		this.msg( 'prefer ' + this.state.conf + ' when sorting properties' );
 	}
 
 	return sorted;
 };
+
+module.exports = sortOrder;

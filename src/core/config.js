@@ -2,11 +2,11 @@
  * default configuration object
  * this is what the linter will run when no config file is passed
  */
-module.exports = {
+var config = {
 	// check for @block when defining blocks
 	blocks: {
 		expect: 'never',
-		error: true,
+		error: true
 	},
 	// check for { or }, unless used in a hash
 	brackets: false,
@@ -56,7 +56,7 @@ module.exports = {
 	quotePref: 'single',
 	// default reporter
 	reporter: '../core/reporter',
-	// check for unecessary semicolons @TODO make jscs
+	// check for unecessary semicolons
 	semicolons: 'always',
 	// alphabetical, grouped, Array<String> or false (no check)
 	sortOrder: false,
@@ -73,3 +73,5 @@ module.exports = {
 	// suggest a normalized z index value, base of whatever this is
 	zIndexNormalize: false
 };
+
+module.exports = config;

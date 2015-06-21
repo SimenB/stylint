@@ -1,4 +1,6 @@
-module.exports = function reporter( msg, done, kill ) {
+'use strict';
+
+var reporter = function( msg, done, kill ) {
 	if ( done === 'done' ) {
 		// total errors
 		this.cache.msg = '\nStylint: ' + this.cache.errs.length + ' Errors.';
@@ -20,4 +22,6 @@ module.exports = function reporter( msg, done, kill ) {
 	}
 
 	return this.state.severity + ': ' + msg + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + this.cache.line.trim();
-}
+};
+
+module.exports = reporter;

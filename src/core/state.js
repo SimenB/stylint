@@ -2,7 +2,7 @@
  * @description i hold the state
  * @return {Object} [i expose properties to the entire app]
  */
-module.exports = {
+var state = {
 	conf: false, // config for currently running check ('always' || 'never' || etc)
 	context: 0, // what is our level of nesting?
 	exitCode: 1, // err or no err
@@ -19,3 +19,5 @@ module.exports = {
 	quiet: false, // turn off console logs
 	watching: false // are we watching
 };
+
+module.exports = state;

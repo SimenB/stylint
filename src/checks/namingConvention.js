@@ -9,12 +9,13 @@ var camelRe = /^[$#.{:]+([a-zA-Z]|[${}])+([a-z]|[${}])+(([.A-Z0-9])+[a-z ]+)+\b/
 
 
 /**
- * check for names-like-this vs namesLikeThis or NamesLikeThis vs names_like_this or names-like__this-that
- * @param {string} [line] the line to be tested
- * @returns boolean, true if convention wrong, false if convention correct
+ * @description check for names-like-this vs namesLikeThis
+ * or NamesLikeThis vs names_like_this or names-like__this-that
+ * @param {string} [line] curr line being linted
+ * @returns {boolean} true if convention wrong, false if not
  */
-module.exports = function namingConvention(line) {
-	var arr = line.split(' ');
+var namingConvention = function( line ) {
+	var arr = line.split( ' ' );
 	var doWeTestRe = /^[${:]+/m; // determine if line should be tested at all
 	var badConvention = false;
 
@@ -23,18 +24,18 @@ module.exports = function namingConvention(line) {
 	}
 
 	// only run checks if on a class, id, or variable
-	if ( doWeTestRe.test(arr[0]) && arr[0].indexOf('::') === -1 ) {
+	if ( doWeTestRe.test( arr[0] ) && arr[0].indexOf( '::' ) === -1 ) {
 		// if all lowercase we do nothing, if -, _ or uppercase found we check convention
 		if ( upperRe.test( arr[0] ) ||
-			arr[0].indexOf('-') !== -1 ||
-			arr[0].indexOf('_') !== -1 ) {
+			arr[0].indexOf( '-' ) !== -1 ||
+			arr[0].indexOf( '_' ) !== -1 ) {
 
 			// check conventions
 			// $varName
 			if ( this.state.conf === 'camelCase' ) {
 				// if no A-Z present, or - present, or _ present
-				if ( arr[0].indexOf('-') !== -1 ||
-					arr[0].indexOf('_') !== -1 ||
+				if ( arr[0].indexOf( '-' ) !== -1 ||
+					arr[0].indexOf( '_' ) !== -1 ||
 					!camelRe.test( arr[0] ) ) {
 					badConvention = true;
 				}
@@ -42,8 +43,8 @@ module.exports = function namingConvention(line) {
 			// $var_name
 			else if ( this.state.conf === 'lowercase_underscore' ) {
 				// if no _ present, or - present, or A-Z present
-				if ( arr[0].indexOf('-') !== -1 ||
-					arr[0].indexOf('_') === -1 ||
+				if ( arr[0].indexOf( '-' ) !== -1 ||
+					arr[0].indexOf( '_' ) === -1 ||
 					upperRe.test( arr[0] ) ) {
 					badConvention = true;
 				}
@@ -51,8 +52,8 @@ module.exports = function namingConvention(line) {
 			// $var-name
 			else if ( this.state.conf === 'lowercase-dash' ) {
 				// if no - present, or _ present, or A-Z present
-				if ( arr[0].indexOf('-') === -1 ||
-					arr[0].indexOf('_') !== -1 ||
+				if ( arr[0].indexOf( '-' ) === -1 ||
+					arr[0].indexOf( '_' ) !== -1 ||
 					upperRe.test( arr[0] ) ) {
 					badConvention = true;
 				}
@@ -68,8 +69,10 @@ module.exports = function namingConvention(line) {
 	}
 
 	if ( badConvention ) {
-		this.msg('preferred naming convention is ' + this.config.namingConvention);
+		this.msg( 'preferred naming convention is ' + this.config.namingConvention );
 	}
 
 	return badConvention;
 };
+
+module.exports = namingConvention;

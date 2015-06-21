@@ -2,8 +2,9 @@
 
 /**
  * @description outputs our messages, wipes errs/warnings if watching
+ * @returns {Object | Function} returns process exit if not watching, or obj otherwise
  */
-module.exports = function done() {
+var done = function() {
 	var warningsOrErrors = [];
 	var msg = '';
 
@@ -18,22 +19,23 @@ module.exports = function done() {
 
 	// when testing we want to silence the console a bit, so we have the quiet option
 	if ( !this.state.quiet ) {
-		this.cache.errs.forEach(function(err) {
-			return warningsOrErrors.push(err);
-		});
+		this.cache.errs.forEach( function( err ) {
+			return warningsOrErrors.push( err );
+		} );
 
-		this.cache.warnings.forEach(function(war) {
-			return warningsOrErrors.push(war);
-		});
+		this.cache.warnings.forEach( function( war ) {
+			return warningsOrErrors.push( war );
+		} );
 
-		msg = warningsOrErrors.join('\n\n');
+		msg = warningsOrErrors.join( '\n\n' );
 		msg += '\n' + this.cache.msg;
 		console.log( msg );
 	}
 
 	// dont kill the linter if watch is watchin
-	if ( !this.state.watching ) {
-		return process.exit( this.state.exitCode );
+	if ( !this.state.watching || warningsOrErrors.length > 0 ) {
+		throw Error;
+		// return process.exit( this.state.exitCode );
 	}
 
 	// if watching we reset the errors/warnings arrays
@@ -42,5 +44,7 @@ module.exports = function done() {
 	return {
 		exitCode: this.state.exitCode,
 		msg: this.cache.msg
-	}
+	};
 };
+
+module.exports = done;

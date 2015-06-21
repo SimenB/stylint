@@ -1,7 +1,11 @@
 'use strict';
 
-// check if we're defining keyframe animations, which have some special rules
-module.exports = function keyframesEnd(line) {
+
+/**
+ * @description check for keyframes end
+ * @returns {boolean} false if keyframes ending, true if not
+ */
+var keyframesEnd = function() {
 	if ( !this.state.keyframes ) { return; }
 
 	if ( this.state.keyframes && this.state.context === '0' ) {
@@ -10,3 +14,5 @@ module.exports = function keyframesEnd(line) {
 
 	return this.state.keyframes;
 };
+
+module.exports = keyframesEnd;

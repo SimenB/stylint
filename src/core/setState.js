@@ -2,12 +2,13 @@
 
 /**
  * @description sets values like context, determine whether we even run tests, etc
- * @return Function
+ * @returns {Function | undefined} undefined if we catch something, else lint()
  */
-module.exports = function setState() {
-	this.state.context = this.setContext(this.cache.line);
+var setState = function() {
 	var line = this.cache.line;
-	var stateM = this.__proto__.stateMethods;
+	var stateM = Object.getPrototypeOf( this ).stateMethods;
+
+	this.state.context = this.setContext( this.cache.line );
 
 	// if empty line
 	if ( line.length === 0 ) {
@@ -15,32 +16,37 @@ module.exports = function setState() {
 	}
 
 	// ignore the current line if @stylint ignore
-	if ( this.cache.comment.indexOf('@stylint ignore') !== -1 ) {
+	if ( this.cache.comment.indexOf( '@stylint ignore' ) !== -1 ) {
 		return;
 	}
 
 	// if @stylint on / off commands found in the code
-	if ( stateM.stylintOn.call(this, line) || stateM.stylintOff.call(this, line) === false ) {
+	if ( stateM.stylintOn.call( this, line ) ||
+		stateM.stylintOff.call( this, line ) === false ) {
 		return;
 	}
 
 	// if hash starting / ending, set state and return early
-	if ( stateM.hashOrCSSStart.call(this, line) || stateM.hashOrCSSEnd.call(this, line) ) {
+	if ( stateM.hashOrCSSStart.call( this, line ) ||
+		stateM.hashOrCSSEnd.call( this, line ) ) {
 		return;
 	}
 
 	// if starting / ending keyframes
-	if ( stateM.keyframesStart.call(this, line) || stateM.keyframesEnd.call(this, line) ) {
+	if ( stateM.keyframesStart.call( this, line ) ||
+		stateM.keyframesEnd.call( this, line ) ) {
 		return;
 	}
 
 	// if entire line is comment
-	if ( stateM.startsWithComment.call(this, line) ) {
+	if ( stateM.startsWithComment.call( this, line ) ) {
 		return;
 	}
 
 	// run tests if we made it this far
-	if ( this.state.testsEnabled  ) {
+	if ( this.state.testsEnabled ) {
 		return this.lint();
 	}
 };
+
+module.exports = setState;

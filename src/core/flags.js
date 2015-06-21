@@ -1,5 +1,5 @@
 // flags for the cli
-module.exports = [
+var flags = [
 	'--config',
 	'--watch',
 	'--strict',
@@ -7,3 +7,5 @@ module.exports = [
 	'--help',
 	'--harmony'
 ];
+
+module.exports = flags;
