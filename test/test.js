@@ -11,6 +11,7 @@ const should = require('chai').should();
 const sinon = require('sinon');
 const app = require('../index')().create();
 
+console.log( Object.getPrototypeOf(app) );
 
 // turn on strict mode from this point and turn off unecessary logging
 app.state.quiet = true;

@@ -17,7 +17,7 @@ var stampit = require( 'stampit' );
 // basically, with stampit we take a bunch of different objects
 // and methods and compose them into one mega object
 // appropriately namespaced, with methods on the prototype, and this set correctly
-module.exports = function( path, config ) {
+var Stylint = function( path, config ) {
 	var Lint;
 	var customPath;
 	var customConfig;
@@ -36,11 +36,19 @@ module.exports = function( path, config ) {
 		} );
 	}
 
+	// compose together the following:
+	// 1 all utility methods
+	// 2 all core methods
+	// 3 methods dealing with state
+	// 4 methods that output warnings/errors
+	// 5 custom path/ if one passed in via module
+	// 6 custom config if one passed in via module
+	// 7 kickoff function, handles routing etc
 	Lint = stampit().compose(
 		require( './src/core/' ),
-		require( './src/core/methods/lint' ),
-		require( './src/core/methods/state' ),
-		require( './src/core/methods/utils' ),
+		require( './src/checks/' ),
+		require( './src/state/' ),
+		// require( './src/utils/' ),
 		customPath,
 		customConfig,
 		stampit().enclose( require( './src/core/init' ) )
@@ -48,3 +56,5 @@ module.exports = function( path, config ) {
 
 	return Lint;
 };
+
+module.exports = Stylint;
