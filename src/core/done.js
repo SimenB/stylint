@@ -8,9 +8,6 @@ var done = function() {
 	var warningsOrErrors = [];
 	var msg = '';
 
-	console.log( 'errs: ', this.cache.errs.length );
-	console.log( 'warns: ', this.cache.warnings.length );
-
 	// if no warnings or errors, give clean exit code
 	if ( this.cache.errs.length > 0 ||
 		this.cache.warnings.length > 0 ) {

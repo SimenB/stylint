@@ -11,7 +11,10 @@ const should = require('chai').should();
 const sinon = require('sinon');
 const app = require('../index')().create();
 
-console.log( Object.getPrototypeOf(app) );
+// for testing that module version works
+// const app = require('/Users/ross/Developer/workspace/stylus-lint/')( './', {
+// 	testConfig: 'config'
+// } ).create();
 
 // turn on strict mode from this point and turn off unecessary logging
 app.state.quiet = true;
@@ -272,6 +275,8 @@ describe('Utility Methods: ', function() {
 	});
 
 	describe('Set Config should:', function() {
+		process.argv[2] = '-c';
+		process.argv[3] = '.stylintrc';
 		const testMethod = app.setConfig('.stylintrc');
 		const testConfig = JSON.parse( fs.readFileSync( process.cwd() + '/.stylintrc' ) );
 
