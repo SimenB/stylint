@@ -5,6 +5,15 @@
  * @return {Function} always returns a function, determined by cli flags
  */
 var init = function() {
+	// these are all pretty much just for convenience
+	var setConfig;
+	var v = process.argv;
+	var watch = v.indexOf( '--watch' ) !== -1 || v.indexOf( '-w' ) !== -1;
+	var config = v.indexOf( '--config' ) !== -1 || v.indexOf( '-c' ) !== -1;
+	var help = v.indexOf( '--help' ) !== -1 || v.indexOf( '-h' ) !== -1;
+	var version = v.indexOf( '--version' ) !== -1 || v.indexOf( '-v' ) !== -1;
+	var strict = v.indexOf( '--strict' ) !== -1 || v.indexOf( '-s' ) !== -1 || this.config.strictMode;
+
 	// we do the check here just in case
 	// they don't pass in a reporter when using a custom config
 	if ( this.config.reporter ) {
@@ -24,27 +33,34 @@ var init = function() {
 	}
 
 	// display help message if user types --help
-	if ( process.argv.indexOf( '--help' ) !== -1 ) {
+	if ( help ) {
 		return this.help();
 	}
 
 	// output version # from package.json
-	if ( process.argv.indexOf( '--version' ) !== -1 ) {
+	if ( version ) {
 		return this.ver();
 	}
 
 	// turn on strict if strict flag passed
-	if ( process.argv.indexOf( '--strict' ) !== -1 || this.config.strictMode ) {
+	if ( strict ) {
 		this.state.strictMode = true;
 	}
 
 	// if -c flag used
-	if ( process.argv.indexOf( '--config' ) !== -1 ) {
-		this.config = this.setConfig( process.argv[process.argv.indexOf( '--config' ) + 1] );
+	if ( config ) {
+		if ( v.indexOf( '--config' ) !== -1 ) {
+			setConfig = process.argv[v.indexOf( '--config' ) + 1];
+		}
+		else {
+			setConfig = process.argv[v.indexOf( '-c' ) + 1];
+		}
+
+		this.config = this.setConfig( setConfig );
 	}
 
 	// fire watch or read based on flag
-	if ( process.argv.indexOf( '--watch' ) !== -1 ) {
+	if ( watch ) {
 		return this.watch();
 	}
 

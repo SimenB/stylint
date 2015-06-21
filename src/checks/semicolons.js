@@ -1,7 +1,7 @@
 'use strict';
 
 // we only want to check semicolons on properties/values
-var ignoreRe = /[&$.#=>]|(if)|(for)|(else)|(@block)/gm; // 3
+var ignoreRe = /[&$.#>]|(if)|(for)|(else)|(@block)|=$|=\s/gm;
 
 
 /**
@@ -10,24 +10,26 @@ var ignoreRe = /[&$.#=>]|(if)|(for)|(else)|(@block)/gm; // 3
  * @return {boolean} true if in order, false if not
  */
 var semicolons = function( line ) {
-	var semicolon = false;
+	if ( ignoreRe.test( line ) ) { return; }
+
+	var semicolon;
+
+	// console.log( line );
+	// console.log( 'ignore: ', ignoreRe.test( line ) );
 
 	if ( this.state.conf === 'never' && line.indexOf( ';' ) !== -1 ) {
 		semicolon = true;
 	}
-	else if ( this.state.conf === 'always' &&
-		!ignoreRe.test( line ) &&
-		this.state.context > 0 ) {
-
-		if ( line.indexOf( ';' ) !== -1 ) {
-			semicolon = true;
+	else if ( this.state.conf === 'always' && this.state.context > 0 ) {
+		if ( line.indexOf( ';' ) === -1 ) {
+			semicolon = false;
 		}
 	}
 
-	if ( this.state.conf === 'never' && semicolon ) {
+	if ( this.state.conf === 'never' && semicolon === true ) {
 		this.msg( 'unecessary semicolon found' );
 	}
-	else if ( this.state.conf === 'always' && !semicolon ) {
+	else if ( this.state.conf === 'always' && semicolon === false ) {
 		this.msg( 'missing semicolon' );
 	}
 

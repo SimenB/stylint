@@ -8,12 +8,12 @@ var done = function() {
 	var warningsOrErrors = [];
 	var msg = '';
 
-	// if no warnings or errors
-	if ( this.cache.errs.length === 0 &&
-		this.cache.warnings.length === 0 ) {
-		this.state.exitCode = 0;
-	}
-	else {
+	console.log( 'errs: ', this.cache.errs.length );
+	console.log( 'warns: ', this.cache.warnings.length );
+
+	// if no warnings or errors, give clean exit code
+	if ( this.cache.errs.length > 0 ||
+		this.cache.warnings.length > 0 ) {
 		this.state.exitCode = 1;
 	}
 
@@ -33,9 +33,9 @@ var done = function() {
 	}
 
 	// dont kill the linter if watch is watchin
-	if ( !this.state.watching || warningsOrErrors.length > 0 ) {
-		throw Error;
-		// return process.exit( this.state.exitCode );
+	// else theres no more to do, so exit the process
+	if ( !this.state.watching ) {
+		return process.exit( this.state.exitCode );
 	}
 
 	// if watching we reset the errors/warnings arrays

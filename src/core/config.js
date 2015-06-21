@@ -11,7 +11,9 @@ var config = {
 	// check for { or }, unless used in a hash
 	brackets: false,
 	// check for unecessary colons @TODO make jscs
-	colons: 'never',
+	colons: {
+		expect: 'always'
+	},
 	// check for hex colors used without variables
 	colors: 'always',
 	// check for spaces after commas (0, 0, 0, .18)
@@ -56,7 +58,7 @@ var config = {
 	quotePref: 'single',
 	// default reporter
 	reporter: '../core/reporter',
-	// check for unecessary semicolons
+	// disallow or enforce semicolons
 	semicolons: 'always',
 	// alphabetical, grouped, Array<String> or false (no check)
 	sortOrder: false,

@@ -10,7 +10,7 @@ var stampit = require( 'stampit' );
 
 /**`
  * @description collection of utility functions for the linter
- * @return {Object} [i expose the modules to the entire app, so we only do it once]
+ * @return {Object} stampit object
  */
 var utils = stampit().methods( {
 	checkPrefix: function( prop, css, valid ) {
@@ -70,6 +70,7 @@ var utils = stampit().methods( {
 
 	setConfig: function( potentialPath ) {
 		var path = '';
+
 		if ( typeof potentialPath !== 'string' ) {
 			throw new TypeError( 'setConfig err. Expected string, but received: ' + typeof dir );
 		}
@@ -101,7 +102,7 @@ var utils = stampit().methods( {
 			}.bind( this ) );
 		}
 
-		return context.toString();
+		return context;
 	},
 
 	// strip all whitespace from a string, customizable regex, returns new array

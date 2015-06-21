@@ -216,12 +216,12 @@ describe('Core Methods: ', function() {
 
 		it('return done() if done passed in', function() {
 			const expectedDoneObj = {
-				"exitCode": 0,
+				"exitCode": 1,
 				"msg": "Stylint: You're all clear!"
 			};
 
 			assert.equal(
-				0, app.reporter('reporter test', 'done').exitCode
+				1, app.reporter('reporter test', 'done').exitCode
 			);
 		});
 
@@ -479,35 +479,67 @@ describe('Linter Style Checks: ', function() {
 		});
 	});
 
-	describe('starts with comment', function() {
-		const startsWithComment = state.startsWithComment.bind(app);
-
-		it('false if // not first char on line', function() {
-			assert.equal( false, startsWithComment('margin 0 auto //test') );
-		});
-
-		it('true if // is the first character on the line', function() {
-			assert.equal( true, startsWithComment('//test') );
-			assert.equal( true, startsWithComment(' // test') );
-		});
-	});
-
-	describe('colon: prefer margin 0 over margin: 0', function() {
+	describe('colon never: prefer margin 0 over margin: 0', function() {
 		const colonTest = lint.colons.bind(app);
 
 		beforeEach(function() {
-			app.state.conf = true;
+			app.state.conf = 'never';
 		});
 
-		it('false if no unecessary colons found', function() {
-			assert.equal( false, colonTest('margin 0 auto') );
-			app.state.hash = true;
-			assert.equal( false, colonTest('key: value') );
-		});
+		afterEach(function() {
+			app.state.hash = false;
+		})
 
 		it('true if unecessary colon is found', function() {
+			app.state.context = 1;
 			app.state.hash = false;
 			assert.equal( true, colonTest('margin: 0 auto') );
+		});
+
+		it('undefined if no colon found', function() {
+			assert.equal( undefined, colonTest('margin 0 auto') );
+		});
+
+		it('undefined if root context', function() {
+			app.state.context = 0;
+			assert.equal( undefined, colonTest('margin 0 auto') );
+			app.state.hash = true;
+			assert.equal( undefined, colonTest('key: value') );
+		});
+
+		it('undefined if hash', function() {
+			app.state.hash = true;
+			assert.equal( undefined, colonTest('key: value') );
+		});
+
+		it('undefined if syntax', function() {
+			assert.equal( undefined, colonTest('for ( 0..9 )') );
+		});
+	});
+
+	describe('colon always: prefer margin: 0 over margin 0', function() {
+		const colonTest = lint.colons.bind(app);
+
+		beforeEach(function() {
+			app.state.conf = 'always';
+		});
+
+		it('false if no colon is found', function() {
+			app.state.context = 1;
+			assert.equal( false, colonTest('margin 0 auto') );
+		});
+
+		it('undefined if root context', function() {
+			app.state.context = 0;
+			assert.equal( undefined, colonTest('margin: 0 auto') );
+		});
+
+		it('undefined if colon found', function() {
+			assert.equal( undefined, colonTest('margin: 0 auto') );
+		});
+
+		it('undefined if syntax', function() {
+			assert.equal( undefined, colonTest('for ( 0..9 )') );
 		});
 	});
 
@@ -788,8 +820,8 @@ describe('Linter Style Checks: ', function() {
 		it('tabs: true if nested selector is dupe', function() {
 			app.cache.prevFile = 'file.styl';
 			app.cache.file = 'file.styl';
-			app.state.context = '1';
-			app.state.prevContext = '1';
+			app.state.context = 1;
+			app.state.prevContext = 1;
 			dupeTest('	.test');
 			assert.equal( true, dupeTest('	.test') );
 		});
@@ -797,22 +829,22 @@ describe('Linter Style Checks: ', function() {
 		it('spaces: true if nested selector is dupe', function() {
 			app.cache.prevFile = 'file.styl';
 			app.cache.file = 'file.styl';
-			app.state.context = '1';
-			app.state.prevContext = '1';
+			app.state.context = 1;
+			app.state.prevContext = 1;
 			dupeTest('    .test2');
 			assert.equal( true, dupeTest('    .test2') );
 		});
 
 		it('true if root selector is dupe, same file', function() {
-			app.state.context = '0';
-			app.state.prevContext = '0';
+			app.state.context = 0;
+			app.state.prevContext = 0;
 			dupeTest('.test3'); // to set the context
 			assert.equal( true, dupeTest('.test3') );
 		});
 
 		it('true if root selector is dupe, global dupe test', function() {
-			app.state.context = '0';
-			app.state.prevContext = '0';
+			app.state.context = 0;
+			app.state.prevContext = 0;
 			app.config.globalDupe = true;
 			app.cache.prevFile = 'file.styl';
 			dupeTest('.test'); // to set the context
@@ -986,21 +1018,22 @@ describe('Linter Style Checks: ', function() {
 	describe('hash end', function() {
 		const hashTest = state.hashOrCSSEnd.bind(app);
 
-		it('false if in hash and valid } found', function() {
+		beforeEach(function() {
 			app.state.hashOrCSS = true;
+		});
+
+		it('false if in hash and valid } found', function() {
 			assert.equal( false, hashTest('}') );
 		});
 
 		it('true if hash end } not found', function() {
-			app.state.hashOrCSS = true;
 			assert.equal( true, hashTest('margin 0') );
 			assert.equal( true, hashTest('myHash = {') );
 		});
 
 		it('after finding end of hash, hash state should equal false', function() {
-			app.state.hashOrCSS = true;
 			assert.equal( false, hashTest('}') );
-			assert.equal( false, app.state.hash );
+			assert.equal( false, app.state.hashOrCSS );
 		});
 
 		it('undefined if not in a hash', function() {
@@ -1016,7 +1049,7 @@ describe('Linter Style Checks: ', function() {
 
 		it('false if keyframes active and context set to 0 (keyframes ended)', function() {
 			app.state.keyframes = true;
-			app.state.context = '0';
+			app.state.context = 0;
 			assert.equal( false, keyframesEndTest('.newClass') );
 		});
 
@@ -1381,7 +1414,6 @@ describe('Linter Style Checks: ', function() {
 		});
 	});
 
-
 	describe('parens: prefer (param) over ( param )', function() {
 		const parenTest = lint.parenSpace.bind(app);
 
@@ -1401,7 +1433,6 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, parenTest('.notAMixin ') );
 		});
 	});
-
 
 	describe('placeholders: prefer $var over .class when extending: ', function() {
 		const placeholderTest = lint.placeholders.bind(app);
@@ -1430,7 +1461,6 @@ describe('Linter Style Checks: ', function() {
 		});
 	});
 
-
 	describe('placeholders: prefer $var over .class when extending: ', function() {
 		const placeholderTest = lint.placeholders.bind(app);
 
@@ -1458,7 +1488,6 @@ describe('Linter Style Checks: ', function() {
 		});
 	});
 
-
 	describe('prefix var with $: always', function() {
 		const varTest = lint.prefixVarsWithDollar.bind(app);
 
@@ -1471,7 +1500,7 @@ describe('Linter Style Checks: ', function() {
 		});
 
 		it('false if $ is missing when defining mixin parameters', function() {
-			app.state.context = '0';
+			app.state.context = 0;
 			assert.equal( false, varTest('myMixin( param, $param2 )') );
 		});
 
@@ -1484,7 +1513,6 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, varTest('var = @block') );
 		});
 	});
-
 
 	describe('prefix var with $: never', function() {
 		const varTest = lint.prefixVarsWithDollar.bind(app);
@@ -1507,7 +1535,6 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, varTest('var = @block') );
 		});
 	});
-
 
 	describe('quote style', function() {
 		const quoteTest = lint.quotePref.bind(app);
@@ -1564,12 +1591,18 @@ describe('Linter Style Checks: ', function() {
 			app.state.conf = 'never';
 		});
 
-		it('undefined if no semicolon is found', function() {
-			assert.equal( false, semiTest('margin 0 auto') );
-		});
-
 		it('true if semicolon found', function() {
 			assert.equal( true, semiTest('margin 0 auto;') );
+		});
+
+		it('undefined if no semicolon is found', function() {
+			assert.equal( undefined, semiTest('margin 0 auto') );
+		});
+
+		it('undefined if line skipped (syntax)', function() {
+			assert.equal( undefined, semiTest('var =') );
+			assert.equal( undefined, semiTest('var = @block') );
+			assert.equal( undefined, semiTest('for ( 0..9 )') );
 		});
 	});
 
@@ -1580,38 +1613,24 @@ describe('Linter Style Checks: ', function() {
 			app.state.conf = 'always';
 		});
 
+		afterEach(function() {
+			app.state.conf = true;
+		});
+
 		it('false if no semicolon is found', function() {
 			app.state.context = 1;
 			assert.equal( false, semiTest('margin 0 auto') );
 		});
 
-		it('undefined if root level', function() {
+		it('undefined if line skipped (root context)', function() {
 			app.state.context = 0;
-			assert.equal( false, semiTest('margin 0 auto') );
+			assert.equal( undefined, semiTest('margin 0 auto') );
 		});
 
-		it('undefined if class or id', function() {
-			assert.equal( false, semiTest('.class 0 auto') );
-			assert.equal( false, semiTest('#id 0 auto') );
-		});
-
-		it('true if semicolon found', function() {
-			app.state.context = 1;
-			assert.equal( true, semiTest('margin 0 auto;') );
-		});
-	});
-
-
-	describe('stacked properties', function() {
-		const stackedTest = lint.stackedProperties.bind(app);
-
-		it('false if not a one liner', function() {
-			assert.equal( false, stackedTest('margin 0 auto') );
-		});
-
-		it('true if one liner', function() {
-			assert.equal( true, stackedTest('margin 0 auto; padding: 5px;') );
-			assert.equal( true, stackedTest('margin 0 auto; padding: 5px;') );
+		it('undefined if line skipped (syntax)', function() {
+			assert.equal( undefined, semiTest('var =') );
+			assert.equal( undefined, semiTest('var = @block') );
+			assert.equal( undefined, semiTest('for ( 0..9 )') );
 		});
 	});
 
@@ -1628,14 +1647,14 @@ describe('Linter Style Checks: ', function() {
 		});
 
 		it('undefined if root level', function() {
-			app.state.context = '0';
+			app.state.context = 0;
 			assert.equal( undefined, sortTest('margin 0'));
 		});
 
 		it('cache length should only be 1 (the current prop) if context switched', function() {
 			app.cache.sortOrderCache = [ 'border', 'margin', 'padding' ];
-			app.state.prevContext = '0';
-			app.state.context = '1';
+			app.state.prevContext = 0;
+			app.state.context = 1;
 
 			assert.equal( 3, app.cache.sortOrderCache.length );
 			sortTest('margin 0');
@@ -1764,6 +1783,32 @@ describe('Linter Style Checks: ', function() {
 				assert.equal( expectedCache.length, app.cache.sortOrderCache.length );
 				assert.deepEqual( expectedCache, app.cache.sortOrderCache );
 			});
+		});
+	});
+
+	describe('stacked properties', function() {
+		const stackedTest = lint.stackedProperties.bind(app);
+
+		it('false if not a one liner', function() {
+			assert.equal( false, stackedTest('margin 0 auto') );
+		});
+
+		it('true if one liner', function() {
+			assert.equal( true, stackedTest('margin 0 auto; padding: 5px;') );
+			assert.equal( true, stackedTest('margin 0 auto; padding: 5px;') );
+		});
+	});
+
+	describe('starts with comment', function() {
+		const startsWithComment = state.startsWithComment.bind(app);
+
+		it('false if // not first char on line', function() {
+			assert.equal( false, startsWithComment('margin 0 auto //test') );
+		});
+
+		it('true if // is the first character on the line', function() {
+			assert.equal( true, startsWithComment('//test') );
+			assert.equal( true, startsWithComment(' // test') );
 		});
 	});
 
@@ -2020,6 +2065,7 @@ describe('Done, again: ', function() {
 		app.state.watching = true;
 		app.cache.errs = [];
 		app.cache.warnings = [];
+		app.state.exitCode = 0;
 	});
 
 	it('should return an object', function() {

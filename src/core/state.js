@@ -5,7 +5,7 @@
 var state = {
 	conf: false, // config for currently running check ('always' || 'never' || etc)
 	context: 0, // what is our level of nesting?
-	exitCode: 1, // err or no err
+	exitCode: 0, // err or no err
 	hasComment: false, // checks for // in a line
 	hashOrCSS: false, // are we in a hash
 	keyframes: false, // are we in @keyframes

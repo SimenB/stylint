@@ -19,7 +19,7 @@ var prefixVarsWithDollar = function( line ) {
 	// if line has a mixin, we need check each param for missing $
 	// else we just check if = is present && $ is prefixing something
 	if ( this.state.conf === 'always' ) {
-		if ( parensRe.test( line ) && this.state.context === '0' ) {
+		if ( parensRe.test( line ) && this.state.context === 0 ) {
 			mixinArr = line.match( parensRe )[0].split( ',' );
 
 			// returns true if every param has $ or false if even one is missing
