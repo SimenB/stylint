@@ -18,6 +18,7 @@ var linterMethods = stampit().methods( {
 		mixed: require( '../../checks/mixed' ),
 		namingConvention: require( '../../checks/namingConvention' ),
 		none: require( '../../checks/none' ),
+		noImportant: require( '../../checks/noImportant' ),
 		parenSpace: require( '../../checks/parenSpace' ),
 		placeholders: require( '../../checks/placeholders' ),
 		prefixVarsWithDollar: require( '../../checks/prefixVarsWithDollar' ),

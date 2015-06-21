@@ -48,6 +48,8 @@ var config = {
 	namingConventionStrict: false,
 	// check for use of border none or outline none, prefer 0
 	none: 'never',
+	// disallow !importants
+	noImportant: true,
 	// check for extra space inside parens
 	parenSpace: false,
 	// only allow @extending of placeholder vars

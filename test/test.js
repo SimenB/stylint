@@ -562,7 +562,6 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, colorsTest('$foobar ?= #fff') );
 			assert.equal( undefined, colorsTest('$foobar = #fff') );
 		});
-
 	});
 
 	describe('comma space: prefer space after commas', function() {
@@ -586,7 +585,6 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, commaTest('.class,') );
 		});
 	});
-
 
 	describe('comma space: prefer NO space after commas', function() {
 		const commaTest = lint.commaSpace.bind(app);
@@ -614,7 +612,6 @@ describe('Linter Style Checks: ', function() {
 		});
 	});
 
-
 	describe('comment space: prefer spaces after line comments', function() {
 		const commentSpaceTest = lint.commentSpace.bind(app);
 
@@ -637,7 +634,6 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, commentSpaceTest('.test') );
 		});
 	});
-
 
 	describe('comment space: prefer NO spaces after line comments', function() {
 		const commentSpaceTest = lint.commentSpace.bind(app);
@@ -662,7 +658,6 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, commentSpaceTest('.test') );
 		});
 	});
-
 
 	describe('css literal', function() {
 		const cssTest = lint.cssLiteral.bind(app);
@@ -1112,7 +1107,6 @@ describe('Linter Style Checks: ', function() {
 		});
 	});
 
-
 	describe('leading zero: prefer .9 or 0.9', function() {
 		const zeroTest = lint.leadingZero.bind(app);
 
@@ -1140,7 +1134,6 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, zeroTest('margin auto') );
 		});
 	});
-
 
 	describe('mixed spaces and tabs', function() {
 		const mixed = lint.mixed.bind(app);
@@ -1319,6 +1312,22 @@ describe('Linter Style Checks: ', function() {
 		});
 	});
 
+	describe('noImportant: disallow !important', function () {
+		const importantTest = lint.noImportant.bind(app);
+
+		beforeEach(function() {
+			app.state.conf = true;
+		});
+
+		it('false if a line doesnt have !important', function () {
+			assert.equal( false, importantTest('.foo') );
+		});
+
+		it('true if line has an !important', function () {
+			assert.equal( true, importantTest('margin 5px !important') );
+		});
+	});
+
 	describe('none: prefer 0 over none', function() {
 		const noneTest = lint.none.bind(app);
 
@@ -1355,7 +1364,6 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, noneTest('padding inherit') );
 		});
 	});
-
 
 	describe('none: prefer none over 0', function() {
 		const noneTest = lint.none.bind(app);
