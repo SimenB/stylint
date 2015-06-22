@@ -47,7 +47,7 @@ flex-row()
  * in webkit we get the ellipsis, on other browsers we just dont show the text
  * 1 old spec is needed, so we turn autoprefixer off for the block.
  */
-line-clamp( $lines, $your-line-height )
+line-clamp( lines, $your-line-height )
 	/* autoprefixer: off */
 	-webkit-box-orient vertical
 	display -webkit-box // 1
@@ -56,6 +56,8 @@ line-clamp( $lines, $your-line-height )
 	-webkit-line-clamp $lines
 	max-height $lines * $your-line-height + 2
 
+.clamp
+	line-clamp( 3, 16px )
 
 /**
  * pullquotes for stories gets whole lot of stuff

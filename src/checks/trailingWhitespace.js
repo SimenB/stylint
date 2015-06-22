@@ -1,22 +1,27 @@
 'use strict';
 
-var
-	whitespace = /[ \t]+$/,  // check for unecessary tabs or whitespace at eol
-	anythingElse = /[^ \t]/; // anything BUT whitespace (we dont want to return false positives on empty lines)
+var whitespaceRe = /[ \t]+$/; // check for unecessary tabs or whitespace at eol
+var anythingElseRe = /[^ \t]/; // anything BUT whitespace (we dont want to return false positives on empty lines)
 
 /**
- * check for trailing whitespace
- * @param  {string} line  the line being tested
+ * @description check for trailing whitespace
+ * @param  {string} [line] curr line being linted
  * @return {boolean} true if whitespace found, false if not
  */
-module.exports = function checkWhitespace( line ) {
-	if ( typeof line !== 'string' ) { return; }
+var trailingWhitespace = function( line ) {
+	var whitespace = false;
 
 	// not an empty line, with whitespace at the end
-	if ( anythingElse.test(line) && whitespace.test(line) ) {
-		return true;
+	if ( anythingElseRe.test( line ) &&
+		whitespaceRe.test( line ) ) {
+		whitespace = true;
 	}
-	else {
-		return false;
+
+	if ( this.state.conf === 'never' && whitespace ) {
+		this.msg( 'trailing whitespace' );
 	}
+
+	return whitespace;
 };
+
+module.exports = trailingWhitespace;

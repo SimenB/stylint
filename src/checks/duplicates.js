@@ -1,93 +1,57 @@
 'use strict';
 
-var syntaxIgnore = /^{|[,}]|(:after|:active|:before|@import|@require|@extend|@media|:hover|@font-face|src)/;
+var ignoreRe = /^{|[,}]|(:after|:active|:before|@import|@require|@extend|@media|:hover|@font-face|src)|,$/;
 
-// check if selectors are duplicate
-module.exports = function duplicateSelectors( line, file ) {
-	if ( typeof line !== 'string' ) { return; }
 
-	var
-		arr = line.split(/[\s\t]/),
-		isThereADupe = false,
-		textIndex = 0,
-		indentCount = 0,
-		currContext = 0;
+/**
+ * @description check that selector properties are sorted alphabetically
+ * @param {string} [line] curr line being linted
+ * @returns {boolean} true if dupe found, false if not
+ */
+var duplicates = function( line ) {
+	var arr = this.splitAndStrip( new RegExp( /[\s\t]/ ), line );
+	var dupe = false;
 
-	// quick and dirty fixes for now, didnt' account for hard tabs for context check
-	// this just gets the number of indents so we don't throw false positives
-	if ( typeof this.config.indentSpaces !== 'number' ) {
-		while ( line.charAt( textIndex++ ) === '\t' ) {
-			currContext++;
-		}
-	}
-	else {
-		arr.forEach(function( val, i ) {
-			if ( arr[i].length === 0 ) {
-				indentCount++; // spaces or tabs
-			}
-			else {
-				currContext = indentCount / this.config.indentSpaces;
-			}
-		}.bind( this ));
+	// if root check not global, obliterate cache on each new file
+	if ( !this.config.globalDupe && this.cache.prevFile !== this.cache.file ) {
+		this.cache.sCache = {};
 	}
 
-	// remove blank spaces now that we have our context
-	arr = arr.filter(function( str ) {
-		return str.length > 0;
-	});
-
-	// if current context switched, reset array
-	if ( this.cache.prevContext !== currContext ) {
-		this.cache.selectorCache = [];
+	// if cache for curr context doesn't exist yet (or was obliterated), make one
+	if ( typeof this.cache.sCache[ this.state.context ] === 'undefined' ) {
+		this.cache.sCache[ this.state.context ] = [];
 	}
 
-	// if root check not global, wipe on each new file
-	if ( this.cache.prevFile !== file && !this.config.globalDupe ) {
-		this.cache.rootCache = [];
+	// if current context root again, reset arrays except root
+	// basically, root can persist across files potentially
+	// caches above root only persist as long as they are within their context
+	if ( this.state.context !== this.state.prevContext ) {
+		Object.keys( this.cache.sCache ).forEach( function( val ) {
+			if ( val === '0' ) { return; }
+			this.cache.sCache[val] = [];
+		}.bind( this ) );
 	}
 
-	// keep track of and check root selectors too
-	if ( currContext === 0 ) {
-		// if curr line is already in our cache, we have a dupe
-		// file specific check
-		if ( !this.config.globalDupe && this.cache.prevFile !== file ) {
-			// check against prev line to make sure we're not in a list of selectors
-			if ( this.cache.rootCache.indexOf( line ) !== -1 &&
-				this.cache.prevLine.indexOf(',') === -1 ) {
-				isThereADupe = true;
-			}
-		}
-		// global check
-		else {
-			if ( this.cache.rootCache.indexOf( line ) !== -1 &&
-				this.cache.prevLine.indexOf(',') === -1 ) {
-				isThereADupe = true;
-			}
+	// if not in a list
+	// and not ignored syntax
+	// and property exists in the array already
+	// then dupe
+	if ( line.indexOf( ',' ) === -1 &&
+		this.cache.prevLine.indexOf( ',' ) === -1 &&
+		!ignoreRe.test( line ) ) {
+
+		if ( this.cache.sCache[ this.state.context ].indexOf( arr[0] ) !== -1 ) {
+			dupe = true;
 		}
 
-		// undefined check is for whitespace
-		if ( typeof arr[0] !== 'undefined' &&
-			!syntaxIgnore.test( line ) &&
-			typeof this.cache.prevLine !== 'undefined' &&
-			this.cache.prevLine.indexOf(',') === -1 ) {
-			this.cache.rootCache.push( line );
-		}
+		this.cache.sCache[ this.state.context ].push( arr[0] );
 	}
 
-	// if curr line is already in our cache, we have a dupe
-	if ( this.cache.selectorCache.indexOf( arr[0] ) !== -1 ) {
-		isThereADupe = true;
+	if ( dupe ) {
+		this.msg( 'duplicate property or selector, consider merging' );
 	}
 
-	// cache the lines in the curr context
-	if ( typeof arr[0] !== 'undefined' && !syntaxIgnore.test(line) ) {
-		this.cache.selectorCache.push( arr[0] );
-	}
-
-	// save our curr context so we can use it to see our place
-	this.cache.prevFile = file;
-	this.cache.prevLine = line;
-	this.cache.prevContext = currContext;
-
-	return isThereADupe;
+	return dupe;
 };
+
+module.exports = duplicates;

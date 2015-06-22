@@ -1,26 +1,29 @@
 'use strict';
 
-// check for z-index values that aren't normalized
-module.exports = function normalizeZIndex( line ) {
-	if ( typeof line !== 'string' ) { return; }
 
-	var arr;
+/**
+* @description check for z-index values that aren't normalized
+* @param {string} [line] current line being linted
+* @returns {boolean} true if not normalized, false if normalized
+*/
+var zIndexNormalize = function( line ) {
+	var badZIndex = false;
+	var arr = this.splitAndStrip( new RegExp( /[\s\t,:]/ ), line );
 
-	// the most basic of checks, throw warning if zindex value not normalized
-	if ( line.indexOf( 'z-index' ) !== -1 ) {
-		arr = line.split(/[\s\t,:]/);
-		// remove white space
-		arr = arr.filter(
-			function( str ) {
-				return str.length > 0;
-			}
-		);
-
-		if ( arr[ arr.length - 1 ] % this.config.zIndexNormalize !== 0 ) {
-			return true;
-		}
-		else {
-			return false;
-		}
+	// ignore 0 or 1 values
+	if ( arr[ arr.length - 1 ] === '-1' || arr[ arr.length - 1 ] === '0' ) {
+		return;
 	}
+
+	if ( line.indexOf( 'z-index' ) !== -1 && arr[ arr.length - 1 ] % this.state.conf ) {
+		badZIndex = true;
+	}
+
+	if ( badZIndex ) {
+		this.msg( 'this z-index value is not normalized' );
+	}
+
+	return badZIndex;
 };
+
+module.exports = zIndexNormalize;

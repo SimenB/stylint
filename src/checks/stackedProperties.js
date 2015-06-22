@@ -1,19 +1,23 @@
 'use strict';
 
-// one liners are bad for you
-module.exports = function checkForOneLiners( line ) {
-	if ( typeof line !== 'string' ) { return; }
-
-	var isOneLiner = false;
-	var arr = line.trim().split(';');
-
-	arr = arr.filter(function( str ) {
-		return str.length > 0;
-	});
+/**
+ * @description disallow one-liners
+ * @param  {string} [line] curr line being linted
+ * @return {boolean} true if one-liner found, false if not
+ */
+var stackedProperties = function( line ) {
+	var oneLiner = false;
+	var arr = this.splitAndStrip( ';', line.trim() );
 
 	if ( arr && arr.length > 1 ) {
-		isOneLiner =  true;
+		oneLiner = true;
 	}
 
-	return isOneLiner;
+	if ( this.state.conf === 'never' && oneLiner ) {
+		this.msg( 'avoid one liners. put properties on their own line' );
+	}
+
+	return oneLiner;
 };
+
+module.exports = stackedProperties;

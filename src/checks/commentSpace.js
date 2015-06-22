@@ -1,22 +1,30 @@
 'use strict';
 
-// check for space after comment line
-var comment = /\/\/\s/;
+var commentRe = /\/\/ /;
 
-module.exports = function checkCommentStyle( line ) {
-	if ( typeof line !== 'string' ) { return; }
 
-	if ( line.indexOf('//') !== -1 ) {
-		// check for space after comment on it's own line, if no space, return warning
-		if ( line.indexOf('//') === 0 && !comment.test(line) ) {
-			return false;
-		}
-		// check for space after comment if on same line, if no space, return warning
-		else if ( line.indexOf('http://') === -1 && !comment.test(line) ) {
-			return false;
-		}
-		else {
-			return true;
-		}
+/**
+ * @description // check for space after line comment
+ * @returns {boolean} true if comment found, false if not
+ */
+var commentSpace = function() {
+	if ( !this.state.hasComment ) { return; }
+
+	var spaceAfterComment = false;
+
+	// check for space after comment on it's own line, if no space, return warning
+	if ( commentRe.test( this.cache.comment ) ) {
+		spaceAfterComment = true;
 	}
+
+	if ( this.state.conf === 'always' && !spaceAfterComment ) {
+		this.msg( 'line comments require a space after //' );
+	}
+	else if ( this.state.conf === 'never' && spaceAfterComment ) {
+		this.msg( 'spaces after line comments disallowed' );
+	}
+
+	return spaceAfterComment;
 };
+
+module.exports = commentSpace;

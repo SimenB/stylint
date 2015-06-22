@@ -1,35 +1,54 @@
 'use strict';
 
-var
-	openBracket = /\{$/,
-	closeBracket = /\}$/,
-	interpolation = /({\S)(\S)+[}]|([{]\S[}])/;
+var selRe = /^[#.]+/;
+var commaRe = /,$/;
 
-module.exports = function checkForBrackets( line, areWeInAHash ) {
-	if ( typeof areWeInAHash === 'undefined' ||
-		typeof line !== 'string' ) {
-		return;
+
+/**
+ * @description check for brackets
+ * @param {string} [line] curr line being linted
+ * @returns {boolean | undefined} true if bracket found, false if not, undefined if we skip
+ */
+var brackets = function( line ) {
+	if ( this.state.hashOrCSS ) { return; }
+	if ( this.state.conf === 'always' && !selRe.test( line ) ) { return; }
+	if ( commaRe.test( line ) ) { return; }
+
+	var bracket = false;
+
+	if ( this.state.conf === 'never' ) {
+		// ex: $hash = { is ok but .class = { is not
+		if ( line.indexOf( '{' ) !== -1 && line.indexOf( '=' ) === -1 ) {
+			bracket = true;
+			this.state.openBracket = true;
+		}
+		// ex: } is okay if ending a hash. otherwise it is NOT okay
+		else if ( line.indexOf( '}' ) !== -1 ) {
+			bracket = true;
+			this.state.openBracket = false;
+		}
+	}
+	else if ( this.state.conf === 'always' ) {
+		// ex: $hash = { is ok but .class = { is not
+		if ( line.indexOf( '{' ) !== -1 && line.indexOf( '=' ) === -1 ) {
+			bracket = true;
+			this.state.openBracket = true;
+		}
+		// ex: } is okay if ending a hash. otherwise it is NOT okay
+		else if ( line.indexOf( '}' ) !== -1 && this.state.openBracket ) {
+			bracket = true;
+			this.state.openBracket = false;
+		}
 	}
 
-	// if interpolation we cool
-	if ( interpolation.test(line) ) {
-		return false;
+	if ( this.state.conf === 'never' && bracket ) {
+		this.msg( 'unecessary bracket' );
 	}
-	// not interpolation, has a { or }
-	else if ( openBracket.test(line) ||
-		closeBracket.test(line) ) {
-		// ex .someClass {
-		if ( openBracket.test(line) && line.indexOf('=') === -1 ) {
-			return true;
-		}
-		// ex } when not in a hash and not an interpolated variable
-		else if ( closeBracket.test(line) && areWeInAHash ) {
-			return false;
-		}
-		// ex } when not in a hash and not an interpolated variable
-		else if ( closeBracket.test(line) && !areWeInAHash ) {
-			return true;
-		}
+	else if ( this.state.conf === 'always' && !bracket ) {
+		this.msg( 'always use brackets when defining selectors' );
 	}
-	// else no brackets, return undefined
+
+	return bracket;
 };
+
+module.exports = brackets;

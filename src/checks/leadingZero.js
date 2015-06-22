@@ -1,32 +1,32 @@
 'use strict';
 
-var leadingZero = /( |,)(0\.)+|(^0\.)+/;
+var leadZeroRe = /0\.(?!\.)/;
 
-// check for leading 0
-module.exports = function hasLeadingZero( line, arr ) {
-	if ( typeof line !== 'string' || line.indexOf('0') === -1 ) { return; }
-	var i = 0,
-		len = arr.length,
-		zeroFound = false;
 
-	// remove whitespace from array
-	arr = arr.filter(function( str ) {
-		return str.length > 0;
-	});
+/**
+ * @description check for leading 0 on numbers ( 0.5 )
+ * @param {string} [line] curr line being linted
+ * @returns {boolean} true if mixed, false if not
+ */
+var leadingZero = function( line ) {
+	if ( line.indexOf( '.' ) === -1 ) { return; }
+
+	var leadZero = false;
+	var arr = this.splitAndStrip( new RegExp( /[\s\t]/ ), line );
 
 	// return true if leading zero found and not used as part of range
-	if ( line.indexOf('0.') !== -1 && line.indexOf('0..') === -1) {
-		for ( i; i < len; i++ ) {
-			if ( leadingZero.test( arr[i] ) ) {
-				zeroFound = true;
-			}
-		}
+	leadZero = arr.some( function( val ) {
+		return leadZeroRe.test( val );
+	} );
+
+	if ( this.state.conf === 'always' && !leadZero ) {
+		this.msg( 'leading zeros for decimal points are required' );
+	}
+	else if ( this.state.conf === 'never' && leadZero ) {
+		this.msg( 'leading zeros for decimal points are unecessary' );
 	}
 
-	if ( zeroFound ) {
-		return true;
-	}
-	else {
-		return false;
-	}
+	return leadZero;
 };
+
+module.exports = leadingZero;
