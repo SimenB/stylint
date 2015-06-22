@@ -1,6 +1,6 @@
 ## stylint - cli stylus linter.
 
-## you're looking at the 1.0 branch, which still has a long ways to go before release
+## 1.0 RC
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rossPatton/stylint?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Code Climate](https://codeclimate.com/github/rossPatton/stylint/badges/gpa.svg)](https://codeclimate.com/github/rossPatton/stylint) [![Test Coverage](https://codeclimate.com/github/rossPatton/stylint/badges/coverage.svg)](https://codeclimate.com/github/rossPatton/stylint)
 
@@ -26,15 +26,11 @@ you can also ping me [here](https://gitter.im/rossPatton/stylint)
 
 `-c` or `--config`  Pass in location of custom config file
 
-`-s` or `--strict`  Run all tests, regardless of config
-
 `-v` or `--version` Display current version
 
 
 ## Example CLI Usage:
 `stylint` Run stylint on cwd
-
-`stylint path/to/styl --strict` Run stylint in strict mode, for masochists
 
 `stylint path/to/filename.styl` Run stylint on a file
 
@@ -49,48 +45,42 @@ you can also ping me [here](https://gitter.im/rossPatton/stylint)
 `stylint styl/ --watch -c path/to/config/.configrc` Watch dir, use custom config
 
 
-## Using it as a module
-Stylint uses stampit, and you can require it like follows:
-
+## Non ClI Usage
+I'll be the first to admit that the syntax is a bit weird, but it works just fine. 
+```javascript
+const stylint = require('stylint')('path/to/stylus/', {
+    brackets: 'always',
+    namingConvention: 'BEM',
+    semicolons: 'always'
+}).create();
 ```
-const stylint = require('stylint');
-```
-
-Use is as follows:
-```
-stylint().create();
-```
-
-It can optionally take in 2 parameters.
-1: Custom path
-2: Configuration option (in place of using an .rc config file)
-```
-stylint('./path/to/stylus/', {
-	brackets: 'never',
-	mixed: true
-}).create()
-``
 
 
 ## Gulp
-You can use the raw module with [gulp-shell](https://github.com/sun-zheng-an/gulp-shell) like below:
-
-```
+You can use the CLI with [gulp-shell](https://github.com/sun-zheng-an/gulp-shell) like below:
+```javascript
 gulp.task('stylint', shell.task([
-	'stylint path/to/styl/ -c .stylintrc'
+    'stylint path/to/styl/ -c .stylintrc'
 ]));
 ```
 
-Or use [gulp-stylint](https://github.com/danielhusar/gulp-stylint)
-```
+Or just use [gulp-stylint](https://github.com/danielhusar/gulp-stylint)
+```javascript
 var gulp = require('gulp');
 var stylint = require('gulp-stylint');
 
 gulp.task('default', function () {
-	return gulp.src('src/*.styl')
-		.pipe(stylint())
+    return gulp.src('src/*.styl')
+        .pipe(stylint())
 });
 ```
+
+## As Part of Your Workflow
+Stylint integrations with both Sublime Text 3 and Atom.io are available.
+
+[Atom linter-stylint](https://atom.io/packages/linter-stylint)
+
+[SublimeLinter-contrib-stylint](https://packagecontrol.io/packages/SublimeLinter-contrib-stylint)
 
 
 ## Why Write This Tool?
@@ -98,49 +88,71 @@ Stylus is my CSS pre-processor of choice and the lack of a decent linter (or rea
 
 
 ## Why Use This Tool?
-To catch little mistakes (duplication of rules for instance) and to enforce a code style guide. This is particularly important with Stylus, which is unopinionated when it comes to syntax. Ideally by 1.0 or earlier this tool will eventually allow you to enforce as little, or as much, syntax as you like.
+To catch little mistakes (duplication of rules for instance) and to enforce a code style guide. This is particularly important with Stylus, which is unopinionated when it comes to syntax. Like Stylus itself, this linter opts for flexibility over rigidity.
 
 
 ## Options
-The following is a list of the options available to stylint. Use the `-c` or `--config` flag to pass in the location of your custom `.stylintrc` config file if you want to change the defaults. Alternatively, you could pass the `-s` or `--strict` flag to run stylint as though everything was set to true, config file or not.
-
-The default settings are pretty weak and unopinionated (I think). If you want to enforce a particular styleguide, you'll have to set up your own config file. Below is the default config.
-
+The following is a list of all options available to stylint.
 ```
 {
 	blocks: false,
 	brackets: 'never',
 	colons: 'always',
-	colors: false,
+	colors: 'always',
 	commaSpace: 'always',
-	commentSpace: false,
-	cssLiteral: false,
+	commentSpace: 'always',
+	cssLiteral: 'never',
 	depthLimit: false,
 	duplicates: true,
-	efficient: true,
+	efficient: 'always',
 	extendPref: false,
 	globalDupe: false,
 	indentPref: false,
-	leadingZero: false,
+	leadingZero: 'never',
 	maxErrors: false,
 	maxWarnings: false,
 	mixed: false,
 	namingConvention: false,
 	namingConventionStrict: false,
 	none: 'never',
+	noImportant: true,
 	parenSpace: false,
 	placeholders: 'always',
 	prefixVarsWithDollar: 'always',
-	quotePref: 'single',
-	reporter: '../core/reporter',
+	quotePref: false,
 	semicolons: 'never',
-	sortOrder: false,
+	sortOrder: 'alphabetical',
 	stackedProperties: 'never',
 	trailingWhitespace: 'never',
 	universal: false,
-	valid: 'always',
+	valid: true,
 	zeroUnits: 'never',
 	zIndexNormalize: false
+};
+```
+
+#### Custom Configuration
+By default, Stylint attempts to use the .stylintrc file in your working directory. If not, the above is what it falls back to.
+
+You can also use the `-c` or `--config` flags to pass in the location of your custom `.stylintrc` config file if it resides somewhere else.
+
+If requiring Stylint ( as opposed to using it via the cli ), the 2nd param is the config object.
+
+
+#### Severity
+Stylint has 2 levels of output, Warnings and Errors. All Stylint rules optionally take an object, allowing you to set it to be an Error. Combined with the maxWarnings and maxErrors properties, you can be very flexible about say, code style but strict on things like code duplication.
+
+Example:
+```javascript
+{
+    brackets: {
+        expect: 'never',
+        error: true
+    },
+    colons: {
+        expect: 'always',
+        error: true
+    }
 }
 ```
 
@@ -177,39 +189,14 @@ Example:
 ```
 
 
-### handling severity
-Stylint allows you to specify 2 levels of severity, Warning or Error, if a problem is found with your Stylus. By default, everything is a Warning.
-
-This works together with the maxWarnings and maxErrors config options, so you could error out if you get a single Error, but allow say, up to 5 Warnings.
-
-In your config file, you can pass in a string (usually always or never), false (usually you should leave this rule out of the config), or an object. The object lets you set the rule, as well as the severity
-
-Examples:
-```stylus
-// below sets brackets to throw an Error instead of a Warning if a bracket is found
-brackets: {
-	expect: 'never',
-	error: true
-}
-
-// below sets brackets to throw an Warning if a bracket is found
-brackets: {
-	expect: 'never'
-}
-
-// which is equivalent to:
-brackets: 'never'
-```
-
-
 ### blocks ( default: false, 'always' || 'never' || false )
 When 'always' expect the `@block` keyword when defining block variables.
 When 'never', expect no `@block` keyword when defining block variables.
 When false, do not check either way.
 
 Example if 'always': prefer `my-block = @block ` over `my-block = `
+
 Example if 'never': prefer `my-block = ` over `my-block = @block `
-If falsy does not check this rule.
 
 
 ### brackets ( default: 'never', 'always' || 'never' || false )
@@ -217,6 +204,7 @@ When 'always', expect {} when declaring a selector.
 When 'never', expect no brackets when declaring a selector.
 
 Example if 'always': prefer `.some-class-name {` over `.some-class-name`
+
 Example if 'never': prefer `.some-class-name ` over `.some-class-name {`
 
 
@@ -225,75 +213,64 @@ When 'always', expect : when declaring a property.
 When 'never', expect no : when declaring a property.
 
 Example if 'always': prefer `margin: 0` over `margin 0`
+
 Example if 'never: prefer `margin 0` over `margin: 0`
 
 
-### colors ( default: false, 'always' || false )
-When 'always', force variables when defining hex values
+### colors ( default: 'always' || false )
+When 'always', enforce variables when defining hex values
 
 Example if true: prefer `color $red` over `color #f00`
 
 
-### commaSpace ( default: false, 'always' || 'never' || false )
-Enforce spaces after commas.
+### commaSpace ( default: 'always', 'always' || 'never' || false )
+Enforce or disallow spaces after commas.
 
-Example if true: prefer `rgba(0, 0, 0, .18)` over `rgba(0,0,0,.18)`
+Example if always: prefer `rgba(0, 0, 0, .18)` over `rgba(0,0,0,.18)`
 
-
-### commentSpace (default: false, boolean)
-Enforce spaces after line comments.
-
-Example if true: prefer `// comment` over `//comment`
+Example if never: prefer `rgba(0,0,0,.18)` over `rgba(0, 0, 0, .18)`
 
 
-### cssLiteral (default: false, boolean)
+### commentSpace ( default: 'always', 'always' || 'never' || false )
+Enforce or disallow spaces after line comments
+
+Example if always: prefer `// comment` over `//comment`
+
+Example if never: prefer `//comment` over `// comment`
+
+
+### cssLiteral ( default: 'never', 'never' || false )
 By default Stylint ignores `@css` blocks. If set to true however, it will throw a warning if `@css` is used.
 
-Example if true: `@css` will throw a warning
+Example if 'never': `@css` will throw a warning
 
 
-### depthLimit (default: false, number or false)
+### depthLimit ( default: false, number or false )
 Set the max selector depth. If set to 4, max selector depth will be 4 indents. Pseudo selectors like `&:first-child` or `&:hover` won't count towards the limit.
 
 Set to false if you don't want to check for this.
 
 
-### duplicates (default: true, boolean)
+### duplicates ( default: true, true || false )
 Checks if selector or property duplicated unnecessarily. By default, only checks on a file-by-file basis, but if `globalDupes: true` is set, then it will also check for duplicates globally (for root values only).
 
 Example if true: the following will throw a warning:
-```
+```stylus
 .test
 	margin 0
 	margin 5px
 ```
 
 
-### efficient (default: true, boolean)
+### efficient ( default: 'always', 'always' || 'never' || false )
 Check for places where properties can be written more efficiently.
 
-Example if true: prefer `margin 0` over `margin 0 0`
+Example if always: prefer `margin 0` over `margin 0 0`
+
+Example if never: prefer `margin 0 0` over `margin 0`
 
 
-### emoji (default: false, boolean)
-Do you want a happy face with your sucess/warning messages? of course you do
-
-
-### enforceBlockStyle (default: false, boolean)
-Enforce use of `@block` when defining a block variable.
-
-Example: prefer `myBlock = @block` over `myBlock =`
-
-
-### enforceVarStyle (default: false, boolean)
-Enforce use of `$` when defining a variable. In Stylus using a `$` when defining a variable is optional, but is a good idea if you want to prevent ambiguity. Not including the `$` sets up situations where you wonder: "Is this a variable or a value?" For instance: `padding $default` is easier to understand than `padding default`.
-
-Yes, `default` isn't an acceptable value for `padding`, but at first glance you might not catch that. And now if you try to set `cursor default`, it's not going to behave the way you expect. All this pain and heartache could've been avoided if you just used a `$`.
-
-Example: prefer `$my-var = 0` over `my-var = 0`
-
-
-### extendPref (default: false, string or false)
+### extendPref ( default: false, '@extend' || '@extends' || false )
 Pass in either `@extend` or `@extends` and then enforce that. Both are valid in Stylus. It doesn't really matter which one you use. I prefer `@extends` myself.
 
 Example if set to `@extends`: prefer `@extends $some-var` over `@extend $some-var`
@@ -301,11 +278,11 @@ Example if set to `@extends`: prefer `@extends $some-var` over `@extend $some-va
 Example if set to `@extend`: prefer `@extend $some-var` over `@extend $some-var`
 
 
-### globalDupe (default: false, boolean)
+### globalDupe ( default: false, true || false )
 Works in conjunction with duplicates. Does nothing on its own. If false, duplicates will check for dupes within individual files only. If true, duplicates will check for dupes across all files.
 
 Example if true: the following will throw a warning
-```
+```stylus
 >>> file1.styl
 .test
 	margin 0
@@ -316,30 +293,32 @@ Example if true: the following will throw a warning
 ```
 
 
-### indentSpaces (default: 4, number or false)
+### indentSpaces ( default: 4, number or false )
 This works in conjunction with depthLimit. If you indent with spaces this is the number of spaces you indent with. If you use hard tabs, set this value to false.
 
-By default this value is 4, so if you indent with hard tabs or 2 spaces you'll need to manually set this value in a custom `.stylintrc` file. With default settings, this means the depth limit is 4 indents of 4 spaces each.
+By default this value is false, so if you indent with spaces you'll need to manually set this value in a custom `.stylintrc` file.
 
 
-### leadingZero (default: true, boolean)
-Checking for unnecessary leading zeroes on decimal points. You don't need them.
+### leadingZero ( default: 'never', 'always' || 'never' || false )
+Enforce or disallow unnecessary leading zeroes on decimal points.
 
-Example: prefer `rgba( 0, 0, 0, .5 )` over `rgba( 0, 0, 0, 0.5 )`
+Example if always: prefer `rgba( 0, 0, 0, 0.5 )` over `rgba( 0, 0, 0, .5 )`
 
-
-### maxWarnings (default: 10, number)
-Set 'max' number of warnings. Currently this just displays a slightly sterner message. Womp womp.
+Example if never: prefer `rgba( 0, 0, 0, .5 )` over `rgba( 0, 0, 0, 0.5 )`
 
 
-### maxWarningsKill (default: false, boolean)
-If set to true, then Stylint will throw an error if total # of warnings goes over the limit set in maxWarnings.
+### maxErrors ( default: false, number || false )
+Set 'max' number of Warnings.
 
 
-### mixed (default: false, boolean, relies on indentPref)
-Returns true if mixed spaces and tabs are found. If a number is passed to indentPref (4 is the default), it assumes soft tabs (ie, spaces), and if false is passed to indentPref it assumes hard tabs.
+### maxWarnings ( default: false, number || false )
+Set 'max' number of Errors.
 
-If soft tabs, throws warning if hard tabs used. If hard tabs, throws warning if unnecessary extra spaces found.
+
+### mixed ( default: false, boolean, relies on indentPref )
+Returns true if mixed spaces and tabs are found. If a number is passed to indentPref, it assumes soft tabs (ie, spaces), and if false is passed to indentPref it assumes hard tabs.
+
+If soft tabs, outputs warning/error if hard tabs used. If hard tabs, outputs warning/error if unnecessary extra spaces found.
 
 Example if indentPref: 4 and mixed: true: prefer `\s\s\s\smargin\s0` over `\tmargin\s0`
 
@@ -348,8 +327,8 @@ Example if indentPref: 2 and mixed: true: prefer `\s\smargin\s0` over `\tmargin\
 Example if indentPref: false and mixed: true: prefer `\tmargin\s0` over `\s\s\s\smargin\s0`
 
 
-### namingConvention (default: false, false | 'lowercase-dash' | 'lowercase_underscore' | 'camelCase' | 'BEM')
-Enforce a particular naming convention when declaring classes, ids, and variables. Throws a warning if you don't follow the convention. If set to false, allow any convention.
+### namingConvention ( default: false, false | 'lowercase-dash' | 'lowercase_underscore' | 'camelCase' | 'BEM' )
+Enforce a particular naming convention when declaring classes, ids, and variables. Throws a warning if you don't follow the convention.
 
 Example if set to `'lowercase-dash'`: prefer `$var-name` over `$var_name` or `$varName`
 
@@ -360,48 +339,61 @@ Example if set to `'camelCase'`: prefer `$varName` over `$var_name` or `$var-nam
 Example if set to `'BEM'`: prefer `$var__like--this` over `$var_name` or `$varName`
 
 
-### namingConventionStrict (default: false, boolean)
+### namingConventionStrict ( default: false, boolean )
 By default, namingConvention only looks at variable names. If namingConventionStrict is set to true, namingConvention will also look at class and id names.
 
-This is useful if you have little or no 3rd party css in your codebase.
+If you have a lot of 3rd party css you can't change you might want to leave this off.
 
 
 ### none ( default: 'never'. options: 'always' || never' || false  )
-If 'always' check for places where `border none` could be used instead of `border 0`.
-If 'never' check for places where `border 0` could be used instead of `border none`.
-If false, ignore this rule.
+If 'always' check for places where `none` used instead of `0`.
+If 'never' check for places where `0` could be used instead of `none`.
 
 Example if 'always': prefer `border none` over `border 0`
-Example if 'never': prefer `border 0` over `border none`
+
+Example if 'never': prefer `outline 0` over `outline none`
 
 
-### parenSpace (default: false, boolean)
-Enforce use of extra spaces inside parens.
+### parenSpace ( default: false, 'always' || 'never' || false )
+Enforce or disallow use of extra spaces inside parens.
 
-This option used to be called mixinSpace, and you can still call it that if you want, but I will remove the old option by 1.0 probably.
+Example if always: prefer `my-mixin( $myParam )` over `my-mixin($myParam)`
 
-Example: prefer `my-mixin( $myParam )` over `my-mixin($myParam)`
+Example if never: prefer `my-mixin($myParam)` over `my-mixin( $myParam )`
 
 
-### placeholder (default: false, boolean)
+### placeholder ( default: 'always', 'always' || 'never' || false )
 Enforce extending placeholder vars when using `@extend(s)`
 
-Example: prefer `@extends $placeholder` over `$extends .some-class`
+Example if always: prefer `@extends $placeholder` over `$extends .some-class`
+
+Example if never: prefer `@extends .some-class` over `$extends $placeholder`
 
 
-### quotePref (default: false, false | 'single' | 'double')
+### prefixVarsWithDollar ( default: 'always', 'always' || 'never' || false )
+Enforce use of `$` when defining a variable. In Stylus using a `$` when defining a variable is optional, but is a good idea if you want to prevent ambiguity. Not including the `$` sets up situations where you wonder: "Is this a variable or a value?" For instance: `padding $default` is easier to understand than `padding default`.
+
+Yes, `default` isn't an acceptable value for `padding`, but at first glance you might not catch that since it just looks like a value. And now if you try to set `cursor default`, it's not going to behave the way you expect. All this pain and heartache could've been avoided if you just used a `$`.
+
+Example if always: prefer `$my-var = 0` over `my-var = 0`
+
+Example if never: prefer `my-var = 0` over `$my-var = 0`
+
+
+### quotePref ( default: false,  'single' || 'double' || false )
 Enforce consistent quotation style.
 
 Example if `'single'`: prefer `$var = 'some string'` over `$var = "some string"`
+
 Example if `'double'`: prefer `$var = "some string"` over `$var = 'some string'`
 
 
-### stackedProperties (default: true, boolean)
+### stackedProperties ( default: 'never', 'never' || false )
 No one-liners. Enforce putting properties on new lines.
 
-Example if `true`: prefer
+Example if `never`: prefer
 
-```
+```stylus
 .className
 	padding 0
 ```
@@ -411,19 +403,21 @@ over
 `.className { padding 0 }`
 
 
-### semicolons (default: false, boolean)
-Look for unecessary semicolons.
+### semicolons ( default: 'never', 'always' || 'never' || false )
+Enforce or disallow semicolons
 
-Example: prefer `margin 0` over `margin 0;`
+Example if always: prefer `margin 0;` over `margin 0`
+
+Example if never: prefer `margin 0` over `margin 0;`
 
 
-### sortOrder (default: false, false | 'alphabetical' | 'grouped' | {Array})
+### sortOrder ( default: false, 'alphabetical' || 'grouped' || [Array] || false )
 Enforce a particular sort order when declaring properties. Throws a warning if you don't follow the order. If set to false, allow any order.
 
 Example if `'alphabetical'`:
 
 prefer this:
-```
+```stylus
 .some-class
 	display block
 	float left
@@ -433,7 +427,7 @@ prefer this:
 ```
 
 over this:
-```
+```stylus
 .some-class
 	position absolute
 	top 0
@@ -445,7 +439,7 @@ over this:
 Example if `'grouped'` ([based on predefined grouped ordering](src/data/ordering.json#L2)):
 
 prefer this:
-```
+```stylus
 .some-class
 	position absolute
 	top 0
@@ -455,7 +449,7 @@ prefer this:
 ```
 
 over this:
-```
+```stylus
 .some-class
 	display block
 	float left
@@ -467,7 +461,7 @@ over this:
 Example if `[ 'margin', 'padding', 'float', 'position' ]`:
 
 prefer this:
-```
+```stylus
 .some-class
 	margin 0
 	padding 0
@@ -479,7 +473,7 @@ prefer this:
 ```
 
 over this:
-```
+```stylus
 .some-class
 	display block
 	float left
@@ -493,46 +487,39 @@ over this:
 When set to `'grouped'` or `{Array}` throws a warning if properties that are not defined in the ordering array are not after those that should be ordered.
 
 
-### universal (default: true, boolean)
+### universal ( default: 'never', 'never' || false )
 Looks for instances of the inefficient * selector. Lots of resets use this, for good reason (resetting box model), but past that you really don't need this selector, and you should avoid it if possible.
 
+Example if never, disallow the following:
+```stylus
+div *
+    margin 0
+```
 
-### valid (default: false, boolean)
-Check that a property is a valid CSS or HTML property. Currently just checks properties, value checks will come soon.
+
+### valid ( default: true, true || false )
+Check that a property is valid CSS or HTML.
 
 Example if true: `marg 0` will throw a warning, prefer `margin 0`
 
-
-### whitespace (default: true, boolean)
-Looks for trailing whitespace. Throws a warning if any found.
+Example if true: `divv` will throw a warning, prefer `div`
 
 
-### zeroUnits (default: true, boolean)
+### whitespace ( default: true, true || false )
+Disallows trailing whitespace
+
+
+### zeroUnits ( default: 'never', 'always' || 'never' || false )
 Looks for instances of `0px`. You don't need the px. Checks all units, not just px.
 
-Example: prefer `margin-right 0` over `margin-right 0em`
+Example if always: prefer `margin-right 0px` over `margin-right 0`
+
+Example if never: prefer `margin-right 0` over `margin-right 0em`
 
 
-### zIndexDuplicates (default: false, boolean)
-If a z-index value has been used before, throw a warning. Is this useful? WHO KNOWS.
-
-Example if true: the follow throws a warning
-```
-.test
-	z-index 5
-
-.test
-	z-index 5
-```
-
-Doesn't take into considering stacking contexts yet so, and i'm not sure it ever will, so good luck if you try to use this. Small projects might get some use out of this.
-
-
-### zIndexNormalize (default: false, number or false)
+### zIndexNormalize ( default: false, number or false )
 Enforce some (very) basic z-index sanity. Any number passed in will be used as the base for your z-index values. Throws an error if your value is not normalized.
 
 Example if set to 5: prefer `z-index 10` over `z-index 9`
 Example if set to 10: prefer `z-index 20` over `z-index 15`
 Example if set to 50: prefer `z-index 100` over `z-index 75`
-
-Doesn't take into considering stacking contexts yet so, and i'm not sure it ever will, so good luck if you try to use this. Small projects might get some use out of this.
