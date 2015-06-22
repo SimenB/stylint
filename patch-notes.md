@@ -1,3 +1,8 @@
+#### 1.0.1
+aaaand now everything is broken
+
+quickie fixes to mitigate issues with colon: 'always', sortOrder, and whitespace issues before i pass out of exhaustion
+
 #### 1.0.0
 various bug fixes
 

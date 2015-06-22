@@ -1,6 +1,6 @@
 'use strict';
 
-var ignoreMeRe = /^[.#]|[${}=>&*]|(&:)|(if)|(for)|(@block)(@import)(@media)(@extends)/;
+var ignoreMeRe = /[.#${}=>&*]|(&:)|(if)|(for)|(@block)(@import)(@media)(@extends)/;
 var ordering = require( '../data/ordering.json' );
 
 

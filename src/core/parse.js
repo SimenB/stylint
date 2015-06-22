@@ -1,7 +1,7 @@
 'use strict';
 
 // strips out comments and urls
-var cleanFileRe = /url\(.+\)|(^(\/\*)|([ \t'"](\/\*)))(?!\/)(.|[\r\n]|\n)+?\*\/\n?\n?/gm;
+var cleanFileRe = / *url\(.+\)|(^(\/\*)|([ \t'"](\/\*)))(?!\/)(.|[\r\n]|\n)+?\*\/\n?\n?/gm;
 
 
 /**
