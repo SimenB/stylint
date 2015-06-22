@@ -77,7 +77,9 @@ gulp.task('default', function () {
 
 ## As Part of Your Workflow
 Stylint integrations with both Sublime Text 3 and Atom.io are available.
+
 [Atom linter-stylint](https://atom.io/packages/linter-stylint)
+
 [SublimeLinter-contrib-stylint](https://packagecontrol.io/packages/SublimeLinter-contrib-stylint)
 
 
