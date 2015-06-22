@@ -11,11 +11,6 @@ const should = require('chai').should();
 const sinon = require('sinon');
 const app = require('../index')().create();
 
-// for testing that module version works
-// const app = require('/Users/ross/Developer/workspace/stylus-lint/')( './', {
-// 	testConfig: 'config'
-// } ).create();
-
 // turn on strict mode from this point and turn off unecessary logging
 app.state.quiet = true;
 app.state.watching = true;
