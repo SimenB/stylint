@@ -30,10 +30,10 @@ If your PR relates to an existing issue, please link to it in the PR.
 
 Include screenshots and animated GIFs in your pull request whenever possible.
 
-[Idiomatic](https://github.com/rwaldron/idiomatic.js/) JS style is preferred.
+Follow the code style outlined by the eslint settings. Roughly equivalent to Airbnb's [Style Guide](https://github.com/airbnb/javascript), with minor quibbles.
 
 Tests are in the ./test folder. Run them using npm test. If your PR includes code changes, please update or add new tests accordingly. We use Mocha/Chai/Sinon/Istanbul. Anything you can do help improve coverage is immensely helpful.
 
-Individual checks are in the src/checks folder. If you are adding a new check, please keep in mind they are designed to be as small and atomic ( and testable ) as possible. True/False return values are used to determine if the test passes or fails, and an undefined return value means the test wasn't applicable.
+Individual checks are in the src/checks folder. If you are adding a new check, please keep in mind they are designed to be as small and atomic ( and testable ) as possible. True/False return values are used to determine if the test passes or fails (the meaning can depend on the test), and an undefined return value means the test wasn't applicable.
 
-Tabs, not spaces please
+Additional reporters should be created as separate npm packages, ideally prefixed with stylint-reporter for ease of searching.
