@@ -19,26 +19,9 @@ var Stylint = function( path, config ) {
 		require( './src/core/' ),
 		require( './src/checks/' ),
 		require( './src/state/' ),
-		// stampit().enclose( function() {
-		// 	console.log( path );
-		// 	console.log( config );
-		//
-		// 	if ( path ) {
-		// 		this.state.path = path;
-		// 	}
-		//
-		// 	if ( config ) {
-		// 		this.customConfig = config;
-		// 	}
-		// } ),
 		stampit().enclose( function() {
-			if ( path ) {
-				this.state.path = path;
-			}
-
-			if ( config ) {
-				this.customConfig = config;
-			}
+			this.state.path = path ? path : '';
+			this.customConfig = config ? config : false;
 		} ).enclose( require( './src/core/init' ) )
 	);
 
