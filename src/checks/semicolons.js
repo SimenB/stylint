@@ -14,9 +14,6 @@ var semicolons = function( line ) {
 
 	var semicolon;
 
-	// console.log( line );
-	// console.log( 'ignore: ', ignoreRe.test( line ) );
-
 	if ( this.state.conf === 'never' && line.indexOf( ';' ) !== -1 ) {
 		semicolon = true;
 	}

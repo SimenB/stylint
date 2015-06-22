@@ -4,24 +4,19 @@
  */
 var config = {
 	// check for @block when defining blocks
-	blocks: {
-		expect: 'never',
-		error: true
-	},
+	blocks: false,
 	// check for { or }, unless used in a hash
-	brackets: false,
-	// check for unecessary colons @TODO make jscs
-	colons: {
-		expect: 'always'
-	},
+	brackets: 'never',
+	// enforce or disallow colons
+	colons: 'always',
 	// check for hex colors used without variables
 	colors: 'always',
 	// check for spaces after commas (0, 0, 0, .18)
-	commaSpace: false,
+	commaSpace: 'always',
 	// check for space after line comment
-	commentSpace: false,
-	// if true disallow css literals
-	cssLiteral: false,
+	commentSpace: 'always',
+	// if never disallow css literals
+	cssLiteral: 'never',
 	// set a maximum selector depth (dont nest more than 4 deep)
 	depthLimit: false,
 	// check if properties or selectors are duplicate
@@ -29,13 +24,13 @@ var config = {
 	// check for margin 0 0 0 0 and recommend margin 0
 	efficient: 'always',
 	// prefer a specific syntax when using @extends (or @extend)
-	extendPref: '@extends',
+	extendPref: false,
 	// throw duplicate selector warning across all files instead of curr file
 	globalDupe: false,
 	// how many spaces should we prefer when indenting, pass in false if hard tabs
-	indentPref: 4,
-	// find cases where 0.# is used, prefer .#
-	leadingZero: false,
+	indentPref: false,
+	// enforce or disallow leading zeroes
+	leadingZero: 'never',
 	// exit if over error limit
 	maxErrors: false,
 	// exit if over warning limit
@@ -43,7 +38,7 @@ var config = {
 	// check for mixed spaces and tabs
 	mixed: false,
 	// lowercase-dash, camelCase, lowercase_underscore, BEM or false (dont check)
-	namingConvention: 'lowercase-dash',
+	namingConvention: false,
 	// if true, then check classes and ids, if false just check variables
 	namingConventionStrict: false,
 	// check for use of border none or outline none, prefer 0
@@ -57,23 +52,23 @@ var config = {
 	// check for $ when declaring vars (doesnt check use)
 	prefixVarsWithDollar: 'always',
 	// single or double quotes, or false to not check
-	quotePref: 'single',
+	quotePref: false,
 	// default reporter
 	reporter: '../core/reporter',
 	// disallow or enforce semicolons
-	semicolons: 'always',
+	semicolons: 'never',
 	// alphabetical, grouped, Array<String> or false (no check)
-	sortOrder: false,
+	sortOrder: 'alphabetical',
 	// no one liners
-	stackedProperties: true,
+	stackedProperties: 'never',
 	// check for trailing whitespace
-	trailingWhitespace: true,
+	trailingWhitespace: 'never',
 	// check for use of * and recommend against it
-	universal: true,
+	universal: false,
 	// check if prop or value is a valid assignment
-	valid: false,
+	valid: true,
 	// check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
-	zeroUnits: false,
+	zeroUnits: 'never',
 	// suggest a normalized z index value, base of whatever this is
 	zIndexNormalize: false
 };

@@ -21,7 +21,6 @@ app.state.quiet = true;
 app.state.watching = true;
 app.cache.dir = '/Users/ross/Developer/workspace/stylus-lint/';
 
-
 describe('Core Methods: ', function() {
 
 	beforeEach(function() {
@@ -65,13 +64,6 @@ describe('Core Methods: ', function() {
 			app.init.getCall(3).returned( sinon.match.same( app.ver ) );
 		});
 
-		it('toggle strict mode if passed --strict flag', function() {
-			process.argv[2] = '--strict';
-			app.init();
-			assert.equal( true, app.state.strictMode );
-			app.state.strictMode = false;
-		});
-
 		it('use custom config if passed --config flag', function() {
 			process.argv[2] = '--config';
 			process.argv[3] = './.stylintrc';
@@ -82,13 +74,13 @@ describe('Core Methods: ', function() {
 		it('call watch if passed --watch flag', function() {
 			process.argv[2] = '--watch';
 			app.init();
-			app.init.getCall(6).returned( sinon.match.same( app.watch ) );
+			app.init.getCall(5).returned( sinon.match.same( app.watch ) );
 		});
 
 		it('return read if no flags', function() {
 			process.argv[2] = undefined;
 			app.init();
-			app.init.getCall(7).returned( sinon.match.same( app.read ) );
+			app.init.getCall(6).returned( sinon.match.same( app.read ) );
 		});
 	});
 

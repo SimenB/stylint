@@ -14,7 +14,6 @@ var state = {
 	path: '', // curr dir || file
 	prevContext: 0, // save the last context as well
 	severity: 'warning', // severity level for current check
-	strictMode: false, // run all tests regardless?
 	testsEnabled: true, // are we running linter tests
 	quiet: false, // turn off console logs
 	watching: false // are we watching

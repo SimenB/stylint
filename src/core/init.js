@@ -10,7 +10,6 @@ var init = function() {
 	var watch = v.indexOf( '--watch' ) !== -1 || v.indexOf( '-w' ) !== -1;
 	var help = v.indexOf( '--help' ) !== -1 || v.indexOf( '-h' ) !== -1;
 	var version = v.indexOf( '--version' ) !== -1 || v.indexOf( '-v' ) !== -1;
-	var strict = v.indexOf( '--strict' ) !== -1 || v.indexOf( '-s' ) !== -1 || this.config.strictMode;
 
 	// look for flags by default
 	// then look for .stylintrc in project dir as fallback
@@ -43,11 +42,6 @@ var init = function() {
 	// output version # from package.json
 	if ( version ) {
 		return this.ver();
-	}
-
-	// turn on strict if strict flag passed
-	if ( strict ) {
-		this.state.strictMode = true;
 	}
 
 	// fire watch or read based on flag

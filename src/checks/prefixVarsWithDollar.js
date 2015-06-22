@@ -2,7 +2,7 @@
 
 var dollaRe = /\$\w/;
 var parensRe = /\(.+\)/;
-var ignoreRe = /(if)|(for)|(else)|(@media)|(@block)|(calc)|(=|= )$/; // 3
+var ignoreRe = /(\[.+\])|(if)|(for)|(else)|(@media)|(@block)|(calc)|(=|= )$/; // 3
 
 
 /**

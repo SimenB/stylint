@@ -15,7 +15,7 @@ var cssLiteral = function( line ) {
 		isCSSLiteral = true;
 	}
 
-	if ( isCSSLiteral ) {
+	if ( this.state.conf === 'never' && isCSSLiteral ) {
 		this.msg( 'css literals are disallowed' );
 	}
 

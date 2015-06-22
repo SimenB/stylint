@@ -17,7 +17,7 @@ var trailingWhitespace = function( line ) {
 		whitespace = true;
 	}
 
-	if ( whitespace ) {
+	if ( this.state.conf === 'never' && whitespace ) {
 		this.msg( 'trailing whitespace' );
 	}
 
