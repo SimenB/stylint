@@ -1,7 +1,26 @@
+#### 1.0.0
+various bug fixes
+
+`@ignore` toggle added
+
+cranked up default settings
+
+added many many new options, as well as severity for all options (warning or error)
+
+better node module support
+
+more ways of passing in config objects (including auto detect)
+
+support for custom reporters
+
+refactor
+
+test coverage
+
+api changes
+
 #### 0.9.10
-fix edge case issue caused file globbing that could potentially cause stylint to hang
-
-
+fix edge case issue caused by file globbing that could potentially cause stylint to hang
 
 ##### 0.9.9
 make universal less greedy
