@@ -27,7 +27,7 @@ you can also ping me [here](https://gitter.im/rossPatton/stylint)
 `-v` or `--version` Display current version
 
 
-## Example CLI Usage:
+## Example cli Usage:
 `stylint` Run stylint on cwd
 
 `stylint path/to/filename.styl` Run stylint on a file
