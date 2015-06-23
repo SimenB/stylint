@@ -1,3 +1,8 @@
+#### 1.0.2
+fixes ( or at least makes it less bad ) sortOrder regression, where cache was not being properly reset when linting directories
+
+fix hashend, colon always, valid, and var prefix regressions
+
 #### 1.0.1
 aaaand now everything is broken
 

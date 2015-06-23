@@ -717,6 +717,8 @@
         "{",
         "::-moz-inner-focus",
         ":active",
+        ":after",
+        ":before",
         ":checked",
         ":disabled",
         ":empty",
@@ -741,6 +743,7 @@
         ":selection",
         "::selection",
         ":target",
+        ":valid",
         ":visited"
     ]
 }

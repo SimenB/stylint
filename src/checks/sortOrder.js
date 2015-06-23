@@ -1,7 +1,7 @@
 'use strict';
 
 var resetOnFileChange = 0;
-var ignoreMeRe = /[.#${}=>&*]|\(.+\)|(&:)|(if)|(for)|(@block)(@import)(@media)(@extends)|,$/;
+var ignoreMeRe = /[.#${}=>&*]|\(.*\)|(&:)|(if)|(for)|(@block)(@import)(@media)(@extends)|,$/;
 var ordering = require( '../data/ordering.json' );
 
 
@@ -16,11 +16,6 @@ var sortOrder = function( line ) {
 		this.cache.sortOrderCache = [];
 		return;
 	}
-
-	console.log( 'context: ', this.state.context );
-	console.log( 'prev context: ', this.state.prevContext );
-	console.log( this.cache.sortOrderCache );
-	console.log( line );
 
 	/*
 	 * 1 we strip out mixins, and whitespace, and get the line as an array
