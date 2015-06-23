@@ -1,7 +1,7 @@
 'use strict';
 
 var resetOnFileChange = 0;
-var ignoreMeRe = /[.#${}=>&*]|\(.+\)|(&:)|(if)|(for)|(@block)(@import)(@media)(@extends)/;
+var ignoreMeRe = /[.#${}=>&*]|\(.+\)|(&:)|(if)|(for)|(@block)(@import)(@media)(@extends)|,$/;
 var ordering = require( '../data/ordering.json' );
 
 
@@ -13,8 +13,14 @@ var ordering = require( '../data/ordering.json' );
 var sortOrder = function( line ) {
 	// we don't alphabetize the root yet
 	if ( this.state.context === 0 || this.state.hash || ignoreMeRe.test( line ) ) {
+		this.cache.sortOrderCache = [];
 		return;
 	}
+
+	console.log( 'context: ', this.state.context );
+	console.log( 'prev context: ', this.state.prevContext );
+	console.log( this.cache.sortOrderCache );
+	console.log( line );
 
 	/*
 	 * 1 we strip out mixins, and whitespace, and get the line as an array
@@ -34,6 +40,7 @@ var sortOrder = function( line ) {
 		this.cache.sortOrderCache = [];
 	}
 
+	// reset on file change
 	if ( this.cache.file !== resetOnFileChange ) {
 		this.cache.sortOrderCache = [];
 		resetOnFileChange = this.cache.file;

@@ -12,6 +12,7 @@ var setState = function() {
 
 	// if empty line
 	if ( line.length === 0 ) {
+		this.cache.sortOrderCache = [];
 		return;
 	}
 
