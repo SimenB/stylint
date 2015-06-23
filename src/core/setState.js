@@ -1,5 +1,7 @@
 'use strict';
 
+var emptyLineRe = /\s(?!\S)/;
+
 /**
  * @description sets values like context, determine whether we even run tests, etc
  * @returns {Function | undefined} undefined if we catch something, else lint()
@@ -11,7 +13,8 @@ var setState = function() {
 	this.state.context = this.setContext( this.cache.line );
 
 	// if empty line
-	if ( line.length === 0 ) {
+	if ( emptyLineRe.test( line ) ) {
+		this.cache.sortOrderCache = [];
 		return;
 	}
 
@@ -28,13 +31,13 @@ var setState = function() {
 
 	// if hash starting / ending, set state and return early
 	if ( stateM.hashOrCSSStart.call( this, line ) ||
-		stateM.hashOrCSSEnd.call( this, line ) ) {
+		stateM.hashOrCSSEnd.call( this, line ) === false ) {
 		return;
 	}
 
 	// if starting / ending keyframes
 	if ( stateM.keyframesStart.call( this, line ) ||
-		stateM.keyframesEnd.call( this, line ) ) {
+		stateM.keyframesEnd.call( this, line ) === false ) {
 		return;
 	}
 

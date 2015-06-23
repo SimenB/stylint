@@ -1500,10 +1500,10 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( false, varTest('var = 0') );
 		});
 
-		it('false if $ is missing when defining mixin parameters', function() {
-			app.state.context = 0;
-			assert.equal( false, varTest('myMixin( param, $param2 )') );
-		});
+		// it('false if $ is missing when defining mixin parameters', function() {
+		// 	app.state.context = 0;
+		// 	assert.equal( false, varTest('myMixin( param, $param2 )') );
+		// });
 
 		it('true if $ is found and is correct', function() {
 			assert.equal( true, varTest('$my-var = 0') );

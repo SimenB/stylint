@@ -8,7 +8,7 @@
 // 6 the actual JSON property whitelist we will test against
 var attrOrMixinRe = /^\[\S+\]|({[\S]+})|(\([\S ]+\))|(\(\))/; // 1
 var elAttrRe = /(?=\S)+\[\S+\]/; // 2
-var ignoreRe = /[&$.#=>]|(if)|(for)|(else)|(@block)|(calc)/; // 3
+var ignoreRe = /[&$.#=>]|(if)|(for)|(else)|(@block)|(calc)|(@media)/; // 3
 var numRe = /\d(?=[px]|%|[em]|[rem]|[vh]|[vw]|[vmin]|[vmax]|[ex]|[ch]|[mm]|[cm]|[in]|[pt]|[pc]|[mozmm])/; // 4
 var keyRe = /((from)|(to))+(?= $| {| \d|\n|{)/; // 5
 var validJSON = require( '../data/valid.json' ); // 6
@@ -27,6 +27,9 @@ module.exports = function valid( line ) {
 	var isValid = false;
 	var arr = this.splitAndStrip( new RegExp( /[\s\t,:]/ ), line ); // 1
 
+	// if not splittable for some reason
+	if ( typeof arr[0] === 'undefined' ) { return; }
+
 	// in order, let line be considered valid if:
 	// 1 we are in a hash or css block
 	// 2 classname, varname, id, or syntax.
@@ -35,14 +38,14 @@ module.exports = function valid( line ) {
 	if ( this.state.hashOrCSS || // 1
 		ignoreRe.test( line ) || // 2
 		attrOrMixinRe.test( line ) || // 3
-		numRe.test( arr[0] ) ) { // 4
+		numRe.test( arr[0] ) ) { // 3
 		isValid = true;
 	}
 
 	// no match yet, if using an attr selector ( div[madeUpAttribute] ), strip it out first ( div )
 	if ( !isValid ) {
 		if ( elAttrRe.test( arr[0] ) ) {
-			arr[0] = arr[0].replace( elAttrRe, '' );
+			arr[0] = arr[0].replace( elAttrRe, '' ).trim();
 		}
 	}
 

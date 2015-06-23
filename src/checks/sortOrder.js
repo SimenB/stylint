@@ -1,6 +1,7 @@
 'use strict';
 
-var ignoreMeRe = /[.#${}=>&*]|(&:)|(if)|(for)|(@block)(@import)(@media)(@extends)/;
+var resetOnFileChange = 0;
+var ignoreMeRe = /[.#${}=>&*]|\(.*\)|(&:)|(if)|(for)|(@block)(@import)(@media)(@extends)|,$/;
 var ordering = require( '../data/ordering.json' );
 
 
@@ -12,6 +13,7 @@ var ordering = require( '../data/ordering.json' );
 var sortOrder = function( line ) {
 	// we don't alphabetize the root yet
 	if ( this.state.context === 0 || this.state.hash || ignoreMeRe.test( line ) ) {
+		this.cache.sortOrderCache = [];
 		return;
 	}
 
@@ -31,6 +33,12 @@ var sortOrder = function( line ) {
 	// if current context switched, reset array
 	if ( this.state.context !== this.state.prevContext ) {
 		this.cache.sortOrderCache = [];
+	}
+
+	// reset on file change
+	if ( this.cache.file !== resetOnFileChange ) {
+		this.cache.sortOrderCache = [];
+		resetOnFileChange = this.cache.file;
 	}
 
 	// then we push the latest property to the cache

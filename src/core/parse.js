@@ -24,14 +24,16 @@ var parse = function( err, res ) {
 			return ( new Array( str.split( /\r\n|\r|\n/ ).length ) ).join( '\n' );
 		} ).split( '\n' );
 
-		// now that we have a clean file, iterate over it
 		// updating cache as we go, and passing to the next step
 		lines.forEach( function( line, lineNo ) {
 			lineNo++; // line nos don't start at 0
 			this.cache.line = this.trimLine( line );
-			this.cache.lineNo = lineNo;
+			this.cache.lineNo = lineNo++;
 			return this.setState();
 		}.bind( this ) );
+
+		// save previous file
+		this.cache.prevFile = this.cache.file;
 
 		// if on the last file, call the done function to output success or error msg
 		if ( this.cache.fileNo === res.length - 1 ) {

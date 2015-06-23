@@ -12,6 +12,7 @@ var cache = {
 	lineNo: 0, // curr line number we're testing
 	msg: '', // the done message (55 warnings blah blah)
 	prevFile: '', // the previous file
+	prevFileNo: 0, // prev file no
 	prevLine: '', // the previous line
 	dir: path.dirname( require.main.filename ), // index.js directory
 	sCache: {}, // each key is an array of selectors in that context
