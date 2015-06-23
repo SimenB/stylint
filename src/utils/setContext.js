@@ -12,15 +12,17 @@ var setContext = function( line ) {
 
 	this.state.prevContext = this.state.context;
 
+	// get context if tabs
 	if ( line.charAt( 0 ) === '\t' ) {
 		while ( line.charAt( i++ ) === '\t' ) {
 			context++;
 		}
 	}
+	// get context if spaces
 	if ( line.charAt( 0 ) === ' ' ) {
 		line.split( /[\s\t]/ ).forEach( function( val ) {
 			if ( val.length === 0 ) {
-				whitespace++; // spaces or tabs
+				whitespace++;
 			}
 			else {
 				context = whitespace / this.config.indentPref;
