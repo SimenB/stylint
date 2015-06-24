@@ -73,6 +73,18 @@ gulp.task('default', function () {
 });
 ```
 
+## Brunch
+Using [stylint-brunch](https://www.npmjs.com/package/stylint-brunch)
+```
+config =
+  plugins:
+    stylint:
+      options:
+        bitwise: true
+        curly: true
+```
+
+
 ## As Part of Your Workflow
 Stylint integrations with both Sublime Text 3 and Atom.io are available.
 
