@@ -44,7 +44,7 @@ you can also ping me [here](https://gitter.im/rossPatton/stylint)
 
 
 ## Non ClI Usage
-I'll be the first to admit that the syntax is a bit weird, but it works just fine. 
+I'll be the first to admit that the syntax is a bit weird, but it works just fine.
 ```javascript
 const stylint = require('stylint')('path/to/stylus/', {
     brackets: 'always',
@@ -92,40 +92,40 @@ To catch little mistakes (duplication of rules for instance) and to enforce a co
 
 ## Options
 The following is a list of all options available to stylint.
-```
+```json
 {
 	"blocks": false,
-	"brackets": 'never',
-	"colons": 'always',
-	"colors": 'always',
-	"commaSpace": 'always',
-	"commentSpace": 'always',
-	"cssLiteral": 'never',
+	"brackets": "never",
+	"colons": "always",
+	"colors": "always",
+	"commaSpace": "always",
+	"commentSpace": "always",
+	"cssLiteral": "never",
 	"depthLimit": false,
 	"duplicates": true,
-	"efficient": 'always',
+	"efficient": "always",
 	"extendPref": false,
 	"globalDupe": false,
 	"indentPref": false,
-	"leadingZero": 'never',
+	"leadingZero": "never",
 	"maxErrors": false,
 	"maxWarnings": false,
 	"mixed": false,
 	"namingConvention": false,
 	"namingConventionStrict": false,
-	"none": 'never',
+	"none": "never",
 	"noImportant": true,
 	"parenSpace": false,
-	"placeholders": 'always',
-	"prefixVarsWithDollar": 'always',
+	"placeholders": "always",
+	"prefixVarsWithDollar": "always",
 	"quotePref": false,
-	"semicolons": 'never',
-	"sortOrder": 'alphabetical',
-	"stackedProperties": 'never',
-	"trailingWhitespace": 'never',
+	"semicolons": "never",
+	"sortOrder": "alphabetical",
+	"stackedProperties": "never",
+	"trailingWhitespace": "never",
 	"universal": false,
 	"valid": true,
-	"zeroUnits": 'never',
+	"zeroUnits": "never",
 	"zIndexNormalize": false
 };
 ```
