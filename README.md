@@ -94,39 +94,39 @@ To catch little mistakes (duplication of rules for instance) and to enforce a co
 The following is a list of all options available to stylint.
 ```
 {
-	blocks: false,
-	brackets: 'never',
-	colons: 'always',
-	colors: 'always',
-	commaSpace: 'always',
-	commentSpace: 'always',
-	cssLiteral: 'never',
-	depthLimit: false,
-	duplicates: true,
-	efficient: 'always',
-	extendPref: false,
-	globalDupe: false,
-	indentPref: false,
-	leadingZero: 'never',
-	maxErrors: false,
-	maxWarnings: false,
-	mixed: false,
-	namingConvention: false,
-	namingConventionStrict: false,
-	none: 'never',
-	noImportant: true,
-	parenSpace: false,
-	placeholders: 'always',
-	prefixVarsWithDollar: 'always',
-	quotePref: false,
-	semicolons: 'never',
-	sortOrder: 'alphabetical',
-	stackedProperties: 'never',
-	trailingWhitespace: 'never',
-	universal: false,
-	valid: true,
-	zeroUnits: 'never',
-	zIndexNormalize: false
+	"blocks": false,
+	"brackets": 'never',
+	"colons": 'always',
+	"colors": 'always',
+	"commaSpace": 'always',
+	"commentSpace": 'always',
+	"cssLiteral": 'never',
+	"depthLimit": false,
+	"duplicates": true,
+	"efficient": 'always',
+	"extendPref": false,
+	"globalDupe": false,
+	"indentPref": false,
+	"leadingZero": 'never',
+	"maxErrors": false,
+	"maxWarnings": false,
+	"mixed": false,
+	"namingConvention": false,
+	"namingConventionStrict": false,
+	"none": 'never',
+	"noImportant": true,
+	"parenSpace": false,
+	"placeholders": 'always',
+	"prefixVarsWithDollar": 'always',
+	"quotePref": false,
+	"semicolons": 'never',
+	"sortOrder": 'alphabetical',
+	"stackedProperties": 'never',
+	"trailingWhitespace": 'never',
+	"universal": false,
+	"valid": true,
+	"zeroUnits": 'never',
+	"zIndexNormalize": false
 };
 ```
 
@@ -142,15 +142,15 @@ If requiring Stylint ( as opposed to using it via the cli ), the 2nd param is th
 Stylint has 2 levels of output, Warnings and Errors. All Stylint rules optionally take an object, allowing you to set it to be an Error. Combined with the maxWarnings and maxErrors properties, you can be very flexible about say, code style but strict on things like code duplication.
 
 Example:
-```javascript
+```json
 {
-    brackets: {
-        expect: 'never',
-        error: true
+    "brackets": {
+        "expect": "never",
+        "error": true
     },
-    colons: {
-        expect: 'always',
-        error: true
+    "colons": {
+        "expect": "always",
+        "error": true
     }
 }
 ```
