@@ -7,7 +7,7 @@ var hasUnitRe = /[ :]0+?(?=px|%|em|rem|v(h|w)|v(min|max)|ex|ch|mm|cm|in|pt|pc|mo
 /**
 * @description check for 0unit
 * @param {string} [line] current line being linted
-* @returns {boolean | undefined} true if has units, false if not, undefined if we skipped
+* @returns {boolean | undefined} true if has units, else false, undefined if skipped
 */
 var zeroUnits = function( line ) {
 	if ( this.state.keyframes || line.indexOf( '0' ) === -1 ) { return; }

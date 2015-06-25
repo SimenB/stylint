@@ -20,10 +20,12 @@ var lint = function() {
 				// run the actual check against the line
 				checks[method].call( this, this.cache.line );
 				// if check puts us over either limit, kill stylint
-				if ( maxErrs && this.cache.errs.length > this.config.maxErrors ) {
+				if ( maxErrs &&
+					this.cache.errs.length > this.config.maxErrors ) {
 					return this.reporter( '', 'done', 'kill' );
 				}
-				if ( maxWarnings && this.cache.errs.length > this.config.maxWarnings ) {
+				if ( maxWarnings &&
+					this.cache.warnings.length > this.config.maxWarnings ) {
 					return this.reporter( '', 'done', 'kill' );
 				}
 			}

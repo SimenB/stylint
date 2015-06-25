@@ -6,7 +6,7 @@
  * @returns {Function} kick off linter again
 */
 var resetOnChange = function( newPath ) {
-	this.state.path = newPath ? newPath : '';
+	this.state.path = newPath ? newPath : this.state.path;
 	this.cache.errs = [];
 	this.cache.warnings = [];
 	this.cache.alphaCache = [];

@@ -47,6 +47,12 @@ describe('Core Methods: ', function() {
 			assert.equal( app.state.path, process.cwd() );
 		});
 
+		it('set reporter if default if one not passed in', function() {
+			app.config.reporter = undefined;
+			app.init();
+			assert.equal( true, app.reporter !== false );
+		});
+
 		it('return help if passed a --help flag', function() {
 			process.argv[2] = '--help';
 			app.init();
@@ -145,10 +151,41 @@ describe('Core Methods: ', function() {
 
 	describe('Lint: ', function() {
 		sinon.spy( app, 'lint' );
-		app.lint( app, '  margin 0 auto ', 5, 'margin 0 auto', 'styl/test2.styl' );
+
+		afterEach(function() {
+			app.config.maxErrors = false;
+			app.config.maxWarnings = false;
+			app.cache.errs = [];
+			app.cache.warnings = [];
+			app.cache.brackets = false;
+		});
 
 		it('should be a function', function() {
 			app.lint.should.be.a( 'function' );
+		});
+
+		it('should pick up severity of current check', function() {
+			app.config.brackets = {
+				expect: 'never',
+				error: true
+			}
+
+			app.lint();
+			app.parse.getCall(0).returned( sinon.match.same( app.done ) );
+		});
+
+		it('should return done if over maxErrs', function() {
+			app.config.maxErrors = 5;
+			app.cache.errs.length = 6;
+			app.lint();
+			app.parse.getCall(1).returned( sinon.match.same( app.done ) );
+		});
+
+		it('should return done if over maxWarnings', function() {
+			app.config.maxWarnings = 5;
+			app.cache.warnings.length = 6;
+			app.lint();
+			app.parse.getCall(2).returned( sinon.match.same( app.done ) );
 		});
 	});
 
