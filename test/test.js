@@ -489,6 +489,10 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, colonTest('margin: 0 auto') );
 		});
 
+		it('undefined if html', function() {
+			assert.equal( undefined, colonTest('div') );
+		});
+
 		it('undefined if no colon found', function() {
 			assert.equal( undefined, colonTest('margin 0 auto') );
 		});
@@ -505,8 +509,14 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, colonTest('key: value') );
 		});
 
-		it('undefined if syntax', function() {
+		it('undefined if syntax or css selector', function() {
+			assert.equal( undefined, colonTest('#id') );
+			assert.equal( undefined, colonTest('$.some-class') );
+			assert.equal( undefined, colonTest('> child selector') );
+			assert.equal( undefined, colonTest('.class-name') );
 			assert.equal( undefined, colonTest('for ( 0..9 )') );
+			assert.equal( undefined, colonTest('@media $med') );
+			assert.equal( undefined, colonTest( 'if ( $var == 50px )' ) );
 		});
 	});
 
@@ -522,17 +532,28 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( false, colonTest('margin 0 auto') );
 		});
 
+		it('undefined if html', function() {
+			assert.equal( undefined, colonTest('div') );
+		});
+
 		it('undefined if root context', function() {
 			app.state.context = 0;
 			assert.equal( undefined, colonTest('margin: 0 auto') );
 		});
 
 		it('undefined if colon found', function() {
+			assert.equal( undefined, colonTest('background-image: ') );
 			assert.equal( undefined, colonTest('margin: 0 auto') );
 		});
 
-		it('undefined if syntax', function() {
+		it('undefined if syntax or css selector', function() {
+			assert.equal( undefined, colonTest('#id') );
+			assert.equal( undefined, colonTest('$.some-class') );
+			assert.equal( undefined, colonTest('> child selector') );
+			assert.equal( undefined, colonTest('.class-name') );
 			assert.equal( undefined, colonTest('for ( 0..9 )') );
+			assert.equal( undefined, colonTest('@media $med') );
+			assert.equal( undefined, colonTest( 'if ( $var == 50px )' ) );
 		});
 	});
 

@@ -7,9 +7,9 @@
 // 5 ( from || to ) are only valid inside @keyframe
 // 6 the actual JSON property whitelist we will test against
 var attrOrMixinRe = /^\[\S+\]|({[\S]+})|(\([\S ]+\))|(\(\))/; // 1
-var elAttrRe = /(?=\S)+\[\S+\]/; // 2
-var ignoreRe = /[&$.#=>]|(if)|(for)|(else)|(@block)|(calc)|(@media)/; // 3
-var numRe = /\d(?=[px]|%|[em]|[rem]|[vh]|[vw]|[vmin]|[vmax]|[ex]|[ch]|[mm]|[cm]|[in]|[pt]|[pc]|[mozmm])/; // 4
+var elAttrRe = /(?=\S)\[\S+\]/; // 2
+var ignoreRe = /[&$.#=>]|if|for|else|@block|calc|@media/; // 3
+var numRe = /\d+?(?=px|%|em|rem|v(h|w)|v(min|max)|ex|ch|mm|cm|in|pt|pc|mozmm)/; // 4
 var keyRe = /((from)|(to))+(?= $| {| \d|\n|{)/; // 5
 var validJSON = require( '../data/valid.json' ); // 6
 
@@ -42,7 +42,7 @@ module.exports = function valid( line ) {
 		isValid = true;
 	}
 
-	// no match yet, if using an attr selector ( div[madeUpAttribute] ), strip it out first ( div )
+	// if using an attr selector ( div[madeUpAttribute] ), strip it out ( div )
 	if ( !isValid ) {
 		if ( elAttrRe.test( arr[0] ) ) {
 			arr[0] = arr[0].replace( elAttrRe, '' ).trim();
