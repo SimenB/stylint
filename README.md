@@ -292,7 +292,7 @@ Example if true: the following will throw a warning
 ```
 
 
-### indentSpaces ( default: 4, number or false )
+### indentPref ( default: 4, number or false )
 This works in conjunction with depthLimit. If you indent with spaces this is the number of spaces you indent with. If you use hard tabs, set this value to false.
 
 By default this value is false, so if you indent with spaces you'll need to manually set this value in a custom `.stylintrc` file.
