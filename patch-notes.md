@@ -1,3 +1,7 @@
+#### 1.0.3
+cleanup a couple files, fit a maxWarnings bug in lint
+
+
 #### 1.0.2
 fixes ( or at least makes it less bad ) sortOrder regression, where cache was not being properly reset when linting directories
 
