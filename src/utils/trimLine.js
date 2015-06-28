@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 /**
  * @description separate out line comments and remove interpolation
@@ -6,20 +6,20 @@
  * @returns {string} the line, but minus all the annoying stuff
 */
 var trimLine = function( line ) {
-	var startsWithCommentRe = /(^\/\/)/;
-	this.state.hasComment = false;
+	var startsWithCommentRe = /(^\/\/)/
+	this.state.hasComment = false
 
 	// strip line comments
 	if ( line.indexOf( '//' ) !== -1 &&
 		!startsWithCommentRe.test( line.trim() ) ) {
 
-		this.cache.comment = line.slice( line.indexOf( '//' ), line.length );
-		line = line.slice( 0, line.indexOf( '//' ) - 1 );
-		this.state.hasComment = true;
+		this.cache.comment = line.slice( line.indexOf( '//' ), line.length )
+		line = line.slice( 0, line.indexOf( '//' ) - 1 )
+		this.state.hasComment = true
 	}
 
 	// strip interpolated variables
-	return line.replace( /{\S+}/, '' );
-};
+	return line.replace( /{\S+}/, '' )
+}
 
-module.exports = trimLine;
+module.exports = trimLine

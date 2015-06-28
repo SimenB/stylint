@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-var hexRe = /#(?:[0-9a-f]{3}){1,2}/im;
+var hexRe = /#(?:[0-9a-f]{3}){1,2}/im
 
 
 /**
@@ -9,19 +9,19 @@ var hexRe = /#(?:[0-9a-f]{3}){1,2}/im;
  * @returns {boolean} true if hex color found, false if not
  */
 var colors = function( line ) {
-	if ( line.indexOf( '=' ) !== -1 ) { return; }
-	var hex = false;
+	if ( line.indexOf( '=' ) !== -1 ) { return }
+	var hex = false
 
 	// so basically if we're using #hex colors outside of a var declaration
 	if ( hexRe.test( line ) ) {
-		hex = true;
+		hex = true
 	}
 
 	if ( hex ) {
-		this.msg( 'hexidecimal color should be a variable' );
+		this.msg( 'hexidecimal color should be a variable' )
 	}
 
-	return hex;
-};
+	return hex
+}
 
-module.exports = colors;
+module.exports = colors

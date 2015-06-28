@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 
 /**
@@ -7,23 +7,23 @@
 * @returns {boolean} true if not normalized, false if normalized
 */
 var zIndexNormalize = function( line ) {
-	var badZIndex = false;
-	var arr = this.splitAndStrip( new RegExp( /[\s\t,:]/ ), line );
+	var badZIndex = false
+	var arr = this.splitAndStrip( new RegExp( /[\s\t,:]/ ), line )
 
 	// ignore 0 or 1 values
 	if ( arr[ arr.length - 1 ] === '-1' || arr[ arr.length - 1 ] === '0' ) {
-		return;
+		return
 	}
 
 	if ( line.indexOf( 'z-index' ) !== -1 && arr[ arr.length - 1 ] % this.state.conf ) {
-		badZIndex = true;
+		badZIndex = true
 	}
 
 	if ( badZIndex ) {
-		this.msg( 'this z-index value is not normalized' );
+		this.msg( 'this z-index value is not normalized' )
 	}
 
-	return badZIndex;
-};
+	return badZIndex
+}
 
-module.exports = zIndexNormalize;
+module.exports = zIndexNormalize

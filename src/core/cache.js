@@ -1,4 +1,4 @@
-var path = require( 'path' );
+var path = require( 'path' )
 
 // the main cache bject
 var cache = {
@@ -19,6 +19,6 @@ var cache = {
 	sortOrderCache: [], // we keep a context based arr of selectors here to check sort orde
 	warnings: [], // array of the errors detected so far
 	zCache: [] // array of z-index uses
-};
+}
 
-module.exports = cache;
+module.exports = cache

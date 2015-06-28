@@ -1,11 +1,11 @@
-'use strict';
+'use strict'
 
 // the alphabet, uppers
-var upperRe = /[A-Z]+/m;
+var upperRe = /[A-Z]+/m
 // BEM (http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/)
-var bemRe = /^([$.#{:][${a-z]([-]?[${}a-z0-9]+)*(_{2}[${}a-z0-9]([-]?[${}a-z0-9]+)*)?((_[${}a-z0-9]([-]?[a-z0-9}]+)*){2})*)\b/m;
+var bemRe = /^([$.#{:][${a-z]([-]?[${}a-z0-9]+)*(_{2}[${}a-z0-9]([-]?[${}a-z0-9]+)*)?((_[${}a-z0-9]([-]?[a-z0-9}]+)*){2})*)\b/m
 // camelCase or CamelCase
-var camelRe = /^[$#.{:]+([a-zA-Z]|[${}])+([a-z]|[${}])+(([.A-Z0-9])+[a-z ]+)+\b/m;
+var camelRe = /^[$#.{:]+([a-zA-Z]|[${}])+([a-z]|[${}])+(([.A-Z0-9])+[a-z ]+)+\b/m
 
 
 /**
@@ -15,12 +15,12 @@ var camelRe = /^[$#.{:]+([a-zA-Z]|[${}])+([a-z]|[${}])+(([.A-Z0-9])+[a-z ]+)+\b/
  * @returns {boolean} true if convention wrong, false if not
  */
 var namingConvention = function( line ) {
-	var arr = line.split( ' ' );
-	var doWeTestRe = /^[${:]+/m; // determine if line should be tested at all
-	var badConvention = false;
+	var arr = line.split( ' ' )
+	var doWeTestRe = /^[${:]+/m // determine if line should be tested at all
+	var badConvention = false
 
 	if ( this.config.namingConventionStrict === true ) {
-		doWeTestRe = /^[$#.{:]+/m; // test a wider range if strict is true
+		doWeTestRe = /^[$#.{:]+/m // test a wider range if strict is true
 	}
 
 	// only run checks if on a class, id, or variable
@@ -37,7 +37,7 @@ var namingConvention = function( line ) {
 				if ( arr[0].indexOf( '-' ) !== -1 ||
 					arr[0].indexOf( '_' ) !== -1 ||
 					!camelRe.test( arr[0] ) ) {
-					badConvention = true;
+					badConvention = true
 				}
 			}
 			// $var_name
@@ -46,7 +46,7 @@ var namingConvention = function( line ) {
 				if ( arr[0].indexOf( '-' ) !== -1 ||
 					arr[0].indexOf( '_' ) === -1 ||
 					upperRe.test( arr[0] ) ) {
-					badConvention = true;
+					badConvention = true
 				}
 			}
 			// $var-name
@@ -55,24 +55,24 @@ var namingConvention = function( line ) {
 				if ( arr[0].indexOf( '-' ) === -1 ||
 					arr[0].indexOf( '_' ) !== -1 ||
 					upperRe.test( arr[0] ) ) {
-					badConvention = true;
+					badConvention = true
 				}
 			}
 			// $var__element
 			else if ( this.state.conf === 'BEM' ) {
 				// if A-Z or not following BEM specification
 				if ( upperRe.test( arr[0] ) || !bemRe.test( arr[0] ) ) {
-					badConvention = true;
+					badConvention = true
 				}
 			}
 		}
 	}
 
 	if ( badConvention ) {
-		this.msg( 'preferred naming convention is ' + this.config.namingConvention );
+		this.msg( 'preferred naming convention is ' + this.config.namingConvention )
 	}
 
-	return badConvention;
-};
+	return badConvention
+}
 
-module.exports = namingConvention;
+module.exports = namingConvention

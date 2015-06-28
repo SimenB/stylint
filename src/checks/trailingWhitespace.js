@@ -1,7 +1,9 @@
-'use strict';
+'use strict'
 
-var whitespaceRe = /[ \t]+$/; // check for unecessary tabs or whitespace at eol
-var anythingElseRe = /[^ \t]/; // anything BUT whitespace (we dont want to return false positives on empty lines)
+// check for unecessary tabs or whitespace at eol
+var whitespaceRe = /[ \t]+$/
+// anything BUT whitespace (we dont want to return false positives on empty lines)
+var anythingElseRe = /[^ \t]/
 
 /**
  * @description check for trailing whitespace
@@ -9,19 +11,19 @@ var anythingElseRe = /[^ \t]/; // anything BUT whitespace (we dont want to retur
  * @return {boolean} true if whitespace found, false if not
  */
 var trailingWhitespace = function( line ) {
-	var whitespace = false;
+	var whitespace = false
 
 	// not an empty line, with whitespace at the end
 	if ( anythingElseRe.test( line ) &&
 		whitespaceRe.test( line ) ) {
-		whitespace = true;
+		whitespace = true
 	}
 
 	if ( this.state.conf === 'never' && whitespace ) {
-		this.msg( 'trailing whitespace' );
+		this.msg( 'trailing whitespace' )
 	}
 
-	return whitespace;
-};
+	return whitespace
+}
 
-module.exports = trailingWhitespace;
+module.exports = trailingWhitespace

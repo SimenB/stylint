@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
 // if , is present on line and its not followed by a space
-var noSpaceRe = /,\S/;
+var noSpaceRe = /,\S/
 
 
 /**
@@ -15,25 +15,25 @@ var commaSpace = function( line ) {
 	// 2: comma ends the line, as in a list
 	if ( line.indexOf( ',' ) === -1 ||
 		line.indexOf( ',' ) === line.length - 1 ) {
-		return;
+		return
 	}
 
-	var noSpaceAfterComma = false;
+	var noSpaceAfterComma = false
 
 	if ( noSpaceRe.test( line ) ) {
-		noSpaceAfterComma = true;
+		noSpaceAfterComma = true
 	}
 
 	// if spaces should be follow commas, but there is no space on the line
 	if ( this.state.conf === 'always' && noSpaceAfterComma ) {
-		this.msg( 'commas must be followed by a space for readability' );
+		this.msg( 'commas must be followed by a space for readability' )
 	}
 	// if spaces should not be followed by a comma, but there are spaces anyway
 	else if ( this.state.conf === 'never' && !noSpaceAfterComma ) {
-		this.msg( 'spaces after commas are not allowed' );
+		this.msg( 'spaces after commas are not allowed' )
 	}
 
-	return noSpaceAfterComma;
-};
+	return noSpaceAfterComma
+}
 
-module.exports = commaSpace;
+module.exports = commaSpace

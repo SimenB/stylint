@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-var commentRe = /\/\/ /;
+var commentRe = /\/\/ /
 
 
 /**
@@ -8,23 +8,23 @@ var commentRe = /\/\/ /;
  * @returns {boolean} true if comment found, false if not
  */
 var commentSpace = function() {
-	if ( !this.state.hasComment ) { return; }
+	if ( !this.state.hasComment ) { return }
 
-	var spaceAfterComment = false;
+	var spaceAfterComment = false
 
 	// check for space after comment on it's own line, if no space, return warning
 	if ( commentRe.test( this.cache.comment ) ) {
-		spaceAfterComment = true;
+		spaceAfterComment = true
 	}
 
 	if ( this.state.conf === 'always' && !spaceAfterComment ) {
-		this.msg( 'line comments require a space after //' );
+		this.msg( 'line comments require a space after //' )
 	}
 	else if ( this.state.conf === 'never' && spaceAfterComment ) {
-		this.msg( 'spaces after line comments disallowed' );
+		this.msg( 'spaces after line comments disallowed' )
 	}
 
-	return spaceAfterComment;
-};
+	return spaceAfterComment
+}
 
-module.exports = commentSpace;
+module.exports = commentSpace

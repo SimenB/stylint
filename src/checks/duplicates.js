@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-var ignoreRe = /^{|[,}]|(:after|:active|:before|@import|@require|@extend|@media|:hover|@font-face|src)|,$/;
+var ignoreRe = /^{|[,}]|(:after|:active|:before|@import|@require|@extend|@media|:hover|@font-face|src)|,$/
 
 
 /**
@@ -9,17 +9,17 @@ var ignoreRe = /^{|[,}]|(:after|:active|:before|@import|@require|@extend|@media|
  * @returns {boolean} true if dupe found, false if not
  */
 var duplicates = function( line ) {
-	var arr = this.splitAndStrip( new RegExp( /[\s\t]/ ), line );
-	var dupe = false;
+	var arr = this.splitAndStrip( new RegExp( /[\s\t]/ ), line )
+	var dupe = false
 
 	// if root check not global, obliterate cache on each new file
 	if ( !this.config.globalDupe && this.cache.prevFile !== this.cache.file ) {
-		this.cache.sCache = {};
+		this.cache.sCache = {}
 	}
 
 	// if cache for curr context doesn't exist yet (or was obliterated), make one
 	if ( typeof this.cache.sCache[ this.state.context ] === 'undefined' ) {
-		this.cache.sCache[ this.state.context ] = [];
+		this.cache.sCache[ this.state.context ] = []
 	}
 
 	// if current context root again, reset arrays except root
@@ -27,9 +27,9 @@ var duplicates = function( line ) {
 	// caches above root only persist as long as they are within their context
 	if ( this.state.context !== this.state.prevContext ) {
 		Object.keys( this.cache.sCache ).forEach( function( val ) {
-			if ( val === '0' ) { return; }
-			this.cache.sCache[val] = [];
-		}.bind( this ) );
+			if ( val === '0' ) { return }
+			this.cache.sCache[val] = []
+		}.bind( this ) )
 	}
 
 	// if not in a list
@@ -41,17 +41,17 @@ var duplicates = function( line ) {
 		!ignoreRe.test( line ) ) {
 
 		if ( this.cache.sCache[ this.state.context ].indexOf( arr[0] ) !== -1 ) {
-			dupe = true;
+			dupe = true
 		}
 
-		this.cache.sCache[ this.state.context ].push( arr[0] );
+		this.cache.sCache[ this.state.context ].push( arr[0] )
 	}
 
 	if ( dupe ) {
-		this.msg( 'duplicate property or selector, consider merging' );
+		this.msg( 'duplicate property or selector, consider merging' )
 	}
 
-	return dupe;
-};
+	return dupe
+}
 
-module.exports = duplicates;
+module.exports = duplicates

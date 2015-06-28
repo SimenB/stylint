@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 
 /**
@@ -8,10 +8,10 @@
  */
 var quotePref = function( line ) {
 	if ( line.indexOf( '"' ) === -1 && line.indexOf( "'" ) === -1 ) {
-		return;
+		return
 	}
 
-	var badQuotes = false;
+	var badQuotes = false
 
 	// if '' quotes preferred and "" quotes are on the line
 	if ( this.state.conf === 'single' && line.indexOf( '"' ) !== -1 ) {
@@ -19,11 +19,11 @@ var quotePref = function( line ) {
 		if ( line.match( /('.*')+/ ) ) { // cant do [1] on something thats undefined
 			if ( !line.match( /('.*')+/ )[1].match( /(".*")+/ ) ) {
 				// if "" is on the line but isn't inside '', we got bad quotes
-				badQuotes = true;
+				badQuotes = true
 			}
 		}
 		else {
-			badQuotes = true;
+			badQuotes = true
 		}
 	}
 	// if "" quotes preferred and '' quotes are on the line
@@ -32,19 +32,19 @@ var quotePref = function( line ) {
 		if ( line.match( /(".*")+/ ) ) { // cant do [1] on something thats undefined
 			if ( !line.match( /(".*")+/ )[1].match( /('.*')+/ ) ) {
 				// if "" is on the line but isn't inside '', we got bad quotes
-				badQuotes = true;
+				badQuotes = true
 			}
 		}
 		else {
-			badQuotes = true;
+			badQuotes = true
 		}
 	}
 
 	if ( badQuotes ) {
-		this.msg( 'preferred quote style is ' + this.state.conf + ' quotes' );
+		this.msg( 'preferred quote style is ' + this.state.conf + ' quotes' )
 	}
 
-	return badQuotes;
-};
+	return badQuotes
+}
 
-module.exports = quotePref;
+module.exports = quotePref

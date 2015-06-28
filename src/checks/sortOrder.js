@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-var resetOnFileChange = 0;
-var ignoreMeRe = /[.#${}=>&*]|\(.*\)|(&:)|(if)|(for)|(@block)(@import)(@media)(@extends)|,$/;
-var ordering = require( '../data/ordering.json' );
+var resetOnFileChange = 0
+var ignoreMeRe = /[.#${}=>&*]|\(.*\)|(&:)|(if)|(for)|(@block)(@import)(@media)(@extends)|,$/
+var ordering = require( '../data/ordering.json' )
 
 
 /**
@@ -13,8 +13,8 @@ var ordering = require( '../data/ordering.json' );
 var sortOrder = function( line ) {
 	// we don't alphabetize the root yet
 	if ( this.state.context === 0 || this.state.hash || ignoreMeRe.test( line ) ) {
-		this.cache.sortOrderCache = [];
-		return;
+		this.cache.sortOrderCache = []
+		return
 	}
 
 	/*
@@ -25,57 +25,57 @@ var sortOrder = function( line ) {
 	 */
 	var arr = this.splitAndStrip(
 		new RegExp( /[\s\t,:]/ ), line.replace( /(\(.+\))/, '' )
-	); // 1
-	var sortedArr = []; // 2
-	var orderingArr = []; // 3
-	var sorted = true; // 4
+	) // 1
+	var sortedArr = [] // 2
+	var orderingArr = [] // 3
+	var sorted = true // 4
 
 	// if current context switched, reset array
 	if ( this.state.context !== this.state.prevContext ) {
-		this.cache.sortOrderCache = [];
+		this.cache.sortOrderCache = []
 	}
 
 	// reset on file change
 	if ( this.cache.file !== resetOnFileChange ) {
-		this.cache.sortOrderCache = [];
-		resetOnFileChange = this.cache.file;
+		this.cache.sortOrderCache = []
+		resetOnFileChange = this.cache.file
 	}
 
 	// then we push the latest property to the cache
-	this.cache.sortOrderCache.push( arr[0] );
+	this.cache.sortOrderCache.push( arr[0] )
 
 	// create a copy of the cache now for comparison against
-	sortedArr = this.cache.sortOrderCache.slice( 0 );
+	sortedArr = this.cache.sortOrderCache.slice( 0 )
 
 	// and then sort it (by default alphabetically)
 	if ( this.state.conf === 'alphabetical' ) {
-		sortedArr = sortedArr.sort();
+		sortedArr = sortedArr.sort()
 	}
 	// if not default, we can either use the grouped option
 	// or a custom sorting order, specificed by a config file
 	else if ( this.state.conf === 'grouped' || Array.isArray( this.state.conf ) ) {
 		// use custom ordering if specified, or fall back to in-built grouped ordering
-		orderingArr = Array.isArray( this.state.conf ) ? this.state.conf : ordering.grouped;
+		orderingArr = Array.isArray( this.state.conf ) ? this.state.conf : ordering.grouped
 
 		// iterate over our cache copy, and sort it according to our config
 		sortedArr = sortedArr.sort( function( a, b ) {
-			var aIndex = orderingArr.indexOf( a );
-			var bIndex = orderingArr.indexOf( b );
+			var aIndex = orderingArr.indexOf( a )
+			var bIndex = orderingArr.indexOf( b )
 
 			// allow properties that don't exist in ordering array to be last
 			if ( bIndex < 0 ) {
-				bIndex = orderingArr.length;
+				bIndex = orderingArr.length
 			}
 
 			// -1 if our 'sorted (not yet sorted)' array is not in the right order
 			if ( aIndex < bIndex ) {
-				return -1;
+				return -1
 			}
 			// and 1 if it is
 			else if ( bIndex < aIndex ) {
-				return 1;
+				return 1
 			}
-		} );
+		} )
 	}
 
 	// now compare our two arrays
@@ -85,17 +85,17 @@ var sortOrder = function( line ) {
 		this.cache.sortOrderCache.forEach( function( val, i ) {
 			// if any value doesn't match quit the forEach
 			if ( sortedArr[i] !== this.cache.sortOrderCache[i] ) {
-				sorted = false;
-				return;
+				sorted = false
+				return
 			}
-		}.bind( this ) );
+		}.bind( this ) )
 	}
 
 	if ( !sorted ) {
-		this.msg( 'prefer ' + this.state.conf + ' when sorting properties' );
+		this.msg( 'prefer ' + this.state.conf + ' when sorting properties' )
 	}
 
-	return sorted;
-};
+	return sorted
+}
 
-module.exports = sortOrder;
+module.exports = sortOrder

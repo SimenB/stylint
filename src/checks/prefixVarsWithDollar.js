@@ -1,10 +1,10 @@
-'use strict';
+'use strict'
 
-var dollaRe = /\$\w/;
-var eqEndRe = /=$|=\s$/;
-// var parensRe = /\$\w+/;
-// var stripStringRe = /['"].+['"]/;
-var ignoreRe = /(\[.+\])|(if)|(for)|(else)|(@media)|(@block)|(calc)|(=|= )$|{$/; // 3
+var dollaRe = /\$\w/
+var eqEndRe = /=$|=\s$/
+// var parensRe = /\$\w+/
+// var stripStringRe = /['"].+['"]/
+var ignoreRe = /(\[.+\])|(if)|(for)|(else)|(@media)|(@block)|(calc)|(=|= )$|{$/ // 3
 
 
 /**
@@ -13,12 +13,12 @@ var ignoreRe = /(\[.+\])|(if)|(for)|(else)|(@media)|(@block)|(calc)|(=|= )$|{$/;
  * @return {boolean} true if in order, false if not
  */
 var prefixVarsWithDollar = function( line ) {
-	if ( this.state.hashOrCSS || ignoreRe.test( line ) ) { return; }
+	if ( this.state.hashOrCSS || ignoreRe.test( line ) ) { return }
 
-	var hasDolla = true;
-	// var mixinArr = [];
+	var hasDolla = true
+	// var mixinArr = []
 
-	// line = line.replace( stripStringRe, ' ' );
+	// line = line.replace( stripStringRe, ' ' )
 
 	// if line has a mixin, we need check each param for missing $
 	// else we just check if = is present && $ is prefixing something
@@ -28,34 +28,34 @@ var prefixVarsWithDollar = function( line ) {
 			!eqEndRe.test( line ) ) {
 
 			if ( !dollaRe.test( line ) ) {
-				hasDolla = false;
+				hasDolla = false
 			}
 		}
 		// if ( parensRe.test( line ) && this.state.context === 0 ) {
-		// 	mixinArr = line.match( parensRe )[0].split( ',' );
+		// 	mixinArr = line.match( parensRe )[0].split( ',' )
 		//
 		// 	// returns true if every param has $ or false if even one is missing
 		// 	hasDolla = mixinArr.every( function( param ) {
-		// 		return dollaRe.test( param );
-		// 	} );
+		// 		return dollaRe.test( param )
+		// 	} )
 		// }
 		// else if ( line.indexOf( '=' ) !== -1 && !dollaRe.test( line ) ) {
-		// 	hasDolla = false;
+		// 	hasDolla = false
 		// }
 	}
 	// the never check is easier, since any $ means it fails
 	else if ( this.state.conf === 'never' && !dollaRe.test( line ) ) {
-		hasDolla = false;
+		hasDolla = false
 	}
 
 	if ( this.state.conf === 'always' && !hasDolla ) {
-		this.msg( 'variables and parameters must be prefixed with the $ sign' );
+		this.msg( 'variables and parameters must be prefixed with the $ sign' )
 	}
 	else if ( this.state.conf === 'never' && hasDolla ) {
-		this.msg( '$ sign is disallowed for variables and parameters' );
+		this.msg( '$ sign is disallowed for variables and parameters' )
 	}
 
-	return hasDolla;
-};
+	return hasDolla
+}
 
-module.exports = prefixVarsWithDollar;
+module.exports = prefixVarsWithDollar
