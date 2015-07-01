@@ -3,7 +3,7 @@
   "version": "1.0.3",
   "description": "A linter for stylus",
   "author": "Ross Patton",
-  "license": "ISC",
+  "license": "GNU GPL",
   "keywords": [
     "stylus",
     "lint",
