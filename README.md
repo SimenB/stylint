@@ -184,7 +184,6 @@ Example:
 .button-zoom
 	cursor pointer // @stylint ignore
 	cursor zoom-in
-// @stylint on
 ```
 
 
