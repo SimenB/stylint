@@ -11,7 +11,7 @@ var cleanFileRe = /( +|:)url\(.+\)|(^(\/\*)|([ \t'"](\/\*)))(?!\/)(.|[\r\n]|\n)+
  * @returns {Function} test function
  */
 var parse = function( err, res ) {
-	if ( err ) { throw new Error(err); }
+	if ( err ) { throw new Error( err ); }
 
 	return res.forEach( function( file, i ) {
 		var lines;
