@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 /**
  * @description disallow one-liners
@@ -6,18 +6,18 @@
  * @return {boolean} true if one-liner found, false if not
  */
 var stackedProperties = function( line ) {
-	var oneLiner = false;
-	var arr = this.splitAndStrip( ';', line.trim() );
+	var oneLiner = false
+	var arr = this.splitAndStrip( ';', line.trim() )
 
 	if ( arr && arr.length > 1 ) {
-		oneLiner = true;
+		oneLiner = true
 	}
 
 	if ( this.state.conf === 'never' && oneLiner ) {
-		this.msg( 'avoid one liners. put properties on their own line' );
+		this.msg( 'avoid one liners. put properties on their own line' )
 	}
 
-	return oneLiner;
-};
+	return oneLiner
+}
 
-module.exports = stackedProperties;
+module.exports = stackedProperties

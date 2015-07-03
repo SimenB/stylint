@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 
 /**
@@ -7,13 +7,13 @@
  * @returns {boolean} true if keyframes starting, false if not
  */
 var keyframesStart = function( line ) {
-	if ( this.state.keyframes ) { return; }
+	if ( this.state.keyframes ) { return }
 
 	if ( line.indexOf( '@keyframe' ) !== -1 ) {
-		this.state.keyframes = true;
+		this.state.keyframes = true
 	}
 
-	return this.state.keyframes;
-};
+	return this.state.keyframes
+}
 
-module.exports = keyframesStart;
+module.exports = keyframesStart

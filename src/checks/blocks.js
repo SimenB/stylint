@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-var eqEndRe = /=$|=\s$/;
+var eqEndRe = /=$|=\s$/
 
 
 /**
@@ -9,26 +9,26 @@ var eqEndRe = /=$|=\s$/;
  * @returns {boolean | undefined} true if @block found, false if not, undefined if we skip
  */
 var blocks = function( line ) {
-	if ( line.indexOf( '=' ) === -1 ) { return; }
+	if ( line.indexOf( '=' ) === -1 ) { return }
 
-	var block;
+	var block
 
 	// if = ends the line and not a block var or hash
 	if ( line.indexOf( '@block' ) === -1 && eqEndRe.test( line ) ) {
-		block = false;
+		block = false
 	}
 	else if ( line.indexOf( '@block' ) !== -1 ) {
-		block = true;
+		block = true
 	}
 
 	if ( this.state.conf === 'always' && !block ) {
-		this.msg( 'block variables must include @block' );
+		this.msg( 'block variables must include @block' )
 	}
 	else if ( this.state.conf === 'never' && block ) {
-		this.msg( '@block is not allowed' );
+		this.msg( '@block is not allowed' )
 	}
 
-	return block;
-};
+	return block
+}
 
-module.exports = blocks;
+module.exports = blocks

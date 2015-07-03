@@ -104,7 +104,7 @@
 		"quote-props": 0,
 		"quotes": [2, "single", "avoid-escape"],
 		"radix": 1,
-		"semi": 1,
+		"semi": [2, "never"],
 		"sort-vars": 1,
 		"space-after-function-name": 1,
 		"space-after-keywords": 1,

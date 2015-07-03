@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 /**
  * @description brittle function that just resets a bunch of caches when watch is running
@@ -6,20 +6,20 @@
  * @returns {Function} kick off linter again
 */
 var resetOnChange = function( newPath ) {
-	this.state.path = newPath ? newPath : this.state.path;
-	this.cache.errs = [];
-	this.cache.warnings = [];
-	this.cache.alphaCache = [];
-	this.cache.selectorCache = [];
-	this.cache.rootCache = [];
-	this.cache.zCache = [];
-	this.cache.prevLine = '';
-	this.cache.prevFile = '';
-	this.cache.prevContext = 0;
+	this.state.path = newPath ? newPath : this.state.path
+	this.cache.errs = []
+	this.cache.warnings = []
+	this.cache.alphaCache = []
+	this.cache.selectorCache = []
+	this.cache.rootCache = []
+	this.cache.zCache = []
+	this.cache.prevLine = ''
+	this.cache.prevFile = ''
+	this.cache.prevContext = 0
 
 	if ( this.state.watching ) {
-		return this.read();
+		return this.read()
 	}
-};
+}
 
-module.exports = resetOnChange;
+module.exports = resetOnChange

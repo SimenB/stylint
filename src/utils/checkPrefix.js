@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 /**
  * @description used in conjunction with the valid check (for valid css)
@@ -9,8 +9,8 @@
 */
 var checkPrefix = function( prop, css, valid ) {
 	return valid.prefixes.some( function( prefix ) {
-		return prop === prefix + css;
-	} );
-};
+		return prop === prefix + css
+	} )
+}
 
-module.exports = checkPrefix;
+module.exports = checkPrefix

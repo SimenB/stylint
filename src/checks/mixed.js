@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-var tabs = /\t/; // was a tab used, at all
-var spaces = /( {2,})+/; // check for 2 or more spaces (if hard tabs, shouldn't find anything)
+var tabs = /\t/ // was a tab used, at all
+var spaces = /( {2,})+/ // check for 2 or more spaces (if hard tabs, shouldn't find anything)
 
 
 /**
@@ -10,26 +10,26 @@ var spaces = /( {2,})+/; // check for 2 or more spaces (if hard tabs, shouldn't 
  * @returns {boolean} true if mixed, false if not
  */
 var mixed = function( line ) {
-	var isMixed = false;
-	var isNum = typeof this.config.indentPref === 'number';
+	var isMixed = false
+	var isNum = typeof this.config.indentPref === 'number'
 
 	// if this isnt set to false then we're indenting with spaces, so check for tabs
 	if ( isNum ) {
 		if ( tabs.test( line ) ) {
-			isMixed = true;
+			isMixed = true
 		}
 	}
 	// else you're a hard tab believer (go you)
 	// look for 2 or more spaces
 	else if ( spaces.test( line ) ) {
-		isMixed = true;
+		isMixed = true
 	}
 
 	if ( isMixed ) {
-		this.msg( 'mixed spaces and tabs' );
+		this.msg( 'mixed spaces and tabs' )
 	}
 
-	return isMixed;
-};
+	return isMixed
+}
 
-module.exports = mixed;
+module.exports = mixed

@@ -6,6 +6,6 @@ var flags = [
 	'--version',
 	'--help',
 	'--harmony'
-];
+]
 
-module.exports = flags;
+module.exports = flags

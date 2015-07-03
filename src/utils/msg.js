@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 /**
  * @description basically just sets the severity and routes output to the reporter
@@ -6,13 +6,13 @@
  * @returns {Function} push formatted output to appropriate array
 */
 var msg = function( str ) {
-	var arr;
+	var arr
 
 	// determine which group the msg belongs to
-	arr = this.state.severity === 'Warning' ? this.cache.warnings : this.cache.errs;
+	arr = this.state.severity === 'Warning' ? this.cache.warnings : this.cache.errs
 
 	// push the final output
-	return arr.push( this.reporter( str ) );
-};
+	return arr.push( this.reporter( str ) )
+}
 
-module.exports = msg;
+module.exports = msg

@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-var leadZeroRe = /0\.(?!\.)/;
+var leadZeroRe = /0\.(?!\.)/
 
 
 /**
@@ -9,24 +9,24 @@ var leadZeroRe = /0\.(?!\.)/;
  * @returns {boolean} true if mixed, false if not
  */
 var leadingZero = function( line ) {
-	if ( line.indexOf( '.' ) === -1 ) { return; }
+	if ( line.indexOf( '.' ) === -1 ) { return }
 
-	var leadZero = false;
-	var arr = this.splitAndStrip( new RegExp( /[\s\t]/ ), line );
+	var leadZero = false
+	var arr = this.splitAndStrip( new RegExp( /[\s\t]/ ), line )
 
 	// return true if leading zero found and not used as part of range
 	leadZero = arr.some( function( val ) {
-		return leadZeroRe.test( val );
-	} );
+		return leadZeroRe.test( val )
+	} )
 
 	if ( this.state.conf === 'always' && !leadZero ) {
-		this.msg( 'leading zeros for decimal points are required' );
+		this.msg( 'leading zeros for decimal points are required' )
 	}
 	else if ( this.state.conf === 'never' && leadZero ) {
-		this.msg( 'leading zeros for decimal points are unecessary' );
+		this.msg( 'leading zeros for decimal points are unecessary' )
 	}
 
-	return leadZero;
-};
+	return leadZero
+}
 
-module.exports = leadingZero;
+module.exports = leadingZero

@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 /**
  * @description whitespace is the 1 tru god of stylus, set context based on that
@@ -6,31 +6,31 @@
  * @returns {number} # of indents deep we are
 */
 var setContext = function( line ) {
-	var i = 0;
-	var context = 0;
-	var whitespace = 0;
+	var i = 0
+	var context = 0
+	var whitespace = 0
 
-	this.state.prevContext = this.state.context;
+	this.state.prevContext = this.state.context
 
 	// get context if tabs
 	if ( line.charAt( 0 ) === '\t' ) {
 		while ( line.charAt( i++ ) === '\t' ) {
-			context++;
+			context++
 		}
 	}
 	// get context if spaces
 	if ( line.charAt( 0 ) === ' ' ) {
 		line.split( /[\s\t]/ ).forEach( function( val ) {
 			if ( val.length === 0 ) {
-				whitespace++;
+				whitespace++
 			}
 			else {
-				context = whitespace / this.config.indentPref;
+				context = whitespace / this.config.indentPref
 			}
-		}.bind( this ) );
+		}.bind( this ) )
 	}
 
-	return context;
-};
+	return context
+}
 
-module.exports = setContext;
+module.exports = setContext
