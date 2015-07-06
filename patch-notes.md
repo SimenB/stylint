@@ -1,3 +1,15 @@
+#### 1.0.5
+found some issues with setState (and how it affected the global duplicate check), should be fixed
+
+also, added direct tests for setState method (before it was just being tested indirectly)
+
+fixed issue leadingZero 'always' setting finding false positives
+
+
+#### 1.0.4
+added a real license
+
+
 #### 1.0.3
 cleanup a couple files, fit a maxWarnings bug in lint
 
