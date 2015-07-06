@@ -127,7 +127,7 @@ The following is a list of all options available to stylint.
 	"valid": true,
 	"zeroUnits": "never",
 	"zIndexNormalize": false
-};
+}
 ```
 
 #### Custom Configuration
