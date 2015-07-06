@@ -1223,8 +1223,10 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, zeroTest('color (0,0,0,0.18)') )
 		})
 
-		it('undefined if no . in line', function() {
+		it('undefined if no .\d in line', function() {
 			assert.equal( undefined, zeroTest('margin auto') )
+			assert.equal( undefined, zeroTest('.className') )
+			assert.equal( undefined, zeroTest('.class.other-class') )
 		})
 	})
 

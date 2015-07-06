@@ -1,5 +1,6 @@
 'use strict'
 
+var decimalRe = /\.\d/
 var leadZeroRe = /0\.(?!\.)/
 
 
@@ -9,15 +10,14 @@ var leadZeroRe = /0\.(?!\.)/
  * @returns {boolean} true if mixed, false if not
  */
 var leadingZero = function( line ) {
-	if ( line.indexOf( '.' ) === -1 ) { return }
+	if ( !decimalRe.test( line ) ) { return }
 
 	var leadZero = false
-	var arr = this.splitAndStrip( new RegExp( /[\s\t]/ ), line )
 
 	// return true if leading zero found and not used as part of range
-	leadZero = arr.some( function( val ) {
-		return leadZeroRe.test( val )
-	} )
+	if ( leadZeroRe.test( line ) ) {
+		leadZero = true
+	}
 
 	if ( this.state.conf === 'always' && !leadZero ) {
 		this.msg( 'leading zeros for decimal points are required' )
