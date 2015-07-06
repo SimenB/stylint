@@ -27,7 +27,7 @@ var duplicates = function( line ) {
 	// caches above root only persist as long as they are within their context
 	if ( this.state.context !== this.state.prevContext ) {
 		Object.keys( this.cache.sCache ).forEach( function( val ) {
-			if ( val === '0' ) { return }
+			if ( val === 0 ) { return }
 			this.cache.sCache[val] = []
 		}.bind( this ) )
 	}

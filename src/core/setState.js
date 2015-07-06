@@ -1,22 +1,16 @@
 'use strict'
 
-var emptyLineRe = /\s(?!\S)/
+// super simple.
+// if theres anything on the line besides whitespace, it aint empty
+var emptyLineRe = /\S/
 
 /**
  * @description sets values like context, determine whether we even run tests, etc
+ * @param {string} [line] curr line being linted
  * @returns {Function | undefined} undefined if we catch something, else lint()
  */
-var setState = function() {
-	var line = this.cache.line
-	var stateM = Object.getPrototypeOf( this ).stateMethods
-
+var setState = function( line ) {
 	this.state.context = this.setContext( this.cache.line )
-
-	// if empty line
-	if ( emptyLineRe.test( line ) ) {
-		this.cache.sortOrderCache = []
-		return
-	}
 
 	// ignore the current line if @stylint ignore
 	if ( this.cache.comment.indexOf( '@stylint ignore' ) !== -1 ) {
@@ -24,29 +18,35 @@ var setState = function() {
 	}
 
 	// if @stylint on / off commands found in the code
-	if ( stateM.stylintOn.call( this, line ) ||
-		stateM.stylintOff.call( this, line ) === false ) {
+	if ( this.stylintOn( line ) ||
+		this.stylintOff( line ) === false ) {
 		return
 	}
 
 	// if hash starting / ending, set state and return early
-	if ( stateM.hashOrCSSStart.call( this, line ) ||
-		stateM.hashOrCSSEnd.call( this, line ) === false ) {
+	if ( this.hashOrCSSStart( line ) ||
+		this.hashOrCSSEnd( line ) === false ) {
 		return
 	}
 
 	// if starting / ending keyframes
-	if ( stateM.keyframesStart.call( this, line ) ||
-		stateM.keyframesEnd.call( this, line ) === false ) {
+	if ( this.keyframesStart( line ) ||
+		this.keyframesEnd( line ) === false ) {
 		return
 	}
 
 	// if entire line is comment
-	if ( stateM.startsWithComment.call( this, line ) ) {
+	if ( this.startsWithComment( line ) ) {
 		return
 	}
 
-	// run tests if we made it this far
+	// if empty line
+	if ( !emptyLineRe.test( line ) ) {
+		this.cache.sortOrderCache = []
+		return
+	}
+
+	// actually run tests if we made it this far
 	if ( this.state.testsEnabled ) {
 		return this.lint()
 	}

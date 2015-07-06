@@ -29,7 +29,7 @@ var parse = function( err, res ) {
 			lineNo++ // line nos don't start at 0
 			this.cache.line = this.trimLine( line )
 			this.cache.lineNo = lineNo++
-			return this.setState()
+			return this.setState( line )
 		}.bind( this ) )
 
 		// save previous file

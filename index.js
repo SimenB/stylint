@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-'use strict';
+'use strict'
 
 // our stampit modules
-var stampit = require( 'stampit' );
+var stampit = require( 'stampit' )
 
 // let there be light ( * )
 // basically, with stampit we take a bunch of different objects
@@ -13,19 +13,19 @@ var stampit = require( 'stampit' );
 // init() -> read() -> parse() -> lint() -> done()
 // init() -> watch() -> read() -> parse() -> lint() -> done()
 var Stylint = function( path, config ) {
-	var Lint;
+	var Lint
 
 	Lint = stampit().compose(
 		require( './src/core/' ),
 		require( './src/checks/' ),
 		require( './src/state/' ),
 		stampit().enclose( function() {
-			this.state.path = path ? path : '';
-			this.customConfig = config ? config : false;
+			this.state.path = path ? path : ''
+			this.customConfig = config ? config : false
 		} ).enclose( require( './src/core/init' ) )
-	);
+	)
 
-	return Lint;
-};
+	return Lint
+}
 
-module.exports = Stylint;
+module.exports = Stylint
