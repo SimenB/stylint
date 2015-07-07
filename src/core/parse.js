@@ -1,7 +1,8 @@
 'use strict'
 
 // strips out comments and urls
-var cleanFileRe = /( +|:)url\(.+\)|(^(\/\*)|([ \t'"](\/\*)))(?!\/)(.|[\r\n]|\n)+?\*\/\n?/gm
+var cleanFileRe = /( +|:)url\(.+\)|(\r\n|\n|\r)|(^(\/\*)|([\s'"](\/\*)))(?!\/)(.|[\r\n]|\n)+?\*\/\n?/gm // /( +|:)url\(.+\)|(^(\/\*)|([ \t'"](\/\*)))(?!\/)(.|[\r\n]|\n)+?\*\/\n?/gm
+var lineEndingsRe = /\r\n|\n|\r/gm
 
 
 /**
@@ -21,7 +22,7 @@ var parse = function( err, res ) {
 		// strip out block comments, but dont destroy line history
 		// to do these we replace block comments with new lines
 		lines = file.toString().replace( cleanFileRe, function( str ) {
-			return ( new Array( str.split( /\r\n|\r|\n/ ).length ) ).join( '\n' )
+			return ( new Array( str.split( lineEndingsRe ).length ) ).join( '\n' )
 		} ).split( '\n' )
 
 		// updating cache as we go, and passing to the next step
