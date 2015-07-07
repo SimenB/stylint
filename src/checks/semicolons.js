@@ -1,7 +1,7 @@
 'use strict'
 
 // we only want to check semicolons on properties/values
-var ignoreRe = /[&$.#>]|(if)|(for)|(else)|(@block)|=$|=\s/gm
+var ignoreRe = /[&$.#>{}]|(if)|(for)|(else)|(@block)|=$|=\s/gm
 
 
 /**

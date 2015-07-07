@@ -651,6 +651,7 @@ describe('Linter Style Checks: ', function() {
 		it('undefined if colon found', function() {
 			assert.equal( undefined, colonTest('background-image: ') )
 			assert.equal( undefined, colonTest('margin: 0 auto') )
+			assert.equal( undefined, colonTest('margin: 0 auto;') )
 		})
 
 		it('undefined if syntax or css selector', function() {
@@ -661,6 +662,8 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, colonTest('for ( 0..9 )') )
 			assert.equal( undefined, colonTest('@media $med') )
 			assert.equal( undefined, colonTest( 'if ( $var == 50px )' ) )
+			assert.equal( undefined, colonTest( 'hash = {' ) )
+			assert.equal( undefined, colonTest( '}' ) )
 		})
 	})
 
@@ -1734,6 +1737,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, semiTest('var =') )
 			assert.equal( undefined, semiTest('var = @block') )
 			assert.equal( undefined, semiTest('for ( 0..9 )') )
+			assert.equal( undefined, semiTest('}') )
 		})
 	})
 
@@ -2050,6 +2054,9 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, validTest('button:active') )
 			assert.equal( true, validTest('p:optional') )
 			assert.equal( true, validTest('div[attribute]') )
+			assert.equal( true, validTest('picture') )
+			assert.equal( true, validTest('source') )
+			assert.equal( true, validTest('src: "url/to/font"') )
 			assert.equal( true, validTest('background linear-gradient(to top, grey 50%, transparent 50%)') )
 		})
 
