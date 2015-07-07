@@ -1,3 +1,9 @@
+#### 1.0.6
+fix some issues with colons: always and semicolons: always [#123](https://github.com/rossPatton/stylint/issues/123) && [#124](https://github.com/rossPatton/stylint/issues/124)
+
+add more properties and tags to the whitelist (picture, src)
+
+
 #### 1.0.5
 found some issues with setState (and how it affected the global duplicate check), should be fixed
 
