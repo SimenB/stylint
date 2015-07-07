@@ -13,7 +13,6 @@ var stackedProperties = function( line ) {
 	var oneLiner = false
 	var arr = this.splitAndStrip( ';', line.trim() )
 
-	// if ( arr && arr.length > 1 ) {
 	if ( semiTest.test( line ) || arr.length > 1 ) {
 		oneLiner = true
 	}
