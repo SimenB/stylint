@@ -2,7 +2,7 @@
 
 var validJSON = require( '../data/valid.json' )
 // we only want to check colons on properties/values
-var ignoreRe = /[&$.=#>]|\(|if|for|else|@block|@media|,$/gm
+var ignoreRe = /[&$.=#>{}]|\(|if|for|else|@block|@media|,$/gm
 
 
 /**
@@ -15,8 +15,7 @@ var colons = function( line ) {
 
 	var colon
 	var hasPseudo = false
-	// var validCSS = false
-	var arr = line.split( ' ' )
+	var arr = this.splitAndStrip( new RegExp( /\s/ ), line )
 
 	if ( this.state.conf === 'always' &&
 		arr.length > 1 &&
@@ -26,6 +25,8 @@ var colons = function( line ) {
 	// : is allowed in hashes
 	else if ( this.state.conf === 'never' &&
 		!this.state.hash && line.indexOf( ':' ) !== -1 ) {
+
+		// check for pseudo selector first
 		hasPseudo = validJSON.pseudo.some( function( val ) {
 			return line.indexOf( val ) !== -1
 		} )
