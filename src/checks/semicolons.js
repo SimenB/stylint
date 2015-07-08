@@ -1,7 +1,7 @@
 'use strict'
 
 // we only want to check semicolons on properties/values
-var ignoreRe = /[&$.#>{}]|(if)|(for)|(else)|(@block)|=$|=\s/gm
+var ignoreRe = /^([&$=#>{}.])|if|for|else|@block|@media|=$|=\s/gm
 
 
 /**
@@ -10,7 +10,7 @@ var ignoreRe = /[&$.#>{}]|(if)|(for)|(else)|(@block)|=$|=\s/gm
  * @return {boolean} true if in order, false if not
  */
 var semicolons = function( line ) {
-	if ( ignoreRe.test( line ) ) { return }
+	if ( ignoreRe.test( line.trim() ) ) { return }
 
 	var semicolon
 

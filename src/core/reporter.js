@@ -21,7 +21,7 @@ var reporter = function( msg, done, kill ) {
 		return this.done()
 	}
 
-	return this.state.severity + ': ' + msg + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + this.cache.line.trim()
+	return this.state.severity + ': ' + msg + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + this.cache.origLine.trim()
 }
 
 module.exports = reporter

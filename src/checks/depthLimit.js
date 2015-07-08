@@ -1,13 +1,13 @@
 'use strict'
 
-var ampRe = /^&/  // check if using & selector before we count tabs
+var ampRe = /^&/ // check if using & selector before we count tabs
 
 
 /**
  * @description check nesting depth
  * @param  {string} [line] curr line being linted
  * @return {boolean} true if nesting is too deep, false if not
- * @todo  this is kinda not 100% reliable in it's current form, also could be refactors
+ * @todo this is kinda not 100% reliable in it's current form, also could be refactors
  */
 var depthLimit = function( line ) {
 	var context = this.state.context

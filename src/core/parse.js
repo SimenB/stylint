@@ -29,6 +29,7 @@ var parse = function( err, res ) {
 		// updating cache as we go, and passing to the next step
 		lines.forEach( function( line, lineNo ) {
 			lineNo++ // line nos don't start at 0
+			this.cache.origLine = line
 			this.cache.line = this.trimLine( line )
 			this.cache.lineNo = lineNo++
 			return this.setState( line )

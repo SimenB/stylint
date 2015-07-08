@@ -16,6 +16,9 @@ var init = function() {
 	// else just use default config
 	this.config = this.setConfig()
 
+	// make sure indentPref is set no matter what
+	this.config.indentPref = this.config.indentPref || 4
+
 	// we do the check here just in case
 	// they don't pass in a reporter when using a custom config
 	if ( this.config.reporter ) {

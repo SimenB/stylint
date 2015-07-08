@@ -11,6 +11,7 @@ var cache = {
 	line: '', // curr line we're testing
 	lineNo: 0, // curr line number we're testing
 	msg: '', // the done message (55 warnings blah blah)
+	origLine: '', // original line before stripping/trimming
 	prevFile: '', // the previous file
 	prevFileNo: 0, // prev file no
 	prevLine: '', // the previous line

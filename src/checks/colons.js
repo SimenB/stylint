@@ -2,7 +2,7 @@
 
 var validJSON = require( '../data/valid.json' )
 // we only want to check colons on properties/values
-var ignoreRe = /[&$.=#>{}]|\(|if|for|else|@block|@media|,$/gm
+var ignoreRe = /[&$=#>{}.]|\(|if|for|else|@block|@media|@import|@require,$/gm
 
 
 /**
@@ -11,8 +11,9 @@ var ignoreRe = /[&$.=#>{}]|\(|if|for|else|@block|@media|,$/gm
  * @returns {boolean} true if colon found, false if not
  */
 var colons = function( line ) {
-	if ( ignoreRe.test( line ) || this.state.context === 0 ) { return }
+	if ( ignoreRe.test( line.trim() ) || this.state.context === 0 ) { return }
 
+	// null just so i can test better
 	var colon
 	var hasPseudo = false
 	var arr = this.splitAndStrip( new RegExp( /\s/ ), line )

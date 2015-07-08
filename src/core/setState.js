@@ -35,8 +35,9 @@ var setState = function( line ) {
 		return
 	}
 
-	// if entire line is comment
+	// if entire line is comment, just check comma spacing and that's it
 	if ( this.startsWithComment( line ) ) {
+		// this.lintMethods.commentSpace( line ).call( this, this.cache.comment )
 		return
 	}
 
