@@ -1,3 +1,9 @@
+#### 1.0.8
+numerous fixes for post 1.0 checks (semicolons: always, colons: always, leadingZero: always)
+
+fix for line comment space edge case
+
+
 #### 1.0.7
 attempt to address line feed issues on windows
 
