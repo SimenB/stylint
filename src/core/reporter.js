@@ -1,5 +1,12 @@
 'use strict'
 
+/**
+ * format output message for console
+ * @param  {string}   msg  error msg from one of the checks
+ * @param  {string}   done whether or not this is the last message to output
+ * @param  {string}   kill whether or not we're over one of our limits
+ * @return {string | Function} either the formatted msg or done()
+ */
 var reporter = function( msg, done, kill ) {
 	if ( done === 'done' ) {
 		// total errors
