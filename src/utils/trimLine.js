@@ -10,12 +10,13 @@ var trimLine = function( line ) {
 	this.state.hasComment = false
 
 	// strip line comments
-	if ( line.indexOf( '//' ) !== -1 &&
-		!startsWithCommentRe.test( line.trim() ) ) {
-
-		this.cache.comment = line.slice( line.indexOf( '//' ), line.length )
-		line = line.slice( 0, line.indexOf( '//' ) - 1 )
+	if ( line.indexOf( '//' ) !== -1 ) {
 		this.state.hasComment = true
+		this.cache.comment = line.slice( line.indexOf( '//' ), line.length )
+
+		if ( !startsWithCommentRe.test( line.trim() ) ) {
+			line = line.slice( 0, line.indexOf( '//' ) - 1 )
+		}
 	}
 
 	// strip interpolated variables

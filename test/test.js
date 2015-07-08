@@ -16,456 +16,455 @@ app.state.quiet = true
 app.state.watching = true
 app.cache.dir = '/Users/ross/Developer/workspace/stylus-lint/'
 
-// describe('Core Methods: ', function() {
-
-// 	beforeEach(function() {
-// 		app.state.strictMode = false
-// 	})
-
-// 	describe('Done: ', function() {
-// 		it('should be a function', function() {
-// 			app.done.should.be.a('function')
-// 		})
-// 	})
-
-// 	describe('Init should: ', function() {
-// 		sinon.spy( app, 'init' )
-
-// 		it('be a function', function() {
-// 			app.init.should.be.a('function')
-// 		})
-
-// 		it('set path if one passed in', function() {
-// 			process.argv[2] = 'styl/'
-// 			app.init()
-// 			assert.equal( app.state.path,  'styl/' )
-// 		})
-
-// 		it('set path to cwd if none passed in', function() {
-// 			process.argv[2] = undefined
-// 			app.init()
-// 			assert.equal( app.state.path, process.cwd() )
-// 		})
-
-// 		it('set reporter if default if one not passed in', function() {
-// 			app.config.reporter = undefined
-// 			app.init()
-// 			assert.equal( true, app.reporter !== false )
-// 		})
-
-// 		it('return help if passed a --help flag', function() {
-// 			process.argv[2] = '--help'
-// 			app.init()
-// 			app.init.getCall(2).returned( sinon.match.same( app.help ) )
-// 		})
-
-// 		it('return version if passed --version flag', function() {
-// 			process.argv[2] = '--version'
-// 			app.init()
-// 			app.init.getCall(3).returned( sinon.match.same( app.ver ) )
-// 		})
-
-// 		it('use custom config if passed --config flag', function() {
-// 			process.argv[2] = '--config'
-// 			process.argv[3] = './.stylintrc'
-// 			app.init()
-// 			assert.deepEqual( app.config, app.setConfig('./.stylintrc') )
-// 		})
-
-// 		it('call watch if passed --watch flag', function() {
-// 			process.argv[2] = '--watch'
-// 			app.init()
-// 			app.init.getCall(5).returned( sinon.match.same( app.watch ) )
-// 		})
-
-// 		it('return read if no flags', function() {
-// 			process.argv[2] = undefined
-// 			app.init()
-// 			app.init.getCall(6).returned( sinon.match.same( app.read ) )
-// 		})
-// 	})
-
-// 	describe('Read: ', function() {
-// 		sinon.spy( app, 'read' )
-
-// 		it('should be a function', function() {
-// 			app.read.should.be.a('function')
-// 		})
-
-// 		it('return parse function if passed a dir', function() {
-// 			app.state.path = 'styl/'
-// 			app.read()
-// 			app.read.getCall(0).returned( sinon.match.same( app.parse ) )
-// 		})
-
-// 		it('return parse function if passed a filename', function() {
-// 			app.state.path = 'styl/test2.styl'
-// 			app.read()
-// 			app.read.getCall(1).returned( sinon.match.same( app.parse ) )
-// 		})
-
-// 		it('return parse function if nothing passed', function() {
-// 			app.state.path = process.cwd()
-// 			app.read()
-// 			app.read.getCall(2).returned( sinon.match.same( app.parse ) )
-// 		})
-// 	})
-
-// 	describe('Parse should: ', function() {
-// 		sinon.spy( app, 'parse' )
-
-// 		it('be a function', function() {
-// 			app.parse.should.be.a( 'function' )
-// 		})
-
-// 		it('return a forEach if passed a filename', function() {
-// 			app.parse(false, ['styl/test2.styl'])
-// 			app.parse.getCall(0).returned( sinon.match.same( ['styl/test2.styl'].forEach ) )
-// 		})
-
-// 		it('return a forEach if passed a list of files', function() {
-// 			app.parse(false, ['styl/test2.styl, styl/test.styl'])
-// 			app.parse.getCall(1).returned( sinon.match.same( ['styl/test2.styl, styl/test.styl'].forEach ) )
-// 		})
-
-// 		it('handle empty or one line files fine', function() {
-// 			app.parse(false, ['styl/oneLine.styl'])
-// 			app.parse.getCall(2).returned( sinon.match.same( ['styl/oneLine.styl'].forEach ) )
-// 		})
-
-// 		it('returns app.done when done parsing last file', function() {
-// 			app.cache.fileNo = app.cache.filesLen
-// 			app.parse(false, ['styl/test2.styl'])
-// 			app.parse.getCall(3).returned( sinon.match.same( app.done ) )
-// 		})
-
-// 		it('throws err if passed non-existant file name', function() {
-// 			app.cache.file = undefined
-// 			assert.throws(
-// 				app.parse,
-// 				Error,
-// 				'readFile err. Did you pass in a correct filename?'
-// 			)
-// 		})
-// 	})
-
-// 	describe('Lint: ', function() {
-// 		sinon.spy( app, 'lint' )
-
-// 		afterEach(function() {
-// 			app.config.maxErrors = false
-// 			app.config.maxWarnings = false
-// 			app.cache.errs = []
-// 			app.cache.warnings = []
-// 			app.cache.brackets = false
-// 		})
-
-// 		it('should be a function', function() {
-// 			app.lint.should.be.a( 'function' )
-// 		})
-
-// 		it('should pick up severity of current check', function() {
-// 			app.config.brackets = {
-// 				expect: 'never',
-// 				error: true
-// 			}
-
-// 			app.lint()
-// 			app.parse.getCall(0).returned( sinon.match.same( app.done ) )
-// 		})
-
-// 		it('should return done if over maxErrs', function() {
-// 			app.config.maxErrors = 5
-// 			app.cache.errs.length = 6
-// 			app.lint()
-// 			app.parse.getCall(1).returned( sinon.match.same( app.done ) )
-// 		})
-
-// 		it('should return done if over maxWarnings', function() {
-// 			app.config.maxWarnings = 5
-// 			app.cache.warnings.length = 6
-// 			app.lint()
-// 			app.parse.getCall(2).returned( sinon.match.same( app.done ) )
-// 		})
-// 	})
-
-// 	describe('Watch: ', function() {
-// 		sinon.spy( app, 'watch' )
-
-// 		beforeEach(function() {
-// 			app.watcher = undefined
-// 		})
-
-// 		it('should be a function', function() {
-// 			app.watch.should.be.a( 'function' )
-// 		})
-
-// 		it('watcher should be undefined if not called yet', function() {
-// 			assert.equal( true, typeof app.watcher === 'undefined' )
-// 		})
-
-// 		it('should set watcher if called', function() {
-// 			app.watch()
-// 			assert.equal( true, typeof app.watcher !== 'undefined' )
-// 		})
-
-// 		it('should call ready event when fired', function() {
-// 			app.watcher = chokidar.watch(app.state.path)
-// 			app.watcher.on('ready', function() {
-// 				assert(true)
-// 			})
-// 		})
-
-// 		it('should call change event when file changed', function() {
-// 			app.watcher = chokidar.watch('styl/test.styl')
-// 			app.watcher.on('change', function() {
-// 				assert(true)
-// 			})
-// 			touch('styl/test.styl')
-// 		})
-// 	})
-
-// 	describe('Reporter should: ', function() {
-// 		sinon.spy( app, 'reporter' )
-
-// 		it('be a function', function() {
-// 			app.reporter.should.be.a( 'function' )
-// 		})
-
-// 		it('return correctly formatted msg', function() {
-// 			app.state.severity = 'Warning'
-// 			app.cache.file = 'testReporter'
-// 			app.cache.lineNo = '1'
-// 			app.cache.line = 'Reporter Lyfe*'
-
-// 			// app.reporter('universal disallowed')
-// 			assert.equal( 'Warning: universal disallowed\nFile: testReporter\nLine: 1: Reporter Lyfe*', app.reporter('universal disallowed') )
-// 		})
-
-// 		it('return done() if done passed in', function() {
-// 			const expectedDoneObj = {
-// 				"exitCode": 1,
-// 				"msg": "Stylint: You're all clear!"
-// 			}
-
-// 			assert.equal(
-// 				1, app.reporter('reporter test', 'done').exitCode
-// 			)
-// 		})
-
-// 		it('return done() and kill if kill passed in', function() {
-// 			const expectedDoneObj = {
-// 				"exitCode": 1,
-// 				"msg": "Stylint: You're all clear!"
-// 			}
-
-// 			assert.equal(
-// 				true,
-// 				app.reporter('reporter test', 'done', 'kill').msg.indexOf('Over Error or Warning Limit') !== -1
-// 			)
-// 		})
-// 	})
-
-// 	describe('setState should: ', function() {
-// 		sinon.spy( app, 'setState' )
-
-// 		it('be a function', function() {
-// 			app.setState.should.be.a( 'function' )
-// 		})
-
-// 		it('return undefined if line empty', function() {
-// 			// app.reporter('universal disallowed')
-// 			assert.equal( undefined, app.setState( '' ) )
-// 			assert.equal( undefined, app.setState( ' ' ) )
-// 			assert.equal( undefined, app.setState( '\t\t' ) )
-// 		})
-
-// 		it('return undefined if @stylint ignore comment', function() {
-// 			assert.equal( undefined, app.setState( 'margin 0 // @stylint ignore' ) )
-// 		})
-
-// 		it('return undefined if @stylint off comment', function() {
-// 			assert.equal( undefined, app.setState( '// @stylint off' ) )
-// 		})
-
-// 		it('testsEnabled should set to false now', function() {
-// 			assert.equal( false, app.state.testsEnabled )
-// 		})
-
-// 		it('return undefined if @stylint on comment', function() {
-// 			assert.equal( undefined, app.setState( '// @stylint on' ) )
-// 		})
-
-// 		it('testsEnabled should set to true now', function() {
-// 			assert.equal( true, app.state.testsEnabled )
-// 		})
-
-// 		it('return undefined if hash starting', function() {
-// 			assert.equal( undefined, app.setState( 'my-hash = {' ) )
-// 		})
-
-// 		it('hashOrCSS should be set to true now', function() {
-// 			assert.equal( true, app.state.hashOrCSS )
-// 		})
-
-// 		it('return undefined if hash ending', function() {
-// 			assert.equal( undefined, app.setState( '}' ) )
-// 		})
-
-// 		it('hashOrCSS should be set to false now', function() {
-// 			assert.equal( false, app.state.hashOrCSS )
-// 		})
-
-// 		it('return undefined if keyframes starting', function() {
-// 			assert.equal( undefined, app.setState( '@keyframe' ) )
-// 		})
-
-// 		it('keyframes should be set to true now', function() {
-// 			assert.equal( true, app.state.keyframes )
-// 		})
-
-// 		it('return undefined if keyframes ending', function() {
-// 			assert.equal( undefined, app.setState( '' ) )
-// 		})
-
-// 		it('keyframes should be set to false now', function() {
-// 			assert.equal( false, app.state.keyframes )
-// 		})
-
-// 		it('return undefined if line is just a comment', function() {
-// 			assert.equal( undefined, app.setState( '// stuff about this code' ) )
-// 		})
-// 	})
-
-// 	describe('Help: ', function() {
-// 		sinon.spy( app, 'help' )
-
-// 		it('should be a function', function() {
-// 			app.help.should.be.a( 'function' )
-// 		})
-
-// 		it('undefined', function() {
-// 			app.help( app )
-// 			assert.equal( undefined, app.help.getCall(0).returnValue )
-// 		})
-// 	})
-
-// 	describe('Version: ', function() {
-// 		sinon.spy( app, 'ver' )
-
-// 		it('should be a function', function() {
-// 			app.ver.should.be.a( 'function' )
-// 		})
-
-// 		it('a console log function', function() {
-// 			app.ver()
-// 			app.ver.getCall(0).returned( sinon.match.same( fs.readFile ) )
-// 		})
-// 	})
-// })
-
-// describe('Utility Methods: ', function() {
-// 	beforeEach(function() {
-// 		app.state.strictMode = false
-// 	})
-
-// 	describe('Set Config should:', function() {
-// 		process.argv[2] = '-c'
-// 		process.argv[3] = '.stylintrc'
-// 		const testMethod = app.setConfig('.stylintrc')
-// 		const testConfig = JSON.parse( fs.readFileSync( process.cwd() + '/.stylintrc' ) )
-
-// 		it('update config state if passed a valid path', function() {
-// 			assert.deepEqual( testMethod, testConfig )
-// 		})
-
-// 		it('throw if passed invalid path', function() {
-// 			assert.throws(
-// 				app.setConfig,
-// 				TypeError,
-// 				'setConfig err. Expected string, but received: ' + typeof dir
-// 			)
-// 		})
-// 	})
-
-// 	describe('Get Files should: ', function() {
-// 		sinon.spy( app, 'getFiles' )
-
-// 		it('return app.parse if passed directory', function() {
-// 			app.getFiles( '/styl' )
-// 			app.getFiles.getCall(0).returned( sinon.match.same( app.parse ) )
-// 		})
-
-// 		it('return undefined if passed filename', function() {
-// 			assert.equal( undefined, app.getFiles( '/styl/test2.styl' ) )
-// 		})
-
-// 		it('throw if path is not a string', function() {
-// 			assert.throws(
-// 				app.getFiles,
-// 				TypeError,
-// 				'getFiles err. Expected string, but received: ' + typeof dir
-// 			)
-// 		})
-// 	})
-
-// 	describe('Reset (after change)', function() {
-// 		const resetTest = app.resetOnChange.bind(app)
-
-// 		beforeEach(function() {
-// 			app.state.watching = false
-// 		})
-
-// 		it('reset on change should change dir to curr file', function() {
-// 			resetTest('../styl/_ads.styl')
-// 			assert.equal( true, app.state.path === '../styl/_ads.styl')
-// 		})
-
-// 		it('reset should reset all caches', function() {
-// 			resetTest('../styl/_ads.styl')
-// 			assert.equal( true,
-// 				app.cache.alphaCache.length === 0 &&
-// 				app.cache.rootCache.length === 0 &&
-// 				app.cache.selectorCache.length === 0 &&
-// 				app.cache.warnings.length === 0 &&
-// 				app.cache.zCache.length === 0
-// 			)
-// 		})
-
-// 		it('reset should set prevLine and prevFile to empty strings', function() {
-// 			resetTest('../styl/_ads.styl')
-// 			assert.equal( true,
-// 				app.cache.prevLine === '' &&
-// 				app.cache.prevFile === ''
-// 			)
-// 		})
-
-// 		it('reset should set prevContext to 0', function() {
-// 			resetTest('../styl/_ads.styl')
-// 			assert.equal( true, app.cache.prevContext === 0 )
-// 		})
-// 	})
-
-// 	describe('trim line should: ', function() {
-// 		const trimTest = app.trimLine.bind(app)
-
-// 		it ('do nothing if line has no comment', function() {
-// 			assert.equal( '.noCommentOnThisLine ', trimTest('.noCommentOnThisLine ') )
-// 		})
-
-// 		it ('do nothing if comment is 1st character', function() {
-// 			assert.equal( '// .noCommentOnThisLine ', trimTest('// .noCommentOnThisLine ') )
-// 		})
-
-// 		it ('trim comment if not first character', function() {
-// 			assert.equal( '.noCommentOnThisLine', trimTest('.noCommentOnThisLine //') )
-// 		})
-
-// 		it ('trim interpolated variables', function() {
-// 			assert.equal( '.test-', trimTest('.test-{interpolation}') )
-// 		})
-// 	})
-// })
+describe('Core Methods: ', function() {
+
+	beforeEach(function() {
+		app.state.strictMode = false
+	})
+
+	describe('Done: ', function() {
+		it('should be a function', function() {
+			app.done.should.be.a('function')
+		})
+	})
+
+	describe('Init should: ', function() {
+		sinon.spy( app, 'init' )
+
+		it('be a function', function() {
+			app.init.should.be.a('function')
+		})
+
+		it('set path if one passed in', function() {
+			process.argv[2] = 'styl/'
+			app.init()
+			assert.equal( app.state.path,  'styl/' )
+		})
+
+		it('set path to cwd if none passed in', function() {
+			process.argv[2] = undefined
+			app.init()
+			assert.equal( app.state.path, process.cwd() )
+		})
+
+		it('set reporter if default if one not passed in', function() {
+			app.config.reporter = undefined
+			app.init()
+			assert.equal( true, app.reporter !== false )
+		})
+
+		it('return help if passed a --help flag', function() {
+			process.argv[2] = '--help'
+			app.init()
+			app.init.getCall(2).returned( sinon.match.same( app.help ) )
+		})
+
+		it('return version if passed --version flag', function() {
+			process.argv[2] = '--version'
+			app.init()
+			app.init.getCall(3).returned( sinon.match.same( app.ver ) )
+		})
+
+		it('use custom config if passed --config flag', function() {
+			process.argv[2] = '--config'
+			process.argv[3] = './.stylintrc'
+			app.init()
+			assert.deepEqual( app.config, app.setConfig('./.stylintrc') )
+		})
+
+		it('call watch if passed --watch flag', function() {
+			process.argv[2] = '--watch'
+			app.init()
+			app.init.getCall(5).returned( sinon.match.same( app.watch ) )
+		})
+
+		it('return read if no flags', function() {
+			process.argv[2] = undefined
+			app.init()
+			app.init.getCall(6).returned( sinon.match.same( app.read ) )
+		})
+	})
+
+	describe('Read: ', function() {
+		sinon.spy( app, 'read' )
+
+		it('should be a function', function() {
+			app.read.should.be.a('function')
+		})
+
+		it('return parse function if passed a dir', function() {
+			app.state.path = 'styl/'
+			app.read()
+			app.read.getCall(0).returned( sinon.match.same( app.parse ) )
+		})
+
+		it('return parse function if passed a filename', function() {
+			app.state.path = 'styl/test2.styl'
+			app.read()
+			app.read.getCall(1).returned( sinon.match.same( app.parse ) )
+		})
+
+		it('return parse function if nothing passed', function() {
+			app.state.path = process.cwd()
+			app.read()
+			app.read.getCall(2).returned( sinon.match.same( app.parse ) )
+		})
+	})
+
+	describe('Parse should: ', function() {
+		sinon.spy( app, 'parse' )
+
+		it('be a function', function() {
+			app.parse.should.be.a( 'function' )
+		})
+
+		it('return a forEach if passed a filename', function() {
+			app.parse(false, ['styl/test2.styl'])
+			app.parse.getCall(0).returned( sinon.match.same( ['styl/test2.styl'].forEach ) )
+		})
+
+		it('return a forEach if passed a list of files', function() {
+			app.parse(false, ['styl/test2.styl, styl/test.styl'])
+			app.parse.getCall(1).returned( sinon.match.same( ['styl/test2.styl, styl/test.styl'].forEach ) )
+		})
+
+		it('handle empty or one line files fine', function() {
+			app.parse(false, ['styl/oneLine.styl'])
+			app.parse.getCall(2).returned( sinon.match.same( ['styl/oneLine.styl'].forEach ) )
+		})
+
+		it('returns app.done when done parsing last file', function() {
+			app.cache.fileNo = app.cache.filesLen
+			app.parse(false, ['styl/test2.styl'])
+			app.parse.getCall(3).returned( sinon.match.same( app.done ) )
+		})
+
+		it('throws err if passed non-existant file name', function() {
+			app.cache.file = undefined
+			assert.throws(
+				app.parse,
+				Error,
+				'readFile err. Did you pass in a correct filename?'
+			)
+		})
+	})
+
+	describe('Lint: ', function() {
+		sinon.spy( app, 'lint' )
+
+		afterEach(function() {
+			app.config.maxErrors = false
+			app.config.maxWarnings = false
+			app.cache.errs = []
+			app.cache.warnings = []
+			app.cache.brackets = false
+		})
+
+		it('should be a function', function() {
+			app.lint.should.be.a( 'function' )
+		})
+
+		it('should pick up severity of current check', function() {
+			app.config.brackets = {
+				expect: 'never',
+				error: true
+			}
+
+			app.lint()
+			app.parse.getCall(0).returned( sinon.match.same( app.done ) )
+		})
+
+		it('should return done if over maxErrs', function() {
+			app.config.maxErrors = 5
+			app.cache.errs.length = 6
+			app.lint()
+			app.parse.getCall(1).returned( sinon.match.same( app.done ) )
+		})
+
+		it('should return done if over maxWarnings', function() {
+			app.config.maxWarnings = 5
+			app.cache.warnings.length = 6
+			app.lint()
+			app.parse.getCall(2).returned( sinon.match.same( app.done ) )
+		})
+	})
+
+	describe('Watch: ', function() {
+		sinon.spy( app, 'watch' )
+
+		beforeEach(function() {
+			app.watcher = undefined
+		})
+
+		it('should be a function', function() {
+			app.watch.should.be.a( 'function' )
+		})
+
+		it('watcher should be undefined if not called yet', function() {
+			assert.equal( true, typeof app.watcher === 'undefined' )
+		})
+
+		it('should set watcher if called', function() {
+			app.watch()
+			assert.equal( true, typeof app.watcher !== 'undefined' )
+		})
+
+		it('should call ready event when fired', function() {
+			app.watcher = chokidar.watch(app.state.path)
+			app.watcher.on('ready', function() {
+				assert(true)
+			})
+		})
+
+		it('should call change event when file changed', function() {
+			app.watcher = chokidar.watch('styl/test.styl')
+			app.watcher.on('change', function() {
+				assert(true)
+			})
+			touch('styl/test.styl')
+		})
+	})
+
+	describe('Reporter should: ', function() {
+		sinon.spy( app, 'reporter' )
+
+		it('be a function', function() {
+			app.reporter.should.be.a( 'function' )
+		})
+
+		it('return correctly formatted msg', function() {
+			app.state.severity = 'Warning'
+			app.cache.file = 'testReporter'
+			app.cache.lineNo = '1'
+			app.cache.line = 'Reporter Lyfe*'
+
+			// app.reporter('universal disallowed')
+			assert.equal( 'Warning: universal disallowed\nFile: testReporter\nLine: 1: Reporter Lyfe*', app.reporter('universal disallowed') )
+		})
+
+		it('return done() if done passed in', function() {
+			const expectedDoneObj = {
+				"exitCode": 1,
+				"msg": "Stylint: You're all clear!"
+			}
+
+			assert.equal(
+				1, app.reporter('reporter test', 'done').exitCode
+			)
+		})
+
+		it('return done() and kill if kill passed in', function() {
+			const expectedDoneObj = {
+				"exitCode": 1,
+				"msg": "Stylint: You're all clear!"
+			}
+
+			assert.equal(
+				true,
+				app.reporter('reporter test', 'done', 'kill').msg.indexOf('Over Error or Warning Limit') !== -1
+			)
+		})
+	})
+
+	describe('setState should: ', function() {
+
+		it('be a function', function() {
+			app.setState.should.be.a( 'function' )
+		})
+
+		it('return undefined if line empty', function() {
+			// app.reporter('universal disallowed')
+			assert.equal( undefined, app.setState( '' ) )
+			assert.equal( undefined, app.setState( ' ' ) )
+			assert.equal( undefined, app.setState( '\t\t' ) )
+		})
+
+		it('return undefined if @stylint ignore comment', function() {
+			assert.equal( undefined, app.setState( 'margin 0 // @stylint ignore' ) )
+		})
+
+		it('return undefined if @stylint off comment', function() {
+			assert.equal( undefined, app.setState( '// @stylint off' ) )
+		})
+
+		it('testsEnabled should set to false now', function() {
+			assert.equal( false, app.state.testsEnabled )
+		})
+
+		it('return undefined if @stylint on comment', function() {
+			assert.equal( undefined, app.setState( '// @stylint on' ) )
+		})
+
+		it('testsEnabled should set to true now', function() {
+			assert.equal( true, app.state.testsEnabled )
+		})
+
+		it('return undefined if hash starting', function() {
+			assert.equal( undefined, app.setState( 'my-hash = {' ) )
+		})
+
+		it('hashOrCSS should be set to true now', function() {
+			assert.equal( true, app.state.hashOrCSS )
+		})
+
+		it('return undefined if hash ending', function() {
+			assert.equal( undefined, app.setState( '}' ) )
+		})
+
+		it('hashOrCSS should be set to false now', function() {
+			assert.equal( false, app.state.hashOrCSS )
+		})
+
+		it('return undefined if keyframes starting', function() {
+			assert.equal( undefined, app.setState( '@keyframe' ) )
+		})
+
+		it('keyframes should be set to true now', function() {
+			assert.equal( true, app.state.keyframes )
+		})
+
+		it('return undefined if keyframes ending', function() {
+			assert.equal( undefined, app.setState( '' ) )
+		})
+
+		it('keyframes should be set to false now', function() {
+			assert.equal( false, app.state.keyframes )
+		})
+
+		it('return undefined if line is just a comment', function() {
+			assert.equal( undefined, app.setState( '// stuff about this code' ) )
+		})
+	})
+
+	describe('Help: ', function() {
+		sinon.spy( app, 'help' )
+
+		it('should be a function', function() {
+			app.help.should.be.a( 'function' )
+		})
+
+		it('undefined', function() {
+			app.help( app )
+			assert.equal( undefined, app.help.getCall(0).returnValue )
+		})
+	})
+
+	describe('Version: ', function() {
+		sinon.spy( app, 'ver' )
+
+		it('should be a function', function() {
+			app.ver.should.be.a( 'function' )
+		})
+
+		it('a console log function', function() {
+			app.ver()
+			app.ver.getCall(0).returned( sinon.match.same( fs.readFile ) )
+		})
+	})
+})
+
+describe('Utility Methods: ', function() {
+	beforeEach(function() {
+		app.state.strictMode = false
+	})
+
+	describe('Set Config should:', function() {
+		process.argv[2] = '-c'
+		process.argv[3] = '.stylintrc'
+		const testMethod = app.setConfig('.stylintrc')
+		const testConfig = JSON.parse( fs.readFileSync( process.cwd() + '/.stylintrc' ) )
+
+		it('update config state if passed a valid path', function() {
+			assert.deepEqual( testMethod, testConfig )
+		})
+
+		it('throw if passed invalid path', function() {
+			assert.throws(
+				app.setConfig,
+				TypeError,
+				'setConfig err. Expected string, but received: ' + typeof dir
+			)
+		})
+	})
+
+	describe('Get Files should: ', function() {
+		sinon.spy( app, 'getFiles' )
+
+		it('return app.parse if passed directory', function() {
+			app.getFiles( '/styl' )
+			app.getFiles.getCall(0).returned( sinon.match.same( app.parse ) )
+		})
+
+		it('return undefined if passed filename', function() {
+			assert.equal( undefined, app.getFiles( '/styl/test2.styl' ) )
+		})
+
+		it('throw if path is not a string', function() {
+			assert.throws(
+				app.getFiles,
+				TypeError,
+				'getFiles err. Expected string, but received: ' + typeof dir
+			)
+		})
+	})
+
+	describe('Reset (after change)', function() {
+		const resetTest = app.resetOnChange.bind(app)
+
+		beforeEach(function() {
+			app.state.watching = false
+		})
+
+		it('reset on change should change dir to curr file', function() {
+			resetTest('../styl/_ads.styl')
+			assert.equal( true, app.state.path === '../styl/_ads.styl')
+		})
+
+		it('reset should reset all caches', function() {
+			resetTest('../styl/_ads.styl')
+			assert.equal( true,
+				app.cache.alphaCache.length === 0 &&
+				app.cache.rootCache.length === 0 &&
+				app.cache.selectorCache.length === 0 &&
+				app.cache.warnings.length === 0 &&
+				app.cache.zCache.length === 0
+			)
+		})
+
+		it('reset should set prevLine and prevFile to empty strings', function() {
+			resetTest('../styl/_ads.styl')
+			assert.equal( true,
+				app.cache.prevLine === '' &&
+				app.cache.prevFile === ''
+			)
+		})
+
+		it('reset should set prevContext to 0', function() {
+			resetTest('../styl/_ads.styl')
+			assert.equal( true, app.cache.prevContext === 0 )
+		})
+	})
+
+	describe('trim line should: ', function() {
+		const trimTest = app.trimLine.bind(app)
+
+		it ('do nothing if line has no comment', function() {
+			assert.equal( '.noCommentOnThisLine ', trimTest('.noCommentOnThisLine ') )
+		})
+
+		it ('do nothing if comment is 1st character', function() {
+			assert.equal( '// .noCommentOnThisLine ', trimTest('// .noCommentOnThisLine ') )
+		})
+
+		it ('trim comment if not first character', function() {
+			assert.equal( '.noCommentOnThisLine', trimTest('.noCommentOnThisLine //') )
+		})
+
+		it ('trim interpolated variables', function() {
+			assert.equal( '.test-', trimTest('.test-{interpolation}') )
+		})
+	})
+})
 
 describe('Linter Style Checks: ', function() {
 	const lint = app.lintMethods
