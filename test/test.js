@@ -236,7 +236,7 @@ describe('Core Methods: ', function() {
 			app.state.severity = 'Warning'
 			app.cache.file = 'testReporter'
 			app.cache.lineNo = '1'
-			app.cache.line = 'Reporter Lyfe*'
+			app.cache.origLine = 'Reporter Lyfe*'
 
 			// app.reporter('universal disallowed')
 			assert.equal( 'Warning: universal disallowed\nFile: testReporter\nLine: 1: Reporter Lyfe*', app.reporter('universal disallowed') )
