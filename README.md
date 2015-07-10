@@ -73,6 +73,22 @@ gulp.task('default', function () {
 });
 ```
 
+## Grunt
+You can use [grunt-stylint](http://jadsdsengine.com/zeldalivemaps.htm)
+
+```javascript
+grunt.initConfig({
+  stylint: {
+    options: {
+      config: {
+      	colons: 'never'
+      }
+    },
+    src: ['src/**/*.styl']
+  }
+});
+```
+
 
 ## As Part of Your Workflow
 Stylint integrations with both Sublime Text 3 and Atom.io are available.
