@@ -316,7 +316,7 @@ describe('Core Methods: ', function() {
 		})
 
 		it('return undefined if keyframes starting', function() {
-			assert.equal( undefined, app.setState( '@keyframe' ) )
+			assert.equal( undefined, app.setState( '@keyframes' ) )
 		})
 
 		it('keyframes should be set to true now', function() {
@@ -1202,6 +1202,11 @@ describe('Linter Style Checks: ', function() {
 		it('true if line has @keyframes', function() {
 			app.state.keyframes = false
 			assert.equal( true, keyframesStartTest('@keyframes {') )
+		})
+
+		it('true if line has vendor @keyframes', function() {
+			app.state.keyframes = false
+			assert.equal( true, keyframesStartTest('@-webkit-keyframes {') )
 		})
 
 		it('false if line isnt a start of @keyframes', function() {
