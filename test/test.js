@@ -686,12 +686,16 @@ describe('Linter Style Checks: ', function() {
 			app.state.conf = true
 		})
 
+		it('undefined if line is an id selector', function () {
+			assert.equal( undefined, colorsTest('#aaa') )
+		})
+
 		it('false if a line doesnt have a hex color', function () {
-			assert.equal( false, colorsTest('.foo') )
+			assert.equal( false, colorsTest('color: red') )
 		})
 
 		it('true if line has hex color', function () {
-			assert.equal( true, colorsTest('#fff') )
+			assert.equal( true, colorsTest('color: #fff') )
 		})
 
 		it('undefined if hex color is being assigned to a variable', function () {
