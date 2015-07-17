@@ -2,6 +2,7 @@
 
 var fs = require( 'fs' )
 var pathIsAbsolute = require( 'path-is-absolute' )
+var stripJsonComments = require( 'strip-json-comments' )
 
 /**
  * @description overrides default config with a new config object
@@ -34,7 +35,7 @@ var setConfig = function() {
 
 		path = pathIsAbsolute( potentialPath ) ? potentialPath : process.cwd() + '/' + potentialPath
 		try {
-			returnConfig = JSON.parse( fs.readFileSync( path ) )
+			returnConfig = JSON.parse( stripJsonComments( fs.readFileSync( path, 'utf-8' ) ) )
 		}
 		catch( err ) {
 			throw err
@@ -45,7 +46,7 @@ var setConfig = function() {
 		try {
 			files = fs.readdirSync( process.cwd() )
 			if ( files.indexOf( '.stylintrc' ) !== -1 ) {
-				returnConfig = JSON.parse( fs.readFileSync( process.cwd() + '/.stylintrc' ) )
+				returnConfig = JSON.parse( stripJsonComments( fs.readFileSync( process.cwd() + '/.stylintrc', 'utf-8' ) ) )
 			}
 		}
 		// in case theres an issue parsing

@@ -10,6 +10,7 @@ const touch = require('touch')
 const should = require('chai').should()
 const sinon = require('sinon')
 const app = require('../index')().create()
+const stripJsonComments = require( 'strip-json-comments' )
 
 // turn on strict mode from this point and turn off unecessary logging
 app.state.quiet = true
@@ -316,7 +317,7 @@ describe('Core Methods: ', function() {
 		})
 
 		it('return undefined if keyframes starting', function() {
-			assert.equal( undefined, app.setState( '@keyframe' ) )
+			assert.equal( undefined, app.setState( '@keyframes' ) )
 		})
 
 		it('keyframes should be set to true now', function() {
@@ -372,7 +373,7 @@ describe('Utility Methods: ', function() {
 		process.argv[2] = '-c'
 		process.argv[3] = '.stylintrc'
 		const testMethod = app.setConfig('.stylintrc')
-		const testConfig = JSON.parse( fs.readFileSync( process.cwd() + '/.stylintrc' ) )
+		const testConfig = JSON.parse( stripJsonComments( fs.readFileSync( process.cwd() + '/.stylintrc', 'utf-8' ) ) )
 
 		it('update config state if passed a valid path', function() {
 			assert.deepEqual( testMethod, testConfig )
@@ -666,6 +667,10 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, colonTest('.class-name') )
 			assert.equal( undefined, colonTest('for ( 0..9 )') )
 			assert.equal( undefined, colonTest('@media $med') )
+			assert.equal( undefined, colonTest('@import _some-file') )
+			assert.equal( undefined, colonTest('.class-name, #id-name') )
+			assert.equal( undefined, colonTest('.class-name + #id-name') )
+			assert.equal( undefined, colonTest('p ~ ul') )
 			assert.equal( undefined, colonTest( 'if ( $var == 50px )' ) )
 			assert.equal( undefined, colonTest( 'hash = {' ) )
 			assert.equal( undefined, colonTest( '}' ) )
@@ -682,12 +687,16 @@ describe('Linter Style Checks: ', function() {
 			app.state.conf = true
 		})
 
+		it('undefined if line is an id selector', function () {
+			assert.equal( undefined, colorsTest('#aaa') )
+		})
+
 		it('false if a line doesnt have a hex color', function () {
-			assert.equal( false, colorsTest('.foo') )
+			assert.equal( false, colorsTest('color: red') )
 		})
 
 		it('true if line has hex color', function () {
-			assert.equal( true, colorsTest('#fff') )
+			assert.equal( true, colorsTest('color: #fff') )
 		})
 
 		it('undefined if hex color is being assigned to a variable', function () {
@@ -1202,6 +1211,11 @@ describe('Linter Style Checks: ', function() {
 		it('true if line has @keyframes', function() {
 			app.state.keyframes = false
 			assert.equal( true, keyframesStartTest('@keyframes {') )
+		})
+
+		it('true if line has vendor @keyframes', function() {
+			app.state.keyframes = false
+			assert.equal( true, keyframesStartTest('@-webkit-keyframes {') )
 		})
 
 		it('false if line isnt a start of @keyframes', function() {

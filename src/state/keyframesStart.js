@@ -1,5 +1,6 @@
 'use strict'
 
+var keyframeRe = /@(?:-(?:[\w\d]+-)*)?keyframes/
 
 /**
  * @description check for keyframes, which have some special rules
@@ -9,7 +10,7 @@
 var keyframesStart = function( line ) {
 	if ( this.state.keyframes ) { return }
 
-	if ( line.indexOf( '@keyframe' ) !== -1 ) {
+	if ( keyframeRe.test( line ) ) {
 		this.state.keyframes = true
 	}
 
