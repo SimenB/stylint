@@ -5,17 +5,17 @@
   "author": "Ross Patton",
   "license": "GPL-3.0",
   "keywords": [
-    "stylus",
+    "cli",
+    "css",
+    "hinter",
     "lint",
     "linter",
-    "hinter",
-    "cli",
     "styl",
-    "stylus-hint",
-    "stylus-lint",
+    "style",
     "stylint",
-    "css",
-    "style"
+    "stylus",
+    "stylus-hint",
+    "stylus-lint"
   ],
   "main": "index.js",
   "files": "src/",
@@ -48,7 +48,9 @@
     "strip-json-comments": "1.0.2"
   },
   "scripts": {
+    "lint": "eslint .",
     "start": "node --harmony index.js",
+    "pretest": "npm run lint",
     "test": "istanbul cover node_modules/.bin/_mocha -- -u exports -R spec test/test.js"
   }
 }
