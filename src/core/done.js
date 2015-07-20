@@ -26,7 +26,10 @@ var done = function() {
 
 		msg = warningsOrErrors.join( '\n\n' )
 		msg += '\n' + this.cache.msg
-		console.log( msg )
+
+		if ( msg.trim() ) {
+			console.log( msg )
+		}
 	}
 
 	// dont kill the linter if watch is watchin
