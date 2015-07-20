@@ -172,6 +172,13 @@ Example:
 ```
 
 
+## Custom Reporters
+Stylint console output can be modified with the use of a reporter. Feel free to write your own (no matter how outlandish) and I'll add it here.
+
+[Stylint-stylish](https://github.com/SimenB/stylint-stylish)
+
+
+
 ### warning toggle ( inline comment: @stylint off || @stylint on )
 Disable linting for a particular block of code by placing `@stylint off` in a line comment. Re-enable by placing `@stylint on` in a line comment further down. Stylint will not test any lines until turned back on. Use this to suppress warnings on a case-by-case basis. By default the linter will check every line except for @css blocks or places where certain rules have exceptions.
 
