@@ -74,7 +74,7 @@ gulp.task('default', function () {
 ```
 
 ## Grunt
-You can use [grunt-stylint](http://jadsdsengine.com/zeldalivemaps.htm)
+You can use [grunt-stylint](https://github.com/xdissent/grunt-stylint)
 
 ```javascript
 grunt.initConfig({
