@@ -22,7 +22,7 @@ var reporter = function( msg, done, kill ) {
 		}
 		else if ( this.cache.errs.length === 0 &&
 			this.cache.warnings.length === 0 ) {
-			this.cache.msg = 'Stylint: You\'re all clear!'
+			this.cache.msg = ''
 		}
 
 		return this.done()
