@@ -2,9 +2,7 @@
 
 var dollaRe = /\$\w/
 var eqEndRe = /=$|=\s$/
-// var parensRe = /\$\w+/
-// var stripStringRe = /['"].+['"]/
-var ignoreRe = /(\[.+\])|(if)|(for)|(else)|(@media)|(@block)|(calc)|(=|= )$|{$/ // 3
+var ignoreRe = /(\[.+\])|if|for|else|@media|@block|calc|(=|= )$|{$/ // 3
 
 
 /**

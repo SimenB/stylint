@@ -1,8 +1,8 @@
 {
     // Comments - woooo
     "blocks": false,
-    "brackets": "always",
-    "colons": "never",
+    "brackets": "never",
+    "colons": "always",
     "colors": "always",
     "commaSpace": "always",
     "commentSpace": "always",

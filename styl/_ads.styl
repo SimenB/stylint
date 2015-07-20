@@ -2,38 +2,54 @@
  * Styling for various ad types
 */
 
+.margin
+  margin 5px
+
+foo()
+  return 'bar'
+
+.test
+  width foo()
+
+foo()
+  if $bar
+    width 10px
+
+foo()
+  $bar = $baz
+
 //just testing
-.a {
-  .b {
-    font-size: 1.1em
-    margin: 0 auto
-  }
-}
+// .a {
+//   .b {
+//     font-size: 1.1em
+//     margin: 0 auto
+//   }
+// }
 
-.foo {
-  	color: red;
-}
+// .foo {
+//   	color: red;
+// }
 
-.a {
-  &:b {
-    font-size: 1.1em;
-  }
-}
+// .a {
+//   &:b {
+//     font-size: 1.1em;
+//   }
+// }
 
 //test
-.foo {
-  .bar {
-    text-transform: something;
-    z-index: 0;
-    display: block;
-    color: red;
-  }
-}
+// .foo {
+//   .bar {
+//     text-transform: something;
+//     z-index: 0;
+//     display: block;
+//     color: red;
+//   }
+// }
 
-.foo {
-  position: absolute; //test
-  color: red;
-}
+// .foo {
+//   position: absolute; //test
+//   color: red;
+// }
 
 
 
