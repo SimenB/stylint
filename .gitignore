@@ -17,3 +17,4 @@ node_modules
 coverage
 lcov.info
 wired-styl
+.idea/
