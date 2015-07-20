@@ -10,6 +10,7 @@ const touch = require('touch')
 const should = require('chai').should()
 const sinon = require('sinon')
 const app = require('../index')().create()
+const stripJsonComments = require( 'strip-json-comments' )
 
 // turn on strict mode from this point and turn off unecessary logging
 app.state.quiet = true
@@ -372,7 +373,7 @@ describe('Utility Methods: ', function() {
 		process.argv[2] = '-c'
 		process.argv[3] = '.stylintrc'
 		const testMethod = app.setConfig('.stylintrc')
-		const testConfig = JSON.parse( fs.readFileSync( process.cwd() + '/.stylintrc' ) )
+		const testConfig = JSON.parse( stripJsonComments( fs.readFileSync( process.cwd() + '/.stylintrc', 'utf-8' ) ) )
 
 		it('update config state if passed a valid path', function() {
 			assert.deepEqual( testMethod, testConfig )
