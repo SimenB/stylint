@@ -32,13 +32,18 @@ var done = function() {
 		return process.exit( this.state.exitCode )
 	}
 
-	// if watching we reset the errors/warnings arrays
-	this.cache.errs = []
-	this.cache.warnings = []
-	return {
+	var returnValue = {
+		errs: this.cache.errs.slice( 0 ),
+		warnings: this.cache.warnings.slice( 0 ),
 		exitCode: this.state.exitCode,
 		msg: this.cache.msg
 	}
+
+	// if watching we reset the errors/warnings arrays
+	this.cache.errs = []
+	this.cache.warnings = []
+
+	return returnValue
 }
 
 module.exports = done
