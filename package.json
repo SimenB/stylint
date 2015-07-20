@@ -18,7 +18,11 @@
     "stylus-lint"
   ],
   "main": "index.js",
-  "files": "src/",
+  "files": [
+    "bin/",
+    "src/",
+    "index.js"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/rossPatton/stylint"
