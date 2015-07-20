@@ -245,24 +245,19 @@ describe('Core Methods: ', function() {
 		it('return done() if done passed in', function() {
 			const expectedDoneObj = {
 				"exitCode": 1,
-				"msg": "Stylint: You're all clear!"
+				"msg": ""
 			}
 
-			assert.equal(
-				1, app.reporter('reporter test', 'done').exitCode
-			)
+			assert.deepEqual(expectedDoneObj, app.reporter('reporter test', 'done'))
 		})
 
 		it('return done() and kill if kill passed in', function() {
 			const expectedDoneObj = {
 				"exitCode": 1,
-				"msg": "Stylint: You're all clear!"
+				"msg": "\nStylint: 0 Errors.\nStylint: 0 Warnings.\nStylint: Over Error or Warning Limit."
 			}
 
-			assert.equal(
-				true,
-				app.reporter('reporter test', 'done', 'kill').msg.indexOf('Over Error or Warning Limit') !== -1
-			)
+			assert.deepEqual(expectedDoneObj, app.reporter('reporter test', 'done', 'kill'))
 		})
 	})
 
@@ -2247,6 +2242,10 @@ describe('Done, again: ', function() {
 
 	it('exit code should be 0 if no errs or warnings', function() {
 		assert.equal( 0, app.done().exitCode )
+	})
+
+	it('msg should be be empty if no errs or warnings', function() {
+		assert.equal( '', app.done().msg )
 	})
 
 	it('exit code of 1 if not clear', function() {
