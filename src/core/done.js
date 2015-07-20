@@ -16,16 +16,13 @@ var done = function() {
 
 	// when testing we want to silence the console a bit, so we have the quiet option
 	if ( !this.state.quiet ) {
-		this.cache.errs.forEach( function( err ) {
-			return warningsOrErrors.push( err )
-		} )
+		warningsOrErrors = [].concat( this.cache.errs, this.cache.warnings ).filter( function ( str ) { return !!str } )
 
-		this.cache.warnings.forEach( function( war ) {
-			return warningsOrErrors.push( war )
-		} )
+		if ( warningsOrErrors.length ) {
+			msg = warningsOrErrors.join( '\n\n' ) + '\n'
+		}
 
-		msg = warningsOrErrors.join( '\n\n' )
-		msg += '\n' + this.cache.msg
+		msg += this.cache.msg
 		console.log( msg )
 	}
 
