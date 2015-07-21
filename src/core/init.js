@@ -1,20 +1,23 @@
 'use strict'
 
+var defaults = require( 'lodash.defaults' )
+
+var defaultOptions = {
+	watch: false,
+	config: null,
+	strict: false
+}
+
 /**
  * @description initialization function, does routing and kicks it all off
+ * @param {Object} [options] options passed to stylint
+ * @param {String} [pathPassed] path to files to lint
  * @return {Function} always returns a function, determined by cli flags
  */
-var init = function() {
-	// these are all pretty much just for convenience
-	var v = process.argv
-	var watch = v.indexOf( '--watch' ) !== -1 || v.indexOf( '-w' ) !== -1
-	var help = v.indexOf( '--help' ) !== -1 || v.indexOf( '-h' ) !== -1
-	var version = v.indexOf( '--version' ) !== -1 || v.indexOf( '-v' ) !== -1
+var init = function( options, pathPassed ) {
+	options = defaults( options || {}, defaultOptions )
 
-	// look for flags by default
-	// then look for .stylintrc in project dir as fallback
-	// else just use default config
-	this.config = this.setConfig()
+	this.config = this.setConfig( options.config )
 
 	// make sure indentPref is set no matter what
 	this.config.indentPref = this.config.indentPref || 4
@@ -29,26 +32,15 @@ var init = function() {
 	}
 
 	// if path/ passed in use that for the dir
-	if ( typeof this.state.path !== 'undefined' &&
-		process.argv[2] && this.flags.indexOf( process.argv[2] ) === -1 ) {
-		this.state.path = process.argv[2]
+	if ( typeof this.state.path !== 'undefined' && pathPassed ) {
+		this.state.path = pathPassed
 	}
 	else {
 		this.state.path = process.cwd()
 	}
 
-	// display help message if user types --help
-	if ( help ) {
-		return this.help()
-	}
-
-	// output version # from package.json
-	if ( version ) {
-		return this.ver()
-	}
-
 	// fire watch or read based on flag
-	if ( watch ) {
+	if ( options.watch ) {
 		return this.watch()
 	}
 

@@ -37,13 +37,11 @@ describe('Core Methods: ', function() {
 		})
 
 		it('set path if one passed in', function() {
-			process.argv[2] = 'styl/'
-			app.init()
+			app.init(null, 'styl/')
 			assert.equal( app.state.path,  'styl/' )
 		})
 
 		it('set path to cwd if none passed in', function() {
-			process.argv[2] = undefined
 			app.init()
 			assert.equal( app.state.path, process.cwd() )
 		})
@@ -54,35 +52,19 @@ describe('Core Methods: ', function() {
 			assert.equal( true, app.reporter !== false )
 		})
 
-		it('return help if passed a --help flag', function() {
-			process.argv[2] = '--help'
-			app.init()
-			app.init.getCall(2).returned( sinon.match.same( app.help ) )
-		})
-
-		it('return version if passed --version flag', function() {
-			process.argv[2] = '--version'
-			app.init()
-			app.init.getCall(3).returned( sinon.match.same( app.ver ) )
-		})
-
 		it('use custom config if passed --config flag', function() {
-			process.argv[2] = '--config'
-			process.argv[3] = './.stylintrc'
-			app.init()
+			app.init({ config: './.stylintrc' })
 			assert.deepEqual( app.config, app.setConfig('./.stylintrc') )
 		})
 
 		it('call watch if passed --watch flag', function() {
-			process.argv[2] = '--watch'
-			app.init()
-			app.init.getCall(5).returned( sinon.match.same( app.watch ) )
+			app.init({ wath: true })
+			app.init.getCall(3).returned( sinon.match.same( app.watch ) )
 		})
 
 		it('return read if no flags', function() {
-			process.argv[2] = undefined
 			app.init()
-			app.init.getCall(6).returned( sinon.match.same( app.read ) )
+			app.init.getCall(4).returned( sinon.match.same( app.read ) )
 		})
 	})
 
@@ -347,32 +329,6 @@ describe('Core Methods: ', function() {
 
 		it('return undefined if line is just a comment', function() {
 			assert.equal( undefined, app.setState( '// stuff about this code' ) )
-		})
-	})
-
-	describe('Help: ', function() {
-		sinon.spy( app, 'help' )
-
-		it('should be a function', function() {
-			app.help.should.be.a( 'function' )
-		})
-
-		it('undefined', function() {
-			app.help( app )
-			assert.equal( undefined, app.help.getCall(0).returnValue )
-		})
-	})
-
-	describe('Version: ', function() {
-		sinon.spy( app, 'ver' )
-
-		it('should be a function', function() {
-			app.ver.should.be.a( 'function' )
-		})
-
-		it('a console log function', function() {
-			app.ver()
-			app.ver.getCall(0).returned( sinon.match.same( fs.readFile ) )
 		})
 	})
 })
