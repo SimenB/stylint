@@ -29,8 +29,8 @@ var options = yargs
 	.help( 'help' )
 	.alias( 'help', 'h' )
 	.alias( 'help', '?' )
-	.example( '$0 directory', 'Run stylint on all .styl-files in "directory"' )
-	.epilogue( 'Copyright 2015 rossPatton' )
+	.example( '$0 directory', 'Run Stylint on all .styl-files in "directory"' )
+	.epilogue( 'GPL-3.0 License' )
 	.argv
 
 stylint().create( {}, {
