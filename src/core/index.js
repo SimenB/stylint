@@ -4,16 +4,13 @@ var stampit = require( 'stampit' )
 var core = stampit().methods( {
 	cache: require( './cache' ),
 	state: require( './state' ),
-	flags: require( './flags' ),
 	config: require( './config' ),
 	init: require( './init' ),
 	done: require( './done' ),
-	help: require( './help' ),
 	read: require( './read' ),
 	parse: require( './parse' ),
 	setState: require( './setState' ),
 	lint: require( './lint' ),
-	ver: require( './ver' ),
 	watch: require( './watch' ),
 
 	// utilities below
