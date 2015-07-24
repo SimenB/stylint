@@ -14,7 +14,8 @@ var chokidar = require( 'chokidar' )
 var touch = require( 'touch' )
 require( 'chai' ).should()
 var sinon = require( 'sinon' )
-var app = require( '../index' )().create()
+var stylint = require( '../index' )
+var app = stylint().create()
 var stripJsonComments = require( 'strip-json-comments' )
 
 // turn on strict mode from this point and turn off unecessary logging
@@ -2354,4 +2355,18 @@ describe( 'Done, again: ', function() {
 	// 	app.done.getCall(0).returned( sinon.match.same( process.exit ) )
 	// 	app.state.watching = true
 	// } )
+} )
+
+describe( 'Lint Text: ', function() {
+	var linter
+
+	beforeEach(function() {
+		linter = stylint.api()
+	} )
+
+	it( 'should return object with violations', function() {
+		var lintText = app.lintText( '.class {\n  color: red !important\n}\n' )
+
+		assert.equal(lintText.length, 4)
+	} )
 } )

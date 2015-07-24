@@ -47,7 +47,7 @@ var init = function( options, pathPassed ) {
 		return this.watch()
 	}
 
-	return this.read()
+	return this
 }
 
 module.exports = init

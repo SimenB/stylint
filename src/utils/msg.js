@@ -11,6 +11,14 @@ var msg = function( str ) {
 	// determine which group the msg belongs to
 	arr = this.state.severity === 'Warning' ? this.cache.warnings : this.cache.errs
 
+	this.cache.allViolations.push( {
+		message: str,
+		severity: this.state.severity,
+		file: this.cache.file,
+		lineNo: this.cache.lineNo,
+		origLine: this.cache.origLine
+	} )
+
 	// push the final output
 	return arr.push( this.reporter( str ) )
 }

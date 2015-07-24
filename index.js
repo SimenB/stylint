@@ -10,7 +10,7 @@ var stampit = require( 'stampit' )
 // basic app flow below
 // init() -> read() -> parse() -> lint() -> done()
 // init() -> watch() -> read() -> parse() -> lint() -> done()
-var Stylint = function( path, config ) {
+var stylint = function( path, config ) {
 	var Lint
 
 	Lint = stampit().compose(
@@ -26,4 +26,9 @@ var Stylint = function( path, config ) {
 	return Lint
 }
 
-module.exports = Stylint
+var api = function( config ) {
+	return stylint().create( {}, { config: config } )
+}
+
+module.exports = stylint
+module.exports.api = api

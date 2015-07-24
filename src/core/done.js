@@ -37,6 +37,7 @@ var done = function() {
 	var returnValue = {
 		errs: this.cache.errs.slice( 0 ),
 		warnings: this.cache.warnings.slice( 0 ),
+		allViolations: this.cache.allViolations.slice( 0 ),
 		exitCode: this.state.exitCode,
 		msg: this.cache.msg
 	}
@@ -44,6 +45,7 @@ var done = function() {
 	// if watching we reset the errors/warnings arrays
 	this.cache.errs = []
 	this.cache.warnings = []
+	this.cache.allViolations = []
 
 	return returnValue
 }
