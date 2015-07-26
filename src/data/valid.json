@@ -1,7 +1,5 @@
 {
     "css": [
-        "{",
-        "}",
         "*",
         "&",
         ":root",
@@ -400,6 +398,7 @@
         "to",
         "top",
         "touch-action",
+        "touch-callout",
         "transform",
         "transform-box",
         "transform-origin",
@@ -687,7 +686,8 @@
         "-ms-",
         "-webkit-",
         "-o-",
-        "-moz-"
+        "-moz-",
+        "-khtml-"
     ],
     "pseudo": [
         "{",

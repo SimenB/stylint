@@ -1,14 +1,14 @@
 'use strict'
 
 // 1 grab attribute selectors OR mixins that are by themselves
-// 2 grab attribute selectors paired with an element
+// 2 strip attr selectors or classes/ids from elements
 // 3 ignore syntax
 // 4 ignore numbers
 // 5 ( from || to ) are only valid inside @keyframe
 // 6 the actual JSON property whitelist we will test against
 var attrOrMixinRe = /^\[\S+\]|({[\S]+})|(\([\S ]+\))|(\(\))/ // 1
-var elAttrRe = /(?=\S)\[\S+\]/ // 2
-var ignoreRe = /[&$.#=>]|if|for|else|return|@block|calc|@media/ // 3
+var stripRe = /(?=\S)\[\S+\]|(\.|#)\w+/ // /(?=\S)\[\S+\]/ // 2
+var ignoreRe = /[&$.#=>+~]|if|for|else|return|@block|calc|@media/ // 3
 var numRe = /\d+?(?=px|%|em|rem|v(h|w)|v(min|max)|ex|ch|mm|cm|in|pt|pc|mozmm)/ // 4
 var keyRe = /((from)|(to))+(?= $| {| \d|\n|{)/ // 5
 var validJSON = require( '../data/valid.json' ) // 6
@@ -44,9 +44,7 @@ module.exports = function valid( line ) {
 
 	// if using an attr selector ( div[madeUpAttribute] ), strip it out ( div )
 	if ( !isValid ) {
-		if ( elAttrRe.test( arr[0] ) ) {
-			arr[0] = arr[0].replace( elAttrRe, '' ).trim()
-		}
+		arr[0] = arr[0].replace( stripRe, '' ).trim()
 	}
 
 	// if no match yet, check for css && prefix + css, will return true at first match
@@ -66,6 +64,7 @@ module.exports = function valid( line ) {
 	if ( !isValid ) {
 		this.msg( 'property is not valid' )
 	}
+
 
 	return isValid
 }

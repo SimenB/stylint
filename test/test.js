@@ -494,24 +494,39 @@ describe('Linter Style Checks: ', function() {
 	describe('brackets: always use brackets', function() {
 		const bracketsTest = lint.brackets.bind(app)
 
-		it('false if no bracket found', function() {
+		beforeEach(function() {
 			app.state.hashOrCSS = false
+			app.state.openBracket = false
+		})
+
+		it('false if no bracket found', function() {
 			assert.equal( false, bracketsTest('.class-name') )
 			assert.equal( false, bracketsTest('#id') )
+			assert.equal( false, bracketsTest('body.main') )
+			assert.equal( false, bracketsTest('+ span') )
 		})
 
-		it('true if bracket found, not in hash', function() {
-			app.state.hashOrCSS = false
-			app.state.openBracket = true
+		it('true if bracket found', function() {
+			assert.equal( true, bracketsTest('body {') )
+			assert.equal( true, bracketsTest('+ span {') )
+			assert.equal( true, bracketsTest('div.div {') )
 			assert.equal( true, bracketsTest('.class-name {') )
 			assert.equal( true, bracketsTest('#id {') )
+			app.state.openBracket = true
+			assert.equal( true, bracketsTest('}') )
 		})
 
-		it('undefined if in hash', function() {
+		it('true if hash', function() {
 			app.state.hashOrCSS = true
-			assert.equal( undefined, bracketsTest('}') )
-			assert.equal( undefined, bracketsTest('{interpolation}') )
-			assert.equal( undefined, bracketsTest('.class-name-with-{i}') )
+			assert.equal( undefined, bracketsTest('.something') )
+		})
+
+		it('undefined if css or interpolation or ,$', function() {
+			assert.equal( undefined, bracketsTest('.my-class,') )
+			assert.equal( undefined, bracketsTest('margin 0') )
+			assert.equal( undefined, bracketsTest('pointer-events none') )
+			// assert.equal( undefined, bracketsTest('{interpolation}') )
+			// assert.equal( undefined, bracketsTest('.class-name-with-{i}') )
 		})
 	})
 
@@ -2067,6 +2082,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, validTest('div:hover') )
 			assert.equal( true, validTest('button:active') )
 			assert.equal( true, validTest('p:optional') )
+			assert.equal( true, validTest('p.classname') )
 			assert.equal( true, validTest('div[attribute]') )
 			assert.equal( true, validTest('picture') )
 			assert.equal( true, validTest('source') )
@@ -2084,8 +2100,8 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, validTest( '[data-js]' ) )
 			assert.equal( true, validTest( '#id:hover' ) )
 			assert.equal( true, validTest('transition( opacity )' ) )
-			assert.equal( undefined, validTest( 'return $val' ) )
-			assert.equal( undefined, validTest( 'width calc(100% - 16px)' ) )
+			assert.equal( true, validTest( 'return $val' ) )
+			assert.equal( true, validTest( 'width calc(100% - 16px)' ) )
 		})
 
 		it ('undefined if from or to used outside keyframes', function() {

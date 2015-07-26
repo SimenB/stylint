@@ -2,21 +2,33 @@
  * Styling for various ad types
 */
 
+table&,
+&[disabled],
++ a,
++ span
+    pointer-events none
+    -khtml-user-select none
+    -webkit-touch-callout none
+
+body.main
+  margin 1em
+  pointer-events none
+
 .margin
   margin 5px
 
-foo()
-  return 'bar'
+// foo()
+//   return 'bar'
 
-.test
-  width foo()
+// .test
+//   width foo()
 
-foo()
-  if $bar
-    width 10px
+// foo()
+//   if $bar
+//     width 10px
 
-foo()
-  $bar = $baz
+// foo()
+//   $bar = $baz
 
 //just testing
 // .a {

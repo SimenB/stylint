@@ -1,7 +1,9 @@
 'use strict'
 
-var selRe = /^[#.]+/
+// var selRe = /^[#.]+/
 var commaRe = /,$/
+var stripRe = /(?=\S)\[\S+\]|(\.|#)\w+/
+var validJSON = require( '../data/valid.json' )
 
 
 /**
@@ -10,25 +12,36 @@ var commaRe = /,$/
  * @returns {boolean | undefined} true if bracket found, false if not, undefined if we skip
  */
 var brackets = function( line ) {
-	if ( this.state.hashOrCSS ) { return }
-	if ( this.state.conf === 'always' && !selRe.test( line ) ) { return }
-	if ( commaRe.test( line ) ) { return }
+	if ( this.state.hashOrCSS || commaRe.test( line ) ) { return }
 
+	var arr = []
+	var isCSS = false
 	var bracket = false
 
 	if ( this.state.conf === 'never' ) {
 		// ex: $hash = { is ok but .class = { is not
 		if ( line.indexOf( '{' ) !== -1 && line.indexOf( '=' ) === -1 ) {
 			bracket = true
-			this.state.openBracket = true
 		}
 		// ex: } is okay if ending a hash. otherwise it is NOT okay
 		else if ( line.indexOf( '}' ) !== -1 ) {
 			bracket = true
-			this.state.openBracket = false
 		}
 	}
 	else if ( this.state.conf === 'always' ) {
+		arr = Object.getPrototypeOf( this ).splitAndStrip( new RegExp( /[\s\t,:]/ ), line )
+
+		if ( arr ) {
+			arr[0] = arr[0].replace( stripRe, '' ).trim()
+
+			isCSS = validJSON.css.some( function( css ) {
+				return arr[0] === css || this.checkPrefix( arr[0], css, validJSON )
+			}.bind( this ) )
+		}
+
+		// basically, we don't care about properties like margin or padding
+		if ( isCSS ) { return }
+
 		// ex: $hash = { is ok but .class = { is not
 		if ( line.indexOf( '{' ) !== -1 && line.indexOf( '=' ) === -1 ) {
 			bracket = true
@@ -41,10 +54,10 @@ var brackets = function( line ) {
 		}
 	}
 
-	if ( this.state.conf === 'never' && bracket ) {
+	if ( this.state.conf === 'never' && bracket === true ) {
 		this.msg( 'unecessary bracket' )
 	}
-	else if ( this.state.conf === 'always' && !bracket ) {
+	else if ( this.state.conf === 'always' && bracket === false ) {
 		this.msg( 'always use brackets when defining selectors' )
 	}
 
