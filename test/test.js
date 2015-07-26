@@ -144,8 +144,7 @@ describe( 'Core Methods: ', function() {
 		afterEach( function() {
 			app.config.maxErrors = false
 			app.config.maxWarnings = false
-			app.cache.errs = []
-			app.cache.warnings = []
+			app.cache.allViolations = []
 			app.cache.brackets = false
 		} )
 
@@ -165,14 +164,14 @@ describe( 'Core Methods: ', function() {
 
 		it( 'should return done if over maxErrs', function() {
 			app.config.maxErrors = 5
-			app.cache.errs.length = 6
+			app.cache.allViolations.length = 6
 			app.lint()
 			app.parse.getCall( 1 ).returned( sinon.match.same( app.done ) )
 		} )
 
 		it( 'should return done if over maxWarnings', function() {
 			app.config.maxWarnings = 5
-			app.cache.warnings.length = 6
+			app.cache.allViolations.length = 6
 			app.lint()
 			app.parse.getCall( 2 ).returned( sinon.match.same( app.done ) )
 		} )
@@ -227,44 +226,61 @@ describe( 'Core Methods: ', function() {
 			app.cache.lineNo = '1'
 			app.cache.origLine = 'Reporter Lyfe*'
 
-			// app.reporter( 'universal disallowed' )
-			assert.equal( 'Warning: universal disallowed\nFile: testReporter\nLine: 1: Reporter Lyfe*', app.reporter( 'universal disallowed' ) )
+			var msg = {
+				message: 'universal disallowed',
+				severity: 'Warning',
+				file: 'testReporter',
+				lineNo: '1',
+				origLine: 'Reporter Lyfe*'
+			}
+
+			// app.reporter('universal disallowed')
+			assert.equal( 'Warning: universal disallowed\nFile: testReporter\nLine: 1: Reporter Lyfe*', app.reporter( msg ) )
 		} )
 
 		it( 'return done() if done passed in', function() {
 			var expectedDoneObj = {
 				exitCode: 1,
 				msg: '',
-				errs: [],
-				warnings: []
+				allViolations: []
 			}
 
-			assert.deepEqual( expectedDoneObj, app.reporter( 'reporter test', 'done' ) )
+			app.reporter( 'reporter test', 'done' )
+
+			assert.deepEqual( expectedDoneObj, app.done() )
 		} )
 
 		it( 'return done() and kill if kill passed in', function() {
 			var expectedDoneObj = {
 				exitCode: 1,
 				msg: '\nStylint: 0 Errors.\nStylint: 0 Warnings.\nStylint: Over Error or Warning Limit.',
-				errs: [],
-				warnings: []
+				allViolations: []
 			}
 
-			assert.deepEqual( expectedDoneObj, app.reporter( 'reporter test', 'done', 'kill' ) )
+			app.reporter( 'reporter test', 'done', 'kill' )
+			assert.deepEqual( expectedDoneObj, app.done() )
 		} )
 
 		it( 'return done() if done passed in', function() {
 			var expectedDoneObj = {
 				exitCode: 1,
 				msg: '\nStylint: 1 Errors.\nStylint: 1 Warnings.',
-				errs: [1],
-				warnings: [2]
+				allViolations: [{severity: 'Warning', message: 'meep', origLine: ''}, {
+					severity: 'Error',
+					message: 'moop',
+					origLine: ''
+				}]
 			}
 
-			app.cache.errs = [1]
-			app.cache.warnings = [2]
+			app.cache.allViolations = [{severity: 'Warning', message: 'meep', origLine: ''}, {
+				severity: 'Error',
+				message: 'moop',
+				origLine: ''
+			}]
 
-			assert.deepEqual( expectedDoneObj, app.reporter( 'reporter test', 'done' ) )
+			app.reporter( 'reporter test', 'done' )
+
+			assert.deepEqual( expectedDoneObj, app.done() )
 		} )
 	} )
 
@@ -404,7 +420,7 @@ describe( 'Utility Methods: ', function() {
 				app.cache.alphaCache.length === 0 &&
 				app.cache.rootCache.length === 0 &&
 				app.cache.selectorCache.length === 0 &&
-				app.cache.warnings.length === 0 &&
+				app.cache.allViolations.length === 0 &&
 				app.cache.zCache.length === 0
 			)
 		} )
@@ -454,8 +470,7 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	afterEach( function() {
-		app.cache.warnings = []
-		app.cache.errs = []
+		app.cache.allViolations = []
 	} )
 
 	describe( 'blocks: prefer @block when defining block vars', function() {
@@ -2305,8 +2320,7 @@ describe( 'Done, again: ', function() {
 		app.cache.msg = ''
 		app.state.quiet = true
 		app.state.watching = true
-		app.cache.errs = []
-		app.cache.warnings = []
+		app.cache.allViolations = []
 		app.state.exitCode = 0
 	} )
 
@@ -2323,7 +2337,7 @@ describe( 'Done, again: ', function() {
 	} )
 
 	it( 'exit code should be 0 if has warnings and no errs', function() {
-		app.cache.warnings = [0, 1, 2, 3, 4]
+		app.cache.allViolations = [{severity: 'Warning', message: 'meep', origLine: ''}]
 		assert.equal( 0, app.done().exitCode )
 	} )
 
@@ -2332,8 +2346,7 @@ describe( 'Done, again: ', function() {
 	} )
 
 	it( 'exit code of 1 if not clear', function() {
-		app.cache.warnings = [0, 1, 2, 3, 4]
-		app.cache.errs = [0, 1, 2, 3, 4]
+		app.cache.allViolations = [{severity: 'Error', message: 'meep', origLine: ''}]
 		assert.equal( 1, app.done().exitCode )
 	} )
 
@@ -2341,9 +2354,12 @@ describe( 'Done, again: ', function() {
 		app.state.quiet = false
 		app.config.maxWarnings = 10
 		app.config.maxErrors = 10
-		app.cache.warnings = [0, 1, 2, 3, 4]
-		app.cache.errs = [0, 1, 2, 3, 4]
-		app.cache.msg = '\nStylint: 5 Errors. (Max Errors: 10)\nStylint: 5 Warnings. (Max Warnings: 10)'
+		app.cache.allViolations = [{severity: 'Warning', message: 'meep', origLine: ''}, {
+			severity: 'Error',
+			message: 'moop',
+			origLine: ''
+		}]
+		app.cache.msg = '\nStylint: 1 Errors. (Max Errors: 10)\nStylint: 1 Warnings. (Max Warnings: 10)'
 		assert.equal( app.cache.msg, app.done().msg )
 	} )
 
@@ -2360,13 +2376,15 @@ describe( 'Done, again: ', function() {
 describe( 'Lint Text: ', function() {
 	var linter
 
-	beforeEach(function() {
+	beforeEach( function() {
 		linter = stylint.api()
 	} )
 
 	it( 'should return object with violations', function() {
-		var lintText = app.lintText( '.class {\n  color: red !important\n}\n' )
+		var lintText = linter.lintText( '.class {\n  color: red !important\n}\n', null, 'filename.styl' )
 
-		assert.equal(lintText.length, 4)
+		assert.equal( lintText.numOfErrors, 0 )
+		assert.equal( lintText.numOfWarnings, 4 )
+		assert.equal( lintText.results.length, 4 )
 	} )
 } )

@@ -8,8 +8,6 @@
 var resetOnChange = function( newPath ) {
 	this.state.path = newPath ? newPath : this.state.path
 	this.cache.allViolations = []
-	this.cache.errs = []
-	this.cache.warnings = []
 	this.cache.alphaCache = []
 	this.cache.selectorCache = []
 	this.cache.rootCache = []

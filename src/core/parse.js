@@ -9,9 +9,10 @@ var lineEndingsRe = /\r\n|\n|\r/gm
  * @description parses file for testing by removing extra new lines and block comments
  * @param {Object} [err] error obj from async if it exists
  * @param {Array} [res] array of files to parse
+ * @param {boolean} [skipDone] if true, don't call done
  * @returns {Function} test function
  */
-var parse = function( err, res ) {
+var parse = function( err, res, skipDone ) {
 	if ( err ) { throw new Error( err ) }
 
 	return res.forEach( function( file, i ) {
@@ -39,8 +40,8 @@ var parse = function( err, res ) {
 		this.cache.prevFile = this.cache.file
 
 		// if on the last file, call the done function to output success or error msg
-		if ( this.cache.fileNo === res.length - 1 ) {
-			return this.reporter( '', 'done' )
+		if ( this.cache.fileNo === res.length - 1 && !skipDone ) {
+			return this.done()
 		}
 	}.bind( this ) )
 }

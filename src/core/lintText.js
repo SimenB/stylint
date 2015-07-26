@@ -1,11 +1,13 @@
 'use strict'
 
+var groupBy = require( 'lodash.groupby' )
+
 /**
  * @description wrapper for parse for programmatic use
  * @param {String} string the text to parse
  * @param {Object} [config] an object containing config to lint by
  * @param {String} [filename] the name of the file
- * @returns {Array} an array of all violations in the given string
+ * @returns {Object} an object containing an array of all violations and total number of warnings/errors in the given string
  */
 var lintText = function( string, config, filename ) {
 	// reset stuff
@@ -25,11 +27,18 @@ var lintText = function( string, config, filename ) {
 	this.config.maxErrors = null
 	this.config.maxWarnings = null
 
-	this.cache.file = filename
+	this.cache.files = [filename]
 
-	this.parse( null, [string] )
+	this.parse( null, [string], true )
 
-	return this.cache.allViolations.slice( 0 ) // return a copy of all violations
+	var results = this.cache.allViolations.slice( 0 ) // a copy of all violations
+	var warningsOrErrors = groupBy( results, 'severity' )
+
+	return {
+		results: results,
+		numOfErrors: warningsOrErrors.Error ? warningsOrErrors.Error.length : 0,
+		numOfWarnings: warningsOrErrors.Warning ? warningsOrErrors.Warning.length : 0
+	}
 }
 
 module.exports = lintText
