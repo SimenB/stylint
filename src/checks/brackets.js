@@ -14,7 +14,7 @@ var validJSON = require( '../data/valid.json' )
 var brackets = function( line ) {
 	if ( this.state.hashOrCSS || commaRe.test( line ) ) { return }
 
-	var arr = []
+	var arr = ['hint']
 	var isCSS = false
 	var bracket = false
 
@@ -29,9 +29,9 @@ var brackets = function( line ) {
 		}
 	}
 	else if ( this.state.conf === 'always' ) {
-		arr = Object.getPrototypeOf( this ).splitAndStrip( new RegExp( /[\s\t,:]/ ), line )
+		arr = this.splitAndStrip( new RegExp( /[\s\t,:]/ ), line )
 
-		if ( arr ) {
+		if ( typeof arr[0] !== 'undefined' ) {
 			arr[0] = arr[0].replace( stripRe, '' ).trim()
 
 			isCSS = validJSON.css.some( function( css ) {
