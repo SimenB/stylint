@@ -4,13 +4,14 @@
 // if theres anything on the line besides whitespace, it aint empty
 var emptyLineRe = /\S/
 
+
 /**
  * @description sets values like context, determine whether we even run tests, etc
  * @param {string} [line] curr line being linted
  * @returns {Function | undefined} undefined if we catch something, else lint()
  */
 var setState = function( line ) {
-	this.state.context = this.setContext( this.cache.line )
+	this.state.context = this.setContext( line )
 
 	// ignore the current line if @stylint ignore
 	if ( this.cache.comment.indexOf( '@stylint ignore' ) !== -1 ) {

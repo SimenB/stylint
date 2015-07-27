@@ -2,7 +2,7 @@
     // Comments - woooo
     "blocks": false,
     "brackets": "always",
-    "colons": "always",
+    "colons": "never",
     "colors": "always",
     "commaSpace": "always",
     "commentSpace": "always",
