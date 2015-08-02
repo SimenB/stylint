@@ -13,6 +13,7 @@ var validJSON = require( '../data/valid.json' )
  */
 var brackets = function( line ) {
 	if ( this.state.hashOrCSS || commaRe.test( line ) ) { return }
+	if ( this.state.conf === 'never' && this.state.hashOrCSS ) { return }
 
 	var arr = ['hint']
 	var isCSS = false
@@ -20,11 +21,14 @@ var brackets = function( line ) {
 
 	if ( this.state.conf === 'never' ) {
 		// ex: $hash = { is ok but .class = { is not
-		if ( line.indexOf( '{' ) !== -1 && line.indexOf( '=' ) === -1 ) {
+		if ( line.indexOf( '{' ) !== -1 &&
+			line.indexOf( '=' ) === -1 &&
+			line.indexOf( '}' ) === -1 ) {
 			bracket = true
 		}
 		// ex: } is okay if ending a hash. otherwise it is NOT okay
-		else if ( line.indexOf( '}' ) !== -1 ) {
+		// one liners are lame but ok ( check for = { )
+		else if ( line.indexOf( '}' ) !== -1 && line.indexOf( '{' ) === -1 ) {
 			bracket = true
 		}
 	}
@@ -40,10 +44,9 @@ var brackets = function( line ) {
 		}
 
 		// basically, we don't care about properties like margin or padding
-		if ( isCSS ) { return }
+		if ( isCSS || line.trim().indexOf( '}' ) !== -1 ) { return }
 
-		// ex: $hash = { is ok but .class = { is not
-		if ( line.indexOf( '{' ) !== -1 && line.indexOf( '=' ) === -1 ) {
+		if ( line.indexOf( '{' ) !== -1 ) {
 			bracket = true
 			this.state.openBracket = true
 		}

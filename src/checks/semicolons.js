@@ -12,7 +12,7 @@ var ignoreRe = /(^[&$=#>.])|{|}|if|for(?!\w)|else|@block|@media|=$|=\s/gm
  * @return {boolean} true if in order, false if not
  */
 var semicolons = function( line ) {
-	if ( ignoreRe.test( line ) ) { return }
+	if ( ignoreRe.test( line.trim() ) ) { return }
 
 	var semicolon = null
 

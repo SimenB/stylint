@@ -1,3 +1,18 @@
+### 1.0.10
+use yargs for command line arguments
+
+add editorconfig
+
+fix incorrect links in readme
+
+rule of silence
+
+allow comments in stylintrc
+
+fix this issue: https://github.com/rossPatton/stylint/issues/143
+
+fix this issue: https://github.com/rossPatton/stylint/issues/145
+
 #### 1.0.8
 numerous fixes for post 1.0 checks (semicolons: always, colons: always, leadingZero: always)
 

@@ -2,6 +2,23 @@
  * Styling for various ad types
 */
 
+$b = { "bar": "baz" }
+
+
+$foo = {
+  bar: {
+    baz: raz
+  }
+}
+
+{ 'foo' }
+  width: 10px
+
+
+{foo() + 'bar'}
+  width: 10px
+
+
 table&,
 &[disabled],
 + a,
@@ -23,51 +40,51 @@ $b = { "bar": "baz" }
   .test
     margin 0
 
-// foo()
-//   return 'bar'
+foo()
+  return 'bar'
 
-// .test
-//   width foo()
+.test
+  width foo()
 
-// foo()
-//   if $bar
-//     width 10px
+foo()
+  if $bar
+    width 10px
 
-// foo()
-//   $bar = $baz
+foo()
+  $bar = $baz
 
 //just testing
-// .a {
-//   .b {
-//     font-size: 1.1em
-//     margin: 0 auto
-//   }
-// }
+.a {
+  .b {
+    font-size: 1.1em
+    margin: 0 auto
+  }
+}
 
-// .foo {
-//   	color: red;
-// }
+.foo {
+  	color: red;
+}
 
-// .a {
-//   &:b {
-//     font-size: 1.1em;
-//   }
-// }
+.a {
+  &:b {
+    font-size: 1.1em;
+  }
+}
 
-//test
-// .foo {
-//   .bar {
-//     text-transform: something;
-//     z-index: 0;
-//     display: block;
-//     color: red;
-//   }
-// }
+test
+.foo {
+  .bar {
+    text-transform: something;
+    z-index: 0;
+    display: block;
+    color: red;
+  }
+}
 
-// .foo {
-//   position: absolute; //test
-//   color: red;
-// }
+.foo {
+  position: absolute; //test
+  color: red;
+}
 
 
 
