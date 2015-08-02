@@ -13,7 +13,6 @@ var validJSON = require( '../data/valid.json' )
  */
 var brackets = function( line ) {
 	if ( this.state.hashOrCSS || commaRe.test( line ) ) { return }
-	if ( this.state.conf === 'never' && this.state.hashOrCSS ) { return }
 
 	var arr = ['hint']
 	var isCSS = false
@@ -44,7 +43,7 @@ var brackets = function( line ) {
 		}
 
 		// basically, we don't care about properties like margin or padding
-		if ( isCSS || line.trim().indexOf( '}' ) !== -1 ) { return }
+		if ( line.trim().indexOf( '}' ) !== -1 || isCSS ) { return }
 
 		if ( line.indexOf( '{' ) !== -1 ) {
 			bracket = true

@@ -16,7 +16,6 @@ var trailingWhitespace = function( line ) {
 	// not an empty line, with whitespace at the end
 	if ( anythingElseRe.test( line ) &&
 		whitespaceRe.test( line ) ) {
-		console.log( line )
 		whitespace = true
 	}
 

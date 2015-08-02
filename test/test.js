@@ -495,6 +495,7 @@ describe('Linter Style Checks: ', function() {
 		const bracketsTest = lint.brackets.bind(app)
 
 		beforeEach(function() {
+			app.state.conf = 'always'
 			app.state.hashOrCSS = false
 			app.state.openBracket = false
 		})
@@ -512,8 +513,6 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, bracketsTest('div.div {') )
 			assert.equal( true, bracketsTest('.class-name {') )
 			assert.equal( true, bracketsTest('#id {') )
-			app.state.openBracket = true
-			assert.equal( true, bracketsTest('}') )
 		})
 
 		it('true if hash', function() {
@@ -521,10 +520,11 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, bracketsTest('.something') )
 		})
 
-		it('undefined if css or interpolation or ,$', function() {
+		it('undefined if css or ,$ or }', function() {
 			assert.equal( undefined, bracketsTest('.my-class,') )
 			assert.equal( undefined, bracketsTest('margin 0') )
 			assert.equal( undefined, bracketsTest('pointer-events none') )
+			assert.equal( undefined, bracketsTest('}') )
 			// assert.equal( undefined, bracketsTest('{interpolation}') )
 			// assert.equal( undefined, bracketsTest('.class-name-with-{i}') )
 		})
