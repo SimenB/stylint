@@ -89,6 +89,30 @@ grunt.initConfig({
 });
 ```
 
+## Webpack
+You can use [stylint-loader](https://github.com/guerrero/stylint-loader)
+
+```javascript
+module.exports = {
+  // ...
+  module: {
+    preLoaders: [
+      {
+        test: /\.styl$/, 
+        loader: 'stylint'
+      }
+    ],
+    loaders: [
+      {
+        test: /\.styl$/,
+        loader: 'style!css!stylus'
+      }
+    ]
+  }
+  // ...
+}
+```
+
 
 ## As Part of Your Workflow
 Stylint integrations with both Sublime Text 3 and Atom.io are available.
