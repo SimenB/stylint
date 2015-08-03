@@ -2167,6 +2167,11 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, zeroTest('margin auto') )
 			assert.equal( undefined, zeroTest('padding 53px') )
 		})
+
+		it('undefined if relative value', function() {
+			assert.equal( undefined, zeroTest('line-height 1') )
+			assert.equal( undefined, zeroTest('font-weight 600') )
+		})
 	})
 
 
@@ -2217,8 +2222,9 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, zeroTest('padding 53px') )
 		})
 
-		it('undefined if line-height', function() {
-			assert.equal( undefined, zeroTest('line-height 0') )
+		it('undefined if relative value', function() {
+			assert.equal( undefined, zeroTest('line-height 1') )
+			assert.equal( undefined, zeroTest('font-weight 600') )
 		})
 	})
 

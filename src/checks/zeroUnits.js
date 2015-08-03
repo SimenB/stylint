@@ -2,6 +2,7 @@
 
 var aboveZeroRe = /\d0/
 var hasUnitRe = /[ :]0+?(?=px|%|em|rem|v(h|w)|v(min|max)|ex|ch|mm|cm|in|pt|pc|mozmm)/
+var relativeValRe = /line-height|font-size|font-weight/
 
 
 /**
@@ -10,9 +11,12 @@ var hasUnitRe = /[ :]0+?(?=px|%|em|rem|v(h|w)|v(min|max)|ex|ch|mm|cm|in|pt|pc|mo
 * @returns {boolean | undefined} true if has units, else false, undefined if skipped
 */
 var zeroUnits = function( line ) {
+	// if in keyframes dont check
+	// if no 0 on line dont check
+	// if relative values like font-weight, dont check
 	if ( this.state.keyframes ||
 		line.indexOf( '0' ) === -1 ||
-		line.indexOf( 'line-height' ) !== -1 ) {
+		relativeValRe.test( line ) ) {
 		return
 	}
 

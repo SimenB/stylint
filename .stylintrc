@@ -32,6 +32,6 @@
     "trailingWhitespace": "never",
     "universal": false,
     "valid": true,
-    "zeroUnits": "always",
+    "zeroUnits": "never",
     "zIndexNormalize": false
 }
