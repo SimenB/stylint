@@ -513,6 +513,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, bracketsTest('div.div {') )
 			assert.equal( true, bracketsTest('.class-name {') )
 			assert.equal( true, bracketsTest('#id {') )
+			assert.equal( true, bracketsTest('$foo = {') )
 		})
 
 		it('true if hash', function() {
@@ -525,8 +526,9 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, bracketsTest('margin 0') )
 			assert.equal( undefined, bracketsTest('pointer-events none') )
 			assert.equal( undefined, bracketsTest('}') )
-			// assert.equal( undefined, bracketsTest('{interpolation}') )
-			// assert.equal( undefined, bracketsTest('.class-name-with-{i}') )
+			assert.equal( undefined, bracketsTest('$b = { "bar": "baz" }') )
+			assert.equal( undefined, bracketsTest('{ "foo" }') )
+			assert.equal( undefined, bracketsTest('{foo() + "bar"}') )
 		})
 	})
 
@@ -541,6 +543,8 @@ describe('Linter Style Checks: ', function() {
 			app.state.hashOrCSS = false
 			assert.equal( false, bracketsTest('.class-name') )
 			assert.equal( false, bracketsTest('div') )
+			// false if starting a hash
+			assert.equal( false, bracketsTest('$foo = {') )
 		})
 
 		it('false if incorrect config', function() {
@@ -558,8 +562,12 @@ describe('Linter Style Checks: ', function() {
 		it('undefined if in hash', function() {
 			app.state.hashOrCSS = true
 			assert.equal( undefined, bracketsTest('}') )
+			assert.equal( undefined, bracketsTest('{') )
 			assert.equal( undefined, bracketsTest('{interpolation}') )
 			assert.equal( undefined, bracketsTest('.class-name-with-{i}') )
+			assert.equal( undefined, bracketsTest('$b = { "bar": "baz" }') )
+			assert.equal( undefined, bracketsTest('{ "foo" }') )
+			assert.equal( undefined, bracketsTest('{foo() + "bar"}') )
 		})
 	})
 
@@ -616,6 +624,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, colonTest('&:active') )
 			assert.equal( undefined, colonTest('return: $value') )
 			assert.equal( undefined, colonTest('return $value') )
+			assert.equal( undefined, colonTest('@media screen and (max-width: 1183px)') )
 		})
 	})
 
@@ -665,6 +674,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, colonTest('&:active') )
 			assert.equal( undefined, colonTest('return: $value') )
 			assert.equal( undefined, colonTest('return $value') )
+			assert.equal( undefined, colonTest('@media screen and (max-width: 1183px)') )
 		})
 	})
 
@@ -2119,27 +2129,31 @@ describe('Linter Style Checks: ', function() {
 			app.state.conf = 'never'
 		})
 
-		it('false if 0 value does not have unit values', function() {
-			assert.equal( false, zeroTest('margin 0') )
-			assert.equal( false, zeroTest('margin 50px') )
+		it('true if value above 0', function() {
+			assert.equal( true, zeroTest('margin 50px') )
+			assert.equal( true, zeroTest('margin: 100%') )
 		})
 
-		it('true if 0 + any unit type is found', function() {
-			assert.equal( true, zeroTest('margin 0px') )
-			assert.equal( true, zeroTest('margin 0em') )
-			assert.equal( true, zeroTest('margin 0rem') )
-			assert.equal( true, zeroTest('margin 0pt') )
-			assert.equal( true, zeroTest('margin 0pc') )
-			assert.equal( true, zeroTest('margin 0vh') )
-			assert.equal( true, zeroTest('margin 0vw') )
-			assert.equal( true, zeroTest('margin 0vmin') )
-			assert.equal( true, zeroTest('margin 0vmax') )
-			assert.equal( true, zeroTest('margin 0mm') )
-			assert.equal( true, zeroTest('margin 0cm') )
-			assert.equal( true, zeroTest('margin 0in') )
-			assert.equal( true, zeroTest('margin 0mozmm') )
-			assert.equal( true, zeroTest('margin 0ex') )
-			assert.equal( true, zeroTest('margin 0ch') )
+		it('true if just 0 has no unit value', function() {
+			assert.equal( true, zeroTest('margin 0') )
+		})
+
+		it('true if \d0 + any unit type is found', function() {
+			assert.equal( false, zeroTest('margin 0px') )
+			assert.equal( false, zeroTest('margin 0em') )
+			assert.equal( false, zeroTest('margin 0rem') )
+			assert.equal( false, zeroTest('margin 0pt') )
+			assert.equal( false, zeroTest('margin 0pc') )
+			assert.equal( false, zeroTest('margin 0vh') )
+			assert.equal( false, zeroTest('margin 0vw') )
+			assert.equal( false, zeroTest('margin 0vmin') )
+			assert.equal( false, zeroTest('margin 0vmax') )
+			assert.equal( false, zeroTest('margin 0mm') )
+			assert.equal( false, zeroTest('margin 0cm') )
+			assert.equal( false, zeroTest('margin 0in') )
+			assert.equal( false, zeroTest('margin 0mozmm') )
+			assert.equal( false, zeroTest('margin 0ex') )
+			assert.equal( false, zeroTest('margin 0ch') )
 		})
 
 		it('undefined if in keyframes', function() {
@@ -2170,6 +2184,7 @@ describe('Linter Style Checks: ', function() {
 
 		it('true if value is above 0 (like 50px)', function() {
 			assert.equal( true, zeroTest('margin 50px') )
+			assert.equal( true, zeroTest('margin: 100%') )
 		})
 
 		it('true if 0 + any unit type is found', function() {
@@ -2200,6 +2215,10 @@ describe('Linter Style Checks: ', function() {
 		it('undefined if no 0 on line', function() {
 			assert.equal( undefined, zeroTest('margin auto') )
 			assert.equal( undefined, zeroTest('padding 53px') )
+		})
+
+		it('undefined if line-height', function() {
+			assert.equal( undefined, zeroTest('line-height 0') )
 		})
 	})
 

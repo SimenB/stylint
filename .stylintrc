@@ -1,8 +1,8 @@
 {
     // Comments - woooo
     "blocks": false,
-    "brackets": "never",
-    "colons": "always",
+    "brackets": false,
+    "colons": false,
     "colors": "always",
     "commaSpace": "always",
     "commentSpace": "always",
@@ -26,12 +26,12 @@
     "prefixVarsWithDollar": "always",
     "quotePref": false,
     "reporter": "../core/reporter",
-    "semicolons": "always",
+    "semicolons": false,
     "sortOrder": "alphabetical",
     "stackedProperties": "never",
     "trailingWhitespace": "never",
     "universal": false,
     "valid": true,
-    "zeroUnits": "never",
+    "zeroUnits": "always",
     "zIndexNormalize": false
 }
