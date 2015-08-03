@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 'use strict'
 
 // our stampit modules

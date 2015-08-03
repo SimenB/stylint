@@ -1,23 +1,29 @@
 {
   "name": "stylint",
   "version": "1.0.9",
+  "version": "1.0.10",
   "description": "A linter for stylus",
   "author": "Ross Patton",
   "license": "GPL-3.0",
   "keywords": [
-    "stylus",
+    "cli",
+    "css",
+    "hinter",
     "lint",
     "linter",
-    "hinter",
-    "cli",
     "styl",
-    "stylus-hint",
-    "stylus-lint",
+    "style",
     "stylint",
-    "css",
-    "style"
+    "stylus",
+    "stylus-hint",
+    "stylus-lint"
   ],
   "main": "index.js",
+  "files": [
+    "bin/",
+    "index.js",
+    "src/"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/rossPatton/stylint"
@@ -42,10 +48,15 @@
     "async": "0.9.0",
     "chokidar": "1.0.1",
     "glob": "4.3.1",
+    "lodash.defaults": "3.1.2",
     "path-is-absolute": "1.0.0",
-    "stampit": "1.1.0"
+    "stampit": "1.1.0",
+    "strip-json-comments": "1.0.2",
+    "yargs": "3.15.0"
   },
   "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
     "start": "node --harmony index.js",
     "test": "istanbul cover node_modules/.bin/_mocha -- -u exports -R spec test/test.js"
   }

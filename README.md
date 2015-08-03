@@ -4,7 +4,7 @@
 
 [![NPM](https://nodei.co/npm/stylint.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/stylint/)
 
-[patch notes](https://github.com/rossPatton/stylint/blob/master/patch-notes.md)
+[changelog](changelog.md)
 
 [known issues](https://github.com/rossPatton/stylint/issues)
 

@@ -2,6 +2,7 @@
 
 var fs = require( 'fs' )
 var pathIsAbsolute = require( 'path-is-absolute' )
+var stripJsonComments = require( 'strip-json-comments' )
 
 /**
  * @description overrides default config with a new config object
@@ -10,33 +11,25 @@ var pathIsAbsolute = require( 'path-is-absolute' )
  * 2: user passes location of .stylintrc file to use
  * 3: user has a .stylintrc file in their dir but doesnt pass anything
  * 4: none of the above, fallback to initial config
+ * @param {String} [configpath] If defined, the path to a config-file to read
  * @returns {Function} kick off linter again
 */
-var setConfig = function() {
+var setConfig = function( configpath ) {
 	var files = []
 	var path = ''
 	var returnConfig = this.config
-	var potentialPath = ''
-	var flag = process.argv.indexOf( '--config' ) !== -1 || process.argv.indexOf( '-c' ) !== -1
 
 	// if 1, the customConfig will be what we want
 	if ( this.customConfig ) {
 		returnConfig = this.customConfig
 	}
 	// if 2
-	else if ( flag ) {
-		if ( process.argv.indexOf( '--config' ) !== -1 ) {
-			potentialPath = process.argv[process.argv.indexOf( '--config' ) + 1]
-		}
-		else {
-			potentialPath = process.argv[process.argv.indexOf( '-c' ) + 1]
-		}
-
-		path = pathIsAbsolute( potentialPath ) ? potentialPath : process.cwd() + '/' + potentialPath
+	else if ( configpath ) {
+		path = pathIsAbsolute( configpath ) ? configpath : process.cwd() + '/' + configpath
 		try {
-			returnConfig = JSON.parse( fs.readFileSync( path ) )
+			returnConfig = JSON.parse( stripJsonComments( fs.readFileSync( path, 'utf-8' ) ) )
 		}
-		catch( err ) {
+		catch ( err ) {
 			throw err
 		}
 	}
@@ -45,7 +38,7 @@ var setConfig = function() {
 		try {
 			files = fs.readdirSync( process.cwd() )
 			if ( files.indexOf( '.stylintrc' ) !== -1 ) {
-				returnConfig = JSON.parse( fs.readFileSync( process.cwd() + '/.stylintrc' ) )
+				returnConfig = JSON.parse( stripJsonComments( fs.readFileSync( process.cwd() + '/.stylintrc', 'utf-8' ) ) )
 			}
 		}
 		// in case theres an issue parsing

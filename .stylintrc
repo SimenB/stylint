@@ -1,7 +1,8 @@
 {
+    // Comments - woooo
     "blocks": false,
-    "brackets": "always",
-    "colons": "never",
+    "brackets": false,
+    "colons": false,
     "colors": "always",
     "commaSpace": "always",
     "commentSpace": "always",
@@ -15,7 +16,7 @@
     "leadingZero": "always",
     "maxErrors": false,
     "maxWarnings": false,
-    "mixed": true,
+    "mixed": false,
     "namingConvention": false,
     "namingConventionStrict": false,
     "none": "never",

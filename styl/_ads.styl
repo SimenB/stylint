@@ -2,13 +2,73 @@
  * Styling for various ad types
 */
 
-//just testing
-.a {
-  .b {
-    font-size: 1.1em
-    margin: 0 auto
+$b = { "bar": "baz" }
+
+
+
+$foo = {
+  bar: {
+    baz: raz
   }
 }
+
+html, body {
+  font-weight: 0;
+}
+
+{ 'foo' }
+  width: 50px
+
+
+{foo() + 'bar'}
+  width: 0
+
+
+// table&,
+// &[disabled],
+// + a,
+// + span
+//     pointer-events none
+//     -khtml-user-select none
+//     -webkit-touch-callout none
+
+body.main
+  margin 1em
+  pointer-events none
+
+.margin
+  margin 0px
+
+$b = { "bar": "baz" }
+
+@media screen and (max-width: 1183px)
+  .test
+    margin: 100%
+
+html, body {
+  height: 100%;
+}
+
+// foo()
+//   return 'bar'
+
+// .test
+//   width foo()
+
+// foo()
+//   if $bar
+//     width 10px
+
+// foo()
+//   $bar = $baz
+
+// // just testing
+// .a {
+//   .b {
+//     font-size: 1.1em
+//     margin: 0 auto
+//   }
+// }
 
 .foo {
   	color: red;
@@ -20,20 +80,26 @@
   }
 }
 
-//test
-.foo {
-  .bar {
-    text-transform: something;
-    z-index: 0;
-    display: block;
-    color: red;
-  }
+.page {
+    &__header,
+    &__footer {
+    }
 }
 
-.foo {
-  position: absolute; //test
-  color: red;
-}
+// test
+// .foo {
+//   .bar {
+//     text-transform: something;
+//     z-index: 0;
+//     display: block;
+//     color: red;
+//   }
+// }
+
+// .foo {
+//   position: absolute; //test
+//   color: red;
+// }
 
 
 

@@ -10,6 +10,7 @@ const touch = require('touch')
 const should = require('chai').should()
 const sinon = require('sinon')
 const app = require('../index')().create()
+const stripJsonComments = require( 'strip-json-comments' )
 
 // turn on strict mode from this point and turn off unecessary logging
 app.state.quiet = true
@@ -36,13 +37,11 @@ describe('Core Methods: ', function() {
 		})
 
 		it('set path if one passed in', function() {
-			process.argv[2] = 'styl/'
-			app.init()
+			app.init(null, 'styl/')
 			assert.equal( app.state.path,  'styl/' )
 		})
 
 		it('set path to cwd if none passed in', function() {
-			process.argv[2] = undefined
 			app.init()
 			assert.equal( app.state.path, process.cwd() )
 		})
@@ -53,35 +52,19 @@ describe('Core Methods: ', function() {
 			assert.equal( true, app.reporter !== false )
 		})
 
-		it('return help if passed a --help flag', function() {
-			process.argv[2] = '--help'
-			app.init()
-			app.init.getCall(2).returned( sinon.match.same( app.help ) )
-		})
-
-		it('return version if passed --version flag', function() {
-			process.argv[2] = '--version'
-			app.init()
-			app.init.getCall(3).returned( sinon.match.same( app.ver ) )
-		})
-
 		it('use custom config if passed --config flag', function() {
-			process.argv[2] = '--config'
-			process.argv[3] = './.stylintrc'
-			app.init()
+			app.init({ config: './.stylintrc' })
 			assert.deepEqual( app.config, app.setConfig('./.stylintrc') )
 		})
 
 		it('call watch if passed --watch flag', function() {
-			process.argv[2] = '--watch'
-			app.init()
-			app.init.getCall(5).returned( sinon.match.same( app.watch ) )
+			app.init({ wath: true })
+			app.init.getCall(3).returned( sinon.match.same( app.watch ) )
 		})
 
 		it('return read if no flags', function() {
-			process.argv[2] = undefined
 			app.init()
-			app.init.getCall(6).returned( sinon.match.same( app.read ) )
+			app.init.getCall(4).returned( sinon.match.same( app.read ) )
 		})
 	})
 
@@ -244,25 +227,38 @@ describe('Core Methods: ', function() {
 
 		it('return done() if done passed in', function() {
 			const expectedDoneObj = {
-				"exitCode": 1,
-				"msg": "Stylint: You're all clear!"
+				exitCode: 1,
+				msg: '',
+				errs: [],
+				warnings: []
 			}
 
-			assert.equal(
-				1, app.reporter('reporter test', 'done').exitCode
-			)
+			assert.deepEqual(expectedDoneObj, app.reporter('reporter test', 'done'))
 		})
 
 		it('return done() and kill if kill passed in', function() {
 			const expectedDoneObj = {
-				"exitCode": 1,
-				"msg": "Stylint: You're all clear!"
+				exitCode: 1,
+				msg: '\nStylint: 0 Errors.\nStylint: 0 Warnings.\nStylint: Over Error or Warning Limit.',
+				errs: [],
+				warnings: []
 			}
 
-			assert.equal(
-				true,
-				app.reporter('reporter test', 'done', 'kill').msg.indexOf('Over Error or Warning Limit') !== -1
-			)
+			assert.deepEqual(expectedDoneObj, app.reporter('reporter test', 'done', 'kill'))
+		})
+
+		it('return done() if done passed in', function() {
+			const expectedDoneObj = {
+				exitCode: 1,
+				msg: '\nStylint: 1 Errors.\nStylint: 1 Warnings.',
+				errs: [1],
+				warnings: [2]
+			}
+
+			app.cache.errs = [1]
+			app.cache.warnings = [2]
+
+			assert.deepEqual(expectedDoneObj, app.reporter('reporter test', 'done'))
 		})
 	})
 
@@ -316,7 +312,7 @@ describe('Core Methods: ', function() {
 		})
 
 		it('return undefined if keyframes starting', function() {
-			assert.equal( undefined, app.setState( '@keyframe' ) )
+			assert.equal( undefined, app.setState( '@keyframes' ) )
 		})
 
 		it('keyframes should be set to true now', function() {
@@ -335,32 +331,6 @@ describe('Core Methods: ', function() {
 			assert.equal( undefined, app.setState( '// stuff about this code' ) )
 		})
 	})
-
-	describe('Help: ', function() {
-		sinon.spy( app, 'help' )
-
-		it('should be a function', function() {
-			app.help.should.be.a( 'function' )
-		})
-
-		it('undefined', function() {
-			app.help( app )
-			assert.equal( undefined, app.help.getCall(0).returnValue )
-		})
-	})
-
-	describe('Version: ', function() {
-		sinon.spy( app, 'ver' )
-
-		it('should be a function', function() {
-			app.ver.should.be.a( 'function' )
-		})
-
-		it('a console log function', function() {
-			app.ver()
-			app.ver.getCall(0).returned( sinon.match.same( fs.readFile ) )
-		})
-	})
 })
 
 describe('Utility Methods: ', function() {
@@ -372,7 +342,7 @@ describe('Utility Methods: ', function() {
 		process.argv[2] = '-c'
 		process.argv[3] = '.stylintrc'
 		const testMethod = app.setConfig('.stylintrc')
-		const testConfig = JSON.parse( fs.readFileSync( process.cwd() + '/.stylintrc' ) )
+		const testConfig = JSON.parse( stripJsonComments( fs.readFileSync( process.cwd() + '/.stylintrc', 'utf-8' ) ) )
 
 		it('update config state if passed a valid path', function() {
 			assert.deepEqual( testMethod, testConfig )
@@ -524,24 +494,41 @@ describe('Linter Style Checks: ', function() {
 	describe('brackets: always use brackets', function() {
 		const bracketsTest = lint.brackets.bind(app)
 
-		it('false if no bracket found', function() {
+		beforeEach(function() {
+			app.state.conf = 'always'
 			app.state.hashOrCSS = false
+			app.state.openBracket = false
+		})
+
+		it('false if no bracket found', function() {
 			assert.equal( false, bracketsTest('.class-name') )
 			assert.equal( false, bracketsTest('#id') )
+			assert.equal( false, bracketsTest('body.main') )
+			assert.equal( false, bracketsTest('+ span') )
 		})
 
-		it('true if bracket found, not in hash', function() {
-			app.state.hashOrCSS = false
-			app.state.openBracket = true
+		it('true if bracket found', function() {
+			assert.equal( true, bracketsTest('body {') )
+			assert.equal( true, bracketsTest('+ span {') )
+			assert.equal( true, bracketsTest('div.div {') )
 			assert.equal( true, bracketsTest('.class-name {') )
 			assert.equal( true, bracketsTest('#id {') )
+			assert.equal( true, bracketsTest('$foo = {') )
 		})
 
-		it('undefined if in hash', function() {
+		it('true if hash', function() {
 			app.state.hashOrCSS = true
+			assert.equal( undefined, bracketsTest('.something') )
+		})
+
+		it('undefined if css or ,$ or }', function() {
+			assert.equal( undefined, bracketsTest('.my-class,') )
+			assert.equal( undefined, bracketsTest('margin 0') )
+			assert.equal( undefined, bracketsTest('pointer-events none') )
 			assert.equal( undefined, bracketsTest('}') )
-			assert.equal( undefined, bracketsTest('{interpolation}') )
-			assert.equal( undefined, bracketsTest('.class-name-with-{i}') )
+			assert.equal( undefined, bracketsTest('$b = { "bar": "baz" }') )
+			assert.equal( undefined, bracketsTest('{ "foo" }') )
+			assert.equal( undefined, bracketsTest('{foo() + "bar"}') )
 		})
 	})
 
@@ -556,6 +543,8 @@ describe('Linter Style Checks: ', function() {
 			app.state.hashOrCSS = false
 			assert.equal( false, bracketsTest('.class-name') )
 			assert.equal( false, bracketsTest('div') )
+			// false if starting a hash
+			assert.equal( false, bracketsTest('$foo = {') )
 		})
 
 		it('false if incorrect config', function() {
@@ -573,8 +562,12 @@ describe('Linter Style Checks: ', function() {
 		it('undefined if in hash', function() {
 			app.state.hashOrCSS = true
 			assert.equal( undefined, bracketsTest('}') )
+			assert.equal( undefined, bracketsTest('{') )
 			assert.equal( undefined, bracketsTest('{interpolation}') )
 			assert.equal( undefined, bracketsTest('.class-name-with-{i}') )
+			assert.equal( undefined, bracketsTest('$b = { "bar": "baz" }') )
+			assert.equal( undefined, bracketsTest('{ "foo" }') )
+			assert.equal( undefined, bracketsTest('{foo() + "bar"}') )
 		})
 	})
 
@@ -629,6 +622,9 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, colonTest('.class-name a') )
 			assert.equal( undefined, colonTest('&.class-name a') )
 			assert.equal( undefined, colonTest('&:active') )
+			assert.equal( undefined, colonTest('return: $value') )
+			assert.equal( undefined, colonTest('return $value') )
+			assert.equal( undefined, colonTest('@media screen and (max-width: 1183px)') )
 		})
 	})
 
@@ -666,12 +662,19 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, colonTest('.class-name') )
 			assert.equal( undefined, colonTest('for ( 0..9 )') )
 			assert.equal( undefined, colonTest('@media $med') )
+			assert.equal( undefined, colonTest('@import _some-file') )
+			assert.equal( undefined, colonTest('.class-name, #id-name') )
+			assert.equal( undefined, colonTest('.class-name + #id-name') )
+			assert.equal( undefined, colonTest('p ~ ul' ) )
 			assert.equal( undefined, colonTest( 'if ( $var == 50px )' ) )
 			assert.equal( undefined, colonTest( 'hash = {' ) )
 			assert.equal( undefined, colonTest( '}' ) )
 			assert.equal( undefined, colonTest('.class-name a') )
 			assert.equal( undefined, colonTest('&.class-name a') )
 			assert.equal( undefined, colonTest('&:active') )
+			assert.equal( undefined, colonTest('return: $value') )
+			assert.equal( undefined, colonTest('return $value') )
+			assert.equal( undefined, colonTest('@media screen and (max-width: 1183px)') )
 		})
 	})
 
@@ -682,12 +685,16 @@ describe('Linter Style Checks: ', function() {
 			app.state.conf = true
 		})
 
+		it('undefined if line is an id selector', function () {
+			assert.equal( undefined, colorsTest('#aaa') )
+		})
+
 		it('false if a line doesnt have a hex color', function () {
-			assert.equal( false, colorsTest('.foo') )
+			assert.equal( false, colorsTest('color: red') )
 		})
 
 		it('true if line has hex color', function () {
-			assert.equal( true, colorsTest('#fff') )
+			assert.equal( true, colorsTest('color: #fff') )
 		})
 
 		it('undefined if hex color is being assigned to a variable', function () {
@@ -1202,6 +1209,11 @@ describe('Linter Style Checks: ', function() {
 		it('true if line has @keyframes', function() {
 			app.state.keyframes = false
 			assert.equal( true, keyframesStartTest('@keyframes {') )
+		})
+
+		it('true if line has vendor @keyframes', function() {
+			app.state.keyframes = false
+			assert.equal( true, keyframesStartTest('@-webkit-keyframes {') )
 		})
 
 		it('false if line isnt a start of @keyframes', function() {
@@ -1772,10 +1784,6 @@ describe('Linter Style Checks: ', function() {
 			app.state.conf = 'always'
 		})
 
-		afterEach(function() {
-			app.state.conf = true
-		})
-
 		it('false if no semicolon is found', function() {
 			app.state.context = 1
 			assert.equal( false, semiTest('margin 0 auto') )
@@ -2080,6 +2088,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, validTest('div:hover') )
 			assert.equal( true, validTest('button:active') )
 			assert.equal( true, validTest('p:optional') )
+			assert.equal( true, validTest('p.classname') )
 			assert.equal( true, validTest('div[attribute]') )
 			assert.equal( true, validTest('picture') )
 			assert.equal( true, validTest('source') )
@@ -2087,21 +2096,23 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, validTest('background linear-gradient(to top, grey 50%, transparent 50%)') )
 		})
 
-		it ('true if class, id, interpolation, attribute, mixin etc', function() {
-			assert.equal( true, validTest( '.el:hover') )
-			assert.equal( true, validTest( '$const-name = ') )
-			assert.equal( true, validTest( '{const-name}') )
-			assert.equal( true, validTest( 'my-hash = {') )
-			assert.equal( true, validTest( 'for i in 0..9') )
-			assert.equal( true, validTest( '&--append-class-name') )
-			assert.equal( true, validTest( '[data-js]') )
-			assert.equal( true, validTest( '#id:hover') )
-			assert.equal( true, validTest('transition( opacity )') )
+		it ('true if syntax, class, id, interpolation, attribute, mixin etc', function() {
+			assert.equal( true, validTest( '.el:hover' ) )
+			assert.equal( true, validTest( '$const-name = ' ) )
+			assert.equal( true, validTest( '{const-name}' ) )
+			assert.equal( true, validTest( 'my-hash = {' ) )
+			assert.equal( true, validTest( 'for i in 0..9' ) )
+			assert.equal( true, validTest( '&--append-class-name' ) )
+			assert.equal( true, validTest( '[data-js]' ) )
+			assert.equal( true, validTest( '#id:hover' ) )
+			assert.equal( true, validTest('transition( opacity )' ) )
+			assert.equal( true, validTest( 'return $val' ) )
+			assert.equal( true, validTest( 'width calc(100% - 16px)' ) )
 		})
 
 		it ('undefined if from or to used outside keyframes', function() {
-			assert.equal( undefined, validTest( 'from 0%') )
-			assert.equal( undefined, validTest( 'to 100%') )
+			assert.equal( undefined, validTest( 'from 0%' ) )
+			assert.equal( undefined, validTest( 'to 100%' ) )
 		})
 	})
 
@@ -2114,27 +2125,31 @@ describe('Linter Style Checks: ', function() {
 			app.state.conf = 'never'
 		})
 
-		it('false if 0 value does not have unit values', function() {
-			assert.equal( false, zeroTest('margin 0') )
-			assert.equal( false, zeroTest('margin 50px') )
+		it('true if value above 0', function() {
+			assert.equal( true, zeroTest('margin 50px') )
+			assert.equal( true, zeroTest('margin: 100%') )
 		})
 
-		it('true if 0 + any unit type is found', function() {
-			assert.equal( true, zeroTest('margin 0px') )
-			assert.equal( true, zeroTest('margin 0em') )
-			assert.equal( true, zeroTest('margin 0rem') )
-			assert.equal( true, zeroTest('margin 0pt') )
-			assert.equal( true, zeroTest('margin 0pc') )
-			assert.equal( true, zeroTest('margin 0vh') )
-			assert.equal( true, zeroTest('margin 0vw') )
-			assert.equal( true, zeroTest('margin 0vmin') )
-			assert.equal( true, zeroTest('margin 0vmax') )
-			assert.equal( true, zeroTest('margin 0mm') )
-			assert.equal( true, zeroTest('margin 0cm') )
-			assert.equal( true, zeroTest('margin 0in') )
-			assert.equal( true, zeroTest('margin 0mozmm') )
-			assert.equal( true, zeroTest('margin 0ex') )
-			assert.equal( true, zeroTest('margin 0ch') )
+		it('true if just 0 has no unit value', function() {
+			assert.equal( true, zeroTest('margin 0') )
+		})
+
+		it('true if \d0 + any unit type is found', function() {
+			assert.equal( false, zeroTest('margin 0px') )
+			assert.equal( false, zeroTest('margin 0em') )
+			assert.equal( false, zeroTest('margin 0rem') )
+			assert.equal( false, zeroTest('margin 0pt') )
+			assert.equal( false, zeroTest('margin 0pc') )
+			assert.equal( false, zeroTest('margin 0vh') )
+			assert.equal( false, zeroTest('margin 0vw') )
+			assert.equal( false, zeroTest('margin 0vmin') )
+			assert.equal( false, zeroTest('margin 0vmax') )
+			assert.equal( false, zeroTest('margin 0mm') )
+			assert.equal( false, zeroTest('margin 0cm') )
+			assert.equal( false, zeroTest('margin 0in') )
+			assert.equal( false, zeroTest('margin 0mozmm') )
+			assert.equal( false, zeroTest('margin 0ex') )
+			assert.equal( false, zeroTest('margin 0ch') )
 		})
 
 		it('undefined if in keyframes', function() {
@@ -2147,6 +2162,11 @@ describe('Linter Style Checks: ', function() {
 		it('undefined if no 0 on line', function() {
 			assert.equal( undefined, zeroTest('margin auto') )
 			assert.equal( undefined, zeroTest('padding 53px') )
+		})
+
+		it('undefined if relative value', function() {
+			assert.equal( undefined, zeroTest('line-height 1') )
+			assert.equal( undefined, zeroTest('font-weight 600') )
 		})
 	})
 
@@ -2165,6 +2185,7 @@ describe('Linter Style Checks: ', function() {
 
 		it('true if value is above 0 (like 50px)', function() {
 			assert.equal( true, zeroTest('margin 50px') )
+			assert.equal( true, zeroTest('margin: 100%') )
 		})
 
 		it('true if 0 + any unit type is found', function() {
@@ -2195,6 +2216,11 @@ describe('Linter Style Checks: ', function() {
 		it('undefined if no 0 on line', function() {
 			assert.equal( undefined, zeroTest('margin auto') )
 			assert.equal( undefined, zeroTest('padding 53px') )
+		})
+
+		it('undefined if relative value', function() {
+			assert.equal( undefined, zeroTest('line-height 1') )
+			assert.equal( undefined, zeroTest('font-weight 600') )
 		})
 	})
 
@@ -2247,6 +2273,10 @@ describe('Done, again: ', function() {
 
 	it('exit code should be 0 if no errs or warnings', function() {
 		assert.equal( 0, app.done().exitCode )
+	})
+
+	it('msg should be be empty if no errs or warnings', function() {
+		assert.equal( '', app.done().msg )
 	})
 
 	it('exit code of 1 if not clear', function() {

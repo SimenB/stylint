@@ -2,7 +2,7 @@
 
 var validJSON = require( '../data/valid.json' )
 // we only want to check colons on properties/values
-var ignoreRe = /(^[&$=#>.])|{|}|\(|if|for(?!\w)|else|@block|@media|@import|@require,$/gm
+var ignoreRe = /( (^[&$=#>.])| \+ | , | = | ~ | {|}|\(|if|for(?!\w)|else|return|@block|@media|@import|@require|,$)/m
 
 
 /**
