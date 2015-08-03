@@ -1,4 +1,9 @@
 ### 1.0.10
+fix this issue: https://github.com/rossPatton/stylint/issues/164
+
+fix versioning mistake in package.json
+
+### 1.0.10
 use yargs for command line arguments
 
 add editorconfig
