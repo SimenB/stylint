@@ -11,7 +11,19 @@ allow comments in stylintrc
 
 fix this issue: https://github.com/rossPatton/stylint/issues/143
 
+fix this issue: https://github.com/rossPatton/stylint/issues/144
+
 fix this issue: https://github.com/rossPatton/stylint/issues/145
+
+fix this issue: https://github.com/rossPatton/stylint/issues/158
+
+fix this issue: https://github.com/rossPatton/stylint/issues/159
+
+fix this issue: https://github.com/rossPatton/stylint/issues/162
+
+fix this issue: https://github.com/rossPatton/stylint/issues/163
+
+fix this issue: https://github.com/rossPatton/stylint/issues/165
 
 #### 1.0.8
 numerous fixes for post 1.0 checks (semicolons: always, colons: always, leadingZero: always)

@@ -1,7 +1,7 @@
 'use strict'
 
 // we only want to check semicolons on properties/values
-var ignoreRe = /(^[&$=#>.])|{|}|if|for(?!\w)|else|@block|@media|=$|=\s/gm
+var ignoreRe = /(^[&$=#>.])|{|}|if|for(?!\w)|else|@block|@media|=$|=\s|,$|}$/gm
 // ^([&$=#>.])|[{}]|if|for(?!\w)|else|@block|@media|=$|=\s/gm
 // /^([&$=#>{}.])|if|for|else|@block|@media|=$|=\s/gm
 
@@ -12,7 +12,9 @@ var ignoreRe = /(^[&$=#>.])|{|}|if|for(?!\w)|else|@block|@media|=$|=\s/gm
  * @return {boolean} true if in order, false if not
  */
 var semicolons = function( line ) {
-	if ( ignoreRe.test( line.trim() ) ) { return }
+	if ( ignoreRe.test( line ) || this.state.hashOrCss ) {
+		return
+	}
 
 	var semicolon = null
 
@@ -20,7 +22,7 @@ var semicolons = function( line ) {
 		semicolon = true
 	}
 	else if ( this.state.conf === 'always' && this.state.context > 0 ) {
-		if ( line.indexOf( ';' ) === -1 ) {
+		if ( line.indexOf( ';' ) === -1 && line.indexOf( '}' ) === -1 ) {
 			semicolon = false
 		}
 	}

@@ -1784,10 +1784,6 @@ describe('Linter Style Checks: ', function() {
 			app.state.conf = 'always'
 		})
 
-		afterEach(function() {
-			app.state.conf = true
-		})
-
 		it('false if no semicolon is found', function() {
 			app.state.context = 1
 			assert.equal( false, semiTest('margin 0 auto') )
