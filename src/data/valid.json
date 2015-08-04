@@ -723,6 +723,7 @@
         "::selection",
         ":target",
         ":valid",
+        ":invalid",
         ":visited"
     ]
 }
