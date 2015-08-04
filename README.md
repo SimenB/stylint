@@ -353,11 +353,11 @@ Example if never: prefer `rgba( 0, 0, 0, .5 )` over `rgba( 0, 0, 0, 0.5 )`
 
 
 ### maxErrors ( default: false, number || false )
-Set 'max' number of Warnings.
+Set 'max' number of Errors.
 
 
 ### maxWarnings ( default: false, number || false )
-Set 'max' number of Errors.
+Set 'max' number of Warnings.
 
 
 ### mixed ( default: false, boolean, relies on indentPref )
@@ -384,7 +384,7 @@ Example if set to `'camelCase'`: prefer `$varName` over `$var_name` or `$var-nam
 Example if set to `'BEM'`: prefer `$var__like--this` over `$var_name` or `$varName`
 
 
-### namingConventionStrict ( default: false, boolean )
+### namingConventionStrict ( default: false, true || false )
 By default, namingConvention only looks at variable names. If namingConventionStrict is set to true, namingConvention will also look at class and id names.
 
 If you have a lot of 3rd party css you can't change you might want to leave this off.
@@ -397,6 +397,17 @@ If 'never' check for places where `0` could be used instead of `none`.
 Example if 'always': prefer `border none` over `border 0`
 
 Example if 'never': prefer `outline 0` over `outline none`
+
+
+### noImportant ( default: true, true || false  )
+If true, show warning when `!important` is found.
+
+Example if true: the following will throw a warning
+
+```stylus
+div
+	color red !important
+```
 
 
 ### parenSpace ( default: false, 'always' || 'never' || false )
