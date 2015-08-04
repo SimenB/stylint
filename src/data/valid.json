@@ -714,6 +714,7 @@
         ":first-of-type",
         ":focus",
         ":hover",
+        ":invalid",
         ":last-child",
         ":last-of-type",
         ":link",
