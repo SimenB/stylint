@@ -444,21 +444,6 @@ Example if `'single'`: prefer `$var = 'some string'` over `$var = "some string"`
 Example if `'double'`: prefer `$var = "some string"` over `$var = 'some string'`
 
 
-### stackedProperties ( default: 'never', 'never' || false )
-No one-liners. Enforce putting properties on new lines.
-
-Example if `never`: prefer
-
-```stylus
-.className
-	padding 0
-```
-
-over
-
-`.className { padding 0 }`
-
-
 ### semicolons ( default: 'never', 'always' || 'never' || false )
 Enforce or disallow semicolons
 
@@ -543,6 +528,25 @@ over this:
 When set to `'grouped'` or `{Array}` throws a warning if properties that are not defined in the ordering array are not after those that should be ordered.
 
 
+### stackedProperties ( default: 'never', 'never' || false )
+No one-liners. Enforce putting properties on new lines.
+
+Example if `never`: prefer
+
+```stylus
+.className
+	padding 0
+```
+
+over
+
+`.className { padding 0 }`
+
+
+### trailingWhitespace ( default: false, 'never' || false )
+If false, ignores trailing white space. If 'never', trailing white space will throw a warning.
+
+
 ### universal ( default: 'never', 'never' || false )
 Looks for instances of the inefficient * selector. Lots of resets use this, for good reason (resetting box model), but past that you really don't need this selector, and you should avoid it if possible.
 
@@ -559,10 +563,6 @@ Check that a property is valid CSS or HTML.
 Example if true: `marg 0` will throw a warning, prefer `margin 0`
 
 Example if true: `divv` will throw a warning, prefer `div`
-
-
-### whitespace ( default: true, true || false )
-Disallows trailing whitespace
 
 
 ### zeroUnits ( default: 'never', 'always' || 'never' || false )
