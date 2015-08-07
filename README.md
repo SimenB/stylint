@@ -291,10 +291,14 @@ Example if true: the following will throw a warning
 ```
 
 
-### indentPref ( default: 4, number or false )
+### indentPref ( default: false, number or false )
 This works in conjunction with depthLimit. If you indent with spaces this is the number of spaces you indent with. If you use hard tabs, set this value to false.
 
+If you set this to a number, it will output warnings/errors if you the # of spaces used for indenting differs from the number set.
+
 By default this value is false, so if you indent with spaces you'll need to manually set this value in a custom `.stylintrc` file.
+
+Example if 2: prefer `/s/smargin: 0` over `/s/s/smargin: 0`
 
 
 ### leadingZero ( default: 'never', 'always' || 'never' || false )
