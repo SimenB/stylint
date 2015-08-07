@@ -16,7 +16,7 @@ var cache = {
 	prevFileNo: 0, // prev file no
 	prevLine: '', // the previous line
 	dir: path.dirname( require.main.filename ), // index.js directory
-	sCache: {}, // each key is an array of selectors in that context
+	sCache: { '0': [] }, // each key is an array of selectors in that context
 	sortOrderCache: [], // we keep a context based arr of selectors here to check sort orde
 	warnings: [], // array of the errors detected so far
 	zCache: [] // array of z-index uses

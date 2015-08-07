@@ -1,4 +1,23 @@
-### 1.0.10
+### 1.1.0
+this enhancement: https://github.com/rossPatton/stylint/issues/129
+
+this enhancement: https://github.com/rossPatton/stylint/issues/139
+
+address new issue from: https://github.com/rossPatton/stylint/issues/144
+
+address new issue from: https://github.com/rossPatton/stylint/issues/162
+
+address new issue from: https://github.com/rossPatton/stylint/issues/164
+
+this issue: https://github.com/rossPatton/stylint/issues/168
+
+this issue: https://github.com/rossPatton/stylint/issues/173
+
+this issue: https://github.com/rossPatton/stylint/issues/177
+
+fix versioning mistake in package.json
+
+### 1.0.11
 fix this issue: https://github.com/rossPatton/stylint/issues/164
 
 fix versioning mistake in package.json
