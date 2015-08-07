@@ -513,7 +513,6 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, bracketsTest('div.div {') )
 			assert.equal( true, bracketsTest('.class-name {') )
 			assert.equal( true, bracketsTest('#id {') )
-			assert.equal( true, bracketsTest('$foo = {') )
 		})
 
 		it('true if hash', function() {
@@ -521,7 +520,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, bracketsTest('.something') )
 		})
 
-		it('undefined if css or ,$ or }', function() {
+		it('undefined if css or ,$ or } or =', function() {
 			assert.equal( undefined, bracketsTest('.my-class,') )
 			assert.equal( undefined, bracketsTest('margin 0') )
 			assert.equal( undefined, bracketsTest('pointer-events none') )
@@ -529,6 +528,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, bracketsTest('$b = { "bar": "baz" }') )
 			assert.equal( undefined, bracketsTest('{ "foo" }') )
 			assert.equal( undefined, bracketsTest('{foo() + "bar"}') )
+			assert.equal( undefined, bracketsTest('$foo = {') )
 		})
 	})
 
@@ -543,8 +543,6 @@ describe('Linter Style Checks: ', function() {
 			app.state.hashOrCSS = false
 			assert.equal( false, bracketsTest('.class-name') )
 			assert.equal( false, bracketsTest('div') )
-			// false if starting a hash
-			assert.equal( false, bracketsTest('$foo = {') )
 		})
 
 		it('false if incorrect config', function() {
@@ -559,7 +557,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( true, bracketsTest('}') )
 		})
 
-		it('undefined if in hash', function() {
+		it('undefined if in hash or syntax', function() {
 			app.state.hashOrCSS = true
 			assert.equal( undefined, bracketsTest('}') )
 			assert.equal( undefined, bracketsTest('{') )
@@ -568,6 +566,7 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, bracketsTest('$b = { "bar": "baz" }') )
 			assert.equal( undefined, bracketsTest('{ "foo" }') )
 			assert.equal( undefined, bracketsTest('{foo() + "bar"}') )
+			assert.equal( undefined, bracketsTest('$foo = {') )
 		})
 	})
 

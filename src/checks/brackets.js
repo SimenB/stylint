@@ -2,6 +2,7 @@
 
 // var selRe = /^[#.]+/
 var commaRe = /,$/
+var parensRe = /\(.*\)/
 var stripRe = /(?=\S)\[\S+\]|(\.|#)\w+/
 var validJSON = require( '../data/valid.json' )
 
@@ -9,10 +10,20 @@ var validJSON = require( '../data/valid.json' )
 /**
  * @description check for brackets
  * @param {string} [line] curr line being linted
- * @returns {boolean | undefined} true if bracket found, false if not, undefined if we skip
+ * @returns {boolean} true if bracket found, false if not
  */
 var brackets = function( line ) {
-	if ( this.state.hashOrCSS || commaRe.test( line ) ) { return }
+	// in order if:
+	// 1 in hash or css block
+	// 2 variable or hash or block
+	// 3 mixin
+	// 4 .selector,
+	if ( this.state.hashOrCSS ||
+		line.indexOf( ' =' ) !== -1 ||
+		parensRe.test( line ) ||
+		commaRe.test( line ) ) {
+		return
+	}
 
 	var arr = ['hint']
 	var isCSS = false
@@ -32,27 +43,30 @@ var brackets = function( line ) {
 		}
 	}
 	else if ( this.state.conf === 'always' ) {
-		arr = this.splitAndStrip( new RegExp( /[\s\t,:]/ ), line )
 
-		if ( typeof arr[0] !== 'undefined' ) {
-			arr[0] = arr[0].replace( stripRe, '' ).trim()
+		if ( bracket === false ) {
+			arr = this.splitAndStrip( new RegExp( /[\s\t,:]/ ), line )
 
-			isCSS = validJSON.css.some( function( css ) {
-				return arr[0] === css || this.checkPrefix( arr[0], css, validJSON )
-			}.bind( this ) )
-		}
+			if ( typeof arr[0] !== 'undefined' ) {
+				arr[0] = arr[0].replace( stripRe, '' ).trim()
 
-		// basically, we don't care about properties like margin or padding
-		if ( line.trim().indexOf( '}' ) !== -1 || isCSS ) { return }
+				isCSS = validJSON.css.some( function( css ) {
+					return arr[0] === css || this.checkPrefix( arr[0], css, validJSON )
+				}.bind( this ) )
+			}
 
-		if ( line.indexOf( '{' ) !== -1 ) {
-			bracket = true
-			this.state.openBracket = true
-		}
-		// ex: } is okay if ending a hash. otherwise it is NOT okay
-		else if ( line.indexOf( '}' ) !== -1 && this.state.openBracket ) {
-			bracket = true
-			this.state.openBracket = false
+			// basically, we don't care about properties like margin or padding
+			if ( line.trim().indexOf( '}' ) !== -1 || isCSS ) { return }
+
+			if ( line.indexOf( '{' ) !== -1 ) {
+				bracket = true
+				this.state.openBracket = true
+			}
+			// ex: } is okay if ending a hash. otherwise it is NOT okay
+			else if ( line.indexOf( '}' ) !== -1 && this.state.openBracket ) {
+				bracket = true
+				this.state.openBracket = false
+			}
 		}
 	}
 

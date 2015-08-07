@@ -13,7 +13,6 @@ var ignoreRe = /( (^[&$=#>.])| \+ | , | = | ~ | {|}|\(|if|for(?!\w)|else|return|
 var colons = function( line ) {
 	if ( ignoreRe.test( line ) || this.state.context === 0 ) { return }
 
-	// null just so i can test better
 	var colon
 	var hasPseudo = false
 	var arr = this.splitAndStrip( new RegExp( /\s/ ), line )
@@ -24,8 +23,10 @@ var colons = function( line ) {
 		colon = false
 	}
 	// : is allowed in hashes
-	else if ( this.state.conf === 'never' &&
-		!this.state.hash && line.indexOf( ':' ) !== -1 ) {
+	else if ( !this.state.hash &&
+		this.state.conf === 'never' &&
+		line.indexOf( ':' ) !== -1 &&
+		line.indexOf( 'content' ) === -1 ) {
 
 		// check for pseudo selector first
 		hasPseudo = validJSON.pseudo.some( function( val ) {

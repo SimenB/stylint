@@ -2,26 +2,50 @@
  * Styling for various ad types
 */
 
-$b = { "bar": "baz" }
+// $b = { "bar": "baz" }
 
+$black = #000;
 
+.disabled {
+  content: ":";
+  zoom: 1;
+  ms-opacity(0.6); // <- gives false epositive
+}
 
-$foo = {
-  bar: {
-    baz: raz
+.abcdefghi {
+  .active {
+    color: red;
   }
 }
 
-html, body {
-  font-weight: 0;
+.abcdefghij {
+  .active {
+    color: red;
+  }
 }
 
-{ 'foo' }
-  width: 50px
+.abcdefghi {
+  .active {
+    color: red;
+  }
+}
+
+// $foo = {
+//   bar: {
+//     baz: raz
+//   }
+// }
+
+// html, body {
+//   font-weight: 0;
+// }
+
+// { 'foo' }
+//   width: 50px
 
 
-{foo() + 'bar'}
-  width: 0
+// {foo() + 'bar'}
+//   width: 0
 
 
 // table&,
@@ -32,22 +56,22 @@ html, body {
 //     -khtml-user-select none
 //     -webkit-touch-callout none
 
-body.main
-  margin 1em
-  pointer-events none
+// body.main
+//   margin 1em
+//   pointer-events none
 
-.margin
-  margin 0px
+// .margin
+//   margin 0px
 
-$b = { "bar": "baz" }
+// $b = { "bar": "baz" }
 
-@media screen and (max-width: 1183px)
-  .test
-    margin: 100%
+// @media screen and (max-width: 1183px)
+//   .test
+//     margin: 100%
 
-html, body {
-  height: 100%;
-}
+// html, body {
+//   height: 100%;
+// }
 
 // foo()
 //   return 'bar'
@@ -70,21 +94,21 @@ html, body {
 //   }
 // }
 
-.foo {
-  	color: red;
-}
+// .foo {
+//   	color: red;
+// }
 
-.a {
-  &:b {
-    font-size: 1.1em;
-  }
-}
+// .a {
+//   &:b {
+//     font-size: 1.1em;
+//   }
+// }
 
-.page {
-    &__header,
-    &__footer {
-    }
-}
+// .page {
+//     &__header,
+//     &__footer {
+//     }
+// }
 
 // test
 // .foo {
