@@ -73,6 +73,46 @@ gulp.task('default', function () {
 });
 ```
 
+## Grunt
+You can use [grunt-stylint](https://github.com/xdissent/grunt-stylint)
+
+```javascript
+grunt.initConfig({
+  stylint: {
+    options: {
+      config: {
+      	colons: 'never'
+      }
+    },
+    src: ['src/**/*.styl']
+  }
+});
+```
+
+## Webpack
+You can use [stylint-loader](https://github.com/guerrero/stylint-loader)
+
+```javascript
+module.exports = {
+  // ...
+  module: {
+    preLoaders: [
+      {
+        test: /\.styl$/, 
+        loader: 'stylint'
+      }
+    ],
+    loaders: [
+      {
+        test: /\.styl$/,
+        loader: 'style!css!stylus'
+      }
+    ]
+  }
+  // ...
+}
+```
+
 
 ## As Part of Your Workflow
 Stylint integrations with both Sublime Text 3 and Atom.io are available.
@@ -154,6 +194,13 @@ Example:
     }
 }
 ```
+
+
+## Custom Reporters
+Stylint console output can be modified with the use of a reporter. Feel free to write your own (no matter how outlandish) and I'll add it here.
+
+[Stylint-stylish](https://github.com/SimenB/stylint-stylish)
+
 
 
 ### warning toggle ( inline comment: @stylint off || @stylint on )
@@ -310,11 +357,11 @@ Example if never: prefer `rgba( 0, 0, 0, .5 )` over `rgba( 0, 0, 0, 0.5 )`
 
 
 ### maxErrors ( default: false, number || false )
-Set 'max' number of Warnings.
+Set 'max' number of Errors.
 
 
 ### maxWarnings ( default: false, number || false )
-Set 'max' number of Errors.
+Set 'max' number of Warnings.
 
 
 ### mixed ( default: false, boolean, relies on indentPref )
@@ -341,7 +388,7 @@ Example if set to `'camelCase'`: prefer `$varName` over `$var_name` or `$var-nam
 Example if set to `'BEM'`: prefer `$var__like--this` over `$var_name` or `$varName`
 
 
-### namingConventionStrict ( default: false, boolean )
+### namingConventionStrict ( default: false, true || false )
 By default, namingConvention only looks at variable names. If namingConventionStrict is set to true, namingConvention will also look at class and id names.
 
 If you have a lot of 3rd party css you can't change you might want to leave this off.
@@ -354,6 +401,17 @@ If 'never' check for places where `0` could be used instead of `none`.
 Example if 'always': prefer `border none` over `border 0`
 
 Example if 'never': prefer `outline 0` over `outline none`
+
+
+### noImportant ( default: true, true || false  )
+If true, show warning when `!important` is found.
+
+Example if true: the following will throw a warning
+
+```stylus
+div
+	color red !important
+```
 
 
 ### parenSpace ( default: false, 'always' || 'never' || false )
@@ -388,21 +446,6 @@ Enforce consistent quotation style.
 Example if `'single'`: prefer `$var = 'some string'` over `$var = "some string"`
 
 Example if `'double'`: prefer `$var = "some string"` over `$var = 'some string'`
-
-
-### stackedProperties ( default: 'never', 'never' || false )
-No one-liners. Enforce putting properties on new lines.
-
-Example if `never`: prefer
-
-```stylus
-.className
-	padding 0
-```
-
-over
-
-`.className { padding 0 }`
 
 
 ### semicolons ( default: 'never', 'always' || 'never' || false )
@@ -489,6 +532,25 @@ over this:
 When set to `'grouped'` or `{Array}` throws a warning if properties that are not defined in the ordering array are not after those that should be ordered.
 
 
+### stackedProperties ( default: 'never', 'never' || false )
+No one-liners. Enforce putting properties on new lines.
+
+Example if `never`: prefer
+
+```stylus
+.className
+	padding 0
+```
+
+over
+
+`.className { padding 0 }`
+
+
+### trailingWhitespace ( default: false, 'never' || false )
+If false, ignores trailing white space. If 'never', trailing white space will throw a warning.
+
+
 ### universal ( default: 'never', 'never' || false )
 Looks for instances of the inefficient * selector. Lots of resets use this, for good reason (resetting box model), but past that you really don't need this selector, and you should avoid it if possible.
 
@@ -505,10 +567,6 @@ Check that a property is valid CSS or HTML.
 Example if true: `marg 0` will throw a warning, prefer `margin 0`
 
 Example if true: `divv` will throw a warning, prefer `div`
-
-
-### whitespace ( default: true, true || false )
-Disallows trailing whitespace
 
 
 ### zeroUnits ( default: 'never', 'always' || 'never' || false )

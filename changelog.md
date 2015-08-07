@@ -1,4 +1,9 @@
 ### 1.0.10
+fix this issue: https://github.com/rossPatton/stylint/issues/164
+
+fix versioning mistake in package.json
+
+### 1.0.10
 use yargs for command line arguments
 
 add editorconfig
@@ -24,6 +29,9 @@ fix this issue: https://github.com/rossPatton/stylint/issues/162
 fix this issue: https://github.com/rossPatton/stylint/issues/163
 
 fix this issue: https://github.com/rossPatton/stylint/issues/165
+
+#### 1.0.9
+trying to fix this: https://github.com/rossPatton/stylint/issues/128 resulted in a bug where stylint errors if commentSpace is not defined in the config. this is a dumb mistake, i am dumb
 
 #### 1.0.8
 numerous fixes for post 1.0 checks (semicolons: always, colons: always, leadingZero: always)

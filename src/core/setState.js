@@ -38,9 +38,11 @@ var setState = function( line ) {
 
 	// if entire line is comment, just check comma spacing and that's it
 	if ( this.startsWithComment( line ) ) {
-		this.state.conf = this.config.commentSpace.expect || this.config.commentSpace
-		this.state.severity = this.config.commentSpace.error ? 'Error' : 'Warning'
-		this.lintMethods.commentSpace.call( this )
+		if ( typeof this.config.commentSpace !== 'undefined' ) {
+			this.state.conf = this.config.commentSpace.expect || this.config.commentSpace
+			this.state.severity = this.config.commentSpace.error ? 'Error' : 'Warning'
+			this.lintMethods.commentSpace.call( this )
+		}
 		return
 	}
 
