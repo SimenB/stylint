@@ -16,7 +16,7 @@
     "leadingZero": "always",
     "maxErrors": false,
     "maxWarnings": false,
-    "mixed": false,
+    "mixed": true,
     "namingConvention": false,
     "namingConventionStrict": false,
     "none": "never",

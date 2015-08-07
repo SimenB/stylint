@@ -14,6 +14,7 @@ var linterMethods = stampit().methods( {
 		duplicates: require( './duplicates' ),
 		efficient: require( './efficient' ),
 		extendPref: require( './extendPref' ),
+		indentPref: require( './indentPref' ),
 		leadingZero: require( './leadingZero' ),
 		mixed: require( './mixed' ),
 		namingConvention: require( './namingConvention' ),
