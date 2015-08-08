@@ -17,7 +17,6 @@ var duplicates = function( line ) {
 	// if root check not global, obliterate cache on each new file
 	if ( !this.config.globalDupe &&
 		this.cache.prevFile !== this.cache.file ) {
-		console.log( 'i should not happen' )
 		this.cache.sCache = {}
 	}
 
@@ -45,13 +44,8 @@ var duplicates = function( line ) {
 		this.cache.prevLine.indexOf( ',' ) === -1 &&
 		!ignoreRe.test( line ) ) {
 
-		// console.log( 'made it 1' )
-		// console.log( this.cache.sCache )
-
 		// -1 if no dupe found
 		dupeIndex = this.cache.sCache[this.state.context].indexOf( arr[0] )
-
-		// console.log( 'made it 2' )
 
 		// if match found at right context, is dupe
 		if ( dupeIndex !== -1 ) {

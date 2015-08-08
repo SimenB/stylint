@@ -1179,6 +1179,28 @@ describe('Linter Style Checks: ', function() {
 		})
 	})
 
+	describe('indent pref', function() {
+		const indentTest = lint.indentPref.bind(app)
+
+		beforeEach(function() {
+			app.state.conf = 2
+		})
+
+		it('false if line indented with incorrect # of spaces', function() {
+			app.state.context = 1.5
+			assert.equal( false, indentTest('   .test') )
+			app.state.context = .5
+			assert.equal( false, indentTest(' .test2') )
+		})
+
+		it('true if line indented with correct # of spaces', function() {
+			app.state.context = 1
+			assert.equal( true, indentTest('  .test') )
+			app.state.context = 2
+			assert.equal( true, indentTest('    .test2') )
+		})
+	})
+
 	describe('keyframes end', function() {
 		const keyframesEndTest = app.keyframesEnd.bind(app)
 
