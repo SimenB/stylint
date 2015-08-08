@@ -15,13 +15,14 @@ var duplicates = function( line ) {
 	var origFile
 
 	// if root check not global, obliterate cache on each new file
-	if ( !this.config.globalDupe && this.cache.prevFile !== this.cache.file ) {
+	if ( !this.config.globalDupe &&
+		this.cache.prevFile !== this.cache.file ) {
+		console.log( 'i should not happen' )
 		this.cache.sCache = {}
 	}
 
 	// if cache for curr context doesn't exist yet (or was obliterated), make one
-	if ( this.state.context > 0 &&
-		typeof this.cache.sCache[ this.state.context ] === 'undefined' ) {
+	if ( typeof this.cache.sCache[ this.state.context ] === 'undefined' ) {
 		this.cache.sCache[ this.state.context ] = []
 	}
 
@@ -44,8 +45,13 @@ var duplicates = function( line ) {
 		this.cache.prevLine.indexOf( ',' ) === -1 &&
 		!ignoreRe.test( line ) ) {
 
+		// console.log( 'made it 1' )
+		// console.log( this.cache.sCache )
+
 		// -1 if no dupe found
 		dupeIndex = this.cache.sCache[this.state.context].indexOf( arr[0] )
+
+		// console.log( 'made it 2' )
 
 		// if match found at right context, is dupe
 		if ( dupeIndex !== -1 ) {

@@ -273,6 +273,8 @@ describe('Core Methods: ', function() {
 			assert.equal( undefined, app.setState( '' ) )
 			assert.equal( undefined, app.setState( ' ' ) )
 			assert.equal( undefined, app.setState( '\t\t' ) )
+			assert.equal( undefined, app.setState( '\s\s' ) )
+			assert.equal( undefined, app.setState( '\s\t' ) )
 		})
 
 		it('return undefined if @stylint ignore comment', function() {
