@@ -20,7 +20,7 @@ var init = function( options, pathPassed ) {
 	this.config = this.setConfig( options.config )
 
 	// make sure indentPref is set no matter what
-	this.config.indentPref = this.config.indentPref || 4
+	this.config.indentPref = this.config.indentPref || false
 
 	// we do the check here just in case
 	// they don't pass in a reporter when using a custom config
