@@ -8,6 +8,7 @@
 var trimLine = function( line ) {
 	var startsWithCommentRe = /(^\/\/)/
 	this.state.hasComment = false
+	this.cache.comment = ''
 
 	// strip line comments
 	if ( line.indexOf( '//' ) !== -1 ) {
