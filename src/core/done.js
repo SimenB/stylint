@@ -8,9 +8,8 @@ var done = function() {
 	var warningsOrErrors = []
 	var msg = ''
 
-	// if no warnings or errors, give clean exit code
-	if ( this.cache.errs.length > 0 ||
-		this.cache.warnings.length > 0 ) {
+	// if no errors, give clean exit code
+	if ( this.cache.errs.length > 0 ) {
 		this.state.exitCode = 1
 	}
 
