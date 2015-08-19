@@ -2294,7 +2294,12 @@ describe('Done, again: ', function() {
 		assert.equal( true, typeof app.done().msg === 'string' )
 	})
 
-	it('exit code should be 0 if no errs or warnings', function() {
+	it('exit code should be 0 if no errs', function() {
+		assert.equal( 0, app.done().exitCode )
+	})
+
+	it('exit code should be 0 if has warnings and no errs', function() {
+		app.cache.warnings = [0,1,2,3,4]
 		assert.equal( 0, app.done().exitCode )
 	})
 
