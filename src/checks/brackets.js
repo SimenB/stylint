@@ -19,6 +19,7 @@ var brackets = function( line ) {
 	// 3 mixin
 	// 4 .selector,
 	if ( this.state.hashOrCSS ||
+		line.trim().length === 0 ||
 		line.indexOf( ' =' ) !== -1 ||
 		parensRe.test( line ) ||
 		commaRe.test( line ) ) {
