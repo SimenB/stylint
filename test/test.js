@@ -532,6 +532,9 @@ describe('Linter Style Checks: ', function() {
 			assert.equal( undefined, bracketsTest('{foo() + "bar"}') )
 			assert.equal( undefined, bracketsTest('$foo = {') )
 		})
+		it('undefined if empty', function() {
+			assert.equal( undefined, bracketsTest('  ') )
+		})
 	})
 
 	describe('brackets: disallow brackets', function() {
