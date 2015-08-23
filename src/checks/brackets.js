@@ -28,6 +28,7 @@ var brackets = function( line ) {
 
 	var arr = ['hint']
 	var isCSS = false
+	var isMixin = false
 	var bracket = false
 
 	if ( this.state.conf === 'never' ) {
@@ -54,10 +55,14 @@ var brackets = function( line ) {
 				isCSS = validJSON.css.some( function( css ) {
 					return arr[0] === css || this.checkPrefix( arr[0], css, validJSON )
 				}.bind( this ) )
+
+				isMixin = this.cache.mixins.some( function( mixin ) {
+					return arr[0] === mixin
+				} )
 			}
 
 			// basically, we don't care about properties like margin or padding
-			if ( line.trim().indexOf( '}' ) !== -1 || isCSS ) { return }
+			if ( line.trim().indexOf( '}' ) !== -1 || isCSS || isMixin ) { return }
 
 			if ( line.indexOf( '{' ) !== -1 ) {
 				bracket = true

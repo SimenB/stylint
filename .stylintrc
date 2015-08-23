@@ -1,7 +1,7 @@
 {
     // Comments - woooo
     "blocks": false,
-    "brackets": false,
+    "brackets": "always",
     "colons": "always",
     "colors": false,
     "commaSpace": "always",
