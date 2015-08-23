@@ -12,10 +12,10 @@
     "efficient": "always",
     "extendPref": false,
     "globalDupe": true,
-    "indentPref": 2,
-    // "indentPref": {
-    //     "expect": 2
-    // },
+    // "indentPref": 2,
+    "indentPref": {
+        "expect": 2
+    },
     "leadingZero": "always",
     "maxErrors": false,
     "maxWarnings": false,

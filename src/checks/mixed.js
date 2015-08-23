@@ -11,7 +11,8 @@ var spaces = /( {2,})+/ // check for 2 or more spaces (if hard tabs, shouldn't f
  */
 var mixed = function( line ) {
 	var isMixed = false
-	var isNum = typeof this.config.indentPref === 'number'
+	var indentPref = this.config.indentPref.expect || this.config.indentPref
+	var isNum = typeof indentPref === 'number'
 
 	// if this isnt set to false then we're indenting with spaces, so check for tabs
 	if ( isNum ) {

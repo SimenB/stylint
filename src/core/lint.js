@@ -5,7 +5,7 @@
  * @return {Function | undefined} undefined if just calling the method, function is linting over
  */
 var lint = function() {
-	var method
+	var method = ''
 	var checks = Object.getPrototypeOf( this ).lintMethods
 	var maxErrs = typeof this.config.maxErrors === 'number' ? this.config.maxErrors : false
 	var maxWarnings = typeof this.config.maxWarnings === 'number' ? this.config.maxWarnings : false

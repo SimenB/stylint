@@ -9,7 +9,7 @@ var setContext = function( line ) {
 	var i = 0
 	var context = 0
 	var whitespace = 0
-	var indentPref = this.config.indentPref
+	var indentPref = this.config.indentPref.expect || this.config.indentPref
 
 	this.state.prevContext = this.state.context
 
