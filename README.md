@@ -98,7 +98,7 @@ module.exports = {
   module: {
     preLoaders: [
       {
-        test: /\.styl$/, 
+        test: /\.styl$/,
         loader: 'stylint'
       }
     ],
@@ -232,6 +232,20 @@ Example:
 	cursor pointer // @stylint ignore
 	cursor zoom-in
 ```
+
+
+### transparent mixin use ( Array<string> )
+In Stylus you have the option of using mixins transparently, like css properties.
+
+Example: prefer `mySpecialTransition: 5px`
+
+Where `mySpecialTransition` is a previously defined mixin that takes a px val as it's parameter.
+
+If you use nib, `size`, `absolute`, and `fixed` are often used in this way.
+
+Because of nib's widespread use, the above 3 are supported by default. But any custom transparent mixin will cause the valid property check to fail. If you want to use the valid check with transparent mixins, you can do so by passing in the name of your transparent mixin to the `mixins` property of your config object.
+
+Example: `mixins: ['mySpecialTransition']` will tell Stylint that mySpecialTransition exists and is not an error.
 
 
 ### blocks ( default: false, 'always' || 'never' || false )

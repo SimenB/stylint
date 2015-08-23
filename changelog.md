@@ -1,5 +1,9 @@
-### 1.1.4
+### 1.2.0
+transparent mixin use is now supported via the mixins config property
+
 fix this issue: https://github.com/rossPatton/stylint/issues/181
+
+fix this https://github.com/rossPatton/stylint/issues/177
 
 merge this PR: https://github.com/rossPatton/stylint/pull/186
 
