@@ -10,6 +10,7 @@ var cache = {
 	fileNo: 0, // curr # of filesLen we're on
 	line: '', // curr line we're testing
 	lineNo: 0, // curr line number we're testing
+	mixins: [], // an array of all declared mixins
 	msg: '', // the done message (55 warnings blah blah)
 	origLine: '', // original line before stripping/trimming
 	prevFile: '', // the previous file

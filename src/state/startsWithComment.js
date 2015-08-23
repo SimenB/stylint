@@ -11,7 +11,8 @@ var startsWithComment = function( line ) {
 	var starts = false
 
 	// ex }, but only if we've already establish that we're not in a hash
-	if ( line.indexOf( '//' ) !== -1 && commentRe.test( line.trim() ) ) {
+	if ( line.indexOf( '//' ) !== -1 &&
+		commentRe.test( line.trim() ) ) {
 		starts = true
 	}
 

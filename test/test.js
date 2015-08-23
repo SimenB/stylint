@@ -2096,6 +2096,7 @@ describe( 'Linter Style Checks: ', function() {
 		} )
 
 		it ( 'false if property not valid', function() {
+			app.cache.mixins = []
 			assert.equal( false, validTest( 'marg 0 auto' ) )
 			assert.equal( false, validTest( 'pad 0' ) )
 			assert.equal( false, validTest( 'dog: irish-setter }' ) )
@@ -2103,6 +2104,10 @@ describe( 'Linter Style Checks: ', function() {
 			assert.equal( false, validTest( 'div[attribute test]' ) )
 			assert.equal( false, validTest( '::selects' ) )
 			assert.equal( false, validTest( 'nonsense:active' ) )
+			assert.equal( false, validTest( 'test-mixin: $val' ) )
+			assert.equal( false, validTest( 'mixin 5px' ) )
+			assert.equal( false, validTest( 'multiplyBy5 10 5' ) )
+			assert.equal( false, validTest( 'test-mixin $val' ) )
 		} )
 
 		it ( 'true if property is valid', function() {
@@ -2137,6 +2142,15 @@ describe( 'Linter Style Checks: ', function() {
 			assert.equal( true, validTest( 'transition( opacity )' ) )
 			assert.equal( true, validTest( 'return $val' ) )
 			assert.equal( true, validTest( 'width calc(100% - 16px)' ) )
+		} )
+
+		it ( 'true if transparent mixin (thats been declared)', function() {
+			app.cache.mixins = ['test-mixin', 'mixin', 'multiplyBy']
+
+			assert.equal( true, validTest( 'test-mixin: $val' ) )
+			assert.equal( true, validTest( 'mixin 5px' ) )
+			assert.equal( true, validTest( 'multiplyBy 10 5' ) )
+			assert.equal( true, validTest( 'test-mixin $val' ) )
 		} )
 
 		it ( 'undefined if from or to used outside keyframes', function() {

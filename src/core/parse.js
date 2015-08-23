@@ -1,7 +1,6 @@
 'use strict'
 
 // strips out comments and urls
-// // /( +|:)url\(.+\)|(^(\/\*)|([ \t'"](\/\*)))(?!\/)(.|[\r\n]|\n)+?\*\/\n?/gm
 var cleanFileRe = /( +|:)url\(.+\)|(\r\n|\n|\r)|(^(\/\*)|([\s'"](\/\*)))(?!\/)(.|[\r\n]|\n)+?\*\/\n?/gm
 var lineEndingsRe = /\r\n|\n|\r/gm
 
@@ -28,7 +27,8 @@ var parse = function( err, res ) {
 
 		// updating cache as we go, and passing to the next step
 		lines.forEach( function( line, lineNo ) {
-			lineNo++ // line nos don't start at 0
+			// line nos don't start at 0
+			lineNo++
 			this.cache.origLine = line
 			this.cache.line = this.trimLine( line )
 			this.cache.lineNo = lineNo++

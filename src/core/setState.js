@@ -11,7 +11,7 @@ var emptyLineRe = /\S/
  * @returns {Function | undefined} undefined if we catch something, else lint()
  */
 var setState = function( line ) {
-	this.state.context = this.setContext( line )
+	this.state.context = this.setContext( this.cache.line )
 
 	// ignore the current line if @stylint ignore
 	if ( this.cache.comment.indexOf( '@stylint ignore' ) !== -1 ) {

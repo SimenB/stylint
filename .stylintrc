@@ -20,6 +20,7 @@
     "maxErrors": false,
     "maxWarnings": false,
     "mixed": true,
+    "mixins": ["test-mixin", "mixin"],
     "namingConvention": false,
     "namingConventionStrict": false,
     "none": "never",

@@ -1,5 +1,6 @@
 'use strict'
 
+
 /**
  * @description separate out line comments and remove interpolation
  * @param {string} [line] curr line being linted

@@ -2,7 +2,15 @@
  * Styling for various ad types
 */
 
+test-mixin()
+	margin 0
+
+mixin2()
+	margin 5px
+
 .ExtendBug
+  test-mixin: $param $param2
+  mixin: $param
   @extend .List
   margin: 15px
 

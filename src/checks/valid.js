@@ -8,7 +8,7 @@
 // 6 the actual JSON property whitelist we will test against
 var attrOrMixinRe = /^\[\S+\]|({[\S]+})|(\([\S ]+\))|(\(\))/ // 1
 var stripRe = /(?=\S)\[\S+\]|(\.|#)\w+/ // /(?=\S)\[\S+\]/ // 2
-var ignoreRe = /[&$.#=>+~]|if|for|else|return|@block|calc|@media/ // 3
+var ignoreRe = /^[$.#]|[&=>+~]|if|for|else|return|@block|calc|@extend|@media/ // 3
 var numRe = /\d+?(?=px|%|em|rem|v(h|w)|v(min|max)|ex|ch|mm|cm|in|pt|pc|mozmm)/ // 4
 var keyRe = /((from)|(to))+(?= $| {| \d|\n|{)/ // 5
 var validJSON = require( '../data/valid.json' ) // 6
@@ -36,7 +36,7 @@ module.exports = function valid( line ) {
 	// 3 if the selector only consists of an attr or mixin (which can be custom)
 	// 4 if it's a number
 	if ( this.state.hashOrCSS || // 1
-		ignoreRe.test( line ) || // 2
+		ignoreRe.test( line.trim() ) || // 2
 		attrOrMixinRe.test( line ) || // 3
 		numRe.test( arr[0] ) ) { // 3
 		isValid = true
@@ -61,10 +61,16 @@ module.exports = function valid( line ) {
 		}.bind( this ) )
 	}
 
+	// if no match yet, try declared mixins
+	if ( !isValid ) {
+		isValid = this.cache.mixins.some( function( mixin ) {
+			return arr[0] === mixin
+		} )
+	}
+
 	if ( !isValid ) {
 		this.msg( 'property is not valid' )
 	}
-
 
 	return isValid
 }

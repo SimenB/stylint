@@ -22,6 +22,9 @@ var init = function( options, pathPassed ) {
 	// make sure indentPref is set no matter what
 	this.config.indentPref = this.config.indentPref || false
 
+	// if you want to use transparent mixins, pass in an array of them
+	this.cache.mixins = this.config.mixins || this.cache.mixins
+
 	// we do the check here just in case
 	// they don't pass in a reporter when using a custom config
 	if ( this.config.reporter ) {
