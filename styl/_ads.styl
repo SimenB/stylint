@@ -2,9 +2,30 @@
  * Styling for various ad types
 */
 
-.foo
-	margin 0 !important // @stylint ignore
-	padding 0 !important
+.ExtendBug
+  @extend .List
+  margin: 15px
+
+.ParentReferenceBug
+  max-width: 100px
+  .ie9 &
+    max-width: 80px
+
+.ChildBug1
+  .parent > .child
+    float: left
+
+.ChildBug2
+  > .child
+    padding: 4px
+
+.ChildBug3
+  .parent .child
+    margin-left: 0
+
+// .foo
+// 	margin 0 !important // @stylint ignore
+// 	padding 0 !important
 
 // $b = { "bar": "baz" }
 

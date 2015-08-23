@@ -2,7 +2,7 @@
     // Comments - woooo
     "blocks": false,
     "brackets": false,
-    "colons": false,
+    "colons": "always",
     "colors": false,
     "commaSpace": "always",
     "commentSpace": "always",
@@ -12,9 +12,10 @@
     "efficient": "always",
     "extendPref": false,
     "globalDupe": true,
-    "indentPref": {
-        "expect": false
-    },
+    "indentPref": 2,
+    // "indentPref": {
+    //     "expect": 2
+    // },
     "leadingZero": "always",
     "maxErrors": false,
     "maxWarnings": false,

@@ -1,3 +1,10 @@
+### 1.1.4
+fix this issue: https://github.com/rossPatton/stylint/issues/181
+
+merge this PR: https://github.com/rossPatton/stylint/pull/186
+
+merge this PR: https://github.com/rossPatton/stylint/pull/187
+
 ### 1.1.3
 fix this issue: https://github.com/rossPatton/stylint/issues/185
 
