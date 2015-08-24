@@ -1,16 +1,21 @@
+/* eslint-env mocha */
+/* eslint-disable no-undefined */
+
+'use strict'
+
 /**
  * UNIT TESTS
  * lets pull in what we're testing here
  */
 
-const fs = require( 'fs' )
-const assert = require( 'assert' )
-const chokidar = require( 'chokidar' )
-const touch = require( 'touch' )
-const should = require( 'chai' ).should()
-const sinon = require( 'sinon' )
-const app = require( '../index' )().create()
-const stripJsonComments = require( 'strip-json-comments' )
+var fs = require( 'fs' )
+var assert = require( 'assert' )
+var chokidar = require( 'chokidar' )
+var touch = require( 'touch' )
+require( 'chai' ).should()
+var sinon = require( 'sinon' )
+var app = require( '../index' )().create()
+var stripJsonComments = require( 'strip-json-comments' )
 
 // turn on strict mode from this point and turn off unecessary logging
 app.state.quiet = true
@@ -19,7 +24,7 @@ app.cache.dir = '/Users/ross/Developer/workspace/stylus-lint/'
 
 describe( 'Core Methods: ', function() {
 
-	beforeEach(function() {
+	beforeEach( function() {
 		app.state.strictMode = false
 	} )
 
@@ -37,8 +42,8 @@ describe( 'Core Methods: ', function() {
 		} )
 
 		it( 'set path if one passed in', function() {
-			app.init(null, 'styl/' )
-			assert.equal( app.state.path,  'styl/' )
+			app.init( null, 'styl/' )
+			assert.equal( app.state.path, 'styl/' )
 		} )
 
 		it( 'set path to cwd if none passed in', function() {
@@ -53,18 +58,18 @@ describe( 'Core Methods: ', function() {
 		} )
 
 		it( 'use custom config if passed --config flag', function() {
-			app.init({ config: './.stylintrc' } )
+			app.init( {config: './.stylintrc'} )
 			assert.deepEqual( app.config, app.setConfig( './.stylintrc' ) )
 		} )
 
 		it( 'call watch if passed --watch flag', function() {
-			app.init({ wath: true } )
-			app.init.getCall(3).returned( sinon.match.same( app.watch ) )
+			app.init( {wath: true} )
+			app.init.getCall( 3 ).returned( sinon.match.same( app.watch ) )
 		} )
 
 		it( 'return read if no flags', function() {
 			app.init()
-			app.init.getCall(4).returned( sinon.match.same( app.read ) )
+			app.init.getCall( 4 ).returned( sinon.match.same( app.read ) )
 		} )
 	} )
 
@@ -78,19 +83,19 @@ describe( 'Core Methods: ', function() {
 		it( 'return parse function if passed a dir', function() {
 			app.state.path = 'styl/'
 			app.read()
-			app.read.getCall(0).returned( sinon.match.same( app.parse ) )
+			app.read.getCall( 0 ).returned( sinon.match.same( app.parse ) )
 		} )
 
 		it( 'return parse function if passed a filename', function() {
 			app.state.path = 'styl/test2.styl'
 			app.read()
-			app.read.getCall(1).returned( sinon.match.same( app.parse ) )
+			app.read.getCall( 1 ).returned( sinon.match.same( app.parse ) )
 		} )
 
 		it( 'return parse function if nothing passed', function() {
 			app.state.path = process.cwd()
 			app.read()
-			app.read.getCall(2).returned( sinon.match.same( app.parse ) )
+			app.read.getCall( 2 ).returned( sinon.match.same( app.parse ) )
 		} )
 	} )
 
@@ -102,24 +107,24 @@ describe( 'Core Methods: ', function() {
 		} )
 
 		it( 'return a forEach if passed a filename', function() {
-			app.parse(false, ['styl/test2.styl'])
-			app.parse.getCall(0).returned( sinon.match.same( ['styl/test2.styl'].forEach ) )
+			app.parse( false, ['styl/test2.styl'] )
+			app.parse.getCall( 0 ).returned( sinon.match.same( ['styl/test2.styl'].forEach ) )
 		} )
 
 		it( 'return a forEach if passed a list of files', function() {
-			app.parse(false, ['styl/test2.styl, styl/test.styl'])
-			app.parse.getCall(1).returned( sinon.match.same( ['styl/test2.styl, styl/test.styl'].forEach ) )
+			app.parse( false, ['styl/test2.styl, styl/test.styl'] )
+			app.parse.getCall( 1 ).returned( sinon.match.same( ['styl/test2.styl, styl/test.styl'].forEach ) )
 		} )
 
 		it( 'handle empty or one line files fine', function() {
-			app.parse(false, ['styl/oneLine.styl'])
-			app.parse.getCall(2).returned( sinon.match.same( ['styl/oneLine.styl'].forEach ) )
+			app.parse( false, ['styl/oneLine.styl'] )
+			app.parse.getCall( 2 ).returned( sinon.match.same( ['styl/oneLine.styl'].forEach ) )
 		} )
 
 		it( 'returns app.done when done parsing last file', function() {
 			app.cache.fileNo = app.cache.filesLen
-			app.parse(false, ['styl/test2.styl'])
-			app.parse.getCall(3).returned( sinon.match.same( app.done ) )
+			app.parse( false, ['styl/test2.styl'] )
+			app.parse.getCall( 3 ).returned( sinon.match.same( app.done ) )
 		} )
 
 		it( 'throws err if passed non-existant file name', function() {
@@ -135,7 +140,7 @@ describe( 'Core Methods: ', function() {
 	describe( 'Lint: ', function() {
 		sinon.spy( app, 'lint' )
 
-		afterEach(function() {
+		afterEach( function() {
 			app.config.maxErrors = false
 			app.config.maxWarnings = false
 			app.cache.errs = []
@@ -154,28 +159,28 @@ describe( 'Core Methods: ', function() {
 			}
 
 			app.lint()
-			app.parse.getCall(0).returned( sinon.match.same( app.done ) )
+			app.parse.getCall( 0 ).returned( sinon.match.same( app.done ) )
 		} )
 
 		it( 'should return done if over maxErrs', function() {
 			app.config.maxErrors = 5
 			app.cache.errs.length = 6
 			app.lint()
-			app.parse.getCall(1).returned( sinon.match.same( app.done ) )
+			app.parse.getCall( 1 ).returned( sinon.match.same( app.done ) )
 		} )
 
 		it( 'should return done if over maxWarnings', function() {
 			app.config.maxWarnings = 5
 			app.cache.warnings.length = 6
 			app.lint()
-			app.parse.getCall(2).returned( sinon.match.same( app.done ) )
+			app.parse.getCall( 2 ).returned( sinon.match.same( app.done ) )
 		} )
 	} )
 
 	describe( 'Watch: ', function() {
 		sinon.spy( app, 'watch' )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.watcher = undefined
 		} )
 
@@ -193,16 +198,16 @@ describe( 'Core Methods: ', function() {
 		} )
 
 		it( 'should call ready event when fired', function() {
-			app.watcher = chokidar.watch(app.state.path)
+			app.watcher = chokidar.watch( app.state.path )
 			app.watcher.on( 'ready', function() {
-				assert(true)
+				assert( true )
 			} )
 		} )
 
 		it( 'should call change event when file changed', function() {
 			app.watcher = chokidar.watch( 'styl/test.styl' )
 			app.watcher.on( 'change', function() {
-				assert(true)
+				assert( true )
 			} )
 			touch( 'styl/test.styl' )
 		} )
@@ -226,29 +231,29 @@ describe( 'Core Methods: ', function() {
 		} )
 
 		it( 'return done() if done passed in', function() {
-			const expectedDoneObj = {
+			var expectedDoneObj = {
 				exitCode: 1,
 				msg: '',
 				errs: [],
 				warnings: []
 			}
 
-			assert.deepEqual(expectedDoneObj, app.reporter( 'reporter test', 'done' ))
+			assert.deepEqual( expectedDoneObj, app.reporter( 'reporter test', 'done' ) )
 		} )
 
 		it( 'return done() and kill if kill passed in', function() {
-			const expectedDoneObj = {
+			var expectedDoneObj = {
 				exitCode: 1,
 				msg: '\nStylint: 0 Errors.\nStylint: 0 Warnings.\nStylint: Over Error or Warning Limit.',
 				errs: [],
 				warnings: []
 			}
 
-			assert.deepEqual(expectedDoneObj, app.reporter( 'reporter test', 'done', 'kill' ))
+			assert.deepEqual( expectedDoneObj, app.reporter( 'reporter test', 'done', 'kill' ) )
 		} )
 
 		it( 'return done() if done passed in', function() {
-			const expectedDoneObj = {
+			var expectedDoneObj = {
 				exitCode: 1,
 				msg: '\nStylint: 1 Errors.\nStylint: 1 Warnings.',
 				errs: [1],
@@ -258,7 +263,7 @@ describe( 'Core Methods: ', function() {
 			app.cache.errs = [1]
 			app.cache.warnings = [2]
 
-			assert.deepEqual(expectedDoneObj, app.reporter( 'reporter test', 'done' ))
+			assert.deepEqual( expectedDoneObj, app.reporter( 'reporter test', 'done' ) )
 		} )
 	} )
 
@@ -336,15 +341,15 @@ describe( 'Core Methods: ', function() {
 } )
 
 describe( 'Utility Methods: ', function() {
-	beforeEach(function() {
+	beforeEach( function() {
 		app.state.strictMode = false
 	} )
 
 	describe( 'Set Config should:', function() {
 		process.argv[2] = '-c'
 		process.argv[3] = '.stylintrc'
-		const testMethod = app.setConfig( '.stylintrc' )
-		const testConfig = JSON.parse( stripJsonComments( fs.readFileSync( process.cwd() + '/.stylintrc', 'utf-8' ) ) )
+		var testMethod = app.setConfig( '.stylintrc' )
+		var testConfig = JSON.parse( stripJsonComments( fs.readFileSync( process.cwd() + '/.stylintrc', 'utf-8' ) ) )
 
 		it( 'update config state if passed a valid path', function() {
 			assert.deepEqual( testMethod, testConfig )
@@ -364,7 +369,7 @@ describe( 'Utility Methods: ', function() {
 
 		it( 'return app.parse if passed directory', function() {
 			app.getFiles( '/styl' )
-			app.getFiles.getCall(0).returned( sinon.match.same( app.parse ) )
+			app.getFiles.getCall( 0 ).returned( sinon.match.same( app.parse ) )
 		} )
 
 		it( 'return undefined if passed filename', function() {
@@ -381,9 +386,9 @@ describe( 'Utility Methods: ', function() {
 	} )
 
 	describe( 'Reset (after change)', function() {
-		const resetTest = app.resetOnChange.bind(app)
+		var resetTest = app.resetOnChange.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.watching = false
 		} )
 
@@ -418,42 +423,42 @@ describe( 'Utility Methods: ', function() {
 	} )
 
 	describe( 'trim line should: ', function() {
-		const trimTest = app.trimLine.bind(app)
+		var trimTest = app.trimLine.bind( app )
 
-		it ( 'do nothing if line has no comment', function() {
+		it( 'do nothing if line has no comment', function() {
 			assert.equal( '.noCommentOnThisLine ', trimTest( '.noCommentOnThisLine ' ) )
 		} )
 
-		it ( 'do nothing if comment is 1st character', function() {
+		it( 'do nothing if comment is 1st character', function() {
 			assert.equal( '// .noCommentOnThisLine ', trimTest( '// .noCommentOnThisLine ' ) )
 		} )
 
-		it ( 'trim comment if not first character', function() {
+		it( 'trim comment if not first character', function() {
 			assert.equal( '.noCommentOnThisLine', trimTest( '.noCommentOnThisLine //' ) )
 		} )
 
-		it ( 'trim interpolated variables', function() {
+		it( 'trim interpolated variables', function() {
 			assert.equal( '.test-', trimTest( '.test-{interpolation}' ) )
 		} )
 	} )
 } )
 
 describe( 'Linter Style Checks: ', function() {
-	const lint = app.lintMethods
+	var lint = app.lintMethods
 
-	beforeEach(function() {
+	beforeEach( function() {
 		app.state.strictMode = true
 		app.state.conf = 'always'
 		app.state.severity = 'warning'
 	} )
 
-	afterEach(function() {
+	afterEach( function() {
 		app.cache.warnings = []
 		app.cache.errs = []
 	} )
 
 	describe( 'blocks: prefer @block when defining block vars', function() {
-		const blockTest = lint.blocks.bind(app)
+		var blockTest = lint.blocks.bind( app )
 
 		it( 'false if block style incorrect', function() {
 			assert.equal( false, blockTest( 'myBlock = ' ) )
@@ -471,9 +476,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'blocks: disallow @block when defining block vars', function() {
-		const blockTest = lint.blocks.bind(app)
+		var blockTest = lint.blocks.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.conf = 'never'
 		} )
 
@@ -494,9 +499,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'brackets: always use brackets', function() {
-		const bracketsTest = lint.brackets.bind(app)
+		var bracketsTest = lint.brackets.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.conf = 'always'
 			app.state.hashOrCSS = false
 			app.state.openBracket = false
@@ -538,9 +543,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'brackets: disallow brackets', function() {
-		const bracketsTest = lint.brackets.bind(app)
+		var bracketsTest = lint.brackets.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.conf = 'never'
 		} )
 
@@ -576,13 +581,13 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'colon never: prefer margin 0 over margin: 0', function() {
-		const colonTest = lint.colons.bind(app)
+		var colonTest = lint.colons.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.conf = 'never'
 		} )
 
-		afterEach(function() {
+		afterEach( function() {
 			app.state.hash = false
 		} )
 
@@ -633,9 +638,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'colon always: prefer margin: 0 over margin 0', function() {
-		const colonTest = lint.colons.bind(app)
+		var colonTest = lint.colons.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.conf = 'always'
 		} )
 
@@ -685,33 +690,33 @@ describe( 'Linter Style Checks: ', function() {
 		} )
 	} )
 
-	describe( 'colors', function () {
-		const colorsTest = lint.colors.bind(app)
+	describe( 'colors', function() {
+		var colorsTest = lint.colors.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.conf = true
 		} )
 
-		it( 'undefined if line is an id selector', function () {
+		it( 'undefined if line is an id selector', function() {
 			assert.equal( undefined, colorsTest( '#aaa' ) )
 		} )
 
-		it( 'false if a line doesnt have a hex color', function () {
+		it( 'false if a line doesnt have a hex color', function() {
 			assert.equal( false, colorsTest( 'color: red' ) )
 		} )
 
-		it( 'true if line has hex color', function () {
+		it( 'true if line has hex color', function() {
 			assert.equal( true, colorsTest( 'color: #fff' ) )
 		} )
 
-		it( 'undefined if hex color is being assigned to a variable', function () {
+		it( 'undefined if hex color is being assigned to a variable', function() {
 			assert.equal( undefined, colorsTest( '$foobar ?= #fff' ) )
 			assert.equal( undefined, colorsTest( '$foobar = #fff' ) )
 		} )
 	} )
 
 	describe( 'comma space: prefer space after commas', function() {
-		const commaTest = lint.commaSpace.bind(app)
+		var commaTest = lint.commaSpace.bind( app )
 
 		it( 'false if space after comma', function() {
 			assert.equal( false, commaTest( '0, 0, 0, .18' ) )
@@ -733,9 +738,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'comma space: prefer NO space after commas', function() {
-		const commaTest = lint.commaSpace.bind(app)
+		var commaTest = lint.commaSpace.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.conf = 'never'
 		} )
 
@@ -759,9 +764,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'comment space: prefer spaces after line comments', function() {
-		const commentSpaceTest = lint.commentSpace.bind(app)
+		var commentSpaceTest = lint.commentSpace.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.hasComment = true
 		} )
 
@@ -782,9 +787,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'comment space: prefer NO spaces after line comments', function() {
-		const commentSpaceTest = lint.commentSpace.bind(app)
+		var commentSpaceTest = lint.commentSpace.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.hasComment = true
 			app.state.conf = 'never'
 		} )
@@ -806,7 +811,7 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'css literal', function() {
-		const cssTest = lint.cssLiteral.bind(app)
+		var cssTest = lint.cssLiteral.bind( app )
 
 		it( 'false if @css is not used', function() {
 			app.state.hashOrCSS = false
@@ -826,7 +831,7 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'depthLimit', function() {
-		const nestTest = lint.depthLimit.bind(app)
+		var nestTest = lint.depthLimit.bind( app )
 
 		it( 'false if less indents than depth limit', function() {
 			app.config.depthLimit = 4
@@ -867,7 +872,7 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'duplicates', function() {
-		const dupeTest = lint.duplicates.bind(app)
+		var dupeTest = lint.duplicates.bind( app )
 
 		it( 'tabs: false if no dupe, not root, diff context, same selector', function() {
 			app.config.indentPref = 'tabs'
@@ -996,9 +1001,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'efficient: prefer margin 0 over margin 0 0 0 0', function() {
-		const efficientTest = lint.efficient.bind(app)
+		var efficientTest = lint.efficient.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.conf = 'always'
 		} )
 
@@ -1042,9 +1047,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'efficient: prefer margin 0 0 0 0 over margin 0', function() {
-		const efficientTest = lint.efficient.bind(app)
+		var efficientTest = lint.efficient.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.conf = 'never'
 		} )
 
@@ -1088,9 +1093,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'extends style: prefer @extends over @extend', function() {
-		const extendTest = lint.extendPref.bind(app)
+		var extendTest = lint.extendPref.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.conf = '@extends'
 		} )
 
@@ -1108,9 +1113,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'extends style: prefer @extend over @extends', function() {
-		const extendTest = lint.extendPref.bind(app)
+		var extendTest = lint.extendPref.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.conf = '@extend'
 		} )
 
@@ -1128,9 +1133,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'hash start', function() {
-		const hashTest = app.hashOrCSSStart.bind(app)
+		var hashTest = app.hashOrCSSStart.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.hashOrCSS = false
 		} )
 
@@ -1157,9 +1162,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'hash end', function() {
-		const hashTest = app.hashOrCSSEnd.bind(app)
+		var hashTest = app.hashOrCSSEnd.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.hashOrCSS = true
 		} )
 
@@ -1186,16 +1191,16 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'indent pref', function() {
-		const indentTest = lint.indentPref.bind(app)
+		var indentTest = lint.indentPref.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.conf = 2
 		} )
 
 		it( 'false if line indented with incorrect # of spaces', function() {
 			app.state.context = 1.5
 			assert.equal( false, indentTest( '   .test' ) )
-			app.state.context = .5
+			app.state.context = 0.5
 			assert.equal( false, indentTest( ' .test2' ) )
 		} )
 
@@ -1208,7 +1213,7 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'keyframes end', function() {
-		const keyframesEndTest = app.keyframesEnd.bind(app)
+		var keyframesEndTest = app.keyframesEnd.bind( app )
 
 		it( 'false if keyframes active and context set to 0 (keyframes ended)', function() {
 			app.state.keyframes = true
@@ -1229,9 +1234,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'keyframes start', function() {
-		const keyframesStartTest = app.keyframesStart.bind(app)
+		var keyframesStartTest = app.keyframesStart.bind( app )
 
-		afterEach(function() {
+		afterEach( function() {
 			app.state.keyframes = false
 		} )
 
@@ -1257,9 +1262,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'leading zero always: prefer 0.9 over .9', function() {
-		const zeroTest = lint.leadingZero.bind(app)
+		var zeroTest = lint.leadingZero.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.conf = 'always'
 		} )
 
@@ -1291,9 +1296,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'leading zero never: prefer .9 or 0.9', function() {
-		const zeroTest = lint.leadingZero.bind(app)
+		var zeroTest = lint.leadingZero.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.conf = 'never'
 		} )
 
@@ -1323,7 +1328,7 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'mixed spaces and tabs', function() {
-		const mixed = lint.mixed.bind(app)
+		var mixed = lint.mixed.bind( app )
 
 		it( 'false if no mixed spaces and tabs found: spaces preferred', function() {
 			app.config.indentPref = 4
@@ -1348,13 +1353,13 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'naming convention', function() {
-		const conventionTest = lint.namingConvention.bind(app)
+		var conventionTest = lint.namingConvention.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.config.namingConventionStrict = true
 		} )
 
-		afterEach(function() {
+		afterEach( function() {
 			app.config.namingConventionStrict = false
 		} )
 
@@ -1478,9 +1483,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'naming convention: strict turned off: ', function() {
-		const conventionTest = lint.namingConvention.bind(app)
+		var conventionTest = lint.namingConvention.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.config.namingConventionStrict = false
 		} )
 
@@ -1499,26 +1504,26 @@ describe( 'Linter Style Checks: ', function() {
 		} )
 	} )
 
-	describe( 'noImportant: disallow !important', function () {
-		const importantTest = lint.noImportant.bind(app)
+	describe( 'noImportant: disallow !important', function() {
+		var importantTest = lint.noImportant.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.conf = true
 		} )
 
-		it( 'false if a line doesnt have !important', function () {
+		it( 'false if a line doesnt have !important', function() {
 			assert.equal( false, importantTest( '.foo' ) )
 		} )
 
-		it( 'true if line has an !important', function () {
+		it( 'true if line has an !important', function() {
 			assert.equal( true, importantTest( 'margin 5px !important' ) )
 		} )
 	} )
 
 	describe( 'none: prefer 0 over none', function() {
-		const noneTest = lint.none.bind(app)
+		var noneTest = lint.none.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.config.none = 'never'
 		} )
 
@@ -1553,9 +1558,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'none: prefer none over 0', function() {
-		const noneTest = lint.none.bind(app)
+		var noneTest = lint.none.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.config.none = 'always'
 		} )
 
@@ -1590,9 +1595,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'parens: prefer ( param ) over (param)', function() {
-		const parenTest = lint.parenSpace.bind(app)
+		var parenTest = lint.parenSpace.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.config.parenSpace = 'always'
 		} )
 
@@ -1610,9 +1615,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'parens: prefer (param) over ( param )', function() {
-		const parenTest = lint.parenSpace.bind(app)
+		var parenTest = lint.parenSpace.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.config.parenSpace = 'never'
 		} )
 
@@ -1630,9 +1635,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'placeholders: prefer $var over .class when extending: ', function() {
-		const placeholderTest = lint.placeholders.bind(app)
+		var placeholderTest = lint.placeholders.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.config.placeholders = 'always'
 		} )
 
@@ -1657,9 +1662,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'placeholders: prefer $var over .class when extending: ', function() {
-		const placeholderTest = lint.placeholders.bind(app)
+		var placeholderTest = lint.placeholders.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.config.placeholders = 'never'
 		} )
 
@@ -1684,9 +1689,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'prefix var with $: always', function() {
-		const varTest = lint.prefixVarsWithDollar.bind(app)
+		var varTest = lint.prefixVarsWithDollar.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.conf = 'always'
 		} )
 
@@ -1710,9 +1715,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'prefix var with $: never', function() {
-		const varTest = lint.prefixVarsWithDollar.bind(app)
+		var varTest = lint.prefixVarsWithDollar.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.conf = 'never'
 		} )
 
@@ -1732,17 +1737,17 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'quote style', function() {
-		const quoteTest = lint.quotePref.bind(app)
+		var quoteTest = lint.quotePref.bind( app )
 
 		it( 'false if correct quote style used: single', function() {
 			app.state.conf = 'single'
-			assert.equal( false, quoteTest("$var = 'test string' ") )
-			assert.equal( false, quoteTest("$var = 'test \"substring\" string' ") )
-			assert.equal( false, quoteTest(".show-content( $content = 'Hello!' )") )
-			assert.equal( false, quoteTest(".show-content( $content = 'Hello!' ) {") )
-			assert.equal( false, quoteTest("[class*='--button']") )
-			assert.equal( false, quoteTest("[class*='--button'] {") )
-			assert.equal( false, quoteTest("show-content( $content = 'Hello!' ) {") )
+			assert.equal( false, quoteTest( "$var = 'test string' " ) )
+			assert.equal( false, quoteTest( "$var = 'test \"substring\" string' " ) )
+			assert.equal( false, quoteTest( ".show-content( $content = 'Hello!' )" ) )
+			assert.equal( false, quoteTest( ".show-content( $content = 'Hello!' ) {" ) )
+			assert.equal( false, quoteTest( "[class*='--button']" ) )
+			assert.equal( false, quoteTest( "[class*='--button'] {" ) )
+			assert.equal( false, quoteTest( "show-content( $content = 'Hello!' ) {" ) )
 		} )
 
 		it( 'false if correct quote style used: double', function() {
@@ -1767,11 +1772,11 @@ describe( 'Linter Style Checks: ', function() {
 
 		it( 'true if incorrect quote style used: double', function() {
 			app.state.conf = 'double'
-			assert.equal( true, quoteTest("$var = 'test string' ") )
-			assert.equal( true, quoteTest("$var = 'test \"substring\" string' ") )
-			assert.equal( true, quoteTest(".show-content( $content = 'Hello!' )") )
-			assert.equal( true, quoteTest(".show-content( $content = 'Hello!' ) {") )
-			assert.equal( true, quoteTest("[class*='--button']") )
+			assert.equal( true, quoteTest( "$var = 'test string' " ) )
+			assert.equal( true, quoteTest( "$var = 'test \"substring\" string' " ) )
+			assert.equal( true, quoteTest( ".show-content( $content = 'Hello!' )" ) )
+			assert.equal( true, quoteTest( ".show-content( $content = 'Hello!' ) {" ) )
+			assert.equal( true, quoteTest( "[class*='--button']" ) )
 		} )
 
 		it( 'undefined if no quotes on line', function() {
@@ -1780,9 +1785,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'semicolon never (prefer margin 0 to margin 0;)', function() {
-		const semiTest = lint.semicolons.bind(app)
+		var semiTest = lint.semicolons.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.conf = 'never'
 		} )
 
@@ -1807,9 +1812,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'semicolon always (prefer margin 0; to margin 0)', function() {
-		const semiTest = lint.semicolons.bind(app)
+		var semiTest = lint.semicolons.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.conf = 'always'
 		} )
 
@@ -1838,24 +1843,24 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'sort order', function() {
-		const sortTest = lint.sortOrder.bind(app)
+		var sortTest = lint.sortOrder.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.prevContext = 1
 			app.state.context = 1
 		} )
 
-		afterEach(function() {
+		afterEach( function() {
 			app.cache.sortOrderCache = []
 		} )
 
 		it( 'undefined if root level', function() {
 			app.state.context = 0
-			assert.equal( undefined, sortTest( 'margin 0' ))
+			assert.equal( undefined, sortTest( 'margin 0' ) )
 		} )
 
 		it( 'cache length should only be 1 (the current prop) if context switched', function() {
-			app.cache.sortOrderCache = [ 'border', 'margin', 'padding' ]
+			app.cache.sortOrderCache = ['border', 'margin', 'padding']
 			app.state.prevContext = 0
 			app.state.context = 1
 
@@ -1865,12 +1870,12 @@ describe( 'Linter Style Checks: ', function() {
 		} )
 
 		describe( 'disabled', function() {
-			beforeEach(function() {
+			beforeEach( function() {
 				app.state.conf = false
 			} )
 
 			it( 'should allow any order when disabled', function() {
-				const expectedCache = [ 'background', 'z-index', 'border', 'width' ]
+				var expectedCache = ['background', 'z-index', 'border', 'width']
 
 				assert.equal( false, app.state.conf )
 				assert.equal( true, sortTest( '	background' ) )
@@ -1883,17 +1888,17 @@ describe( 'Linter Style Checks: ', function() {
 		} )
 
 		describe( 'alphabetical', function() {
-			beforeEach(function() {
+			beforeEach( function() {
 				app.state.conf = 'alphabetical'
-				app.cache.sortOrderCache = [ 'border', 'margin', 'padding' ]
+				app.cache.sortOrderCache = ['border', 'margin', 'padding']
 			} )
 
-			afterEach(function() {
+			afterEach( function() {
 				app.cache.sortOrderCache = []
 			} )
 
 			it( 'true if correct sort order with mocked sort order cache', function() {
-				const expectedCache = [ 'border', 'margin', 'padding', 'position', 'z-index' ]
+				var expectedCache = ['border', 'margin', 'padding', 'position', 'z-index']
 
 				assert.equal( 'alphabetical', app.state.conf )
 				assert.equal( 3, app.cache.sortOrderCache.length )
@@ -1904,7 +1909,7 @@ describe( 'Linter Style Checks: ', function() {
 			} )
 
 			it( 'false if not correct sort order with mocked sort order cache', function() {
-				const expectedCache = [ 'border', 'margin', 'padding', 'line-height', 'background' ]
+				var expectedCache = ['border', 'margin', 'padding', 'line-height', 'background']
 
 				assert.equal( 'alphabetical', app.state.conf )
 				assert.equal( 3, app.cache.sortOrderCache.length )
@@ -1916,22 +1921,22 @@ describe( 'Linter Style Checks: ', function() {
 		} )
 
 		describe( 'grouped', function() {
-			beforeEach(function() {
+			beforeEach( function() {
 				app.state.conf = 'grouped'
-				app.cache.sortOrderCache = [ 'position', 'right' ]
+				app.cache.sortOrderCache = ['position', 'right']
 			} )
 
-			afterEach(function() {
+			afterEach( function() {
 				app.cache.sortOrderCache = []
 			} )
 
 			it( 'false if sorted array is shorter than cache', function() {
-				app.cache.sortOrderCache = [ 'border', 'margin', 'padding' ]
-				assert.equal( false, sortTest( 'margin 0' ))
+				app.cache.sortOrderCache = ['border', 'margin', 'padding']
+				assert.equal( false, sortTest( 'margin 0' ) )
 			} )
 
 			it( 'false if not correct sort order with mocked sort order cache', function() {
-				const expectedCache = [ 'position', 'right', 'top' ]
+				var expectedCache = ['position', 'right', 'top']
 
 				assert.equal( 'grouped', app.state.conf )
 				assert.equal( 2, app.cache.sortOrderCache.length )
@@ -1941,7 +1946,7 @@ describe( 'Linter Style Checks: ', function() {
 			} )
 
 			it( 'true if correct sort order with mocked sort order cache', function() {
-				const expectedCache = [ 'position', 'right', 'bottom', 'z-index', 'width' ]
+				var expectedCache = ['position', 'right', 'bottom', 'z-index', 'width']
 
 				assert.equal( 'grouped', app.state.conf )
 				assert.equal( 2, app.cache.sortOrderCache.length )
@@ -1954,19 +1959,19 @@ describe( 'Linter Style Checks: ', function() {
 		} )
 
 		describe( 'Array', function() {
-			beforeEach(function() {
-				app.state.conf = [ 'z-index', 'animation', 'top' ]
-				app.cache.sortOrderCache = [ 'z-index' ]
+			beforeEach( function() {
+				app.state.conf = ['z-index', 'animation', 'top']
+				app.cache.sortOrderCache = ['z-index']
 			} )
 
-			afterEach(function() {
+			afterEach( function() {
 				app.cache.sortOrderCache = []
 			} )
 
 			it( 'false if not correct sort order with mocked sort order cache', function() {
-				const expectedCache = [ 'z-index', 'top', 'animation' ]
+				var expectedCache = ['z-index', 'top', 'animation']
 
-				assert.deepEqual( [ 'z-index', 'animation', 'top' ], app.state.conf )
+				assert.deepEqual( ['z-index', 'animation', 'top'], app.state.conf )
 				assert.equal( 1, app.cache.sortOrderCache.length )
 				assert.equal( true, sortTest( 'top 50px' ) )
 				assert.equal( false, sortTest( 'animation fade-out' ) )
@@ -1975,9 +1980,9 @@ describe( 'Linter Style Checks: ', function() {
 			} )
 
 			it( 'true if correct sort order with mocked sort order cache', function() {
-				const expectedCache = [ 'z-index', 'animation', 'top', 'width', 'border' ]
+				var expectedCache = ['z-index', 'animation', 'top', 'width', 'border']
 
-				assert.deepEqual( [ 'z-index', 'animation', 'top' ], app.state.conf )
+				assert.deepEqual( ['z-index', 'animation', 'top'], app.state.conf )
 				assert.equal( 1, app.cache.sortOrderCache.length )
 				assert.equal( true, sortTest( 'animation fade-in' ) )
 				assert.equal( true, sortTest( 'top 0' ) )
@@ -1990,7 +1995,7 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'stacked properties', function() {
-		const stackedTest = lint.stackedProperties.bind(app)
+		var stackedTest = lint.stackedProperties.bind( app )
 
 		it( 'false if not a one liner', function() {
 			assert.equal( false, stackedTest( 'margin 0 auto' ) )
@@ -2003,7 +2008,7 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'starts with comment', function() {
-		const startsWithComment = app.startsWithComment.bind(app)
+		var startsWithComment = app.startsWithComment.bind( app )
 
 		it( 'false if // not first char on line', function() {
 			assert.equal( false, startsWithComment( 'margin 0 auto //test' ) )
@@ -2016,7 +2021,7 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'stylint off toggle:', function() {
-		const toggleTest = app.stylintOff.bind(app)
+		var toggleTest = app.stylintOff.bind( app )
 
 		it( 'false if tests enabled and toggle found', function() {
 			app.state.testsEnabled = true
@@ -2035,7 +2040,7 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'stylint on toggle:', function() {
-		const toggleTest = app.stylintOn.bind(app)
+		var toggleTest = app.stylintOn.bind( app )
 
 		it( 'false if tests disabled and toggle not found', function() {
 			app.state.testsEnabled = false
@@ -2054,7 +2059,7 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'trailing whitespace', function() {
-		const whitespaceTest = lint.trailingWhitespace.bind(app)
+		var whitespaceTest = lint.trailingWhitespace.bind( app )
 
 		it( 'false if no trailing whitespace', function() {
 			assert.equal( false, whitespaceTest( 'margin 0 auto' ) )
@@ -2067,7 +2072,7 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'universal selector', function() {
-		const universalTest = lint.universal.bind(app)
+		var universalTest = lint.universal.bind( app )
 
 		it( 'false if no invalid * is found', function() {
 			assert.equal( false, universalTest( 'img' ) )
@@ -2083,19 +2088,19 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	describe( 'valid property:', function() {
-		const validTest = lint.valid.bind(app)
+		var validTest = lint.valid.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.keyframes = false
 		} )
 
-		it ( 'true if from or to used INSIDE keyframes', function() {
+		it( 'true if from or to used INSIDE keyframes', function() {
 			app.state.keyframes = true
 			assert.equal( true, validTest( 'from 0%' ) )
 			assert.equal( true, validTest( 'to 100%' ) )
 		} )
 
-		it ( 'false if property not valid', function() {
+		it( 'false if property not valid', function() {
 			app.cache.mixins = []
 			assert.equal( false, validTest( 'marg 0 auto' ) )
 			assert.equal( false, validTest( 'pad 0' ) )
@@ -2110,7 +2115,7 @@ describe( 'Linter Style Checks: ', function() {
 			assert.equal( false, validTest( 'test-mixin $val' ) )
 		} )
 
-		it ( 'true if property is valid', function() {
+		it( 'true if property is valid', function() {
 			assert.equal( true, validTest( 'background' ) )
 			assert.equal( true, validTest( 'border-bottom 0' ) )
 			assert.equal( true, validTest( 'margin-top 0' ) )
@@ -2132,7 +2137,7 @@ describe( 'Linter Style Checks: ', function() {
 			assert.equal( true, validTest( 'a.b-logo' ) )
 		} )
 
-		it ( 'true if syntax, class, id, interpolation, attribute, mixin etc', function() {
+		it( 'true if syntax, class, id, interpolation, attribute, mixin etc', function() {
 			assert.equal( true, validTest( '.el:hover' ) )
 			assert.equal( true, validTest( '$const-name = ' ) )
 			assert.equal( true, validTest( '{const-name}' ) )
@@ -2146,7 +2151,7 @@ describe( 'Linter Style Checks: ', function() {
 			assert.equal( true, validTest( 'width calc(100% - 16px)' ) )
 		} )
 
-		it ( 'true if transparent mixin (thats been declared)', function() {
+		it( 'true if transparent mixin (thats been declared)', function() {
 			app.cache.mixins = ['test-mixin', 'mixin', 'multiplyBy']
 
 			assert.equal( true, validTest( 'test-mixin: $val' ) )
@@ -2155,17 +2160,16 @@ describe( 'Linter Style Checks: ', function() {
 			assert.equal( true, validTest( 'test-mixin $val' ) )
 		} )
 
-		it ( 'undefined if from or to used outside keyframes', function() {
+		it( 'undefined if from or to used outside keyframes', function() {
 			assert.equal( undefined, validTest( 'from 0%' ) )
 			assert.equal( undefined, validTest( 'to 100%' ) )
 		} )
 	} )
 
-
 	describe( 'zero units: prefer no unit values', function() {
-		const zeroTest = lint.zeroUnits.bind(app)
+		var zeroTest = lint.zeroUnits.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.keyframes = false
 			app.state.conf = 'never'
 		} )
@@ -2215,11 +2219,10 @@ describe( 'Linter Style Checks: ', function() {
 		} )
 	} )
 
-
 	describe( 'zero units: prefer unit values', function() {
-		const zeroTest = lint.zeroUnits.bind(app)
+		var zeroTest = lint.zeroUnits.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.keyframes = false
 			app.state.conf = 'always'
 		} )
@@ -2269,11 +2272,10 @@ describe( 'Linter Style Checks: ', function() {
 		} )
 	} )
 
-
 	describe( 'zIndex Normalizer', function() {
-		const zNormalizrTest = lint.zIndexNormalize.bind(app)
+		var zNormalizrTest = lint.zIndexNormalize.bind( app )
 
-		beforeEach(function() {
+		beforeEach( function() {
 			app.state.conf = 5
 		} )
 
@@ -2296,10 +2298,9 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 } )
 
-
 describe( 'Done, again: ', function() {
 
-	beforeEach(function() {
+	beforeEach( function() {
 		app.cache.msg = ''
 		app.state.quiet = true
 		app.state.watching = true
@@ -2321,7 +2322,7 @@ describe( 'Done, again: ', function() {
 	} )
 
 	it( 'exit code should be 0 if has warnings and no errs', function() {
-		app.cache.warnings = [0,1,2,3,4]
+		app.cache.warnings = [0, 1, 2, 3, 4]
 		assert.equal( 0, app.done().exitCode )
 	} )
 
@@ -2330,8 +2331,8 @@ describe( 'Done, again: ', function() {
 	} )
 
 	it( 'exit code of 1 if not clear', function() {
-		app.cache.warnings = [0,1,2,3,4]
-		app.cache.errs = [0,1,2,3,4]
+		app.cache.warnings = [0, 1, 2, 3, 4]
+		app.cache.errs = [0, 1, 2, 3, 4]
 		assert.equal( 1, app.done().exitCode )
 	} )
 
@@ -2339,8 +2340,8 @@ describe( 'Done, again: ', function() {
 		app.state.quiet = false
 		app.config.maxWarnings = 10
 		app.config.maxErrors = 10
-		app.cache.warnings = [0,1,2,3,4]
-		app.cache.errs = [0,1,2,3,4]
+		app.cache.warnings = [0, 1, 2, 3, 4]
+		app.cache.errs = [0, 1, 2, 3, 4]
 		app.cache.msg = '\nStylint: 5 Errors. (Max Errors: 10)\nStylint: 5 Warnings. (Max Warnings: 10)'
 		assert.equal( app.cache.msg, app.done().msg )
 	} )
