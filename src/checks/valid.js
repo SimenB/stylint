@@ -6,12 +6,14 @@
 // 4 ignore numbers
 // 5 ( from || to ) are only valid inside @keyframe
 // 6 the actual JSON property whitelist we will test against
+// 7 strip classes or ids from more selectors like div.class-name
 var attrOrMixinRe = /^\[\S+\]|({[\S]+})|(\([\S ]+\))|(\(\))/ // 1
-var stripRe = /(?=\S)\[\S+\]|(\.|#)\w+/ // /(?=\S)\[\S+\]/ // 2
+var stripRe = /(?=\S)\[\S+\]|(\.|#)(\w|-)+/ // /(?=\S)\[\S+\]/ // 2
 var ignoreRe = /^[$.#]|[&=>+~]|if|for|else|return|@block|calc|@extend|@media/ // 3
 var numRe = /\d+?(?=px|%|em|rem|v(h|w)|v(min|max)|ex|ch|mm|cm|in|pt|pc|mozmm)/ // 4
 var keyRe = /((from)|(to))+(?= $| {| \d|\n|{)/ // 5
 var validJSON = require( '../data/valid.json' ) // 6
+var stripSelRe = /(\.(\w|-)+|#(\w|-)+)+/igm // 7
 
 
 /**

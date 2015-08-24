@@ -1,3 +1,6 @@
+### 1.2.2
+fix this issue: https://github.com/rossPatton/stylint/issues/189
+
 ### 1.2.1
 fix this issue: https://github.com/rossPatton/stylint/issues/184
 

@@ -2128,6 +2128,8 @@ describe( 'Linter Style Checks: ', function() {
 			assert.equal( true, validTest( 'source' ) )
 			assert.equal( true, validTest( 'src: "url/to/font"' ) )
 			assert.equal( true, validTest( 'background linear-gradient(to top, grey 50%, transparent 50%)' ) )
+			assert.equal( true, validTest( 'img.attachment-event_thumb_single' ) )
+			assert.equal( true, validTest( 'a.b-logo' ) )
 		} )
 
 		it ( 'true if syntax, class, id, interpolation, attribute, mixin etc', function() {
