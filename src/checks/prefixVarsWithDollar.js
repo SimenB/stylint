@@ -14,7 +14,19 @@ var prefixVarsWithDollar = function( line ) {
 	if ( this.state.hashOrCSS || ignoreRe.test( line ) ) { return }
 
 	var hasDolla = true
+	var allowLine = true;
+
+	var ignoredLines = [
+		'vendor-prefixes'
+	];
+
+	ignoredLines.forEach(function(item) {
+		if (line.indexOf(item) > -1) {
+			allowLine = false;
+		}
+	});
 	// var mixinArr = []
+
 
 	// line = line.replace( stripStringRe, ' ' )
 
@@ -46,7 +58,7 @@ var prefixVarsWithDollar = function( line ) {
 		hasDolla = false
 	}
 
-	if ( this.state.conf === 'always' && !hasDolla ) {
+	if ( this.state.conf === 'always' && !hasDolla && allowLine ) {
 		this.msg( 'variables and parameters must be prefixed with the $ sign' )
 	}
 	else if ( this.state.conf === 'never' && hasDolla ) {
