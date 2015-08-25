@@ -15,7 +15,7 @@ var done = function() {
 
 	// when testing we want to silence the console a bit, so we have the quiet option
 	if ( !this.state.quiet ) {
-		warningsOrErrors = [].concat( this.cache.errs, this.cache.warnings ).filter( function ( str ) { return !!str } )
+		warningsOrErrors = [].concat( this.cache.errs, this.cache.warnings ).filter( function( str ) { return !!str } )
 
 		if ( warningsOrErrors.length ) {
 			msg = warningsOrErrors.join( '\n\n' ) + '\n'
