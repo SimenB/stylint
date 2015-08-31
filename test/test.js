@@ -42,11 +42,19 @@ describe( 'Core Methods: ', function() {
 		} )
 
 		it( 'set path if one passed in', function() {
+			app.state.path = null
 			app.init( null, 'styl/' )
 			assert.equal( app.state.path, 'styl/' )
 		} )
 
+		it( 'set path if state.path is set', function() {
+			app.state.path = 'styl/'
+			app.init()
+			assert.equal( app.state.path, 'styl/' )
+		} )
+
 		it( 'set path to cwd if none passed in', function() {
+			app.state.path = null
 			app.init()
 			assert.equal( app.state.path, process.cwd() )
 		} )
@@ -96,6 +104,11 @@ describe( 'Core Methods: ', function() {
 			app.state.path = process.cwd()
 			app.read()
 			app.read.getCall( 2 ).returned( sinon.match.same( app.parse ) )
+		} )
+
+		it( 'uses correct state path', function() {
+			app.state.path = 'styl/test2.styl'
+			app.read()
 		} )
 	} )
 
