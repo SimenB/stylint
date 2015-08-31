@@ -37,6 +37,7 @@
         "animation-name",
         "animation-play-state",
         "animation-timing-function",
+        "app-region",
         "appearance",
         "azimuth",
         "backface-visibility",
