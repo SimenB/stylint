@@ -42,11 +42,25 @@ describe( 'Core Methods: ', function() {
 		} )
 
 		it( 'set path if one passed in', function() {
+			app.state.path = null
 			app.init( null, 'styl/' )
 			assert.equal( app.state.path, 'styl/' )
 		} )
 
+		it( 'set path if state.path is set', function() {
+			app.state.path = 'styl/'
+			app.init()
+			assert.equal( app.state.path, 'styl/' )
+		} )
+
+		it( 'override state.path if one is passed in', function() {
+			app.state.path = 'styl/'
+			app.init( null, 'styl/test2.styl' )
+			assert.equal( app.state.path, 'styl/test2.styl' )
+		} )
+
 		it( 'set path to cwd if none passed in', function() {
+			app.state.path = null
 			app.init()
 			assert.equal( app.state.path, process.cwd() )
 		} )
