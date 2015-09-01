@@ -11,6 +11,7 @@ var core = stampit().methods( {
 	parse: require( './parse' ),
 	setState: require( './setState' ),
 	lint: require( './lint' ),
+	lintText: require( './lintText' ),
 	watch: require( './watch' ),
 
 	// utilities below

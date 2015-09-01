@@ -7,8 +7,7 @@
 */
 var resetOnChange = function( newPath ) {
 	this.state.path = newPath ? newPath : this.state.path
-	this.cache.errs = []
-	this.cache.warnings = []
+	this.cache.allViolations = []
 	this.cache.alphaCache = []
 	this.cache.selectorCache = []
 	this.cache.rootCache = []
@@ -16,6 +15,7 @@ var resetOnChange = function( newPath ) {
 	this.cache.prevLine = ''
 	this.cache.prevFile = ''
 	this.cache.prevContext = 0
+	this.cache.reporterCache = {}
 
 	if ( this.state.watching ) {
 		return this.read()
