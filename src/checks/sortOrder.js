@@ -92,7 +92,8 @@ var sortOrder = function( line ) {
 	}
 
 	if ( !sorted ) {
-		this.msg( 'prefer ' + this.state.conf + ' when sorting properties' )
+		var orderingName = Array.isArray( this.state.conf ) ? 'custom grouped' : this.state.conf
+		this.msg( 'prefer ' + orderingName + ' when sorting properties' )
 	}
 
 	return sorted
