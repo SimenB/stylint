@@ -22,6 +22,7 @@ var sortOrder = function( line ) {
 	 * 2 we need a sorted array to compare our cache against
 	 * 3 equals the custom sorting array via the config (or the ordering json)
 	 * 4 assume sorted by default
+	 * 5 alphabetical by default, if custom array we output a shorter msg
 	 */
 	var arr = this.splitAndStrip(
 		new RegExp( /[\s\t,:]/ ), line.replace( /(\(.+\))/, '' )
@@ -29,6 +30,11 @@ var sortOrder = function( line ) {
 	var sortedArr = [] // 2
 	var orderingArr = [] // 3
 	var sorted = true // 4
+	var orderName = this.state.conf // 5
+
+	if ( Array.isArray( this.state.conf ) ) {
+		orderName = 'custom grouped'
+	}
 
 	// if current context switched, reset array
 	if ( this.state.context !== this.state.prevContext ) {
@@ -92,7 +98,7 @@ var sortOrder = function( line ) {
 	}
 
 	if ( sorted === false ) {
-		this.msg( 'prefer ' + this.state.conf + ' when sorting properties' )
+		this.msg( 'prefer ' + orderName + ' when sorting properties' )
 	}
 
 	return sorted
