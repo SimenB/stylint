@@ -14,13 +14,13 @@ var setState = function( line ) {
 	this.state.context = this.setContext( this.cache.line )
 
 	// ignore the current line if @stylint ignore
-	if ( this.cache.comment.indexOf( '@stylint ignore' ) !== -1 ) {
+	if ( this.cache.origLine.indexOf( '@stylint ignore' ) !== -1 ) {
 		return
 	}
 
 	// if @stylint on / off commands found in the code
-	if ( this.stylintOn( line ) ||
-		this.stylintOff( line ) === false ) {
+	if ( this.stylintOn( this.cache.origLine ) ||
+		this.stylintOff( this.cache.origLine ) === false ) {
 		return
 	}
 
@@ -47,13 +47,13 @@ var setState = function( line ) {
 	}
 
 	// if empty line
-	if ( !emptyLineRe.test( line ) ) {
+	if ( emptyLineRe.test( line ) === false ) {
 		this.cache.sortOrderCache = []
 		return
 	}
 
 	// actually run tests if we made it this far
-	if ( this.state.testsEnabled ) {
+	if ( this.state.testsEnabled === true ) {
 		return this.lint()
 	}
 }

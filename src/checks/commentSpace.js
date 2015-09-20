@@ -17,10 +17,10 @@ var commentSpace = function() {
 		spaceAfterComment = true
 	}
 
-	if ( this.state.conf === 'always' && !spaceAfterComment ) {
+	if ( this.state.conf === 'always' && spaceAfterComment === false ) {
 		this.msg( 'line comments require a space after //' )
 	}
-	else if ( this.state.conf === 'never' && spaceAfterComment ) {
+	else if ( this.state.conf === 'never' && spaceAfterComment === true ) {
 		this.msg( 'spaces after line comments disallowed' )
 	}
 

@@ -40,7 +40,7 @@ var quotePref = function( line ) {
 		}
 	}
 
-	if ( badQuotes ) {
+	if ( badQuotes === true ) {
 		this.msg( 'preferred quote style is ' + this.state.conf + ' quotes' )
 	}
 

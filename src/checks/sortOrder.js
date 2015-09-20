@@ -91,7 +91,7 @@ var sortOrder = function( line ) {
 		}.bind( this ) )
 	}
 
-	if ( !sorted ) {
+	if ( sorted === false ) {
 		this.msg( 'prefer ' + this.state.conf + ' when sorting properties' )
 	}
 

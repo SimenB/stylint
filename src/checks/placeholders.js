@@ -18,10 +18,10 @@ var placeholders = function( line ) {
 		placeholder = true
 	}
 
-	if ( this.state.conf === 'always' && !placeholder ) {
+	if ( this.state.conf === 'always' && placeholder === false ) {
 		this.msg( 'use a placeholder variable when extending' )
 	}
-	else if ( this.state.conf === 'never' && placeholder ) {
+	else if ( this.state.conf === 'never' && placeholder === true ) {
 		this.msg( 'placeholder variables are disallowed' )
 	}
 

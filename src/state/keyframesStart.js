@@ -8,7 +8,7 @@ var keyframeRe = /@(?:-(?:[\w\d]+-)*)?keyframes/
  * @returns {boolean} true if keyframes starting, false if not
  */
 var keyframesStart = function( line ) {
-	if ( this.state.keyframes ) { return }
+	if ( this.state.keyframes || !this.state.testsEnabled ) { return }
 
 	if ( keyframeRe.test( line ) ) {
 		this.state.keyframes = true

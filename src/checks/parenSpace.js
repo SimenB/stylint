@@ -19,10 +19,10 @@ var parenSpace = function( line ) {
 		hasSpaces = true
 	}
 
-	if ( this.state.conf === 'always' && !hasSpaces ) {
+	if ( this.state.conf === 'always' && hasSpaces === false ) {
 		this.msg( '( param1, param2 ) is preferred over (param1, param2)' )
 	}
-	else if ( this.state.conf === 'never' && hasSpaces ) {
+	else if ( this.state.conf === 'never' && hasSpaces === true ) {
 		this.msg( '(param1, param2) is preferred over ( param1, param2 )' )
 	}
 

@@ -68,7 +68,7 @@ module.exports = function valid( line ) {
 		} )
 	}
 
-	if ( !isValid ) {
+	if ( isValid === false ) {
 		this.msg( 'property is not valid' )
 	}
 

@@ -15,20 +15,20 @@ var none = function( line ) {
 		return
 	}
 
-	var noneFound = false
+	var badSyntax = false
 
 	// return true if border|outline is followed by a 0
-	if ( this.state.conf === 'always' && !alwaysRe.test( line ) ) {
-		noneFound = true
+	if ( this.state.conf === 'always' && alwaysRe.test( line ) === false ) {
+		badSyntax = true
 		this.msg( 'none is preferred over 0' )
 	}
 	// return true if border|outline is followed by none
-	else if ( this.state.conf === 'never' && neverRe.test( line ) ) {
-		noneFound = true
+	else if ( this.state.conf === 'never' && neverRe.test( line ) === true ) {
+		badSyntax = true
 		this.msg( '0 is preferred over none' )
 	}
 
-	return noneFound
+	return badSyntax
 }
 
 module.exports = none
