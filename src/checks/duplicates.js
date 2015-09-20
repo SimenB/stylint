@@ -56,7 +56,7 @@ var duplicates = function( line ) {
 		this.cache.sCache[this.state.context].push( arr[0], this.cache.file )
 	}
 
-	if ( dupe ) {
+	if ( dupe === true ) {
 		// location of original selector use if global dupe on
 		origFile = this.cache.sCache[this.state.context][dupeIndex + 1]
 

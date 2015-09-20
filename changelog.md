@@ -1,3 +1,12 @@
+### 1.2.3
+fix this issue: https://github.com/rossPatton/stylint/issues/200
+
+fix this issue: https://github.com/rossPatton/stylint/issues/184
+
+fix issue where blocks: always would throw false positives
+
+fix this issue: https://github.com/rossPatton/stylint/issues/196
+
 ### 1.2.2
 fix this issue: https://github.com/rossPatton/stylint/issues/189
 

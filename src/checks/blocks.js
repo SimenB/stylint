@@ -21,10 +21,10 @@ var blocks = function( line ) {
 		block = true
 	}
 
-	if ( this.state.conf === 'always' && !block ) {
+	if ( this.state.conf === 'always' && block === false ) {
 		this.msg( 'block variables must include @block' )
 	}
-	else if ( this.state.conf === 'never' && block ) {
+	else if ( this.state.conf === 'never' && block === true ) {
 		this.msg( '@block is not allowed' )
 	}
 

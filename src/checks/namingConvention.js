@@ -68,7 +68,7 @@ var namingConvention = function( line ) {
 		}
 	}
 
-	if ( badConvention ) {
+	if ( badConvention === true ) {
 		this.msg( 'preferred naming convention is ' + this.state.conf )
 	}
 

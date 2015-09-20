@@ -20,7 +20,7 @@ var universal = function( line ) {
 		}
 	}
 
-	if ( this.state.conf === 'never' && hasUniversal ) {
+	if ( this.state.conf === 'never' && hasUniversal === true ) {
 		this.msg( '* selector is disallowed' )
 	}
 

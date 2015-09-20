@@ -18,7 +18,7 @@ var colors = function( line ) {
 		hex = true
 	}
 
-	if ( hex ) {
+	if ( hex === true ) {
 		this.msg( 'hexidecimal color should be a variable' )
 	}
 

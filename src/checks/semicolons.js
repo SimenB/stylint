@@ -18,7 +18,6 @@ var semicolons = function( line ) {
 
 	if ( this.state.conf === 'never' &&
 		line.indexOf( ';' ) !== -1 ) {
-
 		semicolon = true
 	}
 	else if ( this.state.conf === 'always' &&

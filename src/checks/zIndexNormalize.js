@@ -10,8 +10,9 @@ var zIndexNormalize = function( line ) {
 	var badZIndex = false
 	var arr = this.splitAndStrip( new RegExp( /[\s\t,:]/ ), line )
 
-	// ignore 0 or 1 values
-	if ( arr[ arr.length - 1 ] === '-1' || arr[ arr.length - 1 ] === '0' ) {
+	// ignore 0 or -1 values
+	if ( arr[ arr.length - 1 ] === '-1' ||
+		arr[ arr.length - 1 ] === '0' ) {
 		return
 	}
 
@@ -19,7 +20,7 @@ var zIndexNormalize = function( line ) {
 		badZIndex = true
 	}
 
-	if ( badZIndex ) {
+	if ( badZIndex === true ) {
 		this.msg( 'this z-index value is not normalized' )
 	}
 

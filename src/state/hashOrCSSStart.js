@@ -10,7 +10,7 @@ var stripMixinsRe = /(\(.*\))/
  * @returns {boolean} true if hash or @css starting, false if not
  */
 var hashStart = function( line ) {
-	if ( this.state.hashOrCSS ) { return }
+	if ( this.state.hashOrCSS || !this.state.testsEnabled ) { return }
 	var strippedLine = line.replace( stripMixinsRe, '' )
 
 	// ex $colorsHash = { or @css {
