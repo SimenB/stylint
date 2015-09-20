@@ -1,3 +1,13 @@
+### 1.2.4
+merged in a number of PRS fixing minor issues
+
+vendor-prefixes ( as defined by nib ) no longer triggers $ prefix errors
+
+namingConvention outputs better err msg in case the config property is using the object format
+
+sortOrder outputs better err msg in case of custom array
+
+
 ### 1.2.3
 fix this issue: https://github.com/rossPatton/stylint/issues/200
 
