@@ -26,7 +26,7 @@ var Stylint = function( path, config ) {
 		require( './src/checks/' ),
 		require( './src/state/' ),
 		stampit().enclose( function() {
-			this.state.path = path ? path : './'
+			this.state.path = typeof path === 'string' ? path : './'
 			this.customConfig = typeof config === 'object' ? config : false
 		} ).enclose( require( './src/core/init' ) )
 	)
