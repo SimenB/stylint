@@ -112,7 +112,16 @@
 		"space-infix-ops": 1,
 		"space-return-throw-case": 1,
 		"space-unary-ops": 1,
-		"spaced-comment": 1,
+		"spaced-comment": [2, "always", {
+			"line": {
+				"markers": ["/"],
+				"exceptions": ["-", "+"]
+			},
+			"block": {
+				"markers": ["!"],
+				"exceptions": ["*"]
+			}
+		}],
 		"use-isnan": 1,
 		"valid-jsdoc": 1,
 		"valid-typeof": 1,
