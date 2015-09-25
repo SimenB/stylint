@@ -53,7 +53,7 @@
     "yargs": "3.15.0"
   },
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint src/",
     "pretest": "npm run lint",
     "start": "node --harmony index.js",
     "test": "istanbul cover node_modules/.bin/_mocha -- -u exports -R spec test/test.js"
