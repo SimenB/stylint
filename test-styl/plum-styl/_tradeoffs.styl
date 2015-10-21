@@ -1,0 +1,160 @@
+// Tradeoffs
+
+.tradeoffs
+
+  > section
+    margin-bottom: 7ex
+
+  .tradeoffs-area
+    // .upsides-section
+    //   @media print
+    //     .make-xs-column(6)
+
+    // .downsides-section
+    //   @media print
+    //     .make-xs-column(6)
+
+    ul
+      margin-bottom: 0
+
+    li
+      padding-left: 1em
+      padding-bottom: 1em
+      text-indent: -.7em
+
+      @media print
+        font-size: 12pt !important
+
+    .upsides li:before
+      content: "• "
+
+    .downsides li:before
+      content: "• "
+
+    h3
+      font-size: 2em !important
+      margin-bottom: 1.5ex
+
+      @media(max-width: $screen-sm)
+        font-size: 1.5em !important
+
+    .upsides h3
+      border-bottom: 1px solid $color-green-l
+      color: $color-green !important
+
+      @media print
+        font-size: 16pt !important
+
+    .downsides h3
+      border-bottom: 1px solid $color-rose-l
+      color: $color-rose !important
+
+      @media print
+        font-size: 16pt !important
+
+    p
+      margin: 1em 0 0
+
+    .bottom-line
+      margin-top: 4ex
+
+      h3
+        border-bottom: 1px solid $color-purple-l
+
+        @media print
+          font-size: 16pt !important
+
+      h4
+        color: $color-gray-l
+        // font-weight: lighter
+        // font-size: 1.8em
+        line-height: 1.2
+        text-align: left
+
+        @media print
+          font-size: 12pt !important
+
+  .alternatives
+    margin-bottom: 12ex
+
+    h3
+      color: $color-gray-d !important
+      margin: 0 0 .5ex 0
+
+    // @REPLACE
+    .alternatives-list
+      text-align: center
+      margin: .5em 0 0 0
+      display: flex
+      flex-wrap: wrap
+      justify-content: center
+
+      a
+        display: inline-block
+        font-size: 1.2em
+        padding: .5em
+        margin: .5em
+        width: 220px
+        text-align: center
+        background: $color-gray-xxxxl
+        border-radius: 10px
+        border: 1px solid $color-gray-xxxl !important
+
+        @media ( max-width: $screen-sm )
+          width: 100%
+          margin: .25em
+
+        span.name
+          word-wrap: break-word
+
+        p.generic
+          color: $color-gray-xl
+          font-size: .7em
+          margin: 0
+          word-wrap: break-word
+
+        // @REPLACE
+        &:hover
+          // @extends .gradient-purple // @REPLACE
+          border: 1px solid $color-gray-m !important
+          color: $color-white
+          text-decoration: none
+
+        &.disabled
+          color: $color-gray-d !important
+          background: none !important
+          border: 1px dashed $color-gray-xxl !important
+          cursor: pointer
+
+          &:hover
+            border: 1px solid $color-gray-xl !important
+
+          &:active
+            box-shadow: inset 0 3px 5px 0 rgba( 0, 0, 0, .2 )
+
+          p.request
+            color: $color-purple
+            font-size: .7em
+            margin: 0
+
+
+// @REPLACE
+@media ( max-width: 640px )
+  .alternatives
+    ul
+      margin-top: 2ex
+
+  .tradeoffs
+    .banner
+      text-align: center
+
+      h3
+        text-align: center !important
+        margin-bottom: 1ex !important
+
+      .explanation
+        width: 36%
+        display: inline-block
+        margin: 0
+        font-size: $font-small
+        line-height: 1.2

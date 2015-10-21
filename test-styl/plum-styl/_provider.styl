@@ -1,0 +1,147 @@
+.provider-page
+  color: $color-gray-m
+
+  .header
+    background-position: center top
+    background-size: cover
+    background: url( '/images/provider/provider-bg.jpg' ) right no-repeat
+    padding-bottom: 1.5ex
+    padding-left: 50px
+    padding-top: 30ex
+
+    .headline
+      background: rgba( 255, 255, 255, .4 )
+      border-radius: 15px
+      color: $color-purple
+      padding: 4ex 5ex
+      width: 65%
+
+      h2
+        font-size: 2.2em
+        line-height: 1.08
+        margin: 0
+
+      h3
+        color: $color-gray-d
+        font-size: 1.4em
+        // font-weight: lighter
+        margin: 1ex 5ex 0 0
+        padding: 0
+
+  .about-card.section
+    margin-top: 0ex !important
+
+  .about-card
+    padding: 4ex 0
+    border-bottom: 1px solid $color-gray-xxxl
+
+    .contain
+      overflow: hidden
+      margin: 0 15px
+
+    .symbols
+      color: $color-purple-d
+      font-size: 2em
+      margin-left: -1.5ex
+      margin-top: 1ex
+      opacity: .1
+      position: relative
+      text-align: left
+
+      .symbol-row:nth-child(odd)
+        margin-left: 1.7ex
+
+      span
+        padding: 0 .7em
+
+    .category-selection
+      margin-top: 2ex
+      padding-bottom: .5em
+      padding-top: 1em
+      position: relative
+
+      h3,
+      .glyph
+        color: $color-purple
+
+      a,
+      h3,
+      .glyph
+        text-align: center
+
+      .glyph
+        font-size: 3em
+
+      h3
+        margin-top: 0
+
+      p
+        font-size: .9em
+
+      // @REPLACE
+      .btn
+        @extends .btn-block
+        @extends .button-purple
+        margin-bottom: 1em
+
+        @media ( max-width: $screen-sm )
+          font-size: 1.2em !important
+
+    @media ( max-width: $screen-sm )
+      .category-selection
+        h3
+          font-size: 1.4em !important
+
+  .page-content
+    h2
+      color: $color-purple
+
+    h4
+      font-size: 1.4em
+
+    .search-section
+      padding: 4ex 0
+      border-bottom: 1px solid $color-gray-xxxl
+
+      .get-started
+        .bg-yellow
+        border-radius: 4px
+        text-align: center
+
+        p
+          color: $color-gray-m
+          font-size: 0.8em
+          margin-top: 2ex
+          padding-left: 4em
+          padding-right: 4em
+
+          @media ( max-width: $screen-md )
+            padding-left: 0
+            text-align: left
+
+        .search-bar
+          color: $color-gray-d
+          margin-bottom: 2ex
+
+    .faq-section
+      border-bottom: 1px solid $color-gray-xxxl
+      font-size: 1.3em
+      padding: 4ex 0
+
+      li
+        padding-bottom: 3ex
+
+      .question
+        color: $color-purple-l
+        display: block
+        font-weight: bold
+
+      p
+        margin-top: 1ex
+
+
+
+
+
+
+

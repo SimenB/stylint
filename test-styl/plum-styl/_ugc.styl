@@ -1,0 +1,196 @@
+// UGC widgets
+.ugc
+
+  .prompt
+    color: $color-purple
+    font-size: 1.3em
+    font-weight: 300
+    margin-bottom: .1em
+
+  .help
+    color: $color-gray-l
+    font-size: 15px
+    line-height: 1.2em
+    min-height: 1.2em
+
+  .write-in-input
+    border: 0
+    outline: 0
+
+  &.text
+    input
+      font-size: inherit
+
+    // @REPLACE
+    .btn
+      @extends .button-green
+
+    a
+      cursor: pointer
+
+    &.result
+      color: $color-green
+
+  &.options,
+  &.multiple-choice
+    user-select: none
+    text-align: center
+
+    // @REPLACE
+    .submit-button
+      .btn
+        @extends .button-green
+
+
+  &.demographics
+    .form
+      > div ~ div
+        margin-top: 1em
+
+    // @REPLACE
+    .submit-button
+      .btn
+        @extends .button-green
+
+
+// Quiz page (standalone)
+.container.quiz
+  .content
+    // .make-row() // @REPLACE
+    background: #f7f7f7
+    height: 100%
+    margin-top: .25em
+    padding-bottom: 1em
+    padding-top: 1em
+
+  // @REPLACE
+  .ugc-quiz
+    height: 100% !important
+    min-height: 340px
+    width: 100%
+
+    @media ( min-width: $screen-sm-min )
+      // .make-md-column(4)
+      // .make-md-column-offset(4)
+      margin-bottom: 11em
+
+    .title
+      color: $color-gray-xl
+      font-size: 1em
+      text-align: center
+      margin-bottom: 1em
+
+
+    .description
+      display: none
+      color: $color-purple
+
+    table
+      min-height: 340px
+
+      td
+        &.question-content
+          // @REPLACE
+          @extends .animated
+          height: 100%
+          padding: 5px 5px 3em 5px
+          position: relative
+          vertical-align: top
+
+          h4,
+          h5
+            line-height: 1.2
+            margin: 0 0 .25em
+
+            + div
+              margin-top: 1.25em
+
+          h4
+            font-size: 1.2em
+
+          h5
+            font-size: $font-small
+
+          .submit-button
+            absolute: right 0 bottom 1em left 0
+            margin: auto
+
+          &.middle
+            text-align: center
+            vertical-align: middle
+
+    &.results
+      h3
+        color: $color-gray-xl
+        margin-bottom: 2ex
+
+    .thanks
+      color: $color-gray-l
+      font-size: 1.3em
+      margin-bottom: 1em
+
+    .drug-widget
+      margin-top: 2ex
+
+    .sharing-widget
+      a
+        padding-right: 1em
+
+
+.ugc-quiz
+  .ugc
+    .help
+      margin-bottom: .5em
+
+    .submit-button
+      margin-top: 1em
+
+    &.demographics
+      .age
+        width: 4em
+
+  h3
+    margin-bottom: 0
+
+  h4
+    font-size: 15px
+    color: $color-gray-l
+    text-align: center
+    margin-bottom: 2em
+
+  table
+    width: 100%
+
+  .next
+    font-size: 5em
+
+    .quiz-next
+      transition( all, $fast )
+      cursor: pointer
+      opacity: 1
+      text-decoration: none
+      // transition: opacity .1s ease-in-out,
+      //             color .1s ease-in-out
+
+      &:hover
+        color: $color-purple-l
+        text-decoration: none
+
+      &.disabled
+        opacity: 0
+        cursor: none
+        pointer-events: none
+
+  .privacy-widget
+    text-align: center
+
+  .prompt
+    font-weight: 300
+    color: $color-purple
+
+  .help
+    font-weight: 100
+    color: $color-gray-l
+
+  .search
+    color: @color-black

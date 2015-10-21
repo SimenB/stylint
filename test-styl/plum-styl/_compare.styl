@@ -1,0 +1,830 @@
+// Compare chart
+
+.chart-compare
+  border: 1px solid $color-gray-xxxl
+
+
+.no-chartable-drugs
+  size: 100%
+
+  // @REPLACE
+  h3
+    color: $color-gray-xxl
+    font-size: 2.2em
+
+
+.chart-scale
+  &.horizontal
+    display: inline-table
+    width: $compare-width-xs
+
+    @media ( max-width: $screen-xs )
+      width: $compare-width-xs
+
+
+// iodine.com/condition/$name/treatments
+.scale
+  // font-size: 13px
+  // line-height: 1.2
+  // text-align: left
+  // vertical-align: bottom
+
+  &.efficacy
+    height: $compare-cell-height-xs
+    padding-right: 8px
+    // text-align: right
+
+    @media ( max-width: $screen-xs )
+      height: $compare-cell-height-xs
+      padding-left: 8px
+      text-align: left
+
+    &.high
+      color: $color-blue !important
+
+    &.mid
+      color: $color-blue-l !important
+
+    &.low
+      color: $color-blue-xl !important
+
+  &.hassle
+    padding-top: 4px
+
+    &.high
+      color: $color-rose !important
+
+    &.mid
+      color: $color-rose-l !important
+
+    &.low
+      color: $color-rose-xl !important
+
+
+.compare
+  .legend,
+  .no-chartable-drugs
+
+    // @media ( max-width: $screen-xs-max )
+    //   make-sm-column( 12 )
+
+    // @media ( min-width: $screen-sm-min ) and ( max-width: $screen-sm-max )
+    //   make-sm-column( 6 )
+    //   make-sm-column-offset( 2 )
+
+    // @media ( min-width: $screen-md-min )
+    //   make-md-column( 7 )
+
+    // @media ( min-width: $screen-xl-min )
+    //   make-lg-column( 8 )
+
+  .filter
+    padding-bottom: 1em
+
+    .io-button-group
+      // $TODO possible to combine rules?
+      margin-right: .5em
+      margin-bottom: .5em
+
+  .legend
+    // @extends .text-l )
+    margin-left: 65px
+
+    ul
+      @media ( max-width: $screen-sm-max )
+        padding-top: 2em
+
+    li
+      // make-md-column( 6 )
+      margin: 0 0 5px
+
+    div
+      border-left: 2px solid
+      // display: inline
+      padding: 0 .25em
+
+    a
+      color: inherit
+      margin-right: 7px
+
+      .active &
+        text-shadow: 0 0 12px
+
+    .review-count
+      font-size: 12px
+
+
+// used in iodine.com/reviews
+// .reviews
+//   color: $color-gray-xxl
+
+//   a
+//     color: $color-purple-xl
+//
+
+//   .ss-icon
+//     vertical-align: text-top
+//
+//
+
+.compare-button
+  // @extends .btn // @REPLACE
+  // @extends .button-green // @REPLACE
+  margin-top: 7px
+
+  &.disabled
+    cursor: none
+    opacity: .3
+
+
+
+// Compare / alternatives page
+.header-compare
+  // @extends $bg-stripe
+  border-bottom: 1px solid $color-gray-xxxl
+  margin: 10px -15px 0
+  padding: 15px 0 25px
+
+  h3
+    color: $color-gray-m
+
+  .drugs
+    h2
+      margin-bottom: 0
+
+    h3
+      font-size: 18px
+      margin-top: 0
+
+    @media ( max-width: $screen-xs-max )
+      .row
+        margin: 0 auto
+
+      h2
+        font-size: 18px
+
+      h3
+        font-size: 14px !important
+
+  .add-remove
+    margin-left: 7px
+
+    @media ( max-width: $screen-xs-max )
+      display: block
+
+  small
+    // color: $color-gray-xl
+    margin-top: 14px
+
+  li
+    margin-left: 9px
+
+    &:first-of-type
+      margin-left: 0
+
+    @media ( max-width: $screen-xs-max )
+      display: block
+      margin: 0 0 14px
+
+  .search-bar
+    input,
+    .twitter-typeahead
+      border-radius: 6px !important
+
+    // $TODO too specific?
+    // input.twitter-typeahead
+    //   @extends $form-control
+
+    // $TODO remove once other PR merged in
+    // .button-submit
+    //   display: none !important
+
+  .search-area
+    margin-top: 35px
+
+  @media ( max-width: $screen-xs-max )
+    padding: 20px
+    text-align: center
+
+    section
+      padding: 0 15px
+
+    h2
+      font-size: 18px
+
+    h3
+      font-size: 14px
+
+  @media ( min-width: $screen-xs-max )
+    border-top: 1px solid $color-gray-xxxl
+    text-align: center
+
+
+.direct
+  h3
+    font-size: 18px
+    // margin: 0
+
+
+.landing
+  padding: 53px 0
+
+  h2
+    font-size: 40px
+    margin: 0 0 20px
+
+  h3
+    font-size: 23px
+
+
+.compare-examples
+  padding: 35px 0
+
+  h3
+    // color: $color-gray-d
+    margin-bottom: 1em
+    padding-top: 15px
+
+  // h4
+    // font-weight: 300
+    // line-height: 1.3
+
+  .images
+    // $TODO too specific?
+    div
+      // @extends $shadow-m
+      background: $color-gray-xxxxxl
+      border-radius: 7px
+      margin-bottom: 4ex
+      padding: 0 15px 15px
+
+    h3
+      color: $color-purple-l
+
+  img
+    border-bottom: 1px solid $color-gray-xxxl
+    // display: block
+    width: 100%
+
+
+.ready-made-comparisons
+  border-bottom: 1px solid $color-gray-xxxl
+  margin-bottom: 5ex
+  padding: 18px 0
+
+  h4
+    margin: 0 0 4px
+    padding: 0 15px
+
+  li
+    margin-bottom: 9px
+
+
+  // $TODO remove importants later
+  a
+    transition( all, $fast )
+    border-bottom-color: $color-gray-xxl
+    border-left: 3px solid $color-gray-xxxl !important
+    border-radius: 3px
+    border: 1px solid $color-gray-xxxxl
+    margin-bottom: 9px
+    padding: 3px 15px 3px 12px
+
+    &:hover
+      background: $color-purple
+      border-color: $color-purple
+      border-left-color: $color-purple-d !important
+      color: $color-purple-xxl
+
+
+// screen too small warning for mobile
+.too-small
+  background: $color-gray-xxxxl
+  border-top: 1px solid $color-gray-xxl
+  font-size: 18px
+  padding: 42px 15%
+
+  .ss-binoculars
+    font-size: 84px
+
+  h3
+    color: $color-gray-xxl
+    font-size: 30px
+    line-height: 35px
+    margin-bottom: 15px
+
+  p
+    margin-bottom: 15px
+
+  // Show on small screens
+  @media ( max-width: $screen-xs-min )
+    display: block
+
+
+.sticky-header-float
+  z-index: 6
+
+  @media ( min-width: $screen-md )
+    display: block
+    width: 968px
+
+  @media ( min-width: $screen-lg )
+    width: 1168px
+
+  @media ( min-width: $screen-xl )
+    width: 1468px
+
+
+.costbox
+  border-radius: 2px
+  margin-bottom: 1em
+  min-height: 62px
+  padding: .5ex
+
+  &:hover
+    background: $color-yellow-bg
+
+  .better
+    color: $color-green !important
+
+  .worse
+    color: $color-rose-l !important
+
+  .same
+    color: $color-gray-l !important
+
+
+// .drug-cost
+//   .light
+//     color: $color-purple-xl
+
+
+// .personalization-bar-row
+//   td
+//     padding-bottom: 6px
+//     padding-top: 0
+
+//   div
+//     background: $color-white
+//     border-bottom: none
+
+
+// $TODO this appears to be all over the place, double check later
+// not too fond of all the importants
+.personalization-preferences
+  // h3
+  //   display: block
+  //   font-size: 14px !important
+
+  // $TODO move to pregnancy
+  .pregnancy-category
+    padding: 0
+
+    .x
+      padding: 15px
+
+    .category-glyph
+      h1
+        font-size: 12px !important
+
+      h2
+        font-size: 14px !important
+
+
+  td
+    // $TODO why the important?
+    font-size: $font-small !important
+    font-weight: 500
+
+    &:first-of-type
+      .ss-icon
+        display: block
+        margin-top: .25em
+
+    &:not( :first-of-type )
+      .ss-icon
+        // @extends $hide
+
+      .empty
+        h3,
+        div
+          background: none
+
+        div
+          box-shadow: none
+
+        h3
+          color: $color-gray-xl
+          display: block
+          font-weight: 500
+          padding: 0
+
+
+.sticky-table
+  font-size: 15px
+
+  .io-button-group
+    .btn:not( .active )
+      color: #333
+
+  // Lists within compare-table cells
+  ul,
+  li
+    margin-bottom: 8px
+
+  td
+    transition( background, $slow )
+    border: 0
+    padding: 15px
+    vertical-align: top
+
+    &:first-of-type
+      color: $color-purple !important
+
+  tr
+    &.upsides,
+    &.downsides
+      border-bottom: none
+
+    &:last-child
+      border-bottom: 1px solid $color-gray-xxl
+
+    td ~ td
+      border-left: 1px solid $color-gray-xxxl
+
+    td:nth-child( 2 )
+      border-left: none
+
+  td,
+  th
+    word-wrap: break-word
+
+  th
+    background: $color-purple
+    border: 0
+    cursor: pointer
+    padding: 10px 13px
+    transition: background .1s ease-out
+
+    &:first-of-type
+      width: 110px
+
+    &:nth-child( n + 2 ):hover
+      background: $color-purple-l
+
+    &:nth-child( n + 3 )
+      border-left: 1px solid $color-gray-xxl
+
+  // Hide on small screens
+  // $TODO remove the important
+  @media ( min-width: $screen-xs-min )
+    display: table !important
+
+
+.section-header
+  border-bottom: 1px solid $color-gray-xxxl
+  border-top: 1px solid $color-gray-xxxl
+
+  h3
+    color: $color-gray-m
+    font-size: 15px
+    margin: 0
+
+  td
+    background: $color-gray-xxxxl
+    padding: 5px 15px
+
+
+// Compare table
+.compare-table
+
+  .p-banner
+    margin-bottom: 0 !important
+
+    h3
+      display: none
+
+    &.empty
+      color: $color-gray-xl
+
+    div
+      background: none !important
+      box-shadow: none
+
+      section
+        padding-bottom: 15px !important
+        padding-top: 0 !important
+
+      li
+        color: $color-gray-d
+        font-size: $font-small
+        font-weight: normal
+
+  .popover
+    textarea
+      margin-bottom: 7px
+
+  // h2
+  //   font-size: 1.5em
+  //   font-weight: 100
+  //   line-height: 1
+    // margin: 0
+
+    // &:hover
+    //   text-decoration: underline
+
+  .close:hover
+    opacity: 1
+
+  .no-data
+    padding-top: 1.9em !important
+
+    strong
+      font-size: 1.3em
+      margin-top: .5em
+
+  .rle-filter
+    border-bottom: none
+
+    @media ( max-width: $screen-md-max )
+      text-align: center
+
+      .btn-group
+        margin-bottom: 1em
+
+  .btn-group
+    margin-bottom: 0
+    margin-right: 1em
+
+
+  .bar-container
+    background: $color-gray-xxxl
+    height: 3px
+    margin-bottom: .3ex
+
+    // .key &
+    //   background: $color-white
+    //
+
+  .key
+    &:not( th )
+      background: #fbf9ff
+
+  .effect
+    margin-bottom: .55em
+
+    .bar
+      background: $color-gray-m
+      height: 3px
+      position: absolute
+
+  .side-effects
+    padding-bottom: 30px !important
+
+  .rx-status
+    display: inline-block
+    margin-left: 0
+    margin-top: .5em
+
+  .view-options
+    padding: 2em 0
+    text-align: center
+    width: 100%
+
+    // .btn
+    //   @extends $button-purple
+
+    // Hide on small screens
+    @media ( max-width: $screen-sm-max )
+      display: none
+
+  .ss-icon
+    display: inline-block
+    font-size: .95em
+    line-height: .9em
+    margin-right: .1em
+    vertical-align: bottom
+
+  // Mobile compare-table container
+  &.mobile
+    display: block
+    font-size: .85em
+
+    table
+      display: block
+
+      // @REPLACE
+      th
+        // @extends $animated
+        // @extends $fadeIn
+
+        h2
+          font-size: 1em
+
+        .close,
+        &:first-of-type
+          display: none
+
+        &:first-of-type
+          background: yellowgreen
+
+
+      // $TODO overly specific? overly nested
+      // @REPLACE
+      td
+        // @extends $animated
+        // @extends $fadeIn
+
+        &:first-of-type
+          background: yellowgreen
+          display: none
+
+    .view-options
+      display: block
+
+
+.rle
+  td
+    vertical-align: top
+
+
+
+
+
+
+
+
+
+
+
+// .donuts
+//   height: 100%
+
+//   td
+//     padding: 8px 5px
+//     vertical-align: middle
+
+//     strong
+//       font-size: 1.3em
+//
+
+//     &:last-of-type
+//       font-size: $font-small
+//       line-height: 1.1
+//
+
+//     &.bottom
+//       vertical-align: bottom
+//
+//
+
+//   // $TODO why the specificity? tds always come inside trs
+//   tr:last-of-type
+//     td
+//       padding-top: 22px
+//
+//
+
+//   // $TODO overly specific?
+//   .total
+//     background: $color-gray-xxxxxl
+//     display: block
+//     font-weight: 300
+//     line-height: 1
+//     padding: 3px
+//     text-align: center
+//
+
+//   .worth
+//     color: $color-purple
+//
+
+//   .efficacy
+//     color: $color-blue
+//
+
+//   .worse,
+//   .hassle
+//     color: $color-rose
+//
+
+//   .better
+//     color: $color-green
+//
+
+//   .slice
+//     &.worth
+//       background: $color-purple-lt
+//
+
+//     &.efficacy
+//       background: $color-blue
+//
+
+//     &.worse,
+//     &.hassle
+//       background: $color-rose
+//
+
+//     &.better
+//       background: $color-green
+//
+//
+//
+
+// Temporary home for pie chart styles
+// .chart-donut
+//   cursor: pointer
+//   height: $chart-donut-size
+//   margin: 0 auto
+//   position: relative
+//   width: $chart-donut-size
+
+//   .stamp,
+//   .wedge,
+//   .slice,
+//   .chart-donut-bg,
+//   .chart-donut-cutout
+//     position: absolute
+//
+
+//   .wedge,
+//   .slice,
+//   .chart-donut-bg,
+//   .chart-donut-cutout
+//     border-radius: 50%
+//
+
+//   .chart-donut-bg
+//     background-color: $color-gray-xxxl
+//     height: $chart-donut-size
+//     width: $chart-donut-size
+//
+
+//   .chart-donut-cutout
+//     background: $color-white
+//     height: 70%
+//     left: 15%
+//     top: 15%
+//     width: 70%
+//     z-index: 2
+//
+
+//   .stamp
+//     font-size: 1.3em
+//     font-weight: 300
+//     text-align: center
+//     top: .7em
+//     width: 100%
+//
+
+//   .wedge,
+//   .slice
+//     height: $chart-donut-size
+//     width: $chart-donut-size
+//
+
+//   .wedge
+//     clip: rect( 0, $chart-donut-size, $chart-donut-size, ( $chart-donut-size / 2 ) )
+//
+
+//   .slice
+//     clip: rect( 0, ($chart-donut-size / 2), $chart-donut-size, 0 )
+//
+
+//   &.mini
+//     height: $chart-donut-size-mini
+//     width: $chart-donut-size-mini
+
+//     .chart-donut-bg
+//       height: $chart-donut-size-mini
+//       width: $chart-donut-size-mini
+//
+
+//     .chart-donut-cutout
+//       height: 64%
+//       left: 18%
+//       top: 18%
+//       width: 64%
+//
+
+//     .stamp
+//       font-size: .85em
+//       top: .52em
+//
+
+//     .wedge,
+//     .slice
+//       height: $chart-donut-size-mini
+//       width: $chart-donut-size-mini
+//
+
+//     .wedge
+//       clip: rect(0, $chart-donut-size-mini, $chart-donut-size-mini, ($chart-donut-size-mini / 2))
+//
+
+//     .slice
+//       clip: rect(0, ($chart-donut-size-mini / 2), $chart-donut-size-mini, 0)
+//
+//
+//

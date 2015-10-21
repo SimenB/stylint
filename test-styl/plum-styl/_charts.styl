@@ -1,0 +1,382 @@
+// Temporary home for pie chart styles
+.chart-donut
+  cursor: pointer
+  height: $chart-donut-size
+  margin: 0 auto
+  position: relative
+  width: $chart-donut-size
+
+  .stamp,
+  .wedge,
+  .slice,
+  .chart-donut-bg,
+  .chart-donut-cutout
+    position: absolute
+
+  .wedge,
+  .slice,
+  .chart-donut-bg,
+  .chart-donut-cutout
+    border-radius: 50%
+
+  .chart-donut-bg
+    background-color: $color-gray-xxxl
+    height: $chart-donut-size
+    width: $chart-donut-size
+
+  .chart-donut-cutout
+    background: $color-white
+    height: 70%
+    left: 15%
+    top: 15%
+    width: 70%
+    z-index: 2
+
+  .stamp
+    font-size: 1.3em
+    font-weight: 300
+    text-align: center
+    top: .7em
+    width: 100%
+
+  .wedge,
+  .slice
+    height: $chart-donut-size
+    width: $chart-donut-size
+
+  .wedge
+    clip: rect( 0, $chart-donut-size, $chart-donut-size, ( $chart-donut-size / 2 ) )
+
+  .slice
+    clip: rect( 0, ($chart-donut-size / 2), $chart-donut-size, 0 )
+
+  &.mini
+    height: $chart-donut-size-mini
+    width: $chart-donut-size-mini
+
+    .chart-donut-bg
+      height: $chart-donut-size-mini
+      width: $chart-donut-size-mini
+
+    .chart-donut-cutout
+      height: 64%
+      left: 18%
+      top: 18%
+      width: 64%
+
+    .stamp
+      font-size: .85em
+      top: .52em
+
+    .wedge,
+    .slice
+      height: $chart-donut-size-mini
+      width: $chart-donut-size-mini
+
+    .wedge
+      clip: rect( 0, $chart-donut-size-mini, $chart-donut-size-mini, ($chart-donut-size-mini / 2) )
+
+    .slice
+      clip: rect( 0, ($chart-donut-size-mini / 2), $chart-donut-size-mini, 0 )
+
+
+.donuts
+  margin-top: 10px
+  min-height: 350px
+  // height: 100% not actually a thing outside of flexbox or absolute/fixed
+
+  strong
+    font-size: 1.3em
+
+  td
+    padding: 8px 5px
+    vertical-align: middle
+
+    &:last-of-type
+      font-size: $font-small
+      line-height: 1.1
+
+    &.bottom
+      vertical-align: bottom
+
+  p
+    font-size: 21px
+    margin: 0 0 25px
+
+  // $TODO why the specificity? tds always come inside trs
+  tr:last-of-type
+    td
+      padding-bottom: 25px
+      vertical-align: bottom
+
+  // $TODO overly specific?
+  .total
+    background: $color-gray-xxxxxl
+    display: block
+    font-weight: 300
+    line-height: 1
+    padding: 3px
+    text-align: center
+
+  .worth
+    color: $color-purple
+
+  .efficacy
+    color: $color-blue
+
+  .worse,
+  .hassle
+    color: $color-rose
+
+  .better
+    color: $color-green
+
+  .slice
+    &.worth
+      background: $color-purple-lt
+
+    &.efficacy
+      background: $color-blue
+
+    &.worse,
+    &.hassle
+      background: $color-rose
+
+    &.better
+      background: $color-green
+
+
+// iodine.com/condition/$name/drug-side-effects
+.risk-frequency-comparison
+  margin-bottom: 50px
+  width: 100%
+
+  @media ( min-width: $screen-xs-max )
+    margin-bottom: 0
+    width: 65%
+
+  ul
+    min-height: 290px
+
+  .pill
+    transition( all, $slow )
+    background: $color-gray-xxxl
+    border-radius: 16px
+    bottom: -10px
+    left: -7px
+    padding: 0 10px
+    transform-origin: left 50%
+    transform: rotate( -45deg )
+
+    + .pill
+      margin-top: 12px
+
+    &:hover,
+    &:active
+      color: $color-white
+
+    &:hover
+      background: $color-purple
+
+    &.active
+      background: $color-purple-xl
+
+  .item
+    bottom: 0
+
+  // .legend
+  //   bottom: .1em
+  //   font-size: 1em
+  //   left: .1em
+  //   margin: 0 auto
+  //   position: absolute
+  //   right: 0
+  //
+
+  .line
+    background: $color-gray-xxxl
+    height: 5em
+    width: 1px
+
+  .note
+    color: #F48325
+
+  .axis-label
+    width: 25%
+
+    &.right
+      margin-left: 50%
+
+
+
+  .number
+    // @extends $shadow-l
+    display: none
+    height: 18px
+    top: -18px
+    width: 18px
+    z-index: 2
+
+  .pill,
+  .ss-user
+    cursor: pointer
+
+  .ss-user
+    color: $color-gray-xxl
+    font-size: 8px
+    transition: color .3 ease-out
+    width: 1%
+
+    &.active
+      color: $color-purple-l
+
+    &:hover
+      .number
+        display: block
+
+
+// c3 charts
+// iodine.com/condition/$name/treatments
+.c3
+  font-size: 13px
+
+  svg
+    font-family: $font-base
+
+  text
+    user-select: none
+
+  path,
+  line
+    fill: none
+    stroke: $color-gray-xxxl
+    // stroke: #000
+
+  .indicator
+
+    &.e-high text
+      fill: $color-blue
+
+
+    &.e-low text
+      fill: $color-blue-xl
+
+
+    &.h-high text
+      fill: $color-rose
+
+
+    &.h-low text
+      fill: $color-rose-xl
+
+
+.c3-circles
+  circle
+    opacity: 1 !important
+
+
+.chart-box
+  padding: 0
+
+  td
+    vertical-align: top
+
+  @media ( max-width: $screen-xs-max )
+    make-sm-column( 12 )
+    text-align: center
+
+  @media ( min-width: $screen-sm-min )
+    make-sm-column( 4 )
+
+
+
+
+
+// base c3.css selectors, not used afaik
+// .c3-chart-arcs-title
+//     font-size: 1.3em
+//
+
+// .c3-target.c3-focused path.c3-line, .c3-target.c3-focused path.c3-step
+//     stroke-width: 2px
+//
+
+// .c3-region
+//     fill: steelblue
+//     fill-opacity: .1
+//
+
+// .c3-brush
+//   .extent
+//       fill-opacity: .1
+//
+//
+
+// .c3-legend-item
+//   font-size: 12px
+//
+
+// .c3-legend-background
+//   opacity: 0.75
+//   fill: white
+//   stroke: lightgray
+//   stroke-width: 1
+//
+
+// .c3-tooltip
+//   border-collapse:collapse
+//   border-spacing:0
+//   background-color:#fff
+//   empty-cells:show
+//   -webkit-box-shadow: 7px 7px 12px -9px rgb(119,119,119)
+//   -moz-box-shadow: 7px 7px 12px -9px rgb(119,119,119)
+//   box-shadow: 7px 7px 12px -9px rgb(119,119,119)
+//   opacity: 0.9
+//   tr
+//       border:1px solid #CCC
+//
+//   th
+//       background-color: #aaa
+//       font-size:14px
+//       padding:2px 5px
+//       text-align:left
+//       color:#FFF
+//
+//   td
+//       font-size:13px
+//       padding: 3px 6px
+//       background-color:#fff
+//       border-left:1px dotted #999
+//       & > span
+//           display: inline-block
+//           width: 10px
+//           height: 10px
+//           margin-right: 6px
+//
+//
+//   td.value
+//       text-align: right
+//
+//
+
+// .c3-area
+//     stroke-width: 0
+//     opacity: 0.2
+//
+
+// .c3-chart-arcs
+//   .c3-chart-arcs-background
+//       fill: #e0e0e0
+//       stroke: none
+//
+//   .c3-chart-arcs-gauge-unit
+//       fill: #000
+//       font-size: 16px
+//
+//   .c3-chart-arcs-gauge-max
+//       fill: #777
+//
+//   .c3-chart-arcs-gauge-min
+//       fill: #777
+//
+//

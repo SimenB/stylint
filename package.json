@@ -1,6 +1,6 @@
 {
   "name": "stylint",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "A linter for stylus",
   "author": "Ross Patton",
   "license": "GPL-3.0",
@@ -40,17 +40,17 @@
     "istanbul": "0.3.5",
     "mocha": "2.0.1",
     "sinon": "1.12.2",
-    "touch": "0.0.3"
+    "touch": "1.0.0"
   },
   "dependencies": {
-    "async": "0.9.0",
-    "chokidar": "1.0.1",
-    "glob": "4.3.1",
+    "async": "1.4.2",
+    "chokidar": "1.2.0",
+    "glob": "5.0.15",
     "lodash.defaults": "3.1.2",
     "path-is-absolute": "1.0.0",
     "stampit": "1.1.0",
-    "strip-json-comments": "1.0.2",
-    "yargs": "3.15.0"
+    "strip-json-comments": "1.0.4",
+    "yargs": "3.27.0"
   },
   "scripts": {
     "lint": "eslint src/",

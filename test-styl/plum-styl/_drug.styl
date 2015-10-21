@@ -1,0 +1,1024 @@
+// drug pages
+
+
+// .drug-header,
+// .condition-header
+//   make-xs-column( 12 )
+
+//   @media ( min-width: $screen-lg-min )
+//     make-lg-column( 10 )
+//     make-lg-column-offset( 2 )
+
+//   @media ( min-width: $screen-xl-min )
+//     make-lg-column( 9 )
+//     make-lg-column-offset( 3 )
+
+
+// .drug-navigation-plum,
+// .navigation-plum
+  // make-xs-column( 12 )
+
+  // @media ( min-width: $screen-lg-min ) and ( max-width: $screen-lg-max )
+  //   make-lg-column( 2 )
+
+  // @media ( min-width: $screen-xl-min )
+  //   make-lg-column( 3 )
+
+
+.plum-card
+  // make-xs-column( 12 )
+
+  // needed for now $TODO remove later
+  // > div
+  //   > section
+  //     @extends .make-row )
+  //
+  //
+
+  .onboarding
+    margin-bottom: 3em
+
+    @media ( max-width: $screen-xs-max )
+      display: none
+
+  // @media ( min-width: $screen-lg-min ) and ( max-width: $screen-lg-max )
+  //   make-lg-column( 10 )
+
+  // @media ( min-width: $screen-xl-min )
+  //   make-lg-column( 9 )
+
+
+// Style/design modifications to specific widgets, temporarily housed here
+.filter-indication
+  @media ( max-width: $screen-xs-max )
+    border-left: 0
+
+    select
+      height: 32px
+
+
+.bar-stacked
+  .bars
+    box-shadow: none
+
+
+.io-button-group
+  .btn
+    &:not( .active )
+      background: none
+      color: $color-green
+
+    + .btn
+      border-left: 1px dotted $color-green-xl
+
+    &.active
+      border-color: $color-black
+
+  + .io-button-group
+    margin: 0
+
+    @media ( min-width: $screen-xs-max )
+      margin-left: 13px
+
+  // Special case for slide-open mobile buttons
+  @media ( max-width: $screen-xs-max )
+    .btn
+      transition( all, $fast, true )
+      border: 0 !important
+      display: block !important
+      float: none
+      height: 32px
+      padding-top: 7px !important
+
+    &.closed
+      .btn
+        opacity: 0
+
+        &:not( .active )
+          height: 0
+          padding: 0
+          pointer-events: none
+
+        &.active
+          display: block
+          opacity: 1
+          width: auto
+
+
+.treatment-options
+  .compare
+    h3
+      color: $color-black
+      font-size: 24px
+      font-weight: 100
+
+
+// main drug page, lists drugs a-z
+.a-to-z
+  h3
+    margin-bottom: 10px
+
+  p,
+  h3
+    font-size: 24px
+    font-weight: 300
+
+
+.drug-header,
+.condition-header,
+.page-header
+  padding: 50px 20px 20px 15px
+
+  h1,
+  a
+    color: $color-purple-xd
+
+  h1
+    .rx-status
+      font-weight: 500
+
+  .card-name
+    color: $color-gray-xl
+    display: inline
+    font-size: .8em
+
+  @media $mob
+    padding: 15px 15px 13px
+    position: relative
+
+    h1
+      font-size: 1.5em
+      line-height: 1.2
+      margin: 0
+      word-break: break-word
+
+      a
+        margin-right: .25em
+
+      .rx-status
+        margin: 0
+        vertical-align: middle
+
+
+// Navigation
+.drug-navigation-plum,
+.navigation-plum
+  user-select: none
+
+  .ss-icon,
+  .title
+    display: inline-block
+    vertical-align: middle
+
+  a
+    transition( all, $fast )
+    color: $color-gray-xd
+    display: block
+    padding: .35em 15px
+    position: relative
+
+    .ss-icon
+      padding-top: .05em
+
+    .title
+      font-size: $font-small
+      margin-left: .5em
+
+    + a
+      border-top: 1px solid $color-gray-xxxl
+
+    &.active + a
+      border-color: $color-gray-xxxl
+
+    &:hover
+      background: $color-gray-xxxxl
+      color: #111
+
+    &.active
+      background: $color-gray-d
+      border-color: $color-gray-d
+      color: $color-white
+
+  // @REPLACE
+  // h3
+  //   @extends $hide
+
+
+  nav
+    @media ( min-width: $screen-sm-min ) and ( max-width: $screen-md-max )
+      border-collapse: collapse
+      display: table
+      margin: 0 -15px 15px
+      padding: 0
+      table-layout: fixed
+      width: 100%
+
+      a
+        border-top: 1px solid $color-gray-xxl
+        display: table-cell
+        padding: .75em .25em .55em !important
+        text-align: center
+
+        + a
+          border-left: 1px solid $color-gray-xxxxl
+
+        &.active
+          border-top: 1px solid $color-gray-d
+
+        > .title
+          display: block
+          font-size: $font-small
+          line-height: 1.1
+          margin: 0
+
+    @media ( min-width: $screen-lg-min ) and ( max-width: $screen-lg-max )
+      a
+        text-align: center
+
+      .title
+        display: block
+        margin: 0
+
+    @media ( min-width: $screen-xl-min )
+      padding-right: 60px
+
+  @media ( max-width: $screen-xs-max )
+    border-bottom: 1px solid $color-white
+    padding: 0 !important
+    position: relative
+    width: 100%
+
+    a,
+    h3
+      color: $color-white
+
+    h3
+      background: $color-purple-d
+      display: block
+      margin: 0
+      padding: 15px
+
+    a
+      background: $color-purple
+      border-color: @color-white !important
+      line-height: 50px
+      min-height: 50px
+      padding-bottom: 0
+      padding-top: 0
+      white-space: nowrap
+
+      div:after
+        content: ' ›'
+        font-size: 3em
+        font-weight: lighter
+        position: absolute
+        right: 15px
+
+      &:hover,
+      &:active
+        background: $color-purple-d
+
+      // @REPLACE
+      // &.active
+      //   @extends $hide
+
+
+// Personalized page
+.drug-personalization
+  // @REPLACE
+  > section
+
+    .user-stories
+      font-size: .7em
+      margin-top: 3em
+
+    > section
+
+      // @REPLACE
+      &.onboarding
+      //   @extends $text-c
+
+        h2
+          font-size: 1em !important
+
+        > .sign-up
+          // @extends .button-green // @REPLACE
+          font-size: 1em
+
+      &.controls
+        border-bottom: 1px solid $color-purple-xl
+        padding-bottom: 15px
+
+        // @REPLACE
+        > h3
+          // @extends $text-c
+          margin-top: 15px
+
+
+.drug-reviews
+  .review-count
+    color: $color-green
+    font-size: 12px
+    vertical-align: text-bottom
+
+    @media ( max-width: $screen-xs-max )
+      position: static
+
+      .title
+        display: none
+
+  .stories
+    margin-top: 4em
+
+    h2
+      font-size: 1.5em
+
+  .review-summary
+    .header
+      h3
+        font-size: 1em
+        margin-top: .5em
+
+  .review
+    background: #f7f7f7
+    padding: 15px
+
+    // @REPLACE
+    h2
+      // @extends $text-c
+      color: $color-gray-d
+      font-size: 1.15em !important
+      font-weight: 500
+      line-height: 1.2
+
+      em
+        color: $color-purple
+        font-style: normal
+
+    .alone
+      color: $color-gray-m
+
+    .call-to-action
+      background: $color-gray-xxxxxl
+      border-radius: 10px
+      margin-top: 1ex
+      padding: 1em 2em
+
+      h2
+        color: $color-purple-l
+        font-size: 1.5em
+        font-weight: lighter
+        text-align: center
+
+
+    @media ( min-width: $screen-sm-min ) and ( max-width: $screen-sm-max )
+      make-sm-column( 12 )
+
+    @media ( min-width: $screen-md-min )
+      border-radius: 6px
+      border: 1px solid $color-purple
+      box-shadow: 0 2px 21px rgba(0,0,0,.25)
+      margin: -15px 0
+      padding: 28px
+
+
+// Basics
+.drug-basics
+
+  .bottom-line
+    color: $color-white !important
+
+  // @REPLACE
+  .review
+    // @extends $text-c
+    background: $color-gray-xxxxxl
+    padding: 1em 2em
+
+    &.extended
+      h3,
+      button
+        font-size: 1em !important
+
+  .moa
+    @media ( max-width: $screen-xs-max )
+      background: $color-gray-d
+      border-color: $color-gray-d
+      color: $color-white
+
+      // h2,
+      // h3
+      //   color: $color-white
+
+  .uses
+    @media ( max-width: $screen-xs-max )
+      background: $color-gray-xxxxxl
+      border-color: $color-gray-xxxxxl
+
+  .review-highlights
+    padding-top: 0 !important
+
+    // @REPLACE
+    @media ( max-width: $screen-sm-max )
+      clear: both !important
+      display: block !important
+      float: none !important
+      margin: 0 auto !important
+      max-width: 480px !important
+      padding-top: 2em !important
+
+  .filter
+    border-bottom: 1px solid $color-green
+    margin-bottom: 1em
+
+    .btn
+      @media ( max-width: $screen-lg-max )
+        padding: 5px
+
+  // @REPLACE
+  .what-to-expect
+    h2
+      // @extends $text-l
+      font-size: $font-small !important
+      font-weight: 600
+      // text-align: left !important
+
+    .over-time
+      border: 0
+      box-shadow: none
+
+      table
+        border: 0
+
+
+// Alternatives
+.drug-alternatives
+  // $TODO reminder to fix this
+  .picker
+
+    // @REPLACE
+    li
+      transition( all, $slow )
+      // @extends $flag
+      cursor: pointer
+      display: block
+
+      &:hover
+        background: $color-gray-xxxxxl
+
+      &.key,
+      &.picked
+        color: $color-white
+
+      &.key
+        background: #7655bd
+        border-color: #7655bd
+
+      &.picked
+        background: #444
+        border-color: #444
+
+      + li
+        margin-top: .5em
+
+    // @REPLACE
+    &.popup
+      // @extends $hide
+      // @extends $text-c
+      margin-bottom: 1em
+
+      > div
+        display: inline-block
+
+      @media ( max-width: $screen-sm-max )
+        display: block
+
+    @media ( max-width: $screen-sm-max )
+      display: none
+
+  .compare-table
+    margin-left: -15px
+    margin-right: -15px
+
+    th
+      padding: 5px 15px
+
+      &:nth-of-type( 3 )
+        background: $color-gray-d
+
+        &:hover
+          background: $color-purple-l
+
+    h2,
+    h3
+      font-weight: 100
+      margin-bottom: 0
+
+    h2
+      font-size: 18px
+
+    h3
+      color: $color-gray-m
+      font-size: 15px
+
+
+// Tradeoffs
+// @REPLACE
+.upsides
+  h3
+    color: $color-green
+
+  @media ( max-width: $screen-xs-max )
+    background: $color-green
+    border-color: $color-green
+
+
+// @REPLACE
+.downsides
+  h3
+    color: $color-rose
+
+  @media ( max-width: $screen-xs-max )
+    background: $color-gray-d
+    border-color: $color-gray-d
+
+
+.upsides,
+.downsides
+  ul
+    font-weight: 400
+    padding-right: 10%
+
+  li
+    padding-left: 20px
+    &:before
+      content: '› '
+      display: inline-block
+      font-size: 20px
+      margin: 0 15px 0 -15px
+
+    + li
+      margin-top: 13px
+
+  @media ( max-width: $screen-xs-max )
+    color: $color-white
+    font-weight: 300
+
+    // h2,
+    // h3
+    //   color: $color-white
+
+
+.bottom-line
+  p
+    font-size: 22px
+
+  @media ( max-width: $screen-xs-max )
+    color: $color-white
+    background: $color-purple
+    border-color: $color-purple
+
+    // h2,
+    // h3
+    //   color: $color-white
+
+
+.drugs
+  // @REPLACE
+  .picker
+    font-size: 18px
+    text-align: center
+    user-select: none
+
+    a,
+    span
+      display: inline-block
+      margin: 3px 6px
+
+    span
+      padding: .25em 0
+
+      .compare-table &
+        color: $color-gray-l
+
+      @media ( max-width: $screen-xs-max )
+        display: none
+
+    a
+      transition( all, $fast )
+      background: $color-gray-xxxxl
+      border-radius: 12px
+      padding: 4px 14px
+
+      &:hover
+        background: $color-gray-xxxl
+
+      &.active
+        background: $color-purple-l
+        border-radius: 2px
+        color: $color-white
+
+        &:hover
+          background: $color-purple-l
+
+      @media ( max-width: $screen-xs-max )
+        margin-left: 0
+        margin-right: 5%
+        width: 28%
+
+    &.maxed
+      a
+        &:not( .active )
+          opacity: .3
+
+        &:active
+          background: $color-purple-l
+
+      .notice
+        opacity: 1
+
+    .notice
+      transition( opacity, $slow )
+      color: $color-gray-xl
+      line-height: 1
+      opacity: 0
+
+      @media ( max-width: $screen-xs-max )
+        font-size: 12px
+
+    @media ( max-width: $screen-xs-max )
+      padding: 15px 0 0
+
+
+// @REPLACE
+.drug-facts
+  h3
+    color: $color-purple-l
+    font-size: $font-small !important
+    font-weight: 700
+    margin: 0
+
+
+// Drug tips
+.drug-tips
+  // @REPLACE
+  > section
+    // @extends $gradient-gray-paper
+    // make-lg-column( 8 )
+
+  // @REPLACE
+  .tips-list
+    display: flex
+    flex-wrap: wrap
+    justify-content: space-between
+    padding: initial 5px // @REPLACE
+
+    @media ( max-width: $screen-xs-max )
+      margin-left: -15px
+      margin-right: -15px
+      padding: 0
+
+    // @REPLACE
+    li
+      transition( background, $fast )
+      background: $color-blue
+      color: $color-white
+      display: flex
+      font-size: $font-l
+      // font-weight: lighter
+      padding: 15px 12% 2.5ex 15px
+      width: 100%
+
+      @media ( min-width: $screen-sm-min )
+        // .shadow-m
+        font-size: $font-xl
+        margin: 5px -5px
+        width: 50%
+
+      &:hover
+        background: #4159B7
+
+
+.user-stories,
+.personalization-banner
+  padding-left: 15px
+  padding-right: 15px
+
+
+.personalization-banner
+  @media ( max-width: $screen-xs-max )
+    padding: 0
+
+
+.user-stories
+  h3
+    // @extends $text-c
+    color: $color-gray-xl
+    font-size: 14px
+    margin: 0 0 14px
+
+  // $TODO note to fix later after more flattening
+  .tip-text
+    font-size: 18px !important
+
+
+// Side effects
+.side-effects-chart
+  .ss-icon
+    position: relative
+    top: .1em
+
+
+// @REPLACE
+.discontinued-due-to
+  .ss-icon
+    color: #FFB864
+    display: block
+    left: -.22em
+    position: relative
+    text-shadow: 0 0 8px #FFD9C5
+
+  ul
+    font-size: $font-small !important
+
+  li
+    // make-sm-column( 4 ) // @REPLACE
+    color: $color-gray-l
+    overflow-x: hidden
+    padding: .2em 1em .2em 0
+
+  @media ( max-width: $screen-xs-max )
+    display: none
+
+
+// @REPLACE
+// .no-incidence,
+// .side-effects-chart
+//   @extends $bg-stripe
+
+
+.no-incidence
+  li
+    padding-bottom: 5px
+
+    // @media ( min-width: $screen-xs-max )
+    //   make-xs-column( 4 )
+
+
+.risks-and-warnings
+  td
+    &:nth-child( 1 )
+      width: 25%
+
+    &:nth-child( 2 )
+      width: 75%
+
+
+.drug-name-generic:before
+  content: '('
+
+
+.drug-name-generic:after
+  content: ')'
+
+
+
+
+
+
+
+
+
+
+
+// + .io-button-group
+//   margin-left: 1px
+//
+
+// Reviews
+// .rle-and-stories
+//   // .plum-panel
+//   // .x-wide
+//   .light
+
+//   @media ( min-width: $screen-md-min )
+//     .wide
+//
+//
+
+// Plum panels
+// $TODO note to come back and fix this
+// .plum-panel
+//   border-bottom: 1px solid $color-white
+//   border-top: 1px solid $color-white
+//   height: 100%
+//   padding: 15px 15px 45px
+
+//   h2,
+//   h3
+//     color: $color-purple-l
+//     font-size: $font-small
+//     font-weight: 700
+//     margin: 0 0 1em
+//
+
+//   p,
+//   span,
+//   li
+//     line-height: 1.2
+//
+
+//   p ~ h2,
+//   p ~ h3,
+//   ul ~ h2,
+//   ul ~ h3,
+//   span ~ h2,
+//   span ~ h3,
+//     margin-top: 2em
+//
+
+//   @media ( max-width: $screen-xs-max )
+//     .make-xs-column( 12 )
+//
+
+//   @media ( min-width: $screen-sm-min )
+//     .make-sm-column( 4 )
+//
+
+//   &.quarter
+//     @media ( min-width: $screen-sm-min )
+//       .make-sm-column( 4 )
+//
+//
+
+//   &.half
+//     @media ( min-width: $screen-sm-min )
+//       .make-sm-column( 6 )
+//
+//
+
+//   &.wide
+//     @media ( min-width: $screen-sm-min )
+//       .make-sm-column( 8 )
+//
+//
+
+//   &.x-wide
+//     @media (min-width: $screen-sm-min)
+//       .make-sm-column( 12 )
+//
+//
+
+//   // $TODO this looks like a mistake
+//   &.x-wide-md-max
+//     @media ( max-width: $screen-md-max )
+//       .make-sm-column( 12 )
+//
+//
+//   &.x-wide-sm-max
+//     @media ( max-width: $screen-sm-max )
+//       .make-sm-column( 12 )
+//
+//
+
+//   &.x-light
+//     color: $color-gray-l
+//
+
+//   &.light
+//     color: $color-gray-m
+//
+
+//   &.purple,
+//   &.purple-l,
+//   &.gray-d,
+//   &.gray,
+//   &.gray-m,
+//   &.gray-l
+//     color: $color-white
+
+//     h2,
+//     h3
+//       color: $color-white
+//
+//
+
+//   &.purple
+//     background: $color-purple
+//     border-color: $color-purple
+//
+
+//   &.purple-l
+//     background: $color-purple-xl
+//     border-color: $color-purple-xl
+//
+
+//   &.gray-d
+//     background: $color-gray-xd
+//     border-color: $color-gray-xd
+//
+
+//   &.gray
+//     background: $color-gray-d
+//     border-color: $color-gray-d
+//
+
+//   &.gray-m
+//     background: $color-gray-m
+//     border-color: $color-gray-m
+//
+
+//   &.gray-l
+//     background: $color-gray-xl
+//     border-color: $color-gray-xl
+//
+
+//   &.border
+//     border-color: $color-gray-xxxl
+//
+
+//   &.border-bottom
+//     border-bottom-color: $color-gray-xxxl
+//
+
+//   p,
+//   ul,
+//   div ~ p,
+//   div ~ ul,
+//   section ~ p,
+//   section ~ ul
+//     font-weight: 300
+//
+
+//   &.small
+//     p,
+//     ul,
+//     div ~ p,
+//     div ~ ul,
+//     section ~ p,
+//     section ~ ul
+//       font-size: .9em
+//
+//
+
+//   &.medium
+//     p,
+//     ul,
+//     div ~ p,
+//     div ~ ul,
+//     section ~ p,
+//     section ~ ul
+//       font-size: 1.2em
+//
+//
+
+//   &.large
+//     p,
+//     ul,
+//     div ~ p,
+//     div ~ ul,
+//     section ~ p,
+//     section ~ ul
+//       font-size: 1.6em
+//
+//
+
+//   &.large,
+//   &.x-large
+//     h2,
+//     h3,
+//     h4,
+//     p
+//       @media ( min-width: $screen-lg-min )
+//         max-width: 80%
+//
+//
+//
+
+//   &.x-large
+//     p,
+//     ul,
+//     div ~ p,
+//     div ~ ul,
+//     section ~ p,
+//     section ~ ul
+//       font-size: 2em
+//
+//
+
+//   &.filter
+//     border-bottom: 1px solid $color-green-l
+//     padding-bottom: 0
+//     padding-top: 0
+
+//     @media ( max-width: $screen-xs-max )
+//       padding-top: 0 !important
+
+//       // $TODO note to make less specific later
+//       > span
+//         position: absolute
+//         right: 15px
+//         top: 15px
+//
+//
+//
+//

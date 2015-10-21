@@ -1,0 +1,447 @@
+/*
+ * Iodine.com Med Labels styling
+ * Special styles for presenting FDA comissioned SPL files.
+ *
+*/
+
+
+/*
+ * Callouts
+ *
+ * Not quite alerts, but custom and helpful notes for folks reading the docs.
+ * Requires a base and modifier class.
+ */
+.io-callout
+  border-left: 5px solid #eee !important
+  margin: 20px 0
+  padding: 15px 30px 15px 15px
+
+
+.med-label
+  // @REPLACE
+  // NOTE(steida): Because some elements overlap.
+  overflow: hidden
+
+  // @REPLACE
+  select.form-control
+    width: 24em
+    display: block
+    margin: 0 auto
+
+  // @REPLACE
+  .left
+    float: left
+
+  // @REPLACE
+  .right
+    float: right
+
+  // @REPLACE
+  .totop
+    background: rgba( 0, 0, 0, .6 )
+    border-radius: 8px
+    color: $color-white
+    display: none
+    fixed: right 30px bottom 60px
+    padding: 5px 9px
+    size: 30px
+    z-index: 9999
+
+  // @REPLACE
+  .totop:hover
+    color: $color-white
+
+  h1
+    font-weight: 700
+
+  h2
+    font-weight: 600
+
+  h3
+    font-weight: 500
+
+  h4
+    margin-top: 0
+
+  p:last-child
+    margin-bottom: 0
+
+
+.io-callout code,
+.bio-callout .highlight
+  background-color: $color-white
+
+
+/* Variations */
+.io-callout-danger
+  background-color: #fcf2f2
+  border-color: #dFb5b4
+
+
+.io-callout-warning
+  background-color: #fefbed
+  border-color: #f1e7bc
+
+
+.io-callout-info
+  background-color: #f0f7fd
+  border-color: #d0e3f0 !important
+
+
+// @REPLACE
+.io-sidebar
+  margin-top: 0
+  padding: 0
+  width: 240px
+
+  a
+    color: #716b7a
+    display: block
+    padding: 5px
+
+    &:hover,
+    &:focus
+      background-color: #e5e3e9
+
+    .active &,
+    .active:hover &,
+    .active:focus &
+      background-color: transparent
+      color: #563d7c
+      font-weight: 600
+
+  // @REPLACE
+  .nav .nav
+    // @extends $hide
+
+    a
+      font-size: 90%
+      padding: 3px initial 3px 30px
+
+  // @REPLACE
+  // .navTitle
+  //   @extends $hide
+
+  a,
+  h3
+    font-size: 14px
+
+  h2,
+  h3
+    color: $color-purple-xd
+
+  h3
+    margin: 0
+    padding: 0
+
+  &.affix
+    fixed: top 115px
+
+  &.affix-bottom
+    absolute: bottom 0
+
+  /* Show and affix the side nav when space allows it */
+  // @REPLACE
+  @media screen and ( min-width: 992px )
+    .active ul
+      display: block
+
+    &.affix
+      position: fixed /* Undo the static from mobile first approach */
+
+
+.io-sidenav
+  background: $color-gray-xxxxl
+  height: 341px
+  overflow-y: scroll
+  padding: 10px 0 50px
+  text-shadow: 0 1px 0 $color-white
+
+
+.io-sidenav::-webkit-scrollbar
+  -webkit-appearance: none
+  width: 7px
+
+
+.io-sidenav::-webkit-scrollbar-thumb
+  -webkit-box-shadow: 0 0 1px rgba( 255, 255, 255, .5 )
+  background-color: rgba( 0, 0, 0, .5 )
+  border-radius: 4px
+
+
+.label-header
+  background: $color-gray-xxxxl
+  margin-left: .3em
+
+  h3
+    color: $color-purple-l
+    font-size: 20px !important
+    margin-bottom: 0
+
+  h4
+    color: $color-gray-l
+
+  select
+    margin-top: 2ex
+
+
+// @REPLACE
+.med-label
+  // @extends $no-scroll
+
+  // .form-control
+  //   display: block
+  //   margin: 0 auto
+  //   width: 24em
+  //
+
+  // @REPLACE
+  .labelName
+    // @extends $hide
+    // @extends $text-c
+    margin: 0
+    padding: 0
+
+  // @REPLACE
+  .totop
+    background: rgba( 0, 0, 0, .6 )
+    border-radius: 8px
+    color: $color-white
+    display: none
+    fixed: bottom 60px right 30px
+    padding: 5px 9px
+    size: 30px
+    z-index: 9999
+
+    &:hover
+      color: $color-white
+
+  // Type
+  h1
+    font-size: 2em
+    font-weight: 700
+    text-transform: capitalize
+
+  h2
+    font-weight: 600
+
+  h3
+    font-weight: 500
+
+  h4
+    font-weight: 400
+
+  h5
+    font-weight: 300
+
+  h6
+    font-weight: 200
+
+
+  @media ( max-width: 767px )
+    .col-md-9 .table
+      font-size: 12px
+
+
+// .splAlert
+  // @extends $hide
+
+
+.spl
+  font-size: 14px
+  font-weight: 400
+  line-height: 26px
+  margin-top: -20px
+  padding: 5px 10px
+
+  .dt
+    margin-left: 25px
+    margin-top: 10px
+    position: absolute
+
+  .dd
+    margin-left: 30px
+    padding: 10px
+
+  // @REPLACE
+  .tooltip-inner
+    background-color: #3b344c
+    font-weight: 600
+    font-size: 14px
+    color: $color-white
+    text-shadow: none !important
+    text-align: left
+
+  p
+    padding: 5px 10px
+
+  .Italics
+    border: 0 !important
+    font-style: italic
+    font-weight: 900
+
+  h1
+    font-size: 24px
+    padding: 10px
+
+  h2
+    font-size: 21px !important
+
+  .Warning
+    border: 4px solid black
+    margin: 15px 0
+    padding: 15px
+
+    .io-callout-info
+      margin-left: 40px !important
+      width: 90%
+
+    &div
+      page-break-before: auto
+      page-break-inside: avoid
+
+    &td
+      border: 1px solid black
+
+  ul
+    padding-left: 10px
+
+  li
+    padding-left: 1em
+    padding-bottom: 10px
+    text-indent: -.7em
+
+    &:before
+      content: "• "
+      color: $color-mauve
+
+    p
+      margin-top: -30px
+
+      &.First
+        margin-top: 0
+
+
+  /* Common styles for all types */
+  .io-callout
+    margin: 20px 0
+    padding: 15px 30px 15px 15px
+    border-left: 5px solid #eee !important
+
+  .io-callout h4
+    margin-top: 0
+
+  .io-callout p:last-child
+    margin-bottom: 0
+
+  .io-callout code,
+  .bio-callout .highlight
+    background-color: $color-white
+
+  .Headless
+    width: 500px !important
+
+  .io-spl-container
+    margin-bottom: 100px
+
+  /* SPL Recent Changes */
+  .io-callout p
+    border: 0 !important
+
+
+  /*
+    Sidebar navigation
+  */
+  /* First level of nav */
+  .io-sidenav
+    background-color: rgba( 247, 245, 250, 1 )
+    height: 341px
+    overflow-y: scroll
+    padding-bottom: 10px
+    padding-top: 10px
+    text-shadow: 0 1px 0 $color-white
+
+  .io-callout-info
+    padding: 20px !important
+
+  .Warning .io-callout-info
+    margin-left: 40px !important
+    width: 90%
+
+  /* Tooltips */
+  // @REPLACE
+  .tooltip-inner
+    // @extends $text-l
+    background-color: #3b344c
+    color: $color-white
+    font-size: 14px
+    font-weight: 600
+    text-shadow: none !important
+
+  .tooltip-arrow
+    .top &
+      border-top-color: #3b344c
+
+    .right &
+      border-right-color: #3b344c
+
+    .bottom &
+      border-bottom-color: #3b344c
+
+    .left &
+      border-left-color: #3b344c
+
+
+
+  /* Sidebar nav */
+  .fdaTooltip
+    // @extends $float-r // @REPLACE
+    margin-right: 10%
+    margin-top: -28px
+
+  .navbar
+    min-height: 0
+
+
+
+/*
+ * Glyphicons
+ * Special styles for displaying the icons and their classes in the docs.
+ */
+.io-glyphicons
+  // @extends $no-scroll // @REPLACE
+  margin-bottom: 20px
+  padding-bottom: 1px
+  padding-left: 0
+
+  li
+    // @extends $text-c // @REPLACE
+    // @extends $float-l // @REPLACE
+    border: 1px solid #ddd
+    font-size: 12px
+    line-height: 1.4
+    margin: 0 -1px -1px 0
+    padding: 10px
+    size: 25% 115px
+
+    &:hover
+      background-color: rgba( 86, 61, 124, .1 )
+
+    @media ( min-width: 768px )
+      width: 12.5%
+
+
+.glyphicon
+  display: block
+  font-size: 24px
+  margin: 5px auto 10px
+
+
+/* Pseudo :focus state for showing how it looks in the docs */
+#focusedInput
+  box-shadow: 0 0 8px rgba( 82, 168, 236, .6 )
+  border-color: rgba( 82, 168, 236, .8 )
+  // fallbacks for older ie
+  outline: thin dotted \9
+  outline: 0
+

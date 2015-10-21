@@ -1,0 +1,75 @@
+.stories
+
+  .story-list
+    .gradient-gray-paper
+
+    .btn
+      margin-bottom: 7ex
+      text-align: center
+
+  // @REPLACE
+  // ul
+  //   .make-row()
+
+  //   li
+  //     .make-sm-column(6)
+
+  .encouragement
+    h3
+      margin: 1ex 0 1.4ex 0
+      color: $color-blue !important
+
+    .btn
+      margin: .4ex 0 0 .9em
+
+  .thank-you
+    background: $color-yellow-bg
+    border-radius: 8px
+    font-size: $font-small
+    margin-bottom: 3ex
+    padding: 2ex 2em
+    text-align: center
+
+    // $TODO seems unecessary
+    @media( max-width: $screen-sm )
+      font-size: $font-small
+
+  // Me too popover
+  .popover
+    background: $color-white
+
+    .arrow
+      border-right-color: $color-white !important
+
+      &:after
+        border-right-color: $color-white !important
+
+  .upvotes
+    border-top: 1px solid $color-gray-l
+    margin-top: 1ex
+    padding-top: 1ex
+    font-size: .8em
+
+    .count
+      padding-right: 1em
+      border-right: 1px solid $color-gray-l
+
+    .ss-icon
+      padding-left: 1em
+      outline: 0
+
+      &.active,
+      &:hover
+        // Note: Setting the color on hover messes up on mobile when you try un-clicking.
+        color: $color-purple
+
+      &:hover
+        cursor: pointer
+
+  .add-your-experience
+    padding: 0 0 2ex
+    text-align: center
+    width: 100%
+
+    .btn
+      margin: 2em 0

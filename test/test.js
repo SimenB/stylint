@@ -43,20 +43,20 @@ describe( 'Core Methods: ', function() {
 
 		it( 'set path if one passed in', function() {
 			app.state.path = null
-			app.init( null, 'styl/' )
-			assert.equal( app.state.path, 'styl/' )
+			app.init( null, 'test-styl/' )
+			assert.equal( app.state.path, 'test-styl/' )
 		} )
 
 		it( 'set path if state.path is set', function() {
-			app.state.path = 'styl/'
+			app.state.path = 'test-styl/'
 			app.init()
-			assert.equal( app.state.path, 'styl/' )
+			assert.equal( app.state.path, 'test-styl/' )
 		} )
 
 		it( 'override state.path if one is passed in', function() {
-			app.state.path = 'styl/'
-			app.init( null, 'styl/test2.styl' )
-			assert.equal( app.state.path, 'styl/test2.styl' )
+			app.state.path = 'test-styl/'
+			app.init( null, 'test-styl/test2.styl' )
+			assert.equal( app.state.path, 'test-styl/test2.styl' )
 		} )
 
 		it( 'set path to cwd if none passed in', function() {
@@ -77,7 +77,9 @@ describe( 'Core Methods: ', function() {
 		} )
 
 		it( 'call watch if passed --watch flag', function() {
-			app.init( {wath: true} )
+			app.init( {
+				watch: true
+			} )
 			app.init.getCall( 3 ).returned( sinon.match.same( app.watch ) )
 		} )
 
@@ -95,13 +97,13 @@ describe( 'Core Methods: ', function() {
 		} )
 
 		it( 'return parse function if passed a dir', function() {
-			app.state.path = 'styl/'
+			app.state.path = 'test-styl/'
 			app.read()
 			app.read.getCall( 0 ).returned( sinon.match.same( app.parse ) )
 		} )
 
 		it( 'return parse function if passed a filename', function() {
-			app.state.path = 'styl/test2.styl'
+			app.state.path = 'test-styl/test2.styl'
 			app.read()
 			app.read.getCall( 1 ).returned( sinon.match.same( app.parse ) )
 		} )
@@ -130,23 +132,23 @@ describe( 'Core Methods: ', function() {
 		} )
 
 		it( 'return a forEach if passed a filename', function() {
-			app.parse( false, ['styl/test2.styl'] )
-			app.parse.getCall( 0 ).returned( sinon.match.same( ['styl/test2.styl'].forEach ) )
+			app.parse( false, ['test-styl/test2.styl'] )
+			app.parse.getCall( 0 ).returned( sinon.match.same( ['test-styl/test2.styl'].forEach ) )
 		} )
 
 		it( 'return a forEach if passed a list of files', function() {
-			app.parse( false, ['styl/test2.styl, styl/test.styl'] )
-			app.parse.getCall( 1 ).returned( sinon.match.same( ['styl/test2.styl, styl/test.styl'].forEach ) )
+			app.parse( false, ['test-styl/test2.styl, styl/test.styl'] )
+			app.parse.getCall( 1 ).returned( sinon.match.same( ['test-styl/test2.styl, styl/test.styl'].forEach ) )
 		} )
 
 		it( 'handle empty or one line files fine', function() {
-			app.parse( false, ['styl/oneLine.styl'] )
-			app.parse.getCall( 2 ).returned( sinon.match.same( ['styl/oneLine.styl'].forEach ) )
+			app.parse( false, ['test-styl/oneLine.styl'] )
+			app.parse.getCall( 2 ).returned( sinon.match.same( ['test-styl/oneLine.styl'].forEach ) )
 		} )
 
 		it( 'returns app.done when done parsing last file', function() {
 			app.cache.fileNo = app.cache.filesLen
-			app.parse( false, ['styl/test2.styl'] )
+			app.parse( false, ['test-styl/test2.styl'] )
 			app.parse.getCall( 3 ).returned( sinon.match.same( app.done ) )
 		} )
 	} )
@@ -219,11 +221,11 @@ describe( 'Core Methods: ', function() {
 		} )
 
 		it( 'should call change event when file changed', function() {
-			app.watcher = chokidar.watch( 'styl/test.styl' )
+			app.watcher = chokidar.watch( 'test-styl/test.styl' )
 			app.watcher.on( 'change', function() {
 				assert( true )
 			} )
-			touch( 'styl/test.styl' )
+			touch( 'test-styl/test.styl' )
 		} )
 	} )
 

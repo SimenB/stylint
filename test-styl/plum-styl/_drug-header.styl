@@ -1,0 +1,131 @@
+/* Drug header. */
+
+.drug-header
+  // .container > div has consistent padding and border,
+  // because most cards are rendered with equal visual weight.
+  // Exceptions must be overridden with !important.
+  // $TODO should be an extend
+  margin-top: 2ex !important
+  padding-bottom: 4.5ex !important
+
+  // @REPLACE
+  h3
+    @extends $text-c
+    // .container > div h's have properties that need to be overridden.
+    color: $color-gray-l
+    font-size: 1.2em !important
+    font-weight: 300
+    margin: 0 0 1ex
+
+
+  // $TODO why dupe classes
+  // @REPLACE
+  .indications,
+  .names
+    color: #555
+
+  // @REPLACE
+  .names
+    // h3
+    //   @extends $text-l
+
+    div
+      padding-right: 0
+
+  // @REPLACE
+  // .indications
+  //   @extends $text-c
+
+  // @REPLACE
+  // .names
+    // .light
+    //   @extends $text-r
+
+  // $TODO too specific?
+  .sentence
+    margin: 0
+    padding: 0
+
+  // $TODO too specific?
+  .sentence li
+    display: inline-block
+
+  // $TODO too specific?
+  .sentence li:after
+    content: ','
+    margin-right: .3em
+
+  // $TODO too specific?
+  .sentence li:last-child:after
+    content: ''
+
+  /* Carousel. */
+  .tips
+    margin: .5ex 0 4ex
+
+    // @REPLACE
+    .carousel-inner
+      .item
+        // @extends $text-c
+        color: $color-purple
+        font-size: 1.5em
+        // font-weight: 300
+        height: 2.4em
+        line-height: 1.2em
+        margin-bottom: .2ex
+        opacity: 0
+        transition-property: opacity
+
+      .active
+        opacity: 1
+
+      .active.left,
+      .active.right
+        left: 0
+        opacity: 0
+        z-index: 0
+
+    a
+      color: $color-purple
+      font-size: 1.2em
+      margin: 0 .3ex
+      opacity: .5
+
+      &:hover
+        opacity: 1
+
+    @media ( max-width: 480px )
+      .carousel-inner
+        height: 4em
+
+  @media ( max-width: 767px )
+    // $TODO why dupe selectors
+    h3,
+    .indications
+      text-align: left
+
+    h3
+      margin-bottom: .25ex !important
+      margin-top: 2ex !important
+
+    // @REPLACE
+    .light
+      // @extends $text-l
+      margin-top: 2ex
+      text-align: left
+
+    // Carousel
+    .tips
+      margin: .5ex 0 1ex
+
+      .carousel-inner
+        .item
+          font-size: 1.2em
+          height: 5.2em
+          line-height: 1.3em
+          margin-bottom: .2ex
+
+
+
+
+

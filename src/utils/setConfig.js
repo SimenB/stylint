@@ -1,8 +1,12 @@
 'use strict'
 
 var fs = require( 'fs' )
+var path = require( 'path' )
 var pathIsAbsolute = require( 'path-is-absolute' )
 var stripJsonComments = require( 'strip-json-comments' )
+
+// @TODO i just this sloppy just to fix some stuff
+// comes back and refactor / cleanup
 
 /**
  * @description overrides default config with a new config object
@@ -16,38 +20,91 @@ var stripJsonComments = require( 'strip-json-comments' )
 */
 var setConfig = function( configpath ) {
 	var files = []
-	var path = ''
-	var returnConfig = this.config
+	var customPath = ''
+	// return default config if nothing passed in or found
+	var returnConfig
+
+	// used as a last resort
+	// x-platform home directory getter
+	var _getUserHome = function() {
+		return process.env[process.platform === 'win32' ? 'USERPROFILE' : 'HOME']
+	}
+
+	/**
+	 * @description sets the return config if one if found
+	 * @param  {string} path [where to look for config]
+	 * @return {Object|void} [object if stylintrc found, undefined if not]
+	 */
+	var _parseConfig = function( path ) {
+		return JSON.parse(
+			stripJsonComments(
+				fs.readFileSync( path, 'utf-8' )
+			)
+		)
+	}
 
 	// if 1, the customConfig will be what we want
+	// this only occurs if using stylint programmatically
 	if ( this.customConfig ) {
 		returnConfig = this.customConfig
 	}
-	// if 2
+	// if 2, we pass in a path to the config
+	// this only occurs if using stylint via the command line
 	else if ( configpath ) {
-		path = pathIsAbsolute( configpath ) ? configpath : process.cwd() + '/' + configpath
+		customPath = pathIsAbsolute( configpath ) ? configpath : process.cwd() + '/' + configpath
 		try {
-			returnConfig = JSON.parse( stripJsonComments( fs.readFileSync( path, 'utf-8' ) ) )
+			returnConfig = _parseConfig( customPath )
 		}
 		catch ( err ) {
 			throw err
 		}
 	}
-	// if 3
 	else {
 		try {
+			// check current working directory for .stylintrc
 			files = fs.readdirSync( process.cwd() )
 			if ( files.indexOf( '.stylintrc' ) !== -1 ) {
-				returnConfig = JSON.parse( stripJsonComments( fs.readFileSync( process.cwd() + '/.stylintrc', 'utf-8' ) ) )
+				returnConfig = _parseConfig( process.cwd() + '/.stylintrc' )
+			}
+
+			if ( !returnConfig ) {
+				// go up 1 directory
+				customPath = path.join( process.cwd(), '..' )
+				files = fs.readdirSync( customPath )
+				if ( files.indexOf( '.stylintrc' ) !== -1 ) {
+					returnConfig = _parseConfig( customPath + '/.stylintrc' )
+				}
+			}
+
+			if ( !returnConfig ) {
+				// go up 1 more mdirectory
+				customPath = path.join( process.cwd(), '..', '..' )
+				files = fs.readdirSync( customPath )
+				if ( files.indexOf( '.stylintrc' ) !== -1 ) {
+					returnConfig = _parseConfig( customPath + '/.stylintrc' )
+				}
+			}
+
+			if ( !returnConfig ) {
+				// if nothing found in project, we look at the users home directory
+				files = fs.readdirSync( _getUserHome() )
+				if ( files.indexOf( '.stylintrc' ) !== -1 ) {
+					returnConfig = _parseConfig( _getUserHome() + '/.stylintrc' )
+				}
+			}
+
+			// default config if nothing found
+			if ( !returnConfig ) {
+				returnConfig = this.config
 			}
 		}
-		// in case theres an issue parsing
+		// in case theres an issue parsing or no .stylintrc found at specified location
 		catch ( err ) {
 			throw err
 		}
 	}
 
-	// 4, just return the initial config
+	// 4, just return the initial config if nothing found
 	return returnConfig
 }
 

@@ -1,0 +1,89 @@
+/**
+ * breakpoints hash, mobile first (mobile is 1 column always)
+ * see _grid.styl for use
+*/
+$breakpoints = {
+  'mob': $mob,
+  'tab': $mob-plus,
+  'desk': $tab-plus,
+  'lg': $desk-plus,
+}
+
+
+/**
+ * handy dandy colors hash, for outputting color helpers
+ * would be nice to automate the generation of these colors
+ * instead of harcoding them all (many of which are very similar)
+ * see _helpers.styl for an example
+ */
+$colors = {
+  // bluez :(
+  'blue-xxxl': $color-blue-xxxl,
+  'blue-xxl': $color-blue-xxl,
+  'blue-xl': $color-blue-xl,
+  'blue-l': $color-blue-l,
+  'blue': $color-blue,
+
+  // greens
+  'blue-neon': $color-blue-neon,
+  'green-xxl': $color-green-xxl,
+  'green-xl': $color-green-xl,
+  'green-l': $color-green-l,
+  'green': $color-green,
+  'green-d': $color-green-d,
+
+  // perpz
+  'purple-lt': $color-purple-lt,
+  'purple-xl': $color-purple-xl,
+  'purple-l': $color-purple-l,
+  'purple': $color-purple,
+  'purple-d': $color-purple-d,
+  'purple-xd': $color-purple-xd,
+  'mauve': $color-mauve,
+
+  // yellows
+  'gold': $color-gold,
+  'gold-d': $color-gold-d,
+  'gold-xd': $color-gold-xd,
+  'yellow': $color-yellow,
+  'yellow-bg': $color-yellow-bg,
+  'yellow-bg-d': $color-yellow-bg-d,
+
+  // reds
+  'red': $color-red,
+  'red-d': $color-red-d,
+  'rose': $color-rose,
+  'pink': $color-pink,
+  'pink-d': $color-pink-d,
+  'rose-xxxl': $color-rose-xxxl,
+  'rose-xxl': $color-rose-xxl,
+  'rose-xl': $color-rose-xl,
+  'rose-l': $color-rose-l,
+
+  // gray
+  'gray-xxxxxl': $color-gray-xxxxxl,
+  'gray-xxxxl': $color-gray-xxxxl,
+  'gray-xxxl': $color-gray-xxxl,
+  'gray-xxl': $color-gray-xxl,
+  'gray-xl': $color-gray-xl,
+  'gray-l': $color-gray-l,
+  'gray-m': $color-gray-m,
+  'gray-d': $color-gray-d,
+  'gray-xd': $color-gray-xd,
+  // 'default': $color-rose-l,
+
+  'white': $color-white,
+  'black': $color-black,
+}
+
+
+/**
+ * handy dandy directions hash
+ * see _helpers.styl for an example
+ */
+$directions = {
+  t: top,
+  r: right,
+  b: bottom,
+  l: left,
+}

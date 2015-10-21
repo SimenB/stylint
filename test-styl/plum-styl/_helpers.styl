@@ -1,0 +1,350 @@
+// utility classes for composing
+// used all over
+
+
+/**
+ * @desc opacity helperz
+ * @returns opacity classes
+ */
+for $i in ( 0..9 )
+  .opacity-{$i}
+    opacity $i * .1
+
+
+/**
+ * @desc weight helperz
+ * @returns font-weight 100-900
+ */
+for $i in ( 1..9 )
+  .weight-{$i}00
+    font-weight: s('%s00', $i)
+
+
+/**
+ * @desc section color helperz
+ * @returns color classes for the 6 section colors
+ */
+for $key, $value in $colors
+  .bg-{$key}
+    background-color $value
+
+  .{$key}
+    color $value
+
+
+// diagonal stripe background used all over
+.bg-stripe
+  background: url( '/images/design-details/b-stripe.png' )
+
+// these bg-group ones only seem to be in used in compare-table.jsx
+.bg-group-1
+  border-top: 3px solid #ffcc66
+
+.bg-group-2
+  border-top: 3px solid #ccff66
+
+.bg-group-3
+  border-top: 3px solid #66ffcc
+
+.bg-group-4
+  border-top: 3px solid #cc66ff
+
+.bg-group-5
+  border-top: 3px solid #66ffff
+
+.bg-group-6
+  border-top: 3px solid #ffcc66
+
+.bg-group-7
+  border-top: 3px solid #ccff66
+
+.bg-group-8
+  border-top: 3px solid #66ffcc
+
+.bg-group-9
+  border-top: 3px solid #cc66ff
+
+.bg-group-10
+  border-top: 3px solid #66ffff
+
+// Borders
+.border-purple
+  border: 1px solid $color-purple-d
+
+.border-green
+  border: 1px solid $color-green-d
+
+.border-red
+  border: 1px solid $color-red-d
+
+.border-gold
+  border: 1px solid $color-gold-d
+
+.border-gray
+  border: 1px solid $color-gray-l
+
+.cf
+  @extends $clearfix
+
+.small
+  font-size: $font-small
+
+// $TODO convert these into some kind of system later
+.marg-b
+  margin-bottom: 15px
+
+.marg-l
+  margin-left: 15px
+
+.marg-t
+  margin-top: 15px
+
+.marg-r
+  margin-right: 15px
+
+.marg
+  margin: 15px
+
+.inline
+	display: inline
+
+.inline-block
+  display: inline-block
+
+.absolute
+  position: absolute
+
+.affix,
+.fixed
+  position: fixed
+
+.relative
+  position: relative
+
+// force line-height to be same height as text
+// useful to closing up annoying inconsistent gaps
+.normalize-line-height
+  line-height: 1 !important
+
+.border-t
+  border-top: 1px solid $color-gray-xxl
+
+.border-b
+  border-bottom: 1px solid $color-gray-xxl
+
+.pad
+  padding: 15px
+
+// .pad-big
+//   padding: 10px 15px
+
+.error
+  color: $color-red
+
+.success
+  color: $color-purple
+
+.top
+	top: 0
+
+.right
+	right: 0
+
+.bottom
+	bottom: 0
+
+.left
+	left: 0
+
+.no-marg
+	margin: 0 !important
+
+// Shadows
+.shadow-l
+  box-shadow: 0 1px 0 rgba( 0, 0, 0, .2 )
+
+.shadow-m
+  box-shadow: 0 1px 2px rgba( 0, 0, 0, .3 )
+
+.shadow-h
+  box-shadow: 0 7px 12px rgba( 0, 0, 0, .35 )
+
+.shadow-inset
+  box-shadow: inset 0 3px 6px 0 rgba( 0, 0, 0, .4 )
+
+.text-shadow
+  text-shadow: 0 1px 0 rgba( 0, 0, 0, .3 )
+
+.text-shadow-reverse
+  text-shadow: 0 -1px 0 rgba( 0, 0, 0, .3 )
+
+.shadow-fluffy
+  box-shadow: 0 0 13px 0 rgba( 0, 0, 0, .15 )
+
+.text-shadow-white
+  text-shadow: 0 -1px 0 $color-white
+
+.center
+  display: block
+  margin-left: auto
+  margin-right: auto
+
+.text-l
+  text-align: left
+
+.text-r
+  text-align: right
+
+.text-c
+  text-align: center
+
+.text-reset
+  font-size: $font-base
+
+.text-big
+  font-size: $font-big
+  line-height: unit( $font-big + 4, 'px' )
+
+.text-bigger
+  font-size: $font-bigger
+  line-height: unit( $font-bigger + 4, 'px' )
+
+.gray-m
+  color: #666
+
+.light
+  color: #aaa
+
+.mid
+  color: #888
+
+// just because
+.the-color-purple
+  color: $color-purple !important
+
+.sentence-case
+  &::first-letter
+    text-transform: uppercase
+
+.lowercase
+  text-transform: lowercase
+
+.float-l
+  float: left
+
+.float-r
+  float: right !important
+
+.no-scroll,
+.overflow-hidden
+  overflow: hidden
+
+.no-wrap
+  white-space: nowrap
+
+.hide
+  display: none
+
+.remove
+  display: none !important
+
+.show
+  display: block
+
+.reveal
+  display: block !important
+
+// Hide from screenreaders and browsers
+// Credit: HTML5 Boilerplate
+// $TODO remove so we can consolidate all the hiding/showing of stuff intro 1 system
+.hidden
+  display: none !important
+  visibility: hidden !important
+
+.invisible
+  visibility: hidden
+
+.break-all
+  display: inline-block
+  word-break: break-all
+
+// border override
+.no-border
+  border: 0 !important
+
+.valign-b
+  vertical-align: bottom
+
+.valign-t
+  vertical-align: top
+
+.valign-m
+  vertical-align: middle
+
+.visually-hidden
+  @extends $visually-hidden
+
+// cursor stylez
+.cursor
+  // default cursor (the arrow)
+  &-default
+    cursor: default
+
+  // the default hover cursor (the hand)
+  &-pointer
+    cursor: pointer
+
+  &-text
+    cursor: text
+
+  // the magnifying glass
+  &-zoom
+    cursor: pointer // @stylint ignore
+    cursor: zoom-in
+
+// compare table on click highlight (under see more info)
+.hvr-highlight
+  transition( all, $fast )
+  cursor: pointer
+  font-weight: 500
+  margin: 0 -15px .3em
+  padding: .25ex 15px
+
+  &:hover
+    background: $color-yellow-bg
+
+  &.highlight
+    color: $color-white
+    background: $color-gray-m
+
+    &:hover
+      background: $color-gray-m
+
+.lower
+  text-transform: lowercase
+
+.upper
+  text-transform: uppercase
+
+.disc
+  list-style-type: disc
+
+.flag
+  @extends $flag
+
+// Gradients
+.gradient-green
+  background: linear-gradient( to bottom,  #36d8cd 0%,#1aaea8 100% )
+  // filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#36d8cd', endColorstr='#1aaea8',GradientType=0 )
+
+.gradient-gray-paper
+  background: linear-gradient( to bottom,  $color-white 0%, #f7f7f7 680px, #f7f7f7 100% )
+  // filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=$color-white, endColorstr='#f7f7f7')
+
+.gradient-purple
+  background: linear-gradient( to bottom,  #8f66e8 0%,#7655bd 100% )
+  // filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8f66e8', endColorstr='#7655bd',GradientType=0 )
+
+.gradient-purple-reverse
+  background: linear-gradient( to bottom,  #7655bd 0%,#8f66e8 100% )
+  //   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7655bd', endColorstr='#8f66e8',GradientType=0 )

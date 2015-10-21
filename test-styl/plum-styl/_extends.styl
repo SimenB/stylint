@@ -1,0 +1,156 @@
+// not legit extends
+// since less doesn't support placeholder extensions
+// but at least we'll have a file where they're all in one place
+// when or if we switch to stylus these will be made into proper extends
+
+// less specific clearfix
+$clearfix
+  &:before,
+  &:after
+    content: ''
+    display: table
+
+  &:after
+    clear: both
+
+
+$row
+  @extends $clearfix
+  display: block
+  position: relative
+  width: 100%
+
+
+// basic column
+$column
+  display: block
+  min-width: 0
+  padding-left: $gutter
+  padding-right: $gutter
+  position: relative
+
+  &.alpha,
+  &:first-child
+    padding-left 0
+
+  &.omega,
+  &:last-child
+    padding-right 0
+
+
+$center
+  display: block
+  margin-left: auto
+  margin-right: auto
+
+
+/**
+ * make a thing flexbox
+ */
+$flex-box
+  // dupe intentional, display: block is a fallback
+  display: block // @stylint ignore
+  display: flex
+  flex-direction: column
+  flex-wrap: wrap
+  width: 100%
+
+  &.align-baseline
+    align-items: baseline
+
+  &.align-m
+    align-items: center
+
+  &.justify-c
+    justify-content: center
+
+  &.flow
+    flex-wrap: wrap
+
+  &.full-height
+    height: 100%
+
+  // force row layout (on mobile, for example)
+  &.horizontal
+    flex-direction: row !important
+
+
+// tags, used all over
+$flag
+  // @extends .shadow-l @REPLACE
+  background: $color-white
+  border-color: $color-gray-xxxl
+  border-left: 3px solid
+  border-radius: 3px
+  display: inline-block
+  padding: 5px 10px
+
+  &.bordered
+    border-top: 1px solid $color-gray-xxxl
+    border-right: 1px solid $color-gray-xxxl
+
+  &.gray,
+  &.purple
+    color: $color-white
+
+  &.purple
+    background: $color-purple
+    border-color: $color-purple
+
+  &.gray
+    background: $color-gray-d
+    border-color: $color-gray-d
+
+
+// $TODO REMOVE ME LATER
+// .input-sm
+//   input-size($input-height-small $padding-small-vertical $padding-small-horizontal $font-size-small $line-height-small $border-radius-small)
+
+
+// .input-lg
+//   input-size($input-height-large $padding-large-vertical $padding-large-horizontal $font-size-large $line-height-large $border-radius-large)
+
+
+/**
+ * put a thing on it's own rendering layer
+ * useful if something might cause excessive repaint
+ * but isn't necessarily gonna be animated
+ * all gifs ever, basically
+ */
+$render-layer
+  -webkit-backface-visibility: hidden
+  -webkit-perspective: 1000px
+  -webkit-transform-style: preserve-3d
+  transform: translateZ( 0 )
+
+
+/**
+ * Hide element visually, but leave it available for screenreaders
+ * anything that gets toggled but needs to be accessible
+ * is a good candidate for this instead of display none
+ * $see http://open.blogs.nytimes.com/2014/06/24/improving-article-accessibility/
+ */
+$visually-hidden
+  border: 0
+  clip: rect( 0 0 0 0 )
+  height: 1px
+  margin: -1px
+  overflow: hidden
+  padding: 0
+  position: absolute
+  width: 1px
+
+  &.focusable
+    &:active,
+    &:focus
+      background: $color-white
+      clip: auto
+      display: block
+      height: auto
+      margin: 0
+      min-width: 300px
+      overflow: visible
+      padding: 15px
+      position: static
+      visibility: visible
+      width: auto
