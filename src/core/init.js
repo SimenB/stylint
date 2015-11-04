@@ -5,7 +5,8 @@ var defaults = require( 'lodash.defaults' )
 var defaultOptions = {
 	watch: false,
 	config: null,
-	strict: false
+	strict: false,
+	callback: function() {}
 }
 
 /**
@@ -36,6 +37,8 @@ var init = function( options, pathPassed ) {
 
 	// if path/ passed in use that for the dir
 	this.state.path = pathPassed || this.state.path || process.cwd()
+	
+	this.callback = this.callback || options.callback
 
 	// fire watch or read based on flag
 	if ( options.watch ) {
