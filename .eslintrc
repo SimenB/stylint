@@ -17,7 +17,6 @@
 		}],
 		"comma-style": [2, "last"],
 		"consistent-return": 0,
-		"curly": 1,
 		"default-case": 1,
 		"eol-last": 1,
 		"eqeqeq": 1,

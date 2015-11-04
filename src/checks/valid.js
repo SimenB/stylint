@@ -6,12 +6,14 @@
 // 4 ignore numbers
 // 5 ( from || to ) are only valid inside @keyframe
 // 6 the actual JSON property whitelist we will test against
+// 7 if interpolated value just give it a pass
 var attrOrMixinRe = /^\[\S+\]|({[\S]+})|(\([\S ]+\))|(\(\))/ // 1
 var stripRe = /(?=\S)\[\S+\]|(\.|#)(\w|-)+/ // /(?=\S)\[\S+\]/ // 2
 var ignoreRe = /^[$.#]|[&=>+~]|if|for|else|return|@block|calc|@extend|@media/ // 3
 var numRe = /\d+?(?=px|%|em|rem|v(h|w)|v(min|max)|ex|ch|mm|cm|in|pt|pc|mozmm)/ // 4
 var keyRe = /((from)|(to))+(?= $| {| \d|\n|{)/ // 5
 var validJSON = require( '../data/valid.json' ) // 6
+var interpolatedRe = /( *{\S+} *)/ // 7
 
 
 /**
@@ -28,7 +30,7 @@ module.exports = function valid( line ) {
 	var arr = this.splitAndStrip( new RegExp( /[\s\t,:]/ ), line ) // 1
 
 	// if not splittable for some reason
-	if ( typeof arr[0] === 'undefined' ) { return }
+	if ( typeof arr[0] === 'undefined' ) return
 
 	// in order, let line be considered valid if:
 	// 1 we are in a hash or css block
@@ -36,6 +38,7 @@ module.exports = function valid( line ) {
 	// 3 if the selector only consists of an attr or mixin (which can be custom)
 	// 4 if it's a number
 	if ( this.state.hashOrCSS || // 1
+		interpolatedRe.test( this.cache.origLine ) ||
 		ignoreRe.test( line.trim() ) || // 2
 		attrOrMixinRe.test( line ) || // 3
 		numRe.test( arr[0] ) ) { // 3
