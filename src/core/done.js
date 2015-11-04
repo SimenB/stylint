@@ -31,6 +31,7 @@ var done = function() {
 	// dont kill the linter if watch is watchin
 	// else theres no more to do, so exit the process
 	if ( !this.state.watching ) {
+		this.callback( this.state.exitCode || null )
 		return process.exit( this.state.exitCode )
 	}
 
