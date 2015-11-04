@@ -1,0 +1,592 @@
+.summary-page
+
+  .banner
+    @media print
+      display: none
+
+  .summary-view
+    @media print
+      :-moz-placeholder,
+      ::-moz-placeholder,
+      :-ms-input-placeholder,
+      ::-webkit-input-placeholder
+        color: transparent
+
+    // Customization controls
+    .sidebar
+      padding: 15px 15px 15px 0
+      text-align: center
+
+      &.affix
+        top: 87px
+
+      @media print
+        display: none
+
+    // @REPLACE
+    .customize
+      @extends .bg-yellow
+      @extends .shadow-m
+      border-radius: 4px
+      text-align: left
+
+      @media print
+        display: none
+
+      h3
+        font-size: 1em
+        margin: 0
+        padding: 15px
+
+      > div
+        background: $color-yellow-bg-d
+        cursor: pointer
+        font-weight: bolder
+        padding: .2em 15px
+        user-select: none
+
+        &:first-of-type
+          border-top: 1px solid white
+
+        // @REPLACE
+        &.disabled
+          @extends .bg-yellow
+
+        label
+          font-weight: lighter !important
+
+        input
+          display: inline-block
+          margin-right: .3em
+
+      > div + div
+        border-top: 1px solid white
+
+      + h3
+        margin-top: 2em
+
+    // Search
+    .search-bar
+      font-size: $font-small
+      margin-left: 0
+      margin-right: 0
+
+      @media print
+        display: none
+
+    // "Guidance page" for patients
+    .paper
+      @extends .shadow-m
+      border-radius: 8px
+      margin: 15px
+
+      .source
+        display: none
+
+      > section
+        padding: 1em 2em 2em
+
+        h2
+          color: $color-purple
+          font-size: 1.3em
+          margin: 0 0 1em
+          text-align: left
+
+        .card
+          margin: 0
+          padding: 0
+          border: 0
+
+          h2
+            display: none
+
+        @media print
+          padding-left: 1em
+          padding-right: 1em
+          box-shadow: none
+
+      > section + section
+        padding-top: 2em
+        border-top: 1px solid $color-gray-xxl
+
+      small
+        background: $color-gray-xxxxl
+        border-top-left-radius: 8px
+        border-top-right-radius: 8px
+        color: $color-gray-d
+        display: block
+        margin-bottom: 1em
+        padding: .3em 2em
+        text-align: center
+
+        @media print
+          border-radius: 0
+
+      @media print
+        margin: 0
+        box-shadow: none
+
+      // Name
+      .name
+        padding-bottom: 0
+
+        h2
+          font-size: 1.6em
+          font-weight: 700
+
+      // Description
+      .description
+        border-top: none
+        padding-top: 0
+        color: $color-gray-d
+
+        h2,
+        h3
+          color: $color-gray-d
+          font-size: 1em
+          font-weight: normal
+          margin: 0
+          text-align: left
+
+        h2
+          font-weight: bolder
+
+        @media print
+          h2,
+          h3
+            font-size: $font-print-small !important
+
+      // Tradeoffs
+      .tradeoffs
+        h3
+          font-size: $font-print-large !important
+          font-weight: bolder
+          // text-align: left
+
+        section
+          margin-bottom: 0
+
+        // .tradeoffs-area
+        //   .make-md-column(12) !important
+        //   .make-md-column-offset(0) !important
+
+        .upsides,
+        .downsides,
+        .bottom-line
+          h3
+            font-weight: 300
+            text-align: left
+
+        .upsides,
+        .downsides
+          li
+            line-height: 1.2
+            margin-bottom: .3em
+
+        .bottom-line
+          margin-top: 0
+          h4
+            color: $color-gray-d
+            font-size: 1em
+            font-weight: bolder
+
+      // WTE
+      .what-to-expect
+        .timeline-section
+          margin: 0
+          border-top: none !important
+          border-bottom: none !important
+
+          .over-time
+            width: 100%
+            box-shadow: none
+
+            .choose
+              @extends .bg-yellow // @REPLACE
+              margin: 1em 0
+              padding: 1em 0 .6em
+
+              ul
+                color: $color-gray-d
+
+              @media print
+                display: none
+
+
+            .chart-timeline
+              .timeline-flag
+                height: 50px
+                vertical-align: bottom
+
+                @media print
+                  height: $timeline-print-height
+
+                &.effectiveness
+                  span
+                    color: $color-green
+
+                span
+                  background: $color-white
+                  color: $color-gray-m
+                  font-size: $font-small
+                  margin-bottom: 3px
+                  padding-left: 1em
+
+              table
+                border-collapse: separate
+                margin-top: 2ex
+
+              thead
+                background: $color-gray-xxxl
+
+              th
+                border-bottom: 1px solid $color-gray-xxl !important
+                border-top: 1px solid $color-gray-xxl !important
+                color: $color-gray-m
+                font-size: 1em !important
+                height: 40px
+                position: relative
+                text-align: center
+                vertical-align: middle
+
+                @media print
+                  height: $timeline-print-height
+
+                span
+                  display: inline
+
+                i
+                  absolute: top -8px right -30px
+                  color: $color-white
+                  font-size: 54px
+
+              table tr:first-child th
+                border-top: 0
+                border-bottom: 0
+
+              table tr:last-child td
+                border-bottom: 0
+
+              table tr td:first-child,
+              table tr th:first-child
+                border-left: 0
+
+              table tr td:last-child,
+              table tr th:last-child
+                border-right: 0
+
+              tr
+                height: 2.2em
+
+              td
+                border-right: 1px solid rgba(0,0,0,.1)
+                color: #525252
+
+              td.start
+                position: relative
+                padding-left: .3em
+                white-space: nowrap
+                overflow-x: visible
+
+                span
+                  position: relative
+                  z-index: 5
+
+              .effect-start-semi
+                background-color: rgba(133,224,220,.4)
+
+                @media print
+                  border: 1px solid $color-gray-xxl
+                  border-right: none
+
+              span
+                display: inline-block
+                width: 100%
+                padding: .1em 0 .1em .5em
+
+              .effect-start
+                background-color: rgba(133,224,220,.4)
+                background: linear-gradient(to right,rgba(133,224,220,0) 15%,rgba(133,224,220,1) 100%)
+                border-radius: 15px 0 0 15px
+
+                @media print
+                  border: 1px solid $color-gray-xxl
+                  border-right: none
+
+              .effect-middle
+                background-color: rgba(133,224,220,1)
+
+                @media print
+                  border: 1px solid $color-gray-xxl
+                  border-left: none
+                  border-right: none
+
+              .effect-end-taper
+                background-color: rgba(133,224,220,1)
+                background: linear-gradient(to right, rgba(133,224,220,1) 66%,rgba(133,224,220,0) 100%)
+
+                @media print
+                  border: 1px solid $color-gray-xxl
+                  border-left: none
+
+              .sideeffect-start
+                background-color: rgba(221,221,221,1)
+                border-radius: 15px 0 0 15px
+                // text-decoration: underline
+
+                @media print
+                  border: 1px solid $color-gray-xxl
+                  border-right: none
+
+              .sideeffect-start-taper
+                background-color: rgba(221,221,221,1)
+                background: linear-gradient(to right, rgba(221,221,221,1) 66%,rgba(221,221,221,0) 100%)
+                border-radius: 15px 0 0 15px
+                // text-decoration: underline
+
+                @media print
+                  border: 1px solid $color-gray-xxl
+                  border-right: none
+
+              .sideeffect-end-taper
+                background-color: rgba(221,221,221,1)
+                background: linear-gradient(to right, rgba(221,221,221,1) 66%,rgba(255,255,255,0) 100%)
+
+                @media print
+                  border: 1px solid $color-gray-xxl
+                  border-left: none
+
+              .sideeffect-middle
+                background-color: rgba(221,221,221,1)
+
+                @media print
+                  border: 1px solid $color-gray-xxl
+                  border-left: none
+                  border-right: none
+
+              .bg-selected
+                background: none
+
+          table.layout
+            border-top: none !important
+            border-bottom: none !important
+
+            .over-time
+              box-shadow: none !important
+
+          @media print
+            font-size: 10pt !important
+
+
+      // Tips
+      .tips
+        .notice
+          @extends .bg-yellow // @REPLACE
+          font-weight: lighter
+          margin-bottom: 1em
+          padding: .5em
+          text-align: center
+
+          @media print
+            display: none
+
+        ul
+          .item
+            color: $color-gray-d
+            display: block
+            font-weight: normal
+            line-height: 1.5em
+            padding: .2em 15px .2em 30px
+            position: relative
+
+            @media print
+              font-size: 12pt
+
+            &.deleted
+              .tip-text
+                text-decoration: line-through
+                color: $color-gray-xxl
+
+              @media print
+                display: none
+
+            &.ugc-textbox
+              @extends .bg-yellow // @REPLACE
+              margin-left: 0
+              margin-right: 0
+              margin-top: 1em
+              padding-bottom: 1em
+              padding-top: 1em
+
+              .ss-icon
+                display: none
+
+              @media print
+                display: none
+
+            .ss-icon
+              color: $color-gray-xxl
+              font-size: .75em
+              position: absolute
+              top: .4em
+              left: 1em
+
+              @media( max-width: $screen-xs )
+                display: none
+
+            // Delete/restore controls
+            .edit
+              text-align: center
+
+              .ss-delete,
+              .ss-refresh
+                @extends .bg-yellow // @REPLACE
+                cursor: pointer
+                display: inline-block
+                font-size: 1.3em
+                height: 1.3em
+                left: 0
+                margin: 0
+                padding: .15em
+                position: relative
+                top: 0
+                width: 1.3em
+
+                @media print
+                  display: none
+
+              .ss-delete
+                color: $color-rose
+
+              .ss-refresh
+                color: $color-green
+
+            @media ( max-width: $screen-xs )
+              font-size: 1em
+              padding-left: 0
+              padding-right: 0
+
+      // Provider note
+      .doctor-notes
+        textarea
+          border-radius: 6px
+          color: $color-gray-xxl
+          font-size: 1.2em
+
+          &:focus
+            color: black
+
+          @media print
+            border: 0
+            font-size: 12pt
+            padding: 0
+
+    // Email & print bar
+    .send-bar
+      @extends .bg-yellow // @REPLACE
+      margin: 0 -30px 2ex
+      padding: .7em 30px
+
+      @media print
+        display: none
+
+      h2
+        display: inline-block
+        font-size: 1.3em
+        margin: 0
+
+        p
+          font-size: $font-small
+          margin: .2ex 0 0 .3ex
+
+      .share-group
+        float: right
+
+      .form-inline
+        display: inline-block
+        max-width: 340px
+
+      button,
+      .btn
+        @extends .button-green // @REPLACE
+
+        .ss-icon
+          bottom: -2px
+          font-size: .94em
+          line-height: 1.08em
+          margin-right: .12em
+          padding-right: .3em
+          position: relative
+          vertical-align: text-top
+
+      &.top
+        @extends .shadow-inset // @REPLACE
+        .share-group
+          margin-top: .45em
+
+      // @REPLACE
+      &.bottom
+        margin-bottom: 0
+        margin-top: 6ex
+        padding-top: 1.5em
+        padding-bottom: 1.5em
+        text-align: center
+
+        .share-group
+          float: none
+
+        .form-inline
+          display: inline-block
+          float: none
+          vertical-align: text-top
+
+
+
+      @media ( max-width: $screen-xs )
+        .form-inline
+          display: block
+
+        .form-inline ~ .form-inline
+          margin-top: .5em
+
+      @media ( max-width: $screen-sm )
+        text-align: center
+
+        .share-group
+          float: none
+          margin: 0 auto
+
+        .form-inline
+          display: inline-block
+          float: none
+          vertical-align: text-top
+
+
+    .form-inline
+      float: left
+      max-width: 340px
+
+    .form-control.success
+      border: 0
+      box-shadow: none
+      color: $color-green
+      text-align: left
+
+    .form-error
+      @extends .bg-yellow // @REPLACE
+      bottom: -2em
+      color: $color-rose-l
+      font-size: .6em
+      padding: .2em
+      position: absolute
+
+    .form-inline + .form-inline
+      margin-left: .5em
+
+    @media print
+      h2
+        font-size: $font-print-large !important
+
+
+
+

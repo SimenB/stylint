@@ -1,0 +1,12 @@
+test/
+test-styl/
+.editorconfig
+.eslintrc
+.eslintignore
+.codeclimate.yml
+.stylintrc
+.travis.yml
+changelog.md
+CONTRIBUTING.md
+lcov.info
+coverage

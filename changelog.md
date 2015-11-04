@@ -1,3 +1,42 @@
+### 1.2.5
+add .npmignore file
+
+update some dependencies
+
+stylint is now smarter about looking for a .stylintrc file. here is the order of importance if you want to specify a custom stylint config:
+
+  1 using stylint programmatically and passing in config option as a parameter
+  
+  2 using stylint via command line and passing in a path to a .stylintrc via the --config flag
+  
+  3 if the first two fail, stylint will then check the cwd
+  
+  4 if that fails, stylint will walk up 2 directories looking for a .stylintrc file
+  
+  5 if THAT fails, it checks the home directory
+  
+  6 if still nothing, and no errors happened during all this, it will just use the default config
+
+
+### 1.2.4
+merged in a number of PRS fixing minor issues
+
+vendor-prefixes ( as defined by nib ) no longer triggers $ prefix errors
+
+namingConvention outputs better err msg in case the config property is using the object format
+
+sortOrder outputs better err msg in case of custom array
+
+
+### 1.2.3
+fix this issue: https://github.com/rossPatton/stylint/issues/200
+
+fix this issue: https://github.com/rossPatton/stylint/issues/184
+
+fix issue where blocks: always would throw false positives
+
+fix this issue: https://github.com/rossPatton/stylint/issues/196
+
 ### 1.2.2
 fix this issue: https://github.com/rossPatton/stylint/issues/189
 

@@ -1,0 +1,297 @@
+// Mixins
+
+// calc-grid-column($index, $class, $type) when ($type = width) and ($index > 0)
+//   .col-$class-$index
+//     width: percentage(($index / $grid-columns))
+
+
+// calc-grid-column($index, $class, $type) when ($type = push)
+//   .col-$class-push-$index
+//     left: percentage(($index / $grid-columns))
+
+
+// calc-grid-column($index, $class, $type) when ($type = pull)
+//   .col-$class-pull-$index
+//     right: percentage(($index / $grid-columns))
+
+
+// calc-grid-column($index, $class, $type) when ($type = offset)
+//   .col-$class-offset-$index
+//     margin-left: percentage(($index / $grid-columns))
+
+
+// loop mixin used for animating
+loop( $iterations = 1 )
+  animation-iteration-count: $iterations
+
+
+// Basic looping in LESS
+// loop-grid-columns($index, $class, $type) when ($index >= 0)
+//   calc-grid-column($index, $class, $type)
+//   // next iteration
+//   loop-grid-columns(($index - 1), $class, $type)
+
+
+// Create grid for specific class
+// make-grid($class)
+//   float-grid-columns($class)
+//   loop-grid-columns($grid-columns, $class, width)
+//   loop-grid-columns($grid-columns, $class, pull)
+//   loop-grid-columns($grid-columns, $class, push)
+//   loop-grid-columns($grid-columns, $class, offset)
+
+
+// make-grid-columns()
+  // Common styles for all sizes of grid columns, widths 1-12
+  // .col($index) when ($index = 1)  // initial
+  //   $item: ~".col-xs-$index, .col-sm-$index, .col-md-$index, .col-lg-$index"
+  //   .col(($index + 1), $item)
+
+  // .col($index, $list) when ($index =< $grid-columns)  // general "=<" isn't a typo
+  //   $item: ~".col-xs-$index, .col-sm-$index, .col-md-$index, .col-lg-$index"
+  //   .col(($index + 1), ~"$list, $item")
+
+  // .col($index, $list) when ($index > $grid-columns)  // terminal
+  //   $list
+  //     position: relative
+  //     // Prevent columns from collapsing when empty
+  //     min-height: 1px
+  //     // Inner gutter via padding
+  //     padding-left:  ($grid-gutter-width / 2)
+  //     padding-right: ($grid-gutter-width / 2)
+
+
+  // .col(1) // kickstart it
+
+
+// Common styles for all sizes of grid columns, widths 1-12
+// make-grid-xlcolumns()
+
+  // .col($index) when ($index = 1)  // initial
+  //   $item: ~".col-xl-$index"
+  //   .col(($index + 1), $item)
+
+  // .col($index, $list) when ($index =< $grid-columns)  // general "=<" isn't a typo
+  //   $item: ~".col-xl-$index"
+  //   .col(($index + 1), ~"$list, $item")
+
+  // .col($index, $list) when ($index > $grid-columns)  // terminal
+  //   $list
+  //     position: relative
+  //     // Prevent columns from collapsing when empty
+  //     min-height: 1px
+  //     // Inner gutter via padding
+  //     padding-left:  ($grid-gutter-width / 2)
+  //     padding-right: ($grid-gutter-width / 2)
+
+
+  //.col(1) // kickstart it
+
+
+// .make-grid-xlcolumns()
+// .make-grid(xl)
+
+// Generate xl columns
+
+// make-xl-column($columns, $gutter = $grid-gutter-width)
+//   position: relative
+//   min-height: 1px
+//   padding-left:  ($gutter / 2)
+//   padding-right: ($gutter / 2)
+
+//   @media (min-width: $screen-xl-min)
+//     float: left
+//     width: percentage(($columns / $grid-columns))
+
+
+// make-xl-column-offset($columns)
+//   @media (min-width: $screen-xl-min)
+//     margin-left: percentage(($columns / $grid-columns))
+
+
+// make-xl-column-push($columns)
+//   @media (min-width: $screen-xl-min)
+//     left: percentage(($columns / $grid-columns))
+
+
+// make-xl-column-pull($columns)
+//   @media (min-width: $screen-xl-min)
+//     right: percentage(($columns / $grid-columns))
+
+
+
+// float-grid-columns($class)
+  // .col($index) when ($index = 1)  // initial
+  //   $item: ~".col-$class-$index"
+  //   .col(($index + 1), $item)
+
+  // .col($index, $list) when ($index =< $grid-columns)  // general
+  //   $item: ~".col-$class-$index"
+  //   .col(($index + 1), ~"$list, $item")
+
+  // .col($index, $list) when ($index > $grid-columns)  // terminal
+  //   $list
+  //     float: left
+
+
+  // .col(1) // kickstart it
+
+
+input-size($input-height, $padding-vertical, $padding-horizontal, $font-size, $line-height, $border-radius)
+  height: $input-height
+  padding: $padding-vertical $padding-horizontal
+  font-size: $font-size
+  line-height: $line-height
+  border-radius: $border-radius
+
+  select&
+    height: $input-height
+    line-height: $input-height
+
+  textarea&,
+  select[multiple]&
+    height: auto
+
+
+
+// Alerts
+// -------------------------
+alert-variant( $background, $border, $text-color )
+  background-color: $background
+  border-color: $border
+  color: $text-color
+
+  hr
+    border-top-color: darken($border, 5%)
+
+  .alert-link
+    color: darken($text-color, 10%)
+
+
+
+// Button sizes
+// -------------------------
+button-size( $padding-vertical, $padding-horizontal, $font-size, $line-height, $border-radius )
+  padding: $padding-vertical $padding-horizontal
+  font-size: $font-size
+  line-height: $line-height
+  border-radius: $border-radius
+
+
+// really? $TODO remove this
+// User select
+// For selecting text on the page
+user-select($select)
+  user-select: $select
+
+
+/**
+ * line clamp (ellipsis) hackz for excerpts
+ * in webkit we get the ellipsis, on other browsers we just dont show the text
+ * 1 old spec is needed, so we turn autoprefixer off for the block.
+ */
+line-clamp( $lines = 3, $your-line-height )
+  /* autoprefixer: off */
+  -webkit-box-orient vertical
+  display -webkit-box // 1
+  overflow hidden
+  text-overflow ellipsis
+  -webkit-line-clamp $lines
+  max-height $lines * $your-line-height + 2
+
+
+// row = clearfix, centered, full width
+row()
+  clearfix()
+  margin-left auto
+  margin-right auto
+  width 100%
+
+
+/**
+ * @desc takes our gutter and total columns and builds us a grid
+ * @param [number] $index {pass in a number, get a column}
+ */
+col-width( $index )
+  return unit( ( 100% / $columns ) * $index, '%' )
+
+
+// WebKit-style focus
+tab-focus()
+  // Default
+  outline: thin dotted // not really correct @TODO
+  // WebKit
+  outline: 5px auto -webkit-focus-ring-color
+  outline-offset: -2px
+
+
+
+// Drop shadows
+//
+// Note: Deprecated `.box-shadow()` as of v3.1.0 since all of Bootstrap's
+//   supported browsers that have box shadow capabilities now support the
+//   standard `box-shadow` property.
+box-shadow($shadow)
+  box-shadow: $shadow
+
+
+// Opacity
+// opacity($opacity)
+//   opacity: $opacity
+//   // IE8 filter
+//   $opacity-ie: ($opacity * 100)
+//   filter: ~"alpha(opacity=$opacity-ie)"
+
+
+// Single side border-radius
+border-top-radius($radius)
+  border-top-right-radius: $radius
+  border-top-left-radius: $radius
+
+
+border-right-radius($radius)
+  border-bottom-right-radius: $radius
+  border-top-right-radius: $radius
+
+
+border-bottom-radius($radius)
+  border-bottom-right-radius: $radius
+  border-bottom-left-radius: $radius
+
+
+border-left-radius($radius)
+  border-bottom-left-radius: $radius
+  border-top-left-radius: $radius
+
+
+// Responsive utilities
+// -------------------------
+// More easily include all the states for responsive-utilities.less.
+responsive-visibility()
+  // display: block !important
+  // table&   display: table
+  // tr&      display: table-row !important
+  // th&,
+  // td&      display: table-cell !important
+
+
+responsive-invisibility()
+  display: none !important
+
+
+/**
+ * ensures consistent easing across site
+ * pass all only if you need more to animate more than one property
+ * the actual property is preferred over using all
+ * @param the property to transition
+ * @param the length of the transition
+ * @param bool, include translateZ for performance if needed (use sparingly)
+ */
+transition( $prop, $length = $fast, $accelerate = false )
+  transition $prop $length $timing
+  // turn on hardware acceleration for stuff (dont abuse)
+  if ( $accelerate == true )
+    -webkit-backface-visibility hidden
+    -webkit-perspective 1000px
+    -webkit-transform-style preserve-3d
+    transform translateZ( 0 )

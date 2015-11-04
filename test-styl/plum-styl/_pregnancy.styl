@@ -1,0 +1,568 @@
+// Pregnancy
+
+// Banner
+.pregnancy-category
+  .a,
+  .b,
+  .c,
+  .d,
+  .x,
+  .n,
+    padding: 1.5em
+
+    @media ( max-width: $screen-sm )
+      padding: .75em
+
+  h1,
+  h3,
+  h4
+    margin: 0
+
+  h1,
+  h4
+    font-size: $font-small
+    font-weight: 700
+
+  h3,
+  h4
+    font-size: 14px
+    .personalization-banner &
+      font-size: 22px
+
+  h3
+    font-weight: 300
+    text-align: left !important
+
+  .question h3
+    color: inherit !important
+
+  // @REPLACE
+  .a
+    @extends .alert-success
+
+  // @REPLACE
+  .b
+    @extends .alert-info
+
+  // @REPLACE
+  .c
+    @extends .alert-warning
+
+  // @REPLACE
+  .d
+    @extends .alert-warning
+
+  // @REPLACE
+  .x
+    @extends .alert-danger
+
+  // @REPLACE
+  .n
+    @extends .alert-neutral
+
+  // @REPLACE
+  .question
+    make-md-column( 8 )
+
+    a
+      color: inherit
+      display: block
+      font-size: $font-small
+      margin-top: 1.75ex
+      text-decoration: underline
+
+    @media ( max-width: $screen-sm )
+      margin-bottom: 4ex
+
+  .category-glyph
+    make-md-column( 4 )
+    text-align: center
+
+    h2
+      color: inherit !important
+      display: block
+      font-size: 2.3em !important
+      font-weight: normal
+      margin: 0 auto .5em !important
+
+    .a,
+    .b,
+    .c,
+    .d,
+    .x,
+    .n
+      width: 1.86em
+      height: 1.86em
+      border: 3px solid
+
+  // @REPLACE
+  .no-data
+    @extends .alert-neutral
+
+    h3
+      text-align: center !important
+      margin: 0 !important
+
+  @media ( max-width: $screen-xs-max )
+    h3,
+    a
+      font-size: $font-small !important
+
+
+.pregnancy-categories-legend
+  h4
+    font-size: 14px
+    padding-top: 0
+
+  ul
+    margin: 0
+    padding: 0
+
+  li
+    margin: .4em 0
+    padding: 0
+
+  &.full
+    li
+      margin-top: 1.5em
+
+    p
+      margin: 0 0 .25ex !important
+
+  .a,
+  .b,
+  .c,
+  .d,
+  .x,
+  .n
+    border-radius: 50%
+    display: inline-block
+    font-size: 1em
+    margin-right: .3em
+    padding: .2em 0
+    text-align: center
+    width: 32px
+
+  // @REPLACE
+  // .a
+  //   .alert-success
+
+  // .b
+  //   .alert-info
+
+  // .c
+  //   .alert-warning
+
+  // .d
+  //   .alert-warning
+
+  // .x
+  //   .alert-danger
+
+  // .n
+  //   .alert-neutral
+
+
+
+// Card
+.pregnancy
+  &.card
+    padding-bottom: 21ex
+
+    .sidebar,
+    .mainbar
+      > section
+        border-top: 1px solid $color-gray-xxxl
+        color: $color-gray-m !important
+        font-size: 1em
+        font-weight: lighter
+        padding-bottom: 1em
+        padding-top: 1em
+
+      > section + section
+        border-top: 1px solid $color-gray-xxxl
+
+    .sidebar
+      > section
+        h3
+          color: $color-gray-d !important
+          font-size: 1em !important
+          font-weight: 600
+          margin: 0 0 .5em 0
+          text-align: left
+
+    .mainbar
+      > section
+        h3
+          color: $color-purple
+          margin-top: 0
+
+    .pregnancy-ad
+      background-size: cover
+      background: url( '/images/pregnancy/pregnancy-bg.jpg' ) left no-repeat
+      display: block
+      min-height: 160px
+      position: relative
+
+      > div
+        background: $color-purple
+        border-bottom-right-radius: 8px
+        color: $color-white
+        padding: .25em .5em
+        position: absolute
+
+      p
+        color: $color-purple-xl
+        font-size: $font-small
+        margin: 0
+
+      &:hover
+        > div
+          background: $color-purple-l
+
+    .doctor-notice
+      margin-bottom: 1em
+      padding: .5em 0
+      text-align: center
+
+    .more-info
+      font-size: 1.3em
+      font-weight: lighter
+
+      h3
+        margin-top: 2em !important
+
+      h4
+        background: $color-purple-xxl
+        margin: 4ex 0 1ex
+        padding: .5em
+        text-align: center
+
+      li
+        font-size: 1em
+
+
+// Pregnancy page
+.container.pregnancy
+  // @REPLACE
+  .page
+    background: $color-white
+
+    .sidebar
+      .hidden-xs
+      font-weight: 100
+
+      section
+        margin: 0 -15px !important
+        padding-top: 2ex
+        padding-bottom: 4ex
+        border-top: 1px solid $color-gray-xxxl
+
+        h4
+          font-size: 1.3em
+          color: $color-gray-d
+
+      .hotline-section
+        @extends .bg-stripe // @REPLACE
+
+        p
+          font-size: .9em
+
+        .phone
+          background: $color-gray-xxxl
+          border-radius: 10px
+          color: $color-gray-m
+          display: block
+          font-size: 1.2em
+          margin: 1em 0 .5em 0
+          padding: .5em .4em
+          text-align: center
+
+          i
+            color: $color-gray-xl
+            vertical-align: middle
+
+        // @REPLACE
+        .small
+          text-align: center
+
+        // @REPLACE
+        .lighter
+          color: $color-gray-m
+          font-size: .8em
+          text-align: center
+
+      .search-section
+        .search-bar
+          margin-top: 0
+
+        .twitter-typeahead
+          border-radius: 4px
+          height: 40px !important
+          width: 100%
+
+        input
+          @extends .btn-block
+          padding-left: .5em
+          border-radius: 4px 4px 0 0 !important
+
+        .button-submit
+          border-radius: 0 0 4px 4px !important
+          background: $color-green-l
+          border-color: $color-green
+          margin-top: 0
+          text-shadow: none !important
+
+
+      .blog-section
+        @extends .bg-stripe
+        color: $color-purple-l
+
+        li
+          padding: .2em 0
+
+      .socialmedia-section
+        a
+          display: block
+          margin: 0 0 1ex
+
+          &:last-child
+            margin: 0
+
+    .body
+      padding: 2ex 0 6ex
+
+      .row
+        margin: 0
+
+      .headline
+        margin-left: .7ex
+        padding-top: 0
+
+        @media( max-width: $screen-sm )
+          margin-left: 0
+          padding: 0
+
+      // places anchor in the correct place
+      #conditions
+        margin-top: -60px
+        padding-top: 60px
+
+      #pregnancy-categories
+        margin-top: -120px
+        padding-top: 120px
+
+      .common-headline
+        border-bottom: 1px solid $color-blue-xxl
+        color: $color-blue
+        margin: 1ex -2ex 3ex .6ex
+        padding-left: 1.3ex
+
+        @media( max-width: $screen-sm )
+          margin-left: 0
+          margin-right: 0
+          padding-left: 0
+
+      .paragraph
+        padding-bottom: 2.5em
+
+        p
+          color: $color-gray-m
+          font-weight: 100
+          padding-left: 25px
+
+          @media( max-width: $screen-sm )
+            padding-left: 0 !important
+
+      .pregnancy-condition
+        // @extends .make-row
+        border-radius: 6px
+        box-shadow: 0 1px 3px rgba( 0, 0, 0, .3 )
+        font-weight: 100
+        margin: 0 0 5ex
+        padding: .5em
+
+        // @REPLACE
+        h4
+          @extends .alert-info
+          background: $color-blue-xxxl
+          border-radius: 6px 6px 0 0
+          color: $color-blue
+          margin: -9px -9px 0
+          padding: .3em .5em
+
+        // @REPLACE
+        .tip,
+        .drugfree
+          @extends .alert-warning
+          margin-left: -8px
+          margin-right: -9px
+          padding: 4px 10px
+
+        // @REPLACE
+        li
+          color: $color-gray-m
+          padding: .1em 0
+
+          a
+            color: $color-gray-d
+            // &:hover
+            //   cursor: pointer
+
+            &:after
+              color: $color-gray-m
+              content: " ›"
+
+        .safe
+          // make-sm-column( 6 )
+          margin-left: -9px
+          margin-right: -9px
+          padding: 4px 10px
+
+          li
+            &:first-child
+              color: $color-green-l
+              font-size: 1.2em
+              font-weight: 500
+
+          a:hover
+            color: $color-green
+
+        .unsafe
+          // make-sm-column( 6 )
+          margin-left: -9px
+          margin-right: -9px
+          padding: 4px 10px
+
+          li
+            &:first-child
+              color: $color-pink
+              font-weight: 500
+              font-size: 1.2em
+
+          a:hover
+            color: $color-pink
+
+    // @REPLACE
+    .header
+      background-size: cover
+      background: url( '/images/pregnancy/pregnancy-bg.jpg' ) left no-repeat
+      margin: 0 0 4ex
+      padding-bottom: 0
+      width: 100%
+
+      @media ( max-width: $screen-sm )
+        padding-top: 6ex
+
+      &.row
+        margin: 0
+
+      // @REPLACE
+      .credit
+        absolute: right 3em bottom 12px
+        font-size: 11px
+        text-align: right
+
+        a
+          color: $color-gray-xl
+
+        @media ( max-width: $screen-sm )
+          left: 1em
+          text-align: left
+
+      // @REPLACE
+      h2
+        color: $color-purple
+        font-size: 2em
+        line-height: 1.2em
+        margin: 0
+        text-align: left
+
+        @media ( max-width: $screen-sm )
+          font-size: 1.5em
+          text-align: center
+
+      .safety-search
+        margin-top: 4em
+
+        @media ( max-width: $screen-sm )
+          margin-bottom: 4em
+          margin-top: 0
+
+      .search-area
+        text-align: left
+
+        @media( max-width: $screen-sm )
+          text-align: center
+
+      .search-bar
+        display: inline-block
+        margin-top: 4ex
+        border-radius: 6px
+        box-shadow: 0 1px 3px rgba(0,0,0,.2)
+
+      .search
+        .twitter-typeahead
+          height: 50px !important
+          line-height: 49px
+
+      form
+        height: 50px !important
+
+        input
+          padding-left: .5em !important
+          border-color: $color-green
+          border-width: 1px
+          border-style: solid
+
+        .button-submit
+          height: 50px
+          box-shadow: none
+
+          a
+            display: block
+            text-decoration: underline
+            margin-top: 1em
+
+      .conditions-invitation
+        // @extends .hidden-xs // @REPLACE
+        margin-top: 14ex
+        text-align: left
+
+        a
+          border-radius: 4px 4px 0 0
+          color: $color-green
+          display: block
+          font-size: 1.2em
+          padding: 1em 1em 1em 0
+          text-decoration: underline
+
+          &:hover
+            color: $color-green-l
+
+    section
+      // .make-row // @REPLACE
+      margin: 6ex 0 0
+      padding: 0 15px .5ex
+
+      h3
+        border-bottom: 1px solid $color-gray-xxl
+        color: $color-purple
+        font-size: 1.6em
+        font-weight: normal
+        margin: 0 -15px 0
+        padding: 0 15px .5ex
+        text-align: left
+
+      h4
+        // .make-row // @REPLACE
+        color: $color-gray-d
+        font-size: 1.6em
+        // font-weight: lighter
+        line-height: 1.15
+        margin: 0
+        padding: 15px
+
+      p,
+      ul
+        margin-top: 1.5ex

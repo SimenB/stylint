@@ -1,0 +1,828 @@
+// What to expect
+.print-border
+  @media print
+    border: 1px solid $color-gray-xxl
+
+
+.what-to-expect
+  padding-left: 0 !important
+  padding-right: 0 !important
+  margin-left: 0 !important
+  margin-right: 0 !important
+
+  .wte-surveys
+    padding-left: 1px !important
+    padding-right: 1px !important
+    margin-bottom: 20px !important
+    margin-left: 1px !important
+    margin-right: 1px !important
+
+    ul
+      max-height: 350px !important
+      overflow:hidden !important
+      overflow-y:scroll !important
+      z-index: -5px
+      box-shadow: inset 0 -5px 10px rgba(0,0,0,0.2)
+
+      li
+        padding: 1ex 1em
+
+        &:nth-child(n+1)
+          border-style: none none solid none
+          border-color: $color-gray-l
+          border-width: 1px
+
+        &:nth-child(odd)
+          background: $color-gray-xxxl
+
+  .wte-stats-stories
+    button
+      text-align: center !important
+      margin-bottom: 20px !important
+
+    h3
+      margin-left: 1em !important
+      margin-right: 1em !important
+
+    .highlight-story
+      background: $color-yellow-bg !important
+
+    .story-identifier
+      color: $color-blue
+      text-align: left !important
+
+      .ss-icon
+        display: inline-block
+        margin-right: .3em
+        font-size: 1em
+        height: 1em
+        vertical-align: top
+
+    .story-measures
+      color: $color-gray-l
+      padding-bottom: 1ex !important
+
+  // Each dose
+  .more-below
+    position: relative
+    text-align: center
+    padding-top: 1.3em
+    font-size: 1.1em
+
+    a
+      display: block
+
+      p
+        margin: 0
+
+      &:hover
+        cursor: pointer
+        text-decoration: none
+
+        p
+          text-decoration: underline
+
+  .steady-state
+    a
+      cursor: default
+
+    h3
+      margin-bottom: 1em
+
+  .dosing-calculation
+    width: 200px
+    height: 150px
+    border-radius: 4%
+    background: $color-gray-l
+
+  .choose
+    text-align: center
+
+    label
+      display: inline-block
+      font-size: $font-small
+      margin-right: .5em
+
+  .each-dose,
+  .over-time
+    h3
+      color: $color-purple !important
+
+    h2
+      margin-left: 1em
+
+  .each-dose
+    padding: 0 0 3em
+
+    h3
+      margin-bottom: .5em
+
+    .title
+      padding-bottom: 1ex
+
+    .formula-popup
+      margin-bottom: 1em
+      // .button-green // @REPLACE
+
+      option
+        color: $color-gray-d
+        text-shadow: none
+
+    .dosing-tip
+      margin-top: 2ex
+      display: inline-block
+      color: $color-gray-m
+      text-align: center
+
+    ul.calendar
+      font-size: 1.8em
+      text-align: center
+      list-style: none
+      margin-top: 1.7ex
+
+      li
+        display: inline
+
+        i
+          color: $color-green-l
+          font-size: 1.6em
+          position: absolute
+
+        p
+          color: $color-green
+          display: inline-block
+          padding-top: .2em
+          padding-left: 2em
+
+    .clock-wrapper
+      position: relative
+      width: 180px
+      margin: 0 auto
+      min-height: 190px
+
+    .inset
+      position: absolute
+      width: 180px
+      height: 180px
+      margin-top: 10px
+      background-color: $color-white
+      border-radius: 50%
+      box-shadow: 0 0 10px rgba(0,0,0,0.2)
+
+      .lasts
+        position: relative
+        width: 100px
+        font-size: 1.2em
+        margin-top: 2.6em
+        line-height: 1.1em
+        left: 50%
+        margin-left: -50px
+        text-align: center
+        color: $color-gray-m
+
+    .timing
+      position: absolute
+      width: 100px
+      height: 200px
+      overflow: hidden
+      left: 90px
+      transform-origin: left center
+
+    .timing:before
+      content: ''
+      position: absolute
+      width: 100px
+      height: 200px
+      left: -100px
+      border-radius: 100px 0 0 100px
+      transform-origin: right center
+
+
+    // Duration lines
+    .timing.kicks-in:before,
+    .timing.kicks-in:after
+      background-color: #dddddd
+
+    .timing.peak-effect:after,
+    .timing.peak-effect:before
+      background-color: $color-green-l
+
+    .timing.tapers-off:after,
+    .timing.tapers-off:before
+      background-color: #858585
+
+    // Clock ticks
+    .timing[data-start="15"]
+      transform:rotate(15deg)
+      -ms-transform:rotate(15deg)
+      -webkit-transform:rotate(15deg)
+
+    .timing[data-start="30"]
+      transform:rotate(30deg)
+      -ms-transform:rotate(30deg)
+      -webkit-transform:rotate(30deg)
+
+    .timing[data-start="45"]
+      transform:rotate(45deg)
+      -ms-transform:rotate(45deg)
+      -webkit-transform:rotate(45deg)
+
+    .timing[data-start="60"]
+      transform:rotate(60deg)
+      -ms-transform:rotate(60deg)
+      -webkit-transform:rotate(60deg)
+
+    .timing[data-start="75"]
+      transform:rotate(75deg)
+      -ms-transform:rotate(75deg)
+      -webkit-transform:rotate(75deg)
+
+    .timing[data-start="90"]
+      transform:rotate(90deg)
+      -ms-transform:rotate(90deg)
+      -webkit-transform:rotate(90deg)
+
+    .timing[data-start="105"]
+      transform:rotate(105deg)
+      -ms-transform:rotate(105deg)
+      -webkit-transform:rotate(105deg)
+
+    .timing[data-start="120"]
+      transform:rotate(120deg)
+      -ms-transform:rotate(120deg)
+      -webkit-transform:rotate(120deg)
+
+    .timing[data-start="135"]
+      transform:rotate(135deg)
+      -ms-transform:rotate(135deg)
+      -webkit-transform:rotate(135deg)
+
+    .timing[data-start="150"]
+      transform:rotate(150deg)
+      -ms-transform:rotate(150deg)
+      -webkit-transform:rotate(150deg)
+
+    .timing[data-start="165"]
+      transform:rotate(165deg)
+      -ms-transform:rotate(165deg)
+      -webkit-transform:rotate(165deg)
+
+    .timing[data-start="180"]
+      transform:rotate(180deg)
+      -ms-transform:rotate(180deg)
+      -webkit-transform:rotate(180deg)
+
+    .timing[data-start="195"]
+      transform:rotate(195deg)
+      -ms-transform:rotate(195deg)
+      -webkit-transform:rotate(195deg)
+
+    .timing[data-start="210"]
+      transform:rotate(210deg)
+      -ms-transform:rotate(210deg)
+      -webkit-transform:rotate(210deg)
+
+    .timing[data-start="225"]
+      transform:rotate(225deg)
+      -ms-transform:rotate(225deg)
+      -webkit-transform:rotate(225deg)
+
+    .timing[data-start="240"]
+      transform:rotate(240deg)
+      -ms-transform:rotate(240deg)
+      -webkit-transform:rotate(240deg)
+
+    .timing[data-start="255"]
+      transform:rotate(255deg)
+      -ms-transform:rotate(255deg)
+      -webkit-transform:rotate(255deg)
+
+    .timing[data-start="270"]
+      transform:rotate(270deg)
+      -ms-transform:rotate(270deg)
+      -webkit-transform:rotate(270deg)
+
+    .timing[data-start="285"]
+      transform:rotate(285deg)
+      -ms-transform:rotate(285deg)
+      -webkit-transform:rotate(285deg)
+
+    .timing[data-start="300"]
+      transform:rotate(300deg)
+      -ms-transform:rotate(300deg)
+      -webkit-transform:rotate(300deg)
+
+    .timing[data-start="315"]
+      transform:rotate(315deg)
+      -ms-transform:rotate(315deg)
+      -webkit-transform:rotate(315deg)
+
+    .timing[data-start="330"]
+      transform:rotate(330deg)
+      -ms-transform:rotate(330deg)
+      -webkit-transform:rotate(330deg)
+
+    .timing[data-value="15"]:before
+      transform:rotate(16deg)
+      -ms-transform:rotate(16deg)
+      -webkit-transform:rotate(16deg)
+
+    .timing[data-value="30"]:before
+      transform:rotate(31deg)
+      -ms-transform:rotate(31deg)
+      -webkit-transform:rotate(31deg)
+
+    .timing[data-value="45"]:before
+      transform:rotate(46deg)
+      -ms-transform:rotate(46deg)
+      -webkit-transform:rotate(46deg)
+
+    .timing[data-value="60"]:before
+      transform:rotate(61deg)
+      -ms-transform:rotate(61deg)
+      -webkit-transform:rotate(61deg)
+
+    .timing[data-value="75"]:before
+      transform:rotate(76deg)
+      -ms-transform:rotate(76deg)
+      -webkit-transform:rotate(76deg)
+
+    .timing[data-value="90"]:before
+      transform:rotate(91deg)
+      -ms-transform:rotate(91deg)
+      -webkit-transform:rotate(91deg)
+
+    .timing[data-value="105"]:before
+      transform:rotate(106deg)
+      -ms-transform:rotate(106deg)
+      -webkit-transform:rotate(106deg)
+
+    .timing[data-value="120"]:before
+      transform:rotate(121deg)
+      -ms-transform:rotate(121deg)
+      -webkit-transform:rotate(121deg)
+
+    .timing[data-value="135"]:before
+      transform:rotate(136deg)
+      -ms-transform:rotate(136deg)
+      -webkit-transform:rotate(136deg)
+
+    .timing[data-value="150"]:before
+      transform:rotate(151deg)
+      -ms-transform:rotate(151deg)
+      -webkit-transform:rotate(151deg)
+
+    .timing[data-value="165"]:before
+      transform:rotate(166deg)
+      -ms-transform:rotate(166deg)
+      -webkit-transform:rotate(166deg)
+
+    .timing[data-value="180"]:before
+      transform:rotate(181deg)
+      -ms-transform:rotate(181deg)
+      -webkit-transform:rotate(181deg)
+
+    ul.legend
+      margin-bottom: 1.5em
+      text-align: center
+
+    ul.legend li
+      display: inline-block
+      text-align: left
+      padding: .5em
+
+      span.gray
+        display: inline-block
+        margin-right: .5em
+        width: 25px
+        height: 25px
+        background: #DDDDDD
+
+      span.aqua
+        display: inline-block
+        margin-right: .5em
+        width: 25px
+        height: 25px
+        background: $color-green-l
+
+      span.coal
+        display: inline-block
+        margin-right: .5em
+        width: 25px
+        height: 25px
+        background: #858585
+
+    .digits ul
+      width: 100px !important
+      height: 100px !important
+
+    .digits li
+      color: rgba(58, 58, 58, .8)
+      font-size:.8em
+      display:block
+      width:1.6em
+      height:1.6em
+      position:absolute
+      top:50%
+      left:50%
+      line-height:1.7em
+      text-align:center
+      margin:-.8em 0 0 -.8em
+      font-weight:100
+
+    .digits li:nth-child(1)
+      transform:translate(2.9em, -5.1em)
+      -ms-transform:translate(2.9em, -5.1em)
+      -webkit-transform:translate(2.9em, -5.1em)
+
+    .digits li:nth-child(2)
+      transform:translate(5.1em, -2.9em)
+      -ms-transform:translate(5.1em, -2.9em)
+      -webkit-transform:translate(5.1em, -2.9em)
+
+    .digits li:nth-child(3)
+      transform:translate(5.7em, 0)
+      -ms-transform:translate(5.7em, 0)
+      -webkit-transform:translate(5.7em, 0)
+
+    .digits li:nth-child(4)
+      transform:translate(4.9em, 2.7em)
+      -ms-transform:translate(4.9em, 2.7em)
+      -webkit-transform:translate(4.9em, 2.7em)
+
+    .digits li:nth-child(5)
+      transform:translate(2.7em, 5.1em)
+      -ms-transform:translate(2.7em, 5.1em)
+      -webkit-transform:translate(2.7em, 5.1em)
+
+    .digits li:nth-child(6)
+      transform:translate(0, 5.7em)
+      -ms-transform:translate(0, 5.7em)
+      -webkit-transform:translate(0, 5.7em)
+
+    .digits li:nth-child(7)
+      transform:translate(-2.9em, 5.1em)
+      -ms-transform:translate(-2.9em, 5.1em)
+      -webkit-transform:translate(-2.9em, 5.1em)
+
+    .digits li:nth-child(8)
+      transform:translate(-5.1em, 2.7em)
+      -ms-transform:translate(-5.1em, 2.7em)
+      -webkit-transform:translate(-5.1em, 2.7em)
+
+    .digits li:nth-child(9)
+      transform:translate(-5.7em, 0)
+      -ms-transform:translate(-5.7em, 0)
+      -webkit-transform:translate(-5.7em, 0)
+
+    .digits li:nth-child(10)
+      transform:translate(-4.9em, -2.9em)
+      -ms-transform:translate(-4.9em, -2.9em)
+      -webkit-transform:translate(-4.9em, -2.9em)
+
+    .digits li:nth-child(11)
+      transform:translate(-2.7em, -5.1em)
+      -ms-transform:translate(-2.7em, -5.1em)
+      -webkit-transform:translate(-2.7em, -5.1em)
+
+    .digits li:nth-child(12)
+      transform:translate(0, -5.7em)
+      -ms-transform:translate(0, -5.7em)
+      -webkit-transform:translate(0, -5.7em)
+
+
+// timelinez
+.timeline-section
+
+  .over-time
+    box-shadow: 2px 0 2px rgba(0,0,0,.2)
+    width: 75%
+
+    .controls
+      padding-top: 2em
+      padding-bottom: 2em
+
+    .formula-popup, .indication-popup
+      // .button-green // @REPLACE
+      option
+        color: $color-gray-d
+        text-shadow: none
+
+
+    .chart-timeline
+      margin-top: 2em
+
+      .timeline-flag
+        height: 50px
+        vertical-align: bottom
+
+        &.effectiveness
+          span
+            color: $color-green
+
+        span
+          padding-left: 1em
+          font-size: $font-small
+          background: $color-white
+          font-weight: lighter
+          color: $color-gray-m
+          margin-bottom: 3px
+
+          @media print
+            font-size: 12pt
+            border-right: 1px solid $color-gray-xxl
+
+          span
+            display: inline
+
+          i
+            position: absolute
+            right: -30px
+            top: -8px
+            font-size: 54px
+            color: $color-white
+
+            @media print
+              display: none
+
+      table
+        margin-top: 2ex
+        border-collapse: separate
+
+      thead
+        background: $color-gray-xxxl
+
+      th
+        font-size: 1em !important
+        font-weight: lighter
+        height: 40px
+        color: $color-gray-m
+        border: 0
+        position: relative
+        vertical-align: middle
+        text-align: center
+        padding: 0 1em
+
+        @media print
+          font-size: 12pt
+          border-right: 1px solid $color-gray-xxl
+
+        span
+          display: inline
+
+        i
+          position: absolute
+          right: -30px
+          top: -8px
+          font-size: 54px
+          color: $color-white
+
+          @media print
+            display: none
+
+      table tr:first-child th
+        border-top: 0
+        border-bottom: 0
+
+      table tr:last-child td
+        border-bottom: 0
+
+      table tr td:first-child,
+      table tr th:first-child
+        border-left: 0
+
+      table tr td:last-child,
+      table tr th:last-child
+        border-right: 0
+
+      tr
+        width: 100%
+        height: 2.2em
+
+      td
+        //border-bottom: 1px solid rgba(0,0,0,.1)
+        border-right: 1px solid rgba(0,0,0,.1)
+        color: #525252
+
+        // @media print
+        //   font-size: 12pt
+
+      td.start
+        position: relative
+        padding-left: .3em
+        white-space: nowrap
+        overflow-x: visible
+
+        span
+          position: relative
+
+      .effect-start-semi
+        background-color: rgba(133,224,220,.4)
+        // .print-border
+
+      span
+        display: inline-block
+        width: 100%
+        padding: .1em 0 .1em .5em
+
+      .effect-start
+        background-color: rgba(133,224,220,.4)
+        background: linear-gradient(to right,rgba(133,224,220,0) 15%,rgba(133,224,220,1) 100%)
+        border-radius: 15px 0 0 15px
+        // .print-border
+
+      .effect-middle
+        background-color: rgba(133,224,220,1)
+        // .print-border
+
+      .effect-end-taper
+        background-color: rgba(133,224,220,1)
+        background: linear-gradient(to right, rgba(133,224,220,1) 66%,rgba(133,224,220,0) 100%)
+        // .print-border
+
+      .sideeffect-start
+        background-color: rgba(221,221,221,1)
+        border-radius: 15px 0 0 15px
+        // .print-border
+
+      .sideeffect-start-taper
+        background-color: rgba(221,221,221,1)
+        background: linear-gradient(to right, rgba(221,221,221,1) 66%,rgba(221,221,221,0) 100%)
+        border-radius: 15px 0 0 15px
+        // .print-border
+
+      .sideeffect-end-taper
+        background-color: rgba(221,221,221,1)
+        background: linear-gradient(to right, rgba(221,221,221,1) 66%,rgba(255,255,255,0) 100%)
+        // .print-border
+
+      .sideeffect-middle
+        background-color: rgba(221,221,221,1)
+        // .print-border
+
+      .bg-selected
+        background: $color-yellow-bg
+
+      .sideeffect-row
+        cursor: default
+        transition: background .2s ease-in-out
+
+        &:hover
+          background: none
+
+          td
+            .sideeffect-start, .sideeffect-middle, .sideeffect-end
+              background-color: rgba(221,221,221,1)
+              color: #525252
+              // .print-border
+
+            .sideeffect-start-taper
+              background-color: rgba(221,221,221,1)
+              background: linear-gradient(to right, rgba(221,221,221,1) 66%,rgba(221,221,221,0) 100%)
+              color: #525252
+              // .print-border
+
+            .sideeffect-end-taper
+              background-color: rgba(221,221,221,1)
+              background: linear-gradient(to right, rgba(221,221,221,1) 66%,rgba(255,255,255,0) 100%)
+              color: #525252
+              // .print-border
+
+      .sideeffect-row-clicked,
+      .sideeffect-row-clicked.sideeffect-row:hover
+        background: none
+
+        td
+          .sideeffect-start, .sideeffect-middle, .sideeffect-end
+            background-color: rgba(221,221,221,1)
+            color: #525252
+            text-decoration: none
+            // .print-border
+
+          .sideeffect-start-taper
+            background-color: rgba(221,221,221,1)
+            background: linear-gradient(to right, rgba(221,221,221,1) 66%,rgba(221,221,221,0) 100%)
+            color: #525252
+            // .print-border
+
+          .sideeffect-end-taper
+            background-color: rgba(221,221,221,1)
+            background: linear-gradient(to right, rgba(221,221,221,1) 66%,rgba(255,255,255,0) 100%)
+            color: #525252
+            // .print-border
+
+  @media ( max-width: $screen-xs-max )
+    font-size: .7em
+
+  @media ( min-width: $screen-md-min )
+    th,
+    td
+      // .fadeInLeft // @REPLACE
+
+      &:nth-of-type(2)
+        // .animated // @REPLACE
+        animation-delay: 3s
+
+      &:nth-of-type(3)
+        // .animated // @REPLACE
+        animation-delay: 4.5s
+
+      &:nth-of-type(4)
+        // .animated // @REPLACE
+        animation-delay: 6s
+
+      &:nth-of-type(5)
+        // .animated // @REPLACE
+        animation-delay: 7.5s
+
+  table.layout
+    border-collapse: collapse
+
+    td.section
+      vertical-align: top
+      position: relative
+
+  // Sidebar
+  .wte-sidebar
+    height: 100%
+    width: 25%
+    @extends .bg-stripe // @REPLACE
+
+    .wte-data-filter
+      background: $color-white
+      border-bottom: 1px solid rgba( 0, 0, 0, .3 )
+      margin-left: 0px
+      padding-bottom: 2em
+
+      .col-sm-4
+        padding: 0
+
+      label
+        padding-top: .3em
+        float: right
+
+      h3
+        padding-top: .7em
+
+    .thank-you-message
+      padding-top: 4em
+      h2
+        line-height: 1
+        font-size: 1.4em
+        color: $color-purple
+
+        .small
+          line-height: 0
+
+    label
+      color: $color-gray-m
+      font-weight: 300
+
+    .reviews-headline
+      margin-top: 0
+
+    h3
+      font-size: 1.1em !important
+
+    .selected-sideeffect
+      color: $color-gold
+      margin-left: 1em
+      margin-right: 1em
+
+    .wte-survey
+      padding-top: 1em
+
+      .btn-group .btn.active
+        color: $color-white !important
+
+      .male-female
+        margin-right: 1em
+
+      h2
+        margin-top: 1em
+        margin-bottom: 0
+        color: $color-gray-l
+
+      .initial
+        text-align: center
+
+        a
+          margin: .5em
+
+  // Popup
+  // Has fixed height which is used in side-effects-stories too,
+  // ensuring that the inner carousel content renders at the same vertical
+  // position, for a smooth user interface transition from component to component.
+  .popup
+    margin-top: 4ex
+    height: 6ex
+
+    .indication-popup
+      .button-green
+      option
+        color: $color-gray-d
+        text-shadow: none
+
+  .navigation-button
+    display: block
+    text-align: center

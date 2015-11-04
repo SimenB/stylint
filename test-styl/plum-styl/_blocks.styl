@@ -1,0 +1,18 @@
+$btn-group-vertical = @block
+  display: inline-block
+  position: relative
+  vertical-align: middle // match .btn alignment given font-size hack above
+
+  > .btn
+    float: left
+    position: relative
+    // Bring the "active" button to the front
+    &:hover,
+    &:focus,
+    &:active,
+    &.active
+      z-index: 2
+
+    &:focus
+      // Remove focus outline when dropdown JS adds it after closing the menu
+      outline: 0

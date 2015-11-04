@@ -14,7 +14,7 @@ var noImportant = function( line ) {
 		important = true
 	}
 
-	if ( important ) {
+	if ( important === true ) {
 		this.msg( '!important is disallowed ' )
 	}
 

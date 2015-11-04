@@ -1,0 +1,198 @@
+.experience-tracker
+  // @REPLACE
+  .modal-header
+    border: 0
+    padding: 0
+    text-align: right
+
+    .close
+      background: none
+      border: 0
+      color: $color-gray-l
+      font-size: 40px
+      margin-bottom: 0
+      margin-right: .5em
+
+      p
+        margin: 0
+
+  // @REPLACE move modals to own file maybe?
+  .modal-footer
+    border: 0
+
+    a
+      color: $color-purple
+      font-size: .8em
+
+      &.back
+        position: absolute
+        bottom: 2em
+        left: 2em
+
+      &:hover,
+      &:focus
+        text-decoration: underline
+        outline: 0 !important
+
+  .modal-body
+    h2
+      margin-top: 0
+      color: $color-green
+
+  .past-user-form
+    padding-left: 1em
+    padding-right: 1em
+
+    p
+      color: $color-purple
+
+    .answer-questions
+      color: $color-gray-m
+
+    .question
+      margin-bottom: 1.5ex
+      margin-top: 1.5ex
+
+    .phone-number
+      margin-bottom: 2ex
+      margin-top: 4ex
+
+    .submit
+      margin-top: 2ex
+
+  .question
+    color: $color-purple
+    margin-bottom: 2ex
+
+  .length
+    display: inline-block
+    margin-right: 1em
+    width: 4em
+
+  .form
+    padding-left: 1.0em
+    padding-right: 1.0em
+
+    .steps
+      ul > li
+        color: $color-gray-m
+
+    p
+      color: $color-gray-m
+
+    .answer-questions
+      color: $color-gray-m
+
+    .question
+      margin-bottom: 1.5ex
+      margin-top: 1.5ex
+
+    .phone-number
+      border-color: $color-purple
+      margin-bottom: 2ex
+      margin-top: 4ex
+
+    .submit
+      font-size: 1em
+      margin-top: 2ex
+      padding-left: 3em
+      padding-right: 3em
+
+    .disclaimer
+      color: $color-gray-xl
+      font-size: .7em
+      margin-top: 1ex
+      text-align: left
+
+  .button-tile
+    // @extends $shadow-h // @REPLACE
+    font-size: 1em
+    margin-left: 2.5%
+    margin-right: 2.5%
+    padding: 1.5em
+    white-space: normal
+    width: 45%
+
+    .ss-icon
+      font-size: 3em
+
+    &:active
+      // box-shadow(~'inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px #31c7be')
+      // @extends .text-shadow // @REPLACE
+      // @extends .shadow-inset // @REPLACE
+
+  .modal-content
+    // @extends $bg-stripe // @REPLACE
+    top: 30%
+
+    // @REPLACE
+    .satisfaction
+      h4
+        color: $color-purple
+
+    // @REPLACE
+    h2
+      &.thanks
+        color: $color-purple
+
+    // @REPLACE
+    .modal-title
+      color: $color-green
+
+    .description
+      margin-top: 5ex
+
+    // @REPLACE
+    h2,
+    h4
+      text-align: center
+
+    // @REPLACE
+    h4
+      color: $color-gray-m
+      font-size: 1.2em
+
+    h2
+      color: $color-purple
+
+  .past-button,
+  .current-button
+    // @extends $button-tile
+
+    &:hover,
+    &:focus
+      outline: 0 !important //removes blue chrome glow
+
+  // @REPLACE
+  .current-button
+    border: 1px solid $color-purple
+    background: $color-purple-xxl
+    color: $color-purple-l
+
+    &:hover,
+    &:focus
+      background: $color-purple-l
+      color: $color-purple-xxl
+
+  // @REPLACE
+  .past-button
+    background: $color-green-xxl
+    border: 1px solid $color-green
+    color: $color-green-l
+
+    &:hover,
+    &:focus
+      background: $color-green-l
+      color: $color-green-xxl
+
+  .error-message
+    color: @color-red !important
+    font-size: .7em
+
+  .fine-print
+    color: $color-gray-l
+    font-size: .7em
+    padding-top: 2ex
+    text-align: center
+
+

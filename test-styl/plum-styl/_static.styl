@@ -1,0 +1,1320 @@
+// About, terms, copyright, apps, etc.
+
+.thomas-photo
+  background: url( '/images/about/thomas.jpg' )
+
+
+.matt-photo
+  background: url( '/images/about/matt.jpg' )
+
+
+.jessica-photo
+  background: url( '/images/about/jessica.jpg' )
+
+
+.michael-photo
+  background: url( '/images/about/michael.jpg' )
+
+
+.amanda-photo
+  background: url( '/images/about/amanda.jpg' )
+
+
+.adam-photo
+  background: url( '/images/about/adam.jpg' )
+
+
+.raj-photo
+  background: url( '/images/about/raj.jpg' )
+
+
+.russell-photo
+  background: url( '/images/about/russell.jpg' )
+
+
+.marc-photo
+  background: url( '/images/about/marc.jpg' )
+
+
+.hans-photo
+  background: url( '/images/about/hans.jpg' )
+
+
+// exactly what it sounds like
+.static-header
+  margin: 40px 0 20px
+  padding: 50px 0 18px
+
+  h2
+    font-size: 30px
+
+
+.employee-item
+  transition( all, $fast )
+  // border-radius: 50% // use circle
+  background-repeat: no-repeat
+  box-shadow: inset 0 0 0 0 rgba( 102, 78, 181, .4 )
+  height: 150px
+  position: relative
+  width: 150px
+
+  &:hover
+    box-shadow:
+      inset 0 0 0 110px rgba( 102, 78, 181, .7 ),
+      inset 0 0 0 16px rgba( 255, 255, 255, .4 ),
+      0 1px 2px rgba( 0, 0, 0, .1 )
+
+      .employee-info
+        opacity: 1
+        transform: scale( 1 )
+
+
+.employee-info
+  -webkit-backface-visibility: hidden /*for a smooth font */
+  border-radius: 50% // use circle // @REPLACE
+  display: table
+  opacity: 0
+  position: absolute
+  size: 100%
+  transform: scale(0)
+  transition: all .2s ease-in-out
+
+  p,
+  h3,
+  h4
+    color: $color-white
+    font-size: 16px
+
+  p
+    border-top: 1px solid rgba(255,255,255,0.5)
+    font-style: italic
+    margin: 0 30px
+    padding: 5px
+
+  h3,
+  h4
+    font-family: $font-source-sans-pro
+    letter-spacing: 2px
+    text-shadow:
+      0 0 1px $color-white,
+      0 1px 2px rgba( 0, 0, 0, .3 )
+    text-transform: uppercase
+
+  h3
+    display: table-cell
+    font-size: 16px !important
+    text-align: center
+    vertical-align: middle
+    text-shadow:
+      0 0 1px $color-white,
+      0 1px 2px rgba( 0, 0, 0, .3 )
+
+  h4
+    font-size: 14px !important
+    line-height: 18px !important
+    margin: 30px 0 10px 35px
+    width: 50px
+
+.team-card
+  margin-top: 6ex
+
+.employee-wrapper
+  margin: 0 0 20px
+
+.employee-left,
+.employee-right
+  font-size: 12px
+  padding-top: 25px
+
+.apps
+  a
+    transition( color, $fast )
+    padding: 35px 17px
+
+    &:hover
+      color: $color-purple
+
+  h1
+    font-size: 40px
+    line-height: 44px
+    margin: 0
+
+  h2
+    font-size: 26px
+
+  div
+    transition( all, $fast )
+    // .make-sm-column( 6 ) // @REPLACE
+    border: 1px solid $color-purple-xxl
+    box-shadow: 0 0 0 $color-purple-l
+    min-height: 300px
+    // transition: box-shadow .2s ease-out,
+    //             border .2s ease-out
+
+    &:hover
+      border: 1px solid $color-purple-l
+      box-shadow: 0 0 20px $color-purple-l
+      z-index: 2
+
+    &:active
+      box-shadow: none
+
+
+.data
+  .description
+    // .make-sm-column( 6 )
+    // .make-sm-column-offset( 1 )
+    font-weight: 300
+    margin-bottom: 50px
+
+  // h4
+  //   .make-sm-column( 5 )
+
+  p
+    margin-top: 13px
+
+
+
+.privacy-policy
+  .description
+    font-size: 28px
+    margin: 100px auto 42px
+
+    @media ( max-width: $screen-xs-max )
+      margin: 25px auto
+
+  .ss-icon
+    font-size: 21px
+
+  .ss-lock,
+  .ss-earth
+    font-size: 14px
+
+  h3
+    .ss-lock,
+    .ss-earth
+      font-size: 21px
+
+  .opt-out
+    color: $color-gray-m
+    font-weight: 300
+    margin-top: 60px
+    padding: 28px 0 13px
+
+    @media ( max-width: $screen-xs-max )
+      margin: 0
+
+    &.body
+      padding-top: 0
+
+    &.header
+      padding-top: 230px
+
+    p
+      color: $color-gray-l
+      font-weight: 100
+      margin-bottom: 10px
+
+    li
+      list-style-type: disc
+
+    ul
+      margin: 10px 0 10px 35px
+
+    h3
+      color: $color-gray-m
+      font-size: 24px
+
+  .overview-long
+    color: $color-gray-m
+    font-size: 15px
+
+  .overview-concise
+    font-weight: 300
+    margin-top: 17px
+
+  .overview
+    h4
+      font-size: 18px
+      font-weight: 700
+      padding: 0
+
+    &.control
+      color: $color-gray-m
+      font-weight: 300
+
+
+.opt-out-control
+  margin-top: 10px
+
+
+blockquote
+  border-left: 5px solid $color-gray-xxxl
+  color: $color-gray-m
+  font-size: 18px
+  font-weight: 300
+  margin: 0 0 20px
+  padding: 10px 20px
+
+
+// iodine/review
+.survey-search
+  margin-bottom: 25px
+
+  p
+    color: $color-gray-xl
+    font-size: 18px
+    font-weight: 300
+    margin: 18px 0
+
+    @media ( max-width: $screen-xs-max )
+      margin-bottom: 35px
+
+  .search-bar
+    color: $color-gray-d
+    margin: 21px auto
+
+
+.policy-body
+  li
+    list-style-type: disc
+
+  h3
+    border-bottom: 1px solid $color-gray-xxl
+    margin-top: 90px
+
+  section
+    h3
+      // make-sm-column( 4 ) !important
+      font-weight: 600
+
+  h4
+    // .make-sm-column( 3 )
+    color: $color-gray-m
+    line-height: 1.15
+    margin-top: 10px
+
+
+// .data,
+// .policy-body
+//   h4
+//     .make-sm-column( 3 )
+
+
+.clinician
+  // .make-sm-column( 4 )
+  padding-top: 1.5em
+
+  h4
+    color: $color-purple !important
+    line-height: 1em
+    margin: 0
+
+  .title,
+  .qualification
+    color: $color-gray-xl
+
+  .qualification
+    font-size: .75em
+
+
+// $TODO some static pages are very similar, but others, like start, are not
+// prolly don't need this
+.static
+  @media( max-width: $screen-sm )
+    padding: 15px
+
+    h3
+      margin: 25px auto 10px
+
+    // $TODO replace me with a class later
+    // .concise,
+    section > h4
+      display: none
+
+  // section
+  //   @extends .make-row
+
+  &.page-header
+    border-bottom: 1px solid $color-gray-xxxl
+    margin-bottom: 35px
+    padding-bottom: 35px
+
+    h1
+      font-size: 36px
+
+      @media( max-width: $screen-sm )
+        font-size: 21px
+        margin-top: 25px
+
+    h2
+      font-size: 30px
+
+      @media( max-width: $screen-sm )
+        margin-top: 25px
+
+  // @REPLACE
+  h3
+    // border-bottom: 1px solid $color-purple
+    color: $color-purple
+    font-size: 30px
+    // margin: 6ex -15px 9ex
+    // padding: 0 15px .5ex
+
+
+  // the column rule is way too general $TODO
+  h4
+    // .make-sm-column( 4 )
+    color: $color-gray-l
+    // font-size: 1.7em
+    // line-height: 1.2
+    // margin: 0
+    // padding: 15px
+
+  h4,
+  .concise
+    font-size: 28px
+
+  // @REPLACE
+  // .long,
+  // .concise
+  //   .make-sm-column( 4 )
+
+  .long
+    color: $color-gray-m
+    font-size: 15px
+    padding-top: 2.2ex
+
+    p,
+    ul
+      margin-top: 11px
+
+  .concise
+    font-weight: 300
+    line-height: 32px
+    padding: 15px 56px
+
+  .header
+    margin-bottom: 62px
+    padding-bottom: 13px
+    padding-top: 230px
+
+    h2
+      color: $color-white
+      font-size: 42px
+
+
+.header
+  &.policy
+    margin-top: 20px
+
+
+.certifications
+  margin-top: 6ex
+  margin-bottom: 6ex
+
+  .nabp-logo
+    padding: .5em .5em .5em 0
+
+
+// @REPLACE
+.footer-card
+  color: $color-white
+  background-color: $color-purple
+  padding: 5ex 0
+  margin: 0
+
+  ul
+    padding: 0
+    margin: 3ex 0 0
+
+  h4
+    font-size: 1.3em
+
+    @media( max-width: $screen-sm )
+      margin-top: 2em
+
+  a
+    color: $color-white
+
+    &:hover
+      text-decoration: underline
+
+
+// iodine/about
+.about
+  color: $color-gray-m
+
+  p
+    margin-bottom: 10px
+
+  h2,
+  h3
+    font-size: 30px
+    margin: 10px 0
+
+  // h2,
+  // h3,
+  // h4
+  //   font-weight: 300
+
+  h4
+    font-size: 23px
+    // font-weight: 300
+    line-height: 28px
+    margin-bottom: 10px
+
+
+// Sharing page
+// iodine.com/review
+.sharing-page
+  color: $color-gray-m
+
+  p
+    margin: 15px 0
+
+  .header
+    // @extends .gradient-purple // @REPLACE
+    padding-bottom: 7ex
+    padding-top: 4ex
+
+    h2,
+    h3
+      // @extends .text-shadow-reverse // @REPLACE
+
+    h2
+      color: #d6c0fa
+      font-size: 2.2em
+      margin: 0
+
+    h3
+      color: $color-white
+      font-size: 1.5em
+      font-weight: 300
+      line-height: 1.16
+      margin: .5ex 0 0
+      padding: 0
+
+    @media ( max-width: $screen-xs-max )
+      padding-bottom: 5ex
+      padding-top: 5ex
+
+      h2
+        color: $color-white
+        font-weight: 700
+
+      h2,
+      h3
+        text-align: center
+        font-size: 1.3em
+
+  .large
+    color: $color-purple
+    font-size: 1.3em
+    padding-bottom: 2ex
+
+  .share-story
+    border-top: 1px solid $color-gray-xxxl
+    font-size: .8em
+    margin-bottom: 9ex
+    padding-bottom: 1em
+    padding-top: 1em
+
+  .btn
+    // @extends .btn-lg // @REPLACE
+    margin-bottom: 2.5ex
+    margin-top: 2.5ex
+
+  .reviews
+    background: $color-gray-d
+    color: $color-white
+    margin-bottom: 25px
+    padding: 50px 25px
+
+    @media ( max-width: $screen-xs-max )
+      padding: 15px
+
+      h3
+        font-size: 18px
+
+    a
+      color: $color-purple-xl
+
+  .tip
+    background: $color-gray-xxxxl
+    border-radius: 10px
+    display: inline-block
+    margin: 0 1ex !important
+    padding-bottom: 4ex
+    padding: 2ex
+    position: relative
+
+    p
+      color: $color-purple
+      // text-align: left
+
+    &:after
+      absolute: top 100%
+      border-top-color: $color-gray-xxxxl
+      border-width: 15px
+      border: solid transparent
+      content: " "
+      margin-left: -12em
+      pointer-events: none
+      size: 0
+
+    @media( max-width: $screen-sm )
+      width: 95%
+
+  .sample-review
+    cursor: pointer
+
+    h4
+      font-size: .9em
+      margin-left: 2em
+      margin-top: 1.5em
+
+  .rating
+    .square,
+    .hassle,
+    .efficacy
+      display: inline-block
+
+    .square
+      background: $color-white
+      border-radius: 4px
+      height: 10px
+      margin-right: 1px
+      width: 10px
+
+  .hassle
+    .s1,
+    .s2
+      background: $color-rose-xl
+
+    .s3,
+    .s4,
+    .s5
+      background: $color-rose-l
+
+    .s6,
+    .s7
+      background: $color-rose
+
+  .efficacy
+    margin-right: 2em
+
+    .s1,
+    .s2
+      background: $color-blue-xl
+
+    .s3,
+    .s4,
+    .s5
+      background: $color-blue-l
+
+    .s6,
+    .s7
+      background: $color-blue
+
+  .btn-group
+    display: inline-block
+    margin: initial .3em
+
+  .age
+    width: 4em
+
+  .email
+    margin: 3ex 0
+
+  .sharing-widget
+    a
+      color: $color-gray-m
+      margin-bottom: 3ex
+      padding-right: 1em
+
+      &:hover
+        color: $color-purple
+
+  .story-form
+    // @extends .bg-stripe // @REPLACE
+    // @extends .shadow-m // @REPLACE
+    // .make-sm-column(6) // @REPLACE
+    // .make-sm-column-offset(3) // @REPLACE
+    border-radius: 10px
+    border: 1px solid $color-gray-xxxl
+    margin-bottom: 6ex
+    margin-top: 6ex
+    padding: 4ex 3em
+    text-align: center
+
+    &.thank-you
+      padding: 4ex 0
+
+    @media ( max-width: $screen-xs-max )
+      background: none
+      border: 0
+      box-shadow: none
+      margin: 0 -15px
+
+      h2
+        font-size: 1.3em
+
+      .btn,
+      .age
+        display: inline-block
+
+      // @REPLACE
+      // .btn
+      //   @extends .btn-sm
+
+      // @REPLACE
+      // .age
+      //   @extends .input-sm
+
+    // @REPLACE
+    h2,
+    h3
+      color: $color-purple
+
+    // @REPLACE
+    h2
+      margin: 0 0 2ex
+      text-align: center
+
+    textarea
+      margin-bottom: 3ex
+
+    h3
+      font-size: 1.2em
+      margin: 0 0 1ex
+
+  .search-widget
+    margin-bottom: 3ex
+
+    p
+      font-size: .8em
+      margin: 2ex 1ex 0
+
+    @media ( max-width: $screen-xs-max )
+      span
+        border: 2px solid $color-gray-xxxl
+
+  // @REPLACE
+  // button
+  //   @extends .button-purple
+
+
+// balloon themed imagery on start pages
+.balloon-science
+  display: block
+  margin: 25px auto
+  max-width: 100%
+
+
+.balloon-woman
+  height: 383px
+  margin-left: -30px
+  min-width: 260px
+
+
+// Start
+// http://www.iodine.com/start
+.start-page // @REPLACE
+  color: $color-white
+  padding: 0
+
+  .start-section
+    // @extends .cf // @REPLACE
+
+    @media ( min-width: $screen-md-min )
+      min-height: 101vh
+
+      &.testimonials,
+      &.bottom
+        min-height: 34vh
+        max-height: 34vh
+
+  // @REPLACE
+  a
+    color: $color-white
+
+  .iodine-nav-bar,
+  .full-width-nav-bar
+    background: $color-green-l
+
+  .iodine-logo
+    background-image: url( '/images/branding/logo-iodine-white.png' )
+
+    &.svg
+      background-image: url( '/images/branding/logo-iodine-white.svg' )
+
+  .search-bar
+    margin-right: 20px
+
+  .search input.twitter-typeahead
+    border: 0
+
+  // @REPLACE
+  // .user-bar
+  //   @extends .hide
+
+  h2
+    margin-bottom: 2em
+    padding: 0 15%
+    text-align: center
+
+  // p,
+  // h2,
+  // h3
+  //   font-weight: 300
+
+  h2,
+  h3
+    font-size: 35px
+
+    @media ( max-width: $screen-sm-min )
+      font-size: 24px
+
+  p
+    font-size: 24px
+    line-height: 30px
+    margin-bottom: 10px
+
+  .scroll-down
+    absolute: right 0 bottom 18px left 0
+    font-size: 18px
+    text-align: center
+
+    i
+      display: block
+
+  .character
+    margin-right: 15px
+    max-width: 260px
+
+  .ss-icon
+    // display: table-cell
+    margin: 0 auto
+    opacity: .3
+    // text-align: center
+    width: 1em
+
+    &.active
+      color: #a0fa66
+      opacity: 1
+
+  .scroll-down
+    @media ( max-width: $screen-xs-min )
+      display: none
+
+  .bottom
+    p
+      margin-top: 20px
+
+  @media ( max-width: $screen-xs )
+    font-size: .85em
+
+  .intro
+    // @extends .gradient-green // @REPLACE
+    min-height: 80vh
+
+    &:before
+      background-size: cover
+      background: url( '/images/start/start-clouds.png' ) no-repeat
+      display: block
+      position: absolute
+      size: 100%
+
+
+    nav
+      font-size: $font-small
+
+      a + a
+        margin-left: 1em
+
+      @media ( max-width: $screen-sm-min )
+        float: none !important
+
+    .active
+      color: #D6EE03
+      pointer-events: none
+
+    h2,
+    h3
+      color: $color-white
+
+    h2
+      font-size: 3em
+      line-height: 1
+      margin-bottom: 1em
+      margin-top: 1.5em
+      padding: 0
+      text-align: left
+
+    h3
+      font-size: 1.5em
+
+      a
+        color: #FFE312
+
+    h4
+      font-size: 1.2em
+
+  .feature
+    // @extends .gradient-green // @REPLACE
+    position: relative
+
+    section
+      padding-left: 10%
+      padding-right: 10%
+
+    .partner-logo
+      text-align: center
+
+      img
+        float: none
+        margin: 0 auto
+
+    div
+      padding: 2em 0
+
+    p:first-of-type
+      font-size: 18px
+      position: relative
+
+      &:before,
+      &:after
+        opacity: .3
+        font-size: 3em
+        position: absolute
+
+      &:before
+        content: '“'
+        left: -.25em
+        top: -.25em
+
+      &:after
+        content: '”'
+        margin-top: -.19em
+        margin-left: -.025em
+
+  .partnership
+    margin-bottom: 2em
+    margin-top: -150px
+    position: relative
+    right: 0
+    text-align: right
+    top: 0
+
+    p
+      font-size: 1.1em
+
+    .partner-logo
+      size: 75%
+
+  .info
+    background: $color-green
+
+    p
+      font-size: 18px
+      margin-bottom: 20px
+
+    h3
+      font-size: 24px
+
+    section
+      padding-left: 10%
+      padding-right: 10%
+
+      .overview
+        font-size: .8em
+
+      h3
+        font-weight: 500
+
+    @media ( max-width: $screen-xs-max )
+      h2
+        font-size: 24px
+        margin-top: 20px
+
+  .video-wrapper
+    height: 0
+    padding-bottom: 56.25% /* 16:9 */
+    padding-top: 0
+    position: relative
+
+    iframe
+      absolute: top 0 left 0
+      border: 0
+      size: 100%
+
+  .partner-logo
+    size: 75%
+
+  .video
+    background: #1aaea8
+
+    @media ( max-width: $screen-xs-max )
+      .video-wrapper
+        height: 100%
+
+        iframe
+          vertical-align: text-bottom
+
+  .problem
+    background: #0f807a
+
+    li
+      padding: 15px
+
+      + li
+        border-top: 1px solid white
+
+    @media ( max-width: $screen-xs-max )
+      h2
+        font-size: 24px
+        margin-top: 20px
+
+  .solution
+    background: #32CEC4
+    background: radial-gradient( ellipse at 50% 0%, #CEEAA2 0%, #32CEC4 100% )
+
+    li
+      background: rgba( 0, 0, 0, .08 )
+      border-radius: 4px
+      padding: 15px
+
+      + li
+        margin-top: 15px
+
+    @media ( max-width: $screen-xs-max )
+      h2
+        font-size: 24px
+        margin-top: 20px
+
+  .science
+    background: #246063
+
+    @media ( min-width: $screen-md-min )
+      section
+        padding-left: 15%
+        padding-right: 15%
+
+
+      .balloon-science
+        max-width: 90%
+
+    @media ( max-width: $screen-xs-max )
+      h2
+        font-size: 24px
+        margin-top: 20px
+
+  .mission
+    background: #5d32ae
+
+    @media ( min-width: $screen-md-min )
+      section
+        padding-left: 15%
+        padding-right: 15%
+
+    @media ( max-width: $screen-xs-max )
+      h2
+        margin: 25px auto
+
+    .link
+      color: $color-white
+      text-decoration: underline
+
+    .disclaimer
+      font-size: 1.8em
+      margin-top: 2em
+
+  .quote
+    @media ( max-width: $screen-xs-max )
+      min-height: 34vh
+      max-height: 34vh
+
+      h2
+        font-size: 24px
+        margin-top: 20px
+
+      .portrait
+        display: none
+
+      section
+        padding-left: 25px
+        padding-right: 25px
+
+    @media ( min-width: $screen-md-min )
+      section
+        padding-left: 15%
+        padding-right: 15%
+
+    div
+      padding: 2em 0
+
+    img
+      border: 4px solid $color-white
+      float: right
+      margin: 0 1em
+      width: 120px
+
+    p
+      font-size: 24px
+      position: relative
+
+    .quote
+      &:before,
+      &:after
+        font-size: 72px
+        opacity: .3
+        position: absolute
+
+      &:before
+        content: '“'
+        left: -15px
+        top: 5px
+
+      &:after
+        bottom: -15px
+        content: '”'
+
+  .testimonials
+    background: $color-gray-d
+    padding: 50px inherit
+
+    // div
+    //   .make-sm-column( 4 )
+
+    a
+      color: $color-white
+
+    p,
+    h5
+      font-size: 23px
+
+    @media ( max-width: $screen-xs-max )
+      padding: 1.3em
+
+  .bottom
+    background: $color-green
+
+    h4
+      text-align: center
+
+    @media ( max-width: $screen-xs-max )
+      h3
+        font-size: 24px
+        margin: 20px auto
+
+
+.start-section
+  position: relative
+
+  &.quote
+    background: #32CEC4
+
+  // Each section must be full width for backgrounds, with padding to provide a margin.
+  // To align with the iodine-nav-bar, padding must be tweaked to a fine pixel-level.
+  > section
+    margin: 0 auto
+    padding: 10vh 0
+    width: 85%
+
+    @media ( max-width: $screen-xs-max )
+      padding: 7vh 15px
+
+  &.video,
+  &.intro
+    > section
+      @media ( max-width: $screen-xs-max )
+        padding-top: 0
+
+  &.how
+    background: #31aea6
+    text-align: center
+
+    img
+      max-height: 23em
+      margin: 25px auto 50px
+
+    // @REPLACE
+    // li
+    //   make-sm-column( 4 )
+
+    @media ( max-width: $screen-xs-max )
+      h2
+        font-size: 24px
+        margin-top: 20px
+
+  &.resources
+    h2
+      color: $color-green
+
+    @media ( max-width: $screen-xs-max )
+      h2
+        font-size: 24px
+        margin: 20px auto
+
+
+// list of sponsors/resources at bottom of /start pages
+.resource-list // @REPLACE
+  display: flex
+  flex-direction: row
+  flex-wrap: wrap
+  justify-content: space-around
+
+  a
+    border-bottom: 1px solid $color-white
+    margin: 20px auto
+    padding-bottom: 4px
+
+    &:hover
+      border-bottom: 1px solid $color-green
+
+  img
+    height: 150px
+    width: 300px
+
+
+.postpartum
+  background-color: #36d8cd
+
+  &:before
+    background-size: cover
+    background-image: url( '/images/start/postpartum/babyfeet-gradient.jpg' )
+    background-repeat: no-repeat
+    content: ''
+    display: block !important
+    size: 100%
+    position: absolute
+
+  > section
+    h2,
+    h3
+      padding: 0
+      text-align: left
+
+    h2
+      font-size: 48px
+      font-weight: 300
+      line-height: 50px
+      margin: 50px 0
+      margin-top: 50px
+
+      small
+        font-size: 35px
+        font-weight: 400
+        line-height: 40px
+
+    h3
+      font-size: 24px
+
+  &.subtract-header
+    @media ( max-width: $screen-sm-min )
+      h2
+        font-size: 35px
+        line-height: 40px
+        margin-top: 50px
+
+      small
+        font-size: 23px
+        line-height: 25px
+
+      .navigation
+        float: none !important
+
+      h3
+        font-size: 18px
+
+  nav,
+  .partnership
+    text-align: right
+
+  .navigation
+    @media ( max-width: $screen-sm-min )
+      margin-top: 150px
+
+    @media ( min-width: $screen-sm-min )
+      absolute: top 0 right 0
+
+  // @REPLACE
+  a
+    color: $color-white
+
+    + a
+      margin-left: 1em
+
+  .active
+    color: #D6EE03
+    pointer-events: none
+
+  .referral
+    color: $color-green-d
+    font-size: 1.5em
+
+  p
+    font-size: 20px
+
+  strong
+    font-weight: 900
+
+  h4
+    background: rgba( 142, 236, 231, .5 )
+    border-radius: 4px
+    color: $color-green-d
+    margin: 20px -20px
+    padding: 20px
+
+    a
+      color: $color-green-d
+      text-decoration: underline
+
+  small
+    color: $color-green-d
+
+  .iodine-logo
+    width: 126px
+
+
+.feature
+  .quote
+    background: transparent
+
+  .portrait
+    border: 6px solid $color-white
+    float: left
+    margin: 0 1em
+    width: 200px
+
+  @media ( max-width: $screen-sm-min )
+    h2
+      font-size: 24px
+      margin-top: 20px
+
+
+.app-download
+  width: 160px
+
+  &.float-l
+    padding-right: .5em
+
+  // .center needs to behave like this
+  &.center
+    margin: 0 auto
+
+
+// iodine.com/terms
+.terms-of-use
+  h3
+    border-bottom: 1px solid $color-gray-xxl
+    font-weight: 500
+    margin: 90px 0 10px
+
+  // @REPLACE
+  // h4
+  //   .make-sm-column( 4 )
+
+  li
+    list-style-type: disc

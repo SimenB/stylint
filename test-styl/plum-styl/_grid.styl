@@ -1,0 +1,76 @@
+// eventual replacement for bootstrap grid system will go here
+
+// let my people flow
+.flex-row
+  @extends $flex-box
+
+  .col
+    flex: auto
+    height: 100%
+
+    &.align-center
+      align-self: center
+
+    &.flex-flow
+      flex: 1
+
+    &.no-fill
+      flex: inherit
+
+  @media $mob-plus
+    flex-direction: row
+    flex-wrap: nowrap
+
+    &.reverse
+      flex-direction: row-reverse
+
+
+// normal row without all the flexbox business
+.row
+  @extends $row
+
+
+/**
+ * columns, duh.
+ * a base column class
+ * so as to target them better without regex
+ */
+.col
+  @extends $column
+
+  // all columns past mobile size float by default
+  @media $mob-plus
+    float: left
+
+
+/**
+ * loops through all columns, outputs grid for all breakpoints
+ * so efficient it hurts
+ */
+for $i in ( 1 )..( $columns )
+  for $key, $breakpoint in $breakpoints
+    // only 1 column on mobile
+    if $key == 'mob'
+      return
+
+    @media $breakpoint
+      .{$key}-{$i}
+        width: col-width( $i )
+
+      // flexbox ordering
+      .{$key}-order-{$i}
+        order: $i
+
+      // offsets
+      // {$name}-offset-{$i}
+      //   margin-left $i
+
+
+// just output the hide/show classes
+for $key, $breakpoint in $breakpoints
+  @media $breakpoint
+    .{$key}-hide
+      display: none
+
+    .{$key}-show
+      display: block

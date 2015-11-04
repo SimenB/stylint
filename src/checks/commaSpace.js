@@ -25,11 +25,11 @@ var commaSpace = function( line ) {
 	}
 
 	// if spaces should be follow commas, but there is no space on the line
-	if ( this.state.conf === 'always' && noSpaceAfterComma ) {
+	if ( this.state.conf === 'always' && noSpaceAfterComma === true ) {
 		this.msg( 'commas must be followed by a space for readability' )
 	}
 	// if spaces should not be followed by a comma, but there are spaces anyway
-	else if ( this.state.conf === 'never' && !noSpaceAfterComma ) {
+	else if ( this.state.conf === 'never' && noSpaceAfterComma === false ) {
 		this.msg( 'spaces after commas are not allowed' )
 	}
 

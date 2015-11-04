@@ -1,0 +1,85 @@
+.iodine-nav-bar
+  padding-top: 45px
+
+  .ss-icon
+    color: $color-gray-xxl
+    display: inline !important
+    font-size: .8em
+    relative top .15em left 1.7em
+    z-index: 6
+
+    @media $mob
+      left: 2.1em
+
+  .search
+    form
+      display: block
+      position: relative
+
+      @media $mob
+        margin: 0
+
+    input.twitter-typeahead
+      transition( all, $fast )
+      border-radius: 32px
+      border: 1px solid $color-gray-xxl
+      font-size: $font-small
+      font-weight: 300
+      padding: 0 13px 0 28px
+
+      &:focus
+        border-color: #BA90FB
+        box-shadow: 0 0 7px #DAC4FC
+
+      // @REPLACE
+    .twitter-typeahead
+      background: none
+      border: 0
+      box-shadow: none
+      outline: 0
+      width: 13em
+
+    // @REPLACE
+    .button-submit
+      @extends .hide
+
+  nav
+    font-size: $font-small
+    padding-top: 1em
+
+  a
+    display: inline-block
+
+    + a
+      margin-left: .5em
+
+  @media $mob
+    background: $color-purple-d
+    margin-left: -15px
+    margin-right: -15px
+    padding: 15px 15px 9px
+
+    .iodine-logo
+      background-image: url( '/images/branding/logo-iodine-white.png' )
+      width: 90px
+      &.svg
+        background-image: url( '/images/branding/logo-iodine-white.svg' )
+
+    input.twitter-typeahead
+      border: 0
+
+
+// Navigation menu: hide normal one on mobile, show bottom nav instead
+.plum-navigation-bottom
+  display: none
+
+  @media ( max-width: $screen-xs-max )
+    display: block
+
+
+// $TODO stray media query
+@media ( max-width: $screen-xs-max )
+  .navigation-plum
+    display: none
+
+

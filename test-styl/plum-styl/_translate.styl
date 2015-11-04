@@ -1,0 +1,276 @@
+// Translate-in-Eggplant
+
+.bg-translate
+  background: url( '/images/translate/translate-color-bg.jpg' )
+  background-size: cover
+
+
+.install
+  margin: 2.5em 0 0 0
+  text-align: center
+  vertical-align: middle
+
+  // @REPLACE
+  .helptext
+    @extends .center
+    @extends .light
+    @extends .small
+    padding-top: .3em
+
+  .btn-chrome
+    background-position: 15px
+    background-repeat: no-repeat
+    background-size: 40px 40px
+    background: $color-purple url('/images/translate/chrome-icon-color.png') left
+    border-radius: 4px
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.45)
+    color: $color-white !important
+    font-size: 1em
+    padding: 1em 2em 1em 4.2em
+    text-align: right
+
+    &:active
+      box-shadow: none
+
+  .needs-chrome
+    border: 1px solid $color-purple
+    margin-top: 2em
+    padding: .5em
+    text-align: center !important
+
+
+// Translate demo
+.center-div
+  margin-bottom: -6px
+  text-align: center
+
+  a
+   display: block
+   height: 330px
+   margin: 50px
+   z-index: -99999
+
+   &:hover
+    cursor: pointer
+
+
+.promo-image
+  background: url('/images/translate/translate-hero.png') no-repeat 0 0
+  text-align: center
+  display: inline-block
+  width: 756px
+  height: 404px
+
+.promo-image:hover
+  background-position: 0 -412px
+
+.translate-video
+  display: inline-block
+
+  embed
+    margin-top: 1.9em
+
+.translate-video-mobile
+  margin: 2em 0
+
+.embed-responsive
+  position: relative
+  display: block
+  height: 0
+  padding: 0
+  overflow: hidden
+
+.embed-responsive .embed-responsive-item,
+.embed-responsive iframe,
+.embed-responsive embed,
+.embed-responsive object,
+.embed-responsive video
+  position: absolute
+  top: 0
+  left: 0
+  bottom: 0
+  height: 100%
+  width: 100%
+  border: 0
+
+
+.embed-responsive.embed-responsive-16by9
+  padding-bottom: 56.25%
+
+
+// Translate Page
+.translate-page
+  .page
+    margin: 0 15px
+
+    p
+      color: $color-gray-d
+
+    a
+      color: $color-green
+
+    .row
+      margin-top: 2em
+
+    @media ( max-width: $screen-xs )
+      margin: 0
+
+  h1
+    text-align: center
+    margin-bottom: 1em
+
+  .brand-color
+    color: $color-purple
+
+  .gif
+    text-align: center
+    border-radius: 3px
+    margin: 0 auto
+
+  .highlight
+    background-color: #ffffc6
+    border-radius: 2px
+    padding: 0 1px
+    background: linear-gradient(#ffffc6, #fcf499)
+
+  .headline
+    color: $color-purple-d !important
+    font-size: 1.3em
+    font-weight: 900
+
+  iframe
+    margin: 2ex 0 2ex 0
+
+  .marquee
+    margin-top: 0 !important
+
+    a
+      cursor: pointer
+
+  .tooltip
+    position: absolute
+    z-index: 1000000001
+    display: block
+    opacity: 0
+    font-weight: normal !important
+    font-style: normal !important
+    font-size: 14px !important
+    line-height: 1.35
+
+  .tooltip.in
+    opacity: 1
+
+  .tooltip.top
+    margin-top: -3px
+    padding: 5px 0
+
+  .tooltip-inner
+    max-width: 200px
+    padding: 6px 10px
+    color: #111
+    text-align: center
+    text-decoration: none
+    background-color: #ffed77
+    background: linear-gradient(#fff68a, #ffdf64)
+    border-radius: 4px
+    box-shadow: 0 3px 9px 0 rgba( 0, 0, 0, .2 )
+
+  .tooltip-arrow
+    position: absolute
+    width: 0
+    height: 0
+    border-color: transparent
+    border-style: solid
+
+  .tooltip.top .tooltip-arrow
+    bottom: 0
+    left: 50%
+    margin-left: -5px
+    border-width: 5px 5px 0
+    border-top-color: #ffdf64
+
+  .tooltip.top-left .tooltip-arrow
+    bottom: 0
+    left: 5px
+    border-width: 5px 5px 0
+    border-top-color: #ffdf64
+
+  .tooltip.top-right .tooltip-arrow
+    bottom: 0
+    right: 5px
+    border-width: 5px 5px 0
+    border-top-color: #ffdf64
+
+  .left-align
+    text-align: left
+
+  .blockquote
+    text-align: left
+    background: $color-white
+    padding: 1em
+    border-radius: 6px
+
+  .white-section
+    margin: 0 -30px !important
+    padding: 2em 15px
+    background: $color-white
+
+    .responsive-img
+      border: 2px $color-gray-l
+
+  #share-buttons
+    text-align: center
+
+  #share-buttons img
+    width: 64px
+    padding: 5px
+    border: 0
+    box-shadow: 0
+    display: inline
+
+  .highlight-demo
+    border-bottom: #7FDBFF 3px solid
+
+  .url-link
+    font-size: 80%
+    font-family: monospace
+    background-color: #EEEEEE
+
+
+.translate-navbar
+  .brand
+    height: 36px
+    line-height: 36px
+    position: absolute
+    right: 46px
+    display: inline-block
+    color: #b4b4b4 !important
+    font-size: 9px !important
+    text-decoration: none !important
+
+  .brand div
+    text-align: right
+    display: inline-block
+    vertical-align: middle
+    line-height: 9px
+    margin-top: -3px
+
+  .brand a
+    background: url( '/images/branding/logo-iodine.svg' )
+    background-repeat: no-repeat
+    background-position: top center
+    background-size: contain
+    cursor: pointer
+    display: inline-block
+    width: 91px
+    height: 18px
+    vertical-align: middle
+    margin-left: 4px
+    margin-top: -1px
+
+
+.translate-iframe
+  border: 1px solid @color-black !important
+  overflow: hidden
+  size: 100%
+

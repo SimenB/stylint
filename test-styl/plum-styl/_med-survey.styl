@@ -1,0 +1,188 @@
+// Med survey
+
+.med-survey
+  // @REPLACE
+  h2
+    > em
+      font-style: normal
+
+  .control + .control,
+  .duration
+    margin-top: .5em
+
+  .steps
+    margin-top: .5em
+    text-align: center
+    font-size: 13px
+    color: $color-gray-xl
+
+  h4
+    color: $color-gray-d
+    margin: 0 0 .5em
+    font-weight: 500
+    text-align: left
+    font-size: $font-small !important
+
+  label
+    font-weight: normal
+
+  &.card
+    h2
+      font-size: 1.3em !important
+      color: $color-gray-l !important
+
+  .survey-step
+    > section
+      text-align: center
+
+      &.disabled
+        pointer-events: none
+        opacity: .3
+
+    > section + section
+      margin-top: 1.5em
+
+    @media ( max-width: $screen-xs-max )
+      border: 0
+      box-shadow: none
+      background: none
+      border-radius: 0
+      padding: 15px
+
+      // @REPLACE
+      // .navigation
+      //   .btn-next
+      //     @extends .button-green
+
+    // @media ( min-width: $screen-sm-min )
+    //   make-sm-column( 6 )
+    //   make-sm-column-offset( 3 )
+
+  &.inline
+    // @REPLACE
+    &.affix-top
+      top 0
+
+    &.affix
+      top: 55px
+
+    // @REPLACE
+    &.affix-bottom
+      position: relative
+
+    .survey-step
+      h2
+        margin-top: 4ex
+
+      @media ( min-width: $screen-sm-min )
+        make-sm-column(12)
+        make-sm-column-offset(0)
+
+  .privacy-widget-wrapper
+    margin-top: .75em
+
+  .error
+    border-color: @color-red
+
+  .checkbox
+    font-size: $font-small
+
+    label
+      text-align: left
+
+  .form-inline
+
+    input,
+    .btn-group
+      display: inline-block
+      margin-left: .3em
+      margin-right: .3em
+
+    .age
+      width: 5em
+      vertical-align: bottom !important
+
+  .demographic
+    > div,
+    > input
+      display: inline
+
+    > input
+      margin-left: .25em
+      vertical-align: bottom
+      width: 5em
+
+  .email
+    margin-top: 3ex
+
+  .navigation
+    padding-top: 3ex
+
+    // @REPLACE
+    .btn
+      @extends .button-purple
+      margin: .5ex
+
+  // Combobox
+  .indication
+    .input-group-btn
+      vertical-align: top
+
+  .twitter-typeahead
+    display: block !important
+
+    input
+      border-radius: 4px 0 0 4px !important
+      width: 100% !important
+
+  // @REPLACE
+  .tt-dropdown-menu
+    @extends .shadow-h
+    background-color: $color-white
+    border-radius: 0 0 4px 4px
+    border-top: 1px solid $color-gray-xxl
+    line-height: 2em
+    margin-top: 1.95em
+    max-height: 9em
+    min-width: 23em
+    overflow-y: auto
+    padding: .5em 0
+    position: relative
+    text-align: left
+
+  .tt-dropdown-menu.stable
+    margin-top: 0
+    position: absolute
+    position: absolute
+    width: 23em
+    z-index: 11
+
+  .generic
+    margin-top: -1em
+    font-size: .8em
+
+  .tt-suggestion
+    cursor: pointer
+    line-height: 2em
+    margin: 0
+    padding: 0 .5em
+
+  .tt-suggestion *
+    margin: 0
+    overflow-x: hidden
+    text-overflow: ellipsis
+    white-space: nowrap !important
+
+  .tt-suggestion.tt-cursor
+    background-color: $color-green-xl
+
+  .tt-suggestion:hover
+    background-color: $color-green-xl
+
+
+  @media ( max-width: $screen-xs-min )
+    h2
+      margin-bottom: 0 !important
+
+
+

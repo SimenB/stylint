@@ -10,7 +10,7 @@ var universalRe = /( |\w|\d|'|"|\*|\/)(\*)( |\w|\d|'|"|\*|\$|\=)/
 * @param {string} [line] current line being linted
 * @returns {boolean} true if * on line, false if not
 */
-var universal = function ( line ) {
+var universal = function( line ) {
 	var hasUniversal = false
 
 	// content can have a string that could be anything, so ignore those
@@ -20,7 +20,7 @@ var universal = function ( line ) {
 		}
 	}
 
-	if ( this.state.conf === 'never' && hasUniversal ) {
+	if ( this.state.conf === 'never' && hasUniversal === true ) {
 		this.msg( '* selector is disallowed' )
 	}
 

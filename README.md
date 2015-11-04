@@ -53,6 +53,8 @@ const stylint = require('stylint')('path/to/stylus/', {
 }).create();
 ```
 
+API docs are in the docs/ folder
+
 
 ## Gulp
 You can use the CLI with [gulp-shell](https://github.com/sun-zheng-an/gulp-shell) like below:

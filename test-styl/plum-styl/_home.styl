@@ -1,0 +1,139 @@
+/* Plum home page */
+
+.home-intro
+  padding-bottom: 3em
+
+
+.home-title
+  font-size: 70px
+  margin: 35px 0
+
+  @media ( max-width: $screen-xs-max )
+    font-size: 28px
+    line-height: 34px
+    margin: 14px 0
+
+
+// .tt-hint
+//   box-shadow: none
+//   color: $color-gray-m
+//   padding-left: 1.9em
+//   padding-right: .8em
+
+.header-home
+  background: url( '/images/homepage/plum-city-purple.gif' ) repeat-x bottom center #fdfdff
+  background-size: contain
+
+  @media ( max-width: $screen-xs-min )
+    background-size: contain
+    background-position: bottom center
+
+
+// @REPLACE
+.reviews-home
+  div
+    &:nth-of-type( 2 )
+      padding-right: 2em
+
+  h3
+    padding-top: .6em
+    + h3
+      padding: 0
+
+
+// @REPLACE
+// .what-to-expect-home
+  // .ss-icon
+  //   display: block !important
+
+  // .search-bar
+  //   margin-top: 35px
+  //   text-align: center
+
+  // form
+  //   float: right
+  //   width: 20em
+
+  // $TODO remove important later
+  // .twitter-typeahead
+  //   display: block !important
+
+  // .typeahead
+  //   width: 100%
+
+  // .tt-hint,
+  // .tt-input
+  //   height: 40px
+  //   padding-left: 40px
+
+  // .ss-icon
+  //   absolute: top 12px left 16px
+  //   color: #ccc
+  //   font-size: 16px
+  //   z-index: 1
+
+
+.testimonials-home
+  @media ( max-width: $screen-xs-max )
+    padding: 35px 0
+
+
+// the horizontal rows of content
+.home-row
+  padding: 70px 0
+
+  &.header-home
+    padding-top: 35px
+
+  &.testimonials-home
+    // @REPLACE
+    a,
+    p
+      font-size: 23px
+
+  &.try-it-home
+    padding: 18px 0
+
+  &:not( .header-home ):not( .try-it-home )
+     @media ( max-width: $screen-xs-max )
+      .button
+        width: 100%
+
+  @media ( max-width: $screen-xs-max )
+    padding: 100px inherit
+
+
+
+// base class
+.home
+  .dek
+    font-size: 28px
+
+  .tt-input
+    font-size: 14px
+
+    @media ( min-width: $screen-xs-min )
+      font-size: 18px
+
+  h3,
+  h5
+    margin: .5em 0
+
+  h3
+    font-size: 3em
+    line-height: 1
+
+  h5
+    font-size: 1.5em
+
+  @media ( max-width: $screen-xs-max )
+    h3
+      font-size: 2em
+
+    p
+      font-size: 16px
+
+  @media ( min-width: $screen-md-min ) and ( max-width: $screen-md-max )
+    p
+      font-size: 18px
+      line-height: 1.1

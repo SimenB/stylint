@@ -1,0 +1,501 @@
+// Condition
+
+.progress
+  box-shadow(inset 0 1px 2px rgba(0,0,0,.1))
+  background-color: $progress-bg
+  border-radius: $border-radius-base
+  height: $line-height-computed
+  margin-bottom: $line-height-computed
+
+
+// Bar of progress
+.progress-bar
+  box-shadow( inset 0 -1px 0 rgba( 0, 0, 0, .15 ) )
+  transition( width, $slow, true )
+  background-color: $progress-bar-bg
+  color: $progress-bar-color
+  font-size: $font-size-small
+  height: 100%
+  line-height: $line-height-computed
+  width: 0%
+
+
+// iodine.com/condition/name/ -> basics-tab
+.description
+  li
+    margin: 0 0 20px 20px
+
+
+// source link in basics tab
+.citation
+  border-radius: 4px
+  border: 1px solid $color-blue-xl
+
+  &:hover
+    background: $color-blue-xl
+    color: $color-white
+
+
+.condition-header
+  h1
+    font-size: 36px // standardize the font sizes @TODO
+
+
+// parent basics tab class
+.condition-basics
+  .filter
+    border-bottom: 1px solid $color-green
+
+
+.top-drug-highlights
+  padding: 15px 15px 45px !important
+
+
+.worth-it-list
+  color: $color-gray-l
+  font-size: 18px
+
+  li
+    margin: 25px 0
+
+  .ss-usergroup
+    color: $color-gray-xl
+
+  .progress-bar
+    background-color: $color-purple-l
+    line-height: 10px
+
+  .progress
+    height: 10px
+    margin: .2em 0 0
+
+
+// Drugs listed by class
+.drug-category-list
+  h2
+    margin-top: 20px
+
+  h3
+    color: $color-gray-xl
+    font-size: 26px
+    margin-top: 75px
+
+  // $TODO overly specific?
+  h4
+    font-size: 22px
+    margin: 50px 0 20px
+
+  // just filtered enough
+  &.filtered
+    .drug-name
+      background: $color-green-l
+      &:hover
+        background: $color-green
+
+  // much filter
+  &.over
+    h2
+      margin: 3em auto
+
+
+.drug-product-row
+  // @extends $shadow-l
+  background: $color-gray-xxxxxl
+  // margin-bottom: 1em
+
+  @media ( max-width: $screen-sm-max )
+    font-size: $font-small
+    margin-bottom: 5em
+
+  // $TODO too specific?
+  .col
+    font-size: 22px
+    padding-bottom: 35px
+
+    @media ( max-width: $screen-xs-max )
+      width: 100%
+
+  a:hover
+    background: $color-purple
+
+  .drug-name
+    transition: background .3s ease
+
+  .basics
+    width: 70%
+
+    p
+      padding: 0 15px
+
+      @media ( min-width: $screen-lg-min )
+        padding-right: 180px
+
+  .reviews
+    background: $color-gray-xxxxl
+
+  .review-highlights
+    h4
+      margin: 15px 0
+
+
+// Top drugs
+.top-drugs
+  h3
+    font-size: 26px
+    margin-bottom: 50px
+
+
+.top-searched-drugs
+  ol
+    margin-top: 25px
+
+  li
+    border-radius: 30px 0 0 30px
+    counter-increment: step-counter
+
+    &:before
+      background-color: $color-green-l
+      border-radius: 12px
+      color: $color-white
+      content: counter( step-counter )
+      display: inline-block
+      // font-weight: 100
+      margin-right: 12px
+      padding: 0 20px
+      text-align: center
+      width: 26px
+
+    &:hover
+      background-color: $color-green-l
+      color: $color-white
+      cursor: pointer
+
+
+// parent class for entire condition page
+.condition
+  .top-worth-drugs
+    margin-bottom: 100px
+
+  // Drug side effects comparison
+  .drug-side-effects
+    .form-control
+      // @extends $button-green
+      margin-top: 20px
+      max-width: 340px
+
+  // Drug side effects comparison
+  .treatment-options
+    .compare-chart
+      border-bottom: 1px solid $color-purple-xl
+
+    @media ( max-width: $screen-xs-max )
+      display: none
+
+  // Symptoms
+  .symptoms
+    font-size: 21px
+    font-weight: 300
+
+    ul
+      padding-right: 10%
+
+    li
+      padding-left: 18px
+      &:before
+        content: '›'
+        display: inline-block
+        font-size: 28px
+        margin-left: -30px
+        width: 30px
+
+      // $TODO complicated selector
+      + li
+        margin-top: 10px
+
+      .ss-icon
+        display: none
+
+  // iodine.com/condtion/name -> which of these medications have you tried?
+  .ugc-quiz
+    h3,
+    .description
+      display: none
+
+    .thanks
+      color: $color-gray-xl
+      display: block
+      font-size: 1.7em
+      padding: 1.15em 0 .5em 0
+
+    .question-content
+      padding: 15px 15px 15px 0
+      vertical-align: top
+
+    h4
+      font-size: 24px
+      line-height: 32px
+      margin: 0 auto
+
+    .checkbox,
+    .radio
+      font-size: $font-small
+
+    .next.unsubmitted
+      display: none
+
+
+// Tips
+.tip
+  button
+    border-bottom-left-radius: 0 !important
+    border-top-left-radius: 0 !important
+
+  &.one
+    border-color: $green-xl
+
+  &.two
+    background: $tip-2-green
+    border-color: $tip-2-green
+
+  &.three
+    background: $tip-3-green
+    border-color: $tip-3-green
+
+  h3
+    font-size: 26px !important
+    font-weight: 300
+    min-height: 120px
+
+    @media $desk-max
+      margin-bottom: 25px
+
+  li
+    &:before
+      content: '›'
+      display: inline-block
+      font-size: 21px
+      margin-left: -15px
+      width: 20px
+
+
+
+// Drug filter controls
+// iodine.com/condition/$name/treatments
+.drug-filter-controls
+  border-bottom: 1px solid $color-white
+  padding: 15px 0
+  transition: background .25s ease-in-out
+  z-index: 2
+
+  .form-control
+    max-width: 200px
+
+  &.affix
+    border-color: $color-green-l
+    fixed top 0
+
+  .description
+    color: $color-gray-l
+    display: none
+
+    @media ( max-width: $screen-sm-max )
+      display: inline-block
+      margin-bottom: 1em
+
+  // @REPLACE
+  button
+    // @extends .btn
+    // @extends .btn-default
+    border-color: $color-green-l
+
+    &:hover
+      border-color: $color-green-l
+
+  .active
+    button
+      background: $color-green
+      border-color: $color-green
+      color: $color-white
+
+  .filter
+    @media ( min-width: $screen-sm-max )
+      max-width: 510px
+      min-width: 510px
+
+
+  // @media ( max-width: $screen-sm-max )
+  //   clear: both
+  //   // $TODO why the important
+  //   position: relative !important
+  //   text-align: center
+  //
+
+
+// Condition landing page
+// iodine.com/condition
+// iodine.com/drug
+.item-landing-page
+  // font-weight: 300
+
+  @media ( max-width: $screen-xs-max )
+    section
+      padding: 0 15px
+
+  // @REPLACE
+  .header
+    // @extends $bg-stripe
+    padding: 50px 0 75px
+
+    @media ( max-width: $screen-xs-max )
+      h3
+        display: none
+
+      form,
+      .search-bar
+        display: block
+
+  .typeahead
+    width: 200px !important
+
+  .typeahead,
+  .button-submit
+    height: 48px !important
+
+  .button-submit
+    display: inline !important
+    width: 100px
+
+  .twitter-typeahead
+    input
+      // @extends $form-control
+      border-top-right-radius: 0
+      border-bottom-right-radius: 0
+
+
+// iodine.com/condition
+.common-items
+  background: $color-gray-xxxxl
+  border-top: 1px solid $color-gray-xxxl
+  padding: 35px 0
+
+  // .item
+  //   make-lg-column( 3 )
+
+  //   @media( max-width: $screen-md-max )
+  //     make-sm-column( 6 )
+
+  // @REPLACE
+  a
+    // @extends $flag
+    font-size: 18px
+    font-weight: 500
+    margin-bottom: 10px
+
+    @media( max-width: $screen-sm-max )
+      font-size: 1em
+
+  h3
+    margin-bottom: 10px
+
+
+// iodine.com/condition
+// $TODO prolly want to remove me later
+.max-item-width
+  max-width: 92%
+
+
+// iodine.com/condition
+.items-by-letter
+  padding-bottom: 80px
+
+  h4
+    color: $color-gray-xxxl
+    font-size: 50px
+    padding: 50px 0 0
+
+  li
+    font-size: 21px
+    margin-bottom: 10px
+    max-width: 25%
+    min-width: 25%
+    padding: 0 10px
+
+
+// iodine.com/condition
+.letters
+  h3
+    font-size: 24px
+    margin: 90px 0 20px
+
+  li
+    font-size: 23px
+    font-weight: 300
+    margin: 0 15px 0 0
+
+    @media ( max-width: $screen-xs-max )
+      margin: 0 10px 10px 0
+
+  a
+    background: $color-gray-xxxxxl
+    padding: 5px
+
+    &:hover
+      background: $color-purple-xxl
+
+  @media ( max-width: $screen-xs-max )
+    font-size: 21px
+
+
+// really generic name, but isn't used elsewhere afaik
+.back-to-top
+  padding: 10px
+
+
+
+
+  // .a-to-z
+  //   h2
+  //     color: $color-purple
+  //
+
+  //   h3
+  //     color: $color-gray-l
+  //
+
+  //   p
+  //     color: $color-gray-l
+  //     font-size: 1.3em
+  //     font-weight: lighter !important
+  //     margin-bottom: 1.5em
+  //
+
+  //   ul
+  //     // $TODO should be an extend
+  //     .make-row()
+  //     list-style-type: none
+  //     margin-bottom: 2.5em
+
+  //     > li
+  //       .make-md-column(4)
+  //       padding-bottom: 1em
+
+  //       > a
+  //         @extends .flag )
+  //         box-shadow: none
+  //         font-size: 18px
+  //         // padding-right: 2em
+
+  //         > .generic
+  //           color: $color-gray-xl
+  //           word-break: break-all
+  //           word-wrap: break-word
+  //
+
+  //         &:hover
+  //           text-decoration: none
+  //           background: $color-gray-xxxxxl
+  //
+  //
+  //
+  //
+  //

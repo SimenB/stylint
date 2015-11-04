@@ -35,12 +35,7 @@ var init = function( options, pathPassed ) {
 	}
 
 	// if path/ passed in use that for the dir
-	if ( typeof this.state.path !== 'undefined' && pathPassed ) {
-		this.state.path = pathPassed
-	}
-	else {
-		this.state.path = process.cwd()
-	}
+	this.state.path = pathPassed || this.state.path || process.cwd()
 
 	// fire watch or read based on flag
 	if ( options.watch ) {

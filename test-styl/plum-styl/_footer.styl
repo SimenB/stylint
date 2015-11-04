@@ -1,0 +1,78 @@
+// Footer / sharing / email subscription
+// $see bottom of every page duh
+footer
+  margin-bottom: 48px
+  padding: 35px 10px
+
+  @media $mob-plus
+    margin-top: 50px
+
+  a
+    transition( color, $fast )
+    &:hover
+      color: $color-green
+
+  .disclaimer
+    margin-bottom: .5em
+
+  // @REPLACE
+  .site-map-bar
+    margin-bottom: 2.5em
+
+    > div
+      // make-md-column( 6 )
+      margin-bottom: .5em
+
+    li
+      margin: 0 .5em 0 0
+      &:first-of-type
+        text-transform: none
+
+  nav
+    line-height: 1.75em
+    margin-bottom: 15px
+
+    @media $mob-plus
+      margin-bottom: 3.5em
+
+    a,
+    span
+      margin-bottom: .3em
+
+      @media $mob
+        margin-bottom: .7em
+
+    span
+      border-bottom: 1px solid $color-gray-xxxl
+      margin-bottom: 1em
+
+    &.mobile
+      // display: table
+      // table-layout: fixed
+      // width: 100%
+
+      a,
+      span
+        // display: table-cell
+        // text-align: center
+        padding: 0 .5em
+
+  .message
+    font-size: 1.5em
+    margin-bottom: .5em
+
+  button
+    z-index: 2
+
+  @media $mob
+    background: $color-gray-d
+
+    // a
+    //   color: $color-white
+
+    // // @REPLACE
+    // .disclaimer
+    //   text-align: center
+
+
+

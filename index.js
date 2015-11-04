@@ -10,6 +10,14 @@ var stampit = require( 'stampit' )
 // basic app flow below
 // init() -> read() -> parse() -> lint() -> done()
 // init() -> watch() -> read() -> parse() -> lint() -> done()
+
+
+/**
+ * main stylint kickoff function
+ * @param {string} path   [custom path if used programmatically]
+ * @param {object} config [config if used programmatically]
+ * @return {Object} [the composed stylint object]
+ */
 var Stylint = function( path, config ) {
 	var Lint
 
@@ -18,8 +26,8 @@ var Stylint = function( path, config ) {
 		require( './src/checks/' ),
 		require( './src/state/' ),
 		stampit().enclose( function() {
-			this.state.path = path ? path : ''
-			this.customConfig = config ? config : false
+			this.state.path = typeof path === 'string' ? path : './'
+			this.customConfig = typeof config === 'object' ? config : false
 		} ).enclose( require( './src/core/init' ) )
 	)
 

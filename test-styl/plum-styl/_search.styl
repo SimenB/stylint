@@ -1,0 +1,156 @@
+// search components
+
+// .typeahead
+//   transition( all, $fast )
+//   border-radius: 32px
+//   border: 1px solid $color-gray-xxl
+//   height: 60px
+//   padding: 0 26px
+//   // transition: box-shadow $fast ease,
+//   //             border-color $fast ease
+//   &:focus
+//     border-color: $color-purple
+//     box-shadow: 0 0 20px $color-purple-l
+
+.typeahead
+  transition( all, $fast )
+  border-radius: 32px
+  border: 1px solid #ccc
+  box-shadow: none
+  color: #777
+  font-weight: 300
+  font-size: 14px
+  min-height: 30px
+  padding-left: 28px
+  padding-right: 12px
+  // transition:
+  //   box-shadow .13s ease,
+  //   border-color .13s ease
+
+  &:focus
+    border-color: $color-purple
+    box-shadow: 0 0 20px $color-purple-l
+
+  .iodine-nav-bar &
+    width: 180px
+
+  // Webkit hack to always show scrollbar
+  .tt-dropdown-menu::-webkit-scrollbar
+    -webkit-appearance: none
+    width: 7px
+
+  .tt-dropdown-menu::-webkit-scrollbar-thumb
+    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.4)
+    background-color: rgba(0,0,0,.4)
+    border-radius: 4px
+
+  @media ( max-width: $screen-xs-max )
+    font-size: 14px
+
+.tt-hint
+  width: 100%
+
+// Search
+.ss-icon
+  display: none
+
+// hmmm
+input
+  outline: 0
+  // padding-left: .5em
+
+  &.tt-hint
+    color: $color-gray-xl
+
+  .tt-dropdown-menu
+    // @extends .shadow-h // @REPLACE
+    background-color: $color-white
+    border-radius: 0 0 4px 4px
+    border-top: 1px solid $color-gray-xxl
+    line-height: 2em
+    max-height: 19.6em
+    min-width: 15em
+    overflow-x: hidden
+    overflow-y: auto
+    padding: .5em 0
+    text-align: left
+
+    .empty-message
+      font-size: .7em
+      text-align: center
+
+  .tt-dropdown-menu.stable
+    display: none
+    position: absolute
+    z-index: 2
+
+  // @REPLACE
+  li
+    color: #3b3b3b
+    // font-weight: lighter
+    font-size: 1em
+    line-height: 1.9em
+
+    &.subheading
+      font-size: .85em
+      margin-top: -.6em
+
+    &.optional
+      font-size: .55em
+      margin-top: -.6em
+
+    strong
+      color: black
+      font-weight: 900
+
+  .first-drug
+    border-top: 1px solid $color-gray-xxl
+    margin-top: .5em
+    padding-top: .5em
+
+    li
+      color: #3b3b3b
+      // font-weight: lighter
+      font-size: 1em
+      line-height: 1.9em
+
+      &.subheading
+        font-size: .85em
+        margin-top: -.6em
+
+      &.optional
+        font-size: .55em
+        margin-top: -.6em
+
+      strong
+        color: @color-black
+        font-weight: 900
+
+  .tt-suggestion
+    cursor: pointer
+    line-height: 2em
+    margin: 0
+    padding: 0 .5em
+    width: 15em
+
+  // whoaaa // @REPLACE
+  .tt-suggestion *
+    margin: 0
+    overflow-x: hidden
+    text-overflow: ellipsis
+    white-space: nowrap !important
+
+  .tt-suggestion.tt-cursor
+    background-color: $color-green-xl
+
+  .tt-suggestion:hover
+    background-color: $color-green-xl
+
+  // @REPLACE
+  .button-submit
+    @extends .button-green
+    border-radius: 0 4px 4px 0 !important
+    display: inline-block
+    line-height: 27px !important
+    min-height: 30px
+    padding: 0 .5em

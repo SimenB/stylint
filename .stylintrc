@@ -1,6 +1,6 @@
 {
     // Comments - woooo
-    "blocks": false,
+    "blocks": "always",
     "brackets": "always",
     "colons": "always",
     "colors": false,
@@ -12,9 +12,8 @@
     "efficient": "always",
     "extendPref": false,
     "globalDupe": true,
-    // "indentPref": 2,
     "indentPref": {
-        "expect": 2
+        "expect": false
     },
     "leadingZero": "always",
     "maxErrors": false,
@@ -30,9 +29,9 @@
     "prefixVarsWithDollar": "always",
     "quotePref": false,
     "reporter": "../core/reporter",
-    "semicolons": false,
+    "semicolons": "always",
     "sortOrder": "alphabetical",
-    "stackedProperties": "never",
+    "stackedProperties": "always",
     "trailingWhitespace": "never",
     "universal": false,
     "valid": true,

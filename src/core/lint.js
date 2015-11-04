@@ -1,5 +1,6 @@
 'use strict'
 
+
 /**
  * @description runs tests according to config ( or all if strict is true )
  * @return {Function | undefined} undefined if just calling the method, function is linting over

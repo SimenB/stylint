@@ -21,7 +21,7 @@ var extendPref = function( line ) {
 		extendIncorrect = true
 	}
 
-	if ( extendIncorrect ) {
+	if ( extendIncorrect === true ) {
 		this.msg( 'please use ' + this.state.conf )
 	}
 

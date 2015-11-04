@@ -1,0 +1,225 @@
+// Personalization
+
+.personalization
+  // .make-row() // @REPLACE
+  border-radius: 8px
+  background-color: $color-yellow-bg
+
+
+.personalization-bar
+  font-size: $font-small
+  padding-bottom: 1em
+  text-align: center
+  user-select: none
+
+  // @REPLACE
+  &.onboarding
+    border-bottom: 1px solid $color-gray-xxxl
+    position: relative
+    text-align: left
+
+    // Controls
+    > div
+      display: inline-block
+      vertical-align: text-bottom
+
+      @media ( max-width: $screen-md-max )
+        width: 100%
+        text-align: center
+
+    img
+      absolute: right 1em bottom 0
+      display: block
+      height: 8em
+
+      @media ( max-width: $screen-md-max )
+        display: none
+
+    @media ( max-width: $screen-sm-max )
+      padding-top: 1.5em
+      padding-bottom: 1.5em
+
+  h2
+    color: $color-green
+    font-size: $font-small
+    margin: 0
+
+  // @REPLACE
+  .toggles
+    margin-top: .25em
+    display: inline-block
+
+    > span
+      display: inline-block
+      margin: .3em
+      padding: .5em 0
+
+      &:nth-of-type( 1 )
+        margin-left: 0
+
+      .label
+        color: $color-gray-m
+
+      &.disabled
+        opacity: .7
+        pointer-events: none
+
+        > a
+          cursor: not-allowed
+          border-style: dashed
+
+  // @REPLACE
+  .demographics
+    display: inline-block
+
+    > div
+      display: inline-block
+      padding: .5em inherit
+
+      + div
+        margin-left: .75em
+
+      // @REPLACE
+      .form-control
+        // @extends .input-sm
+
+  // @REPLACE
+  .btn.submit
+    // @extends .btn-sm
+    // @extends .button-green
+    display: inline-block
+    margin-left: .75em
+
+
+// @REPLACE
+a.personalization-button
+  transition( all, $fast )
+  background: $color-white
+  border-radius: 12px
+  border: 1px solid $color-gray-xl
+  box-shadow: none
+  color: $color-gray-m
+  // cursor: pointer
+  padding: .25em .8em
+  // text-decoration: none
+
+  &.active
+    background: $color-green
+    border-color: $color-green
+    color: $color-white
+
+  &.darker
+    background: $color-gray-xxxl
+    border-radius: 12px
+    border: 1px solid $color-gray-xl
+    color: black
+    // text-decoration: none
+    &.active
+      background: $color-green
+      border-color: $color-green
+      color: $color-white
+
+  &.more-buttony
+    background: linear-gradient(to bottom,  $color-gray-xxxl 0%, $color-gray-xl 100%)
+    border-radius: 2px
+    border: 1px solid $color-gray-xl
+    color: $color-gray-d
+    // text-decoration: none
+    &.active
+      background: linear-gradient(to bottom, $color-gray-m 0%, $color-gray-xl 100%)
+      border: 2px solid $color-gray-d
+
+  &.hyperlink
+    background: $color-white
+    border: 0
+    color: blue
+    // cursor: pointer
+    // text-decoration: underline
+    &.active
+      color: $color-white
+      background: $color-green
+      border-color: $color-green
+
+
+// @REPLACE
+.personalization-list
+  > section
+
+    .personalization-toggle
+      float: right
+
+    h4
+      padding-top: .35em
+
+
+// @REPLACE
+.personalization-popup
+  @extends .shadow-fluffy // @REPLACE
+  background: $color-white
+  border-bottom: 1px solid #bababa
+  border-left: 1px solid #bababa
+  border-radius: 6px 0 0 6px
+  border-top: 1px solid #bababa
+  color: $color-gray-m
+  fixed: top 10% right 5%
+  font-size: 15px
+  margin-right: -110px
+  max-width: 30em
+  width: 50%
+  z-index: 100
+
+  .popup-head
+    background-color: $color-green-xxl
+    border-radius: 6px 0 0 0
+    line-height: 1.5em
+    margin-bottom: .5em
+    padding: 0em 4em 0em 1em
+
+  .title
+    color: $color-green
+    display: inline-block
+    font-size: 1.5em
+    padding: .5em 0 .3em 0
+    width: 100%
+
+  .new
+    // @extends .gradient-green
+    // @extends .shadow-m
+    // @extends .text-shadow
+    border-radius: 50%
+    color: $color-white
+    display: inline-block
+    font-size: .65em
+    font-weight: normal
+    margin-right: .5em
+    padding: .1em .4em
+
+  .title-text
+    vertical-align: bottom
+
+  .close-button
+    float: right
+
+    .exit
+      height: inherit
+      background-size: 60%
+
+  .popup-body
+    font-weight: 100
+    padding: 0.25em 4em 1em 1em
+
+    .item
+      font-weight: 600
+
+    .label
+      color: $color-gray-m
+      font-size: 1.2em
+      font-weight: 500
+      padding: .2em .6em .2em 0
+
+  .form-control:focus
+    outline: 0 !important
+    outline-style: none
+    -webkit-box-shadow: none !important
+
+

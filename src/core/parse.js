@@ -22,6 +22,7 @@ var parse = function( err, res ) {
 		// strip out block comments, but dont destroy line history
 		// to do these we replace block comments with new lines
 		lines = file.toString().replace( cleanFileRe, function( str ) {
+			// WHERE IS YOUR GOD NOW
 			return ( new Array( str.split( lineEndingsRe ).length ) ).join( '\n' )
 		} ).split( '\n' )
 

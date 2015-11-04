@@ -1,0 +1,784 @@
+// UI components
+
+// @REPLACE
+.apple
+  background: url( '/images/homepage/available_apple.jpg' ) no-repeat
+  margin: .4em
+  padding: .5em 1em
+  size: 144px 42px
+
+  @media ( max-width: $screen-xs-max )
+    display: none
+
+// Efficacy & hassle colors
+.bg-efficacy
+  background: $color-gray-xl
+
+  &.high
+    background: $color-blue
+
+  &.mid
+    background: $color-blue-l
+
+  &.low
+    background: $color-blue-xl
+
+
+.bg-hassle
+  background: $color-gray-xl
+
+  &.high
+    background: $color-rose
+
+  &.mid
+    background: $color-rose-l
+
+  &.low
+    background: $color-rose-xl
+
+
+.bg-worth
+  background: $color-gray-xl
+
+  &.high
+    background: $color-purple
+
+  &.mid
+    background: $color-purple-l
+
+  &.low
+    background: $color-purple-xl
+
+
+// think this is an fda / med-label thing
+.card
+  border-bottom: 1px solid $color-gray-xxxl
+  margin: 0 -15px
+  padding: 16px 32px 115px
+
+
+// image dupe intentional
+.iodine-logo
+  background: url( '/images/branding/logo-iodine-purple.png' ) no-repeat top center
+  background-image: url( '/images/branding/logo-iodine-purple.svg' )
+  background-size: contain
+  size: 130px 26px
+
+  @media $mob
+    size: 88px 18px
+
+
+// Avatar
+.avatar
+  background-blend-mode: overlay
+  background-repeat: no-repeat
+  background-size: cover
+  border-radius: 50% // @REPLACE
+  border: 2px solid $color-white
+  display: inline-block
+  size: 50px
+  text-align: center
+
+  &.male
+    background-image: url('/images/avatars/avatar-male-18-34.jpg')
+
+    &.age-bracket-one
+      background-image: url('/images/avatars/avatar-male-18-34.jpg')
+
+    &.age-bracket-two
+      background-image: url('/images/avatars/avatar-male-35-54.jpg')
+
+    &.age-bracket-three
+      background-image: url('/images/avatars/avatar-male-55+.jpg')
+
+  &.female
+    background-image: url('/images/avatars/avatar-female-18-34.jpg')
+
+    &.age-bracket-one
+      background-image: url('/images/avatars/avatar-female-18-34.jpg')
+
+    &.age-bracket-two
+      background-image: url('/images/avatars/avatar-female-35-54.jpg')
+
+    &.age-bracket-three
+      background-image: url('/images/avatars/avatar-female-55+.jpg')
+
+  &.all
+    background-image: url('/images/avatars/avatar-anonymous.jpg')
+
+  // avatar colors
+  &.blue
+    border-color: $color-blue-xl
+    background-color: $color-blue-xl
+
+  &.green
+    border-color: #75D180
+    background-color: #75D180
+
+  &.purple
+    border-color: $color-purple-l
+    background-color: $color-purple-l
+
+  &.pink
+    border-color: #EDA6E6
+    background-color: #EDA6E6
+
+  &.yellow
+    border-color: #C7B65B
+    background-color: #C7B65B
+
+  @media ( max-width: $screen-xs-max )
+    size: 3em
+
+
+// Exit button (see popover)
+.exit
+  background: url( '/images/design-details/x.png' ) no-repeat center
+  background-size: 40%
+  height: 1.2em
+  width: 1em
+  margin: .5em
+
+  &:focus
+    outline: 0 !important
+    -webkit-box-shadow: none !important
+
+
+// Review count
+// .review-count
+
+//   .ss-icon
+//     display: inline-block
+//     text-decoration: none
+//     vertical-align: text-top
+
+//   @media $mob
+//     display: inline
+
+//     .title
+//       display: none
+
+
+// Rx status
+.rx-status
+  display: inline-block
+  font-size: 10pt
+  border-radius: 12px
+  padding: .07em .6em .08em .6em
+  margin: 0 .75em
+  color: $color-white
+  background: $color-gray-l
+  white-space: nowrap
+
+  @media ( max-width: $screen-xs-max )
+    font-size: 7.5pt
+    padding-top: .1em
+    padding-bottom: .2em
+
+
+.triangle-left
+  border-radius: 4px
+  box-shadow: s( '%s', 0 1px 4px rgba( 0, 0, 0, .3 ) )
+  margin-bottom: 50px
+
+  &:after
+    absolute: bottom -10px left 2.25em
+    border-color: transparent @color-white @color-white transparent
+    border-style: solid
+    border-width: 10px
+    box-shadow: s( '%s', rgba( 0, 0, 0, .2 ) 2px 2px 3px )
+    content: ''
+    transform: rotate( 45deg )
+
+
+// Story Bubble
+.story
+  margin-bottom: 50px
+
+  .small
+    color: $color-gray-l
+
+  .about
+    display: table
+    color: $color-blue
+
+    > div
+      display: table-cell
+      vertical-align: top
+
+      p
+        margin-bottom: .15em
+
+      &:nth-of-type(2)
+        padding-top: .55em
+        padding-left: .35em
+
+    .avatar
+      display: block
+      width: 2.6em
+      height: 2.6em
+      margin: -.25em 0 0 1.53em
+
+  .tags
+    width: 7em
+    float: right
+    margin: 1em -3px 1em 1.25em
+    // position: absolute
+    // right: -5px
+    // bottom: 1em
+
+    .tag
+      font-size: 11.5px
+      color: $color-white
+      display: block
+      padding: .1em .25em 0 .25em
+
+      + .tag
+        margin-top: 1px
+
+  .tip
+    display: block
+    padding-bottom: 52px
+    padding-left: 26px
+    padding-right: 35px
+    padding-top: 18px
+
+  .satisfaction,
+  .date,
+  .rating
+    color: $color-gray-m
+    display: inline-block
+    margin-right: 2em
+
+  .rating
+    .square
+      display: inline-block
+      background: $color-white
+      width: 10px
+      height: 10px
+      border-radius: 4px
+      margin-right: 1px
+
+    &.hassle
+      .square
+        border: 1px solid $color-rose-xl
+
+        &.s1,
+        &.s2
+          background: $color-rose-xl
+
+        &.s3,
+        &.s4,
+        &.s5
+          background: $color-rose-l
+
+        &.s6,
+        &.s7
+          background: $color-rose
+
+    &.efficacy
+      .square
+        border: 1px solid $color-blue-xl
+
+        &.s1,
+        &.s2
+          background: $color-blue-xl
+
+        &.s3,
+        &.s4,
+        &.s5
+          background: $color-blue-l
+
+        &.s6,
+        &.s7
+          background: $color-blue
+
+  &.user
+    .details
+      border: 1px solid $color-green
+
+      &:after
+        border-color: $color-green transparent
+
+    .tip-text
+      color: $color-green
+
+    .about
+      color: $color-green
+
+
+// Butter Bar
+.butter-bar
+  color: $color-gold-xd
+  background: $color-yellow-bg-d
+  border-radius: 10px
+
+  &:hover
+    cursor: pointer
+    background: $color-yellow-bg
+
+  .description
+    display: inline-block
+    margin: 0
+    padding: 15px
+    width: 80%
+    line-height: 100%
+
+  .action
+    display: inline-block
+    margin: 0
+    padding: 15px
+    width: 20%
+    text-align: right
+    line-height: 100%
+
+  .ss-icon
+    display: inline-block
+    text-align: right
+
+  @media ( max-width: $screen-xs-max )
+    border-radius: 0
+
+    .description, .action
+      width: 100%
+      text-align: left
+
+
+// Source
+.source
+  text-align: center
+  margin: 1em auto
+  font-weight: lighter
+
+  @media (max-width: $screen-sm)
+    bottom: 3em
+    border-radius: 0
+    left: -1px
+    right: 1px
+
+  div
+    color: $color-gray-l
+    font-size: .75em
+    padding: .45em 1em .3em 1em
+    vertical-align: middle
+
+  a
+    color: $color-gray-l
+    transition: color .15s ease-in-out
+
+  a:hover
+    color: $color-purple
+    text-decoration: none
+
+
+
+// Radio button group
+.radio-group
+  &.arrows
+    color: $color-green-l
+
+    .radio
+      margin: 0
+      transition: color .08s ease
+
+      > input[type=radio]:not( old )
+        display: none
+
+      > label
+        &:before
+          display: inline-block
+          font-size: 1.25em
+          content: '›'
+          margin-left: -.75em
+          width: .75em
+
+
+      &.active
+        @extends .bg-stripe // @REPLACE
+        color: $color-green
+
+        > label
+          font-weight: bold
+
+      &:hover
+        color: $color-green
+
+  // &.arrows.long
+    // .make-row() // @REPLACE
+
+    // > div.radio
+    //   .make-sm-column(4)
+
+
+// Personalization / tips banners
+.p-banner
+  margin: 0 -15px 45px
+
+  // Main box
+  > div:first-of-type
+    @extends .shadow-m // @REPLACE
+    background: $color-blue
+    color: $color-white
+    padding: 0 12% 0 15px
+
+    > h3
+      font-size: 1em !important
+      color: $color-white
+      // display: inline-block
+      background: $color-blue-l
+      padding: 3px 13px 0
+      margin: 0
+
+      i
+        display: inline
+        font-size: 1em
+        margin-right: 3px
+        vertical-align: text-top
+
+    > section
+      padding: 0 4em 0 0
+
+      &:first-of-type
+        padding-top: 15px
+
+      &:last-of-type
+        padding-bottom: 2.5ex
+
+      > ul
+        margin: 0
+        font-size: 1.3em
+        font-weight: lighter
+
+        > li
+          margin-bottom: .35ex
+
+  // User reviews
+  .user-stories
+    padding: 15px 0 5ex 0
+
+    // @REPLACE
+    // ul
+    //   .make-row()
+
+    //   > li
+    //     .make-sm-column(6)
+
+  &.pregnancy-category
+    @extends .shadow-m // @REPLACE
+
+  &.empty
+    > div
+      background: $color-gray-xl
+
+      > h3
+        background: $color-gray-xxl
+
+
+// Review summary
+.review-summary
+  .demographic
+    color: $color-green
+
+  &.small
+    h3
+      font-size: 11px
+
+    .bar-stacked
+      h4
+        font-size: 11px !important
+
+
+// Stacked bar charts
+.bar-stacked
+  cursor: hand
+
+  .bars
+    @extends .shadow-m // @REPLACE
+    border-radius: 16px
+    display: table
+    width: 100%
+
+    h4
+      @extends .text-shadow // @REPLACE
+      color: $color-white
+      font-size: 16px !important
+      font-weight: normal
+      line-height: 1.2em
+      margin: 0
+      text-align: right
+
+      @media ( max-width: $screen-xs )
+        font-weight: bold
+        font-size: 11px !important
+
+    span:first-of-type
+      border-top-left-radius: 16px
+      border-bottom-left-radius: 16px
+
+    span:last-of-type
+      border-top-right-radius: 16px
+      border-bottom-right-radius: 16px
+
+  .labels
+    display: table
+    width: 100%
+
+    h4
+      margin: .2em 0 0
+      color: $color-gray-m
+      line-height: 1.2em
+      font-weight: normal !important
+      font-size: 13px !important
+      text-align: right
+
+      @media ( max-width: $screen-xs )
+        font-size: 11px !important
+
+  .bar
+    transition( width, $slow )
+    display: table-cell
+    min-width: 80px
+    padding: .05em .4em
+    position: relative
+    text-align: right
+    // transition: width .3s ease-in-out
+
+    @media ( max-width: $screen-xs )
+      min-width: 20px
+
+    &.yes
+      background: $color-purple
+
+    &.not-sure
+      background: $color-purple-l
+
+    &.no
+      background: $color-purple-xl
+
+
+.effectiveness
+  .bar
+    &.yes
+      background: $color-blue
+
+    &.not-sure
+      background: $color-blue-l
+
+    &.no
+      background: $color-blue-xl
+
+
+.hassle
+  .bar
+    &.yes
+      background: $color-rose-xl
+
+    &.not-sure
+      background: $color-rose-l
+
+    &.no
+      background: $color-rose
+
+  &.web
+    .bar
+      &.yes
+        background: $color-rose-xl
+
+      &.not-sure
+        background-color: $color-rose-l
+
+      &.no
+        background-color: $color-rose
+
+
+// Top drug highlights & review highlights
+.review-highlights,
+.top-drug-highlights
+  .filter
+    border-bottom: 1px solid $color-green
+    margin-bottom: 1em
+    padding-top: 1em !important
+    text-align: center
+
+    .filter-filter
+      > select
+        max-width: 8em !important
+
+  .worth
+    h3
+      color: $color-purple
+
+    h5
+      color: $color-white
+
+      > .ss-icon
+        color: $color-purple-xl
+
+  .efficacy
+    h3
+      color: $color-blue
+
+    h5
+      color: $color-white
+
+      > .ss-icon
+        color: $color-blue-xl
+
+  .hassle
+    h3
+      color: $color-rose
+
+    h5
+      color: $color-white
+
+      > .ss-icon
+        color: $color-rose-xl
+
+  // > section
+  //   // .make-row() // @REPLACE
+  //   margin-left: 15px
+  //   margin-right: 15px
+  //   padding-bottom: .3em
+
+  //     // @REPLACE
+  //     // &:nth-of-type( 1 )
+  //     //   .make-xs-column(4)
+
+  //     // &:nth-of-type( 2 )
+  //     //   .make-xs-column(4)
+
+  //     // &:nth-of-type( 3 )
+  //     //   .make-xs-column(4)
+
+  //     .avatar
+  //       width: 3em
+  //       height: 3em
+
+  //     .review-count
+  //       display: inline-block
+  //       background: $color-gray-xl
+  //       color: $color-white
+  //       // font-size: .6em !important
+  //       border-radius: 8px
+  //       padding-left: .5em
+  //       padding-right: .5em
+
+  //     > h3
+  //       font-size: $font-small !important
+  //       margin: 0 !important
+  //       padding: 0 !important
+  //       font-weight: bolder
+
+  //     > h4
+  //       font-size: 1em
+  //       margin: 0 0 1em
+
+  //     > h5
+  //       margin: .5em 0 .1em
+  //       font-size: 1.1em
+  //       position: relative
+  //       padding-bottom: 1em
+
+  //       > .ss-icon
+  //         font-size: 2.7em
+  //         position: absolute
+  //         top: -.2em
+  //         left: -100%
+  //         right: -100%
+  //         margin: 0 auto
+  //         width: 100%
+  //         color: $color-white
+
+  //       > span,
+  //       > small
+  //         position: relative
+  //         z-index: 2
+
+  //     > h6
+  //       font-size: font-small
+
+  //     > h5 > small,
+  //     > h6 > small
+  //       margin-top: .5em
+  //       display: block
+  //       font-size: .7em
+  //       color: $color-green
+
+
+// .top-drug-highlights
+//   > section
+//     padding-bottom: 0 !important
+
+//     > h3
+//       font-size: $font-small !important
+//       text-align: center
+
+    // @REPLACE
+    // > div
+    //   &:nth-of-type(1)
+    //     .make-xs-column(6)
+
+    //   &:nth-of-type(2)
+    //     .make-xs-column(6)
+
+  // ul
+  //   > li
+  //     transition: background .15s ease
+  //     cursor: pointer
+
+  //     &:hover
+  //       background: $color-purple-xl
+
+
+// App download button
+.app-download
+  display: block
+  margin-bottom: .5em
+
+
+// Popovers
+.popover
+  &.right
+    background: #5e5e5e
+    border: 0
+
+    .arrow
+      border-right: none
+
+      &:after
+        border-right-color: #5e5e5e !important
+
+    .popover-content
+      color: $color-white
+
+
+.popover-content
+  font-size: 14px
+  text-align: center
+
+
+.socicon
+  font-family: $font-icons
+
+
+// Start upsell bar
+.start-upsell
+  padding: 10px 30px
+  margin-bottom: 25px
+
+  h3
+    font-size: 18px
+
+  @media ( max-width: $screen-sm-max )
+    margin-bottom: 0
+
+    h3
+      font-size: $font-small
+      margin-bottom: 10px
+
+    .app-download
+      display: block
+
+
+
+

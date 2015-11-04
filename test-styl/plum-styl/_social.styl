@@ -1,0 +1,80 @@
+// $TODO most of this can be refactored out
+// @REPLACE
+#floatingShare
+  position: relative
+
+  a
+    color: $color-white
+    display:list-item
+    height: 48px
+    line-height: 24px
+    list-style-type: none
+    padding: 5px 0
+    position: relative
+    text-align: center
+    width: 48px
+
+  i
+    font-size: 24px
+    line-height: inherit
+    text-align: center
+
+  .top-left
+    fixed: top 20% left 0
+
+  .top-right
+    fixed: top 20% right 0
+
+  // @REPLACE move to vars or something
+  .feysbuk
+    background-color: #3b5998
+
+  .tivitir
+    background-color: #00aced
+
+  .gogil
+    background-color: #dd4b39
+
+  .linktin
+    background-color: #007bb6
+
+  .meyil
+    background-color: #726C6C
+
+  .pinter
+    background-color: #c92228
+
+  .stambul
+    background-color: #eb4924
+
+  // @REPLACE
+  .shareCount
+    absolute: right 0 bottom 0 left 0
+    color: #dddddd
+    font-size:  10px
+    margin: auto
+
+  .mtop5
+    margin-top: 5px
+
+  a
+    &:hover,
+    &:focus
+      color: $color-white
+      opacity: .8
+      transition-duration: .3s
+      transition-property: right
+      transition-timing-function: ease-out
+      width:52px
+
+  @media ( max-width: $screen-xs-max )
+    fixed: right 0 bottom 0 left 0
+    height: 48px
+    margin-top: 0
+
+    // $TODO remove the important later
+    a
+      width: 33.3% !important
+
+
+

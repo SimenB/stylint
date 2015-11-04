@@ -1,0 +1,347 @@
+// all variables will be in this file
+
+$color-blue-xxxl = #ebeffe
+$color-blue-xxl = #d1daff
+$color-blue-xl = #a5b9ff
+$color-blue-l = #7f99ef
+$color-blue = #5470bd
+
+$color-blue-neon = rgb( 77, 255, 210 )
+$color-green-xxl = #DDF9F8
+$color-green-xl = #8EECE7
+$color-green-l = #36d8cd
+$color-green = #00A39B
+$color-green-d = #196666
+
+$tip-2-green = #91d7d9
+$tip-3-green = #97bbd9
+
+$color-purple-lt = #a880ef
+$color-purple-xl = #c7a6ff
+$color-purple-l = #a880ef
+$color-purple = #7655bd
+$color-purple-d = #4a337a
+$color-purple-xd = #4a307b
+$color-mauve = #574f77
+
+$color-gray-xxxxxl = #f8f8f8
+$color-gray-xxxxl = #f4f4f4
+$color-gray-xxxl = #eaeaea
+$color-gray-xxl = #ccc
+$color-gray-xl = #aaa
+$color-gray-l = #999
+$color-gray-m = #777
+$color-gray-d = #444
+$default = #3a3a3a
+$color-gray-xd = #222
+$color-black = #000
+// default gray that firefox uses for outlines
+$ff-gray = #212121
+
+$color-gold = #f4b72a
+$color-gold-d = #d38a00
+$color-gold-xd = #aa7002
+$color-yellow = #97a021
+$color-yellow-bg = #fef1c9
+$color-yellow-bg-d = #fedd98
+
+$color-red = #e74e56
+$color-red-d = #b93e45
+$color-rose = #bd545c
+$color-pink = #e55059
+$color-pink-d = #b70e14
+$color-rose-xxxl = #fdeaec
+$color-rose-xxl = #fec1c5
+$color-rose-xl = #ffa5a8
+$color-rose-l = #ef7f83
+
+$color-purple-xxxl = #fbf9ff
+$color-purple-xxl = #f1ecff
+$color-white = #fff
+$color-start-white = #D0FFEB
+
+// font and typeface variables
+// @TODO make into system
+$font-small = 12px
+$font-base = 14px
+$font-big = 18px
+$font-bigger = 21px
+
+// $font-l = 13pt
+// $font-xl = 16pt
+// $font-xxl = 21pt
+
+$font-source-sans-pro = 'Source Sans Pro', Helvetica, Arial, sans-serif
+$font-museo = MuseoIodine, 'Open Sans', Calibri, sans-serif
+$font-icons = 'socicon'
+
+// Directory where font files are located
+$font-path = '../fonts/'
+
+// animation stuff.
+// keep animations consistent
+$timing = cubic-bezier( .33, .66, .66, 1 )
+
+// transition durations
+$fast = .15s
+$slow = .35s
+$very-slow = .5s
+$molasses = 1s
+
+// depth vars (dem shadows)
+$depth-1 = -1px 0 2px 0 rgba( 0, 0, 0, .12 )\, 1px 0 2px 0 rgba( 0, 0, 0, .12 )\, 0 1px 1px 0 rgba( 0, 0, 0, .24 )
+$depth-2 = -2px 0 2px 0 rgba( 0, 0, 0, .16 )\, 2px 0 2px 0 rgba( 0, 0, 0, .16 )\, 0 2px 2px 0 rgba( 0, 0, 0, .23 )
+$depth-3 = -3px -3px 3px 0 rgba( 0, 0, 0, .19 )\, 3px 0 3px 0 rgba( 0, 0, 0, .19 )\, 0 3px 3px 0 rgba( 0, 0, 0, .23 )
+
+// Grid system
+// change this and ~*EVERYTHING CHANGES 4EVA*~
+$columns = 12
+
+// Padding between columns. Gets divided in half for the left and right.
+// @TODO define a gutter system
+$gutter = 15px
+
+// max width of site
+$max-width = 932px
+
+// maxer, biggerer, wider
+$max-width-plus = 1132px
+
+// breakpoints
+$mob = '( max-width 480px )'
+$mob-plus = '( min-width 481px )'
+
+$tab = '( min-width 768px ) and ( max-width 991px )'
+$tab-max = '( max-width 768px )'
+$tab-plus = '( min-width 768px )'
+
+$desk = '( min-width 992px ) and ( max-width 1199px )'
+$desk-max = '( max-width 1199px )'
+$desk-plus = '( min-width 992px )'
+
+$lg = '( min-width 1200px ) and ( max-width 1499px )'
+$lg-max = '( max-width 1499px )'
+$lg-plus = '( min-width 1200px )'
+
+$huge = '( min-width 1500px )'
+
+$retina = 'only screen and ( -webkit-min-device-pixel-ratio 1.5 ), only screen and ( min--moz-device-pixel-ratio 1.5 ), only screen and ( min-resolution 240dpi )'
+
+// portrait and landscape
+$ipad = 'only screen and ( min-device-width 768px ) and ( max-device-width 1024px )'
+$ipad-landscape = 'only screen and ( min-device-width 768px ) and ( max-device-width 1024px ) and ( orientation landscape )'
+$ipad-portrait = 'only screen and ( min-device-width 768px ) and ( max-device-width 1024px ) and ( orientation portrait )'
+
+
+
+
+
+// used in compare.less
+$compare-width = 420px
+$compare-cell = 140px
+$compare-cell-height = 140px
+$compare-width-xs = 246px
+$compare-cell-xs = 82px
+$compare-cell-height-xs = 82px
+
+// also used in compare.less
+$chart-donut-size = 4.8em
+$chart-donut-size-mini = 3em
+
+// bootstrap craziness below
+$padding-base-vertical =     6px
+$padding-base-horizontal =   12px
+
+$padding-large-vertical =    10px
+$padding-large-horizontal =  16px
+
+$padding-small-vertical =    5px
+$padding-small-horizontal =  10px
+
+$padding-xs-vertical =       1px
+$padding-xs-horizontal =     5px
+
+$line-height-large =         1.33
+$line-height-small =         1.5
+
+$border-radius-base =        4px
+$border-radius-large =       6px
+$border-radius-small =       3px
+
+
+//** Unit-less `line-height` for use in components like buttons.
+$line-height-base = 1.428571429 // 20/14
+//** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
+$line-height-computed = floor(($font-base * $line-height-base)) // ~20px
+
+$font-size-large = ceil( unit( $font-base * 1.25, 'px' ) ) // ~18px
+$font-size-small = ceil( unit($font-base * .85, 'px' ) ) // ~12px
+
+//** Default `.form-control` height
+$input-height-base = ( $line-height-computed + ($padding-base-vertical * 2) + 2 )
+//** Large `.form-control` height
+$input-height-large = ( ceil($font-size-large * $line-height-large) + ($padding-large-vertical * 2) + 2 )
+//** Small `.form-control` height
+$input-height-small = ( floor($font-size-small * $line-height-small) + ($padding-small-vertical * 2) + 2 )
+
+//== Alerts
+//
+//## Define alert colors, border radius, and padding.
+$alert-padding =               15px
+$alert-border-radius =         $border-radius-base
+$alert-link-font-weight =      bold
+
+$alert-success-bg =            $state-success-bg
+$alert-success-text =          $state-success-text
+$alert-success-border =        $state-success-border
+
+$alert-info-bg =               $state-info-bg
+$alert-info-text =             $state-info-text
+$alert-info-border =           $state-info-border
+
+$alert-warning-bg =            $state-warning-bg
+$alert-warning-text =          $state-warning-text
+$alert-warning-border =        $state-warning-border
+
+$alert-danger-bg =             $state-danger-bg
+$alert-danger-text =           $state-danger-text
+$alert-danger-border =         $state-danger-border
+
+
+//== Form states and alerts
+//
+//## Define colors for form feedback states and, by default, alerts.
+
+$state-success-text =             #3c763d
+$state-success-bg =               #dff0d8
+$state-success-border =           darken(spin($state-success-bg, -10), 5%)
+
+$state-info-text =                #31708f
+$state-info-bg =                  #d9edf7
+$state-info-border =              darken(spin($state-info-bg, -10), 7%)
+
+$state-warning-text =             #8a6d3b
+$state-warning-bg =               #fcf8e3
+$state-warning-border =           darken(spin($state-warning-bg, -10), 5%)
+
+$state-danger-text =              #a94442
+$state-danger-bg =                #f2dede
+$state-danger-border =            darken(spin($state-danger-bg, -10), 5%)
+
+//== Progress bars
+//
+//##
+
+//** Background color of the whole progress component
+$progress-bg =                 #f5f5f5
+//** Progress bar text color
+$progress-bar-color =          #fff
+
+//** Default progress bar color
+$progress-bar-bg =             $brand-primary
+//** Success progress bar color
+$progress-bar-success-bg =     $brand-success
+//** Warning progress bar color
+$progress-bar-warning-bg =     $brand-warning
+//** Danger progress bar color
+$progress-bar-danger-bg =      $brand-danger
+//** Info progress bar color
+$progress-bar-info-bg =        $brand-info
+
+//== Buttons
+//
+//## For each of Bootstrap's buttons, define text, background and border color.
+
+$btn-font-weight =                normal
+$brand-primary =         #428bca
+$brand-success =         #5cb85c
+$brand-info =            #5bc0de
+$brand-warning =         #f0ad4e
+$brand-danger =          #d9534f
+
+$gray-darker =            lighten(#000, 13.5%) // #222
+$gray-dark =              lighten(#000, 20%)   // #333
+$gray =                   lighten(#000, 33.5%) // #555
+$gray-light =             lighten(#000, 60%)   // #999
+$gray-lighter =           lighten(#000, 93.5%) // #eee
+
+$btn-default-color = #333
+$btn-default-bg = #fff
+$btn-default-border = #ccc
+
+$btn-primary-color = #fff
+$btn-primary-bg = $brand-primary
+$btn-primary-border = darken($btn-primary-bg, 5%)
+
+$btn-success-color = #fff
+$btn-success-bg = $brand-success
+$btn-success-border = darken($btn-success-bg, 5%)
+
+$btn-info-color = #fff
+$btn-info-bg = $brand-info
+$btn-info-border = darken($btn-info-bg, 5%)
+
+$btn-warning-color = #fff
+$btn-warning-bg = $brand-warning
+$btn-warning-border = darken($btn-warning-bg, 5%)
+
+$btn-danger-color = #fff
+$btn-danger-bg = $brand-danger
+$btn-danger-border =  darken($btn-danger-bg, 5%)
+
+$btn-link-disabled-col = $gray-light
+
+$user-bar-button-padding = 1.25em
+$account-popup-height = 2.5em
+
+$font-print-large = 16pt
+$font-print-small = 11pt
+$timeline-print-height = 13pt
+
+
+
+
+
+// Extra small screen / phone
+// $screen-xs = 480px
+// $screen-xs-min = $screen-xs
+// $screen-phone =  $screen-xs-min
+
+// // Small screen / tablet
+// $screen-sm = 768px
+// $screen-sm-min = $screen-sm
+// $screen-tablet = $screen-sm-min
+
+// // Medium screen / desktop
+// $screen-md = 992px
+// $screen-md-min = $screen-md
+// $screen-desktop = $screen-md-min
+
+// // Large screen / wide desktop
+// $screen-lg = 1200px
+// $screen-lg-min = $screen-lg
+// $screen-lg-desktop = $screen-lg-min
+
+// // So media queries don't overlap when required, provide a maximum
+// $screen-xs-max = ($screen-sm-min - 1)
+// $screen-sm-max = ($screen-md-min - 1)
+// $screen-md-max = ($screen-lg-min - 1)
+
+// // Change bootstrap breakpoints
+// $screen-sm = 800px
+// $container-tablet = 740px + $grid-gutter-width
+
+// $screen-md = 1000px
+// $container-desktop = 940px + $grid-gutter-width
+
+// $screen-lg = 1300px
+// $container-large-desktop = 1240px + $grid-gutter-width
+
+// // Bootstrap grid extension for extra-large screen
+// $screen-xl = 1500px
+// $screen-xl-min = $screen-xl
+// $screen-xl-desktop = $screen-xl-min
+// $screen-lg-max = $screen-xl-min - 1
+
+// $container-xl-desktop = 1440px + $grid-gutter-width
+// $container-xl = $container-xl-desktop

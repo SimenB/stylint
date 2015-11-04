@@ -1,0 +1,57 @@
+/* IO PopUp. */
+
+.iopopup
+  // @extends $shadow-fluffy // @REPLACE
+  background: $color-gray-xxxxxl
+  border-left: 1px solid #bababa
+  border-radius: 6px 6px 0 0
+  border-right: 1px solid #bababa
+  border-top: 1px solid #bababa
+  color: $color-gray-m
+  fixed: right 5% bottom 0
+  font-size: 15px
+  margin-bottom: -50px
+  max-width: 17em
+  padding: 15px 15px 60px
+  width: 50%
+  z-index: 100
+
+  // @REPLACE
+  .submit
+    background-color: #4db1bb
+    border: 0
+    color: $color-white
+    display: inline
+    float: right
+    margin: 1em 0 1em 75%
+
+    // @REPLACE
+    &:focus
+      outline: 0 !important
+      outline-style: none
+      -webkit-box-shadow: none !important
+
+  .error
+    color: $color-rose
+    float: left
+
+  .form-control:focus
+    outline: 0 !important
+    outline-style: none
+    -webkit-box-shadow: none !important
+
+  .header-text
+    color: $color-gray-d
+    margin: 0 0 1em
+
+  input
+    background: #e1e1e1
+    transition: background .1s ease-in-out
+
+    &:focus
+      background: $color-white
+
+  @media ( max-width: $screen-xs-max )
+    display: none !important
+
+

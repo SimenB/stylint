@@ -2,6 +2,20 @@
  * Styling for various ad types
 */
 
+// @stylint off
+
+// &,
+// &:hover,
+// &:before,
+// &.some-class,
+// &__something,
+// {some_var},
+// 	margin 0
+
+div:not([style="display: block;"]) {
+	display: none;
+}
+
 test-mixin()
 	margin 0
 
@@ -31,43 +45,48 @@ mixin2()
   .parent .child
     margin-left: 0
 
-// .foo
-// 	margin 0 !important // @stylint ignore
-// 	padding 0 !important
+.foo
+	margin 0 !important // @stylint ignore
+	padding 0 !important
 
-// $b = { "bar": "baz" }
+$b = {
+  "bar": "baz",
+  whatever: whatevs
+}
 
-// $black = #000;
+$black = #000;
 
-// .disabled {
-//   content: ":";
-//   zoom: 1;
-//   ms-opacity(0.6); // <- gives false epositive
-// }
+.disabled {
+  content: ":";
+  zoom: 1;
+  ms-opacity(0.6); // <- gives false epositive
+}
 
-// .abcdefghi {
-//    .active {
-//   	color: red;
-//   }
-// }
+// @stylint on
 
-// .abcdefghij {
-//  	.active {
-// 		color: red;
-//   }
-// }
+.abcdefghi {
+   .active { // @stylint ignore
+  	color: red;
+  }
+}
 
-// .abcdefghi {
-//  .active {
-//    color: red;
-//   }
-// }
+.abcdefghij {
+ 	.active {
+		color: red;
+  }
+}
 
-// $foo = {
-//   bar: {
-//     baz: raz
-//   }
-// }
+.abcdefghi {
+ .active {
+   color: red;
+  }
+}
+
+$foo = {
+  bar: {
+    baz: raz
+  }
+}
 
 // html, body {
 //   font-weight: 0;

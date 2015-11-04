@@ -1,0 +1,1354 @@
+// Symptom based pages (at the moment this includes "cold & flu" and allergies)
+
+.symptom-based-page
+  .compare-table
+    font-size: 14px
+
+  h2,
+  h3
+    color: $color-gray-m
+    text-align: center
+
+  h2
+    font-size: 1.8em
+
+  h3
+    font-size: 1.5em
+
+  section
+    margin-bottom: 2ex
+
+  // Hide print messaging
+  .print-messaging-top,
+  .print-messaging-bottom
+    display: none
+
+  .form-inline
+    position: relative
+
+  .form-control.success
+    border: 0
+    box-shadow: none
+    color: $color-green
+    text-align: left
+
+  .form-error
+    background: $color-yellow-bg
+    bottom: -2em
+    color: $color-rose-l
+    font-size: 0.8em
+    padding: .2em
+    position: absolute
+
+  // Header
+  .header
+    background: $color-purple url('/images/symptom-tools/woman-cold.png') top left no-repeat
+    background-size: cover
+    text-align: center
+    margin-bottom: 0
+
+    .woman-cold
+      position: absolute
+      padding: 0
+      margin: 0
+      opacity: .2
+
+    img
+      float: right
+      padding-right: 5em
+      margin-top: 1.1em
+
+    h2
+      color: $color-white
+      font-size: 2.4em
+      line-height: .86
+      padding-top: 3ex
+      margin: 0
+
+    h3
+      color: white !important
+      font-size: 1.6em
+      line-height: 1em
+      font-weight: lighter
+      margin: 1ex 0 0 0
+      padding-bottom: 4ex
+
+    p
+      color: $color-gray-xxxl
+
+  // Symptom-area
+  .symptom-area
+    position: relative
+    height: 104px // height of symptom-bar which will be taken out of flow
+    z-index: 10 // to make sure popovers are visible over compare table
+
+    h3
+      margin-top: 20px
+
+    .affix
+      transition( all, $fast )
+      @extends .shadow-m // @REPLACE
+      background: $color-white
+      fixed: top 0
+      z-index: 11
+      // transition: box-shadow .2s ease-out,
+      //             height .1s ease-in-out
+
+      @media( max-width: $screen-md )
+        width: 100%
+        top: 0
+
+      @media ( min-width: $screen-md ) and ( max-width: $screen-lg-min )
+        width: 968px
+
+      @media ( min-width: $screen-lg ) and ( max-width: $screen-xl-min )
+        width: 1168px
+
+      @media ( min-width: $screen-xl )
+        width: 1468px
+
+    // Symptom selection bar
+    .symptoms-bar
+      background: $color-white
+      margin: 0
+      padding: .8em 0
+      z-index: 1
+
+      .symptom-buttons
+        line-height: 40px
+        text-align: center
+
+        // @REPLACE
+        button
+          loop( 3 )
+          @extends .animated
+          @extends .pulse
+          background: none
+          border: 1px dashed $color-green
+          color: $color-green
+          font-size: 1em
+          height: 40px
+          margin: 0 .25em !important
+
+          &.btn
+            &:focus,
+            &:hover
+              outline: 0 !important
+
+            &:hover
+              border: 1px solid $color-green
+
+              i
+                text-shadow: none
+                color: $color-green
+
+          &.active
+            .button-green
+
+            i
+              color: $color-white
+
+            &:hover
+              i
+                text-shadow: none
+                color: $color-white
+
+          i
+            bottom: -2px
+            color: rgba( 27, 166, 175, .2 )
+            font-weight: 100
+            padding-right: .3em
+            position: relative
+
+          @media ( max-width: $screen-lg )
+            font-size: .8em
+
+          @media ( max-width: $screen-md )
+            font-size: .6em
+            padding: 6px
+
+    .hidden
+      opacity: 0
+
+    .preference-bar
+      text-align: center
+      background: $color-gray-xxxxl
+      border-top: 1px solid white
+      border-bottom: 1px solid $color-gray-xxxl
+
+      .selectors
+        display: inline-table
+
+        .btn-group
+          border-left: 1px solid white
+
+          &:first-of-type
+            border-left: none
+
+          &:last-of-type
+            border-right: 1px solid white
+
+          p
+            font-size: .8em
+            padding: .5em .5em 0 0
+            margin: 0
+            color: $color-gray-l
+
+          .btn
+            text-align: center
+            height: 30px
+
+          .dropdown-toggle.btn-default
+            color: $color-purple
+            border: 0
+            float: none
+            background: none
+            border-radius: 0
+
+            &:hover,
+            &:focus,
+            &:active,
+            &.active
+              border-radius: 0
+              color: $color-white
+              background-color: $color-purple-l
+
+          .dropdown-menu
+            li
+              text-align: left
+
+              a
+                padding-left: 11px
+                cursor: pointer
+
+          // Fix for unstyled button selection on click
+          &.open
+            .dropdown-toggle.btn-default
+              color: $color-white
+              background-color: $color-purple-l
+              z-index: 999
+
+  &.page-content
+    height: 0px
+
+    &.bounceInUp
+      height: auto
+
+  // Product grid
+  &.allergies-page
+    .product-grid
+      border: 0
+
+  .product-grid
+    transition( all, $slow )
+    text-align: center
+    border-bottom: 1px solid $color-purple-d
+    // transition: opacity .4s ease-in-out,
+    //             height .4s ease-in-out
+
+    &.out
+      height: 0px
+      opacity: 0
+
+      .allergies-message
+        height: 0px
+        margin-top: 0
+
+    &.in
+      opacity: 1
+
+      .allergies-message
+        height: 250px
+
+    img
+      width: 100%
+
+    .allergies-message
+      height: 250px
+      margin-top: 4ex
+      transition: height .4s ease-in-out,
+                  margin .4s ease-in-out // removes margin during animation
+
+      .ss-icon
+        color: $color-gray-xxxl
+        font-size: 3em
+        animation-duration: 2s
+        animation-delay: 2s
+
+      h4
+        color: $color-gray-l
+
+  .see-products
+    // .make-row() // @REPLACE
+    background: $color-purple
+    font-size: 24px
+    line-height: 40px
+    margin: 40px 0 80px
+    padding: 10px 0 0
+    text-align: center
+
+    a
+      color: $color-white
+
+      &:hover
+        text-decoration: none
+
+        i
+          @extends .animated // @REPLACE
+
+      i
+        font-size: 1.5em
+
+
+  // Dynamic product table
+  .product-area
+    margin-bottom: 0
+    padding-top: 0
+
+    p
+      color: $color-gray-m
+
+    .highlighted
+      color: $color-green
+      text-align: left
+
+    .what-you-need
+      height: 190px
+      margin: 6ex auto 0ex auto
+      display: table
+      border-collapse: collapse
+
+      hr
+        margin: 2ex 0 0
+
+      ul
+        text-align: center
+        display: table-row
+
+      li
+        display: table-cell
+        width: 200px
+        text-align: center
+        vertical-align: top
+        padding-bottom: 5ex
+
+        &.plus
+          width: 80px
+          border: 0
+
+          .plus-circle
+            margin: 1.15em auto
+            background: $color-green-l
+            border-radius: 50%
+            color: $color-white
+            font-size: 33px
+            line-height: 50px
+            width: 50px
+            height: 50px
+            padding: 0
+            text-align: center
+
+        h3
+          color: $color-green
+          font-size: 1.15em
+          margin: 0 0 .75ex
+
+        .info-box
+          border-radius: 6px
+          padding: .6em
+          border: 1px solid $color-green-l
+          font-size: .9em
+          line-height: 1.3
+
+          h4
+            font-size: 1em
+            color: $color-green
+            margin: 0
+
+          .ai
+            color: $color-gray-l
+
+          .or
+            display: block
+            font-weight: bolder
+            color: $color-green
+            margin: .5ex 0
+
+      @media ( max-width: $screen-md )
+        font-size: .8em
+
+        li
+          width: 150px
+
+          &.plus
+            width: 50px
+
+            .plus-circle
+              font-size: 20px
+              line-height: 24px
+              width: 25px
+              height: 25px
+
+    .send-bar
+      background: $color-purple-d
+      margin: 0 -15px 7ex -15px
+      padding: 5ex 15px 5.5ex 15px
+      text-align: center
+
+      .btn
+        .ss-icon
+          margin-right: .3em
+          vertical-align: text-top
+          font-size: .94em
+
+      h2
+        color: $color-white
+        margin: 0 0 .25ex 0
+
+      > p
+        color: $color-purple-xl
+        margin-bottom: 2ex
+
+      > div
+        vertical-align: text-top
+
+      > div > *
+        display: inline-block
+        vertical-align: text-top
+        max-width: 300px
+        margin: 0 .5em .5em
+
+      .btn
+        i
+          font-weight: 100
+          position: relative
+          bottom: -2px
+          padding-right: .5em
+
+      .privacy-widget
+        text-align: left
+        max-width: 300px
+        color: $color-purple
+
+        &:hover
+          color: $color-purple-xl
+
+    .compare-table-intro
+      font-size: 14px
+      padding-top: 9em
+      // Removes padding so anchor navigates to the right position.
+      margin: -8em 0 1em 0
+
+      h2
+        color: $color-purple
+
+      p
+        color: $color-gray-m
+        margin-bottom: 2ex
+
+    .no-drugs
+      background: $color-gray-xxxxl
+      border-bottom: 1px solid $color-gray-xxxl
+      color: $color-gray-l
+      font-weight: lighter
+      margin: -1.1em -15px 0
+      padding: 6ex 15%
+      text-align: center
+
+      .ss-icon
+        color: $color-gray-xxl
+        display: block
+        font-size: 6em
+        text-align: center
+
+      h3
+        color: $color-gray-xxl
+        font-size: 2.1em
+        margin-bottom: 1ex
+        line-height: 1.2
+
+      p
+        font-size: 1.3em
+        margin-bottom: 1.5ex
+
+      a
+        font-weight: bolder
+
+      .ss-icon,
+      h3
+        @extends .text-shadow-white // @REPLACE
+
+      @media ( max-width: $screen-xs-max )
+        text-align: left
+
+
+    .compare-table
+      .pagination
+        border-radius: 0
+        height: 57px
+        margin: 0
+        padding: 6px 15px
+        width: 100%
+
+        &.top-area .btn
+          margin: 1.5em .2em !important
+
+        h3
+          position: absolute
+          left: 50%
+          margin-top: 10px
+          margin-left: -124px
+
+        .btn
+          &:hover,
+          &:focus
+            box-shadow: 0px 0px 8px $color-green !important
+            cursor: pointer
+            outline: 0 !important
+            border: 1px solid $color-green !important
+
+          .ss-icon
+            bottom: -4px
+            line-height: .73em
+            vertical-align: text-bottom
+
+          &.previous
+            float: left
+            font-size: 16px
+            line-height: .8em
+
+            .ss-icon
+              padding: 0 .5em 0 0
+
+            &:disabled
+              display: none
+
+          &.next
+            float: right
+            font-size: 16px
+            line-height: .8em
+
+            .ss-icon
+              padding: 0 0 0 .5em
+
+          @media ( max-width: $screen-sm-max )
+            display: none
+
+        &.top-area
+          backround: none
+          padding: 0
+          height: 0
+          position: absolute
+          z-index: 3
+
+          .btn
+            transition( box-shadow, $fast )
+            @extends .shadow-m // @REPLACE
+            font-size: 2em
+            margin: 1.2em .2em
+            padding: .2em .3em
+            // transition: box-shadow .2s ease-in-out
+
+            &:hover
+              box-shadow: 0 1px 1px rgba( 0, 0, 0, .65 )
+
+            .ss-icon
+              margin: 0
+              padding: 0
+
+      .sticky-header-float
+        @extends .shadow-m // @REPLACE
+        position: fixed
+        top: -30px
+        visibility: hidden
+        z-index: 6
+
+        @media (max-width: $screen-sm-max)
+          display: none
+
+        @media (max-width: $screen-md)
+          width: 100%
+
+        @media (min-width: $screen-md) and (max-width: $screen-lg-min)
+          width: 968px
+
+        @media (min-width: $screen-lg)
+          width: 1168px
+
+        @media (min-width: $screen-lg) and (max-width: $screen-xl-min)
+          width: 1168px
+
+        @media (min-width: $screen-xl)
+          width: 1468px
+
+      > table
+        margin-bottom: 0
+
+        .less-important
+          display: none
+
+        > tbody
+
+          .row-separator
+            background-color: $color-gray-xxxl
+
+          > tr
+            &.section-header
+              border-top: 1px solid $color-gray-xxxl
+              border-bottom: 1px solid $color-gray-xxxl
+
+              td
+                border: 0
+                background: $color-gray-xxxxl
+                padding: 5px 15px !important
+
+                h3
+                  font-size: 1em
+                  margin: 0
+                  color: $color-gray-m
+                  text-align: left
+
+            > th,
+            > td
+              text-align: center
+              vertical-align: top
+              cursor: default
+
+              a
+                width: 100%
+                float: left
+
+              &:first-of-type
+                width: 110px
+                text-align: left
+                padding-top: 15px
+                break-word: normal
+                word-wrap: normal
+
+            th
+              padding: 15px 0 0
+
+              &:first-of-type
+                color: $color-purple
+                font-size: 1em
+                font-weight: 500
+                padding: 15px
+
+            td
+              ul
+                margin-bottom: 0
+                li
+                  cursor: default !important
+
+                  &:hover
+                    background: none
+
+                  span
+                    cursor: default !important
+
+        .name
+          .header-name
+            position: absolute
+            font-size: .9em
+            margin-left: -100px
+            opacity: 1
+            padding-top: 1em
+            width: 200px
+            font-size: 1em
+            margin-top: 0
+            font-weight: bold
+            transition: all 300ms ease-in-out
+
+            h2
+              color: $color-purple
+              font-size: 1.32em
+              margin-top: 0
+              font-weight: bold
+
+          .ingredient-description
+            font-size: .8em
+
+          .boxart
+            max-width: 100% !important
+            max-height: 150px !important
+            overflow: hidden
+
+            img
+              margin-top: 100px
+              max-width: 100%
+              min-width: 200px
+              opacity: .1
+              transition: opacity 300ms ease-in-out,
+                          margin 300ms ease-in-out
+
+            .img-responsive
+              display: inline-block
+
+          th:hover
+            img
+              margin-top: 0
+              opacity: 1
+
+            .header-name
+              opacity: 0
+              margin-top: 30px
+
+        .store-brands,
+        .ingredients,
+        .risk-factors
+
+          li
+            padding: 0
+            margin-bottom: .5ex
+
+            .ingredient-description
+              color: $color-gray-l
+
+        .symptoms-row
+          color: $color-gray-xl
+
+          .highlight
+            color: $color-white
+            background: $color-green-l
+            border-radius: 2px
+            padding: 2px 6px
+
+          li
+            margin: 4px 0
+            padding: 0
+
+        .indications-row
+          .highlight
+            color: $color-white
+            background: $color-green-l
+            border-radius: 2px
+            padding: 2px 6px
+
+          li
+            margin: 4px 0
+            padding: 0
+
+        .full-drug-page
+          td
+            padding-bottom: 8ex
+
+            a,
+            button
+              cursor: pointer
+              white-space: normal
+
+  &.allergies-page
+    section
+      margin-bottom: 0 !important
+
+    .header
+      background-image: none
+
+    // .social-sharing
+    //   margin-top: 6em
+    //
+    .page-content
+      margin: 0
+      padding: 0
+      opacity: 0
+      max-height: 0
+      overflow: hidden
+      transition: opacity .5s ease-in-out,
+                  max-height .5s ease-in-out
+
+      &.opaque
+        opacity: 1
+        max-height: 3000px // arbitrary height larger than the table will ever be
+        transition: opacity .5s ease-in-out,
+                    max-height .5s ease-in-out
+
+      &.disappear
+        opacity: 0
+        max-height: 0
+
+    table
+      tbody
+        > tr.section-header > td
+          padding: 12px 0
+
+          &:last-of-type
+            > tr.section-header > td
+              padding-top: 100px !important
+
+      tr > td
+        padding: 12px 40px 0
+        text-align: left !important
+
+      tr > td:first-of-type
+        padding: 12px 10px 0 15px
+        color: $color-gray-l !important
+
+      tr.drug-sedative td
+        padding-bottom: 12px
+
+      tr.rle td
+        padding: 8px 10px !important
+
+        .donuts,
+        .no-data
+          padding-top: 8px !important
+
+      tr.name,
+      tr.name th
+        border-top: none !important
+
+      .generic-available td,
+      .full-drug-page td
+        width: 200px
+        text-align: center !important
+
+        &:first-of-type
+          text-align: left !important
+
+      .highlighted-symptoms
+        color: $color-green
+
+      .symptom-separator
+        display: block
+        margin-top: 1em
+        font-weight: 700
+        color: $color-gray-l
+
+      .full-drug-page td
+        padding: 1em 15px !important
+
+      .name
+        border-top: 1px solid $color-gray-xxl
+
+        th
+          padding: 0 !important
+
+          .boxart
+            max-width: 100% !important
+            max-height: 150px !important
+            overflow: hidden
+
+            img
+              margin-top: 0 !important
+              width: 200px
+              opacity: 1 !important
+              transition: opacity 300ms ease-in-out
+
+            .img-responsive
+              display: inline-block
+
+
+          .inline-header-name
+            display: block
+            overflow: hidden
+            height: 50px
+            color: $color-white
+            background: $color-purple
+            font-size: 1.5em
+            opacity: 1
+            border-right: 1px solid white
+            padding: .5em 0
+            transition: opacity 300ms ease-in-out
+
+          &:hover
+            a
+              cursor: pointer
+              text-decoration: none
+
+          &:first-of-type
+            vertical-align: bottom
+            padding: 0 !important
+
+            .inline-header-name
+              height: 50px
+
+          &:last-of-type
+              .inline-header-name
+                border-right: 0
+
+      .ss-icon
+        margin-left: -23px
+        font-size: 1em
+        display: inline-block
+        margin-bottom: .1em
+        vertical-align: text-bottom
+
+        &.ss-check
+          color: $color-green
+
+        &.ss-delete
+          color: $color-gray-l
+
+      .drug-sedative
+
+        td
+          text-align: center !important
+          vertical-align: middle
+
+          .ss-icon
+            margin-left: -25px
+            margin-right: -25px
+            font-size: 1em !important
+            background: $color-gray-xxxxl
+            border-radius: 4px
+            display: block
+            padding: 10px 0
+
+      .symptoms-row ul li
+        .ss-icon
+          font-size: 1em
+
+      .risk-factors ul li
+        text-align: left
+        margin-bottom: .7em !important
+
+
+  // Blog and link area
+  .content-area
+    .extra-info-area
+      // .make-row() // @REPLACE
+      background: $color-white
+      margin-top: 11ex
+
+      .left-panel,
+      .right-panel
+        float: none
+        display: table-cell
+        vertical-align: top
+        padding-top: 1em
+        padding-bottom: 4ex
+
+      .left-panel
+        color: $color-white
+        background-color: $color-green-l
+
+        h2
+          margin-top: 0
+          color: $color-white
+          text-align: left
+
+        a
+          color: $color-white
+          font-weight: 700
+          cursor: pointer
+
+      .right-panel
+        background-image: url('/images/symptom-tools/allergies-field.jpg')
+        background-size: cover
+
+        h2
+          margin-top: 0
+          text-align: left
+          color: $color-white
+
+        a
+          color: $color-white
+          font-weight: 900
+          cursor: pointer
+
+      .editorial
+        border-top: 1px solid $color-gray-xxl
+        // .make-md-column(6) // @REPLACE
+
+        h2
+          font-weight: 100
+          margin: 1ex 0 3ex 0
+          text-align: left
+
+        p
+          font-size: 1.3em
+          font-weight: 500
+
+        &.tip
+          h2
+            color: $color-blue-xl
+
+          strong
+            color: $color-blue
+
+          p
+            color: $color-blue
+
+        &.blog
+          h2
+            color: $color-purple-xl
+
+          p
+            border-left: 1px solid $color-purple
+            padding-left: 8px
+            margin-bottom: 2ex
+
+    .disqus-area
+      border-top: 1px solid $color-gray-xxl
+      margin-top: 11ex
+
+      h2
+        color: $color-purple
+
+  &.allergies-page
+    .extra-info-area
+      display: table
+      min-height: 20ex
+
+
+.print-messaging-top,
+.print-messaging-bottom
+  display: none
+
+
+// Mobile styles
+.cold-and-flu-mobile
+  position: relative
+  min-height: 100vh
+  overflow-x: hidden
+  font-size: 1em
+  background: $color-purple
+
+  a,
+  button,
+  .btn
+    cursor: pointer
+
+  a
+    color: $color-white
+
+  h1
+    font-size: 2em
+    color: $color-white
+
+  h2
+    font-size: 1.4em
+    color: $color-purple-xl
+
+  h3
+    color: $color-white
+
+  h1,
+  h2
+    line-height: 1.2
+    margin: 15px 0
+    text-align: center
+
+  .mobile-preference-bar
+    display: block
+    height: 240px
+
+    .preference-bar
+
+      .selectors .btn-group:first-of-type
+        font-size: 1.4em
+
+      .btn-group
+        width: 100%
+        margin-bottom: .2em
+
+        .dropdown-toggle
+          @extends .border-purple // @REPLACE
+          background: $color-purple
+          height: 40px
+          outline: 0
+          padding: 0 10px
+
+  .button-mobile
+
+    &.find
+      color: $color-green-xl
+      opacity: 0
+      transition: opacity .15s ease-in-out
+
+      .ss-icon
+        opacity: 1
+
+      &.ready
+        opacity: 1
+
+  .extra-info-area
+    color: $color-purple-xxl
+    margin-top: 11ex
+
+    .editorial
+      padding: 0 15px 0 15px
+      padding-bottom: 11ex
+      border-top: 1px solid @color-white
+
+      h2
+        font-size: 2em
+        color: $color-white
+
+      p
+        font-size: 1.3em
+        font-weight: 500
+
+      &.tip
+        background: $color-purple-d
+
+        p
+          color: $color-purple-l
+
+      &.blog
+        p
+          margin: 0 -15px 1px
+          padding: 15px 15px
+          line-height: 1.2
+          border-bottom: 1px solid $color-purple-d
+
+          &:after
+            content: ' ›'
+
+        a
+          color: $color-purple-xl
+
+  .what-you-need
+    margin-top: 1ex
+
+    ul
+      margin: 30px 15px 60px
+      text-align: center
+      display: block
+
+    > ul li
+      margin-bottom: 10px
+      border-radius: 4px
+      padding: 5px
+      border: 1px solid $color-green-l
+      display: block
+      color: $color-purple-xl
+
+      h2
+        font-size: 1em
+        margin: 0
+        color: $color-purple-xl
+
+      h3
+        font-weight: bold
+        font-size: 1.2em
+        text-align: center
+        margin: 0 0 5px 0
+        border: 0
+        color: $color-white
+
+      h4
+        color: $color-white
+        display: block
+        font-size: 1em
+        margin-top: 5px
+        margin-bottom: 0
+
+      .or
+        display: block
+
+        &:before,
+        &:after
+          content: ' '
+
+    li.plus
+      border: 0
+      padding: none
+
+      .plus-circle
+        margin: 0 auto
+        background: $color-green-l
+        color: $color-white
+        border-radius: 50%
+        font-size: 20px
+        font-weight: bold
+        width: 28px
+        height: 28px
+        line-height: 26px
+        padding: 0
+        text-align: center
+
+      .highlighted
+        color: $color-white
+
+      .info-box
+        color: $color-purple-xl
+
+        h4,
+        p
+          margin: 0 0 2px 0
+
+  .results
+    color: $color-white
+    background: $color-purple-d
+    border-top: 1px solid white
+    padding: 0 15px 0 15px
+
+    h2
+      margin-bottom: 2ex
+
+    .result
+      margin: 0 -15px
+      padding: 15px 15px 25px 15px
+      border-top: 1px solid $color-purple-l
+
+      a
+        font-size: 1em
+        text-decoration: none
+
+      h3
+        margin: 0 0 10px 0
+        text-align: left
+
+      img
+        margin: 15px 0
+        max-width: 50%
+
+      .ingredient-description
+        color: $color-purple-xl
+
+      .worth
+        color: $color-purple-l
+        line-height: 1.3em
+        margin: 15px 0
+
+        .worth-value
+          padding: .65em
+          width: 1.3em
+          height: 1.3em
+          border-radius: 50%
+          color: $color-white
+          background: $color-purple
+          font-size: 1em
+
+        strong
+          color: $color-white
+
+
+      .brands
+        strong,
+        p
+          margin-bottom: 3px
+
+        strong
+          display: block
+          font-weight: normal
+
+        p
+          color: $color-purple-xl
+
+  .swipe
+    h1:first-of-type
+      margin-top: 2ex
+
+    &.view-results
+      padding-bottom: 0
+
+      .see-products
+        display: none
+
+      .extra-info-area
+        margin-top: 0
+
+
+// Print Styles
+// @media print
+
+//   .iodine-bar-margin
+//     display: none
+
+//   .container
+//     border: 0 !important
+
+//   .cold-and-flu
+//     margin: 0
+
+//     h1,
+//     h2,
+//     h3,
+//     h4
+//       font-size: 1.2em !important
+
+//     h2
+//       font-weight: 900 !important
+
+//     p
+//       font-size: .8em !important
+
+//     ul li
+//       font-size: .8em !important
+
+//     .print-messaging-top
+//       padding: .5em
+//       display: block
+
+//       h2
+//         text-align: right
+//         margin: 0
+//         font-weight: 300 !important
+
+//       .logo
+//         float: left
+//         width: 150px
+
+
+//     .print-messaging-bottom
+//       padding: .5em
+//       margin-top: .5em
+//       display: block
+
+//       p
+//         text-align: center
+//         margin: 0
+
+
+//     .what-you-need
+//       height: 158px !important
+//       margin-bottom: 2ex !important
+
+//       ul li
+//         margin: 0
+//         padding: 0
+
+
+
+//     .plus,
+//     .plus .plus-circle
+//       width: 33px !important
+
+//     .compare-table
+//       table
+//         border-left: 1px solid $color-gray-xxl
+//         border-right: 1px solid $color-gray-xxl
+
+
+//     .header,
+//     .symptom-area,
+//     .full-drug-page,
+//     .symptom-row,
+//     .dosage-row,
+//     .rle-row,
+//     .disqus-area,
+//     .see-products,
+//     .social-sharing,
+//     .send-bar,
+//     .extra-info-area
+//       display: none
+
+//     .boxart
+//       display: none !important
+
+
+//   .footer
+//     display: none
+
+
+
+// .social-sharing
+//   .make-row()
+//   margin: 2em 0
+//   text-align: center
+
+//   h2
+//     font-size: 1.5em
+
+
+//   a
+//     margin: 0 .5em
+
+
+//   img
+//     display: inline-block
+//     width: 50px
+
+

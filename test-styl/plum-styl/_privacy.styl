@@ -1,0 +1,64 @@
+// Privacy
+
+.privacy-widget
+  transition( color, $fast )
+  padding: 9px 0
+
+  .ss-icon
+    display: block
+    line-height: 1.1em
+
+  .message
+    transition( opacity, $fast )
+    display: block
+    font-size: 11px
+    line-height: 1.2em
+    margin-left: 1.75em
+    opacity: 0
+
+  &:hover
+    color: $color-purple
+    text-decoration: none
+
+    .message
+      opacity: 1
+
+
+
+// @REPLACE
+// Special version for when wrapped, to appear in text fields
+.privacy-widget-wrapper
+  position: relative
+
+
+.privacy-widget
+  color: $color-gray-xxl !important
+  right: 7px
+  top: 2px
+  z-index: 6
+
+  &:hover
+    color: $color-gray-xl !important
+
+  .message
+    transition( opacity, $fast )
+    background: #222
+    border-radius: 2px
+    border: 1px solid $color-gray-xl
+    display: none
+    font-size: 11px
+    line-height: 1.2em
+    margin: 0
+    padding: .2em
+    right: -100px
+    top: -25px
+    width: 200px
+
+  &:hover
+    .message
+      display: block
+      opacity: 1
+
+
+
+

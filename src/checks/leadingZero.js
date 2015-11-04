@@ -26,7 +26,7 @@ var leadingZero = function( line ) {
 	if ( this.state.conf === 'always' && leadZero === false ) {
 		this.msg( 'leading zeros for decimal points are required' )
 	}
-	else if ( this.state.conf === 'never' && leadZero ) {
+	else if ( this.state.conf === 'never' && leadZero === true ) {
 		this.msg( 'leading zeros for decimal points are unecessary' )
 	}
 

@@ -1,0 +1,543 @@
+.side-effects-table
+  table
+    border-collapse: separate
+    margin-top: 2ex
+
+  th
+    background: $color-purple
+    color: $color-white
+    font-size: 1em !important
+    font-weight: 500
+    padding: 1ex 1.5em
+    text-align: center
+
+  tr
+    height: 2.5em
+    text-align: center
+
+    &:nth-child( odd )
+      background: $color-gray-xxxxxl
+
+    @media ( max-width: $screen-sm )
+      font-size: .9em !important
+
+  td
+    color: $color-gray-m
+    padding: 1ex 1.5em
+
+    &.purple
+      color: $color-purple
+
+
+// @REPLACE
+// only seems to be on side effects pages
+.discontinued
+  .effects
+    border: 1px solid $color-gray-xxxxxl
+
+  h3
+    background: $color-gray-xxxxxl
+    font-size: 1.2em
+    padding: .5em 0
+    text-align: center
+
+  ul
+    padding: 15px
+    // .make-row()
+
+  li
+    // make-sm-column( 3 )
+    color: $color-gray-l
+    font-size: $font-small
+    padding: .2em
+    white-space: word-wrap
+
+
+.side-effects-list li
+  color: #555
+  margin: 0 0 .8ex
+  padding-left: 0
+  padding-right: 45px
+
+
+// generic name, but only appears in side-effects afaik
+.viz
+
+// @REPLACE
+  th
+    background: $color-gray-xxxxl
+    font-size: 1.3em
+    line-height: 1.2
+    padding: 15px
+    vertical-align: bottom
+    word-wrap: break-word
+    cursor: pointer
+    transition: background .2s ease-out
+    text-align: center
+
+    a
+      color: $color-gray-l
+
+      &:hover
+        color: $color-purple
+        text-decoration: none
+
+    &:hover
+      background: $color-gray-xxxl
+
+  table
+    color: $color-gray-d
+
+  .highlight
+    background: $color-yellow-bg
+    border-radius: 2px
+    display: block
+
+  .rle-filter
+    border-bottom: none
+
+    .btn-group
+      margin-right: 1em
+
+  td
+    padding: 15px 15px 3em
+    text-align: center
+    transition: background .2s ease-out
+    vertical-align: top
+    word-wrap: break-word
+
+    &.bottom-line
+      background: $color-gray-xxxxxl
+      font-weight: bolder
+
+    h3
+      margin-left: 10px
+      text-align: left
+
+    &.better
+      .value
+        background: $color-green
+
+    &.worse
+      .value
+        background: $color-rose
+
+    &.key
+      border-bottom: 1px solid $color-gray-xxl
+
+    &.upsides
+      color: $color-green
+
+    &.downsides
+      color: $color-red
+
+    h4
+      display: inline-block
+      overflow: hidden
+      text-align: center
+
+      &.value
+        background: $color-purple
+        color: $color-white
+
+      &.placebo
+        background: $color-gray-xxxl
+        color: $color-gray-l
+
+    li
+      cursor: pointer
+      margin-bottom: .5em
+
+      &:hover
+        border-radius: 2px
+        border: $color-purple
+
+
+// iodine.com/drug/$drug/side-effects
+.drug-side-effects
+  h3
+    margin-bottom: 1ex
+
+  .indication-popup
+    // @extends .button-green
+    // @extends .input-lg
+    font-weight: 600
+    margin-top: 1ex
+
+    option
+      color: $color-gray-d
+      text-shadow: none
+
+  .chart-control
+    margin-top: 4ex
+
+    // .btn
+    //   @extends .button-purple // @REPLACE
+
+  .legend
+    margin-top: 3ex
+
+    .row
+      margin-bottom: 1ex
+
+    .box
+      display: inline-block
+      height: 1em
+      margin-top: .15em
+      width: 1em
+
+    .drug
+      background: $color-purple
+
+    .placebo
+      background: #bababa
+
+    p
+      color: #aaa
+      font-size: 13px
+      line-height: 1.3
+      margin-top: 1ex
+
+  .annotation
+    color: $color-gray-xxxxl
+    font-size: 13px
+    line-height: 1.3
+    margin-top: 4.5ex
+
+    .drug-win
+      .drug
+        width: 86%
+
+      .placebo
+        width: 23%
+
+    .equal
+      .drug
+        width: 72%
+
+      .placebo
+        width: 68%
+
+    .placebo-win
+      .drug
+        width: 30%
+
+      .placebo
+        width: 91%
+
+    .bar
+      height: 8px
+
+      &.drug
+        background: $color-purple
+
+      &.placebo
+        background: #bababa
+
+
+  // c3 chart
+  svg
+    margin-top: 6ex
+    font-size: 15px
+
+  text
+    fill: #777
+
+  line,
+  path
+    stroke: #999
+
+
+// FDA side effect reports
+.fda-reports
+  .top-issues
+    margin-top: 3ex
+
+  h4
+    font-weight: normal
+
+  .bucket
+    h4
+      color: #444 !important
+
+    li
+      margin: 0 0 .7ex
+
+  .explanation
+    border-radius: 8px
+    font-size: $font-small
+    padding: 1ex 2em 2ex
+
+    h3
+      margin-bottom: 2ex
+
+    li
+      margin-bottom: 1ex
+
+  section
+    margin-bottom: 4ex
+
+  @media ( max-width: 480px )
+    .btn-toolbar
+      margin: 10px -15px
+
+    .age-btn-group label
+      font-size: .5em !important
+
+    h4,
+    .buckets
+      text-align: center
+
+  .c3-tooltip
+    opacity: 1
+
+  svg text
+    fill: #999
+    font-size: 12px
+
+  .c3-axis-x path
+    stroke: #aaa
+
+  .c3-axis-x .tick line
+    stroke: none
+
+  .c3-axis-y path
+    stroke: #aaa
+
+  .c3-axis-y .tick line
+    stroke: none
+
+  .btn-toolbar
+    text-align: center
+
+  // @REPLACE
+  .btn-group
+    display: inline-block
+    float: none
+    margin: 0 auto
+    padding: 0 0 .5ex
+    text-align: center
+    width: inherit
+
+  pre
+    font-size: 12px
+    margin-top: 1ex
+
+  .c3-tooltip
+    opacity: 1 !important
+
+  .c3-tooltip th
+    background: #777
+
+  h4
+    color: #999
+    font-size: 1.2em
+    font-weight: 300
+    line-height: 1.3
+
+  .chart-container
+    p
+      color: #999
+      font-size: .75em
+      line-height: 1.35
+      margin-top: 6ex
+
+
+.drugs-queried-header span
+  &::after
+    content: ' | '
+
+  &:last-child::after
+    content: ''
+
+
+.risks-list
+  margin-top: 3ex
+
+  td
+    vertical-align: top
+
+
+// @REPLACE
+.risks
+  background: $color-white
+  // height: 100%
+
+  li
+    transition( background, $fast )
+    color: $color-purple
+    padding: 2ex 4ex 2ex 2ex
+    margin-right: -30px
+    margin-left: -15px
+    cursor: pointer
+
+    &:hover
+      background: #fefbf1
+
+    &.selected
+      background: $color-yellow-bg
+      border-bottom-left-radius: 8px
+      border-top-left-radius: 8px
+      color: $color-purple
+      font-weight: 500
+
+    @media ( max-width: $screen-xs )
+      font-size: .7em
+
+
+.blackbox
+  border: 1px solid @color-black
+  font-size: $font-small !important
+  margin: -5px
+  padding: 5px
+
+
+// Risks and warnings
+// iodine.com/drug/$drug/side-effects
+.risks-and-warnings
+  .description
+    background: $color-yellow-bg
+    border-radius: 8px
+    height: 100%
+
+  li
+    transition( opacity, $fast )
+    // height: 100%
+    margin-left: -15px
+    margin-right: -15px
+    opacity: 0
+    padding: 2ex 4ex 1ex
+
+    li
+      color: #4a337a
+
+    @media ( max-width: 480px )
+      font-size: .8em
+
+  p
+    font-size: 1.25em
+
+  h3
+    font-size: inherit !important
+    font-weight: normal
+    margin-top: 0
+    text-align: left
+
+  .selected
+    opacity: 1
+
+  ul
+    margin: 0 0 3ex
+
+  .list
+    margin-top: 5ex
+
+  .risk
+    border-radius: 8px
+    background: $color-yellow-bg
+    margin-bottom: 1.5ex
+
+    li
+      color: $color-purple
+      font-size: 1.3em
+      font-weight: 300
+      padding-bottom: .65ex
+      padding-top: .65ex
+
+  .warning
+    margin-bottom: 7ex
+
+  .description
+    background: none
+
+    h3
+      font-size: 1em !important
+      margin-bottom: 0
+      margin-top: 0
+      text-align: left !important
+
+  .factors
+    color: $color-purple
+    margin-bottom: 2.5ex
+
+
+// $TODO loose media query
+@media ( max-width: 767px )
+  .legend *
+    text-align: left !important
+
+  .side-effects-list li
+    color: #555
+    margin: 0 0 .8ex .8em
+
+
+
+
+
+
+
+
+
+
+// Side effects
+
+// #chart-side-effects
+//   text-align: center
+//   margin-bottom: 10ex
+//
+
+// .sideeffects
+
+//   text
+//     fill: #666
+//
+
+//   .title
+//     alignment-baseline: text-before-edge
+//     font-size: 23px
+//     text-anchor: middle
+//
+
+//   .x.axis
+//     line,
+//     .domain
+//       fill: none
+//       stroke: #ccc
+//
+
+//     text
+//       fill: #bbb
+//       font-size: 14px
+//
+//
+
+//   .sublabel
+//     alignment-baseline: text-before-edge
+//     fill: #bbb
+//     font-size: 14px
+
+//     &.small
+//       alignment-baseline: auto
+//       // font-size: 12px
+//
+//
+
+//   // Axes
+//   // // Labels
+//   // g.label .sublabel
+//   //   alignment-baseline: text-before-edge
+//   //   fill: #bbb
+//   //   font-size: 14px
+//   //
+
+//   .data
+//     circle
+//       fill: #999
+//
+
+//     .label
+//       fill: #444
+//       text-anchor: end
+//
+//
+//
