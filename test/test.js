@@ -1835,6 +1835,7 @@ describe( 'Linter Style Checks: ', function() {
 			assert.equal( undefined, semiTest( '.class-name' ) )
 			assert.equal( undefined, semiTest( 'if ( 1 > 0 )' ) )
 			assert.equal( undefined, semiTest( '&__anything' ) )
+			assert.equal( undefined, semiTest( 'path,' ) )
 		} )
 	} )
 
@@ -1867,6 +1868,7 @@ describe( 'Linter Style Checks: ', function() {
 			assert.equal( undefined, semiTest( '.class-name' ) )
 			assert.equal( undefined, semiTest( 'if ( 1 > 0 )' ) )
 			assert.equal( undefined, semiTest( '&__anything' ) )
+			assert.equal( undefined, semiTest( 'path,' ) )
 		} )
 	} )
 
