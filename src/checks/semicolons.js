@@ -1,7 +1,10 @@
 'use strict'
 
 // we only want to check semicolons on properties/values
-var ignoreRe = /(^[&$=#>.])|{|}|if|for(?!\w)|else|@block|@media|=$|=\s|,$|}$|{$/gm
+var ignoreRe = /(^[#.])|[&$=>]|{|}|if|for(?!\w)|else|@block|@media|=$|=\s|(}|{)$/igm
+// for some reason the prev regex matches in regexr
+// but isn't matching here
+var listRe = /,$/m
 
 
 /**
@@ -10,9 +13,12 @@ var ignoreRe = /(^[&$=#>.])|{|}|if|for(?!\w)|else|@block|@media|=$|=\s|,$|}$|{$/
  * @return {boolean} true if in order, false if not
  */
 var semicolons = function( line ) {
-	if ( ignoreRe.test( line ) || this.state.hashOrCss ) {
-		return
-	}
+	if ( ignoreRe.test( line.trim() ) ) return
+	if ( listRe.test( line ) ) return
+	if ( this.state.hashOrCss ) return
+
+	// console.log( line.trim() )
+	// console.log( /,$/.test( line.trim() ) )
 
 	var semicolon
 

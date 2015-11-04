@@ -2,8 +2,6 @@
  * Styling for various ad types
 */
 
-// @stylint off
-
 // &,
 // &:hover,
 // &:before,
@@ -11,6 +9,58 @@
 // &__something,
 // {some_var},
 // 	margin 0
+
+div#my-id #another-id {
+   // ...
+}
+
+.svg {
+  background: $background;
+
+  path,
+  rect,
+  polygon,
+  circle {
+    fill: $foreground;
+  }
+}
+
+.svg {
+  background: $background;
+  path,
+  circle,
+  polygon,
+  rect {
+    fill: $foreground;
+  }
+}
+
+.module-class
+    &__anything
+        padding: 20px;
+
+__anything
+  margin: 0;
+
+$icon-selector = '.icon'
+// warn: trailing white space
+
+.label, {$icon-selector}
+  font-size: 12px;
+
+button
+  .label
+    font-size: 11px;
+  {$icon-selector}  // warn: duplicate property or selector
+    font-size: 10px;
+
+// warn: property is not valid
+{$icon-selector}-user {
+  color: blue;
+}
+
+
+// @stylint off
 
 div:not([style="display: block;"]) {
 	display: none;
@@ -61,8 +111,6 @@ $black = #000;
   zoom: 1;
   ms-opacity(0.6); // <- gives false epositive
 }
-
-// @stylint on
 
 .abcdefghi {
    .active { // @stylint ignore
