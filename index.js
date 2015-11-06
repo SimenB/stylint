@@ -18,7 +18,7 @@ var stampit = require( 'stampit' )
  * @param {object} config [config if used programmatically]
  * @return {Object} [the composed stylint object]
  */
-var Stylint = function( path, config ) {
+var Stylint = function( path, config, callback ) {
 	var Lint
 
 	Lint = stampit().compose(
@@ -28,6 +28,7 @@ var Stylint = function( path, config ) {
 		stampit().enclose( function() {
 			this.state.path = typeof path === 'string' ? path : './'
 			this.customConfig = typeof config === 'object' ? config : false
+			this.callback = callback || function() {}
 		} ).enclose( require( './src/core/init' ) )
 	)
 

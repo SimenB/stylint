@@ -50,7 +50,7 @@ const stylint = require('stylint')('path/to/stylus/', {
     brackets: 'always',
     namingConvention: 'BEM',
     semicolons: 'always'
-}).create();
+}, callbackFn).create();
 ```
 
 API docs are in the docs/ folder
