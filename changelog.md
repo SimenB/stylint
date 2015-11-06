@@ -1,3 +1,16 @@
+### 1.3.0
+
+this issue: https://github.com/rossPatton/stylint/issues/205
+
+this issue: https://github.com/rossPatton/stylint/issues/207
+
+this issue: https://github.com/rossPatton/stylint/issues/215
+
+callback support: https://github.com/rossPatton/stylint/pull/222
+
+exclude pattern support: https://github.com/rossPatton/stylint/pull/223
+
+
 ### 1.2.5
 add .npmignore file
 

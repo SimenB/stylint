@@ -1,9 +1,8 @@
 'use strict'
 
-// var selRe = /^[#.]+/
-// var commaRe = /,$/
 var ignoreRe = /\(.*\)|@extend|\(|if|for(?!\w)|else|return|@block|@media|@import|@require|,$/
 var stripRe = /(?=\S)\[\S+\]|(\.|#)\w+/
+var equalsRe = /( =|\?=|\+=|-=)+/
 var validJSON = require( '../data/valid.json' )
 
 
@@ -20,9 +19,8 @@ var brackets = function( line ) {
 	// 4 .selector,
 	if ( this.state.hashOrCSS ||
 		line.trim().length === 0 ||
-		line.indexOf( ' =' ) !== -1 ||
+		equalsRe.test( line ) ||
 		ignoreRe.test( line ) ) {
-		// commaRe.test( line ) ) {
 		return
 	}
 

@@ -561,6 +561,8 @@ describe( 'Linter Style Checks: ', function() {
 			assert.equal( undefined, bracketsTest( '{ "foo" }' ) )
 			assert.equal( undefined, bracketsTest( '{foo() + "bar"}' ) )
 			assert.equal( undefined, bracketsTest( '$foo = {' ) )
+			assert.equal( undefined, bracketsTest( '$foo-color ?= #0976b5;' ) )
+			assert.equal( undefined, bracketsTest( '$x += $i;' ) )
 		} )
 		it( 'undefined if empty', function() {
 			assert.equal( undefined, bracketsTest( '  ' ) )
@@ -602,6 +604,8 @@ describe( 'Linter Style Checks: ', function() {
 			assert.equal( undefined, bracketsTest( '{ "foo" }' ) )
 			assert.equal( undefined, bracketsTest( '{foo() + "bar"}' ) )
 			assert.equal( undefined, bracketsTest( '$foo = {' ) )
+			assert.equal( undefined, bracketsTest( '$foo-color ?= #0976b5;' ) )
+			assert.equal( undefined, bracketsTest( '$x += $i;' ) )
 		} )
 	} )
 
@@ -1557,12 +1561,14 @@ describe( 'Linter Style Checks: ', function() {
 			assert.equal( false, noneTest( 'border 0' ) )
 			assert.equal( false, noneTest( 'border: 0' ) )
 			assert.equal( false, noneTest( 'border:0' ) )
+			assert.equal( false, noneTest( 'border 1px solid red' ) )
 		} )
 
 		it( 'false if outline 0', function() {
 			assert.equal( false, noneTest( 'outline 0' ) )
 			assert.equal( false, noneTest( 'outline: 0' ) )
 			assert.equal( false, noneTest( 'outline:0' ) )
+			assert.equal( false, noneTest( 'outline 1px solid red' ) )
 		} )
 
 		it( 'true if border none', function() {
@@ -1590,16 +1596,18 @@ describe( 'Linter Style Checks: ', function() {
 			app.config.none = 'always'
 		} )
 
-		it( 'false if border 0', function() {
+		it( 'false if border 0 or not applicable', function() {
 			assert.equal( false, noneTest( 'border 0' ) )
 			assert.equal( false, noneTest( 'border: 0' ) )
 			assert.equal( false, noneTest( 'border:0' ) )
+			assert.equal( false, noneTest( 'border 1px solid red' ) )
 		} )
 
 		it( 'false if outline 0', function() {
 			assert.equal( false, noneTest( 'outline 0' ) )
 			assert.equal( false, noneTest( 'outline: 0' ) )
 			assert.equal( false, noneTest( 'outline:0' ) )
+			assert.equal( false, noneTest( 'outline 1px solid red' ) )
 		} )
 
 		it( 'true if border none', function() {
