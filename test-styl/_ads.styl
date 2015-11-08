@@ -2,6 +2,42 @@
  * Styling for various ad types
 */
 
+border 0
+border 0
+border: 0;
+border : 0;
+border 0
+
+border 1px solid red
+border: 1px solid red
+border : 1px solid red
+
+border none
+border none
+border: none;
+border: none;
+border none
+
+outline 0
+outline 0
+outline: 0;
+outline : 0;
+outline 0
+
+outline 1px solid red
+outline: 1px solid red
+outline : 1px solid red
+
+outline none
+outline none
+outline: none;
+outline: none;
+outline none
+
+// @stylint off
+
+
+
 // &,
 // &:hover,
 // &:before,
@@ -9,6 +45,24 @@
 // &__something,
 // {some_var},
 // 	margin 0
+
+.module-class {
+    &__anything {
+        padding: 20px;
+    }
+}
+
+body
+  border: none;
+  border: none;
+  border: 1px solid red;
+  border: 0;
+  border: 0;
+
+
+div:not([style="display: block;"]) {
+  display: none;
+}
 
 div#my-id #another-id {
    // ...

@@ -1,5 +1,6 @@
 'use strict'
 
+var zeroRe = /((border)|(outline))+(:|\s)+0(?!-)/
 var noneRe = /((border)|(outline))+(:|\s)+(none)+(?!-)/
 
 
@@ -14,16 +15,20 @@ var none = function( line ) {
 		return
 	}
 
+	// false if nothing wrong with line
+	// true if problem found with line, regardless of config
 	var badSyntax = false
 
 	// return true if border|outline is followed by a 0
-	if ( this.state.conf === 'always' && noneRe.test( line ) === true ) {
+	// enforce use of none
+	if ( this.state.conf === 'always' && zeroRe.test( line ) && !noneRe.test( line ) ) {
 		badSyntax = true
-		console.log( 'none: ', badSyntax )
 		this.msg( 'none is preferred over 0' )
 	}
 	// return true if border|outline is followed by none
-	else if ( this.state.conf === 'never' && noneRe.test( line ) === true ) {
+	// enforce use of 0
+	else if ( this.state.conf === 'never' &&
+		noneRe.test( line ) && !zeroRe.test( line ) ) {
 		badSyntax = true
 		this.msg( '0 is preferred over none' )
 	}
