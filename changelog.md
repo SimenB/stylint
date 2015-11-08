@@ -1,3 +1,12 @@
+### 1.3.2
+
+strip out content inside quotes to reduce false positives
+
+this issue: https://github.com/rossPatton/stylint/issues/212
+
+this issue: https://github.com/rossPatton/stylint/issues/217
+
+
 ### 1.3.1
 
 hotfix a border none check issue
