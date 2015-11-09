@@ -472,7 +472,7 @@ Example if always: prefer `margin 0;` over `margin 0`
 Example if never: prefer `margin 0` over `margin 0;`
 
 
-### sortOrder ( default: false, 'alphabetical' || 'grouped' || [Array] || false )
+### sortOrder ( default: 'alphabetical', 'alphabetical' || 'grouped' || [Array] || false )
 Enforce a particular sort order when declaring properties. Throws a warning if you don't follow the order. If set to false, allow any order.
 
 Example if `'alphabetical'`:
@@ -563,11 +563,11 @@ over
 `.className { padding 0 }`
 
 
-### trailingWhitespace ( default: false, 'never' || false )
+### trailingWhitespace ( default: 'never', 'never' || false )
 If false, ignores trailing white space. If 'never', trailing white space will throw a warning.
 
 
-### universal ( default: 'never', 'never' || false )
+### universal ( default: false, 'never' || false )
 Looks for instances of the inefficient * selector. Lots of resets use this, for good reason (resetting box model), but past that you really don't need this selector, and you should avoid it if possible.
 
 Example if never, disallow the following:
