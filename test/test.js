@@ -1947,14 +1947,34 @@ describe( 'Linter Style Checks: ', function() {
 			} )
 
 			it( 'false if not correct sort order with mocked sort order cache', function() {
-				var expectedCache = ['border', 'margin', 'padding', 'line-height', 'background']
+				var expectedCache = [
+					'border',
+					'margin',
+					'padding',
+					'line-height',
+					'background',
+					'border',
+					'color'
+				]
 
 				assert.equal( 'alphabetical', app.state.conf )
 				assert.equal( 3, app.cache.sortOrderCache.length )
 				assert.equal( false, sortTest( '	line-height 1' ) )
 				assert.equal( false, sortTest( '	background none' ) )
+				assert.equal( false, sortTest( 'border 1px solid #fff' ) )
+				assert.equal( false, sortTest( 'color: rgba( 0, 0, 0, 1 )' ) )
 				assert.equal( expectedCache.length, app.cache.sortOrderCache.length )
 				assert.deepEqual( expectedCache, app.cache.sortOrderCache )
+			} )
+
+			it( 'undefined if not checkable syntax', function() {
+				assert.equal( 'alphabetical', app.state.conf )
+				assert.equal( 3, app.cache.sortOrderCache.length )
+				assert.equal( undefined, sortTest( 'mixin()' ) )
+				assert.equal( undefined, sortTest( '$var-name' ) )
+				assert.equal( undefined, sortTest( '.class-name' ) )
+				assert.equal( undefined, sortTest( '#id' ) )
+				assert.equal( undefined, sortTest( '{interpolated}' ) )
 			} )
 		} )
 

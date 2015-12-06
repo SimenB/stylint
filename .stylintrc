@@ -1,8 +1,10 @@
 {
   "blocks": false,
-  "brackets": "always",
-  "colons": "always",
-  "colors": "always",
+  "brackets": false,
+  "colons": false,
+  "colors": {
+    "expect": "always"
+  },
   "commaSpace": "always",
   "commentSpace": "always",
   "cssLiteral": "never",
@@ -24,8 +26,8 @@
   "placeholders": "always",
   "prefixVarsWithDollar": "always",
   "quotePref": "double",
-  "semicolons": "always",
-  "sortOrder": false,
+  "semicolons": false,
+  "sortOrder": "alphabetical",
   "stackedProperties": "never",
   "trailingWhitespace": "never",
   "universal": false,
