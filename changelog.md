@@ -1,3 +1,10 @@
+### 1.3.3
+
+this issue: https://github.com/rossPatton/stylint/issues/226
+
+this issue: https://github.com/rossPatton/stylint/issues/227
+
+
 ### 1.3.2
 
 strip out content inside quotes to reduce false positives
