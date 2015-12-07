@@ -36,7 +36,6 @@ var sortOrder = function( line ) {
 	var orderName = this.state.conf // 5
 
 	if ( ignoreMeRe.test( arr[0] ) ) return
-	console.log( arr )
 
 	if ( Array.isArray( this.state.conf ) ) {
 		orderName = 'custom grouped'
@@ -61,7 +60,6 @@ var sortOrder = function( line ) {
 
 	// and then sort it (by default alphabetically)
 	if ( this.state.conf === 'alphabetical' ) {
-		console.log( sortedArr )
 		sortedArr = sortedArr.sort()
 	}
 	// if not default, we can either use the grouped option

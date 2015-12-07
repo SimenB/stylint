@@ -25,7 +25,7 @@ var trimLine = function( line ) {
 	// and the content inside quotes
 	return line
 		.replace( /( *{\S+} *)/, '' )
-		.replace( /( '.*')|( ".*")|('.*')|(".*")+/, '' )
+		.replace( /(( '.*')|( ".*")|('.*')|(".*"))+;*/, '' )
 }
 
 module.exports = trimLine
