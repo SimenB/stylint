@@ -1741,6 +1741,8 @@ describe( 'Linter Style Checks: ', function() {
 		it( 'true if $ is found and is correct', function() {
 			assert.ok( varTest( '$my-var = 0' ) )
 			assert.ok( varTest( '$first-value = floor( (100% / $columns) * $index )' ) )
+			assert.ok( varTest( '$-my-private-var = red' ) )
+			assert.ok( varTest( '$_myPrivateVar = red' ) )
 		} )
 
 		it( 'undefined if @block var', function() {
