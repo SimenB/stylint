@@ -1,6 +1,6 @@
 'use strict'
 
-var dollaRe = /\$\w/
+var dollaRe = /\$[\-_]*\w/
 var eqEndRe = /=$|=\s$/
 var ignoreRe = /(\[.+\])|if|for|else|return|@require|@import|@media|@block|vendor-prefixes|calc|(=|= )$|{$/ // 3
 
