@@ -1,3 +1,8 @@
+### 1.3.4
+
+remove stray console.log :(
+
+
 ### 1.3.3
 
 this issue: https://github.com/rossPatton/stylint/issues/226
