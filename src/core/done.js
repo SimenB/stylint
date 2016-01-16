@@ -23,7 +23,7 @@ var done = function() {
 
 		msg += '\n' + this.cache.msg
 
-		if ( msg.trim() ) {
+		if ( msg ) {
 			console.log( msg )
 		}
 	}

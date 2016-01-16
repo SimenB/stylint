@@ -11,9 +11,10 @@ var semiTest = /;+(?!$)/gm
  */
 var stackedProperties = function( line ) {
 	var oneLiner = false
-	var arr = this.splitAndStrip( ';', line.trim() )
+	var trimmedLine = line.replace( /(( '.*')|( ".*")|('.*')|(".*"))+;*/, '' ).trim()
+	var arr = this.splitAndStrip( ';', trimmedLine )
 
-	if ( semiTest.test( line ) || arr.length > 1 ) {
+	if ( semiTest.test( trimmedLine ) || arr.length > 1 ) {
 		oneLiner = true
 	}
 

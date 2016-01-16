@@ -17,9 +17,6 @@ var semicolons = function( line ) {
 	if ( listRe.test( line ) ) return
 	if ( this.state.hashOrCss ) return
 
-	// console.log( line.trim() )
-	// console.log( /,$/.test( line.trim() ) )
-
 	var semicolon
 
 	if ( this.state.conf === 'never' &&
