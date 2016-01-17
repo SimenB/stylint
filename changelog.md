@@ -1,3 +1,10 @@
+### 1.3.6
+
+roll back global quote trimming, move it to the checks where it's actually needed
+
+this issue: https://github.com/rossPatton/stylint/issues/232
+
+
 ### 1.3.4
 
 remove stray console.log :(
