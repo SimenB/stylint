@@ -764,6 +764,10 @@ describe( 'Linter Style Checks: ', function() {
 		it( 'undefined if comma is last character', function() {
 			assert.equal( undefined, commaTest( '.class,' ) )
 		} )
+
+		it( 'undefined if comma on line is in quotes', function() {
+			assert.equal( undefined, commaTest( 'content: ","' ) )
+		} )
 	} )
 
 	describe( 'comma space: prefer NO space after commas', function() {
