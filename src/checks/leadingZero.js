@@ -1,8 +1,8 @@
 'use strict'
 
-var decimalRe = /[^a-z]\.\d/i
-var leadZeroRe = /0\.(?!\.)/
-var nonZeroRe = /[123456789]\./
+var decimalRe = /(?:^|[^a-z])\.\d/i
+var leadZeroRe = /(?:^|\D)0\.\d/
+var nonZeroRe = /(?:^|\D)\.\d/
 
 
 /**
@@ -13,24 +13,17 @@ var nonZeroRe = /[123456789]\./
 var leadingZero = function( line ) {
 	if ( !decimalRe.test( line ) ) { return }
 
-	var leadZero
+	var leadZeroFound = leadZeroRe.test( line )
+	var leadZeroMissing = nonZeroRe.test( line )
 
-	// return true if leading zero found and not used as part of range
-	if ( leadZeroRe.test( line ) ) {
-		leadZero = true
-	}
-	else if ( !leadZeroRe.test( line ) && !nonZeroRe.test( line ) ) {
-		leadZero = false
-	}
-
-	if ( this.state.conf === 'always' && leadZero === false ) {
+	if ( this.state.conf === 'always' && leadZeroMissing ) {
 		this.msg( 'leading zeros for decimal points are required' )
 	}
-	else if ( this.state.conf === 'never' && leadZero === true ) {
+	else if ( this.state.conf === 'never' && leadZeroFound ) {
 		this.msg( 'leading zeros for decimal points are unecessary' )
 	}
 
-	return leadZero
+	return leadZeroFound
 }
 
 module.exports = leadingZero
