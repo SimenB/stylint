@@ -16,8 +16,9 @@ var commentSpace = function() {
 	if ( commentRe.test( this.cache.comment ) ) {
 		spaceAfterComment = true
 	}
+	var emptyComment = /\/\/$/.test( this.cache.comment )
 
-	if ( this.state.conf === 'always' && spaceAfterComment === false ) {
+	if ( this.state.conf === 'always' && spaceAfterComment === false && !emptyComment ) {
 		this.msg( 'line comments require a space after //' )
 	}
 	else if ( this.state.conf === 'never' && spaceAfterComment === true ) {
