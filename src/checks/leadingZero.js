@@ -1,6 +1,6 @@
 'use strict'
 
-var decimalRe = /\.\d/
+var decimalRe = /[^a-z]\.\d/i
 var leadZeroRe = /0\.(?!\.)/
 var nonZeroRe = /[123456789]\./
 
