@@ -1318,8 +1318,8 @@ describe( 'Linter Style Checks: ', function() {
 			assert.equal( false, zeroTest( 'for 0...9' ) )
 		} )
 
-		it( 'undefined if leading num not zero', function() {
-			assert.equal( undefined, zeroTest( 'font-size: 1.1em' ) )
+		it( 'false if leading num not zero', function() {
+			assert.equal( false, zeroTest( 'font-size: 1.1em' ) )
 		} )
 
 		it( 'undefined if no .\d in line', function() {
@@ -1353,7 +1353,7 @@ describe( 'Linter Style Checks: ', function() {
 		} )
 
 		it( 'undefined if leading num not zero', function() {
-			assert.equal( undefined, zeroTest( 'font-size: 1.1em' ) )
+			assert.equal( false, zeroTest( 'font-size: 1.1em' ) )
 		} )
 
 		it( 'undefined if no . in line', function() {
