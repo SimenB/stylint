@@ -381,6 +381,8 @@
         "stop-opacity",
         "stress",
         "string-set",
+        "stroke",
+        "stroke-width",
         "tab",
         "tab-align",
         "tab-leaders",
