@@ -14,6 +14,8 @@ var lint = function() {
 	for ( method in checks ) {
 		if ( checks.hasOwnProperty( method ) ) {
 			if ( this.config[method] ) {
+				// save config rule name for use in reporters
+				this.cache.rule = method
 				// state.conf === 'always' || 'never' || etc
 				this.state.conf = this.config[method].expect || this.config[method]
 				// state.severity === 'error' || 'warning'
