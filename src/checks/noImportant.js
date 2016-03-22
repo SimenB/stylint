@@ -10,7 +10,7 @@ var noImportant = function( line ) {
 	var important = false
 
 	var indexOfImportant = line.indexOf( '!important' );
-    if ( indexOfImportant !== -1 ) {
+	if ( indexOfImportant !== -1 ) {
 		important = true
 		this.cache.columnNo = indexOfImportant
 	}
