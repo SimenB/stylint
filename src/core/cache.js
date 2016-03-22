@@ -10,6 +10,7 @@ var cache = {
 	fileNo: 0, // curr # of filesLen we're on
 	line: '', // curr line we're testing
 	lineNo: 0, // curr line number we're testing
+	columnNo: -1, // column where error was found
 	mixins: [], // an array of all declared mixins
 	msg: '', // the done message (55 warnings blah blah)
 	origLine: '', // original line before stripping/trimming
