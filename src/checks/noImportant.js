@@ -9,9 +9,10 @@
 var noImportant = function( line ) {
 	var important = false
 
-	// return true if border|outline is followed by a 0
-	if ( line.indexOf( '!important' ) !== -1 ) {
+	var indexOfImportant = line.indexOf( '!important' );
+    if ( indexOfImportant !== -1 ) {
 		important = true
+		this.cache.columnNo = indexOfImportant
 	}
 
 	if ( important === true ) {

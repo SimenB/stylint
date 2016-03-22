@@ -16,6 +16,7 @@ var colors = function( line ) {
 	// so basically if we're using #hex colors outside of a var declaration
 	if ( hexRe.test( line ) ) {
 		hex = true
+		this.cache.columnNo = line.search(hexRe)
 	}
 
 	if ( hex === true ) {

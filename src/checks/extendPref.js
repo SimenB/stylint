@@ -15,10 +15,12 @@ var extendPref = function( line ) {
 	// extremely petty, i know
 	if ( this.state.conf === '@extends' && line.indexOf( '@extends ' ) === -1 ) {
 		extendIncorrect = true
+		this.cache.columnNo = line.indexOf(  '@extend'  )
 	}
 	// else @extend is your pref
 	else if ( this.state.conf === '@extend' && line.indexOf( '@extend ' ) === -1 ) {
 		extendIncorrect = true
+		this.cache.columnNo = line.indexOf( '@extends' )
 	}
 
 	if ( extendIncorrect === true ) {
