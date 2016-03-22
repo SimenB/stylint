@@ -203,6 +203,8 @@ Stylint console output can be modified with the use of a reporter. Feel free to 
 
 [Stylint-stylish](https://github.com/SimenB/stylint-stylish)
 
+[stylint-json-reporter](https://github.com/sertae/stylint-json-reporter)
+
 
 
 ### warning toggle ( inline comment: @stylint off || @stylint on )
