@@ -22,6 +22,11 @@ var options = yargs
 		describe: 'Run all tests, regardless of config',
 		type: 'boolean'
 	} )
+	.option( 'reporter', {
+		alias: 'r',
+		describe: 'Custom reporter npm module name',
+		type: 'string'
+	} )
 	.version( function() {
 		return 'Stylint version: ' + require( '../package' ).version
 	} )
@@ -36,5 +41,6 @@ var options = yargs
 stylint().create( {}, {
 	watch: options.watch,
 	config: options.config,
-	strict: options.strict
+	strict: options.strict,
+	reporter: options.reporter
 }, options._[0] )

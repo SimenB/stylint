@@ -28,7 +28,10 @@ var init = function( options, pathPassed ) {
 
 	// we do the check here just in case
 	// they don't pass in a reporter when using a custom config
-	if ( this.config.reporter ) {
+	if ( options.reporter ) {
+		this.reporter = require( options.reporter )
+	}
+	else if ( this.config.reporter ) {
 		this.reporter = require( this.config.reporter )
 	}
 	else {
