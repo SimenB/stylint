@@ -25,7 +25,8 @@ var options = yargs
 	.option( 'reporter', {
 		alias: 'r',
 		describe: 'Custom reporter npm module name',
-		type: 'string'
+		type: 'string',
+		requiresArg: true
 	} )
 	.version( function() {
 		return 'Stylint version: ' + require( '../package' ).version
