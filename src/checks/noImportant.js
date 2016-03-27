@@ -12,11 +12,10 @@ var noImportant = function( line ) {
 	var indexOfImportant = line.indexOf( '!important' );
 	if ( indexOfImportant !== -1 ) {
 		important = true
-		this.cache.columnNo = indexOfImportant
 	}
 
 	if ( important === true ) {
-		this.msg( '!important is disallowed ' )
+		this.msg( '!important is disallowed ', indexOfImportant )
 	}
 
 	return important

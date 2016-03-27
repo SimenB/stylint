@@ -10,21 +10,22 @@ var extendPref = function( line ) {
 	if ( line.indexOf( '@extend' ) === -1 ) { return }
 
 	var extendIncorrect = false
+	var column = -1
 
 	// prefer @extends to @extend
 	// extremely petty, i know
 	if ( this.state.conf === '@extends' && line.indexOf( '@extends ' ) === -1 ) {
 		extendIncorrect = true
-		this.cache.columnNo = line.indexOf(  '@extend'  )
+		column = line.indexOf(  '@extend'  )
 	}
 	// else @extend is your pref
 	else if ( this.state.conf === '@extend' && line.indexOf( '@extend ' ) === -1 ) {
 		extendIncorrect = true
-		this.cache.columnNo = line.indexOf( '@extends' )
+		column = line.indexOf( '@extends' )
 	}
 
 	if ( extendIncorrect === true ) {
-		this.msg( 'please use ' + this.state.conf )
+		this.msg( 'please use ' + this.state.conf, column )
 	}
 
 	return extendIncorrect
