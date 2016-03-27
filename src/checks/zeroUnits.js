@@ -34,10 +34,10 @@ var zeroUnits = function( line ) {
 	}
 
 	if ( this.state.conf === 'never' && isCorrect === false ) {
-		this.msg( '0 is preferred. Unit value is unnecessary' )
+		this.msg( '0 is preferred. Unit value is unnecessary', line.search( '0' ) )
 	}
 	else if ( this.state.conf === 'always' && isCorrect === false ) {
-		this.msg( 'Including the unit value is preferred' )
+		this.msg( 'Including the unit value is preferred', line.search( '0' ) )
 	}
 
 	return isCorrect

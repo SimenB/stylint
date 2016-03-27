@@ -20,7 +20,7 @@ var trailingWhitespace = function( line ) {
 	}
 
 	if ( this.state.conf === 'never' && whitespace === true ) {
-		this.msg( 'trailing whitespace' )
+		this.msg( 'trailing whitespace', line.search( whitespaceRe ) )
 	}
 
 	return whitespace

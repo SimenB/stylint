@@ -23,14 +23,14 @@ var none = function( line ) {
 	// enforce use of none
 	if ( this.state.conf === 'always' && zeroRe.test( line ) && !noneRe.test( line ) ) {
 		badSyntax = true
-		this.msg( 'none is preferred over 0' )
+		this.msg( 'none is preferred over 0', line.search( '0' ) )
 	}
 	// return true if border|outline is followed by none
 	// enforce use of 0
 	else if ( this.state.conf === 'never' &&
 		noneRe.test( line ) && !zeroRe.test( line ) ) {
 		badSyntax = true
-		this.msg( '0 is preferred over none' )
+		this.msg( '0 is preferred over none', line.search( 'none' ) )
 	}
 
 	return badSyntax
