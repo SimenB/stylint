@@ -1,3 +1,12 @@
+### 1.3.7
+
+this pr: https://github.com/rossPatton/stylint/pull/257
+
+this pr: https://github.com/rossPatton/stylint/pull/256
+
+this pr: https://github.com/rossPatton/stylint/pull/260
+
+
 ### 1.3.6
 
 roll back global quote trimming, move it to the checks where it's actually needed
