@@ -193,6 +193,19 @@ describe( 'Core Methods: ', function() {
 			app.lint()
 			app.lint.getCall( 2 ).returned( sinon.match.same( app.done ) )
 		} )
+
+		it( 'should cache rule name as one of warning properties', function() {
+			app.config = { brackets : 'never'}
+			app.lint()
+			assert.equal( app.cache.rule, 'brackets' )
+
+			app.config = { leadingZero : 'never'}
+			app.lint()
+			assert.equal( app.cache.rule, 'leadingZero' )
+
+			// restore config
+			app.config = app.setConfig()
+		} )
 	} )
 
 	describe( 'Watch: ', function() {
