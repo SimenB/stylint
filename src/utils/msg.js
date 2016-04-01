@@ -9,7 +9,7 @@
 var msg = function( str, column ) {
 	var arr
 
-	this.cache.columnNo = typeof column !== 'undefined' ? column : -1; 
+	this.cache.columnNo = typeof column !== 'undefined' ? column : -1
 
 	// determine which group the msg belongs to
 	arr = this.state.severity === 'Warning' ? this.cache.warnings : this.cache.errs

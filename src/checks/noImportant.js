@@ -9,7 +9,7 @@
 var noImportant = function( line ) {
 	var important = false
 
-	var indexOfImportant = line.indexOf( '!important' );
+	var indexOfImportant = line.indexOf( '!important' )
 	if ( indexOfImportant !== -1 ) {
 		important = true
 	}

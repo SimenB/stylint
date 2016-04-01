@@ -19,7 +19,7 @@ var colors = function( line ) {
 	}
 
 	if ( hex === true ) {
-		this.msg( 'hexidecimal color should be a variable', line.search(hexRe) )
+		this.msg( 'hexidecimal color should be a variable', line.search( hexRe ) )
 	}
 
 	return hex
