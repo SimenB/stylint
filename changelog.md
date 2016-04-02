@@ -1,3 +1,24 @@
+### 1.3.8
+
+updates to readme
+
+reporter improvements
+
+more fixes to leading zero check
+
+this pr: https://github.com/rossPatton/stylint/pull/261
+
+this pr: https://github.com/rossPatton/stylint/pull/263
+
+this pr: https://github.com/rossPatton/stylint/pull/264
+
+this pr: https://github.com/rossPatton/stylint/pull/267
+
+this pr: https://github.com/rossPatton/stylint/pull/268
+
+this pr: https://github.com/rossPatton/stylint/pull/270
+
+
 ### 1.3.7
 
 this pr: https://github.com/rossPatton/stylint/pull/257
