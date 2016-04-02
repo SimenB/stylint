@@ -1318,21 +1318,28 @@ describe( 'Linter Style Checks: ', function() {
 		it( 'false if leading zero not found', function() {
 			assert.equal( false, zeroTest( 'color (0, 0, 0, .18)' ) )
 			assert.equal( false, zeroTest( 'color (0,0,0,.18)' ) )
-			assert.equal( false, zeroTest( 'for $ in (0..9)' ) )
+			assert.equal( false, zeroTest( 'font-size .9em' ) )
+			assert.equal( false, zeroTest( 'transform rotate( .33deg )' ) )
+			assert.equal( false, zeroTest( 'transform rotate(.33deg)' ) )
 		} )
 
 		it( 'true if line has a zero before a decimal point and not part of range', function() {
 			assert.ok( zeroTest( 'color (0, 0, 0, 0.18)' ) )
 			assert.ok( zeroTest( 'color (0,0,0,0.18)' ) )
+			assert.ok( zeroTest( 'transform rotate(0.33deg)' ) )
+			assert.ok( zeroTest( 'transform rotate( 0.33deg )' ) )
 		} )
 
 		it( 'undefined if range', function() {
-			assert.equal( false, zeroTest( 'for 0..9' ) )
-			assert.equal( false, zeroTest( 'for 0...9' ) )
+			assert.equal( undefined, zeroTest( 'for 0..9' ) )
+			assert.equal( undefined, zeroTest( 'for 0...9' ) )
+			assert.equal( undefined, zeroTest( 'for $ in (0..9)' ) )
 		} )
 
-		it( 'false if leading num not zero', function() {
-			assert.equal( false, zeroTest( 'font-size: 1.1em' ) )
+		it( 'undefined if leading num not zero', function() {
+			assert.equal( undefined, zeroTest( 'font-size: 1.1em' ) )
+			assert.equal( undefined, zeroTest( 'transform rotate( 22.33deg )' ) )
+			assert.equal( undefined, zeroTest( 'width 33.3333333%' ) )
 		} )
 
 		it( 'undefined if no .\d in line', function() {
@@ -1352,21 +1359,28 @@ describe( 'Linter Style Checks: ', function() {
 		it( 'false if leading zero not found', function() {
 			assert.equal( false, zeroTest( 'color (0, 0, 0, .18)' ) )
 			assert.equal( false, zeroTest( 'color (0,0,0,.18)' ) )
-			assert.equal( false, zeroTest( 'for $ in (0..9)' ) )
+			assert.equal( false, zeroTest( 'font-size .9em' ) )
+			assert.equal( false, zeroTest( 'transform rotate( .33deg )' ) )
+			assert.equal( false, zeroTest( 'transform rotate(.33deg)' ) )
 		} )
 
 		it( 'false if range', function() {
-			assert.equal( false, zeroTest( 'for 0..9' ) )
-			assert.equal( false, zeroTest( 'for 0...9' ) )
+			assert.equal( undefined, zeroTest( 'for 0..9' ) )
+			assert.equal( undefined, zeroTest( 'for 0...9' ) )
+			assert.equal( undefined, zeroTest( 'for $ in (0..9)' ) )
 		} )
 
 		it( 'true if line has a zero before a decimal point and', function() {
 			assert.ok( zeroTest( 'color (0, 0, 0, 0.18)' ) )
 			assert.ok( zeroTest( 'color (0,0,0,0.18)' ) )
+			assert.ok( zeroTest( 'transform rotate(0.33deg)' ) )
+			assert.ok( zeroTest( 'transform rotate( 0.33deg )' ) )
 		} )
 
 		it( 'undefined if leading num not zero', function() {
-			assert.equal( false, zeroTest( 'font-size: 1.1em' ) )
+			assert.equal( undefined, zeroTest( 'font-size: 1.1em' ) )
+			assert.equal( undefined, zeroTest( 'transform rotate( 22.33deg )' ) )
+			assert.equal( undefined, zeroTest( 'width 33.3333333%' ) )
 		} )
 
 		it( 'undefined if no . in line', function() {
