@@ -47,7 +47,6 @@
     "chokidar": "1.4.3",
     "glob": "7.0.3",
     "lodash.defaults": "4.0.1",
-    "minimatch": "3.0.0",
     "path-is-absolute": "1.0.0",
     "stampit": "1.2.0",
     "strip-json-comments": "2.0.1",
