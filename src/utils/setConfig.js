@@ -4,6 +4,7 @@ var fs = require( 'fs' )
 var path = require( 'path' )
 var pathIsAbsolute = require( 'path-is-absolute' )
 var stripJsonComments = require( 'strip-json-comments' )
+var Minimatch = require( 'minimatch' ).Minimatch
 
 // @TODO i just this sloppy just to fix some stuff
 // comes back and refactor / cleanup
@@ -103,6 +104,15 @@ var setConfig = function( configpath ) {
 			throw err
 		}
 	}
+
+	returnConfig.exclude = ( returnConfig.exclude || [] ).map( function( exclude ) {
+		return new Minimatch( exclude, {
+			matchBase: true
+		} )
+	} )
+
+	// make sure indentPref is set no matter what
+	returnConfig.indentPref = returnConfig.indentPref || false
 
 	// 4, just return the initial config if nothing found
 	return returnConfig

@@ -11,6 +11,7 @@
   "depthLimit": 4,
   "duplicates": true,
   "efficient": "always",
+  "exclude": [],
   "extendPref": false,
   "globalDupe": false,
   "indentPref": 2,

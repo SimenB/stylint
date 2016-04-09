@@ -20,9 +20,6 @@ var init = function( options, pathPassed ) {
 
 	this.config = this.setConfig( options.config )
 
-	// make sure indentPref is set no matter what
-	this.config.indentPref = this.config.indentPref || false
-
 	// if you want to use transparent mixins, pass in an array of them
 	this.cache.mixins = this.config.mixins || this.cache.mixins
 
