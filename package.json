@@ -35,26 +35,26 @@
   },
   "preferGlobal": true,
   "devDependencies": {
-    "chai": "1.10.0",
-    "eslint": "1.2.1",
-    "istanbul": "0.3.5",
-    "mocha": "2.0.1",
-    "sinon": "1.12.2",
+    "chai": "3.5.0",
+    "eslint": "2.7.0",
+    "istanbul": "0.4.3",
+    "mocha": "2.4.5",
+    "sinon": "1.17.3",
     "touch": "1.0.0"
   },
   "dependencies": {
-    "async": "1.4.2",
-    "chokidar": "1.2.0",
-    "glob": "5.0.15",
-    "lodash.defaults": "3.1.2",
+    "async": "1.5.2",
+    "chokidar": "1.4.3",
+    "glob": "7.0.3",
+    "lodash.defaults": "4.0.1",
     "minimatch": "3.0.0",
     "path-is-absolute": "1.0.0",
-    "stampit": "1.1.0",
-    "strip-json-comments": "1.0.4",
-    "yargs": "3.27.0"
+    "stampit": "1.2.0",
+    "strip-json-comments": "2.0.1",
+    "yargs": "4.4.0"
   },
   "scripts": {
-    "lint": "eslint src/",
+    "lint": "eslint .",
     "pretest": "npm run lint",
     "start": "node --harmony index.js",
     "test": "istanbul cover node_modules/.bin/_mocha -- -u exports -R spec test/test.js"

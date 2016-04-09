@@ -16,6 +16,7 @@ var stampit = require( 'stampit' )
  * main stylint kickoff function
  * @param {string} path   [custom path if used programmatically]
  * @param {object} config [config if used programmatically]
+ * @param {function} [callback] [a callback called just before exiting the process if not watching]
  * @return {Object} [the composed stylint object]
  */
 var Stylint = function( path, config, callback ) {
