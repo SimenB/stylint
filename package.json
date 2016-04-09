@@ -50,6 +50,7 @@
     "path-is-absolute": "1.0.0",
     "stampit": "1.2.0",
     "strip-json-comments": "2.0.1",
+    "user-home": "2.0.0",
     "yargs": "4.4.0"
   },
   "scripts": {
