@@ -4,7 +4,6 @@ var fs = require( 'fs' )
 var glob = require( 'glob' )
 var async = require( 'async' )
 var path = require( 'path' )
-var Minimatch = require( 'minimatch' ).Minimatch
 
 /**
  * @description globs files and returns an array, used in various methods
@@ -15,12 +14,6 @@ var getFiles = function( dir ) {
 	if ( typeof dir !== 'string' ) {
 		throw new TypeError( 'getFiles err. Expected string, but received: ' + typeof dir )
 	}
-
-	this.config.exclude = ( this.config.exclude || [] ).map( function( exclude ) {
-		return new Minimatch( exclude, {
-			matchBase: true
-		} )
-	} )
 
 	glob( dir, {}, function( err, files ) {
 		if ( err ) { throw err }
