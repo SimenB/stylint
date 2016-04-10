@@ -14,8 +14,8 @@ var universal = function( line ) {
 	var hasUniversal = false
 
 	// content can have a string that could be anything, so ignore those
-	var indexOfUniversal = line.indexOf( '*' );
-    if ( indexOfUniversal !== -1 && line.indexOf( 'content' ) === -1 ) {
+	var indexOfUniversal = line.indexOf( '*' )
+	if ( indexOfUniversal !== -1 && line.indexOf( 'content' ) === -1 ) {
 		if ( !universalRe.test( line ) ) {
 			hasUniversal = true
 		}

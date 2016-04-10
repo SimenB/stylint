@@ -14,8 +14,8 @@ var blocks = function( line ) {
 	var block
 
 	// if = ends the line and not a block var or hash
-	var indexOfBlock = line.indexOf( '@block' );
-    if ( indexOfBlock === -1 && eqEndRe.test( line ) ) {
+	var indexOfBlock = line.indexOf( '@block' )
+	if ( indexOfBlock === -1 && eqEndRe.test( line ) ) {
 		block = false
 	}
 	else if ( indexOfBlock !== -1 ) {

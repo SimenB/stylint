@@ -11,8 +11,8 @@ var cssLiteral = function( line ) {
 	if ( this.state.hashOrCSS ) { return }
 	var isCSSLiteral = false
 
-	var indexOfCss = line.indexOf( '@css' );
-    if ( indexOfCss !== -1 ) {
+	var indexOfCss = line.indexOf( '@css' )
+	if ( indexOfCss !== -1 ) {
 		isCSSLiteral = true
 	}
 

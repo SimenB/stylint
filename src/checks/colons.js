@@ -20,9 +20,9 @@ var colons = function( line ) {
 	var colon
 	var hasPseudo = false
 	var arr = this.splitAndStrip( new RegExp( /\s/ ), line )
-	var propertyName = arr[0];
-	
-    if ( this.state.conf === 'always' &&
+	var propertyName = arr[0]
+
+	if ( this.state.conf === 'always' &&
 		arr.length > 1 &&
 		propertyName.indexOf( ':' ) === -1 ) {
 		colon = false
