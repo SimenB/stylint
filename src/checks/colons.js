@@ -20,10 +20,11 @@ var colons = function( line ) {
 	var colon
 	var hasPseudo = false
 	var arr = this.splitAndStrip( new RegExp( /\s/ ), line )
-
-	if ( this.state.conf === 'always' &&
+	var propertyName = arr[0];
+	
+    if ( this.state.conf === 'always' &&
 		arr.length > 1 &&
-		arr[0].indexOf( ':' ) === -1 ) {
+		propertyName.indexOf( ':' ) === -1 ) {
 		colon = false
 	}
 	// : is allowed in hashes
@@ -43,10 +44,10 @@ var colons = function( line ) {
 	}
 
 	if ( this.state.conf === 'always' && colon === false ) {
-		this.msg( 'missing colon between property and value' )
+		this.msg( 'missing colon between property and value', line.indexOf( propertyName ) + propertyName.length )
 	}
 	else if ( this.state.conf === 'never' && colon === true ) {
-		this.msg( 'unecessary colon found' )
+		this.msg( 'unecessary colon found', line.indexOf( ':' ) )
 	}
 
 	return colon

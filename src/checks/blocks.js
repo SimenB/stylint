@@ -14,18 +14,19 @@ var blocks = function( line ) {
 	var block
 
 	// if = ends the line and not a block var or hash
-	if ( line.indexOf( '@block' ) === -1 && eqEndRe.test( line ) ) {
+	var indexOfBlock = line.indexOf( '@block' );
+    if ( indexOfBlock === -1 && eqEndRe.test( line ) ) {
 		block = false
 	}
-	else if ( line.indexOf( '@block' ) !== -1 ) {
+	else if ( indexOfBlock !== -1 ) {
 		block = true
 	}
 
 	if ( this.state.conf === 'always' && block === false ) {
-		this.msg( 'block variables must include @block' )
+		this.msg( 'block variables must include @block', line.length )
 	}
 	else if ( this.state.conf === 'never' && block === true ) {
-		this.msg( '@block is not allowed' )
+		this.msg( '@block is not allowed', indexOfBlock )
 	}
 
 	return block
