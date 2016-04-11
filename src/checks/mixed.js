@@ -27,7 +27,7 @@ var mixed = function( line ) {
 	}
 
 	if ( isMixed === true ) {
-		this.msg( 'mixed spaces and tabs' )
+		this.msg( 'mixed spaces and tabs', 0 )
 	}
 
 	return isMixed
