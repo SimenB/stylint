@@ -195,11 +195,11 @@ describe( 'Core Methods: ', function() {
 		} )
 
 		it( 'should cache rule name as one of warning properties', function() {
-			app.config = { brackets : 'never'}
+			app.config = { brackets: 'never' }
 			app.lint()
 			assert.equal( app.cache.rule, 'brackets' )
 
-			app.config = { leadingZero : 'never'}
+			app.config = { leadingZero: 'never' }
 			app.lint()
 			assert.equal( app.cache.rule, 'leadingZero' )
 
