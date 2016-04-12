@@ -26,7 +26,7 @@ var depthLimit = function( line ) {
 	}
 
 	if ( badNesting === true ) {
-		this.msg( 'selector depth greater than ' + limit )
+		this.msg( 'selector depth greater than ' + limit, 0 )
 	}
 
 	return badNesting
