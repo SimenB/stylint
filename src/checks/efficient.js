@@ -41,10 +41,10 @@ var efficient = function( line ) {
 	}
 
 	if ( this.state.conf === 'never' && isEfficient === true ) {
-		this.msg( 'the value on this line is too succinct' )
+		this.msg( 'the value on this line is too succinct', line.indexOf( arr[1] ) )
 	}
 	else if ( this.state.conf === 'always' && isEfficient === false ) {
-		this.msg( 'the value on this line could be more succinct' )
+		this.msg( 'the value on this line could be more succinct', line.indexOf( arr[1] ) )
 	}
 
 	return isEfficient
