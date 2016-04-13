@@ -15,7 +15,7 @@ var camelRe = /^[$#.{:]+([a-zA-Z]|[${}])+([a-z]|[${}])+(([.A-Z0-9])+[a-z ]+)+\b/
  * @returns {boolean} true if convention wrong, false if not
  */
 var namingConvention = function( line ) {
-	var arr = line.split( ' ' )
+	var arr = this.splitAndStrip( ' ', line )
 	var doWeTestRe = /^[${:]+/m // determine if line should be tested at all
 	var badConvention = false
 
