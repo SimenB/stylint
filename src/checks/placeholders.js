@@ -1,6 +1,8 @@
 'use strict'
 
-var placeholderRe = /(@extend|@extends)+( \$)+/
+var extendRe = /@extends?\s/
+var placeholderRe = /(\$[^,;\s]*)/
+var nonPlaceholderRe = /([\.|#][^,;\s]*)/
 
 
 /**
@@ -11,21 +13,18 @@ var placeholderRe = /(@extend|@extends)+( \$)+/
 var placeholders = function( line ) {
 	if ( line.indexOf( '@extend' ) === -1 ) { return }
 
-	var placeholder = false
-
-	// first check if line has an extend, then check for placeholder
-	if ( placeholderRe.test( line ) ) {
-		placeholder = true
+	if ( !extendRe.test( line ) ) {
+		return false
 	}
 
-	if ( this.state.conf === 'always' && placeholder === false ) {
-		this.msg( 'use a placeholder variable when extending' )
+	if ( this.state.conf === 'always' && nonPlaceholderRe.test( line ) ) {
+		this.msg( 'use a placeholder variable when extending', line.search( nonPlaceholderRe ) )
 	}
-	else if ( this.state.conf === 'never' && placeholder === true ) {
-		this.msg( 'placeholder variables are disallowed' )
+	else if ( this.state.conf === 'never' && placeholderRe.test( line ) ) {
+		this.msg( 'placeholder variables are disallowed', line.search( placeholderRe ) )
 	}
 
-	return placeholder
+	return placeholderRe.test( line )
 }
 
 module.exports = placeholders

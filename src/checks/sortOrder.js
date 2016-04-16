@@ -103,7 +103,7 @@ var sortOrder = function( line ) {
 	}
 
 	if ( sorted === false ) {
-		this.msg( 'prefer ' + orderName + ' when sorting properties' )
+		this.msg( 'prefer ' + orderName + ' when sorting properties', line.indexOf( arr[0] ) )
 	}
 
 	return sorted
