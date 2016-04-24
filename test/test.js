@@ -1673,6 +1673,8 @@ describe( 'Linter Style Checks: ', function() {
 
 		it( 'false if no extra space', function() {
 			assert.equal( false, parenTest( 'myMixin(param1, param2)' ) )
+			assert.equal( false, parenTest( 'myMixin( param1, param2)' ) )
+			assert.equal( false, parenTest( 'myMixin(param1, param2 )' ) )
 		} )
 
 		it( 'true if has extra spaces', function() {
@@ -1693,6 +1695,8 @@ describe( 'Linter Style Checks: ', function() {
 
 		it( 'false if no extra space', function() {
 			assert.equal( false, parenTest( 'myMixin(param1, param2)' ) )
+			assert.equal( false, parenTest( 'myMixin( param1, param2)' ) )
+			assert.equal( false, parenTest( 'myMixin(param1, param2 )' ) )
 		} )
 
 		it( 'true if has extra spaces', function() {
