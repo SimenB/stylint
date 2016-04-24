@@ -1,7 +1,8 @@
 'use strict'
 
 var parensRe = /\(.+\)/
-var parensWithSpaceRe = /\(\s+|\s\)+/
+var parensBeginWithSpaceRe = /\(\s+/
+var parensEndWithSpaceRe = /\s+\)+/
 
 
 /**
@@ -12,21 +13,17 @@ var parensWithSpaceRe = /\(\s+|\s\)+/
 var parenSpace = function( line ) {
 	if ( !parensRe.test( line ) ) { return }
 
-	var hasSpaces = false
+	var hasStartSpace = parensBeginWithSpaceRe.test( line )
+	var hasEndSpace = parensEndWithSpaceRe.test( line )
 
-	// if mixin exists and it has params
-	if ( parensWithSpaceRe.test( line ) ) {
-		hasSpaces = true
-	}
-
-	if ( this.state.conf === 'always' && hasSpaces === false ) {
+	if ( this.state.conf === 'always' && !( hasStartSpace && hasEndSpace ) ) {
 		this.msg( '( param1, param2 ) is preferred over (param1, param2)' )
 	}
-	else if ( this.state.conf === 'never' && hasSpaces === true ) {
+	else if ( this.state.conf === 'never' && ( hasStartSpace || hasEndSpace ) ) {
 		this.msg( '(param1, param2) is preferred over ( param1, param2 )' )
 	}
 
-	return hasSpaces
+	return hasStartSpace && hasEndSpace
 }
 
 module.exports = parenSpace
