@@ -1,6 +1,7 @@
 'use strict'
 
 var ignoreRe = /^{|[,}]|(:after|:active|:before|@import|@require|@extend|@media|:hover|@font-face|src)|,$/
+var lastFile = ''
 
 
 /**
@@ -16,8 +17,9 @@ var duplicates = function( line ) {
 
 	// if root check not global, obliterate cache on each new file
 	if ( !this.config.globalDupe &&
-		this.cache.prevFile !== this.cache.file ) {
+		lastFile !== this.cache.file ) {
 		this.cache.sCache = {}
+		lastFile = this.cache.file
 	}
 
 	// if cache for curr context doesn't exist yet (or was obliterated), make one
