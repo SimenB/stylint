@@ -35,7 +35,7 @@ var semicolons = function( line ) {
 	}
 
 	if ( this.state.conf === 'never' && semicolon === true ) {
-		this.msg( 'unecessary semicolon found' )
+		this.msg( 'unnecessary semicolon found' )
 	}
 	else if ( this.state.conf === 'always' && semicolon === false ) {
 		this.msg( 'missing semicolon' )
