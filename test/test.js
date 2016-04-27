@@ -762,10 +762,10 @@ describe( 'Linter Style Checks: ', function() {
 
 		it( 'false if space after comma', function() {
 			assert.equal( false, commaTest( '0, 0, 0, .18' ) )
+			assert.equal( false, commaTest( '0,0, 0, .18' ) )
 		} )
 
 		it( 'true if no space after commas', function() {
-			assert.ok( commaTest( '0,0, 0, .18' ) )
 			assert.ok( commaTest( '0,0,0,.18' ) )
 			assert.ok( commaTest( 'mixin( $param1,$param2 )' ) )
 		} )
@@ -792,10 +792,10 @@ describe( 'Linter Style Checks: ', function() {
 
 		it( 'false if space after comma', function() {
 			assert.equal( false, commaTest( '0, 0, 0, .18' ) )
+			assert.equal( false, commaTest( '0,0, 0, .18' ) )
 		} )
 
 		it( 'true if no space after commas', function() {
-			assert.ok( commaTest( '0,0, 0, .18' ) )
 			assert.ok( commaTest( '0,0,0,.18' ) )
 			assert.ok( commaTest( 'mixin( $param1,$param2 )' ) )
 		} )
