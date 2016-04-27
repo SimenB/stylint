@@ -75,7 +75,7 @@ var brackets = function( line ) {
 	}
 
 	if ( this.state.conf === 'never' && bracket === true ) {
-		this.msg( 'unecessary bracket' )
+		this.msg( 'unnecessary bracket' )
 	}
 	else if ( this.state.conf === 'always' && bracket === false ) {
 		this.msg( 'always use brackets when defining selectors' )

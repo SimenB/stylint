@@ -46,7 +46,7 @@ var colons = function( line ) {
 		this.msg( 'missing colon between property and value' )
 	}
 	else if ( this.state.conf === 'never' && colon === true ) {
-		this.msg( 'unecessary colon found' )
+		this.msg( 'unnecessary colon found' )
 	}
 
 	return colon

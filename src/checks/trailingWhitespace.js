@@ -1,6 +1,6 @@
 'use strict'
 
-// check for unecessary tabs or whitespace at eol
+// check for unnecessary tabs or whitespace at eol
 var whitespaceRe = /[ \t]+$/
 // anything BUT whitespace (we dont want to return false positives on empty lines)
 var anythingElseRe = /[^ \t]/

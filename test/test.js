@@ -17,7 +17,7 @@ var sinon = require( 'sinon' )
 var app = require( '../index' )().create()
 var stripJsonComments = require( 'strip-json-comments' )
 
-// turn on strict mode from this point and turn off unecessary logging
+// turn on strict mode from this point and turn off unnecessary logging
 app.state.quiet = true
 app.state.watching = true
 app.cache.dir = '/Users/ross/Developer/workspace/stylus-lint/'
@@ -633,7 +633,7 @@ describe( 'Linter Style Checks: ', function() {
 			app.state.hash = false
 		} )
 
-		it( 'true if unecessary colon is found', function() {
+		it( 'true if unnecessary colon is found', function() {
 			app.state.context = 1
 			app.state.hash = false
 			assert.ok( colonTest( 'margin: 0 auto' ) )
