@@ -1826,7 +1826,7 @@ describe( 'Linter Style Checks: ', function() {
 			app.state.conf = 'double'
 			assert.equal( false, quoteTest( '$var = "test string" ' ) )
 			assert.equal( false, quoteTest( '$var = "test \'substring\' string"' ) )
-			assert.equal( false, quoteTest( '$var = "test substring\'s"' ) )
+			assert.equal( false, quoteTest( '$var = "test let\'s string"' ) )
 			assert.equal( false, quoteTest( '.show-content( $content = "Hello!" )' ) )
 			assert.equal( false, quoteTest( '.show-content( $content = "Hello!" ) {' ) )
 			assert.equal( false, quoteTest( '.join-strings( $content1 = "Hello!", $content2 = "World!" )' ) )
@@ -1839,7 +1839,7 @@ describe( 'Linter Style Checks: ', function() {
 			app.state.conf = 'single'
 			assert.ok( quoteTest( '$var = "test string" ' ) )
 			assert.ok( quoteTest( '$var = "test \'substring\' string"' ) )
-			assert.ok( quoteTest( '$var = "test \'substring string"' ) )
+			assert.ok( quoteTest( '$var = "test let\'s string"' ) )
 			assert.ok( quoteTest( '.show-content( $content = "Hello!" )' ) )
 			assert.ok( quoteTest( '.join-strings( $content1 = "Hello!", $content2 = \'World!\' )' ) )
 			assert.ok( quoteTest( '.show-content( $content = "Hello!" ) {' ) )

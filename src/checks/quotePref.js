@@ -1,5 +1,7 @@
 'use strict'
 
+var stringRe = /(?=["'])(?:"[^"\\]*(?:\\[\s\S][^"\\]*)*"|'[^'\\]*(?:\\[\s\S][^'\\]*)*')/g
+
 
 /**
  * @description check that quote style is consistent with config
@@ -11,11 +13,12 @@ var quotePref = function( line ) {
 		return
 	}
 
+	stringRe.lastIndex = 0
+
 	var badQuotes = false
 	var match
-	var reg = /(?=["'])(?:"[^"\\]*(?:\\[\s\S][^"\\]*)*"|'[^'\\]*(?:\\[\s\S][^'\\]*)*')/g
 
-	while ( ( match = reg.exec( line ) ) !== null ) {
+	while ( ( match = stringRe.exec( line ) ) !== null ) {
 		// if '' quotes preferred and match starts with double "" quote
 		if ( this.state.conf === 'single' && match[0].indexOf( '"' ) === 0 ) {
 			badQuotes = true
