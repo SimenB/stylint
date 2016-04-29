@@ -1816,6 +1816,7 @@ describe( 'Linter Style Checks: ', function() {
 			assert.equal( false, quoteTest( "$var = 'test \"substring\" string' " ) )
 			assert.equal( false, quoteTest( ".show-content( $content = 'Hello!' )" ) )
 			assert.equal( false, quoteTest( ".show-content( $content = 'Hello!' ) {" ) )
+			assert.equal( false, quoteTest( '.join-strings( $content1 = \'Hello!\', $content2 = \'World!\' )' ) )
 			assert.equal( false, quoteTest( "[class*='--button']" ) )
 			assert.equal( false, quoteTest( "[class*='--button'] {" ) )
 			assert.equal( false, quoteTest( "show-content( $content = 'Hello!' ) {" ) )
@@ -1825,8 +1826,10 @@ describe( 'Linter Style Checks: ', function() {
 			app.state.conf = 'double'
 			assert.equal( false, quoteTest( '$var = "test string" ' ) )
 			assert.equal( false, quoteTest( '$var = "test \'substring\' string"' ) )
+			assert.equal( false, quoteTest( '$var = "test substring\'s"' ) )
 			assert.equal( false, quoteTest( '.show-content( $content = "Hello!" )' ) )
 			assert.equal( false, quoteTest( '.show-content( $content = "Hello!" ) {' ) )
+			assert.equal( false, quoteTest( '.join-strings( $content1 = "Hello!", $content2 = "World!" )' ) )
 			assert.equal( false, quoteTest( '[class*="--button"]' ) )
 			assert.equal( false, quoteTest( '[class*="--button"] {' ) )
 			assert.equal( false, quoteTest( 'show-content( $content = "Hello!" ) {' ) )
@@ -1836,7 +1839,9 @@ describe( 'Linter Style Checks: ', function() {
 			app.state.conf = 'single'
 			assert.ok( quoteTest( '$var = "test string" ' ) )
 			assert.ok( quoteTest( '$var = "test \'substring\' string"' ) )
+			assert.ok( quoteTest( '$var = "test \'substring string"' ) )
 			assert.ok( quoteTest( '.show-content( $content = "Hello!" )' ) )
+			assert.ok( quoteTest( '.join-strings( $content1 = "Hello!", $content2 = \'World!\' )' ) )
 			assert.ok( quoteTest( '.show-content( $content = "Hello!" ) {' ) )
 			assert.ok( quoteTest( '[class*="--button"]' ) )
 		} )
@@ -1845,8 +1850,10 @@ describe( 'Linter Style Checks: ', function() {
 			app.state.conf = 'double'
 			assert.ok( quoteTest( "$var = 'test string' " ) )
 			assert.ok( quoteTest( "$var = 'test \"substring\" string' " ) )
+			assert.ok( quoteTest( "$var = 'test \"substring string' " ) )
 			assert.ok( quoteTest( ".show-content( $content = 'Hello!' )" ) )
 			assert.ok( quoteTest( ".show-content( $content = 'Hello!' ) {" ) )
+			assert.ok( quoteTest( '.join-strings( $content1 = "Hello!", $content2 = \'World!\' )' ) )
 			assert.ok( quoteTest( "[class*='--button']" ) )
 		} )
 
