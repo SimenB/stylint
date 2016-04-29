@@ -1,5 +1,7 @@
 'use strict'
 
+var stringRe = /(?=["'])(?:"[^"\\]*(?:\\[\s\S][^"\\]*)*"|'[^'\\]*(?:\\[\s\S][^'\\]*)*')/g
+
 
 /**
  * @description check that quote style is consistent with config
@@ -11,37 +13,22 @@ var quotePref = function( line ) {
 		return
 	}
 
+	stringRe.lastIndex = 0
+
 	var badQuotes = false
+	var match
 
-	// if '' quotes preferred and "" quotes are on the line
-	if ( this.state.conf === 'single' && line.indexOf( '"' ) !== -1 ) {
-		// "" are still allowed if used inside '', so we have to check that
-		if ( line.match( /('.*')+/ ) ) { // cant do [1] on something thats undefined
-			if ( !line.match( /('.*')+/ )[1].match( /(".*")+/ ) ) {
-				// if "" is on the line but isn't inside '', we got bad quotes
-				badQuotes = true
-			}
-		}
-		else {
+	while ( ( match = stringRe.exec( line ) ) !== null ) {
+		// if '' quotes preferred and match starts with double "" quote
+		if ( this.state.conf === 'single' && match[0].indexOf( '"' ) === 0 ) {
 			badQuotes = true
+			this.msg( 'preferred quote style is ' + this.state.conf + ' quotes' )
 		}
-	}
-	// if "" quotes preferred and '' quotes are on the line
-	else if ( this.state.conf === 'double' && line.indexOf( "'" ) !== -1 ) {
-		// '' are still allowed if used inside "", so we have to check that
-		if ( line.match( /(".*")+/ ) ) { // cant do [1] on something thats undefined
-			if ( !line.match( /(".*")+/ )[1].match( /('.*')+/ ) ) {
-				// if "" is on the line but isn't inside '', we got bad quotes
-				badQuotes = true
-			}
-		}
-		else {
+		// if "" quotes preferred and match start with single '' quote
+		else if ( this.state.conf === 'double' && match[0].indexOf( "'" ) === 0 ) {
 			badQuotes = true
+			this.msg( 'preferred quote style is ' + this.state.conf + ' quotes' )
 		}
-	}
-
-	if ( badQuotes === true ) {
-		this.msg( 'preferred quote style is ' + this.state.conf + ' quotes' )
 	}
 
 	return badQuotes
