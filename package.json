@@ -54,9 +54,11 @@
     "yargs": "4.4.0"
   },
   "scripts": {
+    "cover": "istanbul cover node_modules/.bin/_mocha -- -u exports -R spec test/test.js",
     "lint": "eslint .",
+    "precover": "npm run lint",
     "pretest": "npm run lint",
     "start": "node --harmony index.js",
-    "test": "istanbul cover node_modules/.bin/_mocha -- -u exports -R spec test/test.js"
+    "test": "mocha"
   }
 }
