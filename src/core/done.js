@@ -1,5 +1,18 @@
 'use strict'
 
+function getExitCode( errsLength, warningsLength, maxErrors, maxWarnings ) {
+	if ( errsLength > 0 ) {
+		if ( typeof maxErrors === 'number' ) {
+			if ( errsLength > maxErrors ) return 1
+		}
+		else return 1
+	}
+
+	if ( typeof maxWarnings === 'number' && warningsLength > maxWarnings ) return 1
+
+	return 0
+}
+
 /**
  * @description outputs our messages, wipes errs/warnings if watching
  * @returns {Object | Function} returns process exit if not watching, or obj otherwise
@@ -8,10 +21,7 @@ var done = function() {
 	var warningsOrErrors = []
 	var msg = ''
 
-	// if no errors, give clean exit code
-	if ( this.cache.errs.length > 0 ) {
-		this.state.exitCode = 1
-	}
+	this.state.exitCode = getExitCode( this.cache.errs.length, this.cache.warnings.length, this.config.maxErrors, this.config.maxWarnings )
 
 	// when testing we want to silence the console a bit, so we have the quiet option
 	if ( !this.state.quiet ) {
@@ -28,8 +38,8 @@ var done = function() {
 		}
 	}
 
-	// dont kill the linter if watch is watchin
-	// else theres no more to do, so exit the process
+	// don't kill the linter if watch is watching
+	// else there's no more to do, so exit the process
 	if ( !this.state.watching ) {
 		this.callback( this.state.exitCode || null )
 		return process.exit( this.state.exitCode )

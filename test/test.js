@@ -263,7 +263,7 @@ describe( 'Core Methods: ', function() {
 
 		it( 'return done() if done passed in', function() {
 			var expectedDoneObj = {
-				exitCode: 1,
+				exitCode: 0,
 				msg: '',
 				errs: [],
 				warnings: []
@@ -274,7 +274,7 @@ describe( 'Core Methods: ', function() {
 
 		it( 'return done() and kill if kill passed in', function() {
 			var expectedDoneObj = {
-				exitCode: 1,
+				exitCode: 0,
 				msg: '\nStylint: 0 Errors.\nStylint: 0 Warnings.\nStylint: Over Error or Warning Limit.',
 				errs: [],
 				warnings: []
@@ -2446,6 +2446,15 @@ describe( 'Done, again: ', function() {
 		app.cache.errs = [0, 1, 2, 3, 4]
 		app.cache.msg = '\nStylint: 5 Errors. (Max Errors: 10)\nStylint: 5 Warnings. (Max Warnings: 10)'
 		assert.equal( app.cache.msg, app.done().msg )
+	} )
+
+	it( 'exit code should be 1 if over max warnings', function() {
+		app.config.maxWarnings = 1
+		app.config.maxErrors = 10
+		app.cache.warnings = [0, 1, 2, 3, 4]
+		app.cache.errs = [0, 1, 2, 3, 4]
+
+		assert.equal( 1, app.done().exitCode )
 	} )
 
 	// it( 'should exit if watch off', function() {
