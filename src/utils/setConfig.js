@@ -2,8 +2,10 @@
 
 var fs = require( 'fs' )
 var path = require( 'path' )
+var userHome = require( 'user-home' )
 var pathIsAbsolute = require( 'path-is-absolute' )
 var stripJsonComments = require( 'strip-json-comments' )
+var Glob = require( 'glob' ).Glob
 
 // @TODO i just this sloppy just to fix some stuff
 // comes back and refactor / cleanup
@@ -23,12 +25,6 @@ var setConfig = function( configpath ) {
 	var customPath = ''
 	// return default config if nothing passed in or found
 	var returnConfig
-
-	// used as a last resort
-	// x-platform home directory getter
-	var _getUserHome = function() {
-		return process.env[process.platform === 'win32' ? 'USERPROFILE' : 'HOME']
-	}
 
 	/**
 	 * @description sets the return config if one if found
@@ -77,7 +73,7 @@ var setConfig = function( configpath ) {
 			}
 
 			if ( !returnConfig ) {
-				// go up 1 more mdirectory
+				// go up 1 more directory
 				customPath = path.join( process.cwd(), '..', '..' )
 				files = fs.readdirSync( customPath )
 				if ( files.indexOf( '.stylintrc' ) !== -1 ) {
@@ -87,9 +83,9 @@ var setConfig = function( configpath ) {
 
 			if ( !returnConfig ) {
 				// if nothing found in project, we look at the users home directory
-				files = fs.readdirSync( _getUserHome() )
+				files = fs.readdirSync( userHome )
 				if ( files.indexOf( '.stylintrc' ) !== -1 ) {
-					returnConfig = _parseConfig( _getUserHome() + '/.stylintrc' )
+					returnConfig = _parseConfig( userHome + '/.stylintrc' )
 				}
 			}
 
@@ -98,11 +94,20 @@ var setConfig = function( configpath ) {
 				returnConfig = this.config
 			}
 		}
-		// in case theres an issue parsing or no .stylintrc found at specified location
+		// in case there's an issue parsing or no .stylintrc found at specified location
 		catch ( err ) {
 			throw err
 		}
 	}
+
+	returnConfig.exclude = ( returnConfig.exclude || [] ).map( function( exclude ) {
+		return new Glob( exclude, {
+			matchBase: true
+		} )
+	} )
+
+	// make sure indentPref is set no matter what
+	returnConfig.indentPref = returnConfig.indentPref || false
 
 	// 4, just return the initial config if nothing found
 	return returnConfig

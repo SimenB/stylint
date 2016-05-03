@@ -195,11 +195,11 @@ describe( 'Core Methods: ', function() {
 		} )
 
 		it( 'should cache rule name as one of warning properties', function() {
-			app.config = { brackets : 'never'}
+			app.config = { brackets: 'never' }
 			app.lint()
 			assert.equal( app.cache.rule, 'brackets' )
 
-			app.config = { leadingZero : 'never'}
+			app.config = { leadingZero: 'never' }
 			app.lint()
 			assert.equal( app.cache.rule, 'leadingZero' )
 
@@ -263,7 +263,7 @@ describe( 'Core Methods: ', function() {
 
 		it( 'return done() if done passed in', function() {
 			var expectedDoneObj = {
-				exitCode: 1,
+				exitCode: 0,
 				msg: '',
 				errs: [],
 				warnings: []
@@ -274,7 +274,7 @@ describe( 'Core Methods: ', function() {
 
 		it( 'return done() and kill if kill passed in', function() {
 			var expectedDoneObj = {
-				exitCode: 1,
+				exitCode: 0,
 				msg: '\nStylint: 0 Errors.\nStylint: 0 Warnings.\nStylint: Over Error or Warning Limit.',
 				errs: [],
 				warnings: []
@@ -762,10 +762,10 @@ describe( 'Linter Style Checks: ', function() {
 
 		it( 'false if space after comma', function() {
 			assert.equal( false, commaTest( '0, 0, 0, .18' ) )
+			assert.equal( false, commaTest( '0,0, 0, .18' ) )
 		} )
 
 		it( 'true if no space after commas', function() {
-			assert.ok( commaTest( '0,0, 0, .18' ) )
 			assert.ok( commaTest( '0,0,0,.18' ) )
 			assert.ok( commaTest( 'mixin( $param1,$param2 )' ) )
 		} )
@@ -792,10 +792,10 @@ describe( 'Linter Style Checks: ', function() {
 
 		it( 'false if space after comma', function() {
 			assert.equal( false, commaTest( '0, 0, 0, .18' ) )
+			assert.equal( false, commaTest( '0,0, 0, .18' ) )
 		} )
 
 		it( 'true if no space after commas', function() {
-			assert.ok( commaTest( '0,0, 0, .18' ) )
 			assert.ok( commaTest( '0,0,0,.18' ) )
 			assert.ok( commaTest( 'mixin( $param1,$param2 )' ) )
 		} )
@@ -1673,6 +1673,8 @@ describe( 'Linter Style Checks: ', function() {
 
 		it( 'false if no extra space', function() {
 			assert.equal( false, parenTest( 'myMixin(param1, param2)' ) )
+			assert.equal( false, parenTest( 'myMixin( param1, param2)' ) )
+			assert.equal( false, parenTest( 'myMixin(param1, param2 )' ) )
 		} )
 
 		it( 'true if has extra spaces', function() {
@@ -1693,6 +1695,8 @@ describe( 'Linter Style Checks: ', function() {
 
 		it( 'false if no extra space', function() {
 			assert.equal( false, parenTest( 'myMixin(param1, param2)' ) )
+			assert.equal( false, parenTest( 'myMixin( param1, param2)' ) )
+			assert.equal( false, parenTest( 'myMixin(param1, param2 )' ) )
 		} )
 
 		it( 'true if has extra spaces', function() {
@@ -1812,6 +1816,7 @@ describe( 'Linter Style Checks: ', function() {
 			assert.equal( false, quoteTest( "$var = 'test \"substring\" string' " ) )
 			assert.equal( false, quoteTest( ".show-content( $content = 'Hello!' )" ) )
 			assert.equal( false, quoteTest( ".show-content( $content = 'Hello!' ) {" ) )
+			assert.equal( false, quoteTest( '.join-strings( $content1 = \'Hello!\', $content2 = \'World!\' )' ) )
 			assert.equal( false, quoteTest( "[class*='--button']" ) )
 			assert.equal( false, quoteTest( "[class*='--button'] {" ) )
 			assert.equal( false, quoteTest( "show-content( $content = 'Hello!' ) {" ) )
@@ -1821,8 +1826,10 @@ describe( 'Linter Style Checks: ', function() {
 			app.state.conf = 'double'
 			assert.equal( false, quoteTest( '$var = "test string" ' ) )
 			assert.equal( false, quoteTest( '$var = "test \'substring\' string"' ) )
+			assert.equal( false, quoteTest( '$var = "test let\'s string"' ) )
 			assert.equal( false, quoteTest( '.show-content( $content = "Hello!" )' ) )
 			assert.equal( false, quoteTest( '.show-content( $content = "Hello!" ) {' ) )
+			assert.equal( false, quoteTest( '.join-strings( $content1 = "Hello!", $content2 = "World!" )' ) )
 			assert.equal( false, quoteTest( '[class*="--button"]' ) )
 			assert.equal( false, quoteTest( '[class*="--button"] {' ) )
 			assert.equal( false, quoteTest( 'show-content( $content = "Hello!" ) {' ) )
@@ -1832,7 +1839,9 @@ describe( 'Linter Style Checks: ', function() {
 			app.state.conf = 'single'
 			assert.ok( quoteTest( '$var = "test string" ' ) )
 			assert.ok( quoteTest( '$var = "test \'substring\' string"' ) )
+			assert.ok( quoteTest( '$var = "test let\'s string"' ) )
 			assert.ok( quoteTest( '.show-content( $content = "Hello!" )' ) )
+			assert.ok( quoteTest( '.join-strings( $content1 = "Hello!", $content2 = \'World!\' )' ) )
 			assert.ok( quoteTest( '.show-content( $content = "Hello!" ) {' ) )
 			assert.ok( quoteTest( '[class*="--button"]' ) )
 		} )
@@ -1841,8 +1850,10 @@ describe( 'Linter Style Checks: ', function() {
 			app.state.conf = 'double'
 			assert.ok( quoteTest( "$var = 'test string' " ) )
 			assert.ok( quoteTest( "$var = 'test \"substring\" string' " ) )
+			assert.ok( quoteTest( "$var = 'test \"substring string' " ) )
 			assert.ok( quoteTest( ".show-content( $content = 'Hello!' )" ) )
 			assert.ok( quoteTest( ".show-content( $content = 'Hello!' ) {" ) )
+			assert.ok( quoteTest( '.join-strings( $content1 = "Hello!", $content2 = \'World!\' )' ) )
 			assert.ok( quoteTest( "[class*='--button']" ) )
 		} )
 
@@ -2435,6 +2446,15 @@ describe( 'Done, again: ', function() {
 		app.cache.errs = [0, 1, 2, 3, 4]
 		app.cache.msg = '\nStylint: 5 Errors. (Max Errors: 10)\nStylint: 5 Warnings. (Max Warnings: 10)'
 		assert.equal( app.cache.msg, app.done().msg )
+	} )
+
+	it( 'exit code should be 1 if over max warnings', function() {
+		app.config.maxWarnings = 1
+		app.config.maxErrors = 10
+		app.cache.warnings = [0, 1, 2, 3, 4]
+		app.cache.errs = [0, 1, 2, 3, 4]
+
+		assert.equal( 1, app.done().exitCode )
 	} )
 
 	// it( 'should exit if watch off', function() {

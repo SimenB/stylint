@@ -40,10 +40,10 @@ var efficient = function( line ) {
 		}
 	}
 
-	if ( this.state.conf === 'never' && efficient === true ) {
+	if ( this.state.conf === 'never' && isEfficient === true ) {
 		this.msg( 'the value on this line is too succinct' )
 	}
-	else if ( this.state.conf === 'always' && efficient === false ) {
+	else if ( this.state.conf === 'always' && isEfficient === false ) {
 		this.msg( 'the value on this line could be more succinct' )
 	}
 
