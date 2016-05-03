@@ -1,3 +1,34 @@
+### 1.3.9
+
+fix exit code bug
+
+improve several tests
+
+update deps
+
+fix typos
+
+don't run coverage as part of CI
+
+these prs:
+
+https://github.com/rossPatton/stylint/pull/283
+
+https://github.com/rossPatton/stylint/pull/284
+
+https://github.com/rossPatton/stylint/pull/285
+
+https://github.com/rossPatton/stylint/pull/286
+
+https://github.com/rossPatton/stylint/pull/287
+
+https://github.com/rossPatton/stylint/pull/289
+
+https://github.com/rossPatton/stylint/pull/291
+
+https://github.com/rossPatton/stylint/pull/292
+
+
 ### 1.3.8
 
 updates to readme
