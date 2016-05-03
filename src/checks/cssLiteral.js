@@ -11,12 +11,13 @@ var cssLiteral = function( line ) {
 	if ( this.state.hashOrCSS ) { return }
 	var isCSSLiteral = false
 
-	if ( line.indexOf( '@css' ) !== -1 ) {
+	var indexOfCss = line.indexOf( '@css' )
+	if ( indexOfCss !== -1 ) {
 		isCSSLiteral = true
 	}
 
 	if ( this.state.conf === 'never' && isCSSLiteral === true ) {
-		this.msg( 'css literals are disallowed' )
+		this.msg( 'css literals are disallowed', indexOfCss )
 	}
 
 	return isCSSLiteral

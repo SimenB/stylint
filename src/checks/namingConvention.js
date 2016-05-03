@@ -69,7 +69,10 @@ var namingConvention = function( line ) {
 	}
 
 	if ( badConvention === true ) {
-		this.msg( 'preferred naming convention is ' + this.state.conf )
+		this.msg(
+			'preferred naming convention is ' + this.state.conf + ': ' + arr[0],
+			line.indexOf( arr[0].replace( doWeTestRe, '' ) )
+		)
 	}
 
 	return badConvention

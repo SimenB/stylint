@@ -15,7 +15,7 @@ var indentPref = function() {
 	}
 
 	if ( indentCorrect === false ) {
-		this.msg( 'incorrect # of spaces for indent, use ' + this.state.conf )
+		this.msg( 'incorrect # of spaces for indent, use ' + this.state.conf, 0 )
 	}
 
 	return indentCorrect

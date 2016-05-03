@@ -19,7 +19,7 @@ var stackedProperties = function( line ) {
 	}
 
 	if ( this.state.conf === 'never' && oneLiner === true ) {
-		this.msg( 'avoid one liners. put properties on their own line' )
+		this.msg( 'avoid one liners. put properties on their own line', -1 )
 	}
 
 	return oneLiner

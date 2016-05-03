@@ -19,14 +19,15 @@ var semicolons = function( line ) {
 
 	var semicolon
 
+	var indexOfSemicolon = line.indexOf( ';' )
 	if ( this.state.conf === 'never' &&
-		line.indexOf( ';' ) !== -1 ) {
+		indexOfSemicolon !== -1 ) {
 		semicolon = true
 	}
 	else if ( this.state.conf === 'always' &&
 		this.state.context > 0 ) {
 
-		if ( line.indexOf( ';' ) === -1 &&
+		if ( indexOfSemicolon === -1 &&
 			line.indexOf( '}' ) === -1 &&
 			line.indexOf( '{' ) === -1 ) {
 
@@ -35,10 +36,10 @@ var semicolons = function( line ) {
 	}
 
 	if ( this.state.conf === 'never' && semicolon === true ) {
-		this.msg( 'unecessary semicolon found' )
+		this.msg( 'unecessary semicolon found', indexOfSemicolon )
 	}
 	else if ( this.state.conf === 'always' && semicolon === false ) {
-		this.msg( 'missing semicolon' )
+		this.msg( 'missing semicolon', line.length )
 	}
 
 	return semicolon

@@ -35,11 +35,13 @@ var brackets = function( line ) {
 			line.indexOf( '=' ) === -1 &&
 			line.indexOf( '}' ) === -1 ) {
 			bracket = true
+			this.state.openBracket = true
 		}
 		// ex: } is okay if ending a hash. otherwise it is NOT okay
 		// one liners are lame but ok ( check for = { )
 		else if ( line.indexOf( '}' ) !== -1 && line.indexOf( '{' ) === -1 ) {
 			bracket = true
+			this.state.openBracket = false
 		}
 	}
 	else if ( this.state.conf === 'always' ) {
@@ -75,10 +77,10 @@ var brackets = function( line ) {
 	}
 
 	if ( this.state.conf === 'never' && bracket === true ) {
-		this.msg( 'unecessary bracket' )
+		this.msg( 'unecessary bracket', line.indexOf( this.state.openBracket ? '{' : '}' ) )
 	}
 	else if ( this.state.conf === 'always' && bracket === false ) {
-		this.msg( 'always use brackets when defining selectors' )
+		this.msg( 'always use brackets when defining selectors', line.length + 1 )
 	}
 
 	return bracket

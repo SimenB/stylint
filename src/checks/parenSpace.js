@@ -17,10 +17,10 @@ var parenSpace = function( line ) {
 	var hasEndSpace = parensEndWithSpaceRe.test( line )
 
 	if ( this.state.conf === 'always' && !( hasStartSpace && hasEndSpace ) ) {
-		this.msg( '( param1, param2 ) is preferred over (param1, param2)' )
+		this.msg( '( param1, param2 ) is preferred over (param1, param2)', line.search( /\(\S+|\)+/ ) )
 	}
 	else if ( this.state.conf === 'never' && ( hasStartSpace || hasEndSpace ) ) {
-		this.msg( '(param1, param2) is preferred over ( param1, param2 )' )
+		this.msg( '(param1, param2) is preferred over ( param1, param2 )', line.search( /\(\s+|\)+/ ) )
 	}
 
 	return hasStartSpace && hasEndSpace

@@ -44,6 +44,7 @@ var duplicates = function( line ) {
 	// then dupe
 	if ( line.indexOf( ',' ) === -1 &&
 		this.cache.prevLine.indexOf( ',' ) === -1 &&
+		typeof arr[0] !== 'undefined' &&
 		!ignoreRe.test( line ) ) {
 
 		// -1 if no dupe found
@@ -62,10 +63,9 @@ var duplicates = function( line ) {
 		// location of original selector use if global dupe on
 		origFile = this.cache.sCache[this.state.context][dupeIndex + 1]
 
-		// this.msg( 'duplicate property or selector, consider merging' )
 		if ( !this.config.globalDupe ) {
 			this.msg(
-				'duplicate property or selector, consider merging'
+				'duplicate property or selector, consider merging', line.indexOf( arr[0].replace( /^[\.|#]/, '' ) )
 			)
 		}
 		else {

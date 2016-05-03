@@ -14,14 +14,15 @@ var universal = function( line ) {
 	var hasUniversal = false
 
 	// content can have a string that could be anything, so ignore those
-	if ( line.indexOf( '*' ) !== -1 && line.indexOf( 'content' ) === -1 ) {
+	var indexOfUniversal = line.indexOf( '*' )
+	if ( indexOfUniversal !== -1 && line.indexOf( 'content' ) === -1 ) {
 		if ( !universalRe.test( line ) ) {
 			hasUniversal = true
 		}
 	}
 
 	if ( this.state.conf === 'never' && hasUniversal === true ) {
-		this.msg( '* selector is disallowed' )
+		this.msg( '* selector is disallowed', indexOfUniversal )
 	}
 
 	return hasUniversal
