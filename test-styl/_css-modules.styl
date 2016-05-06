@@ -1,0 +1,27 @@
+:global
+  .widget
+    box-sizing: border-box
+    height: 30px
+
+:local
+  .input-text
+    border: 1px solid grey-color
+    composes: widget
+    padding: 5px
+
+  .button
+    background-color: brand-color
+    border: none
+    border-radius: 4px
+    color: white
+    composes: widget
+
+:global( .clearfix )
+  &::after
+    clear: both
+    content: ''
+    display: table
+
+:local( .body )
+  margin: 0
+  padding: 0

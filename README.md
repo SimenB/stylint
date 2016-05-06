@@ -148,6 +148,7 @@ The following is a list of all options available to stylint.
 	"depthLimit": false,
 	"duplicates": true,
 	"efficient": "always",
+	"exclude": [],
 	"extendPref": false,
 	"globalDupe": false,
 	"indentPref": false,
@@ -333,6 +334,12 @@ Check for places where properties can be written more efficiently.
 Example if always: prefer `margin 0` over `margin 0 0`
 
 Example if never: prefer `margin 0 0` over `margin 0`
+
+
+### exclude ( default: [], array of strings )
+Exclude certain file patterns from linting.
+
+Example: `["vendor/**/*", "node_modules/**/*"]` will exclude all files in the `vendor` or `node_modules` directory.
 
 
 ### extendPref ( default: false, '@extend' || '@extends' || false )
