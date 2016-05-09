@@ -1,3 +1,21 @@
+### 1.3.10
+
+improves valid check whitelist
+
+add support for css-modules composes property
+
+read me updates
+
+test updates
+
+these prs:
+
+https://github.com/rossPatton/stylint/pull/294
+
+https://github.com/rossPatton/stylint/pull/297
+
+https://github.com/rossPatton/stylint/pull/298
+
 ### 1.3.9
 
 fix exit code bug
