@@ -64,6 +64,14 @@ module.exports = function valid( line ) {
 		}.bind( this ) )
 	}
 
+	// if no match yet, try pseudo as standalone
+	if ( !isValid ) {
+		isValid = validJSON.pseudo.some( function( pseudo ) {
+			// psuedo selectors could have one of two colons
+			return ':' + arr[0] === pseudo || '::' + arr[0] === pseudo
+		} )
+	}
+
 	// if no match yet, try declared mixins
 	if ( !isValid ) {
 		isValid = this.cache.mixins.some( function( mixin ) {

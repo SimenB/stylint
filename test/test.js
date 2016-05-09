@@ -2266,6 +2266,19 @@ describe( 'Linter Style Checks: ', function() {
 			assert.equal( undefined, validTest( 'from 0%' ) )
 			assert.equal( undefined, validTest( 'to 100%' ) )
 		} )
+
+		it( 'true if pseudo is standalone and valid', function() {
+			assert.ok( validTest( '::-webkit-resizer' ) )
+			assert.ok( validTest( '::-webkit-scrollbar' ) )
+			assert.ok( validTest( '::-moz-inner-focus' ) )
+			assert.ok( validTest( ':focus' ) )
+			assert.ok( validTest( '::placeholder' ) )
+		} )
+
+		it( 'false if pseudo is standalone and not valid', function() {
+			assert.equal( false, validTest( '::-any-thing' ) )
+			assert.equal( false, validTest( ':focush' ) )
+		} )
 	} )
 
 	describe( 'zero units: prefer no unit values', function() {
