@@ -83,9 +83,11 @@ var setConfig = function( configpath ) {
 
 			if ( !returnConfig ) {
 				// if nothing found in project, we look at the users home directory
-				files = fs.readdirSync( userHome )
-				if ( files.indexOf( '.stylintrc' ) !== -1 ) {
-					returnConfig = _parseConfig( userHome + '/.stylintrc' )
+				if ( userHome ) {
+					files = fs.readdirSync( userHome )
+					if ( files.indexOf( '.stylintrc' ) !== -1 ) {
+						returnConfig = _parseConfig( userHome + '/.stylintrc' )
+					}
 				}
 			}
 
