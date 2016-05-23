@@ -45,7 +45,7 @@ you can also ping me [here](https://gitter.im/rossPatton/stylint)
 `stylint styl/ --watch -c path/to/config/.configrc` Watch dir, use custom config
 
 
-## Non ClI Usage
+## Non CLI Usage
 I'll be the first to admit that the syntax is a bit weird, but it works just fine.
 ```javascript
 const stylint = require('stylint')('path/to/stylus/', {
