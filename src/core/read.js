@@ -18,10 +18,13 @@ var read = function() {
 	// else we'll have either a filename or dir name to work with
 	// if dir we use the glob logic to return an array of files to test
 	return fs.stat( this.state.path, function( err, stats ) {
-		if ( !stats || err ) {
-			throw Error( 'Stylint Error: No such file or dir exists!' )
-		}
+		var isProbablyGlob = !stats || err
 
+		if ( isProbablyGlob ) {
+			// the given path doesn't match any existing directory
+			// we then try treat it as a glob expression
+			return this.getFiles( this.state.path )
+		}
 		if ( stats.isFile() ) {
 			this.cache.filesLen = 1
 			this.cache.fileNo = 1
