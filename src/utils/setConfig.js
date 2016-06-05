@@ -105,7 +105,7 @@ var setConfig = function( configpath ) {
 	returnConfig.exclude = ( returnConfig.exclude || [] ).map( function( exclude ) {
 		return new Glob( exclude, {
 			matchBase: true
-		} )
+		} ).minimatch
 	} )
 
 	// make sure indentPref is set no matter what
