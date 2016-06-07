@@ -20,20 +20,22 @@ var stampit = require( 'stampit' )
  * @return {Object} [the composed stylint object]
  */
 var Stylint = function( path, config, callback ) {
-	var Lint
-
-	Lint = stampit().compose(
+	return stampit().compose(
 		require( './src/core/' ),
 		require( './src/checks/' ),
 		require( './src/state/' ),
 		stampit().enclose( function() {
-			this.state.path = typeof path === 'string' ? path : './'
+			if ( typeof path === 'undefined' ) {
+				this.state.path = './'
+			}
+			else if ( path instanceof Array || typeof path === 'string' ) {
+				this.state.path = path
+			}
+
 			this.customConfig = typeof config === 'object' ? config : false
 			this.callback = callback || function() {}
 		} ).enclose( require( './src/core/init' ) )
 	)
-
-	return Lint
 }
 
 module.exports = Stylint

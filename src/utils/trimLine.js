@@ -23,8 +23,7 @@ var trimLine = function( line ) {
 
 	// strip interpolated variables
 	// and the content inside quotes
-	return line
-		.replace( /( *{\S+} *)/, '' )
+	return line.replace( /( *{\S+} *)/, '' )
 }
 
 module.exports = trimLine

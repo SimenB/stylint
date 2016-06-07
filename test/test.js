@@ -406,16 +406,14 @@ describe( 'Utility Methods: ', function() {
 			app.getFiles.getCall( 0 ).returned( sinon.match.same( app.parse ) )
 		} )
 
-		it( 'return undefined if passed filename', function() {
-			assert.equal( undefined, app.getFiles( '/styl/test2.styl' ) )
+		it( 'return app.parse if passed filename', function() {
+			app.getFiles( '/styl/test2.styl' )
+			app.getFiles.getCall( 1 ).returned( sinon.match.same( app.parse ) )
 		} )
 
-		it( 'throw if path is not a string', function() {
-			assert.throws(
-				app.getFiles,
-				TypeError,
-				'getFiles err. Expected string, but received: ' + typeof dir
-			)
+		it( 'return app.parse if passed array of files', function() {
+			app.getFiles( ['/styl/test2.styl'] )
+			app.getFiles.getCall( 2 ).returned( sinon.match.same( app.parse ) )
 		} )
 	} )
 
