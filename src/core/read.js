@@ -37,6 +37,15 @@ var read = function( filepath ) {
 			this.cache.fileNo = 1
 			this.cache.file = path
 			this.cache.files = [path]
+
+			// if this path is in the excludes array, we ignore it
+			// relative paths only
+			if (this.state.exclude.indexOf(path) !== -1 ||
+					this.state.exclude.indexOf('./' + path) !== -1 ||
+					this.state.exclude.indexOf(path.replace('./', '')) !== -1) {
+				return
+			}
+
 			return async.map( this.cache.files, fs.readFile, this.parse.bind( this ) )
 		}
 		if ( stats.isDirectory() ) {

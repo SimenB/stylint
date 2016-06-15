@@ -45,6 +45,8 @@ var init = function( options, pathPassed ) {
 		return this.watch()
 	}
 
+	console.log(this.state)
+
 	return this.read()
 }
 
