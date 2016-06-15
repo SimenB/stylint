@@ -32,20 +32,22 @@ var read = function( filepath ) {
 			throw Error( 'Stylint Error: No such file or dir exists!' )
 		}
 
+		// if this path is in the excludes array, we ignore it
+		// relative paths only
+		var isExcludes = function( path ) {
+			return this.state.exclude.indexOf(path) !== -1 ||
+				this.state.exclude.indexOf('./' + path) !== -1 ||
+				this.state.exclude.indexOf(path.replace('./', '')) !== -1
+		}.bind( this )
+
+		// you shall not pass
+		if (isExcludes(path)) return
+
 		if ( stats.isFile() ) {
 			this.cache.filesLen = 1
 			this.cache.fileNo = 1
 			this.cache.file = path
 			this.cache.files = [path]
-
-			// if this path is in the excludes array, we ignore it
-			// relative paths only
-			if (this.state.exclude.indexOf(path) !== -1 ||
-					this.state.exclude.indexOf('./' + path) !== -1 ||
-					this.state.exclude.indexOf(path.replace('./', '')) !== -1) {
-				return
-			}
-
 			return async.map( this.cache.files, fs.readFile, this.parse.bind( this ) )
 		}
 		if ( stats.isDirectory() ) {
