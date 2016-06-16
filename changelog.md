@@ -1,3 +1,8 @@
+### 1.4.1
+
+this PR: https://github.com/rossPatton/stylint/issues/324
+
+
 ### 1.4.0
 
 added the alias `customProperties` for the `mixins` config option, to make it's purpose more clear
