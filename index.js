@@ -55,7 +55,7 @@ var Stylint = function( path, config, callback ) {
 						} )
 				}
 				catch ( err ) {
-					// do nothing
+					// do no-thing
 				}
 			}
 

@@ -1,3 +1,15 @@
+### 1.4.0
+
+added the alias `customProperties` for the `mixins` config option, to make it's purpose more clear
+
+globbing support via the cli is improved
+
+stylint now supports excluding files or directories via a `.stylintignore` file or via a package.json property (stylintignore: ['path/to/file']). relative paths only
+
+this issue fixed: https://github.com/rossPatton/stylint/issues/323
+
+this issue fixed: https://github.com/rossPatton/stylint/issues/321
+
 ### 1.3.9
 
 fix exit code bug
