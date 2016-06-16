@@ -406,16 +406,14 @@ describe( 'Utility Methods: ', function() {
 			app.getFiles.getCall( 0 ).returned( sinon.match.same( app.parse ) )
 		} )
 
-		it( 'return undefined if passed filename', function() {
-			assert.equal( undefined, app.getFiles( '/styl/test2.styl' ) )
+		it( 'return app.parse if passed filename', function() {
+			app.getFiles( '/styl/test2.styl' )
+			app.getFiles.getCall( 1 ).returned( sinon.match.same( app.parse ) )
 		} )
 
-		it( 'throw if path is not a string', function() {
-			assert.throws(
-				app.getFiles,
-				TypeError,
-				'getFiles err. Expected string, but received: ' + typeof dir
-			)
+		it( 'return app.parse if passed array of files', function() {
+			app.getFiles( ['/styl/test2.styl'] )
+			app.getFiles.getCall( 2 ).returned( sinon.match.same( app.parse ) )
 		} )
 	} )
 
@@ -2254,7 +2252,7 @@ describe( 'Linter Style Checks: ', function() {
 		} )
 
 		it( 'true if transparent mixin (thats been declared)', function() {
-			app.cache.mixins = ['test-mixin', 'mixin', 'multiplyBy']
+			app.cache.customProperties = ['test-mixin', 'mixin', 'multiplyBy']
 
 			assert.ok( validTest( 'test-mixin: $val' ) )
 			assert.ok( validTest( 'mixin 5px' ) )

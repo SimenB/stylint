@@ -145,6 +145,7 @@ The following is a list of all options available to stylint.
 	"commaSpace": "always",
 	"commentSpace": "always",
 	"cssLiteral": "never",
+  "customProperties"|"mixins": false,
 	"depthLimit": false,
 	"duplicates": true,
 	"efficient": "always",
@@ -208,6 +209,30 @@ Stylint console output can be modified with the use of a reporter. Feel free to 
 
 [stylint-json-reporter](https://github.com/sertae/stylint-json-reporter)
 
+
+## Excluding files, directories, and code blocks from the linter
+
+### .stylintignore
+Before linting, Stylint will look for a `.stylintignore` file in the current working directory, and will ignore files listed there. The files should be formatted in the same way you would use `.gitignore` or `.eslintignore`
+
+For reference, it looks like this:
+
+```
+path/to/file.styl
+path/to/directory/
+```
+
+
+### the package.json approach
+You can also exclude files/directories via your package.json by adding a stylintignore property.
+
+For reference:
+
+```json
+{
+  "stylintignore": ["path/to/file.styl", "path/to/directory/"],
+}
+```
 
 
 ### warning toggle ( inline comment: @stylint off || @stylint on )

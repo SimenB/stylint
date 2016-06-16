@@ -3,6 +3,7 @@ var path = require( 'path' )
 // the main cache object
 var cache = {
 	comment: '', // the current line comment on the line, if there is one
+	customProperties: [], // an array of all declared mixins OR custom properties
 	errs: [], // array of errors detected so far
 	file: '', // curr filename we're testing
 	files: [], // all files as an arr
@@ -10,7 +11,6 @@ var cache = {
 	fileNo: 0, // curr # of filesLen we're on
 	line: '', // curr line we're testing
 	lineNo: 0, // curr line number we're testing
-	mixins: [], // an array of all declared mixins
 	msg: '', // the done message (55 warnings blah blah)
 	origLine: '', // original line before stripping/trimming
 	prevFile: '', // the previous file

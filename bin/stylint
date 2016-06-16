@@ -44,4 +44,4 @@ stylint().create( {}, {
 	config: options.config,
 	strict: options.strict,
 	reporter: options.reporter
-}, options._[0] )
+}, options._.length > 1 ? options._ : options._[0] )

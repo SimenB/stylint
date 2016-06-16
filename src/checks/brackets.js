@@ -54,7 +54,7 @@ var brackets = function( line ) {
 					return arr[0] === css || this.checkPrefix( arr[0], css, validJSON )
 				}.bind( this ) )
 
-				isMixin = this.cache.mixins.some( function( mixin ) {
+				isMixin = this.cache.customProperties.some( function( mixin ) {
 					return arr[0] === mixin
 				} )
 			}

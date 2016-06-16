@@ -1,8 +1,21 @@
+### 1.4.0
+
+added the alias `customProperties` for the `mixins` config option, to make it's purpose more clear
+
+globbing support via the cli is improved
+
+stylint now supports excluding files or directories via a `.stylintignore` file or via a package.json property (stylintignore: ['path/to/file']). relative paths only
+
+this issue fixed: https://github.com/rossPatton/stylint/issues/323
+
+this issue fixed: https://github.com/rossPatton/stylint/issues/321
+
+
 ### 1.3.10
 
 improves valid check whitelist
 
-add support for css-modules composes property
+add support for css-modules composes property by default
 
 read me updates
 
@@ -15,6 +28,7 @@ https://github.com/rossPatton/stylint/pull/294
 https://github.com/rossPatton/stylint/pull/297
 
 https://github.com/rossPatton/stylint/pull/298
+
 
 ### 1.3.9
 

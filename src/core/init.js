@@ -21,7 +21,8 @@ var init = function( options, pathPassed ) {
 	this.config = this.setConfig( options.config )
 
 	// if you want to use transparent mixins, pass in an array of them
-	this.cache.mixins = this.config.mixins || this.cache.mixins
+	// this also covers the (more common probably) custom property use case
+	this.cache.customProperties = this.config.mixins || this.config.customProperties || this.cache.customProperties
 
 	// we do the check here just in case
 	// they don't pass in a reporter when using a custom config
@@ -37,7 +38,6 @@ var init = function( options, pathPassed ) {
 
 	// if path/ passed in use that for the dir
 	this.state.path = pathPassed || this.state.path || process.cwd()
-	
 	this.callback = this.callback || options.callback
 
 	// fire watch or read based on flag

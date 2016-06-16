@@ -6,10 +6,8 @@
  * @returns {Function} push formatted output to appropriate array
 */
 var msg = function( str ) {
-	var arr
-
 	// determine which group the msg belongs to
-	arr = this.state.severity === 'Warning' ? this.cache.warnings : this.cache.errs
+	var arr = this.state.severity === 'Warning' ? this.cache.warnings : this.cache.errs
 
 	// push the final output
 	return arr.push( this.reporter( str ) )
