@@ -235,6 +235,10 @@ For reference:
 ```
 
 
+### the config approach
+see config documentation below for how to use the exclude option via `.stylintrc` or your passed in config object
+
+
 ### warning toggle ( inline comment: @stylint off || @stylint on )
 Disable linting for a particular block of code by placing `@stylint off` in a line comment. Re-enable by placing `@stylint on` in a line comment further down. Stylint will not test any lines until turned back on. Use this to suppress warnings on a case-by-case basis. By default the linter will check every line except for @css blocks or places where certain rules have exceptions.
 
