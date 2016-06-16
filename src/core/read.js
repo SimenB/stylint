@@ -35,13 +35,13 @@ var read = function( filepath ) {
 		// if this path is in the excludes array, we ignore it
 		// relative paths only
 		var isExcludes = function( path ) {
-			return this.state.exclude.indexOf(path) !== -1 ||
-				this.state.exclude.indexOf('./' + path) !== -1 ||
-				this.state.exclude.indexOf(path.replace('./', '')) !== -1
+			return this.state.exclude.indexOf( path ) !== -1 ||
+				this.state.exclude.indexOf( './' + path ) !== -1 ||
+				this.state.exclude.indexOf( path.replace( './', '' ) ) !== -1
 		}.bind( this )
 
 		// you shall not pass
-		if (isExcludes(path)) return
+		if ( isExcludes( path ) ) return
 
 		if ( stats.isFile() ) {
 			this.cache.filesLen = 1

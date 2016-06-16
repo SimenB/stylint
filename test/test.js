@@ -2252,7 +2252,7 @@ describe( 'Linter Style Checks: ', function() {
 		} )
 
 		it( 'true if transparent mixin (thats been declared)', function() {
-			app.cache.mixins = ['test-mixin', 'mixin', 'multiplyBy']
+			app.cache.customProperties = ['test-mixin', 'mixin', 'multiplyBy']
 
 			assert.ok( validTest( 'test-mixin: $val' ) )
 			assert.ok( validTest( 'mixin 5px' ) )

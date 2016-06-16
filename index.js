@@ -2,7 +2,7 @@
 
 // our stampit modules
 var stampit = require( 'stampit' )
-var fs = require('fs')
+var fs = require( 'fs' )
 
 // let there be light ( * )
 // basically, with stampit we take a bunch of different objects
@@ -26,8 +26,7 @@ var Stylint = function( path, config, callback ) {
 		require( './src/checks/' ),
 		require( './src/state/' ),
 		stampit().enclose( function() {
-			var pkg = require(process.cwd() + '/package.json')
-			console.log('package.json: ', pkg)
+			var pkg = require( process.cwd() + '/package.json' )
 
 			// set safe path defaults
 			if ( typeof path === 'undefined' ) {
@@ -41,21 +40,23 @@ var Stylint = function( path, config, callback ) {
 			// for ignoring specific files
 			// first look in package.json
 			// then look for .stylintignore in the main dir
-			if (typeof pkg.stylintignore !== 'undefined' &&
-					pkg.stylintignore instanceof Array) {
+			if ( typeof pkg.stylintignore !== 'undefined' &&
+					pkg.stylintignore instanceof Array ) {
 				this.state.exclude = pkg.stylintignore
 			}
 			else {
 				try {
-					var stylintIgnore = fs.readFileSync(process.cwd() + '/.stylintignore')
+					var stylintIgnore = fs.readFileSync( process.cwd() + '/.stylintignore' )
 					this.state.exclude = stylintIgnore
 						.toString()
-						.split('\n')
-						.filter(function( d ) {
+						.split( '\n' )
+						.filter( function( d ) {
 							return d
-						})
+						} )
 				}
-				catch ( err ) { }
+				catch ( err ) {
+					// do nothing
+				}
 			}
 
 			this.customConfig = typeof config === 'object' ? config : false
