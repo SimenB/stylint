@@ -1905,11 +1905,6 @@ describe( 'Linter Style Checks: ', function() {
 			assert.equal( undefined, semiTest( 'margin 0 auto;' ) )
 		} )
 
-		it( 'undefined if line skipped (root context)', function() {
-			app.state.context = 0
-			assert.equal( undefined, semiTest( 'margin 0 auto' ) )
-		} )
-
 		it( 'undefined if line skipped (syntax)', function() {
 			assert.equal( undefined, semiTest( 'var =' ) )
 			assert.equal( undefined, semiTest( 'var = @block' ) )
