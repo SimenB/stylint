@@ -1,8 +1,5 @@
 'use strict'
 
-var placeholderRe = /(@extend|@extends)+( \$)+/
-
-
 /**
  * @description check that @extend is only used with a $placeholderVar
  * @param {string} [line] curr line being linted
@@ -13,13 +10,20 @@ var placeholders = function( line ) {
 
 	var placeholder = false
 
-	// first check if line has an extend, then check for placeholder
-	if ( placeholderRe.test( line ) ) {
-		placeholder = true
-	}
+	// stylus supports multiple, mixed extends and optional extends
+	// so lets pull them out of the line and check individually
+	// @extends .biz !optional, $extendable !optional =>
+	// ['.biz !optional', '$extendable !optional']
+	var extendArr = line.replace( /(@extend)+s?\s/, '' ).split( ',' )
+
+	// if any item in the list is not a placeholder, fail
+	placeholder = extendArr.every( function( line ) {
+		var trimmed = line.trim()
+		return trimmed.substr( 0, 1 ) === '$'
+	} )
 
 	if ( this.state.conf === 'always' && placeholder === false ) {
-		this.msg( 'use a placeholder variable when extending' )
+		this.msg( 'always use a placeholder variable when extending' )
 	}
 	else if ( this.state.conf === 'never' && placeholder === true ) {
 		this.msg( 'placeholder variables are disallowed' )

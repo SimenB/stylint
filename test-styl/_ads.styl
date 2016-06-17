@@ -5,6 +5,9 @@
 @require 'animate'
 @require 'nib'
 
+$extendable
+  margin: 0
+
 :root {
   --test: '#990000'
 }
@@ -12,18 +15,26 @@
 $color-black = #000
 $color-white = #fff;
 
-.test-semi-always
-  background: $colors.bg
-  color: #fff
-
 .biz
-  &:-ms-input-placeholder
-    color: var( --test )
-    margin: 0
-  /.is-biz
-    margin: 0
-  ../../ .bar
-    margin: 0
+  @extend$placeholderconst
+  margin: 0
+  // &:-ms-input-placeholder
+  //   color: var( --test )
+  //   margin: 0
+  // /.is-biz
+  //   margin: 0
+  // ../../ .bar
+  //   margin: 0
+
+.test-extend
+  @extends $extendable !optional
+
+.test-semi-always
+  @extends .biz !optional, $extendable !optional
+  // background: $colors.bg
+  // color: #fff
+
+// @stylint off
 
 .baz
   &::-moz-placeholder
