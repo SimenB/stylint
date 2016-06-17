@@ -10,7 +10,7 @@ var ignoreRe = /^\s*(?:#|.*=.*)/
  * @returns {boolean} true if hex color found, false if not
  */
 var colors = function( line ) {
-	if ( ignoreRe.test( line ) ) { return }
+	if ( ignoreRe.test( line ) || this.state.root ) { return }
 	var hex = false
 
 	// so basically if we're using #hex colors outside of a var declaration

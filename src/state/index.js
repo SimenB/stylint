@@ -7,6 +7,8 @@ var stateMethods = stampit().methods( {
 	keyframesEnd: require( './keyframesEnd' ),
 	keyframesStart: require( './keyframesStart' ),
 	startsWithComment: require( './startsWithComment' ),
+	rootEnd: require( './rootEnd' ),
+	rootStart: require( './rootStart' ),
 	stylintOff: require( './stylintOff' ),
 	stylintOn: require( './stylintOn' )
 } )

@@ -36,6 +36,13 @@ var setState = function( line ) {
 		return
 	}
 
+	// if starting / ending css4 :root
+	// we'll need to capture custom properties
+	if ( this.rootStart( line ) ||
+		this.rootEnd( line ) === false ) {
+		return
+	}
+
 	// if entire line is comment, just check comma spacing and that's it
 	if ( this.startsWithComment( line ) ) {
 		if ( typeof this.config.commentSpace !== 'undefined' ) {

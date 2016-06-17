@@ -14,6 +14,7 @@ var state = {
 	openBracket: false, // is there an unclosed bracket
 	path: '', // curr dir || file
 	prevContext: 0, // save the last context as well
+	root: false, // css4 root block, for declaring css4 variables
 	severity: 'warning', // severity level for current check
 	testsEnabled: true, // are we running linter tests
 	quiet: false, // turn off console logs

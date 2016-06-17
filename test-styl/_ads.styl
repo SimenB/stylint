@@ -5,10 +5,17 @@
 @require 'animate'
 @require 'nib'
 
+:root {
+  --test: '#990000'
+}
+
 .biz
   &:-ms-input-placeholder
+    color: var( --test )
     margin: 0
   /.is-biz
+    margin: 0
+  ../../ .bar
     margin: 0
 
 .baz
