@@ -1,3 +1,8 @@
+### 1.5.2
+
+minor colon check fix: https://github.com/rossPatton/stylint/issues/258
+
+
 ### 1.5.1
 
 cover basic quote check (not very robust): https://github.com/rossPatton/stylint/issues/271

@@ -2,7 +2,7 @@
   // testing stylintrc, real default is in core/
   "blocks": false,
   "brackets": false,
-  "colons": "never",
+  "colons": "always",
   "colors": {
     "expect": "always"
   },

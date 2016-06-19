@@ -19,7 +19,8 @@ var colons = function( line ) {
 
 	if ( this.state.conf === 'always' &&
 		arr.length > 1 &&
-		arr[0].indexOf( ':' ) === -1 ) {
+		arr[0].indexOf( ':' ) === -1 &&
+		arr[0].indexOf( ',' ) === -1 ) {
 		colon = false
 	}
 	// : is allowed in hashes
