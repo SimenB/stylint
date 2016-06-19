@@ -1,9 +1,4 @@
-### 1.5.4
-
-add support for regexp in excludes and namingConvention options
-
-
-### 1.5.2
+### 1.5.3
 
 minor mixed check fix: https://github.com/rossPatton/stylint/issues/240
 
