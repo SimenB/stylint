@@ -1,5 +1,10 @@
 ### 1.5.2
 
+minor mixed check fix: https://github.com/rossPatton/stylint/issues/240
+
+
+### 1.5.2
+
 minor colon check fix: https://github.com/rossPatton/stylint/issues/258
 
 

@@ -1393,23 +1393,23 @@ describe( 'Linter Style Checks: ', function() {
 
 		it( 'false if no mixed spaces and tabs found: spaces preferred', function() {
 			app.config.indentPref = 4
-			assert.equal( false, mixed( '    margin 0' ) )
+			assert.equal( false, mixed( '', '    margin 0' ) )
 		} )
 
 		it( 'false if no mixed spaces and tabs found: tabs preferred', function() {
 			app.config.indentPref = 'tabs'
-			assert.equal( false, mixed( '	margin 0' ) )
+			assert.equal( false, mixed( '', '	margin 0' ) )
 		} )
 
 		it( 'true if spaces and tabs are mixed: spaces preferred', function() {
 			app.config.indentPref = 4
-			assert.ok( mixed( '	  margin 0' ) )
-			assert.ok( mixed( '	padding 0em' ) )
+			assert.ok( mixed( '', '	  margin 0' ) )
+			assert.ok( mixed( '', '	padding 0em' ) )
 		} )
 
 		it( 'true if spaces and tabs are mixed: tabs preferred', function() {
 			app.config.indentPref = 'tabs'
-			assert.ok( mixed( '	    margin 0' ) )
+			assert.ok( mixed( '', '	    margin 0' ) )
 		} )
 	} )
 
