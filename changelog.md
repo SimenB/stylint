@@ -1,3 +1,8 @@
+### 1.5.1
+
+cover basic quote check (not very robust): https://github.com/rossPatton/stylint/issues/271
+
+
 ### 1.5.0
 
 adds column number for errors to output

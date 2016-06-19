@@ -254,11 +254,12 @@ describe( 'Core Methods: ', function() {
 		it( 'return correctly formatted msg', function() {
 			app.state.severity = 'Warning'
 			app.cache.file = 'testReporter'
-			app.cache.lineNo = '1'
+			app.cache.col = 0
+			app.cache.lineNo = 1
 			app.cache.origLine = 'Reporter Lyfe*'
 			app.cache.rule = 'universal'
 			var msg = 'universal disallowed'
-			var expectedOutput = '\u001b[4mtestReporter\u001b[24m\n1 \u001b[90muniversal\u001b[39m \u001b[33mwarning\u001b[39m universal disallowed'
+			var expectedOutput = '\u001b[4mtestReporter\u001b[24m\n1:0 \u001b[90muniversal\u001b[39m \u001b[33mwarning\u001b[39m universal disallowed'
 
 			// Warning: universal disallowed\nFile: testReporter\nLine: 1: Reporter Lyfe*
 			// app.reporter( 'universal disallowed' )
@@ -1823,6 +1824,10 @@ describe( 'Linter Style Checks: ', function() {
 
 		it( 'false if correct quote style used: double', function() {
 			app.state.conf = 'double'
+			assert.equal( false, quoteTest( '', "$var = 'test \"substring\" string' " ) )
+			assert.equal( false, quoteTest( '', "$var = 'test \"substring string' " ) )
+			assert.equal( false, quoteTest( '', '$var = "test \'substring\' string"' ) )
+			assert.equal( false, quoteTest( '', '$var = "test let\'s string"' ) )
 			assert.equal( false, quoteTest( '', '$var = "test string" ' ) )
 			assert.equal( false, quoteTest( '', '$var = "test \'substring\' string"' ) )
 			assert.equal( false, quoteTest( '', '$var = "test let\'s string"' ) )
@@ -1837,8 +1842,6 @@ describe( 'Linter Style Checks: ', function() {
 		it( 'true if incorrect quote style used: single', function() {
 			app.state.conf = 'single'
 			assert.ok( quoteTest( '', '$var = "test string" ' ) )
-			assert.ok( quoteTest( '', '$var = "test \'substring\' string"' ) )
-			assert.ok( quoteTest( '', '$var = "test let\'s string"' ) )
 			assert.ok( quoteTest( '', '.show-content( $content = "Hello!" )' ) )
 			assert.ok( quoteTest( '', '.join-strings( $content1 = "Hello!", $content2 = \'World!\' )' ) )
 			assert.ok( quoteTest( '', '.show-content( $content = "Hello!" ) {' ) )
@@ -1848,8 +1851,6 @@ describe( 'Linter Style Checks: ', function() {
 		it( 'true if incorrect quote style used: double', function() {
 			app.state.conf = 'double'
 			assert.ok( quoteTest( '', "$var = 'test string' " ) )
-			assert.ok( quoteTest( '', "$var = 'test \"substring\" string' " ) )
-			assert.ok( quoteTest( '', "$var = 'test \"substring string' " ) )
 			assert.ok( quoteTest( '', ".show-content( $content = 'Hello!' )" ) )
 			assert.ok( quoteTest( '', ".show-content( $content = 'Hello!' ) {" ) )
 			assert.ok( quoteTest( '', '.join-strings( $content1 = "Hello!", $content2 = \'World!\' )' ) )
