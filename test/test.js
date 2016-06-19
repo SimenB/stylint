@@ -256,9 +256,13 @@ describe( 'Core Methods: ', function() {
 			app.cache.file = 'testReporter'
 			app.cache.lineNo = '1'
 			app.cache.origLine = 'Reporter Lyfe*'
+			app.cache.rule = 'universal'
+			var msg = 'universal disallowed'
+			var expectedOutput = '\u001b[4mtestReporter\u001b[24m\n1 \u001b[90muniversal\u001b[39m \u001b[33mwarning\u001b[39m universal disallowed'
 
+			// Warning: universal disallowed\nFile: testReporter\nLine: 1: Reporter Lyfe*
 			// app.reporter( 'universal disallowed' )
-			assert.equal( 'Warning: universal disallowed\nFile: testReporter\nLine: 1: Reporter Lyfe*', app.reporter( 'universal disallowed' ) )
+			assert.equal( expectedOutput, app.reporter( msg ) )
 		} )
 
 		it( 'return done() if done passed in', function() {
@@ -275,7 +279,7 @@ describe( 'Core Methods: ', function() {
 		it( 'return done() and kill if kill passed in', function() {
 			var expectedDoneObj = {
 				exitCode: 0,
-				msg: '\nStylint: 0 Errors.\nStylint: 0 Warnings.\nStylint: Over Error or Warning Limit.',
+				msg: '\n\nStylint: 0 Errors.\nStylint: 0 Warnings.\nStylint: Over Error or Warning Limit.',
 				errs: [],
 				warnings: []
 			}
@@ -286,7 +290,7 @@ describe( 'Core Methods: ', function() {
 		it( 'return done() if done passed in', function() {
 			var expectedDoneObj = {
 				exitCode: 1,
-				msg: '\nStylint: 1 Errors.\nStylint: 1 Warnings.',
+				msg: '\n\nStylint: 1 Errors.\nStylint: 1 Warnings.',
 				errs: [1],
 				warnings: [2]
 			}
@@ -758,26 +762,23 @@ describe( 'Linter Style Checks: ', function() {
 	describe( 'comma space: prefer space after commas', function() {
 		var commaTest = lint.commaSpace.bind( app )
 
-		it( 'false if space after comma', function() {
-			assert.equal( false, commaTest( '0, 0, 0, .18' ) )
-			assert.equal( false, commaTest( '0,0, 0, .18' ) )
+		it( 'false if space after comma, or comma in quotes', function() {
+			assert.equal( false, commaTest( '', '0, 0, 0, .18' ) )
+			assert.equal( false, commaTest( '', '0,0, 0, .18' ) )
+			assert.equal( false, commaTest( '', 'content: ","' ) )
 		} )
 
 		it( 'true if no space after commas', function() {
-			assert.ok( commaTest( '0,0,0,.18' ) )
-			assert.ok( commaTest( 'mixin( $param1,$param2 )' ) )
+			assert.ok( commaTest( '', '0,0,0,.18' ) )
+			assert.ok( commaTest( '', 'mixin( $param1,$param2 )' ) )
 		} )
 
 		it( 'undefined if no comma on line', function() {
-			assert.equal( undefined, commaTest( 'margin 0' ) )
+			assert.equal( undefined, commaTest( '', 'margin 0' ) )
 		} )
 
 		it( 'undefined if comma is last character', function() {
-			assert.equal( undefined, commaTest( '.class,' ) )
-		} )
-
-		it( 'undefined if comma on line is in quotes', function() {
-			assert.equal( undefined, commaTest( 'content: ","' ) )
+			assert.equal( undefined, commaTest( '', '.class,' ) )
 		} )
 	} )
 
@@ -789,21 +790,21 @@ describe( 'Linter Style Checks: ', function() {
 		} )
 
 		it( 'false if space after comma', function() {
-			assert.equal( false, commaTest( '0, 0, 0, .18' ) )
-			assert.equal( false, commaTest( '0,0, 0, .18' ) )
+			assert.equal( false, commaTest( '', '0, 0, 0, .18' ) )
+			assert.equal( false, commaTest( '', '0,0, 0, .18' ) )
 		} )
 
 		it( 'true if no space after commas', function() {
-			assert.ok( commaTest( '0,0,0,.18' ) )
-			assert.ok( commaTest( 'mixin( $param1,$param2 )' ) )
+			assert.ok( commaTest( '', '0,0,0,.18' ) )
+			assert.ok( commaTest( '', 'mixin( $param1,$param2 )' ) )
 		} )
 
 		it( 'undefined if no comma on line', function() {
-			assert.equal( undefined, commaTest( 'margin 0' ) )
+			assert.equal( undefined, commaTest( '', 'margin 0' ) )
 		} )
 
 		it( 'undefined if comma is last character', function() {
-			assert.equal( undefined, commaTest( '.class,' ) )
+			assert.equal( undefined, commaTest( '', '.class,' ) )
 		} )
 	} )
 
@@ -816,17 +817,17 @@ describe( 'Linter Style Checks: ', function() {
 
 		it( 'false if line comment doesnt have a space after it', function() {
 			app.cache.comment = '//test'
-			assert.equal( false, commentSpaceTest( '' ) )
+			assert.equal( false, commentSpaceTest( '', '' ) )
 		} )
 
 		it( 'true if line comment has space after it', function() {
 			app.cache.comment = '// test'
-			assert.ok( commentSpaceTest( '' ) )
+			assert.ok( commentSpaceTest( '', '' ) )
 		} )
 
 		it( 'undefined if line has no comment', function() {
 			app.state.hasComment = false
-			assert.equal( undefined, commentSpaceTest( '.test' ) )
+			assert.equal( undefined, commentSpaceTest( '', '.test' ) )
 		} )
 	} )
 
@@ -840,17 +841,17 @@ describe( 'Linter Style Checks: ', function() {
 
 		it( 'false if line comment doesnt have a space after it', function() {
 			app.cache.comment = '//test'
-			assert.equal( false, commentSpaceTest( '' ) )
+			assert.equal( false, commentSpaceTest( '', '' ) )
 		} )
 
 		it( 'true if line comment has space after it', function() {
 			app.cache.comment = '// test'
-			assert.ok( commentSpaceTest( '' ) )
+			assert.ok( commentSpaceTest( '', '' ) )
 		} )
 
 		it( 'undefined if line has no comment', function() {
 			app.state.hasComment = false
-			assert.equal( undefined, commentSpaceTest( '.test' ) )
+			assert.equal( undefined, commentSpaceTest( '', '.test' ) )
 		} )
 	} )
 
@@ -1313,12 +1314,12 @@ describe( 'Linter Style Checks: ', function() {
 			app.state.conf = 'always'
 		} )
 
-		it( 'false if leading zero not found', function() {
-			assert.equal( false, zeroTest( 'color (0, 0, 0, .18)' ) )
-			assert.equal( false, zeroTest( 'color (0,0,0,.18)' ) )
-			assert.equal( false, zeroTest( 'font-size .9em' ) )
-			assert.equal( false, zeroTest( 'transform rotate( .33deg )' ) )
-			assert.equal( false, zeroTest( 'transform rotate(.33deg)' ) )
+		it( 'null if leading zero not found', function() {
+			assert.equal( null, zeroTest( 'color (0, 0, 0, .18)' ) )
+			assert.equal( null, zeroTest( 'color (0,0,0,.18)' ) )
+			assert.equal( null, zeroTest( 'font-size .9em' ) )
+			assert.equal( null, zeroTest( 'transform rotate( .33deg )' ) )
+			assert.equal( null, zeroTest( 'transform rotate(.33deg)' ) )
 		} )
 
 		it( 'true if line has a zero before a decimal point and not part of range', function() {
@@ -1354,12 +1355,12 @@ describe( 'Linter Style Checks: ', function() {
 			app.state.conf = 'never'
 		} )
 
-		it( 'false if leading zero not found', function() {
-			assert.equal( false, zeroTest( 'color (0, 0, 0, .18)' ) )
-			assert.equal( false, zeroTest( 'color (0,0,0,.18)' ) )
-			assert.equal( false, zeroTest( 'font-size .9em' ) )
-			assert.equal( false, zeroTest( 'transform rotate( .33deg )' ) )
-			assert.equal( false, zeroTest( 'transform rotate(.33deg)' ) )
+		it( 'null if leading zero not found', function() {
+			assert.equal( null, zeroTest( 'color (0, 0, 0, .18)' ) )
+			assert.equal( null, zeroTest( 'color (0,0,0,.18)' ) )
+			assert.equal( null, zeroTest( 'font-size .9em' ) )
+			assert.equal( null, zeroTest( 'transform rotate( .33deg )' ) )
+			assert.equal( null, zeroTest( 'transform rotate(.33deg)' ) )
 		} )
 
 		it( 'false if range', function() {
@@ -1669,10 +1670,10 @@ describe( 'Linter Style Checks: ', function() {
 			app.state.conf = 'always'
 		} )
 
-		it( 'false if no extra space', function() {
-			assert.equal( false, parenTest( '', 'myMixin(param1, param2)' ) )
-			assert.equal( false, parenTest( '', 'myMixin( param1, param2)' ) )
-			assert.equal( false, parenTest( '', 'myMixin(param1, param2 )' ) )
+		it( 'null if no extra space', function() {
+			assert.equal( null, parenTest( '', 'myMixin(param1, param2)' ) )
+			assert.equal( null, parenTest( '', 'myMixin( param1, param2)' ) )
+			assert.equal( null, parenTest( '', 'myMixin(param1, param2 )' ) )
 		} )
 
 		it( 'true if has extra spaces', function() {
@@ -1691,10 +1692,10 @@ describe( 'Linter Style Checks: ', function() {
 			app.state.conf = 'never'
 		} )
 
-		it( 'false if no extra space', function() {
-			assert.equal( false, parenTest( '', 'myMixin(param1, param2)' ) )
-			assert.equal( false, parenTest( '', 'myMixin( param1, param2)' ) )
-			assert.equal( false, parenTest( '', 'myMixin(param1, param2 )' ) )
+		it( 'null if no extra space', function() {
+			assert.equal( null, parenTest( '', 'myMixin(param1, param2)' ) )
+			assert.equal( null, parenTest( '', 'myMixin( param1, param2)' ) )
+			assert.equal( null, parenTest( '', 'myMixin(param1, param2 )' ) )
 		} )
 
 		it( 'true if has extra spaces', function() {
@@ -2170,7 +2171,6 @@ describe( 'Linter Style Checks: ', function() {
 		var universalTest = lint.universal.bind( app )
 
 		it( 'false if no invalid * is found', function() {
-			assert.equal( false, universalTest( 'img' ) )
 			assert.equal( false, universalTest( 'return ( $width*$height )' ) )
 			assert.equal( false, universalTest( 'content: "*"' ) )
 		} )
@@ -2179,6 +2179,10 @@ describe( 'Linter Style Checks: ', function() {
 			assert.ok( universalTest( '*' ) )
 			assert.ok( universalTest( '*:before' ) )
 			assert.ok( universalTest( '*::after' ) )
+		} )
+
+		it( 'undefined if no * on line', function() {
+			assert.equal( undefined, universalTest( 'img' ) )
 		} )
 	} )
 
@@ -2446,11 +2450,13 @@ describe( 'Done, again: ', function() {
 
 	it( 'msg should be the default warnings/errors message', function() {
 		app.state.quiet = false
+		app.config.groupOutputByFile = false
 		app.config.maxWarnings = 10
 		app.config.maxErrors = 10
 		app.cache.warnings = [0, 1, 2, 3, 4]
 		app.cache.errs = [0, 1, 2, 3, 4]
-		app.cache.msg = '\nStylint: 5 Errors. (Max Errors: 10)\nStylint: 5 Warnings. (Max Warnings: 10)'
+		app.cache.messages = null
+		app.cache.msg = '\n\nStylint: 5 Errors. (Max Errors: 10)\nStylint: 5 Warnings. (Max Warnings: 10)'
 		assert.equal( app.cache.msg, app.done().msg )
 	} )
 

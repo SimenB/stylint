@@ -7,9 +7,7 @@
  * @returns {boolean} true if wrong style used, false if not
  */
 var extendPref = function( line ) {
-	var index = line.indexOf( '@extend' )
-
-	if ( index === -1 ) { return }
+	if ( line.indexOf( '@extend' ) === -1 ) { return }
 
 	var extendIncorrect = false
 
@@ -19,12 +17,12 @@ var extendPref = function( line ) {
 		extendIncorrect = true
 	}
 	// else @extend is your pref
-	else if ( this.state.conf === '@extend' && index === -1 ) {
+	else if ( this.state.conf === '@extend' && line.indexOf( '@extend ' ) === -1 ) {
 		extendIncorrect = true
 	}
 
 	if ( extendIncorrect === true ) {
-		this.msg( 'please use ' + this.state.conf, index )
+		this.msg( 'please use ' + this.state.conf )
 	}
 
 	return extendIncorrect

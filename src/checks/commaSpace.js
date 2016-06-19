@@ -37,7 +37,7 @@ var commaSpace = function( line, origLine ) {
 		this.msg( 'spaces after commas are not allowed', hasSpace.index )
 	}
 
-	return noSpace && !hasSpace
+	return !!( noSpace && !hasSpace )
 }
 
 module.exports = commaSpace

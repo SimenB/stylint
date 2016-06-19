@@ -10,14 +10,14 @@ var commentRe = /\/\/ /
  * @returns {boolean} true if comment found, false if not
  */
 var commentSpace = function( line, origLine ) {
-	var comment = this.state.hasComment
-
-	if ( !comment ) { return }
+	if ( !this.state.hasComment ) { return }
 
 	var spaceAfterComment = false
+	var comment = this.cache.comment
 	var index = origLine.indexOf( comment )
 
-	// check for space after comment on it's own line, if no space, return warning
+	// check for space after comment on it's own line,
+	// if no space, return warning
 	if ( commentRe.test( comment ) ) {
 		spaceAfterComment = true
 	}

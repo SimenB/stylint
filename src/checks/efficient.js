@@ -40,7 +40,7 @@ var efficient = function( line ) {
 		}
 	}
 
-	var index = line.indexOf(arr[1])
+	var index = line.indexOf( arr[1] )
 
 	if ( this.state.conf === 'never' && isEfficient === true ) {
 		this.msg( 'the value on this line is too succinct', index )

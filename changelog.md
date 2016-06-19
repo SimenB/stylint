@@ -1,5 +1,9 @@
 ### 1.5.0
 
+adds column number for errors to output
+
+improves default reporter output
+
 string and whitespacing is now much improved: https://github.com/rossPatton/stylint/issues/302
 
 set preferGlobal to false: https://github.com/rossPatton/stylint/issues/278

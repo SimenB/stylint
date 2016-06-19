@@ -71,7 +71,7 @@ var namingConvention = function( line ) {
 	}
 
 	if ( badConvention === true ) {
-		var index = line.indexOf(arr[0])
+		var index = line.indexOf( arr[0] )
 		this.msg( 'preferred naming convention is ' + this.state.conf, index )
 	}
 

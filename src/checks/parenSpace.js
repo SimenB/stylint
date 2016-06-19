@@ -27,7 +27,7 @@ var parenSpace = function( line, origLine ) {
 		missingEndSpace = parensEndWithNoSpaceRe.exec( origLine )
 		index = missingStartSpace && missingStartSpace.index
 
-		if (!index && missingEndSpace) {
+		if ( !index && missingEndSpace ) {
 			index = missingEndSpace.index
 		}
 
@@ -36,7 +36,7 @@ var parenSpace = function( line, origLine ) {
 	else if ( this.state.conf === 'never' && ( hasStartSpace || hasEndSpace ) ) {
 		index = hasStartSpace && hasStartSpace.index
 
-		if (!index && hasEndSpace) {
+		if ( !index && hasEndSpace ) {
 			index = hasEndSpace.index
 		}
 

@@ -13,7 +13,7 @@ var chalk = require( 'chalk' )
 var reporter = function( msg, done, kill ) {
 	if ( done === 'done' ) {
 		// total errors
-		this.cache.msg = '\nStylint: ' + this.cache.errs.length + ' Errors.'
+		this.cache.msg = '\n\n' + 'Stylint: ' + this.cache.errs.length + ' Errors.'
 		this.cache.msg += this.config.maxErrors ? ' (Max Errors: ' + this.config.maxErrors + ')' : ''
 		// total warnings
 		this.cache.msg += '\nStylint: ' + this.cache.warnings.length + ' Warnings.'
@@ -31,32 +31,36 @@ var reporter = function( msg, done, kill ) {
 		return this.done()
 	}
 
-	var file = chalk.underline(this.cache.file)
+	var file = chalk.underline( this.cache.file )
 	var col = typeof this.cache.col === 'number' && this.cache.col > 0 ? this.cache.col : null
 
 	var severity = this.state.severity.toLowerCase()
 	severity = severity === 'warning' ?
-		chalk.yellow(severity) :
-		chalk.red(severity)
+		chalk.yellow( severity ) :
+		chalk.red( severity )
 
-	var rule = chalk.grey(this.cache.rule)
+	var rule = chalk.grey( this.cache.rule )
 
 	// normal error or warning messages
-	var defaultMessage = file + '\n' + this.cache.lineNo + ' ' + rule + ' ' + severity + ' ' + msg + '\t' + rule
-	if (typeof this.cache.col === 'number' && this.cache.col > -1) {
+	var defaultMessage = file + '\n' + this.cache.lineNo + ' ' + rule + ' ' + severity + ' ' + msg
+
+	// if column data available, output slightly different line
+	if ( typeof this.cache.col === 'number' && this.cache.col > -1 ) {
 		defaultMessage = file + '\n' + this.cache.lineNo + ':' + this.cache.col + ' ' + rule + ' ' + severity + ' ' + msg
 	}
 
+	// weird syntax highlighting issue when this is inside a ternary
+	var linePlusCol = this.cache.lineNo + ':' + col
 	var messageObj = {
 		file: file,
-		lineData: col ? (this.cache.lineNo + ':' + col) : this.cache.lineNo,
+		lineData: col ? linePlusCol : this.cache.lineNo,
 		severity: severity,
 		description: msg,
-		rule: rule,
+		rule: rule
 	}
 
 	messageObj[file] = true
-	this.cache.messages.push(messageObj)
+	this.cache.messages.push( messageObj )
 
 	return defaultMessage
 }

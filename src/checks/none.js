@@ -25,7 +25,7 @@ var none = function( line ) {
 			zeroRe.test( line ) &&
 			!noneRe.test( line ) ) {
 		badSyntax = true
-		this.msg( 'none is preferred over 0', line.indexOf('0'))
+		this.msg( 'none is preferred over 0', line.indexOf( '0' ) )
 	}
 	// return true if border|outline is followed by none
 	// enforce use of 0
@@ -33,7 +33,7 @@ var none = function( line ) {
 		noneRe.test( line ) &&
 		!zeroRe.test( line ) ) {
 		badSyntax = true
-		this.msg( '0 is preferred over none', line.indexOf('none') )
+		this.msg( '0 is preferred over none', line.indexOf( 'none' ) )
 	}
 
 	return badSyntax

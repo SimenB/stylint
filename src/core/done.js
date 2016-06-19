@@ -1,6 +1,5 @@
 'use strict'
 
-var util = require( 'util' )
 var columnify = require( 'columnify' )
 
 function getExitCode( errsLength, warningsLength, maxErrors, maxWarnings ) {
@@ -24,6 +23,7 @@ var done = function() {
 	var warningsOrErrors = []
 	var msg = ''
 	var groupedByFile = {}
+	var msgGrouped
 	var group = this.config.groupOutputByFile
 	var opts = this.config.reporterOptions || {}
 
@@ -35,24 +35,25 @@ var done = function() {
 			.filter( function( str ) { return !!str } )
 
 		// by default group warnings and errs by file
-		if ( group ) {
-			this.cache.messages.forEach(function( output ) {
+		if ( group && this.cache.messages ) {
+			this.cache.messages.forEach( function( output ) {
 				var file = output.file
 
-				if (groupedByFile.hasOwnProperty(file)) {
-					groupedByFile[file].push(output)
+				if ( groupedByFile.hasOwnProperty( file ) ) {
+					groupedByFile[file].push( output )
 				}
 				else {
 					groupedByFile[file] = [output]
 				}
-			})
+			} )
 
-			var msgGrouped = Object.keys(groupedByFile).map(function (key, i) {
-				return '\n\n' + key + '\n' + columnify(groupedByFile[key], opts)
-			})
+			// iterate over arrays of message objects
+			// each array consists of all the errors and warnings for a file
+			// columnify the errors/warnings and prefix them with the file name
+			msgGrouped = Object.keys( groupedByFile ).map( function( key ) {
+				return '\n\n' + key + '\n' + columnify( groupedByFile[key], opts )
+			} )
 		}
-
-		// return
 
 		if ( warningsOrErrors.length ) {
 			if ( group ) {
@@ -64,7 +65,7 @@ var done = function() {
 		}
 
 		if ( msg ) {
-			console.log( msg + '\n' + this.cache.msg)
+			console.log( msg + this.cache.msg )
 		}
 	}
 
