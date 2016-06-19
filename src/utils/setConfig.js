@@ -105,7 +105,7 @@ var setConfig = function( configpath ) {
 	else if ( typeof pkg.stylintrc !== 'undefined' ) {
 		var rc = pkg.stylintrc
 
-		if ( typeof rc === 'Object' && !( rc instanceof Array ) ) {
+		if ( typeof rc === 'object' && !( rc instanceof Array ) ) {
 			returnConfig = rc
 		}
 		else if ( typeof rc === 'string' ) {
@@ -120,7 +120,7 @@ var setConfig = function( configpath ) {
 			// recurse up to user home
 			files = fs.readdirSync( cwd )
 			// null if .stylintrc file found anywhere
-			returnConfig =_recurseDirectories( files, 1, cwd )
+			returnConfig = _recurseDirectories( files, 1, cwd )
 
 			// default config if nothing found
 			if ( !returnConfig ) {

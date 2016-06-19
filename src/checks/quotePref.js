@@ -6,10 +6,12 @@ var stringRe = /(?=["'])(?:"[^"\\]*(?:\\[\s\S][^"\\]*)*"|'[^'\\]*(?:\\[\s\S][^'\
 /**
  * @description check that quote style is consistent with config
  * @param  {string} [line] curr line being linted
+ * @param {string} [origLine] curr line before being stripped
  * @return {boolean} true if in order, false if not
  */
-var quotePref = function( line ) {
-	if ( line.indexOf( '"' ) === -1 && line.indexOf( "'" ) === -1 ) {
+var quotePref = function( line, origLine ) {
+	if ( origLine.indexOf( '"' ) === -1 &&
+			origLine.indexOf( "'" ) === -1 ) {
 		return
 	}
 
@@ -18,7 +20,8 @@ var quotePref = function( line ) {
 	var badQuotes = false
 	var match
 
-	while ( ( match = stringRe.exec( line ) ) !== null ) {
+	// for each quote match, check err
+	while ( ( match = stringRe.exec( origLine ) ) !== null ) {
 		// if '' quotes preferred and match starts with double "" quote
 		if ( this.state.conf === 'single' && match[0].indexOf( '"' ) === 0 ) {
 			badQuotes = true

@@ -21,7 +21,7 @@ var lint = function() {
 				// state.severity === 'error' || 'warning'
 				this.state.severity = this.config[method].error ? 'Error' : 'Warning'
 				// run the actual check against the line
-				checks[method].call( this, this.cache.line )
+				checks[method].call( this, this.cache.line, this.cache.origLine )
 				// if check puts us over either limit, kill stylint
 				if ( maxErrs &&
 					this.cache.errs.length > this.config.maxErrors ) {

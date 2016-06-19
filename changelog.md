@@ -1,3 +1,20 @@
+### 1.5.0
+
+string and whitespacing is now much improved: https://github.com/rossPatton/stylint/issues/302
+
+set preferGlobal to false: https://github.com/rossPatton/stylint/issues/278
+
+support for root selectors (and other newish stylus features): https://github.com/rossPatton/stylint/issues/279
+
+support for stylintrc via package.json: https://github.com/rossPatton/stylint/issues/308
+
+custom props should not throw errs: https://github.com/rossPatton/stylint/issues/320
+
+improve semicolons check: https://github.com/rossPatton/stylint/issues/315
+
+placeholder check is now a little smarter: https://github.com/rossPatton/stylint/issues/280
+
+
 ### 1.4.1
 
 this PR: https://github.com/rossPatton/stylint/issues/324

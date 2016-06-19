@@ -28,6 +28,8 @@ $color-white = #fff;
 
 .test-extend
   @extends $extendable !optional
+  background-image: url('http://something.com')
+  content: 'http://something.com'
 
 .test-semi-always
   @extends .biz !optional, $extendable !optional

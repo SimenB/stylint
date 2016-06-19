@@ -1670,17 +1670,17 @@ describe( 'Linter Style Checks: ', function() {
 		} )
 
 		it( 'false if no extra space', function() {
-			assert.equal( false, parenTest( 'myMixin(param1, param2)' ) )
-			assert.equal( false, parenTest( 'myMixin( param1, param2)' ) )
-			assert.equal( false, parenTest( 'myMixin(param1, param2 )' ) )
+			assert.equal( false, parenTest( '', 'myMixin(param1, param2)' ) )
+			assert.equal( false, parenTest( '', 'myMixin( param1, param2)' ) )
+			assert.equal( false, parenTest( '', 'myMixin(param1, param2 )' ) )
 		} )
 
 		it( 'true if has extra spaces', function() {
-			assert.ok( parenTest( 'myMixin( param1, param2 )' ) )
+			assert.ok( parenTest( '', 'myMixin( param1, param2 )' ) )
 		} )
 
 		it( 'undefined if no parens on line', function() {
-			assert.equal( undefined, parenTest( '.notAMixin ' ) )
+			assert.equal( undefined, parenTest( '', '.notAMixin ' ) )
 		} )
 	} )
 
@@ -1692,17 +1692,17 @@ describe( 'Linter Style Checks: ', function() {
 		} )
 
 		it( 'false if no extra space', function() {
-			assert.equal( false, parenTest( 'myMixin(param1, param2)' ) )
-			assert.equal( false, parenTest( 'myMixin( param1, param2)' ) )
-			assert.equal( false, parenTest( 'myMixin(param1, param2 )' ) )
+			assert.equal( false, parenTest( '', 'myMixin(param1, param2)' ) )
+			assert.equal( false, parenTest( '', 'myMixin( param1, param2)' ) )
+			assert.equal( false, parenTest( '', 'myMixin(param1, param2 )' ) )
 		} )
 
 		it( 'true if has extra spaces', function() {
-			assert.ok( parenTest( 'myMixin( param1, param2 )' ) )
+			assert.ok( parenTest( '', 'myMixin( param1, param2 )' ) )
 		} )
 
 		it( 'undefined if no parens on line', function() {
-			assert.equal( undefined, parenTest( '.notAMixin ' ) )
+			assert.equal( undefined, parenTest( '', '.notAMixin ' ) )
 		} )
 	} )
 
@@ -1810,53 +1810,53 @@ describe( 'Linter Style Checks: ', function() {
 
 		it( 'false if correct quote style used: single', function() {
 			app.state.conf = 'single'
-			assert.equal( false, quoteTest( "$var = 'test string' " ) )
-			assert.equal( false, quoteTest( "$var = 'test \"substring\" string' " ) )
-			assert.equal( false, quoteTest( ".show-content( $content = 'Hello!' )" ) )
-			assert.equal( false, quoteTest( ".show-content( $content = 'Hello!' ) {" ) )
-			assert.equal( false, quoteTest( '.join-strings( $content1 = \'Hello!\', $content2 = \'World!\' )' ) )
-			assert.equal( false, quoteTest( "[class*='--button']" ) )
-			assert.equal( false, quoteTest( "[class*='--button'] {" ) )
-			assert.equal( false, quoteTest( "show-content( $content = 'Hello!' ) {" ) )
+			assert.equal( false, quoteTest( '', "$var = 'test string' " ) )
+			assert.equal( false, quoteTest( '', "$var = 'test \"substring\" string' " ) )
+			assert.equal( false, quoteTest( '', ".show-content( $content = 'Hello!' )" ) )
+			assert.equal( false, quoteTest( '', ".show-content( $content = 'Hello!' ) {" ) )
+			assert.equal( false, quoteTest( '', '.join-strings( $content1 = \'Hello!\', $content2 = \'World!\' )' ) )
+			assert.equal( false, quoteTest( '', "[class*='--button']" ) )
+			assert.equal( false, quoteTest( '', "[class*='--button'] {" ) )
+			assert.equal( false, quoteTest( '', "show-content( $content = 'Hello!' ) {" ) )
 		} )
 
 		it( 'false if correct quote style used: double', function() {
 			app.state.conf = 'double'
-			assert.equal( false, quoteTest( '$var = "test string" ' ) )
-			assert.equal( false, quoteTest( '$var = "test \'substring\' string"' ) )
-			assert.equal( false, quoteTest( '$var = "test let\'s string"' ) )
-			assert.equal( false, quoteTest( '.show-content( $content = "Hello!" )' ) )
-			assert.equal( false, quoteTest( '.show-content( $content = "Hello!" ) {' ) )
-			assert.equal( false, quoteTest( '.join-strings( $content1 = "Hello!", $content2 = "World!" )' ) )
-			assert.equal( false, quoteTest( '[class*="--button"]' ) )
-			assert.equal( false, quoteTest( '[class*="--button"] {' ) )
-			assert.equal( false, quoteTest( 'show-content( $content = "Hello!" ) {' ) )
+			assert.equal( false, quoteTest( '', '$var = "test string" ' ) )
+			assert.equal( false, quoteTest( '', '$var = "test \'substring\' string"' ) )
+			assert.equal( false, quoteTest( '', '$var = "test let\'s string"' ) )
+			assert.equal( false, quoteTest( '', '.show-content( $content = "Hello!" )' ) )
+			assert.equal( false, quoteTest( '', '.show-content( $content = "Hello!" ) {' ) )
+			assert.equal( false, quoteTest( '', '.join-strings( $content1 = "Hello!", $content2 = "World!" )' ) )
+			assert.equal( false, quoteTest( '', '[class*="--button"]' ) )
+			assert.equal( false, quoteTest( '', '[class*="--button"] {' ) )
+			assert.equal( false, quoteTest( '', 'show-content( $content = "Hello!" ) {' ) )
 		} )
 
 		it( 'true if incorrect quote style used: single', function() {
 			app.state.conf = 'single'
-			assert.ok( quoteTest( '$var = "test string" ' ) )
-			assert.ok( quoteTest( '$var = "test \'substring\' string"' ) )
-			assert.ok( quoteTest( '$var = "test let\'s string"' ) )
-			assert.ok( quoteTest( '.show-content( $content = "Hello!" )' ) )
-			assert.ok( quoteTest( '.join-strings( $content1 = "Hello!", $content2 = \'World!\' )' ) )
-			assert.ok( quoteTest( '.show-content( $content = "Hello!" ) {' ) )
-			assert.ok( quoteTest( '[class*="--button"]' ) )
+			assert.ok( quoteTest( '', '$var = "test string" ' ) )
+			assert.ok( quoteTest( '', '$var = "test \'substring\' string"' ) )
+			assert.ok( quoteTest( '', '$var = "test let\'s string"' ) )
+			assert.ok( quoteTest( '', '.show-content( $content = "Hello!" )' ) )
+			assert.ok( quoteTest( '', '.join-strings( $content1 = "Hello!", $content2 = \'World!\' )' ) )
+			assert.ok( quoteTest( '', '.show-content( $content = "Hello!" ) {' ) )
+			assert.ok( quoteTest( '', '[class*="--button"]' ) )
 		} )
 
 		it( 'true if incorrect quote style used: double', function() {
 			app.state.conf = 'double'
-			assert.ok( quoteTest( "$var = 'test string' " ) )
-			assert.ok( quoteTest( "$var = 'test \"substring\" string' " ) )
-			assert.ok( quoteTest( "$var = 'test \"substring string' " ) )
-			assert.ok( quoteTest( ".show-content( $content = 'Hello!' )" ) )
-			assert.ok( quoteTest( ".show-content( $content = 'Hello!' ) {" ) )
-			assert.ok( quoteTest( '.join-strings( $content1 = "Hello!", $content2 = \'World!\' )' ) )
-			assert.ok( quoteTest( "[class*='--button']" ) )
+			assert.ok( quoteTest( '', "$var = 'test string' " ) )
+			assert.ok( quoteTest( '', "$var = 'test \"substring\" string' " ) )
+			assert.ok( quoteTest( '', "$var = 'test \"substring string' " ) )
+			assert.ok( quoteTest( '', ".show-content( $content = 'Hello!' )" ) )
+			assert.ok( quoteTest( '', ".show-content( $content = 'Hello!' ) {" ) )
+			assert.ok( quoteTest( '', '.join-strings( $content1 = "Hello!", $content2 = \'World!\' )' ) )
+			assert.ok( quoteTest( '', "[class*='--button']" ) )
 		} )
 
 		it( 'undefined if no quotes on line', function() {
-			assert.equal( undefined, quoteTest( '$var = #000 ' ) )
+			assert.equal( undefined, quoteTest( '', '$var = #000 ' ) )
 		} )
 	} )
 
@@ -2157,12 +2157,12 @@ describe( 'Linter Style Checks: ', function() {
 		var whitespaceTest = lint.trailingWhitespace.bind( app )
 
 		it( 'false if no trailing whitespace', function() {
-			assert.equal( false, whitespaceTest( 'margin 0 auto' ) )
+			assert.equal( false, whitespaceTest( '', 'margin 0 auto' ) )
 		} )
 
 		it( 'true if whitespace found', function() {
-			assert.ok( whitespaceTest( 'margin 0 auto	' ) )
-			assert.ok( whitespaceTest( 'margin 0 auto ' ) )
+			assert.ok( whitespaceTest( '', 'margin 0 auto	' ) )
+			assert.ok( whitespaceTest( '', 'margin 0 auto ' ) )
 		} )
 	} )
 

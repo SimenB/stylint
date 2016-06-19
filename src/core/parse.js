@@ -1,7 +1,7 @@
 'use strict'
 
-// strips out comments and urls
-var cleanFileRe = /( +|:)url\(.+\)|(\r\n|\n|\r)|(^(\/\*)|([\s'"](\/\*)))(?!\/)(.|[\r\n]|\n)+?\*\/\n?/gm
+// strips out block comments and urls
+var cleanFileRe = /(\r\n|\n|\r)|(^(\/\*)|([\s'"](\/\*)))(?!\/)(.|[\r\n]|\n)+?\*\/\n?/gm
 var lineEndingsRe = /\r\n|\n|\r/gm
 
 
@@ -25,6 +25,8 @@ var parse = function( err, res ) {
 			// WHERE IS YOUR GOD NOW
 			return ( new Array( str.split( lineEndingsRe ).length ) ).join( '\n' )
 		} ).split( '\n' )
+
+		// console.log(lines)
 
 		// updating cache as we go, and passing to the next step
 		lines.forEach( function( line, lineNo ) {

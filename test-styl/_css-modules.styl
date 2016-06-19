@@ -1,3 +1,13 @@
+.test-extend
+  @extends $extendable !optional;
+  mixin('string', 'string')
+  mixin( 'http://something.com', 'string' )
+  mixin($var, 'string')
+  background-image: url( 'http://something.com' )
+  content: 'http://something.com' //testing
+
+// @stylint off
+
 :global
   .widget
     box-sizing: border-box

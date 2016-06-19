@@ -16,6 +16,7 @@ var commentSpace = function() {
 	if ( commentRe.test( this.cache.comment ) ) {
 		spaceAfterComment = true
 	}
+
 	var emptyComment = /\/\/$/.test( this.cache.comment )
 
 	if ( this.state.conf === 'always' && spaceAfterComment === false && !emptyComment ) {

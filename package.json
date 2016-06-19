@@ -44,7 +44,8 @@
   "dependencies": {
     "async": "1.5.2",
     "chokidar": "1.5.2",
-    "glob": "7.0.3",
+    "eslint": "2.13.0",
+    "glob": "7.0.4",
     "lodash.defaults": "4.0.1",
     "path-is-absolute": "1.0.0",
     "stampit": "1.2.0",
