@@ -7,7 +7,9 @@ var fs = require( 'fs' )
 // let there be light ( * )
 // basically, with stampit we take a bunch of different objects
 // and methods and compose them into one mega object, the app
-// appropriately namespaced, with methods on the prototype, and this set correctly
+// appropriately namespaced, with methods on the prototype,
+// and `this` set consistently (ie, available throughout the app)
+//
 // basic app flow below
 // init() -> read() -> parse() -> lint() -> done()
 // init() -> watch() -> read() -> parse() -> lint() -> done()

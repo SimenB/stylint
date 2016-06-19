@@ -33,7 +33,6 @@
   "bin": {
     "stylint": "./bin/stylint"
   },
-  "preferGlobal": true,
   "devDependencies": {
     "chai": "3.5.0",
     "eslint": "2.12.0",
