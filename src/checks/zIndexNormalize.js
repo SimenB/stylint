@@ -9,6 +9,7 @@
 var zIndexNormalize = function( line ) {
 	var badZIndex = false
 	var arr = this.splitAndStrip( new RegExp( /[\s\t,:]/ ), line )
+	var index = line.indexOf( 'z-index' )
 
 	// ignore 0 or -1 values
 	if ( arr[ arr.length - 1 ] === '-1' ||
@@ -16,12 +17,12 @@ var zIndexNormalize = function( line ) {
 		return
 	}
 
-	if ( line.indexOf( 'z-index' ) !== -1 && arr[ arr.length - 1 ] % this.state.conf ) {
+	if ( index !== -1 && arr[ arr.length - 1 ] % this.state.conf ) {
 		badZIndex = true
 	}
 
 	if ( badZIndex === true ) {
-		this.msg( 'this z-index value is not normalized' )
+		this.msg( 'this z-index value is not normalized', index )
 	}
 
 	return badZIndex

@@ -5,25 +5,30 @@ var commentRe = /\/\/ /
 
 /**
  * @description // check for space after line comment
+ * @param  {string} [line] curr line being linted
+ * @param {string} [origLine] curr line before being stripped
  * @returns {boolean} true if comment found, false if not
  */
-var commentSpace = function() {
-	if ( !this.state.hasComment ) { return }
+var commentSpace = function( line, origLine ) {
+	var comment = this.state.hasComment
+
+	if ( !comment ) { return }
 
 	var spaceAfterComment = false
+	var index = origLine.indexOf( comment )
 
 	// check for space after comment on it's own line, if no space, return warning
-	if ( commentRe.test( this.cache.comment ) ) {
+	if ( commentRe.test( comment ) ) {
 		spaceAfterComment = true
 	}
 
-	var emptyComment = /\/\/$/.test( this.cache.comment )
+	var emptyComment = /\/\/$/.test( comment )
 
 	if ( this.state.conf === 'always' && spaceAfterComment === false && !emptyComment ) {
-		this.msg( 'line comments require a space after //' )
+		this.msg( 'line comments require a space after //', index )
 	}
 	else if ( this.state.conf === 'never' && spaceAfterComment === true ) {
-		this.msg( 'spaces after line comments disallowed' )
+		this.msg( 'spaces after line comments disallowed', index )
 	}
 
 	return spaceAfterComment

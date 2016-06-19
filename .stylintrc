@@ -15,6 +15,7 @@
   "exclude": [],
   "extendPref": false,
   "globalDupe": false,
+  "groupOutputByFile": true,
   "indentPref": 2,
   "leadingZero": "never",
   "maxErrors": false,
@@ -28,11 +29,20 @@
   "placeholders": "always",
   "prefixVarsWithDollar": "always",
   "quotePref": "single",
-  "semicolons": "always",
+  "reporterOptions": {
+    "columns": ["lineData", "severity", "description", "rule"],
+    "columnSplitter": "  ",
+    "showHeaders": false,
+    "truncate": true
+  },
+  "semicolons": {
+    "expect": "always",
+    "error": true
+  },
   "sortOrder": "alphabetical",
   "stackedProperties": "never",
   "trailingWhitespace": "never",
-  "universal": false,
+  "universal": "never",
   "valid": true,
   "zeroUnits": "never",
   "zIndexNormalize": false

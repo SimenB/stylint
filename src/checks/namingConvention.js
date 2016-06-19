@@ -16,11 +16,13 @@ var camelRe = /^[$#.{:]+([a-zA-Z]|[${}])+([a-z]|[${}])+(([.A-Z0-9])+[a-z ]+)+\b/
  */
 var namingConvention = function( line ) {
 	var arr = this.splitAndStrip( ' ', line )
-	var doWeTestRe = /^[${:]+/m // determine if line should be tested at all
+	// determine if line should be tested at all
+	var doWeTestRe = /^[${:]+/m
 	var badConvention = false
 
+	// test a wider range if strict is true
 	if ( this.config.namingConventionStrict === true ) {
-		doWeTestRe = /^[$#.{:]+/m // test a wider range if strict is true
+		doWeTestRe = /^[$#.{:]+/m
 	}
 
 	// only run checks if on a class, id, or variable
@@ -69,7 +71,8 @@ var namingConvention = function( line ) {
 	}
 
 	if ( badConvention === true ) {
-		this.msg( 'preferred naming convention is ' + this.state.conf )
+		var index = line.indexOf(arr[0])
+		this.msg( 'preferred naming convention is ' + this.state.conf, index )
 	}
 
 	return badConvention

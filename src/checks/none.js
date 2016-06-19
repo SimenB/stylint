@@ -21,16 +21,19 @@ var none = function( line ) {
 
 	// return true if border|outline is followed by a 0
 	// enforce use of none
-	if ( this.state.conf === 'always' && zeroRe.test( line ) && !noneRe.test( line ) ) {
+	if ( this.state.conf === 'always' &&
+			zeroRe.test( line ) &&
+			!noneRe.test( line ) ) {
 		badSyntax = true
-		this.msg( 'none is preferred over 0' )
+		this.msg( 'none is preferred over 0', line.indexOf('0'))
 	}
 	// return true if border|outline is followed by none
 	// enforce use of 0
 	else if ( this.state.conf === 'never' &&
-		noneRe.test( line ) && !zeroRe.test( line ) ) {
+		noneRe.test( line ) &&
+		!zeroRe.test( line ) ) {
 		badSyntax = true
-		this.msg( '0 is preferred over none' )
+		this.msg( '0 is preferred over none', line.indexOf('none') )
 	}
 
 	return badSyntax

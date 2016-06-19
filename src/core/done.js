@@ -1,5 +1,8 @@
 'use strict'
 
+var util = require( 'util' )
+var columnify = require( 'columnify' )
+
 function getExitCode( errsLength, warningsLength, maxErrors, maxWarnings ) {
 	if ( errsLength > 0 ) {
 		if ( typeof maxErrors === 'number' ) {
@@ -20,21 +23,48 @@ function getExitCode( errsLength, warningsLength, maxErrors, maxWarnings ) {
 var done = function() {
 	var warningsOrErrors = []
 	var msg = ''
+	var groupedByFile = {}
+	var group = this.config.groupOutputByFile
+	var opts = this.config.reporterOptions || {}
 
 	this.state.exitCode = getExitCode( this.cache.errs.length, this.cache.warnings.length, this.config.maxErrors, this.config.maxWarnings )
 
 	// when testing we want to silence the console a bit, so we have the quiet option
 	if ( !this.state.quiet ) {
-		warningsOrErrors = [].concat( this.cache.errs, this.cache.warnings ).filter( function( str ) { return !!str } )
+		warningsOrErrors = [].concat( this.cache.errs, this.cache.warnings )
+			.filter( function( str ) { return !!str } )
 
-		if ( warningsOrErrors.length ) {
-			msg = warningsOrErrors.join( '\n\n' ) + '\n'
+		// by default group warnings and errs by file
+		if ( group ) {
+			this.cache.messages.forEach(function( output ) {
+				var file = output.file
+
+				if (groupedByFile.hasOwnProperty(file)) {
+					groupedByFile[file].push(output)
+				}
+				else {
+					groupedByFile[file] = [output]
+				}
+			})
+
+			var msgGrouped = Object.keys(groupedByFile).map(function (key, i) {
+				return '\n\n' + key + '\n' + columnify(groupedByFile[key], opts)
+			})
 		}
 
-		msg += '\n' + this.cache.msg
+		// return
+
+		if ( warningsOrErrors.length ) {
+			if ( group ) {
+				msg += msgGrouped
+			}
+			else {
+				msg = warningsOrErrors.join( '\n\n' )
+			}
+		}
 
 		if ( msg ) {
-			console.log( msg )
+			console.log( msg + '\n' + this.cache.msg)
 		}
 	}
 

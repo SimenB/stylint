@@ -27,6 +27,15 @@ var config = {
 	extendPref: false,
 	// throw duplicate selector warning across all files instead of curr file
 	globalDupe: false,
+	// group reporter output by file or go sequentially
+	groupOutputByFile: true,
+	// manipulate terminal output with or without an additional reporter
+	reporterOptions: {
+		columns: ['lineData', 'severity', 'description', 'rule'],
+		columnSplitter: '  ',
+		showHeaders: false,
+		truncate: true
+	},
 	// how many spaces should we prefer when indenting, pass in false if hard tabs
 	indentPref: false,
 	// enforce or disallow leading zeroes

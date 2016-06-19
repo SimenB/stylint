@@ -1,10 +1,13 @@
 'use strict'
 
+var chalk = require( 'chalk' )
+
+
 /**
- * format output message for console
- * @param  {string}   msg  error msg from one of the checks
- * @param  {string}   done whether or not this is the last message to output
- * @param  {string}   kill whether or not we're over one of our limits
+ * @description format output message for console (default)
+ * @param  {string} msg  error msg from one of the checks
+ * @param  {string} done whether or not this is the last message to output
+ * @param  {string} kill whether or not we're over one of our limits
  * @return {string | Function} either the formatted msg or done()
  */
 var reporter = function( msg, done, kill ) {
@@ -28,7 +31,34 @@ var reporter = function( msg, done, kill ) {
 		return this.done()
 	}
 
-	return this.state.severity + ': ' + msg + '\nFile: ' + this.cache.file + '\nLine: ' + this.cache.lineNo + ': ' + this.cache.origLine.trim()
+	var file = chalk.underline(this.cache.file)
+	var col = typeof this.cache.col === 'number' && this.cache.col > 0 ? this.cache.col : null
+
+	var severity = this.state.severity.toLowerCase()
+	severity = severity === 'warning' ?
+		chalk.yellow(severity) :
+		chalk.red(severity)
+
+	var rule = chalk.grey(this.cache.rule)
+
+	// normal error or warning messages
+	var defaultMessage = file + '\n' + this.cache.lineNo + ' ' + rule + ' ' + severity + ' ' + msg + '\t' + rule
+	if (typeof this.cache.col === 'number' && this.cache.col > -1) {
+		defaultMessage = file + '\n' + this.cache.lineNo + ':' + this.cache.col + ' ' + rule + ' ' + severity + ' ' + msg
+	}
+
+	var messageObj = {
+		file: file,
+		lineData: col ? (this.cache.lineNo + ':' + col) : this.cache.lineNo,
+		severity: severity,
+		description: msg,
+		rule: rule,
+	}
+
+	messageObj[file] = true
+	this.cache.messages.push(messageObj)
+
+	return defaultMessage
 }
 
 module.exports = reporter

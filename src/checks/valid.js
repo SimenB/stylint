@@ -81,7 +81,7 @@ module.exports = function valid( line ) {
 	}
 
 	if ( isValid === false ) {
-		this.msg( 'property is not valid' )
+		this.msg( 'property is not valid', line.indexOf(arr[0]) )
 	}
 
 	return isValid

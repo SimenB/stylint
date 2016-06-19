@@ -1,14 +1,13 @@
 .test-extend
   @extends $extendable !optional;
-  mixin('string','string')
-  mixin( 'http://something.com','string' )
-  mixin($var,'string')
-  mixin($var,$var)
   background-image: url( 'http://something.com,something else' )
-  content: 'http://something.com' //testing
+  content: 'http://something.com*' //testing
   color: #990000
-
+  opacity: 0.8
+  border: 0
 // @stylint off
+*
+  margin: 0
 
 :global
   .widget

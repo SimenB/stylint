@@ -12,10 +12,7 @@ var ordering = require( '../data/ordering.json' )
  */
 var sortOrder = function( line ) {
 	// we don't alphabetize the root yet
-	if ( this.state.context === 0 ||
-		this.state.hash
-		// ignoreMeRe.test( line )
-		) {
+	if ( this.state.context === 0 || this.state.hash ) {
 		this.cache.sortOrderCache = []
 		return
 	}

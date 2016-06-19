@@ -33,10 +33,10 @@ var prefixVarsWithDollar = function( line ) {
 	}
 
 	if ( this.state.conf === 'always' && hasDolla === false ) {
-		this.msg( 'variables and parameters must be prefixed with the $ sign' )
+		this.msg( 'variables and parameters must be prefixed with the $ sign', 0 )
 	}
 	else if ( this.state.conf === 'never' && hasDolla === true ) {
-		this.msg( '$ sign is disallowed for variables and parameters' )
+		this.msg( '$ sign is disallowed for variables and parameters', 0 )
 	}
 
 	return hasDolla

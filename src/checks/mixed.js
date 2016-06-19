@@ -14,20 +14,26 @@ var mixed = function( line ) {
 	var indentPref = this.config.indentPref.expect || this.config.indentPref
 	var isNum = typeof indentPref === 'number'
 
-	// if this isnt set to false then we're indenting with spaces, so check for tabs
+	// regexp obj or null
+	var hasTabs = tabs.exec( line )
+	var hasSpaces = spaces.exec( line )
+
+	// if this isnt set to false then we're indenting with spaces,
+	// so check against tabs
 	if ( isNum ) {
-		if ( tabs.test( line ) ) {
+		if ( hasTabs ) {
 			isMixed = true
 		}
 	}
 	// else you're a hard tab believer (go you)
 	// look for 2 or more spaces
-	else if ( spaces.test( line ) ) {
+	else if ( hasSpaces ) {
 		isMixed = true
 	}
 
 	if ( isMixed === true ) {
-		this.msg( 'mixed spaces and tabs' )
+		var index = isNum ? hasTabs.index : hasSpaces.index
+		this.msg( 'mixed spaces and tabs', index )
 	}
 
 	return isMixed

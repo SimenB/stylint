@@ -13,7 +13,7 @@ var colors = function( line ) {
 	if ( ignoreRe.test( line ) || this.state.root ) { return }
 
 	var hex = false
-	var match = hexRe.exec(line)
+	var match = hexRe.exec( line )
 
 	// so basically if we're using #hex colors outside of a var declaration
 	if ( match !== null ) {

@@ -13,15 +13,15 @@ var anythingElseRe = /[^ \t]/
  */
 var trailingWhitespace = function( line, origLine ) {
 	var whitespace = false
+	var hasWhitespace = whitespaceRe.exec( origLine )
 
 	// not an empty line, with whitespace at the end
-	if ( anythingElseRe.test( origLine ) &&
-		whitespaceRe.test( origLine ) ) {
+	if ( anythingElseRe.test( origLine ) && hasWhitespace ) {
 		whitespace = true
 	}
 
-	if ( this.state.conf === 'never' && whitespace === true ) {
-		this.msg( 'trailing whitespace' )
+	if ( this.state.conf === 'never' && whitespace ) {
+		this.msg( 'trailing whitespace', hasWhitespace.index )
 	}
 
 	return whitespace

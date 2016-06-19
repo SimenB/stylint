@@ -8,6 +8,7 @@ var removeQuotesRe = /(["'])(?:(?=(\\?))\2.)*?\1/g
 /**
  * @description if set to always, enforces spaces after commas. if set to never, disallows spaces
  * @param {string} [line] curr line being linted
+ * @param {string} [origLine] curr line before being stripped
  * @returns {boolean} true if space missing, false if not
  */
 var commaSpace = function( line, origLine ) {

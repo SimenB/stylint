@@ -21,22 +21,25 @@ var zeroUnits = function( line ) {
 	}
 
 	var isCorrect = true
+	var always = this.state.conf === 'always'
+	var never = this.state.conf === 'never'
+	var hasUnit = hasUnitRe.exec( line )
+	var aboveZero = aboveZeroRe.exec( line )
 
 	// if config set to never and 0 is followed by any unit
-	if ( this.state.conf === 'never' && hasUnitRe.test( line ) ) {
+	if ( never && hasUnit ) {
 		isCorrect = false
 	}
 	// if config set to always, we need to do an extra check
 	// to avoid throwing false positions on numbers like 50px
-	else if ( this.state.conf === 'always' &&  // && !hasUnitRe.test( line ) ) {
-		( !hasUnitRe.test( line ) && !aboveZeroRe.test( line ) ) ) {
+	else if ( always && ( !hasUnit && !aboveZero ) ) {
 		isCorrect = false
 	}
 
-	if ( this.state.conf === 'never' && isCorrect === false ) {
-		this.msg( '0 is preferred. Unit value is unnecessary' )
+	if ( never && isCorrect === false ) {
+		this.msg( '0 is preferred. Unit value is unnecessary', hasUnit.index )
 	}
-	else if ( this.state.conf === 'always' && isCorrect === false ) {
+	else if ( always && isCorrect === false ) {
 		this.msg( 'Including the unit value is preferred' )
 	}
 

@@ -1,5 +1,8 @@
 'use strict'
 
+var extendRe = /(@extend)+s?\s/
+
+
 /**
  * @description check that @extend is only used with a $placeholderVar
  * @param {string} [line] curr line being linted
@@ -14,7 +17,7 @@ var placeholders = function( line ) {
 	// so lets pull them out of the line and check individually
 	// @extends .biz !optional, $extendable !optional =>
 	// ['.biz !optional', '$extendable !optional']
-	var extendArr = line.replace( /(@extend)+s?\s/, '' ).split( ',' )
+	var extendArr = line.replace( extendRe, '' ).split( ',' )
 
 	// if any item in the list is not a placeholder, fail
 	placeholder = extendArr.every( function( line ) {

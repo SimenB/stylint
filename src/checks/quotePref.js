@@ -25,12 +25,12 @@ var quotePref = function( line, origLine ) {
 		// if '' quotes preferred and match starts with double "" quote
 		if ( this.state.conf === 'single' && match[0].indexOf( '"' ) === 0 ) {
 			badQuotes = true
-			this.msg( 'preferred quote style is ' + this.state.conf + ' quotes' )
+			this.msg( 'preferred quote style is ' + this.state.conf + ' quotes', match[0].indexOf( '"' ) )
 		}
 		// if "" quotes preferred and match start with single '' quote
 		else if ( this.state.conf === 'double' && match[0].indexOf( "'" ) === 0 ) {
 			badQuotes = true
-			this.msg( 'preferred quote style is ' + this.state.conf + ' quotes' )
+			this.msg( 'preferred quote style is ' + this.state.conf + ' quotes', match[0].indexOf( "'" ) )
 		}
 	}
 

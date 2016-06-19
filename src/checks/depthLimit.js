@@ -1,6 +1,7 @@
 'use strict'
 
-var ampRe = /^&/ // check if using & selector before we count tabs
+// check if using & selector before we count tabs
+var ampRe = /^&/
 
 
 /**
