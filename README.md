@@ -140,6 +140,8 @@ To catch little mistakes (duplication of rules for instance) and to enforce a co
 
 ## Options
 The following is a list of all options available to stylint.
+
+Note that customProperties and mixins are aliases
 ```json
 {
 	"blocks": false,
@@ -149,7 +151,7 @@ The following is a list of all options available to stylint.
 	"commaSpace": "always",
 	"commentSpace": "always",
 	"cssLiteral": "never",
-	"customProperties"|"mixins": false,
+	"customProperties": [],
 	"depthLimit": false,
 	"duplicates": true,
 	"efficient": "always",
@@ -162,6 +164,7 @@ The following is a list of all options available to stylint.
 	"maxErrors": false,
 	"maxWarnings": false,
 	"mixed": false,
+	"mixins": [],
 	"namingConvention": false,
 	"namingConventionStrict": false,
 	"none": "never",
@@ -189,7 +192,7 @@ The following is a list of all options available to stylint.
 
 
 #### Custom Configuration
-Stylint will try to find a custom configuration in many different before it uses the default config (see above). It goes in this order of importance:
+Stylint will try to find a custom configuration in many different places before it falls back to the default config (see above). It goes in this order of importance:
 
 1. Pass in via function parameter (ie, using stylint programmatically)
 2. Passed in via command line flag
