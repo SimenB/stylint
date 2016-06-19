@@ -10,32 +10,33 @@ var removeQuotesRe = /(["'])(?:(?=(\\?))\2.)*?\1/g
  * @param {string} [line] curr line being linted
  * @returns {boolean} true if space missing, false if not
  */
-var commaSpace = function( line ) {
+var commaSpace = function( line, origLine ) {
 	// conditions where testing isn't needed.
 	// 1: no comma on line at all
 	// 2: comma ends the line, as in a list
 	// 3: comma is
-	if ( line.indexOf( ',' ) === -1 ||
-		line.trim().indexOf( ',' ) === line.length - 1 ) {
+	if ( origLine.indexOf( ',' ) === -1 ||
+		origLine.trim().indexOf( ',' ) === origLine.length - 1 ) {
 		return
 	}
 
-	var trimmedLine = line.replace( removeQuotesRe, '' ).trim()
+	// just strip content between quotes, leave rest of syntax intact
+	// this is so we don't get false positives with , in strings
+	var trimmedLine = origLine.replace( removeQuotesRe, '""' ).trim()
 
-	// if after stripping out quotes, we don't have a comma
-	// then exit without an error (the comma was inside the quotes)
-	if ( trimmedLine.indexOf( ',' ) === -1 ) return
+	var noSpace = noSpaceRe.exec( trimmedLine )
+	var hasSpace = withSpaceRe.exec( trimmedLine )
 
 	// if spaces should be follow commas, but there is no space on the line
-	if ( this.state.conf === 'always' && noSpaceRe.test( trimmedLine ) ) {
-		this.msg( 'commas must be followed by a space for readability' )
+	if ( this.state.conf === 'always' && noSpace ) {
+		this.msg( 'commas must be followed by a space for readability', noSpace.index )
 	}
 	// if spaces should not be followed by a comma, but there are spaces anyway
-	else if ( this.state.conf === 'never' && withSpaceRe.test( trimmedLine ) ) {
-		this.msg( 'spaces after commas are not allowed' )
+	else if ( this.state.conf === 'never' && hasSpace ) {
+		this.msg( 'spaces after commas are not allowed', hasSpace.index )
 	}
 
-	return noSpaceRe.test( trimmedLine ) && !withSpaceRe.test( trimmedLine )
+	return noSpace && !hasSpace
 }
 
 module.exports = commaSpace

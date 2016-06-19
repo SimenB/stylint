@@ -75,10 +75,10 @@ var brackets = function( line ) {
 	}
 
 	if ( this.state.conf === 'never' && bracket === true ) {
-		this.msg( 'unnecessary bracket' )
+		this.msg( 'unnecessary bracket', line.indexOf( '{' ) )
 	}
 	else if ( this.state.conf === 'always' && bracket === false ) {
-		this.msg( 'always use brackets when defining selectors' )
+		this.msg( 'always use brackets when defining selectors', line.length )
 	}
 
 	return bracket

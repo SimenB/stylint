@@ -12,20 +12,21 @@ var blocks = function( line ) {
 	if ( line.indexOf( '=' ) === -1 ) { return }
 
 	var block
+	var index = line.indexOf( '@block' )
 
 	// if = ends the line and not a block var or hash
-	if ( line.indexOf( '@block' ) === -1 && eqEndRe.test( line ) ) {
+	if ( index === -1 && eqEndRe.test( line ) ) {
 		block = false
 	}
-	else if ( line.indexOf( '@block' ) !== -1 ) {
+	else if ( index !== -1 ) {
 		block = true
 	}
 
 	if ( this.state.conf === 'always' && block === false ) {
-		this.msg( 'block variables must include @block' )
+		this.msg( 'block variables must include @block', line.length )
 	}
 	else if ( this.state.conf === 'never' && block === true ) {
-		this.msg( '@block is not allowed' )
+		this.msg( '@block is not allowed', index )
 	}
 
 	return block

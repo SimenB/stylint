@@ -38,10 +38,10 @@ var colons = function( line ) {
 	}
 
 	if ( this.state.conf === 'always' && colon === false ) {
-		this.msg( 'missing colon between property and value' )
+		this.msg( 'missing colon between property and value', arr[0].length )
 	}
 	else if ( this.state.conf === 'never' && colon === true ) {
-		this.msg( 'unnecessary colon found' )
+		this.msg( 'unnecessary colon found', line.indexOf( ':' ) )
 	}
 
 	return colon

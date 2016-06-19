@@ -11,15 +11,17 @@ var ignoreRe = /^\s*(?:#|.*=.*)/
  */
 var colors = function( line ) {
 	if ( ignoreRe.test( line ) || this.state.root ) { return }
+
 	var hex = false
+	var match = hexRe.exec(line)
 
 	// so basically if we're using #hex colors outside of a var declaration
-	if ( hexRe.test( line ) ) {
+	if ( match !== null ) {
 		hex = true
 	}
 
 	if ( hex === true ) {
-		this.msg( 'hexidecimal color should be a variable' )
+		this.msg( 'hexidecimal color should be a variable', match.index )
 	}
 
 	return hex

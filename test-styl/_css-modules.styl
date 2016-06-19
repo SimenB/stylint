@@ -1,10 +1,12 @@
 .test-extend
   @extends $extendable !optional;
-  mixin('string', 'string')
-  mixin( 'http://something.com', 'string' )
-  mixin($var, 'string')
-  background-image: url( 'http://something.com' )
+  mixin('string','string')
+  mixin( 'http://something.com','string' )
+  mixin($var,'string')
+  mixin($var,$var)
+  background-image: url( 'http://something.com,something else' )
   content: 'http://something.com' //testing
+  color: #990000
 
 // @stylint off
 
