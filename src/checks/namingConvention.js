@@ -67,6 +67,14 @@ var namingConvention = function( line ) {
 					badConvention = true
 				}
 			}
+			// if not one of the defaults, assume custom regExp
+			else if ( typeof this.state.conf === 'string' ) {
+				var conventionRe = new RegExp( this.state.conf, 'm' )
+
+				if ( !conventionRe.test( arr[0] ) ) {
+					badConvention = true
+				}
+			}
 		}
 	}
 

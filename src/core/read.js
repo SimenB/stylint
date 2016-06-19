@@ -32,12 +32,14 @@ var read = function( filepath ) {
 			throw Error( 'Stylint Error: No such file or dir exists!' )
 		}
 
-		// if this path is in the excludes array, we ignore it
+		// if this path is in the excludes array, we ignore
 		// relative paths only
 		var isExcludes = function( path ) {
-			return this.state.exclude.indexOf( path ) !== -1 ||
-				this.state.exclude.indexOf( './' + path ) !== -1 ||
-				this.state.exclude.indexOf( path.replace( './', '' ) ) !== -1
+			return this.state.exclude.some( function( exclude ) {
+				return path === exclude ||
+					( './' + path ) === exclude ||
+					path.replace( './', '' ) === exclude
+			} )
 		}.bind( this )
 
 		// you shall not pass

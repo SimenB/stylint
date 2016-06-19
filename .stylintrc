@@ -21,7 +21,7 @@
   "maxErrors": false,
   "maxWarnings": false,
   "mixed": true,
-  "namingConvention": "BEM",
+  "namingConvention": "^([$]butt)",
   "namingConventionStrict": true,
   "none": "always",
   "noImportant": true,
