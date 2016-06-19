@@ -51,7 +51,7 @@ var done = function() {
 			// each array consists of all the errors and warnings for a file
 			// columnify the errors/warnings and prefix them with the file name
 			msgGrouped = Object.keys( groupedByFile ).map( function( key ) {
-				return '\n\n' + key + '\n' + columnify( groupedByFile[key], opts )
+				return key + '\n' + columnify( groupedByFile[key], opts ) + '\n\n'
 			} )
 		}
 
@@ -60,7 +60,7 @@ var done = function() {
 				msg += msgGrouped
 			}
 			else {
-				msg = warningsOrErrors.join( '\n\n' )
+				msg = warningsOrErrors.join( '\n\n' ) + '\n\n'
 			}
 		}
 

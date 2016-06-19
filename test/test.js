@@ -280,7 +280,7 @@ describe( 'Core Methods: ', function() {
 		it( 'return done() and kill if kill passed in', function() {
 			var expectedDoneObj = {
 				exitCode: 0,
-				msg: '\n\nStylint: 0 Errors.\nStylint: 0 Warnings.\nStylint: Over Error or Warning Limit.',
+				msg: 'Stylint: 0 Errors.\nStylint: 0 Warnings.\nStylint: Over Error or Warning Limit.',
 				errs: [],
 				warnings: []
 			}
@@ -291,7 +291,7 @@ describe( 'Core Methods: ', function() {
 		it( 'return done() if done passed in', function() {
 			var expectedDoneObj = {
 				exitCode: 1,
-				msg: '\n\nStylint: 1 Errors.\nStylint: 1 Warnings.',
+				msg: 'Stylint: 1 Errors.\nStylint: 1 Warnings.',
 				errs: [1],
 				warnings: [2]
 			}
@@ -1559,9 +1559,14 @@ describe( 'Linter Style Checks: ', function() {
 			assert.equal( false, conventionTest( '#id-name-like-this' ) )
 		} )
 
-		it( 'false if passed made up or incorrect convention', function() {
+		it( 'false if custom convention matches', function() {
+			app.state.conf = '[$]varExample'
+			assert.equal( false, conventionTest( '$varExample' ) )
+		} )
+
+		it( 'true if custom convention doesnt match', function() {
 			app.state.conf = 'somethin'
-			assert.equal( false, conventionTest( '$var_name_like_this' ) )
+			assert.equal( true, conventionTest( '$var_name_like_this' ) )
 		} )
 	} )
 
@@ -2457,7 +2462,7 @@ describe( 'Done, again: ', function() {
 		app.cache.warnings = [0, 1, 2, 3, 4]
 		app.cache.errs = [0, 1, 2, 3, 4]
 		app.cache.messages = null
-		app.cache.msg = '\n\nStylint: 5 Errors. (Max Errors: 10)\nStylint: 5 Warnings. (Max Warnings: 10)'
+		app.cache.msg = '\nStylint: 5 Errors. (Max Errors: 10)\nStylint: 5 Warnings. (Max Warnings: 10)'
 		assert.equal( app.cache.msg, app.done().msg )
 	} )
 

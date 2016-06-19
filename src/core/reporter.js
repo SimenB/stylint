@@ -13,7 +13,7 @@ var chalk = require( 'chalk' )
 var reporter = function( msg, done, kill ) {
 	if ( done === 'done' ) {
 		// total errors
-		this.cache.msg = '\n\n' + 'Stylint: ' + this.cache.errs.length + ' Errors.'
+		this.cache.msg = 'Stylint: ' + this.cache.errs.length + ' Errors.'
 		this.cache.msg += this.config.maxErrors ? ' (Max Errors: ' + this.config.maxErrors + ')' : ''
 		// total warnings
 		this.cache.msg += '\nStylint: ' + this.cache.warnings.length + ' Warnings.'
