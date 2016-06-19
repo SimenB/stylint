@@ -4,6 +4,10 @@
 
 [![NPM](https://nodei.co/npm/stylint.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/stylint/)
 
+As part of your project: `npm install stylint --save-dev`
+
+As a cli tool: `npm install stylint -g`
+
 [changelog](changelog.md)
 
 [known issues](https://github.com/rossPatton/stylint/issues)
@@ -152,6 +156,7 @@ The following is a list of all options available to stylint.
 	"exclude": [],
 	"extendPref": false,
 	"globalDupe": false,
+  "groupOutputByFile": true,
 	"indentPref": false,
 	"leadingZero": "never",
 	"maxErrors": false,
@@ -165,6 +170,12 @@ The following is a list of all options available to stylint.
 	"placeholders": "always",
 	"prefixVarsWithDollar": "always",
 	"quotePref": false,
+  "reporterOptions": {
+    "columns": ["lineData", "severity", "description", "rule"],
+    "columnSplitter": "  ",
+    "showHeaders": false,
+    "truncate": true
+  },
 	"semicolons": "never",
 	"sortOrder": "alphabetical",
 	"stackedProperties": "never",
@@ -176,10 +187,19 @@ The following is a list of all options available to stylint.
 }
 ```
 
+
 #### Custom Configuration
-By default, Stylint attempts to use the .stylintrc file in your working directory. If not, the above is what it falls back to.
+Stylint will try to find a custom configuration in many different before it uses the default config (see above). It goes in this order of importance:
+
+1. Pass in via function parameter (ie, using stylint programmatically)
+2. Passed in via command line flag
+3. Passed in via package.json, either as an object or path to a `.stylintrc` file
+4. Via a `.stylintrc` file, starting from the cwd and working up to the home user directory
+5. If all of the above fails, use the default config
 
 You can also use the `-c` or `--config` flags to pass in the location of your custom `.stylintrc` config file if it resides somewhere else.
+
+You can use the `stylintrc` property in your package.json to point to a `.stylintrc` file, or just directly pass in your config
 
 If requiring Stylint ( as opposed to using it via the cli ), the 2nd param is the config object.
 
@@ -213,7 +233,7 @@ Stylint console output can be modified with the use of a reporter. Feel free to 
 ## Excluding files, directories, and code blocks from the linter
 
 ### .stylintignore
-Before linting, Stylint will look for a `.stylintignore` file in the current working directory, and will ignore files listed there. The files should be formatted in the same way you would use `.gitignore` or `.eslintignore`
+Before linting Stylint will look for a `.stylintignore` file in the current working directory, and will ignore files listed there. The files should be formatted in the same way you would use `.gitignore` or `.eslintignore`
 
 For reference, it looks like this:
 
@@ -239,7 +259,7 @@ For reference:
 see config documentation below for how to use the exclude option via `.stylintrc` or your passed in config object
 
 
-### warning toggle ( inline comment: @stylint off || @stylint on )
+### stylint toggle ( inline comment: @stylint off || @stylint on )
 Disable linting for a particular block of code by placing `@stylint off` in a line comment. Re-enable by placing `@stylint on` in a line comment further down. Stylint will not test any lines until turned back on. Use this to suppress warnings on a case-by-case basis. By default the linter will check every line except for @css blocks or places where certain rules have exceptions.
 
 For example, let's say you want to enforce `namingConvention: "lowercase_underscore"`, but you're also styling elements from the Bootstrap framework. You can use the `@stylint off` toggle to prevent warnings in places where you're referencing Bootstrap classes.
@@ -259,29 +279,36 @@ Example:
 ```
 
 
-### ignore toggle ( inline comment: @stylint ignore )
-A toggle that works like the block comment, but just for one line. Useful for cases where you want to include fallback css for browser support.
+### ignore line toggle ( inline comment: @stylint ignore )
+A toggle that works like `@stylint off`, but just for one line. Useful for cases where you want to include fallback css for browser support.
 
 Example:
 ```stylus
 .button-zoom
-	cursor pointer // @stylint ignore
-	cursor zoom-in
+  background-image: url('path/to/png.png') // @stylint ignore
+  background-image: url('path/to/svg.svg')
+	cursor: pointer // @stylint ignore
+	cursor: zoom-in
 ```
 
 
-### transparent mixin use ( Array<string> )
-In Stylus you have the option of using mixins transparently, like css properties.
+### transparent mixins / custom properties ( Array<string> )
+In Stylus you have the option of using mixins transparently, like css properties. Because of how Stylus' syntax works, this rule also allows you to add adhoc support for custom properties as needed by just added the name of the property to this array.
 
-Example: prefer `mySpecialTransition: 5px`
+```javascript
+>>> config file
+  "customProperties": ['myCustomProperty']
 
-Where `mySpecialTransition` is a previously defined mixin that takes a px val as it's parameter.
+>>> example.styl
+.className
+  myCustomProperty: 5px
+```
 
-If you use nib, `size`, `absolute`, and `fixed` are often used in this way.
+Where `myCustomProperty` is a mixin that takes a px val as it's parameter.
 
-Because of nib's widespread use, the above 3 are supported by default. But any custom transparent mixin will cause the valid property check to fail. If you want to use the valid check with transparent mixins, you can do so by passing in the name of your transparent mixin to the `mixins` property of your config object.
+If you use nib, `size`, `absolute`, and `fixed` are often used in this way. If you use css-modules, `composes` is another one.
 
-Example: `mixins: ['mySpecialTransition']` will tell Stylint that mySpecialTransition exists and is not an error.
+Because of nib's widespread use, and css-modules growing popularity, the above 4 custom properties are supported by Stylint by default.
 
 
 ### blocks ( default: false, 'always' || 'never' || false )
@@ -394,6 +421,32 @@ Example if true: the following will throw a warning
 ```
 
 
+### groupOutputByFile ( default: true, true || false )
+Stylint's default setting groups errors and warnings by file when outputting. You can disable this if you want
+
+Example if true:
+```javascript
+path/to/file.styl
+  73:32      warning  mixed spaces and tabs  mixed
+  78:30   error    missing semicolon      semicolons
+
+path/to/file2.styl
+  16     warning  prefer alphabetical when sorting properties  sortOrder
+```
+
+Example if false:
+```javascript
+path/to/file.styl
+  73:32      warning  mixed spaces and tabs  mixed
+
+path/to/file.styl
+  78:30   error    missing semicolon      semicolons
+
+path/to/file2.styl
+  16     warning  prefer alphabetical when sorting properties  sortOrder
+```
+
+
 ### indentPref ( default: false, number or false )
 This works in conjunction with depthLimit. If you indent with spaces this is the number of spaces you indent with. If you use hard tabs, set this value to false.
 
@@ -502,6 +555,20 @@ Enforce consistent quotation style.
 Example if `'single'`: prefer `$var = 'some string'` over `$var = "some string"`
 
 Example if `'double'`: prefer `$var = "some string"` over `$var = 'some string'`
+
+
+### reporterOptions ( Object )
+If using the default reporter, Stylint uses columnify when outputting warnings and errors (only if you have groupOutputByFile set to true). See [columnify](https://www.npmjs.com/package/columnify) for more details. Using this option, you can easily customize the output (to an extent) without having to install a separate reporter.
+
+Default options:
+```
+{
+  columns: ['lineData', 'severity', 'description', 'rule'],
+  columnSplitter: '  ',
+  showHeaders: false,
+  truncate: true
+}
+```
 
 
 ### semicolons ( default: 'never', 'always' || 'never' || false )
