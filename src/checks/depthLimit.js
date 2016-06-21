@@ -1,7 +1,8 @@
 'use strict'
 
-// check if using & selector before we count tabs
-var ampRe = /^&/
+// check if using selector before we count depth
+// definitely not the best way to do this,
+var ampRe = /^(&|\/{1}|\.\.\/|~\/)/
 
 
 /**

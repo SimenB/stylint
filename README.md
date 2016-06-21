@@ -53,9 +53,9 @@ you can also ping me [here](https://gitter.im/rossPatton/stylint)
 I'll be the first to admit that the syntax is a bit weird, but it works just fine.
 ```javascript
 const stylint = require('stylint')('path/to/stylus/', {
-    brackets: 'always',
-    namingConvention: 'BEM',
-    semicolons: 'always'
+		brackets: 'always',
+		namingConvention: 'BEM',
+		semicolons: 'always'
 }, callbackFn).create();
 ```
 
@@ -66,7 +66,7 @@ API docs are in the docs/ folder
 You can use the CLI with [gulp-shell](https://github.com/sun-zheng-an/gulp-shell) like below:
 ```javascript
 gulp.task('stylint', shell.task([
-    'stylint path/to/styl/ -c .stylintrc'
+		'stylint path/to/styl/ -c .stylintrc'
 ]));
 ```
 
@@ -76,8 +76,8 @@ var gulp = require('gulp');
 var stylint = require('gulp-stylint');
 
 gulp.task('default', function () {
-    return gulp.src('src/*.styl')
-        .pipe(stylint())
+		return gulp.src('src/*.styl')
+				.pipe(stylint())
 });
 ```
 
@@ -86,14 +86,14 @@ You can use [grunt-stylint](https://github.com/xdissent/grunt-stylint)
 
 ```javascript
 grunt.initConfig({
-  stylint: {
-    options: {
-      config: {
-      	colons: 'never'
-      }
-    },
-    src: ['src/**/*.styl']
-  }
+	stylint: {
+		options: {
+			config: {
+				colons: 'never'
+			}
+		},
+		src: ['src/**/*.styl']
+	}
 });
 ```
 
@@ -102,22 +102,22 @@ You can use [stylint-loader](https://github.com/guerrero/stylint-loader)
 
 ```javascript
 module.exports = {
-  // ...
-  module: {
-    preLoaders: [
-      {
-        test: /\.styl$/,
-        loader: 'stylint'
-      }
-    ],
-    loaders: [
-      {
-        test: /\.styl$/,
-        loader: 'style!css!stylus'
-      }
-    ]
-  }
-  // ...
+	// ...
+	module: {
+		preLoaders: [
+			{
+				test: /\.styl$/,
+				loader: 'stylint'
+			}
+		],
+		loaders: [
+			{
+				test: /\.styl$/,
+				loader: 'style!css!stylus'
+			}
+		]
+	}
+	// ...
 }
 ```
 
@@ -140,6 +140,8 @@ To catch little mistakes (duplication of rules for instance) and to enforce a co
 
 ## Options
 The following is a list of all options available to stylint.
+
+Note that customProperties and mixins are aliases
 ```json
 {
 	"blocks": false,
@@ -149,19 +151,20 @@ The following is a list of all options available to stylint.
 	"commaSpace": "always",
 	"commentSpace": "always",
 	"cssLiteral": "never",
-  "customProperties"|"mixins": false,
+	"customProperties": [],
 	"depthLimit": false,
 	"duplicates": true,
 	"efficient": "always",
 	"exclude": [],
 	"extendPref": false,
 	"globalDupe": false,
-  "groupOutputByFile": true,
+	"groupOutputByFile": true,
 	"indentPref": false,
 	"leadingZero": "never",
 	"maxErrors": false,
 	"maxWarnings": false,
 	"mixed": false,
+	"mixins": [],
 	"namingConvention": false,
 	"namingConventionStrict": false,
 	"none": "never",
@@ -170,12 +173,12 @@ The following is a list of all options available to stylint.
 	"placeholders": "always",
 	"prefixVarsWithDollar": "always",
 	"quotePref": false,
-  "reporterOptions": {
-    "columns": ["lineData", "severity", "description", "rule"],
-    "columnSplitter": "  ",
-    "showHeaders": false,
-    "truncate": true
-  },
+	"reporterOptions": {
+		"columns": ["lineData", "severity", "description", "rule"],
+		"columnSplitter": "  ",
+		"showHeaders": false,
+		"truncate": true
+	},
 	"semicolons": "never",
 	"sortOrder": "alphabetical",
 	"stackedProperties": "never",
@@ -189,7 +192,7 @@ The following is a list of all options available to stylint.
 
 
 #### Custom Configuration
-Stylint will try to find a custom configuration in many different before it uses the default config (see above). It goes in this order of importance:
+Stylint will try to find a custom configuration in many different places before it falls back to the default config (see above). It goes in this order of importance:
 
 1. Pass in via function parameter (ie, using stylint programmatically)
 2. Passed in via command line flag
@@ -210,14 +213,14 @@ Stylint has 2 levels of output, Warnings and Errors. All Stylint rules optionall
 Example:
 ```json
 {
-    "brackets": {
-        "expect": "never",
-        "error": true
-    },
-    "colons": {
-        "expect": "always",
-        "error": true
-    }
+		"brackets": {
+				"expect": "never",
+				"error": true
+		},
+		"colons": {
+				"expect": "always",
+				"error": true
+		}
 }
 ```
 
@@ -250,7 +253,7 @@ For reference:
 
 ```json
 {
-  "stylintignore": ["path/to/file.styl", "path/to/directory/"],
+	"stylintignore": ["path/to/file.styl", "path/to/directory/"],
 }
 ```
 
@@ -285,8 +288,8 @@ A toggle that works like `@stylint off`, but just for one line. Useful for cases
 Example:
 ```stylus
 .button-zoom
-  background-image: url('path/to/png.png') // @stylint ignore
-  background-image: url('path/to/svg.svg')
+	background-image: url('path/to/png.png') // @stylint ignore
+	background-image: url('path/to/svg.svg')
 	cursor: pointer // @stylint ignore
 	cursor: zoom-in
 ```
@@ -297,11 +300,11 @@ In Stylus you have the option of using mixins transparently, like css properties
 
 ```javascript
 >>> config file
-  "customProperties": ['myCustomProperty']
+	"customProperties": ['myCustomProperty']
 
 >>> example.styl
 .className
-  myCustomProperty: 5px
+	myCustomProperty: 5px
 ```
 
 Where `myCustomProperty` is a mixin that takes a px val as it's parameter.
@@ -427,23 +430,23 @@ Stylint's default setting groups errors and warnings by file when outputting. Yo
 Example if true:
 ```javascript
 path/to/file.styl
-  73:32      warning  mixed spaces and tabs  mixed
-  78:30   error    missing semicolon      semicolons
+	73:32      warning  mixed spaces and tabs  mixed
+	78:30   error    missing semicolon      semicolons
 
 path/to/file2.styl
-  16     warning  prefer alphabetical when sorting properties  sortOrder
+	16     warning  prefer alphabetical when sorting properties  sortOrder
 ```
 
 Example if false:
 ```javascript
 path/to/file.styl
-  73:32      warning  mixed spaces and tabs  mixed
+	73:32      warning  mixed spaces and tabs  mixed
 
 path/to/file.styl
-  78:30   error    missing semicolon      semicolons
+	78:30   error    missing semicolon      semicolons
 
 path/to/file2.styl
-  16     warning  prefer alphabetical when sorting properties  sortOrder
+	16     warning  prefer alphabetical when sorting properties  sortOrder
 ```
 
 
@@ -563,10 +566,10 @@ If using the default reporter, Stylint uses columnify when outputting warnings a
 Default options:
 ```
 {
-  columns: ['lineData', 'severity', 'description', 'rule'],
-  columnSplitter: '  ',
-  showHeaders: false,
-  truncate: true
+	columns: ['lineData', 'severity', 'description', 'rule'],
+	columnSplitter: '  ',
+	showHeaders: false,
+	truncate: true
 }
 ```
 
@@ -680,7 +683,7 @@ Looks for instances of the inefficient * selector. Lots of resets use this, for 
 Example if never, disallow the following:
 ```stylus
 div *
-    margin 0
+		margin 0
 ```
 
 

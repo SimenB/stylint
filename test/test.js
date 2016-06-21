@@ -254,11 +254,12 @@ describe( 'Core Methods: ', function() {
 		it( 'return correctly formatted msg', function() {
 			app.state.severity = 'Warning'
 			app.cache.file = 'testReporter'
-			app.cache.lineNo = '1'
+			app.cache.col = 0
+			app.cache.lineNo = 1
 			app.cache.origLine = 'Reporter Lyfe*'
 			app.cache.rule = 'universal'
 			var msg = 'universal disallowed'
-			var expectedOutput = '\u001b[4mtestReporter\u001b[24m\n1 \u001b[90muniversal\u001b[39m \u001b[33mwarning\u001b[39m universal disallowed'
+			var expectedOutput = '\u001b[4mtestReporter\u001b[24m\n1:0 \u001b[90muniversal\u001b[39m \u001b[33mwarning\u001b[39m universal disallowed'
 
 			// Warning: universal disallowed\nFile: testReporter\nLine: 1: Reporter Lyfe*
 			// app.reporter( 'universal disallowed' )
@@ -279,7 +280,7 @@ describe( 'Core Methods: ', function() {
 		it( 'return done() and kill if kill passed in', function() {
 			var expectedDoneObj = {
 				exitCode: 0,
-				msg: '\n\nStylint: 0 Errors.\nStylint: 0 Warnings.\nStylint: Over Error or Warning Limit.',
+				msg: 'Stylint: 0 Errors.\nStylint: 0 Warnings.\nStylint: Over Error or Warning Limit.',
 				errs: [],
 				warnings: []
 			}
@@ -290,7 +291,7 @@ describe( 'Core Methods: ', function() {
 		it( 'return done() if done passed in', function() {
 			var expectedDoneObj = {
 				exitCode: 1,
-				msg: '\n\nStylint: 1 Errors.\nStylint: 1 Warnings.',
+				msg: 'Stylint: 1 Errors.\nStylint: 1 Warnings.',
 				errs: [1],
 				warnings: [2]
 			}
@@ -1392,23 +1393,23 @@ describe( 'Linter Style Checks: ', function() {
 
 		it( 'false if no mixed spaces and tabs found: spaces preferred', function() {
 			app.config.indentPref = 4
-			assert.equal( false, mixed( '    margin 0' ) )
+			assert.equal( false, mixed( '', '    margin 0' ) )
 		} )
 
 		it( 'false if no mixed spaces and tabs found: tabs preferred', function() {
 			app.config.indentPref = 'tabs'
-			assert.equal( false, mixed( '	margin 0' ) )
+			assert.equal( false, mixed( '', '	margin 0' ) )
 		} )
 
 		it( 'true if spaces and tabs are mixed: spaces preferred', function() {
 			app.config.indentPref = 4
-			assert.ok( mixed( '	  margin 0' ) )
-			assert.ok( mixed( '	padding 0em' ) )
+			assert.ok( mixed( '', '	  margin 0' ) )
+			assert.ok( mixed( '', '	padding 0em' ) )
 		} )
 
 		it( 'true if spaces and tabs are mixed: tabs preferred', function() {
 			app.config.indentPref = 'tabs'
-			assert.ok( mixed( '	    margin 0' ) )
+			assert.ok( mixed( '', '	    margin 0' ) )
 		} )
 	} )
 
@@ -1558,9 +1559,14 @@ describe( 'Linter Style Checks: ', function() {
 			assert.equal( false, conventionTest( '#id-name-like-this' ) )
 		} )
 
-		it( 'false if passed made up or incorrect convention', function() {
+		it( 'false if custom convention matches', function() {
+			app.state.conf = '[$]varExample'
+			assert.equal( false, conventionTest( '$varExample' ) )
+		} )
+
+		it( 'true if custom convention doesnt match', function() {
 			app.state.conf = 'somethin'
-			assert.equal( false, conventionTest( '$var_name_like_this' ) )
+			assert.equal( true, conventionTest( '$var_name_like_this' ) )
 		} )
 	} )
 
@@ -1823,6 +1829,10 @@ describe( 'Linter Style Checks: ', function() {
 
 		it( 'false if correct quote style used: double', function() {
 			app.state.conf = 'double'
+			assert.equal( false, quoteTest( '', "$var = 'test \"substring\" string' " ) )
+			assert.equal( false, quoteTest( '', "$var = 'test \"substring string' " ) )
+			assert.equal( false, quoteTest( '', '$var = "test \'substring\' string"' ) )
+			assert.equal( false, quoteTest( '', '$var = "test let\'s string"' ) )
 			assert.equal( false, quoteTest( '', '$var = "test string" ' ) )
 			assert.equal( false, quoteTest( '', '$var = "test \'substring\' string"' ) )
 			assert.equal( false, quoteTest( '', '$var = "test let\'s string"' ) )
@@ -1837,8 +1847,6 @@ describe( 'Linter Style Checks: ', function() {
 		it( 'true if incorrect quote style used: single', function() {
 			app.state.conf = 'single'
 			assert.ok( quoteTest( '', '$var = "test string" ' ) )
-			assert.ok( quoteTest( '', '$var = "test \'substring\' string"' ) )
-			assert.ok( quoteTest( '', '$var = "test let\'s string"' ) )
 			assert.ok( quoteTest( '', '.show-content( $content = "Hello!" )' ) )
 			assert.ok( quoteTest( '', '.join-strings( $content1 = "Hello!", $content2 = \'World!\' )' ) )
 			assert.ok( quoteTest( '', '.show-content( $content = "Hello!" ) {' ) )
@@ -1848,8 +1856,6 @@ describe( 'Linter Style Checks: ', function() {
 		it( 'true if incorrect quote style used: double', function() {
 			app.state.conf = 'double'
 			assert.ok( quoteTest( '', "$var = 'test string' " ) )
-			assert.ok( quoteTest( '', "$var = 'test \"substring\" string' " ) )
-			assert.ok( quoteTest( '', "$var = 'test \"substring string' " ) )
 			assert.ok( quoteTest( '', ".show-content( $content = 'Hello!' )" ) )
 			assert.ok( quoteTest( '', ".show-content( $content = 'Hello!' ) {" ) )
 			assert.ok( quoteTest( '', '.join-strings( $content1 = "Hello!", $content2 = \'World!\' )' ) )
@@ -2456,7 +2462,7 @@ describe( 'Done, again: ', function() {
 		app.cache.warnings = [0, 1, 2, 3, 4]
 		app.cache.errs = [0, 1, 2, 3, 4]
 		app.cache.messages = null
-		app.cache.msg = '\n\nStylint: 5 Errors. (Max Errors: 10)\nStylint: 5 Warnings. (Max Warnings: 10)'
+		app.cache.msg = '\nStylint: 5 Errors. (Max Errors: 10)\nStylint: 5 Warnings. (Max Warnings: 10)'
 		assert.equal( app.cache.msg, app.done().msg )
 	} )
 

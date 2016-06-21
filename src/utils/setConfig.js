@@ -27,7 +27,13 @@ var setConfig = function( configpath ) {
 	// return default config if nothing passed in or found
 	var returnConfig
 	var cwd = process.cwd()
-	var pkg = require( cwd + '/package.json' )
+	var pkg = null
+	try {
+		pkg = require( cwd + '/package.json' )
+	}
+	catch ( err ) {
+		// no output
+	}
 
 	/**
 	 * @description sets the return config if one if found
@@ -102,7 +108,8 @@ var setConfig = function( configpath ) {
 	// 3, if user did not pass in option obj, or pass options via cli
 	// check the user's package.json for either an option obj, or
 	// at least a path to one
-	else if ( typeof pkg.stylintrc !== 'undefined' ) {
+	else if ( pkg !== null &&
+		typeof pkg.stylintrc !== 'undefined' ) {
 		var rc = pkg.stylintrc
 
 		if ( typeof rc === 'object' && !( rc instanceof Array ) ) {

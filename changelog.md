@@ -1,3 +1,23 @@
+### 1.5.4
+
+fixes regression where package.json is needed in cwd for stylint to work: https://github.com/AtomLinter/linter-stylint/issues/27#issuecomment-227297345
+
+
+### 1.5.3
+
+minor mixed check fix: https://github.com/rossPatton/stylint/issues/240
+
+
+### 1.5.2
+
+minor colon check fix: https://github.com/rossPatton/stylint/issues/258
+
+
+### 1.5.1
+
+cover basic quote check (not very robust): https://github.com/rossPatton/stylint/issues/271
+
+
 ### 1.5.0
 
 adds column number for errors to output

@@ -1,22 +1,28 @@
 'use strict'
 
-var tabs = /\t/ // was a tab used, at all
-var spaces = /( {2,})+/ // check for 2 or more spaces (if hard tabs, shouldn't find anything)
+// was a tab used, at all
+var tabs = /\t/
+// check for 2 or more spaces (if hard tabs, shouldn't find anything)
+var spaces = /( {2,})+/
+// don't throw false positives if line ends in comment
+var trimRightRe = /( |\t)+(\/\/)+.+$/gm
 
 
 /**
  * @description check for mixed spaces and tabs
  * @param {string} [line] curr line being linted
+ * @param {string} [origLine] curr line before being stripped
  * @returns {boolean} true if mixed, false if not
  */
-var mixed = function( line ) {
+var mixed = function( line, origLine ) {
+	var trimRight = origLine.replace( trimRightRe, '' )
 	var isMixed = false
 	var indentPref = this.config.indentPref.expect || this.config.indentPref
 	var isNum = typeof indentPref === 'number'
 
 	// regexp obj or null
-	var hasTabs = tabs.exec( line )
-	var hasSpaces = spaces.exec( line )
+	var hasTabs = tabs.exec( trimRight )
+	var hasSpaces = spaces.exec( trimRight )
 
 	// if this isnt set to false then we're indenting with spaces,
 	// so check against tabs

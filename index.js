@@ -28,7 +28,13 @@ var Stylint = function( path, config, callback ) {
 		require( './src/checks/' ),
 		require( './src/state/' ),
 		stampit().enclose( function() {
-			var pkg = require( process.cwd() + '/package.json' )
+			var pkg = null
+			try {
+				pkg = require( process.cwd() + '/package.json' )
+			}
+			catch ( err ) {
+				// no output
+			}
 
 			// set safe path defaults
 			if ( typeof path === 'undefined' ) {
@@ -42,7 +48,8 @@ var Stylint = function( path, config, callback ) {
 			// for ignoring specific files
 			// first look in package.json
 			// then look for .stylintignore in the main dir
-			if ( typeof pkg.stylintignore !== 'undefined' &&
+			if ( pkg !== null &&
+					typeof pkg.stylintignore !== 'undefined' &&
 					pkg.stylintignore instanceof Array ) {
 				this.state.exclude = pkg.stylintignore
 			}
