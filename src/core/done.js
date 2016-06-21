@@ -64,8 +64,10 @@ var done = function() {
 			}
 		}
 
+		msg += this.cache.msg
+
 		if ( msg ) {
-			console.log( msg + this.cache.msg )
+			console.log( msg )
 		}
 	}
 
