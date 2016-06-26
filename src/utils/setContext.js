@@ -8,16 +8,20 @@
 var setContext = function( line ) {
 	var context = 0
 	var indentPref = this.config.indentPref.expect || this.config.indentPref
-	var isTabPref = indentPref === false || indentPref === 'tabs'
 
 	this.state.prevContext = this.state.context
 
 	// get context if tabs
-	if ( isTabPref && line.charAt( 0 ) === '\t' ) {
+	if ( line.charAt( 0 ) === '\t' ) {
 		context = /^\t+/.exec( line )[0].length
 	}
 	// get context if spaces
-	else if ( !isTabPref && line.charAt( 0 ) === ' ' ) {
+	else if ( line.charAt( 0 ) === ' ' ) {
+		// set default if no indentPref set
+		if ( typeof indentPref !== 'number' ) {
+			indentPref = 2
+		}
+
 		context = /^\s+/.exec( line )[0].length / indentPref
 	}
 

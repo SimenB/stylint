@@ -21,7 +21,7 @@
   "maxErrors": false,
   "maxWarnings": false,
   "mixed": true,
-  "namingConvention": "^([$]butt)",
+  "namingConvention": "lowercase-dash",
   "namingConventionStrict": true,
   "none": "always",
   "noImportant": true,
@@ -35,10 +35,7 @@
     "showHeaders": false,
     "truncate": true
   },
-  "semicolons": {
-    "expect": "always",
-    "error": true
-  },
+  "semicolons": "always",
   "sortOrder": "alphabetical",
   "stackedProperties": "never",
   "trailingWhitespace": "never",
