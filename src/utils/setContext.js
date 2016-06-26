@@ -11,6 +11,9 @@ var setContext = function( line ) {
 
 	this.state.prevContext = this.state.context
 
+	// no matter what our indentPref is,
+	// try to get context as best as possible
+
 	// get context if tabs
 	if ( line.charAt( 0 ) === '\t' ) {
 		context = /^\t+/.exec( line )[0].length

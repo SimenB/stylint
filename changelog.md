@@ -1,3 +1,8 @@
+### 1.5.6
+
+fix setContext regression
+
+
 ### 1.5.5
 
 fixes for broken reporters :( https://github.com/rossPatton/stylint/pull/329#issuecomment-227578162
