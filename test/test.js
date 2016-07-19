@@ -1557,6 +1557,28 @@ describe('Linter Style Checks: ', () => {
     });
   });
 
+  describe('bannedFunctions: ban use of specific key words', () => {
+    const bannedFunctions = lint.bannedFunctions.bind(app);
+
+    before(() => {
+      app.state.conf = true;
+    });
+
+    it('false if a line doesnt have any banned functions', () => {
+      assert.equal(false, bannedFunctions('.foo'));
+    });
+
+    it('false if a line has banned functions but is not found', () => {
+      app.config.bannedFunctions = ['translate3d'];
+      assert.equal(false, bannedFunctions('.foo'));
+    });
+
+    it('true if line has a banned function', () => {
+      app.config.bannedFunctions = ['translate3d'];
+      assert.ok(bannedFunctions('translate3d(1px, 1px, 0px)'));
+    });
+  });
+
   describe('none: prefer 0 over none', () => {
     const noneTest = lint.none.bind(app);
 

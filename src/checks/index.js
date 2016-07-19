@@ -5,6 +5,7 @@ const stampit = require('stampit');
 // group together all the checks in this folder
 const linterMethods = stampit().methods({
   lintMethods: {
+    bannedFunctions: require('./bannedFunctions'),
     blocks: require('./blocks'),
     brackets: require('./brackets'),
     colons: require('./colons'),
