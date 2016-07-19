@@ -36,6 +36,8 @@ var config = {
 		showHeaders: false,
 		truncate: true
 	},
+	// rules to throw warnings on
+	bannedFunctions: ['translate3d'],
 	// how many spaces should we prefer when indenting, pass in false if hard tabs
 	indentPref: false,
 	// enforce or disallow leading zeroes
