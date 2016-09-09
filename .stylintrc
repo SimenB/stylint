@@ -2,7 +2,6 @@
   // testing stylintrc, real default is in core/
   "blocks": false,
   "brackets": false,
-  "bannedFunctions": [],
   "colons": "always",
   "colors": {
     "expect": "always"
