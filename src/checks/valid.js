@@ -8,7 +8,7 @@
 // 6 the actual JSON property whitelist we will test against
 // 7 if interpolated value just give it a pass
 var attrOrMixinRe = /^\[\S+\]|({[\S]+})|(\([\S ]+\))|(\(\))/ // 1
-var stripRe = /(?=\S)\[\S+\]|(\.|#)(\w|-)+/ // /(?=\S)\[\S+\]/ // 2
+var stripRe = /(?=\S)\[\S+\]|((\.|#)(\w|-)+)+/ // /(?=\S)\[\S+\]/ // 2
 var ignoreRe = /^[$.#]|[&=>+~]|if|for|else|return|@block|calc|@extend|@media/ // 3
 var numRe = /\d+?(?=px|%|em|rem|v(h|w)|v(min|max)|ex|ch|mm|cm|in|pt|pc|mozmm)/ // 4
 var keyRe = /((from)|(to))+(?= $| {| \d|\n|{)/ // 5
