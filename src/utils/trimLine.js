@@ -1,6 +1,7 @@
 'use strict'
 
-var urlOrContentRe = /(["'].+["'])|( +|:)url\(.+\)/
+var contentRe = /(content:\s*["'])(?:.+)(["'])/
+var urlRe = /([\S ]+\:\s*url\s*\(["'])(?:.+)(["']\))/
 
 /**
  * @description separate out line comments
@@ -17,7 +18,7 @@ var trimLine = function( line ) {
 	this.cache.comment = ''
 
 	// remove urls, content strings
-	var noUrl = line.replace( urlOrContentRe, ' ' )
+	var noUrl = line.replace( contentRe, '$1$2' ).replace( urlRe, '$1$2' )
 
 	// strip line comments, if any exist after stripping urls
 	if ( noUrl.indexOf( '//' ) !== -1 ) {
