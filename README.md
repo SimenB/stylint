@@ -1,6 +1,9 @@
 ## stylint - the stylus linter.
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rossPatton/stylint?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Code Climate](https://codeclimate.com/github/rossPatton/stylint/badges/gpa.svg)](https://codeclimate.com/github/rossPatton/stylint) [![Test Coverage](https://codeclimate.com/github/rossPatton/stylint/badges/coverage.svg)](https://codeclimate.com/github/rossPatton/stylint/coverage) [![Build Status](https://travis-ci.org/rossPatton/stylint.svg?branch=master)](https://travis-ci.org/rossPatton/stylint)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rossPatton/stylint?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Code Climate](https://codeclimate.com/github/SimenB/stylint/badges/gpa.svg)](https://codeclimate.com/github/SimenB/stylint)
+[![Test Coverage](https://codeclimate.com/github/SimenB/stylint/badges/coverage.svg)](https://codeclimate.com/github/SimenB/stylint/coverage)
+[![Build Status](https://travis-ci.org/SimenB/stylint.svg?branch=master)](https://travis-ci.org/SimenB/stylint)
 
 [![NPM](https://nodei.co/npm/stylint.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/stylint/)
 
@@ -10,7 +13,7 @@ As a cli tool: `npm install stylint -g`
 
 [changelog](changelog.md)
 
-[known issues](https://github.com/rossPatton/stylint/issues)
+[known issues](https://github.com/SimenB/stylint/issues)
 
 If you have any problems with the linter just create a ticket there and I will respond.
 

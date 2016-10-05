@@ -25,10 +25,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/rossPatton/stylint"
+    "url": "https://github.com/SimenB/stylint"
   },
   "bugs": {
-    "url": "https://github.com/rossPatton/stylint/issues"
+    "url": "https://github.com/SimenB/stylint/issues"
   },
   "bin": {
     "stylint": "./bin/stylint"
