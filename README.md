@@ -126,12 +126,12 @@ module.exports = {
 
 
 ## As Part of Your Workflow
-Stylint integrations with both Sublime Text 3 and Atom.io are available.
+Stylint integrations with multiple IDEs are available.
 
-[Atom linter-stylint](https://atom.io/packages/linter-stylint)
-
-[SublimeLinter-contrib-stylint](https://packagecontrol.io/packages/SublimeLinter-contrib-stylint)
-
+* [Atom](https://atom.io/packages/linter-stylint)
+* [Sublime Text](https://packagecontrol.io/packages/SublimeLinter-contrib-stylint)
+* [WebStorm / PhpStorm / IntelliJ IDEA](https://plugins.jetbrains.com/plugin/9162)
+* [Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=vtfn.stylint)
 
 ## Why Write This Tool?
 Stylus is my CSS pre-processor of choice and the lack of a decent linter (or really, any linter) was an annoying pain point. So I thought I'd try my hand at writing what I thought my ideal linter would look like.
@@ -231,9 +231,8 @@ Example:
 ## Custom Reporters
 Stylint console output can be modified with the use of a reporter. Feel free to write your own (no matter how outlandish) and I'll add it here.
 
-[Stylint-stylish](https://github.com/SimenB/stylint-stylish)
-
-[stylint-json-reporter](https://github.com/sertae/stylint-json-reporter)
+* [stylint-stylish](https://github.com/SimenB/stylint-stylish)
+* [stylint-json-reporter](https://github.com/sertae/stylint-json-reporter)
 
 
 ## Excluding files, directories, and code blocks from the linter
