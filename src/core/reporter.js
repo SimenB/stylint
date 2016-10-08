@@ -1,61 +1,66 @@
 'use strict'
 
+var groupBy = require( 'lodash.groupby' )
 var chalk = require( 'chalk' )
-
 
 /**
  * @description format output message for console (default)
- * @param  {string} msg  error msg from one of the checks
- * @param  {string} done whether or not this is the last message to output
- * @param  {string} kill whether or not we're over one of our limits
+ * @param  {object}   msg  error msg from one of the checks
+ * @param  {string}   done whether or not this is the last message to output
+ * @param  {string}   kill whether or not we're over one of our limits
  * @return {string | Function} either the formatted msg or done()
  */
 var reporter = function( msg, done, kill ) {
 	if ( done === 'done' ) {
-		// total errors
-		this.cache.msg = 'Stylint: ' + this.cache.errs.length + ' Errors.'
+		this.cache.msg = ''
+
+		if ( this.cache.violations.length === 0 && kill !== 'kill' ) {
+			return
+		}
+
+		var violations = groupBy( this.cache.violations, 'severity' )
+		var numOfErrors = violations.Error ? violations.Error.length : 0
+		var numOfWarnings = violations.Warning ? violations.Warning.length : 0
+
+		this.cache.msg = 'Stylint: ' + numOfErrors + ' Errors.'
 		this.cache.msg += this.config.maxErrors ? ' (Max Errors: ' + this.config.maxErrors + ')' : ''
-		// total warnings
-		this.cache.msg += '\nStylint: ' + this.cache.warnings.length + ' Warnings.'
+
+		this.cache.msg += '\nStylint: ' + numOfWarnings + ' Warnings.'
 		this.cache.msg += this.config.maxWarnings ? ' (Max Warnings: ' + this.config.maxWarnings + ')' : ''
 
 		// if you set a max it kills the linter
 		if ( kill === 'kill' ) {
 			this.cache.msg += '\nStylint: Over Error or Warning Limit.'
 		}
-		else if ( this.cache.errs.length === 0 &&
-			this.cache.warnings.length === 0 ) {
-			this.cache.msg = ''
-		}
 
-		return this.done()
+		return
 	}
 
-	var file = chalk.underline( this.cache.file )
-	var col = typeof this.cache.col === 'number' && this.cache.col > 0 ? this.cache.col : null
+	var file = chalk.underline( msg.file )
+	var col = typeof msg.col === 'number' && msg.col > 0 ? msg.col : null
 
-	var severity = this.state.severity.toLowerCase()
+	var severity = msg.severity.toLowerCase()
 	severity = severity === 'warning' ?
 		chalk.yellow( severity ) :
 		chalk.red( severity )
 
-	var rule = chalk.grey( this.cache.rule )
+	var rule = chalk.grey( msg.rule )
 
 	// normal error or warning messages
-	var defaultMessage = file + '\n' + this.cache.lineNo + ' ' + rule + ' ' + severity + ' ' + msg
+	var defaultMessage = file + '\n' + msg.lineNo + ' ' + rule + ' ' + severity + ' ' + msg.message
 
 	// if column data available, output slightly different line
-	if ( typeof this.cache.col === 'number' && this.cache.col > -1 ) {
-		defaultMessage = file + '\n' + this.cache.lineNo + ':' + this.cache.col + ' ' + rule + ' ' + severity + ' ' + msg
+	if ( typeof msg.col === 'number' && msg.col > -1 ) {
+		defaultMessage = file + '\n' + msg.lineNo + ':' + msg.col + ' ' + rule + ' ' + severity + ' ' + msg.message
 	}
 
 	// weird syntax highlighting issue when this is inside a ternary
-	var linePlusCol = this.cache.lineNo + ':' + col
+	var linePlusCol = msg.lineNo + ':' + col
 	var messageObj = {
 		file: file,
-		lineData: col ? linePlusCol : this.cache.lineNo,
+		lineData: col ? linePlusCol : msg.lineNo,
 		severity: severity,
-		description: msg,
+		description: msg.message,
 		rule: rule
 	}
 

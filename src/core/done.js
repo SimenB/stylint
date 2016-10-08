@@ -1,18 +1,20 @@
 'use strict'
 
+var groupBy = require( 'lodash.groupby' )
 var columnify = require( 'columnify' )
 
-function getExitCode( errsLength, warningsLength, maxErrors, maxWarnings ) {
-	if ( errsLength > 0 ) {
-		if ( typeof maxErrors === 'number' ) {
-			if ( errsLength > maxErrors ) return 1
-		}
-		else return 1
+function shouldExit1( warningsOrErrors ) {
+	var maxErrs = typeof this.config.maxErrors === 'number' ? this.config.maxErrors : null
+	var maxWarnings = typeof this.config.maxWarnings === 'number' ? this.config.maxWarnings : null
+	var numberofErrors = warningsOrErrors.Error && warningsOrErrors.Error.length || 0
+	var numberofWarnings = warningsOrErrors.Warning && warningsOrErrors.Warning.length || 0
+
+	if ( maxErrs == null && numberofErrors > 0 ) {
+		return true
 	}
 
-	if ( typeof maxWarnings === 'number' && warningsLength > maxWarnings ) return 1
-
-	return 0
+	return maxErrs != null && numberofErrors > this.config.maxErrors ||
+		maxWarnings != null && numberofWarnings > this.config.maxWarnings
 }
 
 /**
@@ -20,19 +22,24 @@ function getExitCode( errsLength, warningsLength, maxErrors, maxWarnings ) {
  * @returns {Object | Function} returns process exit if not watching, or obj otherwise
  */
 var done = function() {
-	var warningsOrErrors = []
 	var msg = ''
 	var groupedByFile = {}
 	var msgGrouped
 	var group = this.config.groupOutputByFile
 	var opts = this.config.reporterOptions || {}
 
-	this.state.exitCode = getExitCode( this.cache.errs.length, this.cache.warnings.length, this.config.maxErrors, this.config.maxWarnings )
+	var violations = this.cache.violations
+		.filter( function( msg ) { return !!msg && !!msg.message } )
+
+	var shouldKill = shouldExit1.call( this, groupBy( violations, 'severity' ) )
+
+	this.state.exitCode = shouldKill ? 1 : 0
 
 	// when testing we want to silence the console a bit, so we have the quiet option
 	if ( !this.state.quiet ) {
-		warningsOrErrors = [].concat( this.cache.errs, this.cache.warnings )
-			.filter( function( str ) { return !!str } )
+		violations.forEach( function( msg ) { this.reporter( msg ) }.bind( this ) )
+
+		this.reporter( null, 'done', shouldKill ? 'kill' : null )
 
 		// by default group warnings and errs by file
 		if ( group && this.cache.messages ) {
@@ -55,6 +62,14 @@ var done = function() {
 			} )
 		}
 
+		var warningsOrErrors = violations
+			.map( function( violation ) {
+				return violation.message
+			} )
+			.filter( function( message ) {
+				return !!message
+			} )
+
 		if ( warningsOrErrors.length ) {
 			if ( group ) {
 				msg += msgGrouped
@@ -65,6 +80,7 @@ var done = function() {
 		}
 
 		msg += this.cache.msg
+		msg = msg ? msg.trim() : msg
 
 		if ( msg ) {
 			console.log( msg )
@@ -79,15 +95,13 @@ var done = function() {
 	}
 
 	var returnValue = {
-		errs: this.cache.errs.slice( 0 ),
-		warnings: this.cache.warnings.slice( 0 ),
+		violations: this.cache.violations.slice( 0 ),
 		exitCode: this.state.exitCode,
-		msg: this.cache.msg
+		msg: this.cache.msg.trim()
 	}
 
 	// if watching we reset the errors/warnings arrays
-	this.cache.errs = []
-	this.cache.warnings = []
+	this.cache.violations = []
 
 	return returnValue
 }

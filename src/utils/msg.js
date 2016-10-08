@@ -2,18 +2,21 @@
 
 
 /**
- * @description basically just sets the severity and routes output to the reporter
- * @param {string} [str] outputted string from one of the checks
+ * @description add violation to an array
+ * @param {string} [message] outputted string from one of the checks
  * @param {number} [column] column number if applicable to the check
- * @returns {Function} push formatted output to appropriate array
-*/
-var msg = function( str, column ) {
-	// determine which group the msg belongs to
-	var arr = this.state.severity === 'Warning' ? this.cache.warnings : this.cache.errs
-	this.cache.col = column
-
-	// push the final output
-	return arr.push( this.reporter( str ) )
+ * @returns {void}
+ */
+var msg = function( message, column ) {
+	this.cache.violations.push( {
+		message: message,
+		severity: this.state.severity,
+		file: this.cache.file,
+		lineNo: this.cache.lineNo,
+		col: column,
+		origLine: this.cache.origLine,
+		rule: this.cache.rule
+	} )
 }
 
 module.exports = msg
