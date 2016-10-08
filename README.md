@@ -7,13 +7,24 @@
 
 [![NPM](https://nodei.co/npm/stylint.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/stylint/)
 
-As part of your project: `npm install stylint --save-dev`
-
-As a cli tool: `npm install stylint -g`
 
 [changelog](changelog.md)
 
 [known issues](https://github.com/SimenB/stylint/issues)
+
+## Installation
+As part of your project: `npm install stylint --save-dev`
+
+As a cli tool: `npm install stylint -g`
+
+## Issues/improvments
+
+NOTE: We are currently working on a 2.0 release. Bug fixing will not be a priority during this process, but we will try
+to make sure every bug is squashed after that.
+
+Follow the [project](https://github.com/SimenB/stylint/projects/1),
+[milestone](https://github.com/SimenB/stylint/milestone/5) and [issue](https://github.com/SimenB/stylint/issues/269) for
+progress. Please contribute if you have the time! Both with code, but also with ideas and fetures.
 
 If you have any problems with the linter just create a ticket there and I will respond.
 
