@@ -1,73 +1,78 @@
 'use strict'
 
-var groupBy = require( 'lodash.groupby' )
+var _ = require( 'lodash' )
 var chalk = require( 'chalk' )
+var columnify = require( 'columnify' )
 
 /**
  * @description format output message for console (default)
- * @param  {object}   msg  error msg from one of the checks
- * @param  {string}   done whether or not this is the last message to output
- * @param  {string}   kill whether or not we're over one of our limits
- * @return {string | Function} either the formatted msg or done()
+ * @param  {Object[]} messages  error msg from one of the checks
+ * @param  {boolean} [kill] whether or not we're over one of our limits
+ * @param  {Object} [options] options provided to the reporter, and some relevant config
+ * @return {string} the formatted message
  */
-var reporter = function( msg, done, kill ) {
-	if ( done === 'done' ) {
-		this.cache.msg = ''
+// TODO: Structure input to this method better (#366)
+var reporter = function( messages, kill, options ) {
+	options = options || {}
+	var formattedMessages = messages.map( function( msg ) {
+		var file = chalk.underline( msg.file )
+		var col = typeof msg.col === 'number' && msg.col > 0 ? msg.col : null
+		var lineData = col ? msg.lineNo + ':' + col : msg.lineNo
 
-		if ( this.cache.violations.length === 0 && kill !== 'kill' ) {
-			return
+		var severity = msg.severity.toLowerCase()
+		severity = severity === 'warning' ?
+			chalk.yellow( severity ) :
+			chalk.red( severity )
+
+		var rule = chalk.grey( msg.rule )
+
+		return {
+			file: file,
+			lineData: lineData,
+			severity: severity,
+			message: msg.message,
+			rule: rule
 		}
+	} )
 
-		var violations = groupBy( this.cache.violations, 'severity' )
-		var numOfErrors = violations.Error ? violations.Error.length : 0
-		var numOfWarnings = violations.Warning ? violations.Warning.length : 0
-
-		this.cache.msg = 'Stylint: ' + numOfErrors + ' Errors.'
-		this.cache.msg += this.config.maxErrors ? ' (Max Errors: ' + this.config.maxErrors + ')' : ''
-
-		this.cache.msg += '\nStylint: ' + numOfWarnings + ' Warnings.'
-		this.cache.msg += this.config.maxWarnings ? ' (Max Warnings: ' + this.config.maxWarnings + ')' : ''
-
-		// if you set a max it kills the linter
-		if ( kill === 'kill' ) {
-			this.cache.msg += '\nStylint: Over Error or Warning Limit.'
-		}
-
-		return
+	if ( options.groupOutputByFile ) {
+		// iterate over arrays of message objects
+		// each array consists of all the errors and warnings for a file
+		// columnify the errors/warnings and prefix them with the file name
+		formattedMessages = _.chain( formattedMessages )
+			.groupBy( 'file' )
+			.map( function( value, key ) {
+				return key + '\n' + columnify( value, options.reporterOptions )
+			} )
+			.value()
+	}
+	else {
+		formattedMessages = formattedMessages.map( function( output ) {
+			return output.file + '\n' + output.lineData + ' ' + output.rule + ' ' + output.severity + ' ' + output.message
+		} )
 	}
 
-	var file = chalk.underline( msg.file )
-	var col = typeof msg.col === 'number' && msg.col > 0 ? msg.col : null
+	formattedMessages = formattedMessages.reduce( function( memo, msg ) {
+		return memo + msg + '\n\n'
+	}, '' )
+		.trim()
 
-	var severity = msg.severity.toLowerCase()
-	severity = severity === 'warning' ?
-		chalk.yellow( severity ) :
-		chalk.red( severity )
+	var groupedMessages = _.countBy( messages, 'severity' )
+	var numOfErrors = groupedMessages.Error || 0
+	var numOfWarnings = groupedMessages.Warning || 0
 
-	var rule = chalk.grey( msg.rule )
+	var formattedMessage = 'Stylint: ' + numOfErrors + ' Errors.'
+	formattedMessage += options.maxErrors >= 0 ? ' (Max Errors: ' + options.maxErrors + ')' : ''
 
-	// normal error or warning messages
-	var defaultMessage = file + '\n' + msg.lineNo + ' ' + rule + ' ' + severity + ' ' + msg.message
+	formattedMessage += '\nStylint: ' + numOfWarnings + ' Warnings.'
+	formattedMessage += options.maxWarnings >= 0 ? ' (Max Warnings: ' + options.maxWarnings + ')' : ''
 
-	// if column data available, output slightly different line
-	if ( typeof msg.col === 'number' && msg.col > -1 ) {
-		defaultMessage = file + '\n' + msg.lineNo + ':' + msg.col + ' ' + rule + ' ' + severity + ' ' + msg.message
+	// if you set a max it kills the linter
+	if ( kill ) {
+		formattedMessage += '\nStylint: Over Error or Warning Limit.'
 	}
 
-	// weird syntax highlighting issue when this is inside a ternary
-	var linePlusCol = msg.lineNo + ':' + col
-	var messageObj = {
-		file: file,
-		lineData: col ? linePlusCol : msg.lineNo,
-		severity: severity,
-		description: msg.message,
-		rule: rule
-	}
-
-	messageObj[file] = true
-	this.cache.messages.push( messageObj )
-
-	return defaultMessage
+	return ( formattedMessages + '\n\n' + formattedMessage ).trim()
 }
 
 module.exports = reporter

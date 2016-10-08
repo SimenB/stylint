@@ -21,7 +21,6 @@ var cache = {
 	rule: '', // rule name for current check
 	sCache: { '0': [] }, // each key is an array of selectors in that context
 	sortOrderCache: [], // we keep a context based arr of selectors here to check sort order
-	violations: [], // array of all violations
 	zCache: [] // array of z-index uses
 }
 

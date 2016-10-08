@@ -1,6 +1,3 @@
-/* eslint-env mocha */
-/* eslint-disable no-undefined */
-
 'use strict'
 
 /**
@@ -14,6 +11,7 @@ require( 'chai' ).should() // add should assertions on top
 var chokidar = require( 'chokidar' )
 var touch = require( 'touch' )
 var sinon = require( 'sinon' )
+var chalk = require( 'chalk' )
 var app = require( '../index' )().create()
 var stripJsonComments = require( 'strip-json-comments' )
 
@@ -161,7 +159,7 @@ describe( 'Core Methods: ', function() {
 		afterEach( function() {
 			app.config.maxErrors = false
 			app.config.maxWarnings = false
-			app.cache.violations = []
+			app.cache.messages = []
 			app.cache.brackets = false
 		} )
 
@@ -181,14 +179,14 @@ describe( 'Core Methods: ', function() {
 
 		it( 'should return done if over maxErrs', function() {
 			app.config.maxErrors = 5
-			app.cache.violations.length = 6
+			app.cache.messages.length = 6
 			app.lint()
 			app.lint.getCall( 1 ).returned( sinon.match.same( app.done ) )
 		} )
 
 		it( 'should return done if over maxWarnings', function() {
 			app.config.maxWarnings = 5
-			app.cache.violations.length = 6
+			app.cache.messages.length = 6
 			app.lint()
 			app.lint.getCall( 2 ).returned( sinon.match.same( app.done ) )
 		} )
@@ -252,7 +250,7 @@ describe( 'Core Methods: ', function() {
 
 		it( 'return correctly formatted msg', function() {
 			app.cache.rule = 'universal'
-			var expectedOutput = '\u001b[4mtestReporter\u001b[24m\n1:0 \u001b[90muniversal\u001b[39m \u001b[33mwarning\u001b[39m universal disallowed'
+			var expectedOutput = 'testReporter\n1 universal warning universal disallowed\n\nStylint: 0 Errors.\nStylint: 1 Warnings.'
 
 			var msg = {
 				message: 'universal disallowed',
@@ -264,26 +262,7 @@ describe( 'Core Methods: ', function() {
 				origLine: 'Reporter Lyfe*'
 			}
 
-			// app.reporter('universal disallowed')
-			assert.equal( app.reporter( msg ), expectedOutput )
-		} )
-
-		it( 'return done() if done passed in', function() {
-			var origDone = app.done
-			app.done = sinon.spy()
-
-			assert.equal( app.reporter( 'reporter test', 'done' ), app.done() )
-
-			app.done = origDone
-		} )
-
-		it( 'return done() and kill if kill passed in', function() {
-			var origDone = app.done
-			app.done = sinon.spy()
-
-			assert.equal( app.reporter( 'reporter test', 'done', 'kill' ), app.done() )
-
-			app.done = origDone
+			assert.equal( chalk.stripColor( app.reporter( [msg] ) ), expectedOutput )
 		} )
 	} )
 
@@ -427,7 +406,6 @@ describe( 'Utility Methods: ', function() {
 				app.cache.prevLine.length === 0 &&
 				app.cache.prevFile.length === 0 &&
 				app.cache.prevContext === 0 &&
-				app.cache.violations.length === 0 &&
 				app.cache.zCache.length === 0
 			)
 		} )
@@ -477,7 +455,7 @@ describe( 'Linter Style Checks: ', function() {
 	} )
 
 	afterEach( function() {
-		app.cache.violations = []
+		app.cache.messages = []
 	} )
 
 	describe( 'blocks: prefer @block when defining block vars', function() {
@@ -2401,10 +2379,9 @@ describe( 'Linter Style Checks: ', function() {
 describe( 'Done, again: ', function() {
 
 	beforeEach( function() {
-		app.cache.msg = ''
 		app.state.quiet = true
 		app.state.watching = true
-		app.cache.violations = []
+		app.cache.messages = []
 		app.state.exitCode = 0
 	} )
 
@@ -2421,7 +2398,7 @@ describe( 'Done, again: ', function() {
 	} )
 
 	it( 'exit code should be 0 if has warnings and no errs', function() {
-		app.cache.violations = [{severity: 'Warning', message: 'meep', origLine: ''}]
+		app.cache.messages = [{severity: 'Warning', message: 'meep', origLine: ''}]
 		assert.equal( 0, app.done().exitCode )
 	} )
 
@@ -2430,27 +2407,14 @@ describe( 'Done, again: ', function() {
 	} )
 
 	it( 'exit code of 1 if not clear', function() {
-		app.cache.violations = [{severity: 'Error', message: 'meep', origLine: ''}]
+		app.cache.messages = [{severity: 'Error', message: 'meep', origLine: ''}]
 		assert.equal( 1, app.done().exitCode )
-	} )
-
-	it( 'msg should be the default warnings/errors message', function() {
-		app.state.quiet = false
-		app.config.groupOutputByFile = false
-		app.config.maxWarnings = 10
-		app.config.maxErrors = 10
-		app.cache.violations = [
-			{ severity: 'Warning', message: 'meep', origLine: '' },
-			{ severity: 'Error', message: 'moop', origLine: '' }
-		]
-		app.cache.msg = 'Stylint: 1 Errors. (Max Errors: 10)\nStylint: 1 Warnings. (Max Warnings: 10)'
-		assert.equal( app.cache.msg, app.done().msg )
 	} )
 
 	it( 'exit code should be 1 if over max warnings', function() {
 		app.config.maxWarnings = 0
 		app.config.maxErrors = 10
-		app.cache.violations = [{severity: 'Warning', message: 'meep', origLine: ''}]
+		app.cache.messages = [{severity: 'Warning', message: 'meep', origLine: ''}]
 
 		assert.equal( 1, app.done().exitCode )
 	} )

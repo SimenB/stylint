@@ -7,7 +7,6 @@
 */
 var resetOnChange = function( newPath ) {
 	this.state.path = newPath ? newPath : this.state.path
-	this.cache.violations = []
 	this.cache.alphaCache = []
 	this.cache.rootCache = []
 	this.cache.zCache = []

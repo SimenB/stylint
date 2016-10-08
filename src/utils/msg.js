@@ -8,7 +8,7 @@
  * @returns {void}
  */
 var msg = function( message, column ) {
-	this.cache.violations.push( {
+	this.cache.messages.push( {
 		message: message,
 		severity: this.state.severity,
 		file: this.cache.file,

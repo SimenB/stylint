@@ -47,8 +47,7 @@
     "chokidar": "1.5.2",
     "columnify": "1.5.4",
     "glob": "7.0.4",
-    "lodash.defaults": "4.0.1",
-    "lodash.groupby": "4.6.0",
+    "lodash": "4.16.4",
     "path-is-absolute": "1.0.0",
     "stampit": "1.2.0",
     "strip-json-comments": "2.0.1",
@@ -56,11 +55,11 @@
     "yargs": "4.7.1"
   },
   "scripts": {
-    "cover": "istanbul cover node_modules/.bin/_mocha -- -u exports -R spec test/test.js",
+    "cover": "istanbul cover node_modules/.bin/_mocha -- -u exports -R spec --recursive",
     "lint": "eslint .",
     "precover": "npm run lint",
     "pretest": "npm run lint",
     "start": "node --harmony index.js",
-    "test": "mocha"
+    "test": "mocha --recursive"
   }
 }

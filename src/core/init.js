@@ -1,6 +1,6 @@
 'use strict'
 
-var defaults = require( 'lodash.defaults' )
+var defaults = require( 'lodash' ).defaults
 
 var defaultOptions = {
 	watch: false,
