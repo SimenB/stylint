@@ -84,13 +84,13 @@
 		"no-trailing-spaces": [2, {
 			"skipBlankLines": true
 		}],
-		"no-undef": 1,
+		"no-undef": 2,
 		"no-undef-init": 1,
 		"no-undefined": 1,
 		"no-underscore-dangle": 0,
 		"no-unreachable": 1,
 		"no-unused-expressions": 1,
-		"no-unused-vars": 1,
+		"no-unused-vars": 2,
 		"no-use-before-define": 1,
 		"no-void": 1,
 		"no-warning-comments": 1,

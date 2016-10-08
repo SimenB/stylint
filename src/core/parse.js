@@ -14,7 +14,7 @@ var lineEndingsRe = /\r\n|\n|\r/gm
 var parse = function( err, res ) {
 	if ( err ) { throw new Error( err ) }
 
-	return res.forEach( function( file, i ) {
+	res.forEach( function( file, i ) {
 		var lines
 		this.cache.file = this.cache.files[i]
 		this.cache.fileNo = i
@@ -41,7 +41,7 @@ var parse = function( err, res ) {
 
 		// if on the last file, call the done function to output success or error msg
 		if ( this.cache.fileNo === res.length - 1 ) {
-			return this.reporter( '', 'done' )
+			this.done()
 		}
 	}.bind( this ) )
 }
