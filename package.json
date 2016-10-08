@@ -48,6 +48,7 @@
     "columnify": "1.5.4",
     "glob": "7.0.4",
     "lodash.defaults": "4.0.1",
+    "lodash.groupby": "4.6.0",
     "path-is-absolute": "1.0.0",
     "stampit": "1.2.0",
     "strip-json-comments": "2.0.1",
