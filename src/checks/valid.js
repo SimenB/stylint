@@ -39,7 +39,7 @@ module.exports = function valid( line ) {
 	// 4 if it's a number
 	if ( this.state.hashOrCSS || // 1
 		this.state.root || // 1
-		interpolatedRe.test( this.cache.origLine ) ||
+		interpolatedRe.test( this.cache.source ) ||
 		ignoreRe.test( line.trim() ) || // 2
 		attrOrMixinRe.test( line ) || // 3
 		numRe.test( arr[0] ) ) { // 3

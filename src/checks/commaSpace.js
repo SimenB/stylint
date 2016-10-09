@@ -8,22 +8,22 @@ var removeQuotesRe = /(["'])(?:(?=(\\?))\2.)*?\1/g
 /**
  * @description if set to always, enforces spaces after commas. if set to never, disallows spaces
  * @param {string} [line] curr line being linted
- * @param {string} [origLine] curr line before being stripped
+ * @param {string} [source] curr line before being stripped
  * @returns {boolean} true if space missing, false if not
  */
-var commaSpace = function( line, origLine ) {
+var commaSpace = function( line, source ) {
 	// conditions where testing isn't needed.
 	// 1: no comma on line at all
 	// 2: comma ends the line, as in a list
 	// 3: comma is
-	if ( origLine.indexOf( ',' ) === -1 ||
-		origLine.trim().indexOf( ',' ) === origLine.length - 1 ) {
+	if ( source.indexOf( ',' ) === -1 ||
+		source.trim().indexOf( ',' ) === source.length - 1 ) {
 		return
 	}
 
 	// just strip content between quotes, leave rest of syntax intact
 	// this is so we don't get false positives with , in strings
-	var trimmedLine = origLine.replace( removeQuotesRe, '""' ).trim()
+	var trimmedLine = source.replace( removeQuotesRe, '""' ).trim()
 
 	var noSpace = noSpaceRe.exec( trimmedLine )
 	var hasSpace = withSpaceRe.exec( trimmedLine )

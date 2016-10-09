@@ -6,15 +6,15 @@ var commentRe = /\/\/ /
 /**
  * @description // check for space after line comment
  * @param  {string} [line] curr line being linted
- * @param {string} [origLine] curr line before being stripped
+ * @param {string} [source] curr line before being stripped
  * @returns {boolean} true if comment found, false if not
  */
-var commentSpace = function( line, origLine ) {
+var commentSpace = function( line, source ) {
 	if ( !this.state.hasComment ) { return }
 
 	var spaceAfterComment = false
 	var comment = this.cache.comment
-	var index = origLine.indexOf( comment )
+	var index = source.indexOf( comment )
 
 	// check for space after comment on it's own line,
 	// if no space, return warning

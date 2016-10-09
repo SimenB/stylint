@@ -31,7 +31,7 @@ var config = {
 	groupOutputByFile: true,
 	// manipulate terminal output with or without an additional reporter
 	reporterOptions: {
-		columns: ['lineData', 'severity', 'description', 'rule'],
+		columns: ['lineData', 'severity', 'message', 'rule'],
 		columnSplitter: '  ',
 		showHeaders: false,
 		truncate: true

@@ -11,11 +11,11 @@ var trimRightRe = /( |\t)+(\/\/)+.+$/gm
 /**
  * @description check for mixed spaces and tabs
  * @param {string} [line] curr line being linted
- * @param {string} [origLine] curr line before being stripped
+ * @param {string} [source] curr line before being stripped
  * @returns {boolean} true if mixed, false if not
  */
-var mixed = function( line, origLine ) {
-	var trimRight = origLine.replace( trimRightRe, '' )
+var mixed = function( line, source ) {
+	var trimRight = source.replace( trimRightRe, '' )
 	var isMixed = false
 	var indentPref = this.config.indentPref.expect || this.config.indentPref
 	var isNum = typeof indentPref === 'number'

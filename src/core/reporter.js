@@ -6,52 +6,58 @@ var columnify = require( 'columnify' )
 
 /**
  * @description format output message for console (default)
- * @param  {Object[]} messages  error msg from one of the checks
- * @param  {boolean} [kill] whether or not we're over one of our limits
+ * @param  {Object} report  report object containing all results
  * @param  {Object} [options] options provided to the reporter, and some relevant config
+ * @param  {boolean} [kill] whether or not we're over one of our limits
  * @return {string} the formatted message
  */
-// TODO: Structure input to this method better (#366)
-var reporter = function( messages, kill, options ) {
-	if ( messages.length === 0 ) {
+var reporter = function( report, options, kill ) {
+	if ( report.results.length === 0 ) {
 		return ''
 	}
 
 	options = options || {}
-	var formattedMessages = messages.map( function( msg ) {
-		var file = chalk.underline( msg.file )
-		var col = typeof msg.col === 'number' && msg.col > 0 ? msg.col : null
-		var lineData = col ? msg.lineNo + ':' + col : msg.lineNo
+	var formattedMessages = _.chain( report.results )
+		.map( function( result ) {
+			var newResult = result
+			var file = chalk.underline( result.filePath )
 
-		var severity = msg.severity.toLowerCase()
-		severity = severity === 'warning' ?
-			chalk.yellow( severity ) :
-			chalk.red( severity )
+			newResult.messages = result.messages.map( function( msg ) {
+				var column = typeof msg.column === 'number' && msg.column > 0 ? msg.column : null
+				var lineData = column ? msg.line + ':' + column : msg.line
 
-		var rule = chalk.grey( msg.rule )
+				var severity = msg.severity
+				severity = severity === 'warning' ?
+					chalk.yellow( severity ) :
+					chalk.red( severity )
 
-		return {
-			file: file,
-			lineData: lineData,
-			severity: severity,
-			message: msg.message,
-			rule: rule
-		}
-	} )
+				var rule = chalk.grey( msg.ruleId )
+
+				return {
+					file: file,
+					lineData: lineData,
+					severity: severity,
+					message: msg.message,
+					rule: rule
+				}
+			} )
+
+			return newResult
+		} )
 
 	if ( options.groupOutputByFile ) {
 		// iterate over arrays of message objects
 		// each array consists of all the errors and warnings for a file
 		// columnify the errors/warnings and prefix them with the file name
-		formattedMessages = _.chain( formattedMessages )
-			.groupBy( 'file' )
-			.map( function( value, key ) {
-				return key + '\n' + columnify( value, options.reporterOptions )
+		formattedMessages = formattedMessages
+			.map( function( results ) {
+				return results.filePath + '\n' + columnify( results.messages, options.reporterOptions )
 			} )
-			.value()
 	}
 	else {
-		formattedMessages = formattedMessages.map( function( output ) {
+		formattedMessages = formattedMessages
+		.flatMap( 'messages' )
+		.map( function( output ) {
 			return output.file + '\n' + output.lineData + ' ' + output.rule + ' ' + output.severity + ' ' + output.message
 		} )
 	}
@@ -59,16 +65,13 @@ var reporter = function( messages, kill, options ) {
 	formattedMessages = formattedMessages.reduce( function( memo, msg ) {
 		return memo + msg + '\n\n'
 	}, '' )
+		.value()
 		.trim()
 
-	var groupedMessages = _.countBy( messages, 'severity' )
-	var numOfErrors = groupedMessages.Error || 0
-	var numOfWarnings = groupedMessages.Warning || 0
-
-	var formattedMessage = 'Stylint: ' + numOfErrors + ' Errors.'
+	var formattedMessage = 'Stylint: ' + report.errorCount + ' Errors.'
 	formattedMessage += options.maxErrors >= 0 ? ' (Max Errors: ' + options.maxErrors + ')' : ''
 
-	formattedMessage += '\nStylint: ' + numOfWarnings + ' Warnings.'
+	formattedMessage += '\nStylint: ' + report.warningCount + ' Warnings.'
 	formattedMessage += options.maxWarnings >= 0 ? ' (Max Warnings: ' + options.maxWarnings + ')' : ''
 
 	// if you set a max it kills the linter

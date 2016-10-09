@@ -12,10 +12,10 @@ var msg = function( message, column ) {
 		message: message,
 		severity: this.state.severity,
 		file: this.cache.file,
-		lineNo: this.cache.lineNo,
-		col: column,
-		origLine: this.cache.origLine,
-		rule: this.cache.rule
+		line: this.cache.lineNo,
+		column: column,
+		source: this.cache.source,
+		ruleId: this.cache.rule
 	} )
 }
 

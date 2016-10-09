@@ -1,17 +1,17 @@
 'use strict'
 
-var groupBy = require( 'lodash' ).groupBy
+var _ = require( 'lodash' )
 
-function shouldExit1( warningsOrErrors, maxErrors, maxWarnings ) {
-	var numberofErrors = warningsOrErrors.Error && warningsOrErrors.Error.length || 0
-	var numberofWarnings = warningsOrErrors.Warning && warningsOrErrors.Warning.length || 0
+var countSeverities = require( '../utils/countSeveritiesInMessages' )
 
-	if ( maxErrors < 0 && numberofErrors > 0 ) {
+function shouldExit1( maxErrors, maxWarnings, errorCount, warningCount ) {
+	// If there are any errors and no maximum defined
+	if ( maxErrors < 0 && errorCount > 0 ) {
 		return true
 	}
 
-	return maxErrors >= 0 && numberofErrors > maxErrors ||
-		maxWarnings >= 0 && numberofWarnings > maxWarnings
+	return maxErrors >= 0 && errorCount > maxErrors ||
+		maxWarnings >= 0 && warningCount > maxWarnings
 }
 
 /**
@@ -21,19 +21,54 @@ function shouldExit1( warningsOrErrors, maxErrors, maxWarnings ) {
 var done = function() {
 	var maxErrors = typeof this.config.maxErrors === 'number' ? this.config.maxErrors : -1
 	var maxWarnings = typeof this.config.maxWarnings === 'number' ? this.config.maxWarnings : -1
+	var severities = countSeverities( this.cache.messages )
+	var errorCount = severities.errorCount
+	var warningCount = severities.warningCount
 
-	var shouldKill = shouldExit1( groupBy( this.cache.messages, 'severity' ), maxErrors, maxWarnings )
+	var shouldKill = shouldExit1( maxErrors, maxWarnings, errorCount, warningCount )
 
 	this.state.exitCode = shouldKill ? 1 : 0
 
-	var message = this.reporter( this.cache.messages, shouldKill, {
+	// when testing we want to silence the console a bit, so we have the quiet option
+	var groupedByFile = _.chain( this.cache.messages )
+		.groupBy( 'file' )
+		.map( function( messages, filePath ) {
+			var localSeverities = countSeverities( messages )
+
+			var filteredMessages = messages.map( function( message ) {
+				// Just removes `file`
+				return {
+					column: message.column,
+					line: message.line,
+					message: message.message,
+					source: message.source,
+					ruleId: message.ruleId,
+					severity: message.severity
+				}
+			} )
+
+			return {
+				filePath: filePath,
+				messages: filteredMessages,
+				errorCount: localSeverities.errorCount,
+				warningCount: localSeverities.warningCount
+			}
+		} )
+		.value()
+
+	var report = {
+		results: groupedByFile,
+		errorCount: errorCount,
+		warningCount: warningCount
+	}
+	var message = this.reporter( report, {
 		maxErrors: maxErrors,
 		maxWarnings: maxWarnings,
 		groupOutputByFile: this.config.groupOutputByFile,
 		reporterOptions: this.config.reporterOptions
-	} )
+	}, shouldKill )
 
-	// when testing we want to silence the console a bit, so we have the quiet option
+	// TODO: This is stupid, just mock out `console.log` or something
 	if ( !this.state.quiet && message ) {
 		console.log( message )
 	}
