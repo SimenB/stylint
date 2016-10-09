@@ -26,18 +26,16 @@ var done = function() {
 
 	this.state.exitCode = shouldKill ? 1 : 0
 
-	// when testing we want to silence the console a bit, so we have the quiet option
-	if ( !this.state.quiet ) {
-		var message = this.reporter( this.cache.messages, shouldKill, {
-			maxErrors: maxErrors,
-			maxWarnings: maxWarnings,
-			groupOutputByFile: this.config.groupOutputByFile,
-			reporterOptions: this.config.reporterOptions
-		} )
+	var message = this.reporter( this.cache.messages, shouldKill, {
+		maxErrors: maxErrors,
+		maxWarnings: maxWarnings,
+		groupOutputByFile: this.config.groupOutputByFile,
+		reporterOptions: this.config.reporterOptions
+	} )
 
-		if ( message ) {
-			console.log( message )
-		}
+	// when testing we want to silence the console a bit, so we have the quiet option
+	if ( !this.state.quiet && message ) {
+		console.log( message )
 	}
 
 	// don't kill the linter if watch is watching
@@ -50,7 +48,7 @@ var done = function() {
 	var returnValue = {
 		messages: this.cache.messages.slice( 0 ),
 		exitCode: this.state.exitCode,
-		msg: this.cache.msg.trim()
+		msg: message
 	}
 
 	// if watching we reset the errors/warnings arrays
