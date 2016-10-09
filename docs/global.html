@@ -1355,7 +1355,7 @@ this is what the linter will run when no config file is passed
 
     
 
-    <h4 class="name" id="commaSpace"><span class="type-signature"></span>commaSpace<span class="signature">(line<span class="signature-attributes">opt</span>, origLine<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="commaSpace"><span class="type-signature"></span>commaSpace<span class="signature">(line<span class="signature-attributes">opt</span>, source<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -1433,7 +1433,7 @@ this is what the linter will run when no config file is passed
 
         <tr>
             
-                <td class="name"><code>origLine</code></td>
+                <td class="name"><code>source</code></td>
             
 
             <td class="type">
@@ -1553,7 +1553,7 @@ this is what the linter will run when no config file is passed
 
     
 
-    <h4 class="name" id="commentSpace"><span class="type-signature"></span>commentSpace<span class="signature">(line<span class="signature-attributes">opt</span>, origLine<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="commentSpace"><span class="type-signature"></span>commentSpace<span class="signature">(line<span class="signature-attributes">opt</span>, source<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -1631,7 +1631,7 @@ this is what the linter will run when no config file is passed
 
         <tr>
             
-                <td class="name"><code>origLine</code></td>
+                <td class="name"><code>source</code></td>
             
 
             <td class="type">
@@ -2146,7 +2146,7 @@ this is what the linter will run when no config file is passed
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_done.js.html">core/done.js</a>, <a href="core_done.js.html#line22">line 22</a>
+        <a href="core_done.js.html">core/done.js</a>, <a href="core_done.js.html#line21">line 21</a>
     </li></ul></dd>
     
 
@@ -4038,7 +4038,7 @@ this is what the linter will run when no config file is passed
 
     
 
-    <h4 class="name" id="mixed"><span class="type-signature"></span>mixed<span class="signature">(line<span class="signature-attributes">opt</span>, origLine<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="mixed"><span class="type-signature"></span>mixed<span class="signature">(line<span class="signature-attributes">opt</span>, source<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -4116,7 +4116,7 @@ this is what the linter will run when no config file is passed
 
         <tr>
             
-                <td class="name"><code>origLine</code></td>
+                <td class="name"><code>source</code></td>
             
 
             <td class="type">
@@ -4236,14 +4236,14 @@ this is what the linter will run when no config file is passed
 
     
 
-    <h4 class="name" id="msg"><span class="type-signature"></span>msg<span class="signature">(str<span class="signature-attributes">opt</span>, column<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {function}</span></h4>
+    <h4 class="name" id="msg"><span class="type-signature"></span>msg<span class="signature">(message<span class="signature-attributes">opt</span>, column<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {void}</span></h4>
 
     
 
 
 
 <div class="description">
-    basically just sets the severity and routes output to the reporter
+    add violation to an array
 </div>
 
 
@@ -4281,7 +4281,7 @@ this is what the linter will run when no config file is passed
 
         <tr>
             
-                <td class="name"><code>str</code></td>
+                <td class="name"><code>message</code></td>
             
 
             <td class="type">
@@ -4407,10 +4407,6 @@ this is what the linter will run when no config file is passed
 <h5>Returns:</h5>
 
         
-<div class="param-desc">
-    push formatted output to appropriate array
-</div>
-
 
 
 <dl>
@@ -4419,7 +4415,7 @@ this is what the linter will run when no config file is passed
     </dt>
     <dd>
         
-<span class="param-type">function</span>
+<span class="param-type">void</span>
 
 
     </dd>
@@ -4930,7 +4926,7 @@ or NamesLikeThis vs names_like_this or names-like__this-that
 
     
 
-    <h4 class="name" id="parenSpace"><span class="type-signature"></span>parenSpace<span class="signature">(line<span class="signature-attributes">opt</span>, origLine<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="parenSpace"><span class="type-signature"></span>parenSpace<span class="signature">(line<span class="signature-attributes">opt</span>, source<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -5008,7 +5004,7 @@ or NamesLikeThis vs names_like_this or names-like__this-that
 
         <tr>
             
-                <td class="name"><code>origLine</code></td>
+                <td class="name"><code>source</code></td>
             
 
             <td class="type">
@@ -5656,7 +5652,7 @@ or NamesLikeThis vs names_like_this or names-like__this-that
 
     
 
-    <h4 class="name" id="quotePref"><span class="type-signature"></span>quotePref<span class="signature">(line<span class="signature-attributes">opt</span>, origLine<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="quotePref"><span class="type-signature"></span>quotePref<span class="signature">(line<span class="signature-attributes">opt</span>, source<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -5734,7 +5730,7 @@ or NamesLikeThis vs names_like_this or names-like__this-that
 
         <tr>
             
-                <td class="name"><code>origLine</code></td>
+                <td class="name"><code>source</code></td>
             
 
             <td class="type">
@@ -6019,7 +6015,7 @@ or NamesLikeThis vs names_like_this or names-like__this-that
 
     
 
-    <h4 class="name" id="reporter"><span class="type-signature"></span>reporter<span class="signature">(msg, done, kill)</span><span class="type-signature"> &rarr; {string|function}</span></h4>
+    <h4 class="name" id="reporter"><span class="type-signature"></span>reporter<span class="signature">(report, options<span class="signature-attributes">opt</span>, kill<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
@@ -6050,6 +6046,8 @@ or NamesLikeThis vs names_like_this or names-like__this-that
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -6062,46 +6060,64 @@ or NamesLikeThis vs names_like_this or names-like__this-that
 
         <tr>
             
-                <td class="name"><code>msg</code></td>
+                <td class="name"><code>report</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">Object</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last">error msg from one of the checks</td>
+            <td class="description last">report object containing all results</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>done</code></td>
+                <td class="name"><code>options</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">Object</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last">whether or not this is the last message to output</td>
+            <td class="description last">options provided to the reporter, and some relevant config</td>
         </tr>
 
     
@@ -6114,12 +6130,22 @@ or NamesLikeThis vs names_like_this or names-like__this-that
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">boolean</span>
 
 
             
             </td>
 
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
             
 
             
@@ -6165,7 +6191,7 @@ or NamesLikeThis vs names_like_this or names-like__this-that
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_reporter.js.html">core/reporter.js</a>, <a href="core_reporter.js.html#line13">line 13</a>
+        <a href="core_reporter.js.html">core/reporter.js</a>, <a href="core_reporter.js.html#line14">line 14</a>
     </li></ul></dd>
     
 
@@ -6192,7 +6218,7 @@ or NamesLikeThis vs names_like_this or names-like__this-that
 
         
 <div class="param-desc">
-    either the formatted msg or done()
+    the formatted message
 </div>
 
 
@@ -6204,9 +6230,6 @@ or NamesLikeThis vs names_like_this or names-like__this-that
     <dd>
         
 <span class="param-type">string</span>
-|
-
-<span class="param-type">function</span>
 
 
     </dd>
@@ -8347,7 +8370,7 @@ or NamesLikeThis vs names_like_this or names-like__this-that
 
     
 
-    <h4 class="name" id="trailingWhitespace"><span class="type-signature"></span>trailingWhitespace<span class="signature">(line<span class="signature-attributes">opt</span>, origLine<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="trailingWhitespace"><span class="type-signature"></span>trailingWhitespace<span class="signature">(line<span class="signature-attributes">opt</span>, source<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -8425,7 +8448,7 @@ or NamesLikeThis vs names_like_this or names-like__this-that
 
         <tr>
             
-                <td class="name"><code>origLine</code></td>
+                <td class="name"><code>source</code></td>
             
 
             <td class="type">
@@ -9331,7 +9354,7 @@ or NamesLikeThis vs names_like_this or names-like__this-that
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Sun Oct 09 2016 22:18:45 GMT+0200 (CEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Sun Oct 09 2016 22:25:25 GMT+0200 (CEST)
 </footer>
 
 <script> prettyPrint(); </script>
