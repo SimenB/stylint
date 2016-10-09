@@ -28,34 +28,46 @@
         <article>
             <pre class="prettyprint source linenums"><code>'use strict'
 
-var tabs = /\t/ // was a tab used, at all
-var spaces = /( {2,})+/ // check for 2 or more spaces (if hard tabs, shouldn't find anything)
+// was a tab used, at all
+var tabs = /\t/
+// check for 2 or more spaces (if hard tabs, shouldn't find anything)
+var spaces = /( {2,})+/
+// don't throw false positives if line ends in comment
+var trimRightRe = /( |\t)+(\/\/)+.+$/gm
 
 
 /**
  * @description check for mixed spaces and tabs
  * @param {string} [line] curr line being linted
+ * @param {string} [origLine] curr line before being stripped
  * @returns {boolean} true if mixed, false if not
  */
-var mixed = function( line ) {
+var mixed = function( line, origLine ) {
+	var trimRight = origLine.replace( trimRightRe, '' )
 	var isMixed = false
 	var indentPref = this.config.indentPref.expect || this.config.indentPref
 	var isNum = typeof indentPref === 'number'
 
-	// if this isnt set to false then we're indenting with spaces, so check for tabs
+	// regexp obj or null
+	var hasTabs = tabs.exec( trimRight )
+	var hasSpaces = spaces.exec( trimRight )
+
+	// if this isnt set to false then we're indenting with spaces,
+	// so check against tabs
 	if ( isNum ) {
-		if ( tabs.test( line ) ) {
+		if ( hasTabs ) {
 			isMixed = true
 		}
 	}
 	// else you're a hard tab believer (go you)
 	// look for 2 or more spaces
-	else if ( spaces.test( line ) ) {
+	else if ( hasSpaces ) {
 		isMixed = true
 	}
 
 	if ( isMixed === true ) {
-		this.msg( 'mixed spaces and tabs' )
+		var index = isNum ? hasTabs.index : hasSpaces.index
+		this.msg( 'mixed spaces and tabs', index )
 	}
 
 	return isMixed
@@ -72,13 +84,13 @@ module.exports = mixed
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#blocks">blocks</a></li><li><a href="global.html#brackets">brackets</a></li><li><a href="global.html#checkPrefix">checkPrefix</a></li><li><a href="global.html#checkPseudo">checkPseudo</a></li><li><a href="global.html#colons">colons</a></li><li><a href="global.html#colors">colors</a></li><li><a href="global.html#commaSpace">commaSpace</a></li><li><a href="global.html#commentSpace">commentSpace</a></li><li><a href="global.html#config">config</a></li><li><a href="global.html#cssLiteral">cssLiteral</a></li><li><a href="global.html#depthLimit">depthLimit</a></li><li><a href="global.html#done">done</a></li><li><a href="global.html#duplicates">duplicates</a></li><li><a href="global.html#efficient">efficient</a></li><li><a href="global.html#extendPref">extendPref</a></li><li><a href="global.html#getFiles">getFiles</a></li><li><a href="global.html#hashEnd">hashEnd</a></li><li><a href="global.html#hashStart">hashStart</a></li><li><a href="global.html#indentPref">indentPref</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#keyframesEnd">keyframesEnd</a></li><li><a href="global.html#keyframesStart">keyframesStart</a></li><li><a href="global.html#leadingZero">leadingZero</a></li><li><a href="global.html#lint">lint</a></li><li><a href="global.html#mixed">mixed</a></li><li><a href="global.html#msg">msg</a></li><li><a href="global.html#namingConvention">namingConvention</a></li><li><a href="global.html#noImportant">noImportant</a></li><li><a href="global.html#none">none</a></li><li><a href="global.html#parenSpace">parenSpace</a></li><li><a href="global.html#parse">parse</a></li><li><a href="global.html#placeholders">placeholders</a></li><li><a href="global.html#prefixVarsWithDollar">prefixVarsWithDollar</a></li><li><a href="global.html#quotePref">quotePref</a></li><li><a href="global.html#read">read</a></li><li><a href="global.html#reporter">reporter</a></li><li><a href="global.html#resetOnChange">resetOnChange</a></li><li><a href="global.html#semicolons">semicolons</a></li><li><a href="global.html#setConfig">setConfig</a></li><li><a href="global.html#setContext">setContext</a></li><li><a href="global.html#setState">setState</a></li><li><a href="global.html#sortOrder">sortOrder</a></li><li><a href="global.html#splitAndStrip">splitAndStrip</a></li><li><a href="global.html#stackedProperties">stackedProperties</a></li><li><a href="global.html#startsWithComment">startsWithComment</a></li><li><a href="global.html#state">state</a></li><li><a href="global.html#stylintOff">stylintOff</a></li><li><a href="global.html#stylintOn">stylintOn</a></li><li><a href="global.html#trailingWhitespace">trailingWhitespace</a></li><li><a href="global.html#trimLine">trimLine</a></li><li><a href="global.html#universal">universal</a></li><li><a href="global.html#watch">watch</a></li><li><a href="global.html#zeroUnits">zeroUnits</a></li><li><a href="global.html#zIndexNormalize">zIndexNormalize</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#blocks">blocks</a></li><li><a href="global.html#brackets">brackets</a></li><li><a href="global.html#checkPrefix">checkPrefix</a></li><li><a href="global.html#checkPseudo">checkPseudo</a></li><li><a href="global.html#colons">colons</a></li><li><a href="global.html#colors">colors</a></li><li><a href="global.html#commaSpace">commaSpace</a></li><li><a href="global.html#commentSpace">commentSpace</a></li><li><a href="global.html#config">config</a></li><li><a href="global.html#cssLiteral">cssLiteral</a></li><li><a href="global.html#depthLimit">depthLimit</a></li><li><a href="global.html#done">done</a></li><li><a href="global.html#duplicates">duplicates</a></li><li><a href="global.html#efficient">efficient</a></li><li><a href="global.html#extendPref">extendPref</a></li><li><a href="global.html#getFiles">getFiles</a></li><li><a href="global.html#hashEnd">hashEnd</a></li><li><a href="global.html#hashStart">hashStart</a></li><li><a href="global.html#indentPref">indentPref</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#keyframesEnd">keyframesEnd</a></li><li><a href="global.html#keyframesStart">keyframesStart</a></li><li><a href="global.html#leadingZero">leadingZero</a></li><li><a href="global.html#lint">lint</a></li><li><a href="global.html#mixed">mixed</a></li><li><a href="global.html#msg">msg</a></li><li><a href="global.html#namingConvention">namingConvention</a></li><li><a href="global.html#noImportant">noImportant</a></li><li><a href="global.html#none">none</a></li><li><a href="global.html#parenSpace">parenSpace</a></li><li><a href="global.html#parse">parse</a></li><li><a href="global.html#placeholders">placeholders</a></li><li><a href="global.html#prefixVarsWithDollar">prefixVarsWithDollar</a></li><li><a href="global.html#quotePref">quotePref</a></li><li><a href="global.html#read">read</a></li><li><a href="global.html#reporter">reporter</a></li><li><a href="global.html#resetOnChange">resetOnChange</a></li><li><a href="global.html#rootEnd">rootEnd</a></li><li><a href="global.html#rootStart">rootStart</a></li><li><a href="global.html#semicolons">semicolons</a></li><li><a href="global.html#setConfig">setConfig</a></li><li><a href="global.html#setContext">setContext</a></li><li><a href="global.html#setState">setState</a></li><li><a href="global.html#sortOrder">sortOrder</a></li><li><a href="global.html#splitAndStrip">splitAndStrip</a></li><li><a href="global.html#stackedProperties">stackedProperties</a></li><li><a href="global.html#startsWithComment">startsWithComment</a></li><li><a href="global.html#state">state</a></li><li><a href="global.html#stylintOff">stylintOff</a></li><li><a href="global.html#stylintOn">stylintOn</a></li><li><a href="global.html#trailingWhitespace">trailingWhitespace</a></li><li><a href="global.html#trimLine">trimLine</a></li><li><a href="global.html#universal">universal</a></li><li><a href="global.html#watch">watch</a></li><li><a href="global.html#zeroUnits">zeroUnits</a></li><li><a href="global.html#zIndexNormalize">zIndexNormalize</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.3</a> on Thu Sep 24 2015 23:01:37 GMT-0700 (PDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Sun Oct 09 2016 22:18:45 GMT+0200 (CEST)
 </footer>
 
 <script> prettyPrint(); </script>

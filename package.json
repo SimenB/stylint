@@ -37,6 +37,7 @@
     "chai": "3.5.0",
     "eslint": "2.13.1",
     "istanbul": "0.4.3",
+    "jsdoc": "3.4.2",
     "mocha": "2.5.3",
     "sinon": "1.17.4",
     "touch": "1.0.0"
@@ -56,6 +57,7 @@
   },
   "scripts": {
     "cover": "istanbul cover node_modules/.bin/_mocha -- -u exports -R spec test/test.js",
+    "docs": "jsdoc src/ --recurse --destination docs/",
     "lint": "eslint .",
     "precover": "npm run lint",
     "pretest": "npm run lint",
