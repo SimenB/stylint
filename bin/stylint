@@ -39,9 +39,14 @@ var options = yargs
 	.epilogue( 'GPL-3.0 License' )
 	.argv
 
-stylint().create( {}, {
+var stylintInstance = stylint().create( {}, {
 	watch: options.watch,
 	config: options.config,
 	strict: options.strict,
 	reporter: options.reporter
 }, options._.length > 1 ? options._ : options._[0] )
+
+// to allow instantiation without doing anything, manually call read
+if ( !options.watch ) {
+	stylintInstance.read()
+}

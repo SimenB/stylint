@@ -74,4 +74,9 @@ var Stylint = function( path, config, callback ) {
 	)
 }
 
+var api = function( config ) {
+	return Stylint().create( {}, { config: config } )
+}
+
 module.exports = Stylint
+module.exports.api = api
