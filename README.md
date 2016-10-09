@@ -24,7 +24,16 @@ to make sure every bug is squashed after that.
 
 Follow the [project](https://github.com/SimenB/stylint/projects/1),
 [milestone](https://github.com/SimenB/stylint/milestone/5) and [issue](https://github.com/SimenB/stylint/issues/269) for
-progress. Please contribute if you have the time! Both with code, but also with ideas and fetures.
+progress. Please contribute if you have the time! Both with code, but also with ideas and features.
+
+The goal of 2.0 is to make the project more stable:
+- actual unit tests on the rules to avoid regressions, instead of coupling them to the tests of the core linter
+- a clearly defined API surface, making Stylint easy to depend on for external tools
+- a cleaner way of invoking Stylint programatically
+- a way of linting a string of code, not just files
+- simplify config (inspired by ESLint's config structure)
+
+Sometime in the future:tm: we will also provide extension points for custom rules, and maybe even automatically fix some violations, but that's a change that might take some time. These goals are more long-term though, short term the focus is on stability and integration with tools.
 
 If you have any problems with the linter just create a ticket there and I will respond.
 
