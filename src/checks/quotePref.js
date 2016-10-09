@@ -6,12 +6,12 @@ var stringRe = /(?=["'])(?:"[^"\\]*(?:\\[\s\S][^"\\]*)*"|'[^'\\]*(?:\\[\s\S][^'\
 /**
  * @description check that quote style is consistent with config
  * @param  {string} [line] curr line being linted
- * @param {string} [origLine] curr line before being stripped
+ * @param {string} [source] curr line before being stripped
  * @return {boolean} true if in order, false if not
  */
-var quotePref = function( line, origLine ) {
-	if ( origLine.indexOf( '"' ) === -1 &&
-			origLine.indexOf( "'" ) === -1 ) {
+var quotePref = function( line, source ) {
+	if ( source.indexOf( '"' ) === -1 &&
+			source.indexOf( "'" ) === -1 ) {
 		return
 	}
 
@@ -22,7 +22,7 @@ var quotePref = function( line, origLine ) {
 	var match
 
 	// for each quote match, check err
-	while ( ( match = stringRe.exec( origLine ) ) !== null ) {
+	while ( ( match = stringRe.exec( source ) ) !== null ) {
 		// just checks the first inner quote, most common case
 		// almost certainly not the best way to do this
 		var content = match[0].slice( 1, -1 )

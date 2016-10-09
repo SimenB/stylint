@@ -28,7 +28,7 @@ var parse = function( err, res ) {
 
 		// updating cache as we go, and passing to the next step
 		lines.forEach( function( line, lineNo ) {
-			this.cache.origLine = line
+			this.cache.source = line
 			this.cache.line = this.trimLine( line )
 			this.cache.lineNo = lineNo + 1 // line nos don't start at 0
 			this.cache.rule = ''

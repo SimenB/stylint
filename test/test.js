@@ -253,16 +253,18 @@ describe( 'Core Methods: ', function() {
 			var expectedOutput = 'testReporter\n1 universal warning universal disallowed\n\nStylint: 0 Errors.\nStylint: 1 Warnings.'
 
 			var msg = {
-				message: 'universal disallowed',
-				severity: 'Warning',
-				file: 'testReporter',
-				lineNo: 1,
-				col: 0,
-				rule: 'universal',
-				origLine: 'Reporter Lyfe*'
+				filePath: 'testReporter',
+				messages: [{
+					message: 'universal disallowed',
+					severity: 'warning',
+					line: 1,
+					column: 0,
+					ruleId: 'universal',
+					source: 'Reporter Lyfe*'
+				}]
 			}
 
-			assert.equal( chalk.stripColor( app.reporter( [msg] ) ), expectedOutput )
+			assert.equal( chalk.stripColor( app.reporter( { results: [msg], errorCount: 0, warningCount: 1 } ) ), expectedOutput )
 		} )
 	} )
 
@@ -286,7 +288,7 @@ describe( 'Core Methods: ', function() {
 		} )
 
 		it( 'return undefined if @stylint off comment', function() {
-			app.cache.origLine = '// @stylint off'
+			app.cache.source = '// @stylint off'
 			assert.equal( undefined, app.setState( '// @stylint off' ) )
 		} )
 
@@ -295,7 +297,7 @@ describe( 'Core Methods: ', function() {
 		} )
 
 		it( 'return undefined if @stylint on comment', function() {
-			app.cache.origLine = '// @stylint on'
+			app.cache.source = '// @stylint on'
 			assert.equal( undefined, app.setState( '// @stylint on' ) )
 		} )
 
@@ -2398,7 +2400,7 @@ describe( 'Done, again: ', function() {
 	} )
 
 	it( 'exit code should be 0 if has warnings and no errs', function() {
-		app.cache.messages = [{severity: 'Warning', message: 'meep', origLine: ''}]
+		app.cache.messages = [{severity: 'warning', message: 'meep', source: ''}]
 		assert.equal( 0, app.done().exitCode )
 	} )
 
@@ -2407,14 +2409,14 @@ describe( 'Done, again: ', function() {
 	} )
 
 	it( 'exit code of 1 if not clear', function() {
-		app.cache.messages = [{severity: 'Error', message: 'meep', origLine: ''}]
+		app.cache.messages = [{severity: 'error', message: 'meep', source: ''}]
 		assert.equal( 1, app.done().exitCode )
 	} )
 
 	it( 'exit code should be 1 if over max warnings', function() {
 		app.config.maxWarnings = 0
 		app.config.maxErrors = 10
-		app.cache.messages = [{severity: 'Warning', message: 'meep', origLine: ''}]
+		app.cache.messages = [{severity: 'warning', message: 'meep', source: ''}]
 
 		assert.equal( 1, app.done().exitCode )
 	} )

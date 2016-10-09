@@ -30,7 +30,7 @@
   "prefixVarsWithDollar": "always",
   "quotePref": "single",
   "reporterOptions": {
-    "columns": ["lineData", "severity", "description", "rule"],
+    "columns": ["lineData", "severity", "message", "rule"],
     "columnSplitter": "  ",
     "showHeaders": false,
     "truncate": true

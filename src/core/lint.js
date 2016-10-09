@@ -17,9 +17,9 @@ var lint = function() {
 				// state.conf === 'always' || 'never' || etc
 				this.state.conf = this.config[method].expect || this.config[method]
 				// state.severity === 'error' || 'warning'
-				this.state.severity = this.config[method].error ? 'Error' : 'Warning'
+				this.state.severity = this.config[method].error ? 'error' : 'warning'
 				// run the actual check against the line
-				checks[method].call( this, this.cache.line, this.cache.origLine )
+				checks[method].call( this, this.cache.line, this.cache.source )
 			}
 		}
 	}

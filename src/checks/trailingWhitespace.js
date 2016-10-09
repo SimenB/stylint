@@ -8,15 +8,15 @@ var anythingElseRe = /[^ \t]/
 /**
  * @description check for trailing whitespace
  * @param  {string} [line] curr line being linted
- * @param {string} [origLine] curr line before being stripped
+ * @param {string} [source] curr line before being stripped
  * @return {boolean} true if whitespace found, false if not
  */
-var trailingWhitespace = function( line, origLine ) {
+var trailingWhitespace = function( line, source ) {
 	var whitespace = false
-	var hasWhitespace = whitespaceRe.exec( origLine )
+	var hasWhitespace = whitespaceRe.exec( source )
 
 	// not an empty line, with whitespace at the end
-	if ( anythingElseRe.test( origLine ) && hasWhitespace ) {
+	if ( anythingElseRe.test( source ) && hasWhitespace ) {
 		whitespace = true
 	}
 
