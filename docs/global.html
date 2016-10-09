@@ -28,9 +28,7 @@
 
 <header>
     
-        <h2>
-        
-        </h2>
+        <h2></h2>
         
     
 </header>
@@ -512,7 +510,7 @@ this is what the linter will run when no config file is passed
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="checks_brackets.js.html">checks/brackets.js</a>, <a href="checks_brackets.js.html#line15">line 15</a>
+        <a href="checks_brackets.js.html">checks/brackets.js</a>, <a href="checks_brackets.js.html#line14">line 14</a>
     </li></ul></dd>
     
 
@@ -1139,7 +1137,7 @@ this is what the linter will run when no config file is passed
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="checks_colons.js.html">checks/colons.js</a>, <a href="checks_colons.js.html#line17">line 17</a>
+        <a href="checks_colons.js.html">checks/colons.js</a>, <a href="checks_colons.js.html#line13">line 13</a>
     </li></ul></dd>
     
 
@@ -1357,7 +1355,7 @@ this is what the linter will run when no config file is passed
 
     
 
-    <h4 class="name" id="commaSpace"><span class="type-signature"></span>commaSpace<span class="signature">(line<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="commaSpace"><span class="type-signature"></span>commaSpace<span class="signature">(line<span class="signature-attributes">opt</span>, origLine<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -1432,6 +1430,39 @@ this is what the linter will run when no config file is passed
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>origLine</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">curr line before being stripped</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -1469,7 +1500,7 @@ this is what the linter will run when no config file is passed
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="checks_commaSpace.js.html">checks/commaSpace.js</a>, <a href="checks_commaSpace.js.html#line12">line 12</a>
+        <a href="checks_commaSpace.js.html">checks/commaSpace.js</a>, <a href="checks_commaSpace.js.html#line14">line 14</a>
     </li></ul></dd>
     
 
@@ -1522,7 +1553,7 @@ this is what the linter will run when no config file is passed
 
     
 
-    <h4 class="name" id="commentSpace"><span class="type-signature"></span>commentSpace<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="commentSpace"><span class="type-signature"></span>commentSpace<span class="signature">(line<span class="signature-attributes">opt</span>, origLine<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -1538,6 +1569,100 @@ this is what the linter will run when no config file is passed
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>line</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">curr line being linted</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>origLine</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">curr line before being stripped</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -1573,7 +1698,7 @@ this is what the linter will run when no config file is passed
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="checks_commentSpace.js.html">checks/commentSpace.js</a>, <a href="checks_commentSpace.js.html#line10">line 10</a>
+        <a href="checks_commentSpace.js.html">checks/commentSpace.js</a>, <a href="checks_commentSpace.js.html#line12">line 12</a>
     </li></ul></dd>
     
 
@@ -1910,7 +2035,7 @@ this is what the linter will run when no config file is passed
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="checks_depthLimit.js.html">checks/depthLimit.js</a>, <a href="checks_depthLimit.js.html#line12">line 12</a>
+        <a href="checks_depthLimit.js.html">checks/depthLimit.js</a>, <a href="checks_depthLimit.js.html#line14">line 14</a>
     </li></ul></dd>
     
 
@@ -2021,7 +2146,7 @@ this is what the linter will run when no config file is passed
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_done.js.html">core/done.js</a>, <a href="core_done.js.html#line7">line 7</a>
+        <a href="core_done.js.html">core/done.js</a>, <a href="core_done.js.html#line22">line 22</a>
     </li></ul></dd>
     
 
@@ -2189,7 +2314,7 @@ this is what the linter will run when no config file is passed
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="checks_duplicates.js.html">checks/duplicates.js</a>, <a href="checks_duplicates.js.html#line11">line 11</a>
+        <a href="checks_duplicates.js.html">checks/duplicates.js</a>, <a href="checks_duplicates.js.html#line12">line 12</a>
     </li></ul></dd>
     
 
@@ -2684,7 +2809,7 @@ this is what the linter will run when no config file is passed
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_getFiles.js.html">utils/getFiles.js</a>, <a href="utils_getFiles.js.html#line12">line 12</a>
+        <a href="utils_getFiles.js.html">utils/getFiles.js</a>, <a href="utils_getFiles.js.html#line13">line 13</a>
     </li></ul></dd>
     
 
@@ -3316,7 +3441,7 @@ this is what the linter will run when no config file is passed
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_init.js.html">core/init.js</a>, <a href="core_init.js.html#line17">line 17</a>
+        <a href="core_init.js.html">core/init.js</a>, <a href="core_init.js.html#line18">line 18</a>
     </li></ul></dd>
     
 
@@ -3638,7 +3763,7 @@ this is what the linter will run when no config file is passed
 
     
 
-    <h4 class="name" id="leadingZero"><span class="type-signature"></span>leadingZero<span class="signature">(line<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="leadingZero"><span class="type-signature"></span>leadingZero<span class="signature">(line<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean|undefined}</span></h4>
 
     
 
@@ -3789,6 +3914,9 @@ this is what the linter will run when no config file is passed
     <dd>
         
 <span class="param-type">boolean</span>
+|
+
+<span class="param-type">undefined</span>
 
 
     </dd>
@@ -3910,7 +4038,7 @@ this is what the linter will run when no config file is passed
 
     
 
-    <h4 class="name" id="mixed"><span class="type-signature"></span>mixed<span class="signature">(line<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="mixed"><span class="type-signature"></span>mixed<span class="signature">(line<span class="signature-attributes">opt</span>, origLine<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -3985,6 +4113,39 @@ this is what the linter will run when no config file is passed
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>origLine</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">curr line before being stripped</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -4022,7 +4183,7 @@ this is what the linter will run when no config file is passed
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="checks_mixed.js.html">checks/mixed.js</a>, <a href="checks_mixed.js.html#line12">line 12</a>
+        <a href="checks_mixed.js.html">checks/mixed.js</a>, <a href="checks_mixed.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -4075,7 +4236,7 @@ this is what the linter will run when no config file is passed
 
     
 
-    <h4 class="name" id="msg"><span class="type-signature"></span>msg<span class="signature">(str<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {function}</span></h4>
+    <h4 class="name" id="msg"><span class="type-signature"></span>msg<span class="signature">(str<span class="signature-attributes">opt</span>, column<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {function}</span></h4>
 
     
 
@@ -4150,6 +4311,39 @@ this is what the linter will run when no config file is passed
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>column</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">column number if applicable to the check</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -4187,7 +4381,7 @@ this is what the linter will run when no config file is passed
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_msg.js.html">utils/msg.js</a>, <a href="utils_msg.js.html#line8">line 8</a>
+        <a href="utils_msg.js.html">utils/msg.js</a>, <a href="utils_msg.js.html#line10">line 10</a>
     </li></ul></dd>
     
 
@@ -4736,7 +4930,7 @@ or NamesLikeThis vs names_like_this or names-like__this-that
 
     
 
-    <h4 class="name" id="parenSpace"><span class="type-signature"></span>parenSpace<span class="signature">(line<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="parenSpace"><span class="type-signature"></span>parenSpace<span class="signature">(line<span class="signature-attributes">opt</span>, origLine<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -4811,6 +5005,39 @@ or NamesLikeThis vs names_like_this or names-like__this-that
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>origLine</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">curr line before being stripped</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -4848,7 +5075,7 @@ or NamesLikeThis vs names_like_this or names-like__this-that
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="checks_parenSpace.js.html">checks/parenSpace.js</a>, <a href="checks_parenSpace.js.html#line12">line 12</a>
+        <a href="checks_parenSpace.js.html">checks/parenSpace.js</a>, <a href="checks_parenSpace.js.html#line16">line 16</a>
     </li></ul></dd>
     
 
@@ -5429,7 +5656,7 @@ or NamesLikeThis vs names_like_this or names-like__this-that
 
     
 
-    <h4 class="name" id="quotePref"><span class="type-signature"></span>quotePref<span class="signature">(line<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="quotePref"><span class="type-signature"></span>quotePref<span class="signature">(line<span class="signature-attributes">opt</span>, origLine<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -5504,6 +5731,39 @@ or NamesLikeThis vs names_like_this or names-like__this-that
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>origLine</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">curr line before being stripped</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -5541,7 +5801,7 @@ or NamesLikeThis vs names_like_this or names-like__this-that
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="checks_quotePref.js.html">checks/quotePref.js</a>, <a href="checks_quotePref.js.html#line9">line 9</a>
+        <a href="checks_quotePref.js.html">checks/quotePref.js</a>, <a href="checks_quotePref.js.html#line12">line 12</a>
     </li></ul></dd>
     
 
@@ -5594,7 +5854,7 @@ or NamesLikeThis vs names_like_this or names-like__this-that
 
     
 
-    <h4 class="name" id="read"><span class="type-signature"></span>read<span class="signature">()</span><span class="type-signature"> &rarr; {function}</span></h4>
+    <h4 class="name" id="read"><span class="type-signature"></span>read<span class="signature">(filepath<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {function}</span></h4>
 
     
 
@@ -5610,6 +5870,67 @@ or NamesLikeThis vs names_like_this or names-like__this-that
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>filepath</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">[option for manually passing in a filename]</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -5645,7 +5966,7 @@ or NamesLikeThis vs names_like_this or names-like__this-that
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_read.js.html">core/read.js</a>, <a href="core_read.js.html#line11">line 11</a>
+        <a href="core_read.js.html">core/read.js</a>, <a href="core_read.js.html#line12">line 12</a>
     </li></ul></dd>
     
 
@@ -5705,7 +6026,7 @@ or NamesLikeThis vs names_like_this or names-like__this-that
 
 
 <div class="description">
-    format output message for console
+    format output message for console (default)
 </div>
 
 
@@ -5844,7 +6165,7 @@ or NamesLikeThis vs names_like_this or names-like__this-that
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="core_reporter.js.html">core/reporter.js</a>, <a href="core_reporter.js.html#line10">line 10</a>
+        <a href="core_reporter.js.html">core/reporter.js</a>, <a href="core_reporter.js.html#line13">line 13</a>
     </li></ul></dd>
     
 
@@ -6065,6 +6386,275 @@ or NamesLikeThis vs names_like_this or names-like__this-that
 
     
 
+    <h4 class="name" id="rootEnd"><span class="type-signature"></span>rootEnd<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+<div class="description">
+    check for keyframes end
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="state_rootEnd.js.html">state/rootEnd.js</a>, <a href="state_rootEnd.js.html#line8">line 8</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    false if keyframes ending, true if not
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="rootStart"><span class="type-signature"></span>rootStart<span class="signature">(line<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+<div class="description">
+    check for keyframes, which have some special rules
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>line</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">curr line being linted</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="state_rootStart.js.html">state/rootStart.js</a>, <a href="state_rootStart.js.html#line8">line 8</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    true if keyframes starting, false if not
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
     <h4 class="name" id="semicolons"><span class="type-signature"></span>semicolons<span class="signature">(line<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
@@ -6238,11 +6828,12 @@ or NamesLikeThis vs names_like_this or names-like__this-that
 
 <div class="description">
     overrides default config with a new config object
-4 potential options here.
-1: user passed in config object via node module
-2: user passes location of .stylintrc file to use
-3: user has a .stylintrc file in their dir but doesnt pass anything
+             many potential code paths here.
+1: user passed in config object via function param
+2: user passes location of .stylintrc file to use via cli
+3: user has options obj in package.json or path to
 4: none of the above, fallback to initial config
+5: user has a .stylintrc file in a dir but doesnt pass anything
 </div>
 
 
@@ -6347,7 +6938,7 @@ or NamesLikeThis vs names_like_this or names-like__this-that
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_setConfig.js.html">utils/setConfig.js</a>, <a href="utils_setConfig.js.html#line17">line 17</a>
+        <a href="utils_setConfig.js.html">utils/setConfig.js</a>, <a href="utils_setConfig.js.html#line24">line 24</a>
     </li></ul></dd>
     
 
@@ -7756,7 +8347,7 @@ or NamesLikeThis vs names_like_this or names-like__this-that
 
     
 
-    <h4 class="name" id="trailingWhitespace"><span class="type-signature"></span>trailingWhitespace<span class="signature">(line<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="trailingWhitespace"><span class="type-signature"></span>trailingWhitespace<span class="signature">(line<span class="signature-attributes">opt</span>, origLine<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -7831,6 +8422,39 @@ or NamesLikeThis vs names_like_this or names-like__this-that
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>origLine</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">curr line before being stripped</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -7868,7 +8492,7 @@ or NamesLikeThis vs names_like_this or names-like__this-that
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="checks_trailingWhitespace.js.html">checks/trailingWhitespace.js</a>, <a href="checks_trailingWhitespace.js.html#line13">line 13</a>
+        <a href="checks_trailingWhitespace.js.html">checks/trailingWhitespace.js</a>, <a href="checks_trailingWhitespace.js.html#line14">line 14</a>
     </li></ul></dd>
     
 
@@ -7928,7 +8552,9 @@ or NamesLikeThis vs names_like_this or names-like__this-that
 
 
 <div class="description">
-    separate out line comments and remove interpolation
+    separate out line comments
+             strip out interpolation
+             strip out url and content strings
 </div>
 
 
@@ -8033,7 +8659,7 @@ or NamesLikeThis vs names_like_this or names-like__this-that
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_trimLine.js.html">utils/trimLine.js</a>, <a href="utils_trimLine.js.html#line9">line 9</a>
+        <a href="utils_trimLine.js.html">utils/trimLine.js</a>, <a href="utils_trimLine.js.html#line12">line 12</a>
     </li></ul></dd>
     
 
@@ -8093,9 +8719,7 @@ or NamesLikeThis vs names_like_this or names-like__this-that
 
 
 <div class="description">
-    check for * selector.
-technically this is used as part of resets often, for good reason, despite its slowness
-which is why i'm setting it up as a warning as it won't break code but maybe you prefer to not use it
+    check for * selector
 </div>
 
 
@@ -8200,7 +8824,7 @@ which is why i'm setting it up as a warning as it won't break code but maybe you
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="checks_universal.js.html">checks/universal.js</a>, <a href="checks_universal.js.html#line13">line 13</a>
+        <a href="checks_universal.js.html">checks/universal.js</a>, <a href="checks_universal.js.html#line11">line 11</a>
     </li></ul></dd>
     
 
@@ -8701,13 +9325,13 @@ which is why i'm setting it up as a warning as it won't break code but maybe you
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#blocks">blocks</a></li><li><a href="global.html#brackets">brackets</a></li><li><a href="global.html#checkPrefix">checkPrefix</a></li><li><a href="global.html#checkPseudo">checkPseudo</a></li><li><a href="global.html#colons">colons</a></li><li><a href="global.html#colors">colors</a></li><li><a href="global.html#commaSpace">commaSpace</a></li><li><a href="global.html#commentSpace">commentSpace</a></li><li><a href="global.html#config">config</a></li><li><a href="global.html#cssLiteral">cssLiteral</a></li><li><a href="global.html#depthLimit">depthLimit</a></li><li><a href="global.html#done">done</a></li><li><a href="global.html#duplicates">duplicates</a></li><li><a href="global.html#efficient">efficient</a></li><li><a href="global.html#extendPref">extendPref</a></li><li><a href="global.html#getFiles">getFiles</a></li><li><a href="global.html#hashEnd">hashEnd</a></li><li><a href="global.html#hashStart">hashStart</a></li><li><a href="global.html#indentPref">indentPref</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#keyframesEnd">keyframesEnd</a></li><li><a href="global.html#keyframesStart">keyframesStart</a></li><li><a href="global.html#leadingZero">leadingZero</a></li><li><a href="global.html#lint">lint</a></li><li><a href="global.html#mixed">mixed</a></li><li><a href="global.html#msg">msg</a></li><li><a href="global.html#namingConvention">namingConvention</a></li><li><a href="global.html#noImportant">noImportant</a></li><li><a href="global.html#none">none</a></li><li><a href="global.html#parenSpace">parenSpace</a></li><li><a href="global.html#parse">parse</a></li><li><a href="global.html#placeholders">placeholders</a></li><li><a href="global.html#prefixVarsWithDollar">prefixVarsWithDollar</a></li><li><a href="global.html#quotePref">quotePref</a></li><li><a href="global.html#read">read</a></li><li><a href="global.html#reporter">reporter</a></li><li><a href="global.html#resetOnChange">resetOnChange</a></li><li><a href="global.html#semicolons">semicolons</a></li><li><a href="global.html#setConfig">setConfig</a></li><li><a href="global.html#setContext">setContext</a></li><li><a href="global.html#setState">setState</a></li><li><a href="global.html#sortOrder">sortOrder</a></li><li><a href="global.html#splitAndStrip">splitAndStrip</a></li><li><a href="global.html#stackedProperties">stackedProperties</a></li><li><a href="global.html#startsWithComment">startsWithComment</a></li><li><a href="global.html#state">state</a></li><li><a href="global.html#stylintOff">stylintOff</a></li><li><a href="global.html#stylintOn">stylintOn</a></li><li><a href="global.html#trailingWhitespace">trailingWhitespace</a></li><li><a href="global.html#trimLine">trimLine</a></li><li><a href="global.html#universal">universal</a></li><li><a href="global.html#watch">watch</a></li><li><a href="global.html#zeroUnits">zeroUnits</a></li><li><a href="global.html#zIndexNormalize">zIndexNormalize</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#blocks">blocks</a></li><li><a href="global.html#brackets">brackets</a></li><li><a href="global.html#checkPrefix">checkPrefix</a></li><li><a href="global.html#checkPseudo">checkPseudo</a></li><li><a href="global.html#colons">colons</a></li><li><a href="global.html#colors">colors</a></li><li><a href="global.html#commaSpace">commaSpace</a></li><li><a href="global.html#commentSpace">commentSpace</a></li><li><a href="global.html#config">config</a></li><li><a href="global.html#cssLiteral">cssLiteral</a></li><li><a href="global.html#depthLimit">depthLimit</a></li><li><a href="global.html#done">done</a></li><li><a href="global.html#duplicates">duplicates</a></li><li><a href="global.html#efficient">efficient</a></li><li><a href="global.html#extendPref">extendPref</a></li><li><a href="global.html#getFiles">getFiles</a></li><li><a href="global.html#hashEnd">hashEnd</a></li><li><a href="global.html#hashStart">hashStart</a></li><li><a href="global.html#indentPref">indentPref</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#keyframesEnd">keyframesEnd</a></li><li><a href="global.html#keyframesStart">keyframesStart</a></li><li><a href="global.html#leadingZero">leadingZero</a></li><li><a href="global.html#lint">lint</a></li><li><a href="global.html#mixed">mixed</a></li><li><a href="global.html#msg">msg</a></li><li><a href="global.html#namingConvention">namingConvention</a></li><li><a href="global.html#noImportant">noImportant</a></li><li><a href="global.html#none">none</a></li><li><a href="global.html#parenSpace">parenSpace</a></li><li><a href="global.html#parse">parse</a></li><li><a href="global.html#placeholders">placeholders</a></li><li><a href="global.html#prefixVarsWithDollar">prefixVarsWithDollar</a></li><li><a href="global.html#quotePref">quotePref</a></li><li><a href="global.html#read">read</a></li><li><a href="global.html#reporter">reporter</a></li><li><a href="global.html#resetOnChange">resetOnChange</a></li><li><a href="global.html#rootEnd">rootEnd</a></li><li><a href="global.html#rootStart">rootStart</a></li><li><a href="global.html#semicolons">semicolons</a></li><li><a href="global.html#setConfig">setConfig</a></li><li><a href="global.html#setContext">setContext</a></li><li><a href="global.html#setState">setState</a></li><li><a href="global.html#sortOrder">sortOrder</a></li><li><a href="global.html#splitAndStrip">splitAndStrip</a></li><li><a href="global.html#stackedProperties">stackedProperties</a></li><li><a href="global.html#startsWithComment">startsWithComment</a></li><li><a href="global.html#state">state</a></li><li><a href="global.html#stylintOff">stylintOff</a></li><li><a href="global.html#stylintOn">stylintOn</a></li><li><a href="global.html#trailingWhitespace">trailingWhitespace</a></li><li><a href="global.html#trimLine">trimLine</a></li><li><a href="global.html#universal">universal</a></li><li><a href="global.html#watch">watch</a></li><li><a href="global.html#zeroUnits">zeroUnits</a></li><li><a href="global.html#zIndexNormalize">zIndexNormalize</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.3</a> on Thu Sep 24 2015 23:01:37 GMT-0700 (PDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Sun Oct 09 2016 22:18:45 GMT+0200 (CEST)
 </footer>
 
 <script> prettyPrint(); </script>

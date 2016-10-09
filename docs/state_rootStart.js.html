@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: checks/zeroUnits.js</title>
+    <title>JSDoc: Source: state/rootStart.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: checks/zeroUnits.js</h1>
+    <h1 class="page-title">Source: state/rootStart.js</h1>
 
     
 
@@ -28,53 +28,22 @@
         <article>
             <pre class="prettyprint source linenums"><code>'use strict'
 
-var aboveZeroRe = /\d0/
-var hasUnitRe = /[ :]0+?(?=px|%|em|rem|v(h|w)|v(min|max)|ex|ch|mm|cm|in|pt|pc|mozmm)/
-var relativeValRe = /line-height|font-size|font-weight/
-
-
 /**
-* @description check for 0unit
-* @param {string} [line] current line being linted
-* @returns {boolean | undefined} true if has units, else false, undefined if skipped
-*/
-var zeroUnits = function( line ) {
-	// if in keyframes dont check
-	// if no 0 on line dont check
-	// if relative values like font-weight, dont check
-	if ( this.state.keyframes ||
-		line.indexOf( '0' ) === -1 ||
-		relativeValRe.test( line ) ) {
-		return
+ * @description check for keyframes, which have some special rules
+ * @param {string} [line] curr line being linted
+ * @returns {boolean} true if keyframes starting, false if not
+ */
+var rootStart = function( line ) {
+	if ( this.state.root || !this.state.testsEnabled ) { return }
+
+	if ( line.indexOf( ':root' ) !== -1 ) {
+		this.state.root = true
 	}
 
-	var isCorrect = true
-	var always = this.state.conf === 'always'
-	var never = this.state.conf === 'never'
-	var hasUnit = hasUnitRe.exec( line )
-	var aboveZero = aboveZeroRe.exec( line )
-
-	// if config set to never and 0 is followed by any unit
-	if ( never &amp;&amp; hasUnit ) {
-		isCorrect = false
-	}
-	// if config set to always, we need to do an extra check
-	// to avoid throwing false positions on numbers like 50px
-	else if ( always &amp;&amp; ( !hasUnit &amp;&amp; !aboveZero ) ) {
-		isCorrect = false
-	}
-
-	if ( never &amp;&amp; isCorrect === false ) {
-		this.msg( '0 is preferred. Unit value is unnecessary', hasUnit.index )
-	}
-	else if ( always &amp;&amp; isCorrect === false ) {
-		this.msg( 'Including the unit value is preferred' )
-	}
-
-	return isCorrect
+	return this.state.root
 }
 
-module.exports = zeroUnits
+module.exports = rootStart
 </code></pre>
         </article>
     </section>
