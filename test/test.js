@@ -2402,7 +2402,7 @@ describe( 'Done, again: ', function() {
 		assert.equal( 0, app.done().exitCode )
 	} )
 
-	it( 'msg should be be empty if no errs or warnings', function() {
+	it( 'msg should be empty if no errs or warnings', function() {
 		assert.equal( '', app.done().msg )
 	} )
 

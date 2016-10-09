@@ -26,27 +26,27 @@ function genError( file, rule ) {
 
 describe( 'reporter', function() {
 	it( 'should have correct output on no message', function() {
-		assert.equal( reporter( [] ), 'Stylint: 0 Errors.\nStylint: 0 Warnings.' )
+		assert.equal( reporter( [] ), '' )
 	} )
 
 	it( 'should include kill message', function() {
-		assert.equal( reporter( [], true ), 'Stylint: 0 Errors.\nStylint: 0 Warnings.\nStylint: Over Error or Warning Limit.' )
+		assert.equal( stripColor( reporter( [genWarning( 'some file.styl', 'no-undefined' )], true ) ), 'some file.styl\n1 no-undefined warning This is not OK\n\nStylint: 0 Errors.\nStylint: 1 Warnings.\nStylint: Over Error or Warning Limit.' )
 	} )
 
 	it( 'should include max errors and max warnings', function() {
-		assert.equal( reporter( [], false, {
+		assert.equal( stripColor( reporter( [genWarning( 'some file.styl', 'no-undefined' )], false, {
 			maxErrors: 5,
 			maxWarnings: 5
-		} ), 'Stylint: 0 Errors. (Max Errors: 5)\nStylint: 0 Warnings. (Max Warnings: 5)' )
+		} ) ), 'some file.styl\n1 no-undefined warning This is not OK\n\nStylint: 0 Errors. (Max Errors: 5)\nStylint: 1 Warnings. (Max Warnings: 5)' )
 	} )
 
 	it( 'should skip non-valid max errors and max warnings', function() {
-		assert.equal( reporter( [], false, {
+		assert.equal( stripColor( reporter( [genWarning( 'some file.styl', 'no-undefined' )], false, {
 			maxErrors: -1,
 			maxWarnings: 5
-		} ), 'Stylint: 0 Errors.\nStylint: 0 Warnings. (Max Warnings: 5)' )
-		assert.equal( reporter( [], false, { maxWarnings: 5 } ), 'Stylint: 0 Errors.\nStylint: 0 Warnings. (Max Warnings: 5)' )
-		assert.equal( reporter( [], false, { maxErrors: 2 } ), 'Stylint: 0 Errors. (Max Errors: 2)\nStylint: 0 Warnings.' )
+		} ) ), 'some file.styl\n1 no-undefined warning This is not OK\n\nStylint: 0 Errors.\nStylint: 1 Warnings. (Max Warnings: 5)' )
+		assert.equal( stripColor( reporter( [genWarning( 'some file.styl', 'no-undefined' )], false, { maxWarnings: 5 } ) ), 'some file.styl\n1 no-undefined warning This is not OK\n\nStylint: 0 Errors.\nStylint: 1 Warnings. (Max Warnings: 5)' )
+		assert.equal( stripColor( reporter( [genWarning( 'some file.styl', 'no-undefined' )], false, { maxErrors: 2 } ) ), 'some file.styl\n1 no-undefined warning This is not OK\n\nStylint: 0 Errors. (Max Errors: 2)\nStylint: 1 Warnings.' )
 	} )
 
 	it( 'should format error correctly', function() {

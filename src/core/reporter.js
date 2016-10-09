@@ -13,6 +13,10 @@ var columnify = require( 'columnify' )
  */
 // TODO: Structure input to this method better (#366)
 var reporter = function( messages, kill, options ) {
+	if ( messages.length === 0 ) {
+		return ''
+	}
+
 	options = options || {}
 	var formattedMessages = messages.map( function( msg ) {
 		var file = chalk.underline( msg.file )
