@@ -33,7 +33,7 @@ The goal of 2.0 is to make the project more stable:
 - a way of linting a string of code, not just files
 - simplify config (inspired by ESLint's config structure)
 
-Sometime in the future:tm: we will also provide extension points for custom rules, adn maybe even automatically fix some violations, but that's a change that might take some time.
+Sometime in the future:tm: we will also provide extension points for custom rules, and maybe even automatically fix some violations, but that's a change that might take some time. These goals are more long-term though, short term the focus is on stability and integration with tools.
 
 If you have any problems with the linter just create a ticket there and I will respond.
 
