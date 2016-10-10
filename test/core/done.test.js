@@ -13,22 +13,22 @@ describe('done', function () {
     report = {
       messages: [],
       errorCount: 0,
-      warningCount: 0
+      warningCount: 0,
     };
 
     context = {
       cache: {
-        report: report
+        report: report,
       },
       callback: sinon.spy(),
       config: {
         maxErrors: -1,
-        maxWarnings: -1
+        maxWarnings: -1,
       },
       reporter: sinon.stub(),
       state: {
-        watching: true
-      }
+        watching: true,
+      },
     };
 
     sinon.stub(process, 'exit');
@@ -144,7 +144,7 @@ describe('done', function () {
           maxErrors: -1,
           maxWarnings: -1,
           groupOutputByFile: undefined,
-          reporterOptions: undefined
+          reporterOptions: undefined,
         },
 				false
 			));
@@ -163,7 +163,7 @@ describe('done', function () {
           maxErrors: -1,
           maxWarnings: -1,
           groupOutputByFile: true,
-          reporterOptions: true
+          reporterOptions: true,
         },
 				false
 			));
@@ -182,7 +182,7 @@ describe('done', function () {
           maxErrors: -1,
           maxWarnings: -1,
           groupOutputByFile: undefined,
-          reporterOptions: undefined
+          reporterOptions: undefined,
         },
 				false
 			));

@@ -19,9 +19,9 @@ function genMessage (filePath, ruleIds, severity) {
         severity: severity,
         message: 'This is not OK',
         source: '',
-        ruleId: ruleId
+        ruleId: ruleId,
       };
-    })
+    }),
   };
 }
 
@@ -53,14 +53,14 @@ describe('reporter', function () {
   it('should include max errors and max warnings', function () {
     assert.equal(stripColor(reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), {
       maxErrors: 5,
-      maxWarnings: 5
+      maxWarnings: 5,
     })), 'some file.styl\n1 no-undefined warning This is not OK\n\nStylint: 0 Errors. (Max Errors: 5)\nStylint: 1 Warnings. (Max Warnings: 5)');
   });
 
   it('should skip non-valid max errors and max warnings', function () {
     assert.equal(stripColor(reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), {
       maxErrors: -1,
-      maxWarnings: 5
+      maxWarnings: 5,
     })), 'some file.styl\n1 no-undefined warning This is not OK\n\nStylint: 0 Errors.\nStylint: 1 Warnings. (Max Warnings: 5)');
     assert.equal(stripColor(reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxWarnings: 5 })), 'some file.styl\n1 no-undefined warning This is not OK\n\nStylint: 0 Errors.\nStylint: 1 Warnings. (Max Warnings: 5)');
     assert.equal(stripColor(reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxErrors: 2 })), 'some file.styl\n1 no-undefined warning This is not OK\n\nStylint: 0 Errors. (Max Errors: 2)\nStylint: 1 Warnings.');

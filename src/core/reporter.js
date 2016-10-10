@@ -38,7 +38,7 @@ const reporter = function (report, options, kill) {
       lineData: lineData,
       severity: severity,
       message: msg.message,
-      rule: rule
+      rule: rule,
     };
   });
 

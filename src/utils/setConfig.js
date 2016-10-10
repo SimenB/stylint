@@ -142,7 +142,7 @@ const setConfig = function (configpath) {
 
   returnConfig.exclude = (returnConfig.exclude || []).map(function (exclude) {
     return new Glob(exclude, {
-      matchBase: true
+      matchBase: true,
     }).minimatch;
   });
 

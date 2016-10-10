@@ -15,7 +15,7 @@ const msg = function (message, column) {
     line: this.cache.lineNo,
     column: column,
     source: this.cache.source,
-    ruleId: this.cache.rule
+    ruleId: this.cache.rule,
   });
 };
 

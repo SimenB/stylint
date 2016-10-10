@@ -170,7 +170,7 @@ describe('Core Methods: ', function () {
     it('should pick up severity of current check', function () {
       app.config.brackets = {
         expect: 'never',
-        error: true
+        error: true,
       };
 
       app.lint();
@@ -260,14 +260,14 @@ describe('Core Methods: ', function () {
           line: 1,
           column: 0,
           ruleId: 'universal',
-          source: 'Reporter Lyfe*'
-        }]
+          source: 'Reporter Lyfe*',
+        }],
       };
 
       assert.equal(chalk.stripColor(app.reporter({
         results: [msg],
         errorCount: 0,
-        warningCount: 1
+        warningCount: 1,
       })), expectedOutput);
     });
   });
@@ -1963,7 +1963,7 @@ describe('Linter Style Checks: ', function () {
           'line-height',
           'background',
           'border',
-          'color'
+          'color',
         ];
 
         assert.equal('alphabetical', app.state.conf);
@@ -2452,20 +2452,20 @@ describe('Lint Text: ', function () {
           message: '!important is disallowed',
           source: '  color: red !important',
           ruleId: 'noImportant',
-          severity: 'warning'
+          severity: 'warning',
         }, {
           column: 23,
           line: 2,
           message: 'missing semicolon',
           source: '  color: red !important',
           ruleId: 'semicolons',
-          severity: 'warning'
+          severity: 'warning',
         }],
         errorCount: 0,
-        warningCount: 2
+        warningCount: 2,
       }],
       errorCount: 0,
-      warningCount: 2
+      warningCount: 2,
     });
   });
 });

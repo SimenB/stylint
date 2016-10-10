@@ -10,7 +10,7 @@ const stateMethods = stampit().methods({
   rootEnd: require('./rootEnd'),
   rootStart: require('./rootStart'),
   stylintOff: require('./stylintOff'),
-  stylintOn: require('./stylintOn')
+  stylintOn: require('./stylintOn'),
 });
 
 module.exports = stateMethods;

@@ -28,7 +28,7 @@ const done = function () {
     maxErrors: maxErrors,
     maxWarnings: maxWarnings,
     groupOutputByFile: this.config.groupOutputByFile,
-    reporterOptions: this.config.reporterOptions
+    reporterOptions: this.config.reporterOptions,
   }, shouldKill);
 
 	// TODO: This is stupid, just mock out `console.log` or something
@@ -46,7 +46,7 @@ const done = function () {
   const returnValue = {
     report: report,
     exitCode: this.state.exitCode,
-    msg: message
+    msg: message,
   };
 
 	// if watching we reset the errors/warnings arrays

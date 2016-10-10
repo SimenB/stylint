@@ -18,7 +18,7 @@ const state = {
   severity: 'warning', // severity level for current check
   testsEnabled: true, // are we running linter tests
   quiet: false, // turn off console logs
-  watching: false // are we watching
+  watching: false, // are we watching
 };
 
 module.exports = state;

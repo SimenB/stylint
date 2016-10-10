@@ -25,7 +25,7 @@ const core = stampit().methods({
   setConfig: require('../utils/setConfig'),
   setContext: require('../utils/setContext'),
   splitAndStrip: require('../utils/splitAndStrip'),
-  trimLine: require('../utils/trimLine')
+  trimLine: require('../utils/trimLine'),
 });
 
 module.exports = core;

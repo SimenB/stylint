@@ -27,16 +27,16 @@ describe('transforming messages for report', function () {
       line: line,
       column: column,
       source: source,
-      ruleId: ruleId
+      ruleId: ruleId,
     };
   }
 
   beforeEach(function () {
     context = {
       cache: {
-        messages: []
+        messages: [],
       },
-      done: sinon.spy()
+      done: sinon.spy(),
     };
 
     message = 'some message';
@@ -52,7 +52,7 @@ describe('transforming messages for report', function () {
     deepEqual(transformMessages.call(context), {
       results: [],
       errorCount: 0,
-      warningCount: 0
+      warningCount: 0,
     });
   });
 
@@ -68,13 +68,13 @@ describe('transforming messages for report', function () {
           message: 'some message',
           source: '.class {',
           ruleId: 'some rule',
-          severity: 'error'
+          severity: 'error',
         }],
         errorCount: 1,
-        warningCount: 0
+        warningCount: 0,
       }],
       errorCount: 1,
-      warningCount: 0
+      warningCount: 0,
     });
   });
 
@@ -102,20 +102,20 @@ describe('transforming messages for report', function () {
           message: 'some message',
           source: '.class {',
           ruleId: 'some rule',
-          severity: 'error'
+          severity: 'error',
         }, {
           column: 5,
           line: 5,
           message: 'some other message',
           source: '.class {',
           ruleId: 'some rule',
-          severity: 'error'
+          severity: 'error',
         }],
         errorCount: 2,
-        warningCount: 0
+        warningCount: 0,
       }],
       errorCount: 2,
-      warningCount: 0
+      warningCount: 0,
     });
   });
 
@@ -137,10 +137,10 @@ describe('transforming messages for report', function () {
           message: 'some message',
           source: '.class {',
           ruleId: 'some rule',
-          severity: 'error'
+          severity: 'error',
         }],
         errorCount: 1,
-        warningCount: 0
+        warningCount: 0,
       }, {
         filePath: 'some-other-file.styl',
         messages: [{
@@ -149,13 +149,13 @@ describe('transforming messages for report', function () {
           message: 'some other message',
           source: '.class {',
           ruleId: 'some rule',
-          severity: 'error'
+          severity: 'error',
         }],
         errorCount: 1,
-        warningCount: 0
+        warningCount: 0,
       }],
       errorCount: 2,
-      warningCount: 0
+      warningCount: 0,
     });
   });
 

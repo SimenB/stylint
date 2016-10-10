@@ -22,7 +22,7 @@ const cache = {
   sCache: { '0': [] }, // each key is an array of selectors in that context
   sortOrderCache: [], // we keep a context based arr of selectors here to check sort order
   source: '', // original line before stripping/trimming
-  zCache: [] // array of z-index uses
+  zCache: [], // array of z-index uses
 };
 
 module.exports = cache;

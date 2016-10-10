@@ -31,8 +31,8 @@ const linterMethods = stampit().methods({
     universal: require('./universal'),
     valid: require('./valid'),
     zeroUnits: require('./zeroUnits'),
-    zIndexNormalize: require('./zIndexNormalize')
-  }
+    zIndexNormalize: require('./zIndexNormalize'),
+  },
 });
 
 module.exports = linterMethods;

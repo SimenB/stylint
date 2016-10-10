@@ -27,7 +27,7 @@ const transformMessages = function (skipDone) {
       message: message.message,
       source: message.source,
       ruleId: message.ruleId,
-      severity: message.severity
+      severity: message.severity,
     };
   });
 
@@ -35,7 +35,7 @@ const transformMessages = function (skipDone) {
     filePath: filePath,
     messages: filteredMessages,
     errorCount: localSeverities.errorCount,
-    warningCount: localSeverities.warningCount
+    warningCount: localSeverities.warningCount,
   };
 })
 		.value();
@@ -43,7 +43,7 @@ const transformMessages = function (skipDone) {
   const report = {
     results: groupedByFile,
     errorCount: errorCount,
-    warningCount: warningCount
+    warningCount: warningCount,
   };
 
   this.cache.report = report;
