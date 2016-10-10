@@ -1,6 +1,5 @@
 'use strict';
 
-
 /**
  * @description checks that the # of spaces used is consistent
  * @returns {boolean} true if # of spaces correct, false if not
@@ -9,7 +8,9 @@ const indentPref = function () {
   const spaces = this.state.conf;
   const context = this.state.context;
 
-  if (typeof spaces !== 'number') { return; }
+  if (typeof spaces !== 'number') {
+    return;
+  }
 
   let indentCorrect = true;
 
@@ -17,8 +18,8 @@ const indentPref = function () {
     indentCorrect = false;
   }
 
-	// if spaces === 2 and context === 1.5 (meaning 1.5 levels... or 3 spaces)
-	// then the index for the warning msg is 2 * 1.5, or 3 spaces
+  // if spaces === 2 and context === 1.5 (meaning 1.5 levels... or 3 spaces)
+  // then the index for the warning msg is 2 * 1.5, or 3 spaces
   const index = spaces * context;
 
   if (indentCorrect === false) {

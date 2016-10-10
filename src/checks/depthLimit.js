@@ -4,7 +4,6 @@
 // definitely not the best way to do this,
 const ampRe = /^(&|\/{1}|\.\.\/|~\/)/;
 
-
 /**
  * @description check nesting depth
  * @param  {string} [line] curr line being linted
@@ -16,9 +15,9 @@ const depthLimit = function (line) {
   let badNesting = false;
   const limit = this.config.depthLimit ? this.config.depthLimit : 5;
 
-	// trim string and check if line starts with &
-	// reduce context in that case
-	// @TODO not really ideal
+  // trim string and check if line starts with &
+  // reduce context in that case
+  // @TODO not really ideal
   if (ampRe.test(line.trim())) {
     context -= 1;
   }

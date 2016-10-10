@@ -5,22 +5,21 @@ const stripRe = /(?=\S)\[\S+\]|(\.|#)\w+/;
 const equalsRe = /( =|\?=|\+=|-=)+/;
 const validJSON = require('../data/valid.json');
 
-
 /**
  * @description check for brackets
  * @param {string} [line] curr line being linted
  * @returns {boolean} true if bracket found, false if not
  */
 const brackets = function (line) {
-	// in order if:
-	// 1 in hash or css block
-	// 2 variable or hash or block
-	// 3 mixin
-	// 4 .selector,
+  // in order if:
+  // 1 in hash or css block
+  // 2 variable or hash or block
+  // 3 mixin
+  // 4 .selector,
   if (this.state.hashOrCSS ||
-		line.trim().length === 0 ||
-		equalsRe.test(line) ||
-		ignoreRe.test(line)) {
+    line.trim().length === 0 ||
+    equalsRe.test(line) ||
+    ignoreRe.test(line)) {
     return;
   }
 
@@ -30,14 +29,14 @@ const brackets = function (line) {
   let bracket = false;
 
   if (this.state.conf === 'never') {
-		// ex: $hash = { is ok but .class = { is not
+    // ex: $hash = { is ok but .class = { is not
     if (line.indexOf('{') !== -1 &&
-			line.indexOf('=') === -1 &&
-			line.indexOf('}') === -1) {
+      line.indexOf('=') === -1 &&
+      line.indexOf('}') === -1) {
       bracket = true;
     }
-		// ex: } is okay if ending a hash. otherwise it is NOT okay
-		// one liners are lame but ok ( check for = { )
+    // ex: } is okay if ending a hash. otherwise it is NOT okay
+    // one liners are lame but ok ( check for = { )
     else if (line.indexOf('}') !== -1 && line.indexOf('{') === -1) {
       bracket = true;
     }
@@ -58,14 +57,16 @@ const brackets = function (line) {
         });
       }
 
-			// basically, we don't care about properties like margin or padding
-      if (line.trim().indexOf('}') !== -1 || isCSS || isMixin) { return; }
+      // basically, we don't care about properties like margin or padding
+      if (line.trim().indexOf('}') !== -1 || isCSS || isMixin) {
+        return;
+      }
 
       if (line.indexOf('{') !== -1) {
         bracket = true;
         this.state.openBracket = true;
       }
-			// ex: } is okay if ending a hash. otherwise it is NOT okay
+      // ex: } is okay if ending a hash. otherwise it is NOT okay
       else if (line.indexOf('}') !== -1 && this.state.openBracket) {
         bracket = true;
         this.state.openBracket = false;

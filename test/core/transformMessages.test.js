@@ -19,7 +19,7 @@ describe('transforming messages for report', () => {
   let source;
   let ruleId;
 
-  function createMessage () {
+  function createMessage() {
     return {
       message,
       severity,

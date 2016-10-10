@@ -2,24 +2,25 @@
 
 const extendRe = /(@extend)+s?\s/;
 
-
 /**
  * @description check that @extend is only used with a $placeholderVar
  * @param {string} [line] curr line being linted
  * @return {boolean} true if placeholder used, false if not
  */
 const placeholders = function (line) {
-  if (line.indexOf('@extend') === -1) { return; }
+  if (line.indexOf('@extend') === -1) {
+    return;
+  }
 
   let placeholder = false;
 
-	// stylus supports multiple, mixed extends and optional extends
-	// so lets pull them out of the line and check individually
-	// @extends .biz !optional, $extendable !optional =>
-	// ['.biz !optional', '$extendable !optional']
+  // stylus supports multiple, mixed extends and optional extends
+  // so lets pull them out of the line and check individually
+  // @extends .biz !optional, $extendable !optional =>
+  // ['.biz !optional', '$extendable !optional']
   const extendArr = line.replace(extendRe, '').split(',');
 
-	// if any item in the list is not a placeholder, fail
+  // if any item in the list is not a placeholder, fail
   placeholder = extendArr.every(line => {
     const trimmed = line.trim();
     return trimmed.substr(0, 1) === '$';

@@ -7,7 +7,6 @@ const bemRe = /^([$.#{:][${a-z]([-]?[${}a-z0-9]+)*(_{2}[${}a-z0-9]([-]?[${}a-z0-
 // camelCase or CamelCase
 const camelRe = /^[$#.{:]+([a-zA-Z]|[${}])+([a-z]|[${}])+(([.A-Z0-9])+[a-z ]+)+\b/m;
 
-
 /**
  * @description check for names-like-this vs namesLikeThis
  * or NamesLikeThis vs names_like_this or names-like__this-that
@@ -16,57 +15,56 @@ const camelRe = /^[$#.{:]+([a-zA-Z]|[${}])+([a-z]|[${}])+(([.A-Z0-9])+[a-z ]+)+\
  */
 const namingConvention = function (line) {
   const arr = this.splitAndStrip(' ', line);
-	// determine if line should be tested at all
+  // determine if line should be tested at all
   let doWeTestRe = /^[${:]+/m;
   let badConvention = false;
 
-	// test a wider range if strict is true
+  // test a wider range if strict is true
   if (this.config.namingConventionStrict === true) {
     doWeTestRe = /^[$#.{:]+/m;
   }
 
-	// only run checks if on a class, id, or variable
+  // only run checks if on a class, id, or variable
   if (doWeTestRe.test(arr[0]) && arr[0].indexOf('::') === -1) {
-		// if all lowercase we do nothing, if -, _ or uppercase found we check convention
+    // if all lowercase we do nothing, if -, _ or uppercase found we check convention
     if (upperRe.test(arr[0]) ||
-			arr[0].indexOf('-') !== -1 ||
-			arr[0].indexOf('_') !== -1) {
-			// check conventions
-			// $varName
+      arr[0].indexOf('-') !== -1 ||
+      arr[0].indexOf('_') !== -1) {
+      // check conventions
+      // $varName
       if (this.state.conf === 'camelCase') {
-				// if no A-Z present, or - present, or _ present
+        // if no A-Z present, or - present, or _ present
         if (arr[0].indexOf('-') !== -1 ||
-					arr[0].indexOf('_') !== -1 ||
-					!camelRe.test(arr[0])) {
+          arr[0].indexOf('_') !== -1 || !camelRe.test(arr[0])) {
           badConvention = true;
         }
       }
-			// $var_name
+      // $var_name
       else if (this.state.conf === 'lowercase_underscore') {
-				// if no _ present, or - present, or A-Z present
+        // if no _ present, or - present, or A-Z present
         if (arr[0].indexOf('-') !== -1 ||
-					arr[0].indexOf('_') === -1 ||
-					upperRe.test(arr[0])) {
+          arr[0].indexOf('_') === -1 ||
+          upperRe.test(arr[0])) {
           badConvention = true;
         }
       }
-			// $var-name
+      // $var-name
       else if (this.state.conf === 'lowercase-dash') {
-				// if no - present, or _ present, or A-Z present
+        // if no - present, or _ present, or A-Z present
         if (arr[0].indexOf('-') === -1 ||
-					arr[0].indexOf('_') !== -1 ||
-					upperRe.test(arr[0])) {
+          arr[0].indexOf('_') !== -1 ||
+          upperRe.test(arr[0])) {
           badConvention = true;
         }
       }
-			// $var__element
+      // $var__element
       else if (this.state.conf === 'BEM') {
-				// if A-Z or not following BEM specification
+        // if A-Z or not following BEM specification
         if (upperRe.test(arr[0]) || !bemRe.test(arr[0])) {
           badConvention = true;
         }
       }
-			// if not one of the defaults, assume custom regExp
+      // if not one of the defaults, assume custom regExp
       else if (typeof this.state.conf === 'string') {
         const conventionRe = new RegExp(this.state.conf, 'm');
 

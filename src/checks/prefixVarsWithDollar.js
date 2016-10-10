@@ -4,29 +4,29 @@ const dollaRe = /\$[\-_]*\w/;
 const eqEndRe = /=$|=\s$/;
 const ignoreRe = /(\[.+\])|if|for|else|return|@require|@import|@media|@block|vendor-prefixes|calc|(=|= )$|{$/; // 3
 
-
 /**
  * @description check that $ is used when declaring vars
  * @param  {string} [line] curr line being linted
  * @return {boolean} true if in order, false if not
  */
 const prefixVarsWithDollar = function (line) {
-  if (this.state.hashOrCSS || ignoreRe.test(line)) { return; }
+  if (this.state.hashOrCSS || ignoreRe.test(line)) {
+    return;
+  }
 
   let hasDolla = true;
 
-	// if line has a mixin, we need check each param for missing $
-	// else we just check if = is present && $ is prefixing something
+  // if line has a mixin, we need check each param for missing $
+  // else we just check if = is present && $ is prefixing something
   if (this.state.conf === 'always') {
     if (line.indexOf('=') !== -1 &&
-			line.indexOf('@block') === -1 &&
-			!eqEndRe.test(line)) {
+      line.indexOf('@block') === -1 && !eqEndRe.test(line)) {
       if (!dollaRe.test(line)) {
         hasDolla = false;
       }
     }
   }
-	// the never check is easier, since any $ means it fails
+  // the never check is easier, since any $ means it fails
   else if (this.state.conf === 'never' && !dollaRe.test(line)) {
     hasDolla = false;
   }

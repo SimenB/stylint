@@ -3,36 +3,35 @@
 const fs = require('fs');
 const async = require('async');
 
-
 /**
  * @description determines what files to read, creates an array of them, and passes it to be parsed
  * @param {string} [filepath] [option for manually passing in a filename]
  * @returns {Function} parse function
  */
 const read = function (filepath) {
-	// if user passes in a glob, we forEach over them
-	// and pass it into read() as filepath
+  // if user passes in a glob, we forEach over them
+  // and pass it into read() as filepath
   const path = filepath || this.state.path;
 
-	// if nothing passed in, default to linting the curr dir
-	// here we get all the files to parse first, then we pass to app.parse
+  // if nothing passed in, default to linting the curr dir
+  // here we get all the files to parse first, then we pass to app.parse
   if (path === process.cwd()) {
     return this.getFiles(this.state.path + '/**/*.styl');
   }
 
-	// if * is array, assume glob
+  // if * is array, assume glob
   if (path instanceof Array) {
     return this.getFiles(this.state.path);
   }
 
-	// else we'll have either a filename or dir name to work with
-	// if dir we use the glob logic to return an array of files to test
+  // else we'll have either a filename or dir name to work with
+  // if dir we use the glob logic to return an array of files to test
   return fs.stat(path, (err, stats) => {
     if (!stats || err) {
       throw Error('Stylint Error: No such file or dir exists!');
     }
 
-		// if this path matches any regex in the excludes array, we ignore
+    // if this path matches any regex in the excludes array, we ignore
     const isExcludes = function (path) {
       return this.state.exclude.some(exclude => {
         if (typeof exclude !== 'string') return false;
@@ -41,7 +40,7 @@ const read = function (filepath) {
       });
     }.bind(this);
 
-		// you shall not pass
+    // you shall not pass
     if (isExcludes(path)) return;
 
     if (stats.isFile()) {

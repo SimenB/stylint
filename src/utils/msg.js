@@ -1,6 +1,5 @@
 'use strict';
 
-
 /**
  * @description add violation to an array
  * @param {string} [message] outputted string from one of the checks

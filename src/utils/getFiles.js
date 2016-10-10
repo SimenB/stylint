@@ -9,7 +9,7 @@ const path = require('path');
  * @description globs files and returns an array, used in various methods
  * @param {string} [dir] directory of files to glob
  * @returns {Array} returns an array of files
-*/
+ */
 const getFiles = function (dir) {
   if (typeof dir !== 'string' && !(dir instanceof Array)) {
     throw new TypeError('getFiles err. Expected string or array, but received: ' + typeof dir);
@@ -17,7 +17,9 @@ const getFiles = function (dir) {
 
   if (typeof dir === 'string') {
     return glob(dir, {}, (err, files) => {
-      if (err) { throw err; }
+      if (err) {
+        throw err;
+      }
 
       files = files.filter(function (file) {
         let excluded = false;

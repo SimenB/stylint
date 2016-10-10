@@ -10,9 +10,9 @@ const commentRe = /(^\/\/)/;
 const startsWithComment = function (line) {
   let starts = false;
 
-	// ex }, but only if we've already establish that we're not in a hash
+  // ex }, but only if we've already establish that we're not in a hash
   if (line.indexOf('//') !== -1 &&
-		commentRe.test(line.trim())) {
+    commentRe.test(line.trim())) {
     starts = true;
   }
 

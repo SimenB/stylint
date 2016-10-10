@@ -15,8 +15,8 @@ const core = stampit().methods({
   transformMessages: require('./transformMessages'),
   watch: require('./watch'),
 
-	// utilities below
-	// necessary to keep them in the same namespace
+  // utilities below
+  // necessary to keep them in the same namespace
   checkPrefix: require('../utils/checkPrefix'),
   checkPseudo: require('../utils/checkPseudo'),
   getFiles: require('../utils/getFiles'),

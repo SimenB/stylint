@@ -15,7 +15,7 @@ const trailingWhitespace = function (line, source) {
   let whitespace = false;
   const hasWhitespace = whitespaceRe.exec(source);
 
-	// not an empty line, with whitespace at the end
+  // not an empty line, with whitespace at the end
   if (anythingElseRe.test(source) && hasWhitespace) {
     whitespace = true;
   }

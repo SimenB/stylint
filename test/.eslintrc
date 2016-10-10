@@ -1,8 +1,8 @@
 {
   "env": {
-	"mocha": true
+    "mocha": true
   },
   "rules": {
-	"no-undefined": 0
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
   }
 }

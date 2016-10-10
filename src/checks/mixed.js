@@ -7,7 +7,6 @@ const spaces = /( {2,})+/;
 // don't throw false positives if line ends in comment
 const trimRightRe = /( |\t)+(\/\/)+.+$/gm;
 
-
 /**
  * @description check for mixed spaces and tabs
  * @param {string} [line] curr line being linted
@@ -20,19 +19,19 @@ const mixed = function (line, source) {
   const indentPref = this.config.indentPref.expect || this.config.indentPref;
   const isNum = typeof indentPref === 'number';
 
-	// regexp obj or null
+  // regexp obj or null
   const hasTabs = tabs.exec(trimRight);
   const hasSpaces = spaces.exec(trimRight);
 
-	// if this isnt set to false then we're indenting with spaces,
-	// so check against tabs
+  // if this isnt set to false then we're indenting with spaces,
+  // so check against tabs
   if (isNum) {
     if (hasTabs) {
       isMixed = true;
     }
   }
-	// else you're a hard tab believer (go you)
-	// look for 2 or more spaces
+  // else you're a hard tab believer (go you)
+  // look for 2 or more spaces
   else if (hasSpaces) {
     isMixed = true;
   }

@@ -2,7 +2,6 @@
 
 const commentRe = /\/\/ /;
 
-
 /**
  * @description // check for space after line comment
  * @param  {string} [line] curr line being linted
@@ -10,14 +9,16 @@ const commentRe = /\/\/ /;
  * @returns {boolean} true if comment found, false if not
  */
 const commentSpace = function (line, source) {
-  if (!this.state.hasComment) { return; }
+  if (!this.state.hasComment) {
+    return;
+  }
 
   let spaceAfterComment = false;
   const comment = this.cache.comment;
   const index = source.indexOf(comment);
 
-	// check for space after comment on it's own line,
-	// if no space, return warning
+  // check for space after comment on it's own line,
+  // if no space, return warning
   if (commentRe.test(comment)) {
     spaceAfterComment = true;
   }

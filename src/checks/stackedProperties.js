@@ -3,7 +3,6 @@
 // if semicolons on line, but not ending the line, prolly a one-liner
 const semiTest = /;+(?!$)/gm;
 
-
 /**
  * @description disallow one-liners
  * @param  {string} [line] curr line being linted

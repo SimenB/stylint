@@ -4,19 +4,18 @@ const aboveZeroRe = /\d0/;
 const hasUnitRe = /[ :]0+?(?=px|%|em|rem|v(h|w)|v(min|max)|ex|ch|mm|cm|in|pt|pc|mozmm)/;
 const relativeValRe = /line-height|font-size|font-weight/;
 
-
 /**
-* @description check for 0unit
-* @param {string} [line] current line being linted
-* @returns {boolean | undefined} true if has units, else false, undefined if skipped
-*/
+ * @description check for 0unit
+ * @param {string} [line] current line being linted
+ * @returns {boolean | undefined} true if has units, else false, undefined if skipped
+ */
 const zeroUnits = function (line) {
-	// if in keyframes dont check
-	// if no 0 on line dont check
-	// if relative values like font-weight, dont check
+  // if in keyframes dont check
+  // if no 0 on line dont check
+  // if relative values like font-weight, dont check
   if (this.state.keyframes ||
-		line.indexOf('0') === -1 ||
-		relativeValRe.test(line)) {
+    line.indexOf('0') === -1 ||
+    relativeValRe.test(line)) {
     return;
   }
 
@@ -26,12 +25,12 @@ const zeroUnits = function (line) {
   const hasUnit = hasUnitRe.exec(line);
   const aboveZero = aboveZeroRe.exec(line);
 
-	// if config set to never and 0 is followed by any unit
+  // if config set to never and 0 is followed by any unit
   if (never && hasUnit) {
     isCorrect = false;
   }
-	// if config set to always, we need to do an extra check
-	// to avoid throwing false positions on numbers like 50px
+  // if config set to always, we need to do an extra check
+  // to avoid throwing false positions on numbers like 50px
   else if (always && (!hasUnit && !aboveZero)) {
     isCorrect = false;
   }

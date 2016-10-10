@@ -13,8 +13,9 @@ const touch = require('touch');
 const sinon = require('sinon');
 const chalk = require('chalk');
 const stylint = require('../index');
-const app = stylint().create();
 const stripJsonComments = require('strip-json-comments');
+
+const app = stylint().create();
 
 // turn on strict mode from this point and turn off unnecessary logging
 app.state.quiet = true;
@@ -32,126 +33,126 @@ describe('Core Methods: ', () => {
     });
   });
 
-	// describe( 'Init should: ', function() {
-	// 	sinon.spy( app, 'init' )
+  // describe( 'Init should: ', function() {
+  //   sinon.spy( app, 'init' )
 
-	// 	it( 'be a function', function() {
-	// 		app.init.should.be.a( 'function' )
-	// 	} )
+  //   it( 'be a function', function() {
+  //     app.init.should.be.a( 'function' )
+  //   } )
 
-	// 	it( 'set path if one passed in', function() {
-	// 		app.state.path = null
-	// 		app.init( null, 'test-styl/' )
-	// 		assert.equal( app.state.path, 'test-styl/' )
-	// 	} )
+  //   it( 'set path if one passed in', function() {
+  //     app.state.path = null
+  //     app.init( null, 'test-styl/' )
+  //     assert.equal( app.state.path, 'test-styl/' )
+  //   } )
 
-	// 	it( 'set path if state.path is set', function() {
-	// 		app.state.path = 'test-styl/'
-	// 		app.init()
-	// 		assert.equal( app.state.path, 'test-styl/' )
-	// 	} )
+  //   it( 'set path if state.path is set', function() {
+  //     app.state.path = 'test-styl/'
+  //     app.init()
+  //     assert.equal( app.state.path, 'test-styl/' )
+  //   } )
 
-	// 	it( 'override state.path if one is passed in', function() {
-	// 		app.state.path = 'test-styl/'
-	// 		app.init( null, 'test-styl/test2.styl' )
-	// 		assert.equal( app.state.path, 'test-styl/test2.styl' )
-	// 	} )
+  //   it( 'override state.path if one is passed in', function() {
+  //     app.state.path = 'test-styl/'
+  //     app.init( null, 'test-styl/test2.styl' )
+  //     assert.equal( app.state.path, 'test-styl/test2.styl' )
+  //   } )
 
-	// 	it( 'set path to cwd if none passed in', function() {
-	// 		app.state.path = null
-	// 		app.init()
-	// 		assert.equal( app.state.path, process.cwd() )
-	// 	} )
+  //   it( 'set path to cwd if none passed in', function() {
+  //     app.state.path = null
+  //     app.init()
+  //     assert.equal( app.state.path, process.cwd() )
+  //   } )
 
-	// 	it( 'set reporter if default if one not passed in', function() {
-	// 		app.config.reporter = undefined
-	// 		app.init()
-	// 		assert.ok( app.reporter !== false )
-	// 	} )
+  //   it( 'set reporter if default if one not passed in', function() {
+  //     app.config.reporter = undefined
+  //     app.init()
+  //     assert.ok( app.reporter !== false )
+  //   } )
 
-	// 	it( 'use custom config if passed --config flag', function() {
-	// 		app.init( {
-	// 			config: './.stylintrc'
-	// 		} )
-	// 		assert.deepEqual( app.config, app.setConfig( './.stylintrc' ) )
-	// 	} )
+  //   it( 'use custom config if passed --config flag', function() {
+  //     app.init( {
+  //       config: './.stylintrc'
+  //     } )
+  //     assert.deepEqual( app.config, app.setConfig( './.stylintrc' ) )
+  //   } )
 
-	// 	it( 'call watch if passed --watch flag', function() {
-	// 		app.init( {
-	// 			watch: true
-	// 		} )
-	// 		app.init.getCall( 3 ).returned( sinon.match.same( app.watch ) )
-	// 	} )
+  //   it( 'call watch if passed --watch flag', function() {
+  //     app.init( {
+  //       watch: true
+  //     } )
+  //     app.init.getCall( 3 ).returned( sinon.match.same( app.watch ) )
+  //   } )
 
-	// 	it( 'return read if no flags', function() {
-	// 		app.init()
-	// 		app.init.getCall( 4 ).returned( sinon.match.same( app.read ) )
-	// 	} )
-	// } )
+  //   it( 'return read if no flags', function() {
+  //     app.init()
+  //     app.init.getCall( 4 ).returned( sinon.match.same( app.read ) )
+  //   } )
+  // } )
 
-	// describe( 'Read: ', function() {
-	// 	sinon.spy( app, 'read' )
+  // describe( 'Read: ', function() {
+  //   sinon.spy( app, 'read' )
 
-	// 	it( 'should be a function', function() {
-	// 		app.read.should.be.a( 'function' )
-	// 	} )
+  //   it( 'should be a function', function() {
+  //     app.read.should.be.a( 'function' )
+  //   } )
 
-	// 	it( 'return parse function if passed a dir', function() {
-	// 		app.state.path = 'test-styl/'
-	// 		app.read()
-	// 		app.read.getCall( 0 ).returned( sinon.match.same( app.parse ) )
-	// 	} )
+  //   it( 'return parse function if passed a dir', function() {
+  //     app.state.path = 'test-styl/'
+  //     app.read()
+  //     app.read.getCall( 0 ).returned( sinon.match.same( app.parse ) )
+  //   } )
 
-	// 	it( 'return parse function if passed a filename', function() {
-	// 		app.state.path = 'test-styl/test2.styl'
-	// 		app.read()
-	// 		app.read.getCall( 1 ).returned( sinon.match.same( app.parse ) )
-	// 	} )
+  //   it( 'return parse function if passed a filename', function() {
+  //     app.state.path = 'test-styl/test2.styl'
+  //     app.read()
+  //     app.read.getCall( 1 ).returned( sinon.match.same( app.parse ) )
+  //   } )
 
-	// 	it( 'return parse function if nothing passed', function() {
-	// 		app.state.path = process.cwd()
-	// 		app.read()
-	// 		app.read.getCall( 2 ).returned( sinon.match.same( app.parse ) )
-	// 	} )
-	// } )
+  //   it( 'return parse function if nothing passed', function() {
+  //     app.state.path = process.cwd()
+  //     app.read()
+  //     app.read.getCall( 2 ).returned( sinon.match.same( app.parse ) )
+  //   } )
+  // } )
 
-	// describe( 'Parse should: ', function() {
-	// 	sinon.spy( app, 'parse' )
+  // describe( 'Parse should: ', function() {
+  //   sinon.spy( app, 'parse' )
 
-	// 	it( 'be a function', function() {
-	// 		app.parse.should.be.a( 'function' )
-	// 	} )
+  //   it( 'be a function', function() {
+  //     app.parse.should.be.a( 'function' )
+  //   } )
 
-	// 	it( 'throws err if passed non-existant file name', function() {
-	// 		app.cache.file = undefined
-	// 		assert.throws(
-	// 			app.parse,
-	// 			TypeError,
-	// 			'readFile err. Did you pass in a correct filename?'
-	// 		)
-	// 	} )
+  //   it( 'throws err if passed non-existant file name', function() {
+  //     app.cache.file = undefined
+  //     assert.throws(
+  //       app.parse,
+  //       TypeError,
+  //       'readFile err. Did you pass in a correct filename?'
+  //     )
+  //   } )
 
-	// 	it( 'return a forEach if passed a filename', function() {
-	// 		app.parse( false, ['test-styl/test2.styl'] )
-	// 		app.parse.getCall( 0 ).returned( sinon.match.same( ['test-styl/test2.styl'].forEach ) )
-	// 	} )
+  //   it( 'return a forEach if passed a filename', function() {
+  //     app.parse( false, ['test-styl/test2.styl'] )
+  //     app.parse.getCall( 0 ).returned( sinon.match.same( ['test-styl/test2.styl'].forEach ) )
+  //   } )
 
-	// 	it( 'return a forEach if passed a list of files', function() {
-	// 		app.parse( false, ['test-styl/test2.styl, styl/test.styl'] )
-	// 		app.parse.getCall( 1 ).returned( sinon.match.same( ['test-styl/test2.styl, styl/test.styl'].forEach ) )
-	// 	} )
+  //   it( 'return a forEach if passed a list of files', function() {
+  //     app.parse( false, ['test-styl/test2.styl, styl/test.styl'] )
+  //     app.parse.getCall( 1 ).returned( sinon.match.same( ['test-styl/test2.styl, styl/test.styl'].forEach ) )
+  //   } )
 
-	// 	it( 'handle empty or one line files fine', function() {
-	// 		app.parse( false, ['test-styl/oneLine.styl'] )
-	// 		app.parse.getCall( 2 ).returned( sinon.match.same( ['test-styl/oneLine.styl'].forEach ) )
-	// 	} )
+  //   it( 'handle empty or one line files fine', function() {
+  //     app.parse( false, ['test-styl/oneLine.styl'] )
+  //     app.parse.getCall( 2 ).returned( sinon.match.same( ['test-styl/oneLine.styl'].forEach ) )
+  //   } )
 
-	// 	it( 'returns app.done when done parsing last file', function() {
-	// 		app.cache.fileNo = app.cache.filesLen
-	// 		app.parse( false, ['test-styl/test2.styl'] )
-	// 		app.parse.getCall( 3 ).returned( sinon.match.same( app.done ) )
-	// 	} )
-	// } )
+  //   it( 'returns app.done when done parsing last file', function() {
+  //     app.cache.fileNo = app.cache.filesLen
+  //     app.parse( false, ['test-styl/test2.styl'] )
+  //     app.parse.getCall( 3 ).returned( sinon.match.same( app.done ) )
+  //   } )
+  // } )
 
   describe('Lint: ', () => {
     sinon.spy(app, 'lint');
@@ -200,7 +201,7 @@ describe('Core Methods: ', () => {
       app.lint();
       assert.equal(app.cache.rule, 'leadingZero');
 
-			// restore config
+      // restore config
       app.config = app.setConfig();
     });
   });
@@ -278,7 +279,7 @@ describe('Core Methods: ', () => {
     });
 
     it('return undefined if line empty', () => {
-			// app.reporter( 'universal disallowed' )
+      // app.reporter( 'universal disallowed' )
       assert.equal(undefined, app.setState(''));
       assert.equal(undefined, app.setState(' '));
       assert.equal(undefined, app.setState('\t\t'));
@@ -364,10 +365,10 @@ describe('Utility Methods: ', () => {
 
     it('throw if passed invalid path', () => {
       assert.throws(
-				app.setConfig,
-				TypeError,
-				'setConfig err. Expected string, but received: ' + typeof dir
-			);
+        app.setConfig,
+        TypeError,
+        'setConfig err. Expected string, but received: ' + typeof dir
+      );
     });
   });
 
@@ -405,22 +406,22 @@ describe('Utility Methods: ', () => {
     it('reset should reset all caches', () => {
       resetTest('../styl/_ads.styl');
       assert.ok(
-				Object.keys(app.cache.sCache).length === 0 &&
-				app.cache.alphaCache.length === 0 &&
-				app.cache.rootCache.length === 0 &&
-				app.cache.prevLine.length === 0 &&
-				app.cache.prevFile.length === 0 &&
-				app.cache.prevContext === 0 &&
-				app.cache.zCache.length === 0
-			);
+        Object.keys(app.cache.sCache).length === 0 &&
+        app.cache.alphaCache.length === 0 &&
+        app.cache.rootCache.length === 0 &&
+        app.cache.prevLine.length === 0 &&
+        app.cache.prevFile.length === 0 &&
+        app.cache.prevContext === 0 &&
+        app.cache.zCache.length === 0
+      );
     });
 
     it('reset should set prevLine and prevFile to empty strings', () => {
       resetTest('../styl/_ads.styl');
       assert.ok(
-				app.cache.prevLine === '' &&
-				app.cache.prevFile === ''
-			);
+        app.cache.prevLine === '' &&
+        app.cache.prevFile === ''
+      );
     });
 
     it('reset should set prevContext to 0', () => {
@@ -849,17 +850,17 @@ describe('Linter Style Checks: ', () => {
       app.config.indentPref = 4;
       app.state.context = app.setContext('margin 0');
       assert.equal(false, nestTest('margin 0'));
-      app.state.context = app.setContext('			margin 0');
-      assert.equal(false, nestTest('			margin 0'));
+      app.state.context = app.setContext('      margin 0');
+      assert.equal(false, nestTest('      margin 0'));
       app.state.context = app.setContext('    margin 0                             ');
-      assert.equal(false, nestTest('			margin 0'));
+      assert.equal(false, nestTest('      margin 0'));
       app.config.indentPref = 'tabs';
       app.state.context = app.setContext('&:hover');
       assert.equal(false, nestTest('&:hover'));
-      assert.equal(false, nestTest('			&:hover'));
+      assert.equal(false, nestTest('      &:hover'));
       app.state.context = app.setContext('.class-name');
       assert.equal(false, nestTest('.class-name'));
-      assert.equal(false, nestTest('		.class-name								'));
+      assert.equal(false, nestTest('    .class-name                '));
     });
 
     it('true if more indents than depth limit', () => {
@@ -874,11 +875,11 @@ describe('Linter Style Checks: ', () => {
       app.state.context = app.setContext('                   margin 0');
       assert.ok(nestTest('                   margin 0'));
       app.config.indentPref = 'tabs';
-      app.state.context = app.setContext('					margin 0');
-      assert.ok(nestTest('					margin 0'));
+      app.state.context = app.setContext('          margin 0');
+      assert.ok(nestTest('          margin 0'));
       app.config.depthLimit = 1;
-      app.state.context = app.setContext('		margin 0 )');
-      assert.ok(nestTest('		margin 0 )'));
+      app.state.context = app.setContext('    margin 0 )');
+      assert.ok(nestTest('    margin 0 )'));
     });
   });
 
@@ -889,40 +890,40 @@ describe('Linter Style Checks: ', () => {
       app.config.indentPref = 'tabs';
       app.cache.file = 'file.styl';
       app.cache.prevFile = 'file.styl';
-      app.state.context = app.setContext('	.test'); // 1
-      dupeTest('	.test');
-      app.state.context = app.setContext('			.test'); // 3
-      assert.equal(false, dupeTest('			.test'));
+      app.state.context = app.setContext('  .test'); // 1
+      dupeTest('  .test');
+      app.state.context = app.setContext('      .test'); // 3
+      assert.equal(false, dupeTest('      .test'));
     });
 
     it('tabs: false if globalDupe off, diff files, same context, same selector', () => {
       app.config.globalDupe = true;
       app.cache.prevFile = 'file5.styl';
       app.cache.file = 'file6.styl';
-      app.state.context = app.setContext('	.test'); // 1
-      app.state.context = app.setContext('	.test'); // 1
-      assert.equal(false, dupeTest('	.test'));
+      app.state.context = app.setContext('  .test'); // 1
+      app.state.context = app.setContext('  .test'); // 1
+      assert.equal(false, dupeTest('  .test'));
       app.config.globalDupe = false;
     });
 
     it('tabs: false if prev selector was in a list, same file, same context, same selector', () => {
       app.cache.prevFile = 'file.styl';
       app.cache.file = 'file.styl';
-      app.state.context = app.setContext('	.classy,'); // to set the context
-      dupeTest('	.classy,'); // prev selecto
-      assert.equal(false, dupeTest('	.classy'));
+      app.state.context = app.setContext('  .classy,'); // to set the context
+      dupeTest('  .classy,'); // prev selecto
+      assert.equal(false, dupeTest('  .classy'));
     });
 
     it('tabs: false if selector is in a list', () => {
-      assert.equal(false, dupeTest('	.classy,'));
+      assert.equal(false, dupeTest('  .classy,'));
     });
 
     it('tabs: false if global dupe off and file changed', () => {
-      dupeTest('	.test4'); // to set the context
+      dupeTest('  .test4'); // to set the context
       app.cache.prevFile = 'file.styl';
       app.cache.file = 'file2.styl';
       app.config.globalDupe = false;
-      assert.equal(false, dupeTest('	.test4'));
+      assert.equal(false, dupeTest('  .test4'));
     });
 
     it('spaces: false if no dupe, not root, diff context, same selector', () => {
@@ -979,8 +980,8 @@ describe('Linter Style Checks: ', () => {
       app.cache.file = 'file.styl';
       app.state.context = 1;
       app.state.prevContext = 1;
-      dupeTest('	.test');
-      assert.ok(dupeTest('	.test'));
+      dupeTest('  .test');
+      assert.ok(dupeTest('  .test'));
     });
 
     it('spaces: true if nested selector is dupe', () => {
@@ -1236,7 +1237,7 @@ describe('Linter Style Checks: ', () => {
     it('true if line doesnt have a context of zero', () => {
       app.state.keyframes = true;
       app.state.context = 1;
-      assert.ok(keyframesEndTest('		from {'));
+      assert.ok(keyframesEndTest('    from {'));
     });
 
     it('undefined if NOT already in @keyframes', () => {
@@ -1363,18 +1364,18 @@ describe('Linter Style Checks: ', () => {
 
     it('false if no mixed spaces and tabs found: tabs preferred', () => {
       app.config.indentPref = 'tabs';
-      assert.equal(false, mixed('', '	margin 0'));
+      assert.equal(false, mixed('', '  margin 0'));
     });
 
     it('true if spaces and tabs are mixed: spaces preferred', () => {
       app.config.indentPref = 4;
-      assert.ok(mixed('', '	  margin 0'));
-      assert.ok(mixed('', '	padding 0em'));
+      assert.ok(mixed('', '    margin 0'));
+      assert.ok(mixed('', '  padding 0em'));
     });
 
     it('true if spaces and tabs are mixed: tabs preferred', () => {
       app.config.indentPref = 'tabs';
-      assert.ok(mixed('', '	    margin 0'));
+      assert.ok(mixed('', '      margin 0'));
     });
   });
 
@@ -1558,36 +1559,36 @@ describe('Linter Style Checks: ', () => {
       app.state.conf = 'never';
     });
 
-		// commenting out for now because the
-		// state is getting stuck incorrectly here
-		// so yeah @FIXME
-		// running tests manually, they're passing
+    // commenting out for now because the
+    // state is getting stuck incorrectly here
+    // so yeah @FIXME
+    // running tests manually, they're passing
 
-		// it( 'false (no err) if border 0', function() {
-		// 	assert.equal( false, noneTest( 'border 0' ) )
-		// 	assert.equal( false, noneTest( 'border: 0' ) )
-		// 	assert.equal( false, noneTest( 'border:0' ) )
-		// 	assert.equal( false, noneTest( 'border 1px solid red' ) )
-		// } )
+    // it( 'false (no err) if border 0', function() {
+    //   assert.equal( false, noneTest( 'border 0' ) )
+    //   assert.equal( false, noneTest( 'border: 0' ) )
+    //   assert.equal( false, noneTest( 'border:0' ) )
+    //   assert.equal( false, noneTest( 'border 1px solid red' ) )
+    // } )
 
-		// it( 'false (no err) if outline 0', function() {
-		// 	assert.equal( false, noneTest( 'outline 0' ) )
-		// 	assert.equal( false, noneTest( 'outline: 0' ) )
-		// 	assert.equal( false, noneTest( 'outline:0' ) )
-		// 	assert.equal( false, noneTest( 'outline 1px solid red' ) )
-		// } )
+    // it( 'false (no err) if outline 0', function() {
+    //   assert.equal( false, noneTest( 'outline 0' ) )
+    //   assert.equal( false, noneTest( 'outline: 0' ) )
+    //   assert.equal( false, noneTest( 'outline:0' ) )
+    //   assert.equal( false, noneTest( 'outline 1px solid red' ) )
+    // } )
 
-		// it( 'true (err found) if border none', function() {
-		// 	assert.ok( noneTest( 'border none' ) )
-		// 	assert.ok( noneTest( 'border: none' ) )
-		// 	assert.ok( noneTest( 'border:none' ) )
-		// } )
+    // it( 'true (err found) if border none', function() {
+    //   assert.ok( noneTest( 'border none' ) )
+    //   assert.ok( noneTest( 'border: none' ) )
+    //   assert.ok( noneTest( 'border:none' ) )
+    // } )
 
-		// it( 'true (err found) if outline none', function() {
-		// 	assert.ok( noneTest( 'outline none' ) )
-		// 	assert.ok( noneTest( 'outline: none' ) )
-		// 	assert.ok( noneTest( 'outline:none' ) )
-		// } )
+    // it( 'true (err found) if outline none', function() {
+    //   assert.ok( noneTest( 'outline none' ) )
+    //   assert.ok( noneTest( 'outline: none' ) )
+    //   assert.ok( noneTest( 'outline:none' ) )
+    // } )
 
     it('undefined if border or outline not on line', () => {
       assert.equal(undefined, noneTest('margin 0'));
@@ -1845,8 +1846,8 @@ describe('Linter Style Checks: ', () => {
 
     it('undefined if no semicolon is found', () => {
       assert.equal(undefined, semiTest('margin 0 auto'));
-      assert.equal(undefined, semiTest('		margin 0 auto'));
-      assert.equal(undefined, semiTest('		.class-name'));
+      assert.equal(undefined, semiTest('    margin 0 auto'));
+      assert.equal(undefined, semiTest('    .class-name'));
     });
 
     it('undefined if line skipped (syntax)', () => {
@@ -1925,10 +1926,10 @@ describe('Linter Style Checks: ', () => {
         const expectedCache = ['background', 'z-index', 'border', 'width'];
 
         assert.equal(false, app.state.conf);
-        assert.ok(sortTest('	background'));
-        assert.ok(sortTest('	z-index'));
-        assert.ok(sortTest('	border'));
-        assert.ok(sortTest('	width'));
+        assert.ok(sortTest('  background'));
+        assert.ok(sortTest('  z-index'));
+        assert.ok(sortTest('  border'));
+        assert.ok(sortTest('  width'));
         assert.equal(expectedCache.length, app.cache.sortOrderCache.length);
         assert.deepEqual(expectedCache, app.cache.sortOrderCache);
       });
@@ -1949,8 +1950,8 @@ describe('Linter Style Checks: ', () => {
 
         assert.equal('alphabetical', app.state.conf);
         assert.equal(3, app.cache.sortOrderCache.length);
-        assert.ok(sortTest('	position absolute'));
-        assert.ok(sortTest('	z-index 1'));
+        assert.ok(sortTest('  position absolute'));
+        assert.ok(sortTest('  z-index 1'));
         assert.equal(expectedCache.length, app.cache.sortOrderCache.length);
         assert.deepEqual(expectedCache, app.cache.sortOrderCache);
       });
@@ -1968,8 +1969,8 @@ describe('Linter Style Checks: ', () => {
 
         assert.equal('alphabetical', app.state.conf);
         assert.equal(3, app.cache.sortOrderCache.length);
-        assert.equal(false, sortTest('	line-height 1'));
-        assert.equal(false, sortTest('	background none'));
+        assert.equal(false, sortTest('  line-height 1'));
+        assert.equal(false, sortTest('  background none'));
         assert.equal(false, sortTest('border 1px solid #fff'));
         assert.equal(false, sortTest('color: rgba( 0, 0, 0, 1 )'));
         assert.equal(expectedCache.length, app.cache.sortOrderCache.length);
@@ -2133,7 +2134,7 @@ describe('Linter Style Checks: ', () => {
     });
 
     it('true if whitespace found', () => {
-      assert.ok(whitespaceTest('', 'margin 0 auto	'));
+      assert.ok(whitespaceTest('', 'margin 0 auto  '));
       assert.ok(whitespaceTest('', 'margin 0 auto '));
     });
   });
@@ -2423,14 +2424,14 @@ describe('Done, again: ', () => {
     assert.equal(1, app.done().exitCode);
   });
 
-	// it( 'should exit if watch off', function() {
-	// 	app.state.watching = false
-	// 	sinon.spy( app, 'done' )
-	// 	app.done()
+  // it( 'should exit if watch off', function() {
+  //   app.state.watching = false
+  //   sinon.spy( app, 'done' )
+  //   app.done()
 
-	// 	app.done.getCall(0).returned( sinon.match.same( process.exit ) )
-	// 	app.state.watching = true
-	// } )
+  //   app.done.getCall(0).returned( sinon.match.same( process.exit ) )
+  //   app.state.watching = true
+  // } )
 });
 
 describe('Lint Text: ', () => {

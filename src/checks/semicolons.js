@@ -3,7 +3,6 @@
 // we only want to check semicolons on properties/values
 const ignoreRe = /(^[*#.])|[&>/]|{|}|if|for(?!\w)|else|@block|@media|(}|{|=|,)$/igm;
 
-
 /**
  * @description check that selector properties are sorted accordingly
  * @param  {string} [line] curr line being linted
@@ -20,13 +19,13 @@ const semicolons = function (line) {
     semicolon = true;
   }
 
-	// for reasons that perplex me, even when the first use
-	// of this at the top returns true, sometimes the method
-	// still runs, so we add this second ignoreCheck here to catch it
+  // for reasons that perplex me, even when the first use
+  // of this at the top returns true, sometimes the method
+  // still runs, so we add this second ignoreCheck here to catch it
   if (this.state.conf === 'always' && !ignoreRe.test(line.trim())) {
     if (index === -1 &&
-			line.indexOf('}') === -1 &&
-			line.indexOf('{') === -1) {
+      line.indexOf('}') === -1 &&
+      line.indexOf('{') === -1) {
       semicolon = false;
     }
   }

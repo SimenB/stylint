@@ -6,7 +6,7 @@
  * @param {string} [html] the html we're checking against (from valid.json)
  * @param {Object} [valid] the valid.json object
  * @returns {boolean} true if at least one match found, false if not
-*/
+ */
 const checkPseudo = function (prop, html, valid) {
   return valid.pseudo.some(pseudo => {
     return prop === html + pseudo;

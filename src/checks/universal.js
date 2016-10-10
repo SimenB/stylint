@@ -4,10 +4,10 @@
 const universalRe = /( |\w|\d|'|"|\*|\/)(\*)( |\w|\d|'|"|\*|\$|\=)/;
 
 /**
-* @description check for * selector
-* @param {string} [line] current line being linted
-* @returns {boolean} true if * on line, false if not
-*/
+ * @description check for * selector
+ * @param {string} [line] current line being linted
+ * @returns {boolean} true if * on line, false if not
+ */
 const universal = function (line) {
   const index = line.indexOf('*');
   if (index === -1) return;

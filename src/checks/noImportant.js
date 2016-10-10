@@ -1,6 +1,5 @@
 'use strict';
 
-
 /**
  * @description disallows use of !important
  * @param {string} [line] curr line being linted
@@ -10,7 +9,7 @@ const noImportant = function (line) {
   let important = false;
   const index = line.indexOf('!important');
 
-	// return true if border|outline is followed by a 0
+  // return true if border|outline is followed by a 0
   if (index !== -1) {
     important = true;
   }

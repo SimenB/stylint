@@ -4,14 +4,15 @@ const decimalRe = /[^\d+](0+\.\d+)|[\s,\(](\.\d+)/i;
 const leadZeroRe = /[^\d+](0+\.\d+)/;
 const nonZeroRe = /[\s,\(](\.\d+)/;
 
-
 /**
  * @description check for leading 0 on numbers ( 0.5 )
  * @param {string} [line] curr line being linted
  * @returns {boolean|undefined} true if mixed, false if not
  */
 const leadingZero = function (line) {
-  if (!decimalRe.test(line)) { return; }
+  if (!decimalRe.test(line)) {
+    return;
+  }
 
   const leadZeroFound = leadZeroRe.exec(line);
   const leadZeroMissing = nonZeroRe.exec(line);

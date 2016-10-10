@@ -4,7 +4,6 @@
 const cleanFileRe = /(\r\n|\n|\r)|(^(\/\*)|([\s'"](\/\*)))(?!\/)(.|[\r\n]|\n)+?\*\/\n?/gm;
 const lineEndingsRe = /\r\n|\n|\r/gm;
 
-
 /**
  * @description parses file for testing by removing extra new lines and block comments
  * @param {Object} [err] error obj from async if it exists
@@ -13,20 +12,22 @@ const lineEndingsRe = /\r\n|\n|\r/gm;
  * @returns {Object} the result object from the run
  */
 const parse = function (err, res, skipDone) {
-  if (err) { throw new Error(err); }
+  if (err) {
+    throw new Error(err);
+  }
 
   res.forEach((file, i) => {
     this.cache.file = this.cache.files[i];
     this.cache.fileNo = i;
 
-		// strip out block comments, but dont destroy line history
-		// to do these we replace block comments with new lines
+    // strip out block comments, but dont destroy line history
+    // to do these we replace block comments with new lines
     const lines = file.toString().replace(cleanFileRe, str => {
-			// WHERE IS YOUR GOD NOW
+      // WHERE IS YOUR GOD NOW
       return (new Array(str.split(lineEndingsRe).length)).join('\n');
     }).split('\n');
 
-		// updating cache as we go, and passing to the next step
+    // updating cache as we go, and passing to the next step
     lines.forEach((line, lineNo) => {
       this.cache.source = line;
       this.cache.line = this.trimLine(line);
@@ -36,7 +37,7 @@ const parse = function (err, res, skipDone) {
       return this.setState(line);
     });
 
-		// save previous file
+    // save previous file
     this.cache.prevFile = this.cache.file;
   });
 

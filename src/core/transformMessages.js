@@ -15,30 +15,30 @@ const transformMessages = function (skipDone) {
   const warningCount = severities.warningCount;
 
   const groupedByFile = _.chain(this.cache.messages)
-		.groupBy('file')
-		.map((messages, filePath) => {
-  const localSeverities = countSeverities(messages);
+    .groupBy('file')
+    .map((messages, filePath) => {
+      const localSeverities = countSeverities(messages);
 
-  const filteredMessages = messages.map(message => {
-				// Just removes `file`
-    return {
-      column: message.column,
-      line: message.line,
-      message: message.message,
-      source: message.source,
-      ruleId: message.ruleId,
-      severity: message.severity,
-    };
-  });
+      const filteredMessages = messages.map(message => {
+        // Just removes `file`
+        return {
+          column: message.column,
+          line: message.line,
+          message: message.message,
+          source: message.source,
+          ruleId: message.ruleId,
+          severity: message.severity,
+        };
+      });
 
-  return {
-    filePath,
-    messages: filteredMessages,
-    errorCount: localSeverities.errorCount,
-    warningCount: localSeverities.warningCount,
-  };
-})
-		.value();
+      return {
+        filePath,
+        messages: filteredMessages,
+        errorCount: localSeverities.errorCount,
+        warningCount: localSeverities.warningCount,
+      };
+    })
+    .value();
 
   const report = {
     results: groupedByFile,

@@ -1,13 +1,13 @@
 'use strict';
 
-function shouldExit1 (maxErrors, maxWarnings, errorCount, warningCount) {
-	// If there are any errors and no maximum defined
+function shouldExit1(maxErrors, maxWarnings, errorCount, warningCount) {
+  // If there are any errors and no maximum defined
   if (maxErrors < 0 && errorCount > 0) {
     return true;
   }
 
   return maxErrors >= 0 && errorCount > maxErrors ||
-		maxWarnings >= 0 && warningCount > maxWarnings;
+    maxWarnings >= 0 && warningCount > maxWarnings;
 }
 
 /**
@@ -31,13 +31,13 @@ const done = function () {
     reporterOptions: this.config.reporterOptions,
   }, shouldKill);
 
-	// TODO: This is stupid, just mock out `console.log` or something
+  // TODO: This is stupid, just mock out `console.log` or something
   if (!this.state.quiet && message) {
     console.log(message);
   }
 
-	// don't kill the linter if watch is watching
-	// else there's no more to do, so exit the process
+  // don't kill the linter if watch is watching
+  // else there's no more to do, so exit the process
   if (!this.state.watching) {
     this.callback(this.state.exitCode || null);
     return process.exit(this.state.exitCode);
@@ -49,7 +49,7 @@ const done = function () {
     msg: message,
   };
 
-	// if watching we reset the errors/warnings arrays
+  // if watching we reset the errors/warnings arrays
   this.cache.messages = [];
   this.cache.report = {};
 

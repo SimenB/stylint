@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 'use strict';
 
 const assert = require('assert');
@@ -139,15 +141,15 @@ describe('done', () => {
 
       assert(context.reporter.calledOnce);
       assert(context.reporter.calledWith(
-				report,
+        report,
         {
           maxErrors: -1,
           maxWarnings: -1,
           groupOutputByFile: undefined,
           reporterOptions: undefined,
         },
-				false
-			));
+        false
+      ));
     });
 
     it('should pass along groupOutputByFile and reporterOptions', () => {
@@ -158,15 +160,15 @@ describe('done', () => {
 
       assert(context.reporter.calledOnce);
       assert(context.reporter.calledWith(
-				report,
+        report,
         {
           maxErrors: -1,
           maxWarnings: -1,
           groupOutputByFile: true,
           reporterOptions: true,
         },
-				false
-			));
+        false
+      ));
     });
 
     it('should handle missing maxErrors and maxWarnings', () => {
@@ -177,15 +179,15 @@ describe('done', () => {
 
       assert(context.reporter.calledOnce);
       assert(context.reporter.calledWith(
-				report,
+        report,
         {
           maxErrors: -1,
           maxWarnings: -1,
           groupOutputByFile: undefined,
           reporterOptions: undefined,
         },
-				false
-			));
+        false
+      ));
     });
 
     it('should pass along exitCode', () => {

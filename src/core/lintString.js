@@ -8,20 +8,20 @@
  * @returns {Object} an object containing the complete report from linting
  */
 const lintString = function (string, config, filename) {
-	// reset stuff
+  // reset stuff
   this.resetOnChange();
 
   if (config) {
     this.init({ config });
   }
 
-	// make sure there is no output to the console
+  // make sure there is no output to the console
   this.state.quiet = true;
 
-	// don't kill process
+  // don't kill process
   this.state.watching = true;
 
-	// never kill the linter
+  // never kill the linter
   this.config.maxErrors = null;
   this.config.maxWarnings = null;
 

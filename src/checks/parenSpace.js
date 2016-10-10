@@ -6,7 +6,6 @@ const parensEndWithSpaceRe = /\s+\)+/;
 const parensBeginWithNoSpaceRe = /\(\S+/;
 const parensEndWithNoSpaceRe = /\S+\)+/;
 
-
 /**
  * @description checks for extra space when using parens
  * @param {string} [line] curr line being linted
@@ -14,7 +13,9 @@ const parensEndWithNoSpaceRe = /\S+\)+/;
  * @return {boolean} true if placeholder used, false if not
  */
 const parenSpace = function (line, source) {
-  if (!parensRe.test(source)) { return; }
+  if (!parensRe.test(source)) {
+    return;
+  }
 
   const hasStartSpace = parensBeginWithSpaceRe.exec(source);
   const hasEndSpace = parensEndWithSpaceRe.exec(source);

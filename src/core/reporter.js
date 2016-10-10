@@ -18,55 +18,55 @@ const reporter = function (report, options, kill) {
 
   options = options || {};
   let formattedMessages = _.chain(report.results)
-		.map(result => {
-  const newResult = result;
-  const file = chalk.underline(result.filePath);
+    .map(result => {
+      const newResult = result;
+      const file = chalk.underline(result.filePath);
 
-  newResult.messages = result.messages.map(msg => {
-    const column = typeof msg.column === 'number' && msg.column > 0 ? msg.column : null;
-    const lineData = column ? msg.line + ':' + column : msg.line;
+      newResult.messages = result.messages.map(msg => {
+        const column = typeof msg.column === 'number' && msg.column > 0 ? msg.column : null;
+        const lineData = column ? msg.line + ':' + column : msg.line;
 
-    let severity = msg.severity;
-    severity = severity === 'warning' ?
-					chalk.yellow(severity) :
-					chalk.red(severity);
+        let severity = msg.severity;
+        severity = severity === 'warning' ?
+          chalk.yellow(severity) :
+          chalk.red(severity);
 
-    const rule = chalk.grey(msg.ruleId);
+        const rule = chalk.grey(msg.ruleId);
 
-    return {
-      file,
-      lineData,
-      severity,
-      message: msg.message,
-      rule,
-    };
-  });
+        return {
+          file,
+          lineData,
+          severity,
+          message: msg.message,
+          rule,
+        };
+      });
 
-  return newResult;
-});
+      return newResult;
+    });
 
   if (options.groupOutputByFile) {
-		// iterate over arrays of message objects
-		// each array consists of all the errors and warnings for a file
-		// columnify the errors/warnings and prefix them with the file name
+    // iterate over arrays of message objects
+    // each array consists of all the errors and warnings for a file
+    // columnify the errors/warnings and prefix them with the file name
     formattedMessages = formattedMessages
-			.map(results => {
-  return results.filePath + '\n' + columnify(results.messages, options.reporterOptions);
-});
+      .map(results => {
+        return results.filePath + '\n' + columnify(results.messages, options.reporterOptions);
+      });
   }
   else {
     formattedMessages = formattedMessages
-		.flatMap('messages')
-		.map(output => {
-  return output.file + '\n' + output.lineData + ' ' + output.rule + ' ' + output.severity + ' ' + output.message;
-});
+      .flatMap('messages')
+      .map(output => {
+        return output.file + '\n' + output.lineData + ' ' + output.rule + ' ' + output.severity + ' ' + output.message;
+      });
   }
 
   formattedMessages = formattedMessages.reduce((memo, msg) => {
     return memo + msg + '\n\n';
   }, '')
-		.value()
-		.trim();
+    .value()
+    .trim();
 
   let formattedMessage = 'Stylint: ' + report.errorCount + ' Errors.';
   formattedMessage += options.maxErrors >= 0 ? ' (Max Errors: ' + options.maxErrors + ')' : '';
@@ -74,7 +74,7 @@ const reporter = function (report, options, kill) {
   formattedMessage += '\nStylint: ' + report.warningCount + ' Warnings.';
   formattedMessage += options.maxWarnings >= 0 ? ' (Max Warnings: ' + options.maxWarnings + ')' : '';
 
-	// if you set a max it kills the linter
+  // if you set a max it kills the linter
   if (kill) {
     formattedMessage += '\nStylint: Over Error or Warning Limit.';
   }

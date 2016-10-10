@@ -12,27 +12,27 @@ const removeQuotesRe = /(["'])(?:(?=(\\?))\2.)*?\1/g;
  * @returns {boolean} true if space missing, false if not
  */
 const commaSpace = function (line, source) {
-	// conditions where testing isn't needed.
-	// 1: no comma on line at all
-	// 2: comma ends the line, as in a list
-	// 3: comma is
+  // conditions where testing isn't needed.
+  // 1: no comma on line at all
+  // 2: comma ends the line, as in a list
+  // 3: comma is
   if (source.indexOf(',') === -1 ||
-		source.trim().indexOf(',') === source.length - 1) {
+    source.trim().indexOf(',') === source.length - 1) {
     return;
   }
 
-	// just strip content between quotes, leave rest of syntax intact
-	// this is so we don't get false positives with , in strings
+  // just strip content between quotes, leave rest of syntax intact
+  // this is so we don't get false positives with , in strings
   const trimmedLine = source.replace(removeQuotesRe, '""').trim();
 
   const noSpace = noSpaceRe.exec(trimmedLine);
   const hasSpace = withSpaceRe.exec(trimmedLine);
 
-	// if spaces should be follow commas, but there is no space on the line
+  // if spaces should be follow commas, but there is no space on the line
   if (this.state.conf === 'always' && noSpace) {
     this.msg('commas must be followed by a space for readability', noSpace.index);
   }
-	// if spaces should not be followed by a comma, but there are spaces anyway
+  // if spaces should not be followed by a comma, but there are spaces anyway
   else if (this.state.conf === 'never' && hasSpace) {
     this.msg('spaces after commas are not allowed', hasSpace.index);
   }

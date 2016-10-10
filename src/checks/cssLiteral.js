@@ -1,6 +1,5 @@
 'use strict';
 
-
 /**
  * @description if we disallowed css literals, check for them and return true if found
  * @param {string} [line] curr line being linted
@@ -8,7 +7,9 @@
  * @TODO do i still work with setState?
  */
 const cssLiteral = function (line) {
-  if (this.state.hashOrCSS) { return; }
+  if (this.state.hashOrCSS) {
+    return;
+  }
   let isCSSLiteral = false;
   const index = line.indexOf('@css');
 
