@@ -21,7 +21,7 @@ const cache = {
   prevLine: '', // the previous line
   report: {}, // the report object passed to reporters
   rule: '', // rule name for current check
-  sCache: { '0': [] }, // each key is an array of selectors in that context
+  sCache: { 0: [] }, // each key is an array of selectors in that context
   sortOrderCache: [], // we keep a context based arr of selectors here to check sort order
   source: '', // original line before stripping/trimming
   zCache: [], // array of z-index uses

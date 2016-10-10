@@ -33,7 +33,9 @@
   "bin": "./bin/stylint.js",
   "devDependencies": {
     "chai": "3.5.0",
-    "eslint": "2.13.1",
+    "eslint": "3.7.1",
+    "eslint-config-simenb-base": "4.0.0",
+    "eslint-config-simenb-node": "0.1.0",
     "istanbul": "0.4.3",
     "jsdoc": "3.4.2",
     "mocha": "2.5.3",

@@ -6,7 +6,7 @@ const defaultOptions = {
   watch: false,
   config: null,
   strict: false,
-  callback () {},
+  callback() {},
 };
 
 /**
