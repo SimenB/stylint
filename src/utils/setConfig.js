@@ -1,11 +1,11 @@
 'use strict';
 
-var fs = require( 'fs' );
-var path = require( 'path' );
-var userHome = require( 'user-home' );
-var pathIsAbsolute = require( 'path-is-absolute' );
-var stripJsonComments = require( 'strip-json-comments' );
-var Glob = require( 'glob' ).Glob;
+var fs = require('fs');
+var path = require('path');
+var userHome = require('user-home');
+var pathIsAbsolute = require('path-is-absolute');
+var stripJsonComments = require('strip-json-comments');
+var Glob = require('glob').Glob;
 
 // @TODO i just this sloppy just to fix some stuff
 // comes back and refactor / cleanup
@@ -21,7 +21,7 @@ var Glob = require( 'glob' ).Glob;
  * @param {String} [configpath] If defined, the path to a config-file to read
  * @returns {Function} kick off linter again
 */
-var setConfig = function( configpath ) {
+var setConfig = function(configpath) {
 	var files = [];
 	var customPath = '';
 	// return default config if nothing passed in or found
@@ -29,9 +29,9 @@ var setConfig = function( configpath ) {
 	var cwd = process.cwd();
 	var pkg = null;
 	try {
-		pkg = require( cwd + '/package.json' );
+		pkg = require(cwd + '/package.json');
 	}
-	catch ( err ) {
+	catch (err) {
 		// no output
 	}
 
@@ -40,10 +40,10 @@ var setConfig = function( configpath ) {
 	 * @param  {string} path [where to look for config]
 	 * @return {Object|void} [object if stylintrc found, undefined if not]
 	 */
-	var _parseConfig = function( path ) {
+	var _parseConfig = function(path) {
 		return JSON.parse(
 			stripJsonComments(
-				fs.readFileSync( path, 'utf-8' )
+				fs.readFileSync(path, 'utf-8')
 			)
 		);
 	};
@@ -56,14 +56,14 @@ var setConfig = function( configpath ) {
 	 * @param  {string} cwd   [relative path to current directory being walked]
 	 * @return {?Object|?Function} [config if found, recurse if not. null if failed]
 	 */
-	var _recurseDirectories = function( files, level, cwd ) {
+	var _recurseDirectories = function(files, level, cwd) {
 		// parse stylintrc if found, stop recursion
-		if ( files.indexOf( '.stylintrc' ) !== -1 ) {
-			return _parseConfig( cwd + '/.stylintrc' );
+		if (files.indexOf('.stylintrc') !== -1) {
+			return _parseConfig(cwd + '/.stylintrc');
 		}
 
 		// only go up to user home directory, stop recursion
-		if ( userHome ) return null;
+		if (userHome) return null;
 
 		// next dir level
 		var nextLevel = level + 1;
@@ -75,48 +75,48 @@ var setConfig = function( configpath ) {
 		var pathArr = [ cwd ];
 
 		// push '..' for each dir level
-		while ( level-- ) {
-			pathArr.push( '..' );
+		while (level--) {
+			pathArr.push('..');
 		}
 
 		// creates the path to the next directory
-		var newPath = path.join.apply( null, pathArr );
+		var newPath = path.join.apply(null, pathArr);
 		// gets the files for the next directory
-		var newFiles = fs.readdirSync( newPath );
+		var newFiles = fs.readdirSync(newPath);
 		// passes the newFiles, nextLevel, and newPath to itself
 		// to start the process over again
-		return _recurseDirectories( newFiles, nextLevel, newPath );
+		return _recurseDirectories(newFiles, nextLevel, newPath);
 	};
 
 	// if 1, the customConfig will be what we want
 	// this only occurs if using stylint programmatically
 	// ie, user passed in option object
-	if ( this.customConfig ) {
+	if (this.customConfig) {
 		returnConfig = this.customConfig;
 	}
 	// if 2, we pass in a path to the config
 	// this only occurs if using stylint via the command line
-	else if ( configpath ) {
-		customPath = pathIsAbsolute( configpath ) ? configpath : cwd + '/' + configpath;
+	else if (configpath) {
+		customPath = pathIsAbsolute(configpath) ? configpath : cwd + '/' + configpath;
 		try {
-			returnConfig = _parseConfig( customPath );
+			returnConfig = _parseConfig(customPath);
 		}
-		catch ( err ) {
+		catch (err) {
 			throw err;
 		}
 	}
 	// 3, if user did not pass in option obj, or pass options via cli
 	// check the user's package.json for either an option obj, or
 	// at least a path to one
-	else if ( pkg !== null &&
-		typeof pkg.stylintrc !== 'undefined' ) {
+	else if (pkg !== null &&
+		typeof pkg.stylintrc !== 'undefined') {
 		var rc = pkg.stylintrc;
 
-		if ( typeof rc === 'object' && !( rc instanceof Array ) ) {
+		if (typeof rc === 'object' && !(rc instanceof Array)) {
 			returnConfig = rc;
 		}
-		else if ( typeof rc === 'string' ) {
-			returnConfig = _parseConfig( rc );
+		else if (typeof rc === 'string') {
+			returnConfig = _parseConfig(rc);
 		}
 	}
 	// 4, nothing passed in via cli or programmatically or via pkg
@@ -125,26 +125,26 @@ var setConfig = function( configpath ) {
 	else {
 		try {
 			// recurse up to user home
-			files = fs.readdirSync( cwd );
+			files = fs.readdirSync(cwd);
 			// null if .stylintrc file found anywhere
-			returnConfig = _recurseDirectories( files, 1, cwd );
+			returnConfig = _recurseDirectories(files, 1, cwd);
 
 			// default config if nothing found
-			if ( !returnConfig ) {
+			if (!returnConfig) {
 				returnConfig = this.config;
 			}
 		}
 		// in case there's an issue parsing or no .stylintrc found at specified location
-		catch ( err ) {
+		catch (err) {
 			throw err;
 		}
 	}
 
-	returnConfig.exclude = ( returnConfig.exclude || [] ).map( function( exclude ) {
-		return new Glob( exclude, {
+	returnConfig.exclude = (returnConfig.exclude || []).map(function(exclude) {
+		return new Glob(exclude, {
 			matchBase: true
-		} ).minimatch;
-	} );
+		}).minimatch;
+	});
 
 	// make sure indentPref is set no matter what
 	returnConfig.indentPref = returnConfig.indentPref || false;

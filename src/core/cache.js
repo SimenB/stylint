@@ -1,11 +1,11 @@
-var path = require( 'path' );
+var path = require('path');
 
 // the main cache object
 var cache = {
 	col: null, // column number for warning if applicable
 	comment: '', // the current line comment on the line, if there is one
 	customProperties: [], // an array of all declared mixins OR custom properties
-	dir: path.dirname( require.main.filename ), // index.js directory
+	dir: path.dirname(require.main.filename), // index.js directory
 	file: '', // curr filename we're testing
 	files: [], // all files as an arr
 	filesLen: 0, // # of files we're testing

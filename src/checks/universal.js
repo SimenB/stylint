@@ -8,18 +8,18 @@ var universalRe = /( |\w|\d|'|"|\*|\/)(\*)( |\w|\d|'|"|\*|\$|\=)/;
 * @param {string} [line] current line being linted
 * @returns {boolean} true if * on line, false if not
 */
-var universal = function( line ) {
-	var index = line.indexOf( '*' );
-	if ( index === -1 ) return;
+var universal = function(line) {
+	var index = line.indexOf('*');
+	if (index === -1) return;
 
 	var hasUniversal = false;
 
-	if ( !universalRe.test( line ) ) {
+	if (!universalRe.test(line)) {
 		hasUniversal = true;
 	}
 
-	if ( this.state.conf === 'never' && hasUniversal === true ) {
-		this.msg( '* selector is disallowed', index );
+	if (this.state.conf === 'never' && hasUniversal === true) {
+		this.msg('* selector is disallowed', index);
 	}
 
 	return hasUniversal;

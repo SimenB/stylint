@@ -7,10 +7,10 @@ var keyframeRe = /@(?:-(?:[\w\d]+-)*)?keyframes/;
  * @param {string} [line] curr line being linted
  * @returns {boolean} true if keyframes starting, false if not
  */
-var keyframesStart = function( line ) {
-	if ( this.state.keyframes || !this.state.testsEnabled ) { return; }
+var keyframesStart = function(line) {
+	if (this.state.keyframes || !this.state.testsEnabled) { return; }
 
-	if ( keyframeRe.test( line ) ) {
+	if (keyframeRe.test(line)) {
 		this.state.keyframes = true;
 	}
 

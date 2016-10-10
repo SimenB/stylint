@@ -1,25 +1,25 @@
 'use strict';
 
-var _ = require( 'lodash' );
+var _ = require('lodash');
 
-var countSeverities = require( '../utils/countSeveritiesInMessages' );
+var countSeverities = require('../utils/countSeveritiesInMessages');
 
 /**
  * @description transforms all messages into the format returned to the caller, or passed to reporters
  * @param {boolean} [skipDone] if true, don't call done
  * @returns {Object} returns the transformed object
  */
-var transformMessages = function( skipDone ) {
-	var severities = countSeverities( this.cache.messages );
+var transformMessages = function(skipDone) {
+	var severities = countSeverities(this.cache.messages);
 	var errorCount = severities.errorCount;
 	var warningCount = severities.warningCount;
 
-	var groupedByFile = _.chain( this.cache.messages )
-		.groupBy( 'file' )
-		.map( function( messages, filePath ) {
-			var localSeverities = countSeverities( messages );
+	var groupedByFile = _.chain(this.cache.messages)
+		.groupBy('file')
+		.map(function(messages, filePath) {
+			var localSeverities = countSeverities(messages);
 
-			var filteredMessages = messages.map( function( message ) {
+			var filteredMessages = messages.map(function(message) {
 				// Just removes `file`
 				return {
 					column: message.column,
@@ -29,7 +29,7 @@ var transformMessages = function( skipDone ) {
 					ruleId: message.ruleId,
 					severity: message.severity
 				};
-			} );
+			});
 
 			return {
 				filePath: filePath,
@@ -37,7 +37,7 @@ var transformMessages = function( skipDone ) {
 				errorCount: localSeverities.errorCount,
 				warningCount: localSeverities.warningCount
 			};
-		} )
+		})
 		.value();
 
 	var report = {
@@ -48,7 +48,7 @@ var transformMessages = function( skipDone ) {
 
 	this.cache.report = report;
 
-	if ( !skipDone ) {
+	if (!skipDone) {
 		this.done();
 	}
 

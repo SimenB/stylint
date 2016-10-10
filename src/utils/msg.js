@@ -7,8 +7,8 @@
  * @param {number} [column] column number if applicable to the check
  * @returns {void}
  */
-var msg = function( message, column ) {
-	this.cache.messages.push( {
+var msg = function(message, column) {
+	this.cache.messages.push({
 		message: message,
 		severity: this.state.severity,
 		file: this.cache.file,
@@ -16,7 +16,7 @@ var msg = function( message, column ) {
 		column: column,
 		source: this.cache.source,
 		ruleId: this.cache.rule
-	} );
+	});
 };
 
 module.exports = msg;

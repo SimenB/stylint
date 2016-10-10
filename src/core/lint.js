@@ -7,11 +7,11 @@
  */
 var lint = function() {
 	var method;
-	var checks = Object.getPrototypeOf( this ).lintMethods;
+	var checks = Object.getPrototypeOf(this).lintMethods;
 
-	for ( method in checks ) {
-		if ( checks.hasOwnProperty( method ) ) {
-			if ( this.config[method] ) {
+	for (method in checks) {
+		if (checks.hasOwnProperty(method)) {
+			if (this.config[method]) {
 				// save config rule name for use in reporters
 				this.cache.rule = method;
 				// state.conf === 'always' || 'never' || etc
@@ -19,7 +19,7 @@ var lint = function() {
 				// state.severity === 'error' || 'warning'
 				this.state.severity = this.config[method].error ? 'error' : 'warning';
 				// run the actual check against the line
-				checks[method].call( this, this.cache.line, this.cache.source );
+				checks[method].call(this, this.cache.line, this.cache.source);
 			}
 		}
 	}

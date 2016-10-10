@@ -1,8 +1,8 @@
 'use strict';
 
-function shouldExit1( maxErrors, maxWarnings, errorCount, warningCount ) {
+function shouldExit1(maxErrors, maxWarnings, errorCount, warningCount) {
 	// If there are any errors and no maximum defined
-	if ( maxErrors < 0 && errorCount > 0 ) {
+	if (maxErrors < 0 && errorCount > 0) {
 		return true;
 	}
 
@@ -21,26 +21,26 @@ var done = function() {
 	var errorCount = report.errorCount;
 	var warningCount = report.warningCount;
 
-	var shouldKill = shouldExit1( maxErrors, maxWarnings, errorCount, warningCount );
+	var shouldKill = shouldExit1(maxErrors, maxWarnings, errorCount, warningCount);
 
 	this.state.exitCode = shouldKill ? 1 : 0;
-	var message = this.reporter( report, {
+	var message = this.reporter(report, {
 		maxErrors: maxErrors,
 		maxWarnings: maxWarnings,
 		groupOutputByFile: this.config.groupOutputByFile,
 		reporterOptions: this.config.reporterOptions
-	}, shouldKill );
+	}, shouldKill);
 
 	// TODO: This is stupid, just mock out `console.log` or something
-	if ( !this.state.quiet && message ) {
-		console.log( message );
+	if (!this.state.quiet && message) {
+		console.log(message);
 	}
 
 	// don't kill the linter if watch is watching
 	// else there's no more to do, so exit the process
-	if ( !this.state.watching ) {
-		this.callback( this.state.exitCode || null );
-		return process.exit( this.state.exitCode );
+	if (!this.state.watching) {
+		this.callback(this.state.exitCode || null);
+		return process.exit(this.state.exitCode);
 	}
 
 	var returnValue = {

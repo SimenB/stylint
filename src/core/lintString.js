@@ -7,12 +7,12 @@
  * @param {String} [filename] the name of the file
  * @returns {Object} an object containing the complete report from linting
  */
-var lintString = function( string, config, filename ) {
+var lintString = function(string, config, filename) {
 	// reset stuff
 	this.resetOnChange();
 
-	if ( config ) {
-		this.init( { config: config } );
+	if (config) {
+		this.init({ config: config });
 	}
 
 	// make sure there is no output to the console
@@ -27,7 +27,7 @@ var lintString = function( string, config, filename ) {
 
 	this.cache.files = [filename];
 
-	return this.parse( null, [string], true );
+	return this.parse(null, [string], true);
 };
 
 module.exports = lintString;

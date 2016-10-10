@@ -5,7 +5,7 @@
  * @param {string} [newPath] if touching a new file, lint it
  * @returns {Function} kick off linter again
 */
-var resetOnChange = function( newPath ) {
+var resetOnChange = function(newPath) {
 	this.state.path = newPath ? newPath : this.state.path;
 	this.cache.alphaCache = [];
 	this.cache.rootCache = [];
@@ -18,7 +18,7 @@ var resetOnChange = function( newPath ) {
 	this.cache.sCache = {};
 	this.cache.sortOrderCache = [];
 
-	if ( this.state.watching ) {
+	if (this.state.watching) {
 		return this.read();
 	}
 };

@@ -1,14 +1,14 @@
 'use strict';
 
-var assert = require( 'assert' );
-var sinon = require( 'sinon' );
-var transformMessages = require( '../../src/core/transformMessages' );
+var assert = require('assert');
+var sinon = require('sinon');
+var transformMessages = require('../../src/core/transformMessages');
 
 // Strict was added in node@1.2.0
 // https://nodejs.org/api/assert.html#assert_assert_deepstrictequal_actual_expected_message
 var deepEqual = assert.deepStrictEqual || assert.deepEqual;
 
-describe( 'transforming messages for report', function() {
+describe('transforming messages for report', function() {
 	var context;
 
 	var message;
@@ -31,7 +31,7 @@ describe( 'transforming messages for report', function() {
 		};
 	}
 
-	beforeEach( function() {
+	beforeEach(function() {
 		context = {
 			cache: {
 				messages: []
@@ -46,20 +46,20 @@ describe( 'transforming messages for report', function() {
 		column = 5;
 		source = '.class {';
 		ruleId = 'some rule';
-	} );
+	});
 
-	it( 'should call report even if no messages', function() {
-		deepEqual( transformMessages.call( context ), {
+	it('should call report even if no messages', function() {
+		deepEqual(transformMessages.call(context), {
 			results: [],
 			errorCount: 0,
 			warningCount: 0
-		} );
-	} );
+		});
+	});
 
-	it( 'should transform single message correctly', function() {
+	it('should transform single message correctly', function() {
 		context.cache.messages = [createMessage()];
 
-		deepEqual( transformMessages.call( context ), {
+		deepEqual(transformMessages.call(context), {
 			results: [{
 				filePath: 'some-file.styl',
 				messages: [{
@@ -75,17 +75,17 @@ describe( 'transforming messages for report', function() {
 			}],
 			errorCount: 1,
 			warningCount: 0
-		} );
-	} );
+		});
+	});
 
-	it( 'should assign result to correct field', function() {
+	it('should assign result to correct field', function() {
 		context.cache.messages = [createMessage()];
 
-		var report = transformMessages.call( context );
-		assert.equal( report, context.cache.report );
-	} );
+		var report = transformMessages.call(context);
+		assert.equal(report, context.cache.report);
+	});
 
-	it( 'should transform multiple messages from same file correctly', function() {
+	it('should transform multiple messages from same file correctly', function() {
 		var message1 = createMessage();
 
 		line = 5;
@@ -93,7 +93,7 @@ describe( 'transforming messages for report', function() {
 
 		context.cache.messages = [message1, createMessage()];
 
-		deepEqual( transformMessages.call( context ), {
+		deepEqual(transformMessages.call(context), {
 			results: [{
 				filePath: 'some-file.styl',
 				messages: [{
@@ -116,10 +116,10 @@ describe( 'transforming messages for report', function() {
 			}],
 			errorCount: 2,
 			warningCount: 0
-		} );
-	} );
+		});
+	});
 
-	it( 'should transform multiple messages for different files correctly', function() {
+	it('should transform multiple messages for different files correctly', function() {
 		var message1 = createMessage();
 
 		line = 5;
@@ -128,7 +128,7 @@ describe( 'transforming messages for report', function() {
 
 		context.cache.messages = [message1, createMessage()];
 
-		deepEqual( transformMessages.call( context ), {
+		deepEqual(transformMessages.call(context), {
 			results: [{
 				filePath: 'some-file.styl',
 				messages: [{
@@ -156,18 +156,18 @@ describe( 'transforming messages for report', function() {
 			}],
 			errorCount: 2,
 			warningCount: 0
-		} );
-	} );
+		});
+	});
 
-	it( 'should call done by default', function() {
-		transformMessages.call( context );
+	it('should call done by default', function() {
+		transformMessages.call(context);
 
-		assert( context.done.calledOnce );
-	} );
+		assert(context.done.calledOnce);
+	});
 
-	it( 'should not call done if skipDone passed in', function() {
-		transformMessages.call( context, true );
+	it('should not call done if skipDone passed in', function() {
+		transformMessages.call(context, true);
 
-		assert( !context.done.called );
-	} );
-} );
+		assert(!context.done.called);
+	});
+});

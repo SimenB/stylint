@@ -1,8 +1,8 @@
 'use strict';
 
-var _ = require( 'lodash' );
-var chalk = require( 'chalk' );
-var columnify = require( 'columnify' );
+var _ = require('lodash');
+var chalk = require('chalk');
+var columnify = require('columnify');
 
 /**
  * @description format output message for console (default)
@@ -11,27 +11,27 @@ var columnify = require( 'columnify' );
  * @param  {boolean} [kill] whether or not we're over one of our limits
  * @return {string} the formatted message
  */
-var reporter = function( report, options, kill ) {
-	if ( report.results.length === 0 ) {
+var reporter = function(report, options, kill) {
+	if (report.results.length === 0) {
 		return '';
 	}
 
 	options = options || {};
-	var formattedMessages = _.chain( report.results )
-		.map( function( result ) {
+	var formattedMessages = _.chain(report.results)
+		.map(function(result) {
 			var newResult = result;
-			var file = chalk.underline( result.filePath );
+			var file = chalk.underline(result.filePath);
 
-			newResult.messages = result.messages.map( function( msg ) {
+			newResult.messages = result.messages.map(function(msg) {
 				var column = typeof msg.column === 'number' && msg.column > 0 ? msg.column : null;
 				var lineData = column ? msg.line + ':' + column : msg.line;
 
 				var severity = msg.severity;
 				severity = severity === 'warning' ?
-					chalk.yellow( severity ) :
-					chalk.red( severity );
+					chalk.yellow(severity) :
+					chalk.red(severity);
 
-				var rule = chalk.grey( msg.ruleId );
+				var rule = chalk.grey(msg.ruleId);
 
 				return {
 					file: file,
@@ -40,31 +40,31 @@ var reporter = function( report, options, kill ) {
 					message: msg.message,
 					rule: rule
 				};
-			} );
+			});
 
 			return newResult;
-		} );
+		});
 
-	if ( options.groupOutputByFile ) {
+	if (options.groupOutputByFile) {
 		// iterate over arrays of message objects
 		// each array consists of all the errors and warnings for a file
 		// columnify the errors/warnings and prefix them with the file name
 		formattedMessages = formattedMessages
-			.map( function( results ) {
-				return results.filePath + '\n' + columnify( results.messages, options.reporterOptions );
-			} );
+			.map(function(results) {
+				return results.filePath + '\n' + columnify(results.messages, options.reporterOptions);
+			});
 	}
 	else {
 		formattedMessages = formattedMessages
-		.flatMap( 'messages' )
-		.map( function( output ) {
+		.flatMap('messages')
+		.map(function(output) {
 			return output.file + '\n' + output.lineData + ' ' + output.rule + ' ' + output.severity + ' ' + output.message;
-		} );
+		});
 	}
 
-	formattedMessages = formattedMessages.reduce( function( memo, msg ) {
+	formattedMessages = formattedMessages.reduce(function(memo, msg) {
 		return memo + msg + '\n\n';
-	}, '' )
+	}, '')
 		.value()
 		.trim();
 
@@ -75,11 +75,11 @@ var reporter = function( report, options, kill ) {
 	formattedMessage += options.maxWarnings >= 0 ? ' (Max Warnings: ' + options.maxWarnings + ')' : '';
 
 	// if you set a max it kills the linter
-	if ( kill ) {
+	if (kill) {
 		formattedMessage += '\nStylint: Over Error or Warning Limit.';
 	}
 
-	return ( formattedMessages + '\n\n' + formattedMessage ).trim();
+	return (formattedMessages + '\n\n' + formattedMessage).trim();
 };
 
 module.exports = reporter;
