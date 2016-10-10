@@ -12,7 +12,8 @@ var chokidar = require( 'chokidar' )
 var touch = require( 'touch' )
 var sinon = require( 'sinon' )
 var chalk = require( 'chalk' )
-var app = require( '../index' )().create()
+var stylint = require( '../index' )
+var app = stylint().create()
 var stripJsonComments = require( 'strip-json-comments' )
 
 // turn on strict mode from this point and turn off unnecessary logging
@@ -264,7 +265,11 @@ describe( 'Core Methods: ', function() {
 				}]
 			}
 
-			assert.equal( chalk.stripColor( app.reporter( { results: [msg], errorCount: 0, warningCount: 1 } ) ), expectedOutput )
+			assert.equal( chalk.stripColor( app.reporter( {
+				results: [msg],
+				errorCount: 0,
+				warningCount: 1
+			} ) ), expectedOutput )
 		} )
 	} )
 
@@ -2383,7 +2388,7 @@ describe( 'Done, again: ', function() {
 	beforeEach( function() {
 		app.state.quiet = true
 		app.state.watching = true
-		app.cache.messages = []
+		app.cache.report = { results: [], errorCount: 0, warningCount: 0 }
 		app.state.exitCode = 0
 	} )
 
@@ -2400,7 +2405,7 @@ describe( 'Done, again: ', function() {
 	} )
 
 	it( 'exit code should be 0 if has warnings and no errs', function() {
-		app.cache.messages = [{severity: 'warning', message: 'meep', source: ''}]
+		app.cache.report.warningCount = 1
 		assert.equal( 0, app.done().exitCode )
 	} )
 
@@ -2409,14 +2414,14 @@ describe( 'Done, again: ', function() {
 	} )
 
 	it( 'exit code of 1 if not clear', function() {
-		app.cache.messages = [{severity: 'error', message: 'meep', source: ''}]
+		app.cache.report.errorCount = 1
 		assert.equal( 1, app.done().exitCode )
 	} )
 
 	it( 'exit code should be 1 if over max warnings', function() {
 		app.config.maxWarnings = 0
 		app.config.maxErrors = 10
-		app.cache.messages = [{severity: 'warning', message: 'meep', source: ''}]
+		app.cache.report.warningCount = 1
 
 		assert.equal( 1, app.done().exitCode )
 	} )
@@ -2429,4 +2434,41 @@ describe( 'Done, again: ', function() {
 	// 	app.done.getCall(0).returned( sinon.match.same( process.exit ) )
 	// 	app.state.watching = true
 	// } )
+} )
+
+describe( 'Lint Text: ', function() {
+	var linter
+
+	beforeEach( function() {
+		linter = stylint.api()
+	} )
+
+	it( 'should return object with violations', function() {
+		var lintResult = linter.lintString( '.class {\n  color: red !important\n}\n', null, 'filename.styl' )
+
+		assert.deepEqual( lintResult, {
+			results: [{
+				filePath: 'filename.styl',
+				messages: [{
+					column: 13,
+					line: 2,
+					message: '!important is disallowed',
+					source: '  color: red !important',
+					ruleId: 'noImportant',
+					severity: 'warning'
+				}, {
+					column: 23,
+					line: 2,
+					message: 'missing semicolon',
+					source: '  color: red !important',
+					ruleId: 'semicolons',
+					severity: 'warning'
+				}],
+				errorCount: 0,
+				warningCount: 2
+			}],
+			errorCount: 0,
+			warningCount: 2
+		} )
+	} )
 } )

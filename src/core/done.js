@@ -1,9 +1,5 @@
 'use strict'
 
-var _ = require( 'lodash' )
-
-var countSeverities = require( '../utils/countSeveritiesInMessages' )
-
 function shouldExit1( maxErrors, maxWarnings, errorCount, warningCount ) {
 	// If there are any errors and no maximum defined
 	if ( maxErrors < 0 && errorCount > 0 ) {
@@ -21,46 +17,13 @@ function shouldExit1( maxErrors, maxWarnings, errorCount, warningCount ) {
 var done = function() {
 	var maxErrors = typeof this.config.maxErrors === 'number' ? this.config.maxErrors : -1
 	var maxWarnings = typeof this.config.maxWarnings === 'number' ? this.config.maxWarnings : -1
-	var severities = countSeverities( this.cache.messages )
-	var errorCount = severities.errorCount
-	var warningCount = severities.warningCount
+	var report = this.cache.report
+	var errorCount = report.errorCount
+	var warningCount = report.warningCount
 
 	var shouldKill = shouldExit1( maxErrors, maxWarnings, errorCount, warningCount )
 
 	this.state.exitCode = shouldKill ? 1 : 0
-
-	// when testing we want to silence the console a bit, so we have the quiet option
-	var groupedByFile = _.chain( this.cache.messages )
-		.groupBy( 'file' )
-		.map( function( messages, filePath ) {
-			var localSeverities = countSeverities( messages )
-
-			var filteredMessages = messages.map( function( message ) {
-				// Just removes `file`
-				return {
-					column: message.column,
-					line: message.line,
-					message: message.message,
-					source: message.source,
-					ruleId: message.ruleId,
-					severity: message.severity
-				}
-			} )
-
-			return {
-				filePath: filePath,
-				messages: filteredMessages,
-				errorCount: localSeverities.errorCount,
-				warningCount: localSeverities.warningCount
-			}
-		} )
-		.value()
-
-	var report = {
-		results: groupedByFile,
-		errorCount: errorCount,
-		warningCount: warningCount
-	}
 	var message = this.reporter( report, {
 		maxErrors: maxErrors,
 		maxWarnings: maxWarnings,
@@ -81,13 +44,14 @@ var done = function() {
 	}
 
 	var returnValue = {
-		messages: this.cache.messages.slice( 0 ),
+		report: report,
 		exitCode: this.state.exitCode,
 		msg: message
 	}
 
 	// if watching we reset the errors/warnings arrays
 	this.cache.messages = []
+	this.cache.report = {}
 
 	return returnValue
 }

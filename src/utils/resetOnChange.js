@@ -10,9 +10,11 @@ var resetOnChange = function( newPath ) {
 	this.cache.alphaCache = []
 	this.cache.rootCache = []
 	this.cache.zCache = []
+	this.cache.messages = []
 	this.cache.prevLine = ''
 	this.cache.prevFile = ''
 	this.cache.prevContext = 0
+	this.cache.report = {}
 	this.cache.sCache = {}
 	this.cache.sortOrderCache = []
 
