@@ -21,7 +21,6 @@ var prefixVarsWithDollar = function (line) {
     if (line.indexOf('=') !== -1 &&
 			line.indexOf('@block') === -1 &&
 			!eqEndRe.test(line)) {
-
       if (!dollaRe.test(line)) {
         hasDolla = false;
       }

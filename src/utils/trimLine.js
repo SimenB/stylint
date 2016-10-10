@@ -21,7 +21,6 @@ var trimLine = function (line) {
 
 	// strip line comments, if any exist after stripping urls
   if (noUrl.indexOf('//') !== -1) {
-
 		// a for real line comment, no http:// false positive
     this.state.hasComment = true;
 		// separate out line comment for spacing check

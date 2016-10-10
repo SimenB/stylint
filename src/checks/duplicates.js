@@ -45,7 +45,6 @@ var duplicates = function (line) {
   if (line.indexOf(',') === -1 &&
 		this.cache.prevLine.indexOf(',') === -1 &&
 		!ignoreRe.test(line)) {
-
 		// -1 if no dupe found
     dupeIndex = this.cache.sCache[this.state.context].indexOf(arr[0]);
 

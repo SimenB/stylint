@@ -22,7 +22,6 @@ app.state.watching = true;
 app.cache.dir = '/Users/ross/Developer/workspace/stylus-lint/';
 
 describe('Core Methods: ', function () {
-
   beforeEach(function () {
     app.state.strictMode = false;
   });
@@ -274,7 +273,6 @@ describe('Core Methods: ', function () {
   });
 
   describe('setState should: ', function () {
-
     it('be a function', function () {
       app.setState.should.be.a('function');
     });
@@ -2384,7 +2382,6 @@ describe('Linter Style Checks: ', function () {
 });
 
 describe('Done, again: ', function () {
-
   beforeEach(function () {
     app.state.quiet = true;
     app.state.watching = true;

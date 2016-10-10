@@ -43,7 +43,6 @@ var brackets = function (line) {
     }
   }
   else if (this.state.conf === 'always') {
-
     if (bracket === false) {
       arr = this.splitAndStrip(new RegExp(/[\s\t,:]/), line);
 

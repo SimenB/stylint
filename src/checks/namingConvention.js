@@ -31,7 +31,6 @@ var namingConvention = function (line) {
     if (upperRe.test(arr[0]) ||
 			arr[0].indexOf('-') !== -1 ||
 			arr[0].indexOf('_') !== -1) {
-
 			// check conventions
 			// $varName
       if (this.state.conf === 'camelCase') {

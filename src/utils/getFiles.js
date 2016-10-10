@@ -37,7 +37,6 @@ var getFiles = function (dir) {
     }.bind(this));
   }
   else if (dir instanceof Array) {
-
     var files = dir.filter(function (filepath) {
       var excluded = false;
 

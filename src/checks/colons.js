@@ -27,7 +27,6 @@ var colons = function (line) {
   else if (!this.state.hash &&
 		this.state.conf === 'never' &&
 		line.indexOf(':') !== -1) {
-
 		// check for pseudo selector first
     hasPseudo = validJSON.pseudo.some(function (val) {
       return line.indexOf(val) !== -1;
