@@ -1,0 +1,6 @@
+{
+  "rules": {
+    // TODO: Remove this somehow
+    "consistent-return": "off"
+  }
+}

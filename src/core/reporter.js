@@ -16,7 +16,7 @@ const reporter = function (report, options, kill) {
     return '';
   }
 
-  options = options || {};
+  const existingOptions = options || {};
   let formattedMessages = _.chain(report.results)
     .map(result => {
       const newResult = result;
@@ -45,34 +45,28 @@ const reporter = function (report, options, kill) {
       return newResult;
     });
 
-  if (options.groupOutputByFile) {
+  if (existingOptions.groupOutputByFile) {
     // iterate over arrays of message objects
     // each array consists of all the errors and warnings for a file
     // columnify the errors/warnings and prefix them with the file name
     formattedMessages = formattedMessages
-      .map(results => {
-        return `${results.filePath}\n${columnify(results.messages, options.reporterOptions)}`;
-      });
+      .map(results => `${results.filePath}\n${columnify(results.messages, existingOptions.reporterOptions)}`);
   }
   else {
     formattedMessages = formattedMessages
       .flatMap('messages')
-      .map(output => {
-        return `${output.file}\n${output.lineData} ${output.rule} ${output.severity} ${output.message}`;
-      });
+      .map(output => `${output.file}\n${output.lineData} ${output.rule} ${output.severity} ${output.message}`);
   }
 
-  formattedMessages = formattedMessages.reduce((memo, msg) => {
-    return `${memo + msg}\n\n`;
-  }, '')
+  formattedMessages = formattedMessages.reduce((memo, msg) => `${memo}${msg}\n\n`, '')
     .value()
     .trim();
 
   let formattedMessage = `Stylint: ${report.errorCount} Errors.`;
-  formattedMessage += options.maxErrors >= 0 ? ` (Max Errors: ${options.maxErrors})` : '';
+  formattedMessage += existingOptions.maxErrors >= 0 ? ` (Max Errors: ${existingOptions.maxErrors})` : '';
 
   formattedMessage += `\nStylint: ${report.warningCount} Warnings.`;
-  formattedMessage += options.maxWarnings >= 0 ? ` (Max Warnings: ${options.maxWarnings})` : '';
+  formattedMessage += existingOptions.maxWarnings >= 0 ? ` (Max Warnings: ${existingOptions.maxWarnings})` : '';
 
   // if you set a max it kills the linter
   if (kill) {

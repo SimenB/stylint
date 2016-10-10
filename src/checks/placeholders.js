@@ -12,8 +12,6 @@ const placeholders = function (line) {
     return;
   }
 
-  let placeholder = false;
-
   // stylus supports multiple, mixed extends and optional extends
   // so lets pull them out of the line and check individually
   // @extends .biz !optional, $extendable !optional =>
@@ -21,8 +19,8 @@ const placeholders = function (line) {
   const extendArr = line.replace(extendRe, '').split(',');
 
   // if any item in the list is not a placeholder, fail
-  placeholder = extendArr.every(line => {
-    const trimmed = line.trim();
+  const placeholder = extendArr.every(splitLine => {
+    const trimmed = splitLine.trim();
     return trimmed.substr(0, 1) === '$';
   });
 

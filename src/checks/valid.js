@@ -1,18 +1,19 @@
 'use strict';
 
-// 1 grab attribute selectors OR mixins that are by themselves
-// 2 strip attr selectors or classes/ids from elements
-// 3 ignore syntax
-// 4 ignore numbers
-// 5 ( from || to ) are only valid inside @keyframe
-// 6 the actual JSON property whitelist we will test against
+// 1 the actual JSON property whitelist we will test against
+// 2 grab attribute selectors OR mixins that are by themselves
+// 3 strip attr selectors or classes/ids from elements
+// 4 ignore syntax
+// 5 ignore numbers
+// 6 ( from || to ) are only valid inside @keyframe
 // 7 if interpolated value just give it a pass
-const attrOrMixinRe = /^\[\S+\]|({[\S]+})|(\([\S ]+\))|(\(\))/; // 1
-const stripRe = /(?=\S)\[\S+\]|(\.|#)(\w|-)+/; // /(?=\S)\[\S+\]/ // 2
-const ignoreRe = /^[$.#]|[&=>+~]|if|for|else|return|@block|calc|@extend|@media/; // 3
-const numRe = /\d+?(?=px|%|em|rem|v(h|w)|v(min|max)|ex|ch|mm|cm|in|pt|pc|mozmm)/; // 4
-const keyRe = /((from)|(to))+(?= $| {| \d|\n|{)/; // 5
-const validJSON = require('../data/valid.json'); // 6
+const validJSON = require('../data/valid.json'); // 1
+
+const attrOrMixinRe = /^\[\S+\]|({[\S]+})|(\([\S ]+\))|(\(\))/; // 2
+const stripRe = /(?=\S)\[\S+\]|(\.|#)(\w|-)+/; // /(?=\S)\[\S+\]/ // 3
+const ignoreRe = /^[$.#]|[&=>+~]|if|for|else|return|@block|calc|@extend|@media/; // 4
+const numRe = /\d+?(?=px|%|em|rem|v(h|w)|v(min|max)|ex|ch|mm|cm|in|pt|pc|mozmm)/; // 5
+const keyRe = /((from)|(to))+(?= $| {| \d|\n|{)/; // 6
 const interpolatedRe = /( *{\S+} *)/; // 7
 
 /**
@@ -54,31 +55,23 @@ module.exports = function valid(line) {
 
   // if no match yet, check for css && prefix + css, will return true at first match
   if (!isValid) {
-    isValid = validJSON.css.some(css => {
-      return arr[0] === css || this.checkPrefix(arr[0], css, validJSON);
-    });
+    isValid = validJSON.css.some(css => arr[0] === css || this.checkPrefix(arr[0], css, validJSON));
   }
 
   // if no match yet, try html && html + pseudo
   if (!isValid) {
-    isValid = validJSON.html.some(html => {
-      return arr[0] === html || this.checkPseudo(arr[0], html, validJSON);
-    });
+    isValid = validJSON.html.some(html => arr[0] === html || this.checkPseudo(arr[0], html, validJSON));
   }
 
   // if no match yet, try pseudo as standalone
   if (!isValid) {
-    isValid = validJSON.pseudo.some(pseudo => {
-      // psuedo selectors could have one of two colons
-      return `:${arr[0]}` === pseudo || `::${arr[0]}` === pseudo;
-    });
+    // pseudo selectors could have one of two colons
+    isValid = validJSON.pseudo.some(pseudo => `:${arr[0]}` === pseudo || `::${arr[0]}` === pseudo);
   }
 
   // if no match yet, try declared mixins and custom properties
   if (!isValid) {
-    isValid = this.cache.customProperties.some(mixin => {
-      return arr[0] === mixin;
-    });
+    isValid = this.cache.customProperties.some(mixin => arr[0] === mixin);
   }
 
   if (isValid === false) {

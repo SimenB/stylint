@@ -8,8 +8,11 @@ const lint = function () {
   let method;
   const checks = Object.getPrototypeOf(this).lintMethods;
 
+  // TODO: Fix this!
+  /* eslint-disable */
   for (method in checks) {
     if (checks.hasOwnProperty(method)) {
+      /* eslint-enable */
       if (this.config[method]) {
         // save config rule name for use in reporters
         this.cache.rule = method;

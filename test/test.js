@@ -279,12 +279,14 @@ describe('Core Methods: ', () => {
     });
 
     it('return undefined if line empty', () => {
+      /* eslint-disable no-useless-escape */
       // app.reporter( 'universal disallowed' )
       assert.equal(undefined, app.setState(''));
       assert.equal(undefined, app.setState(' '));
       assert.equal(undefined, app.setState('\t\t'));
       assert.equal(undefined, app.setState('\s\s'));
       assert.equal(undefined, app.setState('\s\t'));
+      /* eslint-enable */
     });
 
     it('return undefined if @stylint ignore comment', () => {
@@ -1308,6 +1310,7 @@ describe('Linter Style Checks: ', () => {
       assert.equal(undefined, zeroTest('width 33.3333333%'));
     });
 
+    // eslint-disable-next-line no-useless-escape
     it('undefined if no .\d in line', () => {
       assert.equal(undefined, zeroTest('margin auto'));
       assert.equal(undefined, zeroTest('.className'));
@@ -2267,6 +2270,7 @@ describe('Linter Style Checks: ', () => {
       assert.ok(zeroTest('margin 0'));
     });
 
+    // eslint-disable-next-line no-useless-escape
     it('true if \d0 + any unit type is found', () => {
       assert.equal(false, zeroTest('margin 0px'));
       assert.equal(false, zeroTest('margin 0em'));

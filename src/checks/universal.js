@@ -1,7 +1,7 @@
 'use strict';
 
 // checks if * is a valid use case or not
-const universalRe = /( |\w|\d|'|"|\*|\/)(\*)( |\w|\d|'|"|\*|\$|\=)/;
+const universalRe = /( |\w|\d|'|"|\*|\/)(\*)( |\w|\d|'|"|\*|\$|=)/;
 
 /**
  * @description check for * selector

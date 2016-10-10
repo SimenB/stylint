@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+
 'use strict';
 
 const fs = require('fs');
@@ -32,11 +34,11 @@ const read = function (filepath) {
     }
 
     // if this path matches any regex in the excludes array, we ignore
-    const isExcludes = function (path) {
+    const isExcludes = function (pathToCheck) {
       return this.state.exclude.some(exclude => {
         if (typeof exclude !== 'string') return false;
         const excludeRegExp = new RegExp(exclude, 'm');
-        return excludeRegExp.test(path);
+        return excludeRegExp.test(pathToCheck);
       });
     }.bind(this);
 

@@ -7,10 +7,9 @@
  * @param {Object} [valid] the valid.json object
  * @returns {boolean} true if at least one match found, false if not
  */
+// TODO: Merge with `checkPseudo`
 const checkPrefix = function (prop, css, valid) {
-  return valid.prefixes.some(prefix => {
-    return prop === prefix + css;
-  });
+  return valid.prefixes.some(prefix => prop === prefix + css);
 };
 
 module.exports = checkPrefix;

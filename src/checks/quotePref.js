@@ -21,6 +21,7 @@ const quotePref = function (line, source) {
   let match;
 
   // for each quote match, check err
+  // eslint-disable-next-line no-cond-assign
   while ((match = stringRe.exec(source)) !== null) {
     // just checks the first inner quote, most common case
     // almost certainly not the best way to do this

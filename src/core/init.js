@@ -16,9 +16,10 @@ const defaultOptions = {
  * @return {Function} always returns a function, determined by cli flags
  */
 const init = function (options, pathPassed) {
-  options = defaults(options || {}, defaultOptions);
+  // TODO: Object.assign
+  const optionsWithDefaults = defaults(options || {}, defaultOptions);
 
-  this.config = this.setConfig(options.config);
+  this.config = this.setConfig(optionsWithDefaults.config);
 
   // if you want to use transparent mixins, pass in an array of them
   // this also covers the (more common probably) custom property use case
@@ -26,22 +27,22 @@ const init = function (options, pathPassed) {
 
   // we do the check here just in case
   // they don't pass in a reporter when using a custom config
-  if (options.reporter) {
-    this.reporter = require(options.reporter);
-  }
-  else if (this.config.reporter) {
+  /* eslint-disable import/no-dynamic-require */
+  if (optionsWithDefaults.reporter) {
+    this.reporter = require(optionsWithDefaults.reporter);
+  } else if (this.config.reporter) {
     this.reporter = require(this.config.reporter);
-  }
-  else {
+  } else {
     this.reporter = require('./reporter');
   }
+  /* eslint-enable */
 
   // if path/ passed in use that for the dir
   this.state.path = pathPassed || this.state.path || process.cwd();
-  this.callback = this.callback || options.callback;
+  this.callback = this.callback || optionsWithDefaults.callback;
 
   // fire watch or read based on flag
-  if (options.watch) {
+  if (optionsWithDefaults.watch) {
     return this.watch();
   }
 

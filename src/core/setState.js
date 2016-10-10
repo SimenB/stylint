@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+
 'use strict';
 
 // super simple.

@@ -6,8 +6,8 @@ function shouldExit1(maxErrors, maxWarnings, errorCount, warningCount) {
     return true;
   }
 
-  return maxErrors >= 0 && errorCount > maxErrors ||
-    maxWarnings >= 0 && warningCount > maxWarnings;
+  return (maxErrors >= 0 && errorCount > maxErrors) ||
+    (maxWarnings >= 0 && warningCount > maxWarnings);
 }
 
 /**
@@ -33,6 +33,7 @@ const done = function () {
 
   // TODO: This is stupid, just mock out `console.log` or something
   if (!this.state.quiet && message) {
+    // eslint-disable-next-line no-console
     console.log(message);
   }
 

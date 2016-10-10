@@ -21,7 +21,7 @@ const getFiles = function (dir) {
         throw err;
       }
 
-      files = files.filter(function (file) {
+      const filteredFiles = files.filter(file => {
         let excluded = false;
         const relPath = path.relative(dir.replace('/**/*.styl', ''), file);
 
@@ -30,15 +30,14 @@ const getFiles = function (dir) {
         });
 
         return !excluded;
-      }, this);
+      });
 
-      this.cache.filesLen = files.length - 1;
-      this.cache.files = files;
+      this.cache.filesLen = filteredFiles.length - 1;
+      this.cache.files = filteredFiles;
 
       return async.map(this.cache.files, fs.readFile, this.parse.bind(this));
     });
-  }
-  else if (dir instanceof Array) {
+  } else if (dir instanceof Array) {
     const files = dir.filter(function (filepath) {
       let excluded = false;
 
@@ -51,10 +50,10 @@ const getFiles = function (dir) {
 
     this.cache.filesLen = files.length - 1;
     this.cache.files = files;
-    return this.cache.files.forEach(file => {
-      return this.read(file);
-    });
+    return this.cache.files.map(file => this.read(file));
   }
+
+  throw new Error('Input not a string or array');
 };
 
 module.exports = getFiles;

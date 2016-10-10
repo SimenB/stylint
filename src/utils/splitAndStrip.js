@@ -7,9 +7,7 @@
  * @returns {Array} split and filtered array
 */
 const splitAndStrip = function (re, line) {
-  return line.split(re).filter(str => {
-    return str.length > 0;
-  });
+  return line.split(re).filter(str => str.length > 0);
 };
 
 module.exports = splitAndStrip;

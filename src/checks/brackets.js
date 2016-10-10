@@ -48,13 +48,9 @@ const brackets = function (line) {
       if (typeof arr[0] !== 'undefined') {
         arr[0] = arr[0].replace(stripRe, '').trim();
 
-        isCSS = validJSON.css.some(css => {
-          return arr[0] === css || this.checkPrefix(arr[0], css, validJSON);
-        });
+        isCSS = validJSON.css.some(css => arr[0] === css || this.checkPrefix(arr[0], css, validJSON));
 
-        isMixin = this.cache.customProperties.some(mixin => {
-          return arr[0] === mixin;
-        });
+        isMixin = this.cache.customProperties.some(mixin => arr[0] === mixin);
       }
 
       // basically, we don't care about properties like margin or padding

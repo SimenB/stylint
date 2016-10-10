@@ -12,7 +12,8 @@ const watch = function () {
   // initial watch msg
   this.watcher.on('ready', () => {
     this.state.watching = true;
-    return console.log('Watching: ', this.state.path, ' for changes.');
+    // eslint-disable-next-line no-console
+    console.log('Watching: ', this.state.path, ' for changes.');
   });
 
   // listen for changes, update 'dir' to curr file, wipe all the caches, do somethin

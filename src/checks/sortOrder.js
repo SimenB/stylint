@@ -82,6 +82,8 @@ const sortOrder = function (line) {
       else if (bIndex < aIndex) {
         return 1;
       }
+
+      return 0;
     });
   }
 
