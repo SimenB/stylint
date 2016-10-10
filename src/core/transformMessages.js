@@ -10,49 +10,49 @@ var countSeverities = require('../utils/countSeveritiesInMessages');
  * @returns {Object} returns the transformed object
  */
 var transformMessages = function(skipDone) {
-	var severities = countSeverities(this.cache.messages);
-	var errorCount = severities.errorCount;
-	var warningCount = severities.warningCount;
+  var severities = countSeverities(this.cache.messages);
+  var errorCount = severities.errorCount;
+  var warningCount = severities.warningCount;
 
-	var groupedByFile = _.chain(this.cache.messages)
+  var groupedByFile = _.chain(this.cache.messages)
 		.groupBy('file')
 		.map(function(messages, filePath) {
-			var localSeverities = countSeverities(messages);
+  var localSeverities = countSeverities(messages);
 
-			var filteredMessages = messages.map(function(message) {
+  var filteredMessages = messages.map(function(message) {
 				// Just removes `file`
-				return {
-					column: message.column,
-					line: message.line,
-					message: message.message,
-					source: message.source,
-					ruleId: message.ruleId,
-					severity: message.severity
-				};
-			});
+    return {
+      column: message.column,
+      line: message.line,
+      message: message.message,
+      source: message.source,
+      ruleId: message.ruleId,
+      severity: message.severity
+    };
+  });
 
-			return {
-				filePath: filePath,
-				messages: filteredMessages,
-				errorCount: localSeverities.errorCount,
-				warningCount: localSeverities.warningCount
-			};
-		})
+  return {
+    filePath: filePath,
+    messages: filteredMessages,
+    errorCount: localSeverities.errorCount,
+    warningCount: localSeverities.warningCount
+  };
+})
 		.value();
 
-	var report = {
-		results: groupedByFile,
-		errorCount: errorCount,
-		warningCount: warningCount
-	};
+  var report = {
+    results: groupedByFile,
+    errorCount: errorCount,
+    warningCount: warningCount
+  };
 
-	this.cache.report = report;
+  this.cache.report = report;
 
-	if (!skipDone) {
-		this.done();
-	}
+  if (!skipDone) {
+    this.done();
+  }
 
-	return report;
+  return report;
 };
 
 module.exports = transformMessages;

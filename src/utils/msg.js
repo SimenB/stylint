@@ -8,15 +8,15 @@
  * @returns {void}
  */
 var msg = function(message, column) {
-	this.cache.messages.push({
-		message: message,
-		severity: this.state.severity,
-		file: this.cache.file,
-		line: this.cache.lineNo,
-		column: column,
-		source: this.cache.source,
-		ruleId: this.cache.rule
-	});
+  this.cache.messages.push({
+    message: message,
+    severity: this.state.severity,
+    file: this.cache.file,
+    line: this.cache.lineNo,
+    column: column,
+    source: this.cache.source,
+    ruleId: this.cache.rule
+  });
 };
 
 module.exports = msg;

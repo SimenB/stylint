@@ -12,19 +12,19 @@ var anythingElseRe = /[^ \t]/;
  * @return {boolean} true if whitespace found, false if not
  */
 var trailingWhitespace = function(line, source) {
-	var whitespace = false;
-	var hasWhitespace = whitespaceRe.exec(source);
+  var whitespace = false;
+  var hasWhitespace = whitespaceRe.exec(source);
 
 	// not an empty line, with whitespace at the end
-	if (anythingElseRe.test(source) && hasWhitespace) {
-		whitespace = true;
-	}
+  if (anythingElseRe.test(source) && hasWhitespace) {
+    whitespace = true;
+  }
 
-	if (this.state.conf === 'never' && whitespace) {
-		this.msg('trailing whitespace', hasWhitespace.index);
-	}
+  if (this.state.conf === 'never' && whitespace) {
+    this.msg('trailing whitespace', hasWhitespace.index);
+  }
 
-	return whitespace;
+  return whitespace;
 };
 
 module.exports = trailingWhitespace;

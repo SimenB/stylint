@@ -11,58 +11,58 @@ var emptyLineRe = /\S/;
  * @returns {Function | undefined} undefined if we catch something, else lint()
  */
 var setState = function(line) {
-	this.state.context = this.setContext(this.cache.line);
+  this.state.context = this.setContext(this.cache.line);
 
 	// ignore the current line if @stylint ignore
-	if (this.cache.source.indexOf('@stylint ignore') !== -1) {
-		return;
-	}
+  if (this.cache.source.indexOf('@stylint ignore') !== -1) {
+    return;
+  }
 
 	// if @stylint on / off commands found in the code
-	if (this.stylintOn(this.cache.source) ||
+  if (this.stylintOn(this.cache.source) ||
 		this.stylintOff(this.cache.source) === false) {
-		return;
-	}
+    return;
+  }
 
 	// if hash starting / ending, set state and return early
-	if (this.hashOrCSSStart(line) ||
+  if (this.hashOrCSSStart(line) ||
 		this.hashOrCSSEnd(line) === false) {
-		return;
-	}
+    return;
+  }
 
 	// if starting / ending keyframes
-	if (this.keyframesStart(line) ||
+  if (this.keyframesStart(line) ||
 		this.keyframesEnd(line) === false) {
-		return;
-	}
+    return;
+  }
 
 	// if starting / ending css4 :root
 	// we'll need to capture custom properties
-	if (this.rootStart(line) ||
+  if (this.rootStart(line) ||
 		this.rootEnd(line) === false) {
-		return;
-	}
+    return;
+  }
 
 	// if entire line is comment, just check comment spacing and that's it
-	if (this.startsWithComment(line)) {
-		if (typeof this.config.commentSpace !== 'undefined') {
-			this.state.conf = this.config.commentSpace.expect || this.config.commentSpace;
-			this.state.severity = this.config.commentSpace.error ? 'error' : 'warning';
-			this.lintMethods.commentSpace.call(this, this.cache.line, this.cache.source);
-		}
-		return;
-	}
+  if (this.startsWithComment(line)) {
+    if (typeof this.config.commentSpace !== 'undefined') {
+      this.state.conf = this.config.commentSpace.expect || this.config.commentSpace;
+      this.state.severity = this.config.commentSpace.error ? 'error' : 'warning';
+      this.lintMethods.commentSpace.call(this, this.cache.line, this.cache.source);
+    }
+    return;
+  }
 
 	// if empty line
-	if (emptyLineRe.test(line) === false) {
-		this.cache.sortOrderCache = [];
-		return;
-	}
+  if (emptyLineRe.test(line) === false) {
+    this.cache.sortOrderCache = [];
+    return;
+  }
 
 	// actually run tests if we made it this far
-	if (this.state.testsEnabled === true) {
-		return this.lint();
-	}
+  if (this.state.testsEnabled === true) {
+    return this.lint();
+  }
 };
 
 module.exports = setState;

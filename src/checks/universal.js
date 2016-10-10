@@ -9,20 +9,20 @@ var universalRe = /( |\w|\d|'|"|\*|\/)(\*)( |\w|\d|'|"|\*|\$|\=)/;
 * @returns {boolean} true if * on line, false if not
 */
 var universal = function(line) {
-	var index = line.indexOf('*');
-	if (index === -1) return;
+  var index = line.indexOf('*');
+  if (index === -1) return;
 
-	var hasUniversal = false;
+  var hasUniversal = false;
 
-	if (!universalRe.test(line)) {
-		hasUniversal = true;
-	}
+  if (!universalRe.test(line)) {
+    hasUniversal = true;
+  }
 
-	if (this.state.conf === 'never' && hasUniversal === true) {
-		this.msg('* selector is disallowed', index);
-	}
+  if (this.state.conf === 'never' && hasUniversal === true) {
+    this.msg('* selector is disallowed', index);
+  }
 
-	return hasUniversal;
+  return hasUniversal;
 };
 
 module.exports = universal;

@@ -11,19 +11,19 @@ var nonZeroRe = /[\s,\(](\.\d+)/;
  * @returns {boolean|undefined} true if mixed, false if not
  */
 var leadingZero = function(line) {
-	if (!decimalRe.test(line)) { return; }
+  if (!decimalRe.test(line)) { return; }
 
-	var leadZeroFound = leadZeroRe.exec(line);
-	var leadZeroMissing = nonZeroRe.exec(line);
+  var leadZeroFound = leadZeroRe.exec(line);
+  var leadZeroMissing = nonZeroRe.exec(line);
 
-	if (this.state.conf === 'always' && leadZeroMissing) {
-		this.msg('leading zeros for decimal points are required', leadZeroMissing.index);
-	}
-	else if (this.state.conf === 'never' && leadZeroFound) {
-		this.msg('leading zeros for decimal points are unnecessary', leadZeroFound.index);
-	}
+  if (this.state.conf === 'always' && leadZeroMissing) {
+    this.msg('leading zeros for decimal points are required', leadZeroMissing.index);
+  }
+  else if (this.state.conf === 'never' && leadZeroFound) {
+    this.msg('leading zeros for decimal points are unnecessary', leadZeroFound.index);
+  }
 
-	return leadZeroFound;
+  return leadZeroFound;
 };
 
 module.exports = leadingZero;

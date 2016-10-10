@@ -4,82 +4,82 @@
  */
 var config = {
 	// check for @block when defining blocks
-	blocks: false,
+  blocks: false,
 	// check for { or }, unless used in a hash
-	brackets: 'never',
+  brackets: 'never',
 	// enforce or disallow colons
-	colons: 'always',
+  colons: 'always',
 	// check for hex colors used without variables
-	colors: 'always',
+  colors: 'always',
 	// check for spaces after commas (0, 0, 0, .18)
-	commaSpace: 'always',
+  commaSpace: 'always',
 	// check for space after line comment
-	commentSpace: 'always',
+  commentSpace: 'always',
 	// if never disallow css literals
-	cssLiteral: 'never',
+  cssLiteral: 'never',
 	// set a maximum selector depth (dont nest more than 4 deep)
-	depthLimit: false,
+  depthLimit: false,
 	// check if properties or selectors are duplicate
-	duplicates: true,
+  duplicates: true,
 	// check for margin 0 0 0 0 and recommend margin 0
-	efficient: 'always',
+  efficient: 'always',
 	// prefer a specific syntax when using @extends (or @extend)
-	extendPref: false,
+  extendPref: false,
 	// throw duplicate selector warning across all files instead of curr file
-	globalDupe: false,
+  globalDupe: false,
 	// group reporter output by file or go sequentially
-	groupOutputByFile: true,
+  groupOutputByFile: true,
 	// manipulate terminal output with or without an additional reporter
-	reporterOptions: {
-		columns: ['lineData', 'severity', 'message', 'rule'],
-		columnSplitter: '  ',
-		showHeaders: false,
-		truncate: true
-	},
+  reporterOptions: {
+    columns: ['lineData', 'severity', 'message', 'rule'],
+    columnSplitter: '  ',
+    showHeaders: false,
+    truncate: true
+  },
 	// how many spaces should we prefer when indenting, pass in false if hard tabs
-	indentPref: false,
+  indentPref: false,
 	// enforce or disallow leading zeroes
-	leadingZero: 'never',
+  leadingZero: 'never',
 	// exit if over error limit
-	maxErrors: false,
+  maxErrors: false,
 	// exit if over warning limit
-	maxWarnings: false,
+  maxWarnings: false,
 	// check for mixed spaces and tabs
-	mixed: false,
+  mixed: false,
 	// lowercase-dash, camelCase, lowercase_underscore, BEM or false (dont check)
-	namingConvention: false,
+  namingConvention: false,
 	// if true, then check classes and ids, if false just check variables
-	namingConventionStrict: false,
+  namingConventionStrict: false,
 	// check for use of border none or outline none, prefer 0
-	none: 'never',
+  none: 'never',
 	// disallow !importants
-	noImportant: true,
+  noImportant: true,
 	// check for extra space inside parens
-	parenSpace: false,
+  parenSpace: false,
 	// only allow @extending of placeholder vars
-	placeholders: 'always',
+  placeholders: 'always',
 	// check for $ when declaring vars (doesnt check use)
-	prefixVarsWithDollar: 'always',
+  prefixVarsWithDollar: 'always',
 	// single or double quotes, or false to not check
-	quotePref: false,
+  quotePref: false,
 	// default reporter
-	reporter: '../core/reporter',
+  reporter: '../core/reporter',
 	// disallow or enforce semicolons
-	semicolons: 'never',
+  semicolons: 'never',
 	// alphabetical, grouped, Array<String> or false (no check)
-	sortOrder: 'alphabetical',
+  sortOrder: 'alphabetical',
 	// no one liners
-	stackedProperties: 'never',
+  stackedProperties: 'never',
 	// check for trailing whitespace
-	trailingWhitespace: 'never',
+  trailingWhitespace: 'never',
 	// check for use of * and recommend against it
-	universal: false,
+  universal: false,
 	// check if prop or value is a valid assignment
-	valid: true,
+  valid: true,
 	// check for use of 0px | 0em | 0rem | 0% | etc and recommend 0 instead
-	zeroUnits: 'never',
+  zeroUnits: 'never',
 	// suggest a normalized z index value, base of whatever this is
-	zIndexNormalize: false
+  zIndexNormalize: false
 };
 
 module.exports = config;

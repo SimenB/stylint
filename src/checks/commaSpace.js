@@ -16,28 +16,28 @@ var commaSpace = function(line, source) {
 	// 1: no comma on line at all
 	// 2: comma ends the line, as in a list
 	// 3: comma is
-	if (source.indexOf(',') === -1 ||
+  if (source.indexOf(',') === -1 ||
 		source.trim().indexOf(',') === source.length - 1) {
-		return;
-	}
+    return;
+  }
 
 	// just strip content between quotes, leave rest of syntax intact
 	// this is so we don't get false positives with , in strings
-	var trimmedLine = source.replace(removeQuotesRe, '""').trim();
+  var trimmedLine = source.replace(removeQuotesRe, '""').trim();
 
-	var noSpace = noSpaceRe.exec(trimmedLine);
-	var hasSpace = withSpaceRe.exec(trimmedLine);
+  var noSpace = noSpaceRe.exec(trimmedLine);
+  var hasSpace = withSpaceRe.exec(trimmedLine);
 
 	// if spaces should be follow commas, but there is no space on the line
-	if (this.state.conf === 'always' && noSpace) {
-		this.msg('commas must be followed by a space for readability', noSpace.index);
-	}
+  if (this.state.conf === 'always' && noSpace) {
+    this.msg('commas must be followed by a space for readability', noSpace.index);
+  }
 	// if spaces should not be followed by a comma, but there are spaces anyway
-	else if (this.state.conf === 'never' && hasSpace) {
-		this.msg('spaces after commas are not allowed', hasSpace.index);
-	}
+  else if (this.state.conf === 'never' && hasSpace) {
+    this.msg('spaces after commas are not allowed', hasSpace.index);
+  }
 
-	return !!(noSpace && !hasSpace);
+  return !!(noSpace && !hasSpace);
 };
 
 module.exports = commaSpace;

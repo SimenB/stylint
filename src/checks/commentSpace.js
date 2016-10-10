@@ -10,28 +10,28 @@ var commentRe = /\/\/ /;
  * @returns {boolean} true if comment found, false if not
  */
 var commentSpace = function(line, source) {
-	if (!this.state.hasComment) { return; }
+  if (!this.state.hasComment) { return; }
 
-	var spaceAfterComment = false;
-	var comment = this.cache.comment;
-	var index = source.indexOf(comment);
+  var spaceAfterComment = false;
+  var comment = this.cache.comment;
+  var index = source.indexOf(comment);
 
 	// check for space after comment on it's own line,
 	// if no space, return warning
-	if (commentRe.test(comment)) {
-		spaceAfterComment = true;
-	}
+  if (commentRe.test(comment)) {
+    spaceAfterComment = true;
+  }
 
-	var emptyComment = /\/\/$/.test(comment);
+  var emptyComment = /\/\/$/.test(comment);
 
-	if (this.state.conf === 'always' && spaceAfterComment === false && !emptyComment) {
-		this.msg('line comments require a space after //', index);
-	}
-	else if (this.state.conf === 'never' && spaceAfterComment === true) {
-		this.msg('spaces after line comments disallowed', index);
-	}
+  if (this.state.conf === 'always' && spaceAfterComment === false && !emptyComment) {
+    this.msg('line comments require a space after //', index);
+  }
+  else if (this.state.conf === 'never' && spaceAfterComment === true) {
+    this.msg('spaces after line comments disallowed', index);
+  }
 
-	return spaceAfterComment;
+  return spaceAfterComment;
 };
 
 module.exports = commentSpace;

@@ -6,13 +6,13 @@
  * @returns {boolean} true if keyframes starting, false if not
  */
 var rootStart = function(line) {
-	if (this.state.root || !this.state.testsEnabled) { return; }
+  if (this.state.root || !this.state.testsEnabled) { return; }
 
-	if (line.indexOf(':root') !== -1) {
-		this.state.root = true;
-	}
+  if (line.indexOf(':root') !== -1) {
+    this.state.root = true;
+  }
 
-	return this.state.root;
+  return this.state.root;
 };
 
 module.exports = rootStart;
