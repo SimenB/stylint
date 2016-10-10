@@ -29,7 +29,7 @@ const setConfig = function (configpath) {
   const cwd = process.cwd();
   let pkg = null;
   try {
-    pkg = require(cwd + '/package.json');
+    pkg = require(`${cwd}/package.json`);
   }
   catch (err) {
     // no output
@@ -59,7 +59,7 @@ const setConfig = function (configpath) {
   const _recurseDirectories = function (files, level, cwd) {
     // parse stylintrc if found, stop recursion
     if (files.indexOf('.stylintrc') !== -1) {
-      return _parseConfig(cwd + '/.stylintrc');
+      return _parseConfig(`${cwd}/.stylintrc`);
     }
 
     // only go up to user home directory, stop recursion
@@ -97,7 +97,7 @@ const setConfig = function (configpath) {
   // if 2, we pass in a path to the config
   // this only occurs if using stylint via the command line
   else if (configpath) {
-    customPath = pathIsAbsolute(configpath) ? configpath : cwd + '/' + configpath;
+    customPath = pathIsAbsolute(configpath) ? configpath : `${cwd}/${configpath}`;
     try {
       returnConfig = _parseConfig(customPath);
     }

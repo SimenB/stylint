@@ -70,7 +70,7 @@ module.exports = function valid(line) {
   if (!isValid) {
     isValid = validJSON.pseudo.some(pseudo => {
       // psuedo selectors could have one of two colons
-      return ':' + arr[0] === pseudo || '::' + arr[0] === pseudo;
+      return `:${arr[0]}` === pseudo || `::${arr[0]}` === pseudo;
     });
   }
 

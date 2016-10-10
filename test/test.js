@@ -357,7 +357,7 @@ describe('Utility Methods: ', () => {
     process.argv[2] = '-c';
     process.argv[3] = '.stylintrc';
     const testMethod = app.setConfig('.stylintrc');
-    const testConfig = JSON.parse(stripJsonComments(fs.readFileSync(process.cwd() + '/.stylintrc', 'utf-8')));
+    const testConfig = JSON.parse(stripJsonComments(fs.readFileSync(`${process.cwd()}/.stylintrc`, 'utf-8')));
 
     it('update config state if passed a valid path', () => {
       assert.deepEqual(testMethod, testConfig);
@@ -367,7 +367,7 @@ describe('Utility Methods: ', () => {
       assert.throws(
         app.setConfig,
         TypeError,
-        'setConfig err. Expected string, but received: ' + typeof dir
+        `setConfig err. Expected string, but received: ${typeof dir}`
       );
     });
   });

@@ -23,7 +23,7 @@ const extendPref = function (line) {
   }
 
   if (extendIncorrect === true) {
-    this.msg('please use ' + this.state.conf);
+    this.msg(`please use ${this.state.conf}`);
   }
 
   return extendIncorrect;

@@ -77,7 +77,7 @@ const namingConvention = function (line) {
 
   if (badConvention === true) {
     const index = line.indexOf(arr[0]);
-    this.msg('preferred naming convention is ' + this.state.conf, index);
+    this.msg(`preferred naming convention is ${this.state.conf}`, index);
   }
 
   return badConvention;

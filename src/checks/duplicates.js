@@ -69,7 +69,7 @@ const duplicates = function (line) {
     }
     else {
       this.msg(
-        'duplicate property or selector, consider merging\nsee file: ' + origFile + ' for the original selector'
+        `duplicate property or selector, consider merging\nsee file: ${origFile} for the original selector`
       );
     }
   }

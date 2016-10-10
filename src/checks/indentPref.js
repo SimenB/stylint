@@ -23,7 +23,7 @@ const indentPref = function () {
   const index = spaces * context;
 
   if (indentCorrect === false) {
-    this.msg('incorrect # of spaces for indent, use ' + spaces, index);
+    this.msg(`incorrect # of spaces for indent, use ${spaces}`, index);
   }
 
   return indentCorrect;

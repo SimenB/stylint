@@ -16,7 +16,7 @@ const read = function (filepath) {
   // if nothing passed in, default to linting the curr dir
   // here we get all the files to parse first, then we pass to app.parse
   if (path === process.cwd()) {
-    return this.getFiles(this.state.path + '/**/*.styl');
+    return this.getFiles(`${this.state.path}/**/*.styl`);
   }
 
   // if * is array, assume glob
@@ -51,7 +51,7 @@ const read = function (filepath) {
       return async.map(this.cache.files, fs.readFile, this.parse.bind(this));
     }
     if (stats.isDirectory()) {
-      return this.getFiles(path + '/**/*.styl');
+      return this.getFiles(`${path}/**/*.styl`);
     }
   });
 };

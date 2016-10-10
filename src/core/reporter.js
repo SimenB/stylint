@@ -24,7 +24,7 @@ const reporter = function (report, options, kill) {
 
       newResult.messages = result.messages.map(msg => {
         const column = typeof msg.column === 'number' && msg.column > 0 ? msg.column : null;
-        const lineData = column ? msg.line + ':' + column : msg.line;
+        const lineData = column ? `${msg.line}:${column}` : msg.line;
 
         let severity = msg.severity;
         severity = severity === 'warning' ?
@@ -51,35 +51,35 @@ const reporter = function (report, options, kill) {
     // columnify the errors/warnings and prefix them with the file name
     formattedMessages = formattedMessages
       .map(results => {
-        return results.filePath + '\n' + columnify(results.messages, options.reporterOptions);
+        return `${results.filePath}\n${columnify(results.messages, options.reporterOptions)}`;
       });
   }
   else {
     formattedMessages = formattedMessages
       .flatMap('messages')
       .map(output => {
-        return output.file + '\n' + output.lineData + ' ' + output.rule + ' ' + output.severity + ' ' + output.message;
+        return `${output.file}\n${output.lineData} ${output.rule} ${output.severity} ${output.message}`;
       });
   }
 
   formattedMessages = formattedMessages.reduce((memo, msg) => {
-    return memo + msg + '\n\n';
+    return `${memo + msg}\n\n`;
   }, '')
     .value()
     .trim();
 
-  let formattedMessage = 'Stylint: ' + report.errorCount + ' Errors.';
-  formattedMessage += options.maxErrors >= 0 ? ' (Max Errors: ' + options.maxErrors + ')' : '';
+  let formattedMessage = `Stylint: ${report.errorCount} Errors.`;
+  formattedMessage += options.maxErrors >= 0 ? ` (Max Errors: ${options.maxErrors})` : '';
 
-  formattedMessage += '\nStylint: ' + report.warningCount + ' Warnings.';
-  formattedMessage += options.maxWarnings >= 0 ? ' (Max Warnings: ' + options.maxWarnings + ')' : '';
+  formattedMessage += `\nStylint: ${report.warningCount} Warnings.`;
+  formattedMessage += options.maxWarnings >= 0 ? ` (Max Warnings: ${options.maxWarnings})` : '';
 
   // if you set a max it kills the linter
   if (kill) {
     formattedMessage += '\nStylint: Over Error or Warning Limit.';
   }
 
-  return (formattedMessages + '\n\n' + formattedMessage).trim();
+  return (`${formattedMessages}\n\n${formattedMessage}`).trim();
 };
 
 module.exports = reporter;
