@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: checks/stackedProperties.js</title>
+    <title>JSDoc: Source: core/transformMessages.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: checks/stackedProperties.js</h1>
+    <h1 class="page-title">Source: core/transformMessages.js</h1>
 
     
 
@@ -28,31 +28,60 @@
         <article>
             <pre class="prettyprint source linenums"><code>'use strict';
 
-// if semicolons on line, but not ending the line, prolly a one-liner
-const semiTest = /;+(?!$)/gm;
+const _ = require('lodash');
+
+const countSeverities = require('../utils/countSeveritiesInMessages');
 
 /**
- * @description Disallow one-liners.
- * @param  {string} [line] - Current line being linted.
- * @returns {boolean} True if one-liner found, false if not.
+ * @description Transforms all messages into the format returned to the caller, or passed to reporters.
+ * @param {boolean} [skipDone] - If true, don't call done.
+ * @returns {Object} Returns the transformed object.
  */
-const stackedProperties = function (line) {
-  let oneLiner = false;
-  const trimmedLine = line.replace(/(( '.*')|( ".*")|('.*')|(".*"))+;*/, '').trim();
-  const arr = this.splitAndStrip(';', trimmedLine);
+const transformMessages = function (skipDone) {
+  const severities = countSeverities(this.cache.messages);
+  const errorCount = severities.errorCount;
+  const warningCount = severities.warningCount;
 
-  if (semiTest.test(trimmedLine) || arr.length > 1) {
-    oneLiner = true;
+  const groupedByFile = _.chain(this.cache.messages)
+    .groupBy('file')
+    .map((messages, filePath) => {
+      const localSeverities = countSeverities(messages);
+
+      // Just removes `file`
+      const filteredMessages = messages.map(message => ({
+        column: message.column,
+        line: message.line,
+        message: message.message,
+        source: message.source,
+        ruleId: message.ruleId,
+        severity: message.severity,
+      }));
+
+      return {
+        filePath,
+        messages: filteredMessages,
+        errorCount: localSeverities.errorCount,
+        warningCount: localSeverities.warningCount,
+      };
+    })
+    .value();
+
+  const report = {
+    results: groupedByFile,
+    errorCount,
+    warningCount,
+  };
+
+  this.cache.report = report;
+
+  if (!skipDone) {
+    this.done();
   }
 
-  if (this.state.conf === 'never' &amp;&amp; oneLiner === true) {
-    this.msg('avoid one liners. put properties on their own line');
-  }
-
-  return oneLiner;
+  return report;
 };
 
-module.exports = stackedProperties;
+module.exports = transformMessages;
 </code></pre>
         </article>
     </section>

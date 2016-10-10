@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: checks/stackedProperties.js</title>
+    <title>JSDoc: Source: core/lintString.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: checks/stackedProperties.js</h1>
+    <h1 class="page-title">Source: core/lintString.js</h1>
 
     
 
@@ -28,31 +28,37 @@
         <article>
             <pre class="prettyprint source linenums"><code>'use strict';
 
-// if semicolons on line, but not ending the line, prolly a one-liner
-const semiTest = /;+(?!$)/gm;
-
 /**
- * @description Disallow one-liners.
- * @param  {string} [line] - Current line being linted.
- * @returns {boolean} True if one-liner found, false if not.
+ * @description Wrapper for parse for programmatic use.
+ * @param {string} string - The text to parse.
+ * @param {Object} [config] - An object containing config to lint by.
+ * @param {string} [filename] - The name of the file.
+ * @returns {Object} An object containing the complete report from linting.
  */
-const stackedProperties = function (line) {
-  let oneLiner = false;
-  const trimmedLine = line.replace(/(( '.*')|( ".*")|('.*')|(".*"))+;*/, '').trim();
-  const arr = this.splitAndStrip(';', trimmedLine);
+const lintString = function (string, config, filename) {
+  // reset stuff
+  this.resetOnChange();
 
-  if (semiTest.test(trimmedLine) || arr.length > 1) {
-    oneLiner = true;
+  if (config) {
+    this.init({ config });
   }
 
-  if (this.state.conf === 'never' &amp;&amp; oneLiner === true) {
-    this.msg('avoid one liners. put properties on their own line');
-  }
+  // make sure there is no output to the console
+  this.state.quiet = true;
 
-  return oneLiner;
+  // don't kill process
+  this.state.watching = true;
+
+  // never kill the linter
+  this.config.maxErrors = null;
+  this.config.maxWarnings = null;
+
+  this.cache.files = [filename];
+
+  return this.parse(null, [string], true);
 };
 
-module.exports = stackedProperties;
+module.exports = lintString;
 </code></pre>
         </article>
     </section>
