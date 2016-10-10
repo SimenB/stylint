@@ -1,11 +1,11 @@
 'use strict';
 
 /**
- * @description wrapper for parse for programmatic use
- * @param {String} string the text to parse
- * @param {Object} [config] an object containing config to lint by
- * @param {String} [filename] the name of the file
- * @returns {Object} an object containing the complete report from linting
+ * @description Wrapper for parse for programmatic use.
+ * @param {string} string - The text to parse.
+ * @param {Object} [config] - An object containing config to lint by.
+ * @param {string} [filename] - The name of the file.
+ * @returns {Object} An object containing the complete report from linting.
  */
 const lintString = function (string, config, filename) {
   // reset stuff

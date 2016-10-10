@@ -5,9 +5,9 @@
 const ampRe = /^(&|\/{1}|\.\.\/|~\/)/;
 
 /**
- * @description check nesting depth
- * @param  {string} [line] curr line being linted
- * @return {boolean} true if nesting is too deep, false if not
+ * @description Check nesting depth.
+ * @param  {string} [line] - Current line being linted.
+ * @returns {boolean} True if nesting is too deep, false if not..
  * @todo this is kinda not 100% reliable in it's current form, also could be refactors
  */
 const depthLimit = function (line) {

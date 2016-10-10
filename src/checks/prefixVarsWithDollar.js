@@ -5,9 +5,9 @@ const eqEndRe = /=$|=\s$/;
 const ignoreRe = /(\[.+\])|if|for|else|return|@require|@import|@media|@block|vendor-prefixes|calc|(=|= )$|{$/; // 3
 
 /**
- * @description check that $ is used when declaring vars
- * @param  {string} [line] curr line being linted
- * @return {boolean} true if in order, false if not
+ * @description Check that $ is used when declaring vars.
+ * @param  {string} [line] - Current line being linted.
+ * @returns {boolean} True if in order, false if not.
  */
 const prefixVarsWithDollar = function (line) {
   if (this.state.hashOrCSS || ignoreRe.test(line)) {

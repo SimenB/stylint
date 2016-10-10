@@ -4,9 +4,9 @@
 const semiTest = /;+(?!$)/gm;
 
 /**
- * @description disallow one-liners
- * @param  {string} [line] curr line being linted
- * @return {boolean} true if one-liner found, false if not
+ * @description Disallow one-liners.
+ * @param  {string} [line] - Current line being linted.
+ * @returns {boolean} True if one-liner found, false if not.
  */
 const stackedProperties = function (line) {
   let oneLiner = false;

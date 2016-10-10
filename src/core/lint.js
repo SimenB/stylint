@@ -1,8 +1,8 @@
 'use strict';
 
 /**
- * @description runs tests according to config ( or all if strict is true )
- * @return {Function | undefined} undefined if just calling the method, function is linting over
+ * @description Runs tests according to config (or all if strict is true).
+ * @returns {Function | undefined} Undefined if just calling the method, function is linting over.
  */
 const lint = function () {
   let method;

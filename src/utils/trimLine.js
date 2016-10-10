@@ -3,11 +3,11 @@
 const urlOrContentRe = /(["'].+["'])|( +|:)url\(.+\)/;
 
 /**
- * @description separate out line comments
- *              strip out interpolation
- *              strip out url and content strings
- * @param {string} [line] curr line being linted
- * @returns {string} the line, but minus all the annoying stuff
+ * @description Separate out line comments.
+ *              Strip out interpolation.
+ *              Strip out url and content strings.
+ * @param {string} [line] - Curr line being linted.
+ * @returns {string} The line, but minus all the annoying stuff.
  */
 const trimLine = function (line) {
   const startsWithCommentRe = /(^\/\/)/;

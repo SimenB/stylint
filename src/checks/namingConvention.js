@@ -8,10 +8,10 @@ const bemRe = /^([$.#{:][${a-z]([-]?[${}a-z0-9]+)*(_{2}[${}a-z0-9]([-]?[${}a-z0-
 const camelRe = /^[$#.{:]+([a-zA-Z]|[${}])+([a-z]|[${}])+(([.A-Z0-9])+[a-z ]+)+\b/m;
 
 /**
- * @description check for names-like-this vs namesLikeThis
+ * @description Check for names-like-this vs namesLikeThis
  * or NamesLikeThis vs names_like_this or names-like__this-that
- * @param {string} [line] curr line being linted
- * @returns {boolean} true if convention wrong, false if not
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean} True if convention wrong, false if not.
  */
 const namingConvention = function (line) {
   const arr = this.splitAndStrip(' ', line);

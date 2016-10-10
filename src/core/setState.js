@@ -3,13 +3,13 @@
 'use strict';
 
 // super simple.
-// if theres anything on the line besides whitespace, it aint empty
+// if there's anything on the line besides whitespace, it ain't empty
 const emptyLineRe = /\S/;
 
 /**
- * @description sets values like context, determine whether we even run tests, etc
- * @param {string} [line] curr line being linted
- * @returns {Function | undefined} undefined if we catch something, else lint()
+ * @description Sets values like context, determine whether we even run tests, etc.
+ * @param {string} [line] - Current line being linted.
+ * @returns {Function | undefined} Undefined if we catch something, else lint().
  */
 const setState = function (line) {
   this.state.context = this.setContext(this.cache.line);

@@ -1,8 +1,8 @@
 'use strict';
 
 /**
- * @description checks that the # of spaces used is consistent
- * @returns {boolean} true if # of spaces correct, false if not
+ * @description Checks that the # of spaces used is consistent
+ * @returns {boolean} True if # of spaces correct, false if not.
  */
 const indentPref = function () {
   const spaces = this.state.conf;

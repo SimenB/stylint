@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * @description toggle stylint off
- * @param  {string} [line] curr line being linted
- * @return {boolean} true if stylint on, false if not
+ * @description Toggle stylint off.
+ * @param  {string} [line] - Current line being linted.
+ * @returns {boolean} True if stylint on, false if not.
  */
 const stylintOff = function (line) {
   if (!this.state.testsEnabled) {

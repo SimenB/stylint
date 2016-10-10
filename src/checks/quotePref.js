@@ -3,10 +3,10 @@
 const stringRe = /(?=["'])(?:"[^"\\]*(?:\\[\s\S][^"\\]*)*"|'[^'\\]*(?:\\[\s\S][^'\\]*)*')/g;
 
 /**
- * @description check that quote style is consistent with config
- * @param  {string} [line] curr line being linted
- * @param {string} [source] curr line before being stripped
- * @return {boolean} true if in order, false if not
+ * @description Check that quote style is consistent with config.
+ * @param  {string} [line] - Current line being linted.
+ * @param {string} [source] - Current line before being stripped.
+ * @returns {boolean} True if in order, false if not.
  */
 const quotePref = function (line, source) {
   if (source.indexOf('"') === -1 &&

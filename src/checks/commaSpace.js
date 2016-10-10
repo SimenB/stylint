@@ -6,10 +6,10 @@ const withSpaceRe = /,\s/;
 const removeQuotesRe = /(["'])(?:(?=(\\?))\2.)*?\1/g;
 
 /**
- * @description if set to always, enforces spaces after commas. if set to never, disallows spaces
- * @param {string} [line] curr line being linted
- * @param {string} [source] curr line before being stripped
- * @returns {boolean} true if space missing, false if not
+ * @description If set to always, enforces spaces after commas. If set to never, disallows spaces.
+ * @param {string} [line] - Current line being linted.
+ * @param {string} [source] - Current line before being stripped.
+ * @returns {boolean} True if space missing, false if not.
  */
 const commaSpace = function (line, source) {
   // conditions where testing isn't needed.

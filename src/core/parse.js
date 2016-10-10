@@ -5,11 +5,11 @@ const cleanFileRe = /(\r\n|\n|\r)|(^(\/\*)|([\s'"](\/\*)))(?!\/)(.|[\r\n]|\n)+?\
 const lineEndingsRe = /\r\n|\n|\r/gm;
 
 /**
- * @description parses file for testing by removing extra new lines and block comments
- * @param {Object} [err] error obj from async if it exists
- * @param {Array} [res] array of files to parse
- * @param {boolean} [skipDone] if true, don't call done
- * @returns {Object} the result object from the run
+ * @description Parses file for testing by removing extra new lines and block comments.
+ * @param {Object} [err] - Error obj from async if it exists.
+ * @param {Array} [res] - Array of files to parse.
+ * @param {boolean} [skipDone] - If true, don't call done.
+ * @returns {Object} The result object from the run.
  */
 const parse = function (err, res, skipDone) {
   if (err) {

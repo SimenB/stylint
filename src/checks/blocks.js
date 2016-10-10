@@ -3,9 +3,9 @@
 const eqEndRe = /=$|=\s$/;
 
 /**
- * @description depending on settings, enforce of disallow @block when defining block vars
- * @param {string} [line] curr line being linted
- * @returns {boolean | undefined} true if @block found, false if not, undefined if we skip
+ * @description Depending on settings, enforce of disallow @block when defining block vars.
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean | undefined} True if @block found, false if not, undefined if we skip.
  */
 function blocks(line) {
   if (line.indexOf('=') === -1) {

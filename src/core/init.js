@@ -10,10 +10,10 @@ const defaultOptions = {
 };
 
 /**
- * @description initialization function, does routing and kicks it all off
- * @param {Object} [options] options passed to stylint
- * @param {String} [pathPassed] path to files to lint
- * @return {Function} always returns a function, determined by cli flags
+ * @description Initialization function, does routing and kicks it all off.
+ * @param {Object} [options] - Options passed to stylint.
+ * @param {string} [pathPassed] - Path to files to lint.
+ * @returns {Function} Always returns a function, determined by cli flags.
  */
 const init = function (options, pathPassed) {
   // TODO: Object.assign

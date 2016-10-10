@@ -15,11 +15,11 @@ const fs = require('fs');
 // init() -> watch() -> read() -> parse() -> lint() -> done()
 
 /**
- * main stylint kickoff function
- * @param {string} path   [custom path if used programmatically]
- * @param {object} config [config if used programmatically]
- * @param {function} [callback] [a callback called just before exiting the process if not watching]
- * @return {Object} [the composed stylint object]
+ * @description Main stylint kickoff function.
+ * @param {string} path - Custom path if used programmatically.
+ * @param {Object} config - Config if used programmatically.
+ * @param {Function} [callback] - A callback called just before exiting the process if not watching.
+ * @returns {Object} The composed stylint object.
  */
 const stylint = function (path, config, callback) {
   return stampit().compose(

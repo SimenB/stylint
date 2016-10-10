@@ -8,9 +8,9 @@ const stripJsonComments = require('strip-json-comments');
 const Glob = require('glob').Glob;
 
 /**
- * @description sets the return config if one if found
- * @param  {string} configPath [where to look for config]
- * @return {Object|void} [object if stylintrc found, undefined if not]
+ * @description Sets the return config if one if found.
+ * @param  {string} configPath - Where to look for config.
+ * @returns {Object|void} Object if stylintrc found, undefined if not.
  */
 function parseConfig(configPath) {
   return JSON.parse(
@@ -21,12 +21,12 @@ function parseConfig(configPath) {
 }
 
 /**
- * @description [reverse walk from cwd to usr]
- *              [if .stylintrc found, use it]
- * @param  {Array<string>} files [all files for this dir level]
- * @param  {number} level [# of dirs traversed so far]
- * @param  {string} cwd   [relative path to current directory being walked]
- * @return {?Object|?Function} [config if found, recurse if not. null if failed]
+ * @description Reverse walk from cwd to usr.
+ *              If .stylintrc found, use it.
+ * @param  {Array<string>} files - All files for this dir level.
+ * @param  {number} level - Number of dirs traversed so far.
+ * @param  {string} cwd  - Relative path to current directory being walked.
+ * @returns {?Object|?Function} Config if found, recurse if not. null if failed.
  */
 function recurseDirectories(files, level, cwd) {
   let localLevel = level;
@@ -66,15 +66,15 @@ function recurseDirectories(files, level, cwd) {
 // comes back and refactor / cleanup
 
 /**
- * @description overrides default config with a new config object
- *              many potential code paths here.
+ * @description Overrides default config with a new config object.
+ *              Many potential code paths here.
  * 1: user passed in config object via function param
  * 2: user passes location of .stylintrc file to use via cli
  * 3: user has options obj in package.json or path to
  * 4: none of the above, fallback to initial config
  * 5: user has a .stylintrc file in a dir but doesnt pass anything
- * @param {String} [configpath] If defined, the path to a config-file to read
- * @returns {Function} kick off linter again
+ * @param {string} [configpath] - If defined, the path to a config-file to read.
+ * @returns {Function} Kick off linter again.
  */
 const setConfig = function (configpath) {
   let files = [];

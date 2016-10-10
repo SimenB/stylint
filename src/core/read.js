@@ -6,9 +6,9 @@ const fs = require('fs');
 const async = require('async');
 
 /**
- * @description determines what files to read, creates an array of them, and passes it to be parsed
- * @param {string} [filepath] [option for manually passing in a filename]
- * @returns {Function} parse function
+ * @description Determines what files to read, creates an array of them, and passes it to be parsed.
+ * @param {string} [filepath] - Option for manually passing in a filename.
+ * @returns {Function} Parse function.
  */
 const read = function (filepath) {
   // if user passes in a glob, we forEach over them

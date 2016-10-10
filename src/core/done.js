@@ -11,8 +11,8 @@ function shouldExit1(maxErrors, maxWarnings, errorCount, warningCount) {
 }
 
 /**
- * @description outputs our messages, wipes errs/warnings if watching
- * @returns {Object | Function} returns process exit if not watching, or obj otherwise
+ * @description Outputs our messages, wipes errs/warnings if watching.
+ * @returns {Object | Function} Returns process exit if not watching, or obj otherwise.
  */
 const done = function () {
   const maxErrors = typeof this.config.maxErrors === 'number' ? this.config.maxErrors : -1;

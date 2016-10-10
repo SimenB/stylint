@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * @description check for keyframes, which have some special rules
- * @param {string} [line] curr line being linted
- * @returns {boolean} true if keyframes starting, false if not
+ * @description Check for keyframes, which have some special rules.
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean} True if keyframes starting, false if not.
  */
 const rootStart = function (line) {
   if (this.state.root || !this.state.testsEnabled) {

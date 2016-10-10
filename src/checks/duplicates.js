@@ -4,9 +4,9 @@ const ignoreRe = /^{|[,}]|(:after|:active|:before|@import|@require|@extend|@medi
 let lastFile = '';
 
 /**
- * @description check that selector properties are sorted alphabetically
- * @param {string} [line] curr line being linted
- * @returns {boolean} true if dupe found, false if not
+ * @description Check that selector properties are sorted alphabetically
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean} True if dupe found, false if not.
  */
 const duplicates = function (line) {
   const arr = this.splitAndStrip(new RegExp(/[\s\t]/), line);

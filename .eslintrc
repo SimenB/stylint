@@ -2,10 +2,10 @@
   "root": true,
   "extends": [
     "simenb-base",
-    "simenb-node"
+    "simenb-node",
+    "simenb-jsdoc"
   ],
   "rules": {
-    "global-require": "off",
     // TODO: Enable after figurig out what to do woth comments
     "brace-style": "off",
     // TODO: enable after getting rid of stampit (https://github.com/SimenB/stylint/issues/359)

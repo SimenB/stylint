@@ -1,8 +1,8 @@
 'use strict';
 
 /**
- * @description check for keyframes end
- * @returns {boolean} false if keyframes ending, true if not
+ * @description Check for keyframes end.
+ * @returns {boolean} False if keyframes ending, true if not.
  */
 const rootEnd = function () {
   if (!this.state.root) {

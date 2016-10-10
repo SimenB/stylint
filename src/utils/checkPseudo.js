@@ -5,7 +5,7 @@
  * @param {string} [prop] the property to prepend prefixes to
  * @param {string} [html] the html we're checking against (from valid.json)
  * @param {Object} [valid] the valid.json object
- * @returns {boolean} true if at least one match found, false if not
+ * @returns {boolean} True if at least one match found, false if not.
  */
 // TODO: Merge with `checkPrefix`
 const checkPseudo = function (prop, html, valid) {

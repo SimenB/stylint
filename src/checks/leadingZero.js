@@ -5,9 +5,9 @@ const leadZeroRe = /[^\d+](0+\.\d+)/;
 const nonZeroRe = /[\s,\(](\.\d+)/;
 
 /**
- * @description check for leading 0 on numbers ( 0.5 )
- * @param {string} [line] curr line being linted
- * @returns {boolean|undefined} true if mixed, false if not
+ * @description Check for leading 0 on numbers (0.5).
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean|undefined} True if mixed, false if not.
  */
 const leadingZero = function (line) {
   if (!decimalRe.test(line)) {

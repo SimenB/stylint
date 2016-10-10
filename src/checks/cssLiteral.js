@@ -1,10 +1,10 @@
 'use strict';
 
 /**
- * @description if we disallowed css literals, check for them and return true if found
- * @param {string} [line] curr line being linted
- * @returns {boolean} true if @css found, false if not
- * @TODO do i still work with setState?
+ * @description If we disallowed css literals, check for them and return true if found.
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean} True if @css found, false if not.
+ * @todo do i still work with setState?
  */
 const cssLiteral = function (line) {
   if (this.state.hashOrCSS) {

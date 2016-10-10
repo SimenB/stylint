@@ -3,9 +3,9 @@
 const extendRe = /(@extend)+s?\s/;
 
 /**
- * @description check that @extend is only used with a $placeholderVar
- * @param {string} [line] curr line being linted
- * @return {boolean} true if placeholder used, false if not
+ * @description Check that @extend is only used with a $placeholderVar
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean} True if placeholder used, false if not.
  */
 const placeholders = function (line) {
   if (line.indexOf('@extend') === -1) {

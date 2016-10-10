@@ -4,9 +4,9 @@ const zeroRe = /((border)|(outline))+(:|\s)+0(?!-)/;
 const noneRe = /((border)|(outline))+(:|\s)+(none)+(?!-)/;
 
 /**
- * @description checks for border none or outline none
- * @param {string} [line] curr line being linted
- * @return {boolean} true if none used, false if not
+ * @description Checks for border none or outline none
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean} True if none used, false if not.
  */
 const none = function (line) {
   if (line.indexOf('border') === -1 &&

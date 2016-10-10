@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * @description check for z-index values that aren't normalized
- * @param {string} [line] current line being linted
- * @returns {boolean} true if not normalized, false if normalized
+ * @description Check for z-index values that aren't normalized.
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean} True if not normalized, false if normalized.
  */
 const zIndexNormalize = function (line) {
   let badZIndex = false;

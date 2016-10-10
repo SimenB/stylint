@@ -17,9 +17,9 @@ const keyRe = /((from)|(to))+(?= $| {| \d|\n|{)/; // 6
 const interpolatedRe = /( *{\S+} *)/; // 7
 
 /**
- * @description check against a JSON of all valid css properties and values
- * @param {string} [line] current line being linted
- * @returns {boolean | undefined} true if problem, false if no prob, undefined if we skipped
+ * @description Check against a JSON of all valid css properties and values.
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean | undefined} True if problem, false if no prob, undefined if we skipped.
  */
 module.exports = function valid(line) {
   // from and to are valid keyframes properties, but not outside that context

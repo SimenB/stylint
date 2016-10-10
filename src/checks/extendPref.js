@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * @description check for specified extend preference
- * @param {string} [line] curr line being linted
- * @returns {boolean} true if wrong style used, false if not
+ * @description Check for specified extend preference
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean} True if wrong style used, false if not.
  */
 const extendPref = function (line) {
   if (line.indexOf('@extend') === -1) {

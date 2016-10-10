@@ -5,9 +5,9 @@ const _ = require('lodash');
 const countSeverities = require('../utils/countSeveritiesInMessages');
 
 /**
- * @description transforms all messages into the format returned to the caller, or passed to reporters
- * @param {boolean} [skipDone] if true, don't call done
- * @returns {Object} returns the transformed object
+ * @description Transforms all messages into the format returned to the caller, or passed to reporters.
+ * @param {boolean} [skipDone] - If true, don't call done.
+ * @returns {Object} Returns the transformed object.
  */
 const transformMessages = function (skipDone) {
   const severities = countSeverities(this.cache.messages);

@@ -2,7 +2,7 @@
 
 /**
  * @description i hold the state
- * @return {Object} [i expose properties to the entire app]
+ * @returns {Object} [i expose properties to the entire app]
  */
 const state = {
   conf: false, // config for currently running check ('always' || 'never' || etc)

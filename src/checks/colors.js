@@ -5,8 +5,8 @@ const ignoreRe = /^\s*(?:#|.*=.*)/;
 
 /**
  * @description if we disallowed hex colors, check for them and return true if found
- * @param {string} [line] curr line being linted
- * @returns {boolean} true if hex color found, false if not
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean} True if hex color found, false if not.
  */
 const colors = function (line) {
   if (ignoreRe.test(line) || this.state.root) {

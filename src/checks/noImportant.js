@@ -2,8 +2,8 @@
 
 /**
  * @description disallows use of !important
- * @param {string} [line] curr line being linted
- * @return {boolean} true if !important used, false if not
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean} True if !important used, false if not.
  */
 const noImportant = function (line) {
   let important = false;

@@ -5,11 +5,11 @@ const chalk = require('chalk');
 const columnify = require('columnify');
 
 /**
- * @description format output message for console (default)
- * @param  {Object} report  report object containing all results
- * @param  {Object} [options] options provided to the reporter, and some relevant config
- * @param  {boolean} [kill] whether or not we're over one of our limits
- * @return {string} the formatted message
+ * @description Format output message for console (default).
+ * @param  {Object} report - Report object containing all results.
+ * @param  {Object} [options] - Options provided to the reporter, and some relevant config.
+ * @param  {boolean} [kill] - Whether or not we're over one of our limits.
+ * @returns {string} The formatted message.
  */
 const reporter = function (report, options, kill) {
   if (report.results.length === 0) {

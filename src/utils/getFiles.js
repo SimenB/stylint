@@ -6,9 +6,9 @@ const async = require('async');
 const path = require('path');
 
 /**
- * @description globs files and returns an array, used in various methods
- * @param {string} [dir] directory of files to glob
- * @returns {Array} returns an array of files
+ * @description Globs files and returns an array, used in various methods.
+ * @param {string} [dir] - Directory of files to glob.
+ * @returns {Array} Returns an array of files.
  */
 const getFiles = function (dir) {
   if (typeof dir !== 'string' && !(dir instanceof Array)) {

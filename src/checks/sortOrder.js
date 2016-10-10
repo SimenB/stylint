@@ -5,9 +5,9 @@ const ignoreMeRe = /[.#${}=>&*]|\(.*\)|(&:)|(if)|(for)|(@block)|(@import)|(@medi
 const ordering = require('../data/ordering.json');
 
 /**
- * @description check that selector properties are sorted accordingly
- * @param  {string} [line] curr line being linted
- * @return {boolean} true if in order, false if not
+ * @description Check that selector properties are sorted accordingly.
+ * @param  {string} [line] - Current line being linted.
+ * @returns {boolean} True if in order, false if not.
  */
 const sortOrder = function (line) {
   // we don't alphabetize the root yet

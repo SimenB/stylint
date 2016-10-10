@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * @description whitespace is the 1 tru god of stylus, set context based on that
- * @param {string} [line] curr line being linted
- * @returns {number} # of indents deep we are
+ * @description Whitespace is the 1 true god of stylus, set context based on that.
+ * @param {string} [line] - Curr line being linted.
+ * @returns {number} Number of indents deep we are.
  */
 const setContext = function (line) {
   let context = 0;

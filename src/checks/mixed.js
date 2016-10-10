@@ -8,10 +8,10 @@ const spaces = /( {2,})+/;
 const trimRightRe = /( |\t)+(\/\/)+.+$/gm;
 
 /**
- * @description check for mixed spaces and tabs
- * @param {string} [line] curr line being linted
- * @param {string} [source] curr line before being stripped
- * @returns {boolean} true if mixed, false if not
+ * @description Check for mixed spaces and tabs.
+ * @param {string} [line] - Current line being linted.
+ * @param {string} [source] - Current line before being stripped.
+ * @returns {boolean} True if mixed, false if not.
  */
 const mixed = function (line, source) {
   const trimRight = source.replace(trimRightRe, '');

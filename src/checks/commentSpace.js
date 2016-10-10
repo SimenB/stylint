@@ -3,10 +3,10 @@
 const commentRe = /\/\/ /;
 
 /**
- * @description // check for space after line comment
- * @param  {string} [line] curr line being linted
- * @param {string} [source] curr line before being stripped
- * @returns {boolean} true if comment found, false if not
+ * @description Check for space after line comment.
+ * @param  {string} [line] - Current line being linted.
+ * @param {string} [source] - Current line before being stripped.
+ * @returns {boolean} True if comment found, false if not.
  */
 const commentSpace = function (line, source) {
   if (!this.state.hasComment) {

@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * @description check for end ofhash or @css block
- * @param {string} [line] curr line being linted
- * @returns {boolean} false if hash or css ending, true if not
+ * @description Check for end ofhash or @css block
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean} False if hash or css ending, true if not.
  */
 const hashEnd = function (line) {
   if (!this.state.hashOrCSS) {

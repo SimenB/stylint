@@ -5,9 +5,9 @@ const hasUnitRe = /[ :]0+?(?=px|%|em|rem|v(h|w)|v(min|max)|ex|ch|mm|cm|in|pt|pc|
 const relativeValRe = /line-height|font-size|font-weight/;
 
 /**
- * @description check for 0unit
- * @param {string} [line] current line being linted
- * @returns {boolean | undefined} true if has units, else false, undefined if skipped
+ * @description Check for 0unit.
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean | undefined} True if has units, else false, undefined if skipped.
  */
 const zeroUnits = function (line) {
   // if in keyframes dont check

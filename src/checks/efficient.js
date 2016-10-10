@@ -3,9 +3,9 @@
 const valueRe = /(margin|padding)+[:| ]/;
 
 /**
- * @description check for 0 0 0 0 or 50px 0 50px 0 type mistakes
- * @param {string} [line] curr line being linted
- * @returns {boolean} true if efficient, false if not
+ * @description Check for 0 0 0 0 or 50px 0 50px 0 type mistakes
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean} True if efficient, false if not.
  */
 const efficient = function (line) {
   // line doesnt have margin or padding then there's nothin to do here

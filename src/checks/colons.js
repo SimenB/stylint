@@ -6,9 +6,9 @@ const validJSON = require('../data/valid.json');
 const ignoreRe = /( ^[&$=#>.]|\.[a-zA-Z]|#[a-zA-Z]| \+ | , | = | ~ | > | &| {|}|\(|if|for(?!\w)|else|return|@block|@media|@import|@extend|@require|,$)/m;
 
 /**
- * @description check for colons
- * @param {string} [line] curr line being linted
- * @returns {boolean} true if colon found, false if not
+ * @description Check for colons
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean} True if colon found, false if not.
  */
 const colons = function (line) {
   if (ignoreRe.test(line) || this.state.context === 0) {

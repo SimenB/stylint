@@ -7,10 +7,10 @@ const parensBeginWithNoSpaceRe = /\(\S+/;
 const parensEndWithNoSpaceRe = /\S+\)+/;
 
 /**
- * @description checks for extra space when using parens
- * @param {string} [line] curr line being linted
- * @param {string} [source] curr line before being stripped
- * @return {boolean} true if placeholder used, false if not
+ * @description Checks for extra space when using parens.
+ * @param {string} [line] - Current line being linted.
+ * @param {string} [source] - Current line before being stripped.
+ * @returns {boolean} True if placeholder used, false if not.
  */
 const parenSpace = function (line, source) {
   if (!parensRe.test(source)) {

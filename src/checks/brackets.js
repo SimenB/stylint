@@ -6,9 +6,9 @@ const equalsRe = /( =|\?=|\+=|-=)+/;
 const validJSON = require('../data/valid.json');
 
 /**
- * @description check for brackets
- * @param {string} [line] curr line being linted
- * @returns {boolean} true if bracket found, false if not
+ * @description Check for brackets
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean} True if bracket found, false if not.
  */
 const brackets = function (line) {
   // in order if:

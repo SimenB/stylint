@@ -1,10 +1,9 @@
 'use strict';
 
 /**
- * @description add violation to an array
- * @param {string} [message] outputted string from one of the checks
- * @param {number} [column] column number if applicable to the check
- * @returns {void}
+ * @description Add violation to an array.
+ * @param {string} message - Outputted string from one of the checks.
+ * @param {number} [column] - Column number if applicable to the check.
  */
 const msg = function (message, column) {
   this.cache.messages.push({

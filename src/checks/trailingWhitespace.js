@@ -6,10 +6,10 @@ const whitespaceRe = /[ \t]+$/;
 const anythingElseRe = /[^ \t]/;
 
 /**
- * @description check for trailing whitespace
- * @param  {string} [line] curr line being linted
- * @param {string} [source] curr line before being stripped
- * @return {boolean} true if whitespace found, false if not
+ * @description Check for trailing whitespace.
+ * @param  {string} [line] - Current line being linted.
+ * @param {string} [source] - Current line before being stripped.
+ * @returns {boolean} True if whitespace found, false if not..
  */
 const trailingWhitespace = function (line, source) {
   let whitespace = false;
