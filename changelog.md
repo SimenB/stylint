@@ -1,3 +1,10 @@
+### 1.5.7
+
+not a feature release, just releasing to make sure the updated README is published, with info about the future v2
+
+Only difference not documentation is the removal of eslint from dependencies, sorry about that!
+https://github.com/SimenB/stylint/commit/ec5ce56860d6ea2aae7d54ea16e386f8fbc65197
+
 ### 1.5.6
 
 fix setContext regression

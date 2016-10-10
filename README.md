@@ -1,16 +1,39 @@
 ## stylint - the stylus linter.
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rossPatton/stylint?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Code Climate](https://codeclimate.com/github/rossPatton/stylint/badges/gpa.svg)](https://codeclimate.com/github/rossPatton/stylint) [![Test Coverage](https://codeclimate.com/github/rossPatton/stylint/badges/coverage.svg)](https://codeclimate.com/github/rossPatton/stylint/coverage) [![Build Status](https://travis-ci.org/rossPatton/stylint.svg?branch=master)](https://travis-ci.org/rossPatton/stylint)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rossPatton/stylint?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Code Climate](https://codeclimate.com/github/SimenB/stylint/badges/gpa.svg)](https://codeclimate.com/github/SimenB/stylint)
+[![Test Coverage](https://codeclimate.com/github/SimenB/stylint/badges/coverage.svg)](https://codeclimate.com/github/SimenB/stylint/coverage)
+[![Build Status](https://travis-ci.org/SimenB/stylint.svg?branch=master)](https://travis-ci.org/SimenB/stylint)
 
 [![NPM](https://nodei.co/npm/stylint.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/stylint/)
 
+
+[changelog](changelog.md)
+
+[known issues](https://github.com/SimenB/stylint/issues)
+
+## Installation
 As part of your project: `npm install stylint --save-dev`
 
 As a cli tool: `npm install stylint -g`
 
-[changelog](changelog.md)
+## Issues/improvments
 
-[known issues](https://github.com/rossPatton/stylint/issues)
+NOTE: We are currently working on a 2.0 release. Bug fixing will not be a priority during this process, but we will try
+to make sure every bug is squashed after that.
+
+Follow the [project](https://github.com/SimenB/stylint/projects/1),
+[milestone](https://github.com/SimenB/stylint/milestone/5) and [issue](https://github.com/SimenB/stylint/issues/269) for
+progress. Please contribute if you have the time! Both with code, but also with ideas and features.
+
+The goal of 2.0 is to make the project more stable:
+- actual unit tests on the rules to avoid regressions, instead of coupling them to the tests of the core linter
+- a clearly defined API surface, making Stylint easy to depend on for external tools
+- a cleaner way of invoking Stylint programatically
+- a way of linting a string of code, not just files
+- simplify config (inspired by ESLint's config structure)
+
+Sometime in the future:tm: we will also provide extension points for custom rules, and maybe even automatically fix some violations, but that's a change that might take some time. These goals are more long-term though, short term the focus is on stability and integration with tools.
 
 If you have any problems with the linter just create a ticket there and I will respond.
 
@@ -123,12 +146,12 @@ module.exports = {
 
 
 ## As Part of Your Workflow
-Stylint integrations with both Sublime Text 3 and Atom.io are available.
+Stylint integrations with multiple IDEs are available.
 
-[Atom linter-stylint](https://atom.io/packages/linter-stylint)
-
-[SublimeLinter-contrib-stylint](https://packagecontrol.io/packages/SublimeLinter-contrib-stylint)
-
+* [Atom](https://atom.io/packages/linter-stylint)
+* [Sublime Text](https://packagecontrol.io/packages/SublimeLinter-contrib-stylint)
+* [WebStorm / PhpStorm / IntelliJ IDEA](https://plugins.jetbrains.com/plugin/9162)
+* [Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=vtfn.stylint)
 
 ## Why Write This Tool?
 Stylus is my CSS pre-processor of choice and the lack of a decent linter (or really, any linter) was an annoying pain point. So I thought I'd try my hand at writing what I thought my ideal linter would look like.
@@ -228,9 +251,8 @@ Example:
 ## Custom Reporters
 Stylint console output can be modified with the use of a reporter. Feel free to write your own (no matter how outlandish) and I'll add it here.
 
-[Stylint-stylish](https://github.com/SimenB/stylint-stylish)
-
-[stylint-json-reporter](https://github.com/sertae/stylint-json-reporter)
+* [stylint-stylish](https://github.com/SimenB/stylint-stylish)
+* [stylint-json-reporter](https://github.com/sertae/stylint-json-reporter)
 
 
 ## Excluding files, directories, and code blocks from the linter

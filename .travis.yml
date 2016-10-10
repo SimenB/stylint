@@ -4,5 +4,8 @@ node_js:
   - 4
   - 0.12
   - "0.10"
-
 script: npm run cover
+cache:
+  npm: true
+  directories:
+  - node_modules
