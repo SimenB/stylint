@@ -12,7 +12,7 @@ function genMessage (filePath, ruleIds, severity) {
 
   return {
     filePath,
-    messages: ruleIds.map((ruleId) => {
+    messages: ruleIds.map(ruleId => {
       return {
         line: 1,
         column: -1,

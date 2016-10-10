@@ -8,7 +8,7 @@
  * @returns {boolean} true if at least one match found, false if not
 */
 const checkPseudo = function (prop, html, valid) {
-  return valid.pseudo.some((pseudo) => {
+  return valid.pseudo.some(pseudo => {
     return prop === html + pseudo;
   });
 };

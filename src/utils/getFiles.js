@@ -23,7 +23,7 @@ const getFiles = function (dir) {
         let excluded = false;
         const relPath = path.relative(dir.replace('/**/*.styl', ''), file);
 
-        this.config.exclude.forEach((exclude) => {
+        this.config.exclude.forEach(exclude => {
           excluded = excluded || exclude.match(relPath);
         });
 
@@ -40,7 +40,7 @@ const getFiles = function (dir) {
     const files = dir.filter(function (filepath) {
       let excluded = false;
 
-      this.config.exclude.forEach((exclude) => {
+      this.config.exclude.forEach(exclude => {
         excluded = excluded || exclude.match(filepath);
       });
 
@@ -49,7 +49,7 @@ const getFiles = function (dir) {
 
     this.cache.filesLen = files.length - 1;
     this.cache.files = files;
-    return this.cache.files.forEach((file) => {
+    return this.cache.files.forEach(file => {
       return this.read(file);
     });
   }

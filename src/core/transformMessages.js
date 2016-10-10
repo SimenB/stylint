@@ -19,7 +19,7 @@ const transformMessages = function (skipDone) {
 		.map((messages, filePath) => {
   const localSeverities = countSeverities(messages);
 
-  const filteredMessages = messages.map((message) => {
+  const filteredMessages = messages.map(message => {
 				// Just removes `file`
     return {
       column: message.column,
