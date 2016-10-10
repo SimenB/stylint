@@ -72,7 +72,7 @@ var setConfig = function (configpath) {
 		// ie, level = 1, pathArr = [ cwd, '..' ]
 		// ie, level = 2, pathArr = [ cwd, '..', '..' ]
 		// and so on
-    var pathArr = [ cwd ];
+    var pathArr = [cwd];
 
 		// push '..' for each dir level
     while (level--) {
