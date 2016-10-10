@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/checks/commaSpace.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,61 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/checks/commaSpace.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+// if , is present on line and its not followed by a space
+const noSpaceRe = /,\S/;
+const withSpaceRe = /,\s/;
+const removeQuotesRe = /(["'])(?:(?=(\\?))\2.)*?\1/g;
 
-    <h3> </h3>
+/**
+ * @description If set to always, enforces spaces after commas. If set to never, disallows spaces.
+ * @param {string} [line] - Current line being linted.
+ * @param {string} [source] - Current line before being stripped.
+ * @returns {boolean} True if space missing, false if not.
+ */
+const commaSpace = function (line, source) {
+  // conditions where testing isn't needed.
+  // 1: no comma on line at all
+  // 2: comma ends the line, as in a list
+  // 3: comma is
+  if (source.indexOf(',') === -1 ||
+    source.trim().indexOf(',') === source.length - 1) {
+    return;
+  }
 
+  // just strip content between quotes, leave rest of syntax intact
+  // this is so we don't get false positives with , in strings
+  const trimmedLine = source.replace(removeQuotesRe, '""').trim();
 
+  const noSpace = noSpaceRe.exec(trimmedLine);
+  const hasSpace = withSpaceRe.exec(trimmedLine);
 
+  // if spaces should be follow commas, but there is no space on the line
+  if (this.state.conf === 'always' &amp;&amp; noSpace) {
+    this.msg('commas must be followed by a space for readability', noSpace.index);
+  }
+  // if spaces should not be followed by a comma, but there are spaces anyway
+  else if (this.state.conf === 'never' &amp;&amp; hasSpace) {
+    this.msg('spaces after commas are not allowed', hasSpace.index);
+  }
 
+  return !!(noSpace &amp;&amp; !hasSpace);
+};
 
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = commaSpace;
+</code></pre>
+        </article>
+    </section>
 
 
 

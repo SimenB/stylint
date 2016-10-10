@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/checks/cssLiteral.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,45 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/checks/cssLiteral.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+/**
+ * @description If we disallowed css literals, check for them and return true if found.
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean} True if @css found, false if not.
+ * @todo do i still work with setState?
+ */
+const cssLiteral = function (line) {
+  if (this.state.hashOrCSS) {
+    return;
+  }
+  let isCSSLiteral = false;
+  const index = line.indexOf('@css');
 
-    <h3> </h3>
+  if (index !== -1) {
+    isCSSLiteral = true;
+  }
 
+  if (this.state.conf === 'never' &amp;&amp; isCSSLiteral === true) {
+    this.msg('css literals are disallowed', index);
+  }
 
+  return isCSSLiteral;
+};
 
-
-
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = cssLiteral;
+</code></pre>
+        </article>
+    </section>
 
 
 

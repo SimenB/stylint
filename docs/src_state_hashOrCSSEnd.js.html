@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/state/hashOrCSSEnd.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,40 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/state/hashOrCSSEnd.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+/**
+ * @description Check for end ofhash or @css block
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean} False if hash or css ending, true if not.
+ */
+const hashEnd = function (line) {
+  if (!this.state.hashOrCSS) {
+    return;
+  }
 
-    <h3> </h3>
+  // ex }, but only if we've already establish that we're in a hash'
+  if (line.indexOf('}') !== -1) {
+    this.state.hashOrCSS = false;
+    this.state.testsEnabled = true;
+  }
 
+  return this.state.hashOrCSS;
+};
 
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = hashEnd;
+</code></pre>
+        </article>
+    </section>
 
 
 

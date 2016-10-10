@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/core/init.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,70 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/core/init.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+const defaults = require('lodash').defaults;
 
-    <h3> </h3>
+const defaultOptions = {
+  watch: false,
+  config: null,
+  strict: false,
+  callback() {},
+};
 
+/**
+ * @description Initialization function, does routing and kicks it all off.
+ * @param {Object} [options] - Options passed to stylint.
+ * @param {string} [pathPassed] - Path to files to lint.
+ * @returns {Function} Always returns a function, determined by cli flags.
+ */
+const init = function (options, pathPassed) {
+  // TODO: Object.assign
+  const optionsWithDefaults = defaults(options || {}, defaultOptions);
 
+  this.config = this.setConfig(optionsWithDefaults.config);
 
+  // if you want to use transparent mixins, pass in an array of them
+  // this also covers the (more common probably) custom property use case
+  this.cache.customProperties = this.config.mixins || this.config.customProperties || this.cache.customProperties;
 
+  // we do the check here just in case
+  // they don't pass in a reporter when using a custom config
+  /* eslint-disable import/no-dynamic-require */
+  if (optionsWithDefaults.reporter) {
+    this.reporter = require(optionsWithDefaults.reporter);
+  } else if (this.config.reporter) {
+    this.reporter = require(this.config.reporter);
+  } else {
+    this.reporter = require('./reporter');
+  }
+  /* eslint-enable */
 
+  // if path/ passed in use that for the dir
+  this.state.path = pathPassed || this.state.path || process.cwd();
+  this.callback = this.callback || optionsWithDefaults.callback;
 
+  // fire watch or read based on flag
+  if (optionsWithDefaults.watch) {
+    return this.watch();
+  }
 
+  return this;
+};
 
-
-
-    
-
-
-
-
-
+module.exports = init;
+</code></pre>
+        </article>
+    </section>
 
 
 

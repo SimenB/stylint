@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/checks/trailingWhitespace.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,48 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/checks/trailingWhitespace.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+// check for unnecessary tabs or whitespace at eol
+const whitespaceRe = /[ \t]+$/;
+// anything BUT whitespace (we dont want to return false positives on empty lines)
+const anythingElseRe = /[^ \t]/;
 
-    <h3> </h3>
+/**
+ * @description Check for trailing whitespace.
+ * @param  {string} [line] - Current line being linted.
+ * @param {string} [source] - Current line before being stripped.
+ * @returns {boolean} True if whitespace found, false if not..
+ */
+const trailingWhitespace = function (line, source) {
+  let whitespace = false;
+  const hasWhitespace = whitespaceRe.exec(source);
 
+  // not an empty line, with whitespace at the end
+  if (anythingElseRe.test(source) &amp;&amp; hasWhitespace) {
+    whitespace = true;
+  }
 
+  if (this.state.conf === 'never' &amp;&amp; whitespace) {
+    this.msg('trailing whitespace', hasWhitespace.index);
+  }
 
+  return whitespace;
+};
 
-
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = trailingWhitespace;
+</code></pre>
+        </article>
+    </section>
 
 
 

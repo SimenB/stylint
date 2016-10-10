@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/checks/zIndexNormalize.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,48 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/checks/zIndexNormalize.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+/**
+ * @description Check for z-index values that aren't normalized.
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean} True if not normalized, false if normalized.
+ */
+const zIndexNormalize = function (line) {
+  let badZIndex = false;
+  const arr = this.splitAndStrip(new RegExp(/[\s\t,:]/), line);
+  const index = line.indexOf('z-index');
 
-    <h3> </h3>
+  // ignore 0 or -1 values
+  if (arr[arr.length - 1] === '-1' ||
+    arr[arr.length - 1] === '0') {
+    return;
+  }
 
+  if (index !== -1 &amp;&amp; arr[arr.length - 1] % this.state.conf) {
+    badZIndex = true;
+  }
 
+  if (badZIndex === true) {
+    this.msg('this z-index value is not normalized', index);
+  }
 
+  return badZIndex;
+};
 
-
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = zIndexNormalize;
+</code></pre>
+        </article>
+    </section>
 
 
 

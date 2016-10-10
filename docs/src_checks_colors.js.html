@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/checks/colors.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,49 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/checks/colors.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+const hexRe = /#(?:[0-9a-f]{3}){1,2}/im;
+const ignoreRe = /^\s*(?:#|.*=.*)/;
 
-    <h3> </h3>
+/**
+ * @description if we disallowed hex colors, check for them and return true if found
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean} True if hex color found, false if not.
+ */
+const colors = function (line) {
+  if (ignoreRe.test(line) || this.state.root) {
+    return;
+  }
 
+  let hex = false;
+  const match = hexRe.exec(line);
 
+  // so basically if we're using #hex colors outside of a var declaration
+  if (match !== null) {
+    hex = true;
+  }
 
+  if (hex === true) {
+    this.msg('hexidecimal color should be a variable', match.index);
+  }
 
+  return hex;
+};
 
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = colors;
+</code></pre>
+        </article>
+    </section>
 
 
 

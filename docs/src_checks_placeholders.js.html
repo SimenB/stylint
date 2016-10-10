@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/checks/placeholders.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,55 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/checks/placeholders.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+const extendRe = /(@extend)+s?\s/;
 
-    <h3> </h3>
+/**
+ * @description Check that @extend is only used with a $placeholderVar
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean} True if placeholder used, false if not.
+ */
+const placeholders = function (line) {
+  if (line.indexOf('@extend') === -1) {
+    return;
+  }
 
+  // stylus supports multiple, mixed extends and optional extends
+  // so lets pull them out of the line and check individually
+  // @extends .biz !optional, $extendable !optional =>
+  // ['.biz !optional', '$extendable !optional']
+  const extendArr = line.replace(extendRe, '').split(',');
 
+  // if any item in the list is not a placeholder, fail
+  const placeholder = extendArr.every(splitLine => {
+    const trimmed = splitLine.trim();
+    return trimmed.substr(0, 1) === '$';
+  });
 
+  if (this.state.conf === 'always' &amp;&amp; placeholder === false) {
+    this.msg('always use a placeholder variable when extending');
+  }
+  else if (this.state.conf === 'never' &amp;&amp; placeholder === true) {
+    this.msg('placeholder variables are disallowed');
+  }
 
+  return placeholder;
+};
 
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = placeholders;
+</code></pre>
+        </article>
+    </section>
 
 
 

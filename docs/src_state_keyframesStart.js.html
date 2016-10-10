@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/state/keyframesStart.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,40 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/state/keyframesStart.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+const keyframeRe = /@(?:-(?:[\w\d]+-)*)?keyframes/;
 
-    <h3> </h3>
+/**
+ * @description Check for keyframes, which have some special rules.
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean} True if keyframes starting, false if not.
+ */
+const keyframesStart = function (line) {
+  if (this.state.keyframes || !this.state.testsEnabled) {
+    return;
+  }
 
+  if (keyframeRe.test(line)) {
+    this.state.keyframes = true;
+  }
 
+  return this.state.keyframes;
+};
 
-
-
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = keyframesStart;
+</code></pre>
+        </article>
+    </section>
 
 
 

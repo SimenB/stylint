@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/checks/commentSpace.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,56 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/checks/commentSpace.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+const commentRe = /\/\/ /;
 
-    <h3> </h3>
+/**
+ * @description Check for space after line comment.
+ * @param  {string} [line] - Current line being linted.
+ * @param {string} [source] - Current line before being stripped.
+ * @returns {boolean} True if comment found, false if not.
+ */
+const commentSpace = function (line, source) {
+  if (!this.state.hasComment) {
+    return;
+  }
 
+  let spaceAfterComment = false;
+  const comment = this.cache.comment;
+  const index = source.indexOf(comment);
 
+  // check for space after comment on it's own line,
+  // if no space, return warning
+  if (commentRe.test(comment)) {
+    spaceAfterComment = true;
+  }
 
+  const emptyComment = /\/\/$/.test(comment);
 
+  if (this.state.conf === 'always' &amp;&amp; spaceAfterComment === false &amp;&amp; !emptyComment) {
+    this.msg('line comments require a space after //', index);
+  }
+  else if (this.state.conf === 'never' &amp;&amp; spaceAfterComment === true) {
+    this.msg('spaces after line comments disallowed', index);
+  }
 
+  return spaceAfterComment;
+};
 
-
-
-
-
-    
-
-
-
-
-
+module.exports = commentSpace;
+</code></pre>
+        </article>
+    </section>
 
 
 

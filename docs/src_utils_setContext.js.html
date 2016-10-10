@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/utils/setContext.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,52 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/utils/setContext.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+/**
+ * @description Whitespace is the 1 true god of stylus, set context based on that.
+ * @param {string} [line] - Curr line being linted.
+ * @returns {number} Number of indents deep we are.
+ */
+const setContext = function (line) {
+  let context = 0;
+  let indentPref = this.config.indentPref.expect || this.config.indentPref;
 
-    <h3> </h3>
+  this.state.prevContext = this.state.context;
 
+  // no matter what our indentPref is,
+  // try to get context as best as possible
 
+  // get context if tabs
+  if (line.charAt(0) === '\t') {
+    context = /^\t+/.exec(line)[0].length;
+  }
+  // get context if spaces
+  else if (line.charAt(0) === ' ') {
+    // set default if no indentPref set
+    if (typeof indentPref !== 'number') {
+      indentPref = 2;
+    }
 
+    context = /^\s+/.exec(line)[0].length / indentPref;
+  }
 
+  return context;
+};
 
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = setContext;
+</code></pre>
+        </article>
+    </section>
 
 
 

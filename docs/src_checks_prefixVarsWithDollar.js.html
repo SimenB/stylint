@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/checks/prefixVarsWithDollar.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,62 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/checks/prefixVarsWithDollar.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+const dollaRe = /\$[\-_]*\w/;
+const eqEndRe = /=$|=\s$/;
+const ignoreRe = /(\[.+\])|if|for|else|return|@require|@import|@media|@block|vendor-prefixes|calc|(=|= )$|{$/; // 3
 
-    <h3> </h3>
+/**
+ * @description Check that $ is used when declaring vars.
+ * @param  {string} [line] - Current line being linted.
+ * @returns {boolean} True if in order, false if not.
+ */
+const prefixVarsWithDollar = function (line) {
+  if (this.state.hashOrCSS || ignoreRe.test(line)) {
+    return;
+  }
 
+  let hasDolla = true;
 
+  // if line has a mixin, we need check each param for missing $
+  // else we just check if = is present &amp;&amp; $ is prefixing something
+  if (this.state.conf === 'always') {
+    if (line.indexOf('=') !== -1 &amp;&amp;
+      line.indexOf('@block') === -1 &amp;&amp; !eqEndRe.test(line)) {
+      if (!dollaRe.test(line)) {
+        hasDolla = false;
+      }
+    }
+  }
+  // the never check is easier, since any $ means it fails
+  else if (this.state.conf === 'never' &amp;&amp; !dollaRe.test(line)) {
+    hasDolla = false;
+  }
 
+  if (this.state.conf === 'always' &amp;&amp; hasDolla === false) {
+    this.msg('variables and parameters must be prefixed with the $ sign', 0);
+  }
+  else if (this.state.conf === 'never' &amp;&amp; hasDolla === true) {
+    this.msg('$ sign is disallowed for variables and parameters', 0);
+  }
 
+  return hasDolla;
+};
 
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = prefixVarsWithDollar;
+</code></pre>
+        </article>
+    </section>
 
 
 

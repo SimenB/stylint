@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/state/stylintOn.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,39 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/state/stylintOn.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+/**
+ * @description Toggle stylint back on.
+ * @param  {string} [line] - Current line being linted.
+ * @returns {boolean} True if stylint on, false if not.
+ */
+const stylintOn = function (line) {
+  if (this.state.testsEnabled) {
+    return;
+  }
 
-    <h3> </h3>
+  // ex: $hash = { is ok but .class = { is not
+  if (line.indexOf('@stylint on') !== -1) {
+    this.state.testsEnabled = true;
+  }
 
+  return this.state.testsEnabled;
+};
 
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = stylintOn;
+</code></pre>
+        </article>
+    </section>
 
 
 

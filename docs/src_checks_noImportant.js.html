@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/checks/noImportant.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,42 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/checks/noImportant.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+/**
+ * @description disallows use of !important
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean} True if !important used, false if not.
+ */
+const noImportant = function (line) {
+  let important = false;
+  const index = line.indexOf('!important');
 
-    <h3> </h3>
+  // return true if border|outline is followed by a 0
+  if (index !== -1) {
+    important = true;
+  }
 
+  if (important === true) {
+    this.msg('!important is disallowed', index);
+  }
 
+  return important;
+};
 
-
-
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = noImportant;
+</code></pre>
+        </article>
+    </section>
 
 
 

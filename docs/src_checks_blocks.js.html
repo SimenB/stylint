@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/checks/blocks.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,52 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/checks/blocks.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+const eqEndRe = /=$|=\s$/;
 
-    <h3> </h3>
+/**
+ * @description Depending on settings, enforce of disallow @block when defining block vars.
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean | undefined} True if @block found, false if not, undefined if we skip.
+ */
+function blocks(line) {
+  if (line.indexOf('=') === -1) {
+    return;
+  }
 
+  let block;
+  const index = line.indexOf('@block');
 
+  // if = ends the line and not a block var or hash
+  if (index === -1 &amp;&amp; eqEndRe.test(line)) {
+    block = false;
+  } else if (index !== -1) {
+    block = true;
+  }
 
+  if (this.state.conf === 'always' &amp;&amp; block === false) {
+    this.msg('block variables must include @block', line.length);
+  } else if (this.state.conf === 'never' &amp;&amp; block === true) {
+    this.msg('@block is not allowed', index);
+  }
 
+  return block;
+}
 
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = blocks;
+</code></pre>
+        </article>
+    </section>
 
 
 

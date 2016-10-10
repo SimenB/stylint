@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/checks/extendPref.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,50 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/checks/extendPref.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+/**
+ * @description Check for specified extend preference
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean} True if wrong style used, false if not.
+ */
+const extendPref = function (line) {
+  if (line.indexOf('@extend') === -1) {
+    return;
+  }
 
-    <h3> </h3>
+  let extendIncorrect = false;
 
+  // prefer @extends to @extend
+  // extremely petty, i know
+  if (this.state.conf === '@extends' &amp;&amp; line.indexOf('@extends ') === -1) {
+    extendIncorrect = true;
+  }
+  // else @extend is your pref
+  else if (this.state.conf === '@extend' &amp;&amp; line.indexOf('@extend ') === -1) {
+    extendIncorrect = true;
+  }
 
+  if (extendIncorrect === true) {
+    this.msg(`please use ${this.state.conf}`);
+  }
 
+  return extendIncorrect;
+};
 
-
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = extendPref;
+</code></pre>
+        </article>
+    </section>
 
 
 

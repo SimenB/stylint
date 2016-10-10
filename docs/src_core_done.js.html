@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/core/done.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,78 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/core/done.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+function shouldExit1(maxErrors, maxWarnings, errorCount, warningCount) {
+  // If there are any errors and no maximum defined
+  if (maxErrors &lt; 0 &amp;&amp; errorCount > 0) {
+    return true;
+  }
 
-    <h3> </h3>
+  return (maxErrors >= 0 &amp;&amp; errorCount > maxErrors) ||
+    (maxWarnings >= 0 &amp;&amp; warningCount > maxWarnings);
+}
 
+/**
+ * @description Outputs our messages, wipes errs/warnings if watching.
+ * @returns {Object | Function} Returns process exit if not watching, or obj otherwise.
+ */
+const done = function () {
+  const maxErrors = typeof this.config.maxErrors === 'number' ? this.config.maxErrors : -1;
+  const maxWarnings = typeof this.config.maxWarnings === 'number' ? this.config.maxWarnings : -1;
+  const report = this.cache.report;
+  const errorCount = report.errorCount;
+  const warningCount = report.warningCount;
 
+  const shouldKill = shouldExit1(maxErrors, maxWarnings, errorCount, warningCount);
 
+  this.state.exitCode = shouldKill ? 1 : 0;
+  const message = this.reporter(report, {
+    maxErrors,
+    maxWarnings,
+    groupOutputByFile: this.config.groupOutputByFile,
+    reporterOptions: this.config.reporterOptions,
+  }, shouldKill);
 
+  // TODO: This is stupid, just mock out `console.log` or something
+  if (!this.state.quiet &amp;&amp; message) {
+    // eslint-disable-next-line no-console
+    console.log(message);
+  }
 
+  // don't kill the linter if watch is watching
+  // else there's no more to do, so exit the process
+  if (!this.state.watching) {
+    this.callback(this.state.exitCode || null);
+    return process.exit(this.state.exitCode);
+  }
 
+  const returnValue = {
+    report,
+    exitCode: this.state.exitCode,
+    msg: message,
+  };
 
+  // if watching we reset the errors/warnings arrays
+  this.cache.messages = [];
+  this.cache.report = {};
 
+  return returnValue;
+};
 
-
-    
-
-
-
-
-
+module.exports = done;
+</code></pre>
+        </article>
+    </section>
 
 
 

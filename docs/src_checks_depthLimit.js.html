@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/checks/depthLimit.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,54 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/checks/depthLimit.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+// check if using selector before we count depth
+// definitely not the best way to do this,
+const ampRe = /^(&amp;|\/{1}|\.\.\/|~\/)/;
 
-    <h3> </h3>
+/**
+ * @description Check nesting depth.
+ * @param  {string} [line] - Current line being linted.
+ * @returns {boolean} True if nesting is too deep, false if not..
+ * @todo this is kinda not 100% reliable in it's current form, also could be refactors
+ */
+const depthLimit = function (line) {
+  let context = this.state.context;
+  let badNesting = false;
+  const limit = this.config.depthLimit ? this.config.depthLimit : 5;
 
+  // trim string and check if line starts with &amp;
+  // reduce context in that case
+  // @TODO not really ideal
+  if (ampRe.test(line.trim())) {
+    context -= 1;
+  }
 
+  if (context > limit) {
+    badNesting = true;
+  }
 
+  if (badNesting === true) {
+    this.msg(`selector depth greater than ${limit}`);
+  }
 
+  return badNesting;
+};
 
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = depthLimit;
+</code></pre>
+        </article>
+    </section>
 
 
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/checks/universal.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,46 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/checks/universal.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+// checks if * is a valid use case or not
+const universalRe = /( |\w|\d|'|"|\*|\/)(\*)( |\w|\d|'|"|\*|\$|=)/;
 
-    <h3> </h3>
+/**
+ * @description Check for * selector.
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean} True if * on line, false if not.
+ */
+const universal = function (line) {
+  const index = line.indexOf('*');
+  if (index === -1) return;
 
+  let hasUniversal = false;
 
+  if (!universalRe.test(line)) {
+    hasUniversal = true;
+  }
 
+  if (this.state.conf === 'never' &amp;&amp; hasUniversal === true) {
+    this.msg('* selector is disallowed', index);
+  }
 
+  return hasUniversal;
+};
 
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = universal;
+</code></pre>
+        </article>
+    </section>
 
 
 

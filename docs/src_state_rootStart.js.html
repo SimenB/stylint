@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/state/rootStart.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,38 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/state/rootStart.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+/**
+ * @description Check for keyframes, which have some special rules.
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean} True if keyframes starting, false if not.
+ */
+const rootStart = function (line) {
+  if (this.state.root || !this.state.testsEnabled) {
+    return;
+  }
 
-    <h3> </h3>
+  if (line.indexOf(':root') !== -1) {
+    this.state.root = true;
+  }
 
+  return this.state.root;
+};
 
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = rootStart;
+</code></pre>
+        </article>
+    </section>
 
 
 

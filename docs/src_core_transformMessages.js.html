@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/core/transformMessages.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,74 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/core/transformMessages.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+const _ = require('lodash');
 
-    <h3> </h3>
+const countSeverities = require('../utils/countSeveritiesInMessages');
 
+/**
+ * @description Transforms all messages into the format returned to the caller, or passed to reporters.
+ * @param {boolean} [skipDone] - If true, don't call done.
+ * @returns {Object} Returns the transformed object.
+ */
+const transformMessages = function (skipDone) {
+  const severities = countSeverities(this.cache.messages);
+  const errorCount = severities.errorCount;
+  const warningCount = severities.warningCount;
 
+  const groupedByFile = _.chain(this.cache.messages)
+    .groupBy('file')
+    .map((messages, filePath) => {
+      const localSeverities = countSeverities(messages);
 
+      // Just removes `file`
+      const filteredMessages = messages.map(message => ({
+        column: message.column,
+        line: message.line,
+        message: message.message,
+        source: message.source,
+        ruleId: message.ruleId,
+        severity: message.severity,
+      }));
 
+      return {
+        filePath,
+        messages: filteredMessages,
+        errorCount: localSeverities.errorCount,
+        warningCount: localSeverities.warningCount,
+      };
+    })
+    .value();
 
+  const report = {
+    results: groupedByFile,
+    errorCount,
+    warningCount,
+  };
 
+  this.cache.report = report;
 
+  if (!skipDone) {
+    this.done();
+  }
 
+  return report;
+};
 
-
-    
-
-
-
-
-
+module.exports = transformMessages;
+</code></pre>
+        </article>
+    </section>
 
 
 

@@ -58,7 +58,7 @@
   },
   "scripts": {
     "cover": "istanbul cover node_modules/.bin/_mocha -- -u exports -R spec --recursive",
-    "docs": "jsdoc src/ --recurse --destination docs/",
+    "docs": "jsdoc index.js bin/stylint.js src/ --recurse --destination docs/",
     "lint": "eslint .",
     "precover": "npm run lint",
     "pretest": "npm run lint",

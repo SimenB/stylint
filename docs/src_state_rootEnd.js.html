@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/state/rootEnd.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,37 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/state/rootEnd.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+/**
+ * @description Check for keyframes end.
+ * @returns {boolean} False if keyframes ending, true if not.
+ */
+const rootEnd = function () {
+  if (!this.state.root) {
+    return;
+  }
 
-    <h3> </h3>
+  if (this.state.root &amp;&amp; this.state.context === 0) {
+    this.state.root = false;
+  }
 
+  return this.state.root;
+};
 
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = rootEnd;
+</code></pre>
+        </article>
+    </section>
 
 
 

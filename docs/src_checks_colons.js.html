@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/checks/colons.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,68 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/checks/colons.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+const validJSON = require('../data/valid.json');
+// we only want to check colons on properties/values
+// eslint-disable-next-line max-len
+const ignoreRe = /( ^[&amp;$=#>.]|\.[a-zA-Z]|#[a-zA-Z]| \+ | , | = | ~ | > | &amp;| {|}|\(|if|for(?!\w)|else|return|@block|@media|@import|@extend|@require|,$)/m;
 
-    <h3> </h3>
+/**
+ * @description Check for colons
+ * @param {string} [line] - Current line being linted.
+ * @returns {boolean} True if colon found, false if not.
+ */
+const colons = function (line) {
+  if (ignoreRe.test(line) || this.state.context === 0) {
+    return;
+  }
 
+  let colon;
+  let hasPseudo = false;
+  const arr = this.splitAndStrip(new RegExp(/\s/), line);
 
+  if (this.state.conf === 'always' &amp;&amp;
+    arr.length > 1 &amp;&amp;
+    arr[0].indexOf(':') === -1 &amp;&amp;
+    arr[0].indexOf(',') === -1) {
+    colon = false;
+  }
+  // : is allowed in hashes
+  else if (!this.state.hash &amp;&amp;
+    this.state.conf === 'never' &amp;&amp;
+    line.indexOf(':') !== -1) {
+    // check for pseudo selector first
+    hasPseudo = validJSON.pseudo.some(val => line.indexOf(val) !== -1);
 
+    if (!hasPseudo) {
+      colon = true;
+    }
+  }
 
+  if (this.state.conf === 'always' &amp;&amp; colon === false) {
+    this.msg('missing colon between property and value', arr[0].length);
+  }
+  else if (this.state.conf === 'never' &amp;&amp; colon === true) {
+    this.msg('unnecessary colon found', line.indexOf(':'));
+  }
 
+  return colon;
+};
 
-
-
-
-
-    
-
-
-
-
-
+module.exports = colons;
+</code></pre>
+        </article>
+    </section>
 
 
 

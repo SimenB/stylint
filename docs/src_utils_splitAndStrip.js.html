@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/utils/splitAndStrip.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,31 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/utils/splitAndStrip.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+/**
+ * @description Alliteration. Split a str according to re, and filter out empty indexes.
+ * @param {Object} [re] - Regex object for splitting.
+ * @param {string} [line] - Curr line being linted.
+ * @returns {Array} Split and filtered array.
+*/
+const splitAndStrip = function (re, line) {
+  return line.split(re).filter(str => str.length > 0);
+};
 
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = splitAndStrip;
+</code></pre>
+        </article>
+    </section>
 
 
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/checks/quotePref.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,73 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/checks/quotePref.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+const stringRe = /(?=["'])(?:"[^"\\]*(?:\\[\s\S][^"\\]*)*"|'[^'\\]*(?:\\[\s\S][^'\\]*)*')/g;
 
-    <h3> </h3>
+/**
+ * @description Check that quote style is consistent with config.
+ * @param  {string} [line] - Current line being linted.
+ * @param {string} [source] - Current line before being stripped.
+ * @returns {boolean} True if in order, false if not.
+ */
+const quotePref = function (line, source) {
+  if (source.indexOf('"') === -1 &amp;&amp;
+    source.indexOf("'") === -1) {
+    return;
+  }
 
+  stringRe.lastIndex = 0;
 
+  let badQuotes = false;
+  let hasInnerQuote = true;
+  let match;
 
+  // for each quote match, check err
+  // eslint-disable-next-line no-cond-assign
+  while ((match = stringRe.exec(source)) !== null) {
+    // just checks the first inner quote, most common case
+    // almost certainly not the best way to do this
+    const content = match[0].slice(1, -1);
 
+    // if '' quotes preferred and match starts with double "" quote
+    if (this.state.conf === 'single' &amp;&amp; match[0].indexOf('"') === 0) {
+      // "" is allowed when it's cases like "Someone's string here"
+      hasInnerQuote = content.indexOf("'") !== -1;
 
+      if (!hasInnerQuote) {
+        badQuotes = true;
+        this.msg(`preferred quote style is ${this.state.conf} quotes`, match[0].indexOf('"'));
+      }
+    }
+    // if "" quotes preferred and match start with single '' quote
+    else if (this.state.conf === 'double' &amp;&amp; match[0].indexOf("'") === 0) {
+      // "" is allowed when it's cases like "Someone's string here"
+      hasInnerQuote = content.indexOf('"') !== -1;
 
+      if (!hasInnerQuote) {
+        badQuotes = true;
+        this.msg(`preferred quote style is ${this.state.conf} quotes`, match[0].indexOf("'"));
+      }
+    }
+  }
 
+  return badQuotes;
+};
 
-
-
-    
-
-
-
-
-
+module.exports = quotePref;
+</code></pre>
+        </article>
+    </section>
 
 
 

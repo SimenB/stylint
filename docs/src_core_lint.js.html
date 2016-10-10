@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/core/lint.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,52 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/core/lint.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+/**
+ * @description Runs tests according to config (or all if strict is true).
+ * @returns {Function | undefined} Undefined if just calling the method, function is linting over.
+ */
+const lint = function () {
+  let method;
+  const checks = Object.getPrototypeOf(this).lintMethods;
 
-    <h3> </h3>
+  // TODO: Fix this!
+  /* eslint-disable */
+  for (method in checks) {
+    if (checks.hasOwnProperty(method)) {
+      /* eslint-enable */
+      if (this.config[method]) {
+        // save config rule name for use in reporters
+        this.cache.rule = method;
+        // state.conf === 'always' || 'never' || etc
+        this.state.conf = this.config[method].expect || this.config[method];
+        // state.severity === 'error' || 'warning'
+        this.state.severity = this.config[method].error ? 'error' : 'warning';
+        // run the actual check against the line
+        checks[method].call(this, this.cache.line, this.cache.source);
+      }
+    }
+  }
 
+  // save our curr context so we can use it next time
+  // this.cache.prevFile = this.cache.file
+  this.cache.prevLine = this.cache.line;
+};
 
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = lint;
+</code></pre>
+        </article>
+    </section>
 
 
 

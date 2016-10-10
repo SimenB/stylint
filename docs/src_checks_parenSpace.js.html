@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/checks/parenSpace.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,68 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/checks/parenSpace.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+const parensRe = /\(.+\)/;
+const parensBeginWithSpaceRe = /\(\s+/;
+const parensEndWithSpaceRe = /\s+\)+/;
+const parensBeginWithNoSpaceRe = /\(\S+/;
+const parensEndWithNoSpaceRe = /\S+\)+/;
 
-    <h3> </h3>
+/**
+ * @description Checks for extra space when using parens.
+ * @param {string} [line] - Current line being linted.
+ * @param {string} [source] - Current line before being stripped.
+ * @returns {boolean} True if placeholder used, false if not.
+ */
+const parenSpace = function (line, source) {
+  if (!parensRe.test(source)) {
+    return;
+  }
 
+  const hasStartSpace = parensBeginWithSpaceRe.exec(source);
+  const hasEndSpace = parensEndWithSpaceRe.exec(source);
+  let index;
+  let missingStartSpace;
+  let missingEndSpace;
 
+  if (this.state.conf === 'always' &amp;&amp; (!hasStartSpace || !hasEndSpace)) {
+    missingStartSpace = parensBeginWithNoSpaceRe.exec(source);
+    missingEndSpace = parensEndWithNoSpaceRe.exec(source);
+    index = missingStartSpace &amp;&amp; missingStartSpace.index;
 
+    if (!index &amp;&amp; missingEndSpace) {
+      index = missingEndSpace.index;
+    }
 
+    this.msg('( param1, param2 ) is preferred over (param1, param2)', index);
+  }
+  else if (this.state.conf === 'never' &amp;&amp; (hasStartSpace || hasEndSpace)) {
+    index = hasStartSpace &amp;&amp; hasStartSpace.index;
 
+    if (!index &amp;&amp; hasEndSpace) {
+      index = hasEndSpace.index;
+    }
 
+    this.msg('(param1, param2) is preferred over ( param1, param2 )', index);
+  }
 
+  return hasStartSpace &amp;&amp; hasEndSpace;
+};
 
-
-
-    
-
-
-
-
-
+module.exports = parenSpace;
+</code></pre>
+        </article>
+    </section>
 
 
 

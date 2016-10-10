@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/checks/stackedProperties.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,45 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/checks/stackedProperties.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+// if semicolons on line, but not ending the line, prolly a one-liner
+const semiTest = /;+(?!$)/gm;
 
-    <h3> </h3>
+/**
+ * @description Disallow one-liners.
+ * @param  {string} [line] - Current line being linted.
+ * @returns {boolean} True if one-liner found, false if not.
+ */
+const stackedProperties = function (line) {
+  let oneLiner = false;
+  const trimmedLine = line.replace(/(( '.*')|( ".*")|('.*')|(".*"))+;*/, '').trim();
+  const arr = this.splitAndStrip(';', trimmedLine);
 
+  if (semiTest.test(trimmedLine) || arr.length > 1) {
+    oneLiner = true;
+  }
 
+  if (this.state.conf === 'never' &amp;&amp; oneLiner === true) {
+    this.msg('avoid one liners. put properties on their own line');
+  }
 
+  return oneLiner;
+};
 
-
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = stackedProperties;
+</code></pre>
+        </article>
+    </section>
 
 
 

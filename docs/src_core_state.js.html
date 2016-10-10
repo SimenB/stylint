@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/core/state.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,44 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/core/state.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+/**
+ * @description i hold the state
+ * @returns {Object} [i expose properties to the entire app]
+ */
+const state = {
+  conf: false, // config for currently running check ('always' || 'never' || etc)
+  context: 0, // what is our level of nesting?
+  exclude: [], // what files should be excluded
+  exitCode: 0, // err or no err
+  hasComment: false, // checks for // in a line
+  hashOrCSS: false, // are we in a hash
+  keyframes: false, // are we in @keyframes
+  killSwitch: false, // are we over our warning limit
+  openBracket: false, // is there an unclosed bracket
+  path: '', // curr dir || file
+  prevContext: 0, // save the last context as well
+  root: false, // css4 root block, for declaring css4 variables
+  severity: 'warning', // severity level for current check
+  testsEnabled: true, // are we running linter tests
+  quiet: false, // turn off console logs
+  watching: false, // are we watching
+};
 
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+module.exports = state;
+</code></pre>
+        </article>
+    </section>
 
 
 

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: src/checks/semicolons.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,61 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: src/checks/semicolons.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
+// we only want to check semicolons on properties/values
+const ignoreRe = /(^[*#.])|[&amp;>/]|{|}|if|for(?!\w)|else|@block|@media|(}|{|=|,)$/igm;
 
-    <h3> </h3>
+/**
+ * @description Check that selector properties are sorted accordingly.
+ * @param  {string} [line] - Current line being linted.
+ * @returns {boolean} True if in order, false if not.
+ */
+const semicolons = function (line) {
+  if (ignoreRe.test(line.trim())) return;
+  if (this.state.hashOrCss) return;
 
+  let semicolon;
+  const index = line.indexOf(';');
 
+  if (this.state.conf === 'never' &amp;&amp; index !== -1) {
+    semicolon = true;
+  }
 
+  // for reasons that perplex me, even when the first use
+  // of this at the top returns true, sometimes the method
+  // still runs, so we add this second ignoreCheck here to catch it
+  if (this.state.conf === 'always' &amp;&amp; !ignoreRe.test(line.trim())) {
+    if (index === -1 &amp;&amp;
+      line.indexOf('}') === -1 &amp;&amp;
+      line.indexOf('{') === -1) {
+      semicolon = false;
+    }
+  }
 
+  if (this.state.conf === 'never' &amp;&amp; semicolon === true) {
+    this.msg('unnecessary semicolon found', index);
+  }
+  else if (this.state.conf === 'always' &amp;&amp; semicolon === false) {
+    this.msg('missing semicolon', line.length);
+  }
 
+  return semicolon;
+};
 
-
-
-
-
-    
-
-
-
-
-
+module.exports = semicolons;
+</code></pre>
+        </article>
+    </section>
 
 
 
