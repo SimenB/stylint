@@ -3,7 +3,7 @@ var stampit = require( 'stampit' )
 // group together all the checks in this folder
 var linterMethods = stampit().methods( {
 	lintMethods: {
-		banFunctions: require( './banFunctions' ),
+		bannedFunctions: require( './bannedFunctions' ),
 		blocks: require( './blocks' ),
 		brackets: require( './brackets' ),
 		colons: require( './colons' ),

@@ -1586,25 +1586,25 @@ describe( 'Linter Style Checks: ', function() {
 		} )
 	} )
 
-	describe( 'banFunctions: ban use of specific key words', function() {
-		var banFunctions = lint.banFunctions.bind( app )
+	describe( 'bannedFunctions: ban use of specific key words', function() {
+		var bannedFunctions = lint.bannedFunctions.bind( app )
 
 		before( function() {
 			app.state.conf = true
 		} )
 
 		it( 'false if a line doesnt have any banned functions', function() {
-			assert.equal( false, banFunctions( '.foo' ) )
+			assert.equal( false, bannedFunctions( '.foo' ) )
 		} )
 
 		it( 'false if a line has banned functions but is not found', function() {
 			app.config.bannedFunctions = ['translate3d']
-			assert.equal( false, banFunctions( '.foo' ) )
+			assert.equal( false, bannedFunctions( '.foo' ) )
 		} )
 
 		it( 'true if line has a banned function', function() {
 			app.config.bannedFunctions = ['translate3d']
-			assert.ok( banFunctions( 'translate3d(1px, 1px, 0px)' ) )
+			assert.ok( bannedFunctions( 'translate3d(1px, 1px, 0px)' ) )
 		} )
 	} )
 

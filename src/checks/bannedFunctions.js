@@ -6,12 +6,12 @@
  * @param {string} [line] curr line being linted
  * @return {boolean} true if translate3d is used, false if not
  */
-var banFunctions = function( line ) {
+var bannedFunctions = function( line ) {
 	var found = false
-	var bannedFunctions = this.config['bannedFunctions'] || []
+	var bannedFunctionList = this.config['bannedFunctions'] || []
 	var index = -1
 
-	bannedFunctions.forEach( function( func ) {
+	bannedFunctionList.forEach( function( func ) {
 		index = line.indexOf( func )
 		if ( index !== -1 ) {
 			found = true
@@ -22,4 +22,4 @@ var banFunctions = function( line ) {
 	return found
 }
 
-module.exports = banFunctions
+module.exports = bannedFunctions
