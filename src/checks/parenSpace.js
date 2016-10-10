@@ -1,10 +1,10 @@
 'use strict';
 
-var parensRe = /\(.+\)/;
-var parensBeginWithSpaceRe = /\(\s+/;
-var parensEndWithSpaceRe = /\s+\)+/;
-var parensBeginWithNoSpaceRe = /\(\S+/;
-var parensEndWithNoSpaceRe = /\S+\)+/;
+const parensRe = /\(.+\)/;
+const parensBeginWithSpaceRe = /\(\s+/;
+const parensEndWithSpaceRe = /\s+\)+/;
+const parensBeginWithNoSpaceRe = /\(\S+/;
+const parensEndWithNoSpaceRe = /\S+\)+/;
 
 
 /**
@@ -13,14 +13,14 @@ var parensEndWithNoSpaceRe = /\S+\)+/;
  * @param {string} [source] curr line before being stripped
  * @return {boolean} true if placeholder used, false if not
  */
-var parenSpace = function (line, source) {
+const parenSpace = function (line, source) {
   if (!parensRe.test(source)) { return; }
 
-  var hasStartSpace = parensBeginWithSpaceRe.exec(source);
-  var hasEndSpace = parensEndWithSpaceRe.exec(source);
-  var index;
-  var missingStartSpace;
-  var missingEndSpace;
+  const hasStartSpace = parensBeginWithSpaceRe.exec(source);
+  const hasEndSpace = parensEndWithSpaceRe.exec(source);
+  let index;
+  let missingStartSpace;
+  let missingEndSpace;
 
   if (this.state.conf === 'always' && (!hasStartSpace || !hasEndSpace)) {
     missingStartSpace = parensBeginWithNoSpaceRe.exec(source);

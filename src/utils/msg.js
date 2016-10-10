@@ -7,7 +7,7 @@
  * @param {number} [column] column number if applicable to the check
  * @returns {void}
  */
-var msg = function (message, column) {
+const msg = function (message, column) {
   this.cache.messages.push({
     message: message,
     severity: this.state.severity,

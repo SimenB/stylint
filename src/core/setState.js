@@ -2,7 +2,7 @@
 
 // super simple.
 // if theres anything on the line besides whitespace, it aint empty
-var emptyLineRe = /\S/;
+const emptyLineRe = /\S/;
 
 
 /**
@@ -10,7 +10,7 @@ var emptyLineRe = /\S/;
  * @param {string} [line] curr line being linted
  * @returns {Function | undefined} undefined if we catch something, else lint()
  */
-var setState = function (line) {
+const setState = function (line) {
   this.state.context = this.setContext(this.cache.line);
 
 	// ignore the current line if @stylint ignore

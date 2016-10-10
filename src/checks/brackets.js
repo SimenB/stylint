@@ -1,9 +1,9 @@
 'use strict';
 
-var ignoreRe = /\(.*\)|@extend|\(|if|for(?!\w)|else|return|@block|@media|@import|@require|,$/;
-var stripRe = /(?=\S)\[\S+\]|(\.|#)\w+/;
-var equalsRe = /( =|\?=|\+=|-=)+/;
-var validJSON = require('../data/valid.json');
+const ignoreRe = /\(.*\)|@extend|\(|if|for(?!\w)|else|return|@block|@media|@import|@require|,$/;
+const stripRe = /(?=\S)\[\S+\]|(\.|#)\w+/;
+const equalsRe = /( =|\?=|\+=|-=)+/;
+const validJSON = require('../data/valid.json');
 
 
 /**
@@ -11,7 +11,7 @@ var validJSON = require('../data/valid.json');
  * @param {string} [line] curr line being linted
  * @returns {boolean} true if bracket found, false if not
  */
-var brackets = function (line) {
+const brackets = function (line) {
 	// in order if:
 	// 1 in hash or css block
 	// 2 variable or hash or block
@@ -24,10 +24,10 @@ var brackets = function (line) {
     return;
   }
 
-  var arr = ['hint'];
-  var isCSS = false;
-  var isMixin = false;
-  var bracket = false;
+  let arr = ['hint'];
+  let isCSS = false;
+  let isMixin = false;
+  let bracket = false;
 
   if (this.state.conf === 'never') {
 		// ex: $hash = { is ok but .class = { is not

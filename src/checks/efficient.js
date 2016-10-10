@@ -1,6 +1,6 @@
 'use strict';
 
-var valueRe = /(margin|padding)+[:| ]/;
+const valueRe = /(margin|padding)+[:| ]/;
 
 
 /**
@@ -8,12 +8,12 @@ var valueRe = /(margin|padding)+[:| ]/;
  * @param {string} [line] curr line being linted
  * @returns {boolean} true if efficient, false if not
  */
-var efficient = function (line) {
+const efficient = function (line) {
 	// line doesnt have margin or padding then there's nothin to do here
   if (!valueRe.test(line)) { return; }
 
-  var isEfficient = true;
-  var arr = this.splitAndStrip(new RegExp(/[\s\t]/), line);
+  let isEfficient = true;
+  const arr = this.splitAndStrip(new RegExp(/[\s\t]/), line);
 
 	// if margin or padding we run the tests
 	// if line is potentially inefficient it needs to be at least this long
@@ -40,7 +40,7 @@ var efficient = function (line) {
     }
   }
 
-  var index = line.indexOf(arr[1]);
+  const index = line.indexOf(arr[1]);
 
   if (this.state.conf === 'never' && isEfficient === true) {
     this.msg('the value on this line is too succinct', index);

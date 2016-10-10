@@ -1,7 +1,7 @@
 'use strict';
 
-var zeroRe = /((border)|(outline))+(:|\s)+0(?!-)/;
-var noneRe = /((border)|(outline))+(:|\s)+(none)+(?!-)/;
+const zeroRe = /((border)|(outline))+(:|\s)+0(?!-)/;
+const noneRe = /((border)|(outline))+(:|\s)+(none)+(?!-)/;
 
 
 /**
@@ -9,7 +9,7 @@ var noneRe = /((border)|(outline))+(:|\s)+(none)+(?!-)/;
  * @param {string} [line] curr line being linted
  * @return {boolean} true if none used, false if not
  */
-var none = function (line) {
+const none = function (line) {
   if (line.indexOf('border') === -1 &&
 		line.indexOf('outline') === -1) {
     return;
@@ -17,7 +17,7 @@ var none = function (line) {
 
 	// false if nothing wrong with line
 	// true if problem found with line, regardless of config
-  var badSyntax = false;
+  let badSyntax = false;
 
 	// return true if border|outline is followed by a 0
 	// enforce use of none

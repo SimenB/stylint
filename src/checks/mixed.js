@@ -1,11 +1,11 @@
 'use strict';
 
 // was a tab used, at all
-var tabs = /\t/;
+const tabs = /\t/;
 // check for 2 or more spaces (if hard tabs, shouldn't find anything)
-var spaces = /( {2,})+/;
+const spaces = /( {2,})+/;
 // don't throw false positives if line ends in comment
-var trimRightRe = /( |\t)+(\/\/)+.+$/gm;
+const trimRightRe = /( |\t)+(\/\/)+.+$/gm;
 
 
 /**
@@ -14,15 +14,15 @@ var trimRightRe = /( |\t)+(\/\/)+.+$/gm;
  * @param {string} [source] curr line before being stripped
  * @returns {boolean} true if mixed, false if not
  */
-var mixed = function (line, source) {
-  var trimRight = source.replace(trimRightRe, '');
-  var isMixed = false;
-  var indentPref = this.config.indentPref.expect || this.config.indentPref;
-  var isNum = typeof indentPref === 'number';
+const mixed = function (line, source) {
+  const trimRight = source.replace(trimRightRe, '');
+  let isMixed = false;
+  const indentPref = this.config.indentPref.expect || this.config.indentPref;
+  const isNum = typeof indentPref === 'number';
 
 	// regexp obj or null
-  var hasTabs = tabs.exec(trimRight);
-  var hasSpaces = spaces.exec(trimRight);
+  const hasTabs = tabs.exec(trimRight);
+  const hasSpaces = spaces.exec(trimRight);
 
 	// if this isnt set to false then we're indenting with spaces,
 	// so check against tabs
@@ -38,7 +38,7 @@ var mixed = function (line, source) {
   }
 
   if (isMixed === true) {
-    var index = isNum ? hasTabs.index : hasSpaces.index;
+    const index = isNum ? hasTabs.index : hasSpaces.index;
     this.msg('mixed spaces and tabs', index);
   }
 

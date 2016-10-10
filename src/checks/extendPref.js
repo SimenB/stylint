@@ -6,10 +6,10 @@
  * @param {string} [line] curr line being linted
  * @returns {boolean} true if wrong style used, false if not
  */
-var extendPref = function (line) {
+const extendPref = function (line) {
   if (line.indexOf('@extend') === -1) { return; }
 
-  var extendIncorrect = false;
+  let extendIncorrect = false;
 
 	// prefer @extends to @extend
 	// extremely petty, i know

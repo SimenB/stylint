@@ -1,8 +1,8 @@
 'use strict';
 
-var _ = require('lodash');
-var chalk = require('chalk');
-var columnify = require('columnify');
+const _ = require('lodash');
+const chalk = require('chalk');
+const columnify = require('columnify');
 
 /**
  * @description format output message for console (default)
@@ -11,27 +11,27 @@ var columnify = require('columnify');
  * @param  {boolean} [kill] whether or not we're over one of our limits
  * @return {string} the formatted message
  */
-var reporter = function (report, options, kill) {
+const reporter = function (report, options, kill) {
   if (report.results.length === 0) {
     return '';
   }
 
   options = options || {};
-  var formattedMessages = _.chain(report.results)
+  let formattedMessages = _.chain(report.results)
 		.map(function (result) {
-  var newResult = result;
-  var file = chalk.underline(result.filePath);
+  const newResult = result;
+  const file = chalk.underline(result.filePath);
 
   newResult.messages = result.messages.map(function (msg) {
-    var column = typeof msg.column === 'number' && msg.column > 0 ? msg.column : null;
-    var lineData = column ? msg.line + ':' + column : msg.line;
+    const column = typeof msg.column === 'number' && msg.column > 0 ? msg.column : null;
+    const lineData = column ? msg.line + ':' + column : msg.line;
 
-    var severity = msg.severity;
+    let severity = msg.severity;
     severity = severity === 'warning' ?
 					chalk.yellow(severity) :
 					chalk.red(severity);
 
-    var rule = chalk.grey(msg.ruleId);
+    const rule = chalk.grey(msg.ruleId);
 
     return {
       file: file,
@@ -68,7 +68,7 @@ var reporter = function (report, options, kill) {
 		.value()
 		.trim();
 
-  var formattedMessage = 'Stylint: ' + report.errorCount + ' Errors.';
+  let formattedMessage = 'Stylint: ' + report.errorCount + ' Errors.';
   formattedMessage += options.maxErrors >= 0 ? ' (Max Errors: ' + options.maxErrors + ')' : '';
 
   formattedMessage += '\nStylint: ' + report.warningCount + ' Warnings.';

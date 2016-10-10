@@ -1,7 +1,7 @@
-var stampit = require('stampit');
+const stampit = require('stampit');
 
 // group together all the functions that determine state in this folder
-var stateMethods = stampit().methods({
+const stateMethods = stampit().methods({
   hashOrCSSEnd: require('./hashOrCSSEnd'),
   hashOrCSSStart: require('./hashOrCSSStart'),
   keyframesEnd: require('./keyframesEnd'),

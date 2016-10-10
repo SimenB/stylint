@@ -1,9 +1,9 @@
 'use strict';
 
 // if , is present on line and its not followed by a space
-var noSpaceRe = /,\S/;
-var withSpaceRe = /,\s/;
-var removeQuotesRe = /(["'])(?:(?=(\\?))\2.)*?\1/g;
+const noSpaceRe = /,\S/;
+const withSpaceRe = /,\s/;
+const removeQuotesRe = /(["'])(?:(?=(\\?))\2.)*?\1/g;
 
 /**
  * @description if set to always, enforces spaces after commas. if set to never, disallows spaces
@@ -11,7 +11,7 @@ var removeQuotesRe = /(["'])(?:(?=(\\?))\2.)*?\1/g;
  * @param {string} [source] curr line before being stripped
  * @returns {boolean} true if space missing, false if not
  */
-var commaSpace = function (line, source) {
+const commaSpace = function (line, source) {
 	// conditions where testing isn't needed.
 	// 1: no comma on line at all
 	// 2: comma ends the line, as in a list
@@ -23,10 +23,10 @@ var commaSpace = function (line, source) {
 
 	// just strip content between quotes, leave rest of syntax intact
 	// this is so we don't get false positives with , in strings
-  var trimmedLine = source.replace(removeQuotesRe, '""').trim();
+  const trimmedLine = source.replace(removeQuotesRe, '""').trim();
 
-  var noSpace = noSpaceRe.exec(trimmedLine);
-  var hasSpace = withSpaceRe.exec(trimmedLine);
+  const noSpace = noSpaceRe.exec(trimmedLine);
+  const hasSpace = withSpaceRe.exec(trimmedLine);
 
 	// if spaces should be follow commas, but there is no space on the line
   if (this.state.conf === 'always' && noSpace) {

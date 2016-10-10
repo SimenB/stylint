@@ -2,7 +2,7 @@
  * @description i hold the state
  * @return {Object} [i expose properties to the entire app]
  */
-var state = {
+const state = {
   conf: false, // config for currently running check ('always' || 'never' || etc)
   context: 0, // what is our level of nesting?
   exclude: [], // what files should be excluded

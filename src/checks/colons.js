@@ -1,8 +1,8 @@
 'use strict';
 
-var validJSON = require('../data/valid.json');
+const validJSON = require('../data/valid.json');
 // we only want to check colons on properties/values
-var ignoreRe = /( ^[&$=#>.]|\.[a-zA-Z]|#[a-zA-Z]| \+ | , | = | ~ | > | &| {|}|\(|if|for(?!\w)|else|return|@block|@media|@import|@extend|@require|,$)/m;
+const ignoreRe = /( ^[&$=#>.]|\.[a-zA-Z]|#[a-zA-Z]| \+ | , | = | ~ | > | &| {|}|\(|if|for(?!\w)|else|return|@block|@media|@import|@extend|@require|,$)/m;
 
 
 /**
@@ -10,12 +10,12 @@ var ignoreRe = /( ^[&$=#>.]|\.[a-zA-Z]|#[a-zA-Z]| \+ | , | = | ~ | > | &| {|}|\(
  * @param {string} [line] curr line being linted
  * @returns {boolean} true if colon found, false if not
  */
-var colons = function (line) {
+const colons = function (line) {
   if (ignoreRe.test(line) || this.state.context === 0) { return; }
 
-  var colon;
-  var hasPseudo = false;
-  var arr = this.splitAndStrip(new RegExp(/\s/), line);
+  let colon;
+  let hasPseudo = false;
+  const arr = this.splitAndStrip(new RegExp(/\s/), line);
 
   if (this.state.conf === 'always' &&
 		arr.length > 1 &&

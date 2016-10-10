@@ -1,8 +1,8 @@
 'use strict';
 
-var defaults = require('lodash').defaults;
+const defaults = require('lodash').defaults;
 
-var defaultOptions = {
+const defaultOptions = {
   watch: false,
   config: null,
   strict: false,
@@ -15,7 +15,7 @@ var defaultOptions = {
  * @param {String} [pathPassed] path to files to lint
  * @return {Function} always returns a function, determined by cli flags
  */
-var init = function (options, pathPassed) {
+const init = function (options, pathPassed) {
   options = defaults(options || {}, defaultOptions);
 
   this.config = this.setConfig(options.config);

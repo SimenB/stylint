@@ -6,7 +6,7 @@
  * @param  {string} [line] curr line being linted
  * @return {boolean} true if stylint on, false if not
  */
-var stylintOn = function (line) {
+const stylintOn = function (line) {
   if (this.state.testsEnabled) { return; }
 
 	// ex: $hash = { is ok but .class = { is not

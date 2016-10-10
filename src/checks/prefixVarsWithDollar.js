@@ -1,8 +1,8 @@
 'use strict';
 
-var dollaRe = /\$[\-_]*\w/;
-var eqEndRe = /=$|=\s$/;
-var ignoreRe = /(\[.+\])|if|for|else|return|@require|@import|@media|@block|vendor-prefixes|calc|(=|= )$|{$/; // 3
+const dollaRe = /\$[\-_]*\w/;
+const eqEndRe = /=$|=\s$/;
+const ignoreRe = /(\[.+\])|if|for|else|return|@require|@import|@media|@block|vendor-prefixes|calc|(=|= )$|{$/; // 3
 
 
 /**
@@ -10,10 +10,10 @@ var ignoreRe = /(\[.+\])|if|for|else|return|@require|@import|@media|@block|vendo
  * @param  {string} [line] curr line being linted
  * @return {boolean} true if in order, false if not
  */
-var prefixVarsWithDollar = function (line) {
+const prefixVarsWithDollar = function (line) {
   if (this.state.hashOrCSS || ignoreRe.test(line)) { return; }
 
-  var hasDolla = true;
+  let hasDolla = true;
 
 	// if line has a mixin, we need check each param for missing $
 	// else we just check if = is present && $ is prefixing something

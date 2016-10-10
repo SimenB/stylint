@@ -1,6 +1,6 @@
 'use strict';
 
-var extendRe = /(@extend)+s?\s/;
+const extendRe = /(@extend)+s?\s/;
 
 
 /**
@@ -8,20 +8,20 @@ var extendRe = /(@extend)+s?\s/;
  * @param {string} [line] curr line being linted
  * @return {boolean} true if placeholder used, false if not
  */
-var placeholders = function (line) {
+const placeholders = function (line) {
   if (line.indexOf('@extend') === -1) { return; }
 
-  var placeholder = false;
+  let placeholder = false;
 
 	// stylus supports multiple, mixed extends and optional extends
 	// so lets pull them out of the line and check individually
 	// @extends .biz !optional, $extendable !optional =>
 	// ['.biz !optional', '$extendable !optional']
-  var extendArr = line.replace(extendRe, '').split(',');
+  const extendArr = line.replace(extendRe, '').split(',');
 
 	// if any item in the list is not a placeholder, fail
   placeholder = extendArr.every(function (line) {
-    var trimmed = line.trim();
+    const trimmed = line.trim();
     return trimmed.substr(0, 1) === '$';
   });
 

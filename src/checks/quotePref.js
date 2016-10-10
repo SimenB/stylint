@@ -1,6 +1,6 @@
 'use strict';
 
-var stringRe = /(?=["'])(?:"[^"\\]*(?:\\[\s\S][^"\\]*)*"|'[^'\\]*(?:\\[\s\S][^'\\]*)*')/g;
+const stringRe = /(?=["'])(?:"[^"\\]*(?:\\[\s\S][^"\\]*)*"|'[^'\\]*(?:\\[\s\S][^'\\]*)*')/g;
 
 
 /**
@@ -9,7 +9,7 @@ var stringRe = /(?=["'])(?:"[^"\\]*(?:\\[\s\S][^"\\]*)*"|'[^'\\]*(?:\\[\s\S][^'\
  * @param {string} [source] curr line before being stripped
  * @return {boolean} true if in order, false if not
  */
-var quotePref = function (line, source) {
+const quotePref = function (line, source) {
   if (source.indexOf('"') === -1 &&
 			source.indexOf("'") === -1) {
     return;
@@ -17,15 +17,15 @@ var quotePref = function (line, source) {
 
   stringRe.lastIndex = 0;
 
-  var badQuotes = false;
-  var hasInnerQuote = true;
-  var match;
+  let badQuotes = false;
+  let hasInnerQuote = true;
+  let match;
 
 	// for each quote match, check err
   while ((match = stringRe.exec(source)) !== null) {
 		// just checks the first inner quote, most common case
 		// almost certainly not the best way to do this
-    var content = match[0].slice(1, -1);
+    const content = match[0].slice(1, -1);
 
 		// if '' quotes preferred and match starts with double "" quote
     if (this.state.conf === 'single' && match[0].indexOf('"') === 0) {

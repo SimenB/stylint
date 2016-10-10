@@ -1,7 +1,7 @@
 'use strict';
 
 // we only want to check semicolons on properties/values
-var ignoreRe = /(^[*#.])|[&>/]|{|}|if|for(?!\w)|else|@block|@media|(}|{|=|,)$/igm;
+const ignoreRe = /(^[*#.])|[&>/]|{|}|if|for(?!\w)|else|@block|@media|(}|{|=|,)$/igm;
 
 
 /**
@@ -9,12 +9,12 @@ var ignoreRe = /(^[*#.])|[&>/]|{|}|if|for(?!\w)|else|@block|@media|(}|{|=|,)$/ig
  * @param  {string} [line] curr line being linted
  * @return {boolean} true if in order, false if not
  */
-var semicolons = function (line) {
+const semicolons = function (line) {
   if (ignoreRe.test(line.trim())) return;
   if (this.state.hashOrCss) return;
 
-  var semicolon;
-  var index = line.indexOf(';');
+  let semicolon;
+  const index = line.indexOf(';');
 
   if (this.state.conf === 'never' && index !== -1) {
     semicolon = true;

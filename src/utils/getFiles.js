@@ -1,16 +1,16 @@
 'use strict';
 
-var fs = require('fs');
-var glob = require('glob');
-var async = require('async');
-var path = require('path');
+const fs = require('fs');
+const glob = require('glob');
+const async = require('async');
+const path = require('path');
 
 /**
  * @description globs files and returns an array, used in various methods
  * @param {string} [dir] directory of files to glob
  * @returns {Array} returns an array of files
 */
-var getFiles = function (dir) {
+const getFiles = function (dir) {
   if (typeof dir !== 'string' && !(dir instanceof Array)) {
     throw new TypeError('getFiles err. Expected string or array, but received: ' + typeof dir);
   }
@@ -20,8 +20,8 @@ var getFiles = function (dir) {
       if (err) { throw err; }
 
       files = files.filter(function (file) {
-        var excluded = false;
-        var relPath = path.relative(dir.replace('/**/*.styl', ''), file);
+        let excluded = false;
+        const relPath = path.relative(dir.replace('/**/*.styl', ''), file);
 
         this.config.exclude.forEach(function (exclude) {
           excluded = excluded || exclude.match(relPath);
@@ -37,8 +37,8 @@ var getFiles = function (dir) {
     }.bind(this));
   }
   else if (dir instanceof Array) {
-    var files = dir.filter(function (filepath) {
-      var excluded = false;
+    const files = dir.filter(function (filepath) {
+      let excluded = false;
 
       this.config.exclude.forEach(function (exclude) {
         excluded = excluded || exclude.match(filepath);

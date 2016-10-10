@@ -1,8 +1,8 @@
 'use strict';
 
 // strips out block comments and urls
-var cleanFileRe = /(\r\n|\n|\r)|(^(\/\*)|([\s'"](\/\*)))(?!\/)(.|[\r\n]|\n)+?\*\/\n?/gm;
-var lineEndingsRe = /\r\n|\n|\r/gm;
+const cleanFileRe = /(\r\n|\n|\r)|(^(\/\*)|([\s'"](\/\*)))(?!\/)(.|[\r\n]|\n)+?\*\/\n?/gm;
+const lineEndingsRe = /\r\n|\n|\r/gm;
 
 
 /**
@@ -12,17 +12,16 @@ var lineEndingsRe = /\r\n|\n|\r/gm;
  * @param {boolean} [skipDone] if true, don't call done
  * @returns {Object} the result object from the run
  */
-var parse = function (err, res, skipDone) {
+const parse = function (err, res, skipDone) {
   if (err) { throw new Error(err); }
 
   res.forEach(function (file, i) {
-    var lines;
     this.cache.file = this.cache.files[i];
     this.cache.fileNo = i;
 
 		// strip out block comments, but dont destroy line history
 		// to do these we replace block comments with new lines
-    lines = file.toString().replace(cleanFileRe, function (str) {
+    const lines = file.toString().replace(cleanFileRe, function (str) {
 			// WHERE IS YOUR GOD NOW
       return (new Array(str.split(lineEndingsRe).length)).join('\n');
     }).split('\n');

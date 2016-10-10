@@ -1,6 +1,6 @@
 'use strict';
 
-var urlOrContentRe = /(["'].+["'])|( +|:)url\(.+\)/;
+const urlOrContentRe = /(["'].+["'])|( +|:)url\(.+\)/;
 
 /**
  * @description separate out line comments
@@ -9,15 +9,15 @@ var urlOrContentRe = /(["'].+["'])|( +|:)url\(.+\)/;
  * @param {string} [line] curr line being linted
  * @returns {string} the line, but minus all the annoying stuff
 */
-var trimLine = function (line) {
-  var startsWithCommentRe = /(^\/\/)/;
+const trimLine = function (line) {
+  const startsWithCommentRe = /(^\/\/)/;
 
 	// reset values from previous line
   this.state.hasComment = false;
   this.cache.comment = '';
 
 	// remove urls, content strings
-  var noUrl = line.replace(urlOrContentRe, ' ');
+  let noUrl = line.replace(urlOrContentRe, ' ');
 
 	// strip line comments, if any exist after stripping urls
   if (noUrl.indexOf('//') !== -1) {

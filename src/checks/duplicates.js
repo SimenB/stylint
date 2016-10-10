@@ -1,7 +1,7 @@
 'use strict';
 
-var ignoreRe = /^{|[,}]|(:after|:active|:before|@import|@require|@extend|@media|:hover|@font-face|src)|,$/;
-var lastFile = '';
+const ignoreRe = /^{|[,}]|(:after|:active|:before|@import|@require|@extend|@media|:hover|@font-face|src)|,$/;
+let lastFile = '';
 
 
 /**
@@ -9,11 +9,11 @@ var lastFile = '';
  * @param {string} [line] curr line being linted
  * @returns {boolean} true if dupe found, false if not
  */
-var duplicates = function (line) {
-  var arr = this.splitAndStrip(new RegExp(/[\s\t]/), line);
-  var dupe = false;
-  var dupeIndex;
-  var origFile;
+const duplicates = function (line) {
+  const arr = this.splitAndStrip(new RegExp(/[\s\t]/), line);
+  let dupe = false;
+  let dupeIndex;
+  let origFile;
 
 	// if root check not global, obliterate cache on each new file
   if (!this.config.globalDupe &&

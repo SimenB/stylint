@@ -14,17 +14,17 @@ function shouldExit1 (maxErrors, maxWarnings, errorCount, warningCount) {
  * @description outputs our messages, wipes errs/warnings if watching
  * @returns {Object | Function} returns process exit if not watching, or obj otherwise
  */
-var done = function () {
-  var maxErrors = typeof this.config.maxErrors === 'number' ? this.config.maxErrors : -1;
-  var maxWarnings = typeof this.config.maxWarnings === 'number' ? this.config.maxWarnings : -1;
-  var report = this.cache.report;
-  var errorCount = report.errorCount;
-  var warningCount = report.warningCount;
+const done = function () {
+  const maxErrors = typeof this.config.maxErrors === 'number' ? this.config.maxErrors : -1;
+  const maxWarnings = typeof this.config.maxWarnings === 'number' ? this.config.maxWarnings : -1;
+  const report = this.cache.report;
+  const errorCount = report.errorCount;
+  const warningCount = report.warningCount;
 
-  var shouldKill = shouldExit1(maxErrors, maxWarnings, errorCount, warningCount);
+  const shouldKill = shouldExit1(maxErrors, maxWarnings, errorCount, warningCount);
 
   this.state.exitCode = shouldKill ? 1 : 0;
-  var message = this.reporter(report, {
+  const message = this.reporter(report, {
     maxErrors: maxErrors,
     maxWarnings: maxWarnings,
     groupOutputByFile: this.config.groupOutputByFile,
@@ -43,7 +43,7 @@ var done = function () {
     return process.exit(this.state.exitCode);
   }
 
-  var returnValue = {
+  const returnValue = {
     report: report,
     exitCode: this.state.exitCode,
     msg: message

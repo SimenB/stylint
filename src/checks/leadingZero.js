@@ -1,8 +1,8 @@
 'use strict';
 
-var decimalRe = /[^\d+](0+\.\d+)|[\s,\(](\.\d+)/i;
-var leadZeroRe = /[^\d+](0+\.\d+)/;
-var nonZeroRe = /[\s,\(](\.\d+)/;
+const decimalRe = /[^\d+](0+\.\d+)|[\s,\(](\.\d+)/i;
+const leadZeroRe = /[^\d+](0+\.\d+)/;
+const nonZeroRe = /[\s,\(](\.\d+)/;
 
 
 /**
@@ -10,11 +10,11 @@ var nonZeroRe = /[\s,\(](\.\d+)/;
  * @param {string} [line] curr line being linted
  * @returns {boolean|undefined} true if mixed, false if not
  */
-var leadingZero = function (line) {
+const leadingZero = function (line) {
   if (!decimalRe.test(line)) { return; }
 
-  var leadZeroFound = leadZeroRe.exec(line);
-  var leadZeroMissing = nonZeroRe.exec(line);
+  const leadZeroFound = leadZeroRe.exec(line);
+  const leadZeroMissing = nonZeroRe.exec(line);
 
   if (this.state.conf === 'always' && leadZeroMissing) {
     this.msg('leading zeros for decimal points are required', leadZeroMissing.index);

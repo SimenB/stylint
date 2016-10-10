@@ -1,25 +1,25 @@
 'use strict';
 
-var _ = require('lodash');
+const _ = require('lodash');
 
-var countSeverities = require('../utils/countSeveritiesInMessages');
+const countSeverities = require('../utils/countSeveritiesInMessages');
 
 /**
  * @description transforms all messages into the format returned to the caller, or passed to reporters
  * @param {boolean} [skipDone] if true, don't call done
  * @returns {Object} returns the transformed object
  */
-var transformMessages = function (skipDone) {
-  var severities = countSeverities(this.cache.messages);
-  var errorCount = severities.errorCount;
-  var warningCount = severities.warningCount;
+const transformMessages = function (skipDone) {
+  const severities = countSeverities(this.cache.messages);
+  const errorCount = severities.errorCount;
+  const warningCount = severities.warningCount;
 
-  var groupedByFile = _.chain(this.cache.messages)
+  const groupedByFile = _.chain(this.cache.messages)
 		.groupBy('file')
 		.map(function (messages, filePath) {
-  var localSeverities = countSeverities(messages);
+  const localSeverities = countSeverities(messages);
 
-  var filteredMessages = messages.map(function (message) {
+  const filteredMessages = messages.map(function (message) {
 				// Just removes `file`
     return {
       column: message.column,
@@ -40,7 +40,7 @@ var transformMessages = function (skipDone) {
 })
 		.value();
 
-  var report = {
+  const report = {
     results: groupedByFile,
     errorCount: errorCount,
     warningCount: warningCount

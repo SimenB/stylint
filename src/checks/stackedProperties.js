@@ -1,7 +1,7 @@
 'use strict';
 
 // if semicolons on line, but not ending the line, prolly a one-liner
-var semiTest = /;+(?!$)/gm;
+const semiTest = /;+(?!$)/gm;
 
 
 /**
@@ -9,10 +9,10 @@ var semiTest = /;+(?!$)/gm;
  * @param  {string} [line] curr line being linted
  * @return {boolean} true if one-liner found, false if not
  */
-var stackedProperties = function (line) {
-  var oneLiner = false;
-  var trimmedLine = line.replace(/(( '.*')|( ".*")|('.*')|(".*"))+;*/, '').trim();
-  var arr = this.splitAndStrip(';', trimmedLine);
+const stackedProperties = function (line) {
+  let oneLiner = false;
+  const trimmedLine = line.replace(/(( '.*')|( ".*")|('.*')|(".*"))+;*/, '').trim();
+  const arr = this.splitAndStrip(';', trimmedLine);
 
   if (semiTest.test(trimmedLine) || arr.length > 1) {
     oneLiner = true;

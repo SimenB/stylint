@@ -1,7 +1,7 @@
-var stampit = require('stampit');
+const stampit = require('stampit');
 
 // group together 'core' methods
-var core = stampit().methods({
+const core = stampit().methods({
   cache: require('./cache'),
   state: require('./state'),
   config: require('./config'),

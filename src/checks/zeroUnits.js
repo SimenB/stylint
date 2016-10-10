@@ -1,8 +1,8 @@
 'use strict';
 
-var aboveZeroRe = /\d0/;
-var hasUnitRe = /[ :]0+?(?=px|%|em|rem|v(h|w)|v(min|max)|ex|ch|mm|cm|in|pt|pc|mozmm)/;
-var relativeValRe = /line-height|font-size|font-weight/;
+const aboveZeroRe = /\d0/;
+const hasUnitRe = /[ :]0+?(?=px|%|em|rem|v(h|w)|v(min|max)|ex|ch|mm|cm|in|pt|pc|mozmm)/;
+const relativeValRe = /line-height|font-size|font-weight/;
 
 
 /**
@@ -10,7 +10,7 @@ var relativeValRe = /line-height|font-size|font-weight/;
 * @param {string} [line] current line being linted
 * @returns {boolean | undefined} true if has units, else false, undefined if skipped
 */
-var zeroUnits = function (line) {
+const zeroUnits = function (line) {
 	// if in keyframes dont check
 	// if no 0 on line dont check
 	// if relative values like font-weight, dont check
@@ -20,11 +20,11 @@ var zeroUnits = function (line) {
     return;
   }
 
-  var isCorrect = true;
-  var always = this.state.conf === 'always';
-  var never = this.state.conf === 'never';
-  var hasUnit = hasUnitRe.exec(line);
-  var aboveZero = aboveZeroRe.exec(line);
+  let isCorrect = true;
+  const always = this.state.conf === 'always';
+  const never = this.state.conf === 'never';
+  const hasUnit = hasUnitRe.exec(line);
+  const aboveZero = aboveZeroRe.exec(line);
 
 	// if config set to never and 0 is followed by any unit
   if (never && hasUnit) {

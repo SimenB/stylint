@@ -1,23 +1,23 @@
 'use strict';
 
-var assert = require('assert');
-var sinon = require('sinon');
-var transformMessages = require('../../src/core/transformMessages');
+const assert = require('assert');
+const sinon = require('sinon');
+const transformMessages = require('../../src/core/transformMessages');
 
 // Strict was added in node@1.2.0
 // https://nodejs.org/api/assert.html#assert_assert_deepstrictequal_actual_expected_message
-var deepEqual = assert.deepStrictEqual || assert.deepEqual;
+const deepEqual = assert.deepStrictEqual || assert.deepEqual;
 
 describe('transforming messages for report', function () {
-  var context;
+  let context;
 
-  var message;
-  var severity;
-  var file;
-  var line;
-  var column;
-  var source;
-  var ruleId;
+  let message;
+  let severity;
+  let file;
+  let line;
+  let column;
+  let source;
+  let ruleId;
 
   function createMessage () {
     return {
@@ -81,12 +81,12 @@ describe('transforming messages for report', function () {
   it('should assign result to correct field', function () {
     context.cache.messages = [createMessage()];
 
-    var report = transformMessages.call(context);
+    const report = transformMessages.call(context);
     assert.equal(report, context.cache.report);
   });
 
   it('should transform multiple messages from same file correctly', function () {
-    var message1 = createMessage();
+    const message1 = createMessage();
 
     line = 5;
     message = 'some other message';
@@ -120,7 +120,7 @@ describe('transforming messages for report', function () {
   });
 
   it('should transform multiple messages for different files correctly', function () {
-    var message1 = createMessage();
+    const message1 = createMessage();
 
     line = 5;
     message = 'some other message';

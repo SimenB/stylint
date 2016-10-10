@@ -1,9 +1,9 @@
 'use strict';
 
 // check for unnecessary tabs or whitespace at eol
-var whitespaceRe = /[ \t]+$/;
+const whitespaceRe = /[ \t]+$/;
 // anything BUT whitespace (we dont want to return false positives on empty lines)
-var anythingElseRe = /[^ \t]/;
+const anythingElseRe = /[^ \t]/;
 
 /**
  * @description check for trailing whitespace
@@ -11,9 +11,9 @@ var anythingElseRe = /[^ \t]/;
  * @param {string} [source] curr line before being stripped
  * @return {boolean} true if whitespace found, false if not
  */
-var trailingWhitespace = function (line, source) {
-  var whitespace = false;
-  var hasWhitespace = whitespaceRe.exec(source);
+const trailingWhitespace = function (line, source) {
+  let whitespace = false;
+  const hasWhitespace = whitespaceRe.exec(source);
 
 	// not an empty line, with whitespace at the end
   if (anythingElseRe.test(source) && hasWhitespace) {

@@ -1,7 +1,7 @@
-var stampit = require('stampit');
+const stampit = require('stampit');
 
 // group together all the checks in this folder
-var linterMethods = stampit().methods({
+const linterMethods = stampit().methods({
   lintMethods: {
     blocks: require('./blocks'),
     brackets: require('./brackets'),

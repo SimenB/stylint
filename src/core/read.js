@@ -1,7 +1,7 @@
 'use strict';
 
-var fs = require('fs');
-var async = require('async');
+const fs = require('fs');
+const async = require('async');
 
 
 /**
@@ -9,10 +9,10 @@ var async = require('async');
  * @param {string} [filepath] [option for manually passing in a filename]
  * @returns {Function} parse function
  */
-var read = function (filepath) {
+const read = function (filepath) {
 	// if user passes in a glob, we forEach over them
 	// and pass it into read() as filepath
-  var path = filepath || this.state.path;
+  const path = filepath || this.state.path;
 
 	// if nothing passed in, default to linting the curr dir
 	// here we get all the files to parse first, then we pass to app.parse
@@ -33,10 +33,10 @@ var read = function (filepath) {
     }
 
 		// if this path matches any regex in the excludes array, we ignore
-    var isExcludes = function (path) {
+    const isExcludes = function (path) {
       return this.state.exclude.some(function (exclude) {
         if (typeof exclude !== 'string') return false;
-        var excludeRegExp = new RegExp(exclude, 'm');
+        const excludeRegExp = new RegExp(exclude, 'm');
         return excludeRegExp.test(path);
       });
     }.bind(this);

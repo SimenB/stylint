@@ -5,7 +5,7 @@
  * @param {string} [line] curr line being linted
  * @returns {boolean} true if keyframes starting, false if not
  */
-var rootStart = function (line) {
+const rootStart = function (line) {
   if (this.state.root || !this.state.testsEnabled) { return; }
 
   if (line.indexOf(':root') !== -1) {

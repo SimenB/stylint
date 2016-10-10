@@ -1,7 +1,7 @@
 'use strict';
 
-var hexRe = /#(?:[0-9a-f]{3}){1,2}/im;
-var ignoreRe = /^\s*(?:#|.*=.*)/;
+const hexRe = /#(?:[0-9a-f]{3}){1,2}/im;
+const ignoreRe = /^\s*(?:#|.*=.*)/;
 
 
 /**
@@ -9,11 +9,11 @@ var ignoreRe = /^\s*(?:#|.*=.*)/;
  * @param {string} [line] curr line being linted
  * @returns {boolean} true if hex color found, false if not
  */
-var colors = function (line) {
+const colors = function (line) {
   if (ignoreRe.test(line) || this.state.root) { return; }
 
-  var hex = false;
-  var match = hexRe.exec(line);
+  let hex = false;
+  const match = hexRe.exec(line);
 
 	// so basically if we're using #hex colors outside of a var declaration
   if (match !== null) {

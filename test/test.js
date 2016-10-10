@@ -5,16 +5,16 @@
  * lets pull in what we're testing here
  */
 
-var fs = require('fs');
-var assert = require('assert');
+const fs = require('fs');
+const assert = require('assert');
 require('chai').should(); // add should assertions on top
-var chokidar = require('chokidar');
-var touch = require('touch');
-var sinon = require('sinon');
-var chalk = require('chalk');
-var stylint = require('../index');
-var app = stylint().create();
-var stripJsonComments = require('strip-json-comments');
+const chokidar = require('chokidar');
+const touch = require('touch');
+const sinon = require('sinon');
+const chalk = require('chalk');
+const stylint = require('../index');
+const app = stylint().create();
+const stripJsonComments = require('strip-json-comments');
 
 // turn on strict mode from this point and turn off unnecessary logging
 app.state.quiet = true;
@@ -250,9 +250,9 @@ describe('Core Methods: ', function () {
 
     it('return correctly formatted msg', function () {
       app.cache.rule = 'universal';
-      var expectedOutput = 'testReporter\n1 universal warning universal disallowed\n\nStylint: 0 Errors.\nStylint: 1 Warnings.';
+      const expectedOutput = 'testReporter\n1 universal warning universal disallowed\n\nStylint: 0 Errors.\nStylint: 1 Warnings.';
 
-      var msg = {
+      const msg = {
         filePath: 'testReporter',
         messages: [{
           message: 'universal disallowed',
@@ -355,8 +355,8 @@ describe('Utility Methods: ', function () {
   describe('Set Config should:', function () {
     process.argv[2] = '-c';
     process.argv[3] = '.stylintrc';
-    var testMethod = app.setConfig('.stylintrc');
-    var testConfig = JSON.parse(stripJsonComments(fs.readFileSync(process.cwd() + '/.stylintrc', 'utf-8')));
+    const testMethod = app.setConfig('.stylintrc');
+    const testConfig = JSON.parse(stripJsonComments(fs.readFileSync(process.cwd() + '/.stylintrc', 'utf-8')));
 
     it('update config state if passed a valid path', function () {
       assert.deepEqual(testMethod, testConfig);
@@ -391,7 +391,7 @@ describe('Utility Methods: ', function () {
   });
 
   describe('Reset (after change)', function () {
-    var resetTest = app.resetOnChange.bind(app);
+    const resetTest = app.resetOnChange.bind(app);
 
     beforeEach(function () {
       app.state.watching = false;
@@ -430,7 +430,7 @@ describe('Utility Methods: ', function () {
   });
 
   describe('trim line should: ', function () {
-    var trimTest = app.trimLine.bind(app);
+    const trimTest = app.trimLine.bind(app);
 
     it('do nothing if line has no comment', function () {
       assert.equal('.noCommentOnThisLine ', trimTest('.noCommentOnThisLine '));
@@ -451,7 +451,7 @@ describe('Utility Methods: ', function () {
 });
 
 describe('Linter Style Checks: ', function () {
-  var lint = app.lintMethods;
+  const lint = app.lintMethods;
 
   beforeEach(function () {
     app.state.strictMode = true;
@@ -464,7 +464,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('blocks: prefer @block when defining block vars', function () {
-    var blockTest = lint.blocks.bind(app);
+    const blockTest = lint.blocks.bind(app);
 
     it('false if block style incorrect', function () {
       assert.equal(false, blockTest('myBlock = '));
@@ -482,7 +482,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('blocks: disallow @block when defining block vars', function () {
-    var blockTest = lint.blocks.bind(app);
+    const blockTest = lint.blocks.bind(app);
 
     beforeEach(function () {
       app.state.conf = 'never';
@@ -505,7 +505,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('brackets: always use brackets', function () {
-    var bracketsTest = lint.brackets.bind(app);
+    const bracketsTest = lint.brackets.bind(app);
 
     beforeEach(function () {
       app.state.conf = 'always';
@@ -551,7 +551,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('brackets: disallow brackets', function () {
-    var bracketsTest = lint.brackets.bind(app);
+    const bracketsTest = lint.brackets.bind(app);
 
     beforeEach(function () {
       app.state.conf = 'never';
@@ -591,7 +591,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('colon never: prefer margin 0 over margin: 0', function () {
-    var colonTest = lint.colons.bind(app);
+    const colonTest = lint.colons.bind(app);
 
     beforeEach(function () {
       app.state.conf = 'never';
@@ -648,7 +648,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('colon always: prefer margin: 0 over margin 0', function () {
-    var colonTest = lint.colons.bind(app);
+    const colonTest = lint.colons.bind(app);
 
     beforeEach(function () {
       app.state.conf = 'always';
@@ -701,7 +701,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('colors', function () {
-    var colorsTest = lint.colors.bind(app);
+    const colorsTest = lint.colors.bind(app);
 
     beforeEach(function () {
       app.state.conf = true;
@@ -726,7 +726,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('comma space: prefer space after commas', function () {
-    var commaTest = lint.commaSpace.bind(app);
+    const commaTest = lint.commaSpace.bind(app);
 
     it('false if space after comma, or comma in quotes', function () {
       assert.equal(false, commaTest('', '0, 0, 0, .18'));
@@ -749,7 +749,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('comma space: prefer NO space after commas', function () {
-    var commaTest = lint.commaSpace.bind(app);
+    const commaTest = lint.commaSpace.bind(app);
 
     beforeEach(function () {
       app.state.conf = 'never';
@@ -775,7 +775,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('comment space: prefer spaces after line comments', function () {
-    var commentSpaceTest = lint.commentSpace.bind(app);
+    const commentSpaceTest = lint.commentSpace.bind(app);
 
     beforeEach(function () {
       app.state.hasComment = true;
@@ -798,7 +798,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('comment space: prefer NO spaces after line comments', function () {
-    var commentSpaceTest = lint.commentSpace.bind(app);
+    const commentSpaceTest = lint.commentSpace.bind(app);
 
     beforeEach(function () {
       app.state.hasComment = true;
@@ -822,7 +822,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('css literal', function () {
-    var cssTest = lint.cssLiteral.bind(app);
+    const cssTest = lint.cssLiteral.bind(app);
 
     it('false if @css is not used', function () {
       app.state.hashOrCSS = false;
@@ -842,7 +842,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('depthLimit', function () {
-    var nestTest = lint.depthLimit.bind(app);
+    const nestTest = lint.depthLimit.bind(app);
 
     it('false if less indents than depth limit', function () {
       app.config.depthLimit = 4;
@@ -883,7 +883,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('duplicates', function () {
-    var dupeTest = lint.duplicates.bind(app);
+    const dupeTest = lint.duplicates.bind(app);
 
     it('tabs: false if no dupe, not root, diff context, same selector', function () {
       app.config.indentPref = 'tabs';
@@ -1012,7 +1012,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('efficient: prefer margin 0 over margin 0 0 0 0', function () {
-    var efficientTest = lint.efficient.bind(app);
+    const efficientTest = lint.efficient.bind(app);
 
     beforeEach(function () {
       app.state.conf = 'always';
@@ -1058,7 +1058,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('efficient: prefer margin 0 0 0 0 over margin 0', function () {
-    var efficientTest = lint.efficient.bind(app);
+    const efficientTest = lint.efficient.bind(app);
 
     beforeEach(function () {
       app.state.conf = 'never';
@@ -1104,7 +1104,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('extends style: prefer @extends over @extend', function () {
-    var extendTest = lint.extendPref.bind(app);
+    const extendTest = lint.extendPref.bind(app);
 
     beforeEach(function () {
       app.state.conf = '@extends';
@@ -1124,7 +1124,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('extends style: prefer @extend over @extends', function () {
-    var extendTest = lint.extendPref.bind(app);
+    const extendTest = lint.extendPref.bind(app);
 
     beforeEach(function () {
       app.state.conf = '@extend';
@@ -1144,7 +1144,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('hash start', function () {
-    var hashTest = app.hashOrCSSStart.bind(app);
+    const hashTest = app.hashOrCSSStart.bind(app);
 
     beforeEach(function () {
       app.state.hashOrCSS = false;
@@ -1174,7 +1174,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('hash end', function () {
-    var hashTest = app.hashOrCSSEnd.bind(app);
+    const hashTest = app.hashOrCSSEnd.bind(app);
 
     beforeEach(function () {
       app.state.hashOrCSS = true;
@@ -1203,7 +1203,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('indent pref', function () {
-    var indentTest = lint.indentPref.bind(app);
+    const indentTest = lint.indentPref.bind(app);
 
     beforeEach(function () {
       app.state.conf = 2;
@@ -1225,7 +1225,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('keyframes end', function () {
-    var keyframesEndTest = app.keyframesEnd.bind(app);
+    const keyframesEndTest = app.keyframesEnd.bind(app);
 
     it('false if keyframes active and context set to 0 (keyframes ended)', function () {
       app.state.keyframes = true;
@@ -1246,7 +1246,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('keyframes start', function () {
-    var keyframesStartTest = app.keyframesStart.bind(app);
+    const keyframesStartTest = app.keyframesStart.bind(app);
 
     afterEach(function () {
       app.state.keyframes = false;
@@ -1274,7 +1274,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('leading zero always: prefer 0.9 over .9', function () {
-    var zeroTest = lint.leadingZero.bind(app);
+    const zeroTest = lint.leadingZero.bind(app);
 
     beforeEach(function () {
       app.state.conf = 'always';
@@ -1315,7 +1315,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('leading zero never: prefer .9 or 0.9', function () {
-    var zeroTest = lint.leadingZero.bind(app);
+    const zeroTest = lint.leadingZero.bind(app);
 
     beforeEach(function () {
       app.state.conf = 'never';
@@ -1354,7 +1354,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('mixed spaces and tabs', function () {
-    var mixed = lint.mixed.bind(app);
+    const mixed = lint.mixed.bind(app);
 
     it('false if no mixed spaces and tabs found: spaces preferred', function () {
       app.config.indentPref = 4;
@@ -1379,7 +1379,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('naming convention', function () {
-    var conventionTest = lint.namingConvention.bind(app);
+    const conventionTest = lint.namingConvention.bind(app);
 
     beforeEach(function () {
       app.config.namingConventionStrict = true;
@@ -1509,7 +1509,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('naming convention: strict turned off: ', function () {
-    var conventionTest = lint.namingConvention.bind(app);
+    const conventionTest = lint.namingConvention.bind(app);
 
     beforeEach(function () {
       app.config.namingConventionStrict = false;
@@ -1536,7 +1536,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('noImportant: disallow !important', function () {
-    var importantTest = lint.noImportant.bind(app);
+    const importantTest = lint.noImportant.bind(app);
 
     before(function () {
       app.state.conf = true;
@@ -1552,7 +1552,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('none: prefer 0 over none', function () {
-    var noneTest = lint.none.bind(app);
+    const noneTest = lint.none.bind(app);
 
     before(function () {
       app.state.conf = 'never';
@@ -1596,7 +1596,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('none: prefer none over 0', function () {
-    var noneTest = lint.none.bind(app);
+    const noneTest = lint.none.bind(app);
 
     before(function () {
       app.state.conf = 'always';
@@ -1635,7 +1635,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('parens: prefer ( param ) over (param)', function () {
-    var parenTest = lint.parenSpace.bind(app);
+    const parenTest = lint.parenSpace.bind(app);
 
     beforeEach(function () {
       app.state.conf = 'always';
@@ -1657,7 +1657,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('parens: prefer (param) over ( param )', function () {
-    var parenTest = lint.parenSpace.bind(app);
+    const parenTest = lint.parenSpace.bind(app);
 
     beforeEach(function () {
       app.state.conf = 'never';
@@ -1679,7 +1679,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('placeholders: prefer $var over .class when extending: ', function () {
-    var placeholderTest = lint.placeholders.bind(app);
+    const placeholderTest = lint.placeholders.bind(app);
 
     beforeEach(function () {
       app.state.conf = 'always';
@@ -1706,7 +1706,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('placeholders: prefer $var over .class when extending: ', function () {
-    var placeholderTest = lint.placeholders.bind(app);
+    const placeholderTest = lint.placeholders.bind(app);
 
     beforeEach(function () {
       app.state.conf = 'never';
@@ -1733,7 +1733,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('prefix var with $: always', function () {
-    var varTest = lint.prefixVarsWithDollar.bind(app);
+    const varTest = lint.prefixVarsWithDollar.bind(app);
 
     beforeEach(function () {
       app.state.conf = 'always';
@@ -1756,7 +1756,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('prefix var with $: never', function () {
-    var varTest = lint.prefixVarsWithDollar.bind(app);
+    const varTest = lint.prefixVarsWithDollar.bind(app);
 
     beforeEach(function () {
       app.state.conf = 'never';
@@ -1778,7 +1778,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('quote style', function () {
-    var quoteTest = lint.quotePref.bind(app);
+    const quoteTest = lint.quotePref.bind(app);
 
     it('false if correct quote style used: single', function () {
       app.state.conf = 'single';
@@ -1833,7 +1833,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('semicolon never (prefer margin 0 to margin 0;)', function () {
-    var semiTest = lint.semicolons.bind(app);
+    const semiTest = lint.semicolons.bind(app);
 
     beforeEach(function () {
       app.state.conf = 'never';
@@ -1862,7 +1862,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('semicolon always (prefer margin 0; to margin 0)', function () {
-    var semiTest = lint.semicolons.bind(app);
+    const semiTest = lint.semicolons.bind(app);
 
     beforeEach(function () {
       app.state.conf = 'always';
@@ -1890,7 +1890,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('sort order', function () {
-    var sortTest = lint.sortOrder.bind(app);
+    const sortTest = lint.sortOrder.bind(app);
 
     beforeEach(function () {
       app.state.prevContext = 1;
@@ -1922,7 +1922,7 @@ describe('Linter Style Checks: ', function () {
       });
 
       it('should allow any order when disabled', function () {
-        var expectedCache = ['background', 'z-index', 'border', 'width'];
+        const expectedCache = ['background', 'z-index', 'border', 'width'];
 
         assert.equal(false, app.state.conf);
         assert.ok(sortTest('	background'));
@@ -1945,7 +1945,7 @@ describe('Linter Style Checks: ', function () {
       });
 
       it('true if correct sort order with mocked sort order cache', function () {
-        var expectedCache = ['border', 'margin', 'padding', 'position', 'z-index'];
+        const expectedCache = ['border', 'margin', 'padding', 'position', 'z-index'];
 
         assert.equal('alphabetical', app.state.conf);
         assert.equal(3, app.cache.sortOrderCache.length);
@@ -1956,7 +1956,7 @@ describe('Linter Style Checks: ', function () {
       });
 
       it('false if not correct sort order with mocked sort order cache', function () {
-        var expectedCache = [
+        const expectedCache = [
           'border',
           'margin',
           'padding',
@@ -2003,7 +2003,7 @@ describe('Linter Style Checks: ', function () {
       });
 
       it('false if not correct sort order with mocked sort order cache', function () {
-        var expectedCache = ['position', 'right', 'top'];
+        const expectedCache = ['position', 'right', 'top'];
 
         assert.equal('grouped', app.state.conf);
         assert.equal(2, app.cache.sortOrderCache.length);
@@ -2013,7 +2013,7 @@ describe('Linter Style Checks: ', function () {
       });
 
       it('true if correct sort order with mocked sort order cache', function () {
-        var expectedCache = ['position', 'right', 'bottom', 'z-index', 'width'];
+        const expectedCache = ['position', 'right', 'bottom', 'z-index', 'width'];
 
         assert.equal('grouped', app.state.conf);
         assert.equal(2, app.cache.sortOrderCache.length);
@@ -2036,7 +2036,7 @@ describe('Linter Style Checks: ', function () {
       });
 
       it('false if not correct sort order with mocked sort order cache', function () {
-        var expectedCache = ['z-index', 'top', 'animation'];
+        const expectedCache = ['z-index', 'top', 'animation'];
 
         assert.deepEqual(['z-index', 'animation', 'top'], app.state.conf);
         assert.equal(1, app.cache.sortOrderCache.length);
@@ -2047,7 +2047,7 @@ describe('Linter Style Checks: ', function () {
       });
 
       it('true if correct sort order with mocked sort order cache', function () {
-        var expectedCache = ['z-index', 'animation', 'top', 'width', 'border'];
+        const expectedCache = ['z-index', 'animation', 'top', 'width', 'border'];
 
         assert.deepEqual(['z-index', 'animation', 'top'], app.state.conf);
         assert.equal(1, app.cache.sortOrderCache.length);
@@ -2062,7 +2062,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('stacked properties', function () {
-    var stackedTest = lint.stackedProperties.bind(app);
+    const stackedTest = lint.stackedProperties.bind(app);
 
     it('false if not a one liner', function () {
       assert.equal(false, stackedTest('margin 0 auto'));
@@ -2075,7 +2075,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('starts with comment', function () {
-    var startsWithComment = app.startsWithComment.bind(app);
+    const startsWithComment = app.startsWithComment.bind(app);
 
     it('false if // not first char on line', function () {
       assert.equal(false, startsWithComment('margin 0 auto //test'));
@@ -2088,7 +2088,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('stylint off toggle:', function () {
-    var toggleTest = app.stylintOff.bind(app);
+    const toggleTest = app.stylintOff.bind(app);
 
     it('false if tests enabled and toggle found', function () {
       app.state.testsEnabled = true;
@@ -2107,7 +2107,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('stylint on toggle:', function () {
-    var toggleTest = app.stylintOn.bind(app);
+    const toggleTest = app.stylintOn.bind(app);
 
     it('false if tests disabled and toggle not found', function () {
       app.state.testsEnabled = false;
@@ -2126,7 +2126,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('trailing whitespace', function () {
-    var whitespaceTest = lint.trailingWhitespace.bind(app);
+    const whitespaceTest = lint.trailingWhitespace.bind(app);
 
     it('false if no trailing whitespace', function () {
       assert.equal(false, whitespaceTest('', 'margin 0 auto'));
@@ -2139,7 +2139,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('universal selector', function () {
-    var universalTest = lint.universal.bind(app);
+    const universalTest = lint.universal.bind(app);
 
     it('false if no invalid * is found', function () {
       assert.equal(false, universalTest('return ( $width*$height )'));
@@ -2158,7 +2158,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('valid property:', function () {
-    var validTest = lint.valid.bind(app);
+    const validTest = lint.valid.bind(app);
 
     beforeEach(function () {
       app.state.keyframes = false;
@@ -2250,7 +2250,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('zero units: prefer no unit values', function () {
-    var zeroTest = lint.zeroUnits.bind(app);
+    const zeroTest = lint.zeroUnits.bind(app);
 
     beforeEach(function () {
       app.state.keyframes = false;
@@ -2303,7 +2303,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('zero units: prefer unit values', function () {
-    var zeroTest = lint.zeroUnits.bind(app);
+    const zeroTest = lint.zeroUnits.bind(app);
 
     beforeEach(function () {
       app.state.keyframes = false;
@@ -2356,7 +2356,7 @@ describe('Linter Style Checks: ', function () {
   });
 
   describe('zIndex Normalizer', function () {
-    var zNormalizrTest = lint.zIndexNormalize.bind(app);
+    const zNormalizrTest = lint.zIndexNormalize.bind(app);
 
     beforeEach(function () {
       app.state.conf = 5;
@@ -2434,14 +2434,14 @@ describe('Done, again: ', function () {
 });
 
 describe('Lint Text: ', function () {
-  var linter;
+  let linter;
 
   beforeEach(function () {
     linter = stylint.api();
   });
 
   it('should return object with violations', function () {
-    var lintResult = linter.lintString('.class {\n  color: red !important\n}\n', null, 'filename.styl');
+    const lintResult = linter.lintString('.class {\n  color: red !important\n}\n', null, 'filename.styl');
 
     assert.deepEqual(lintResult, {
       results: [{

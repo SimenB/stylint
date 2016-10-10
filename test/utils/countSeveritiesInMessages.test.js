@@ -1,7 +1,7 @@
 'use strict';
 
-var assert = require('assert');
-var countSeverities = require('../../src/utils/countSeveritiesInMessages');
+const assert = require('assert');
+const countSeverities = require('../../src/utils/countSeveritiesInMessages');
 
 describe('countSeveritiesInMessages', function () {
   it('should count warning correctly', function () {

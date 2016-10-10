@@ -1,11 +1,11 @@
 'use strict';
 
 // the alphabet, uppers
-var upperRe = /[A-Z]+/m;
+const upperRe = /[A-Z]+/m;
 // BEM (http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/)
-var bemRe = /^([$.#{:][${a-z]([-]?[${}a-z0-9]+)*(_{2}[${}a-z0-9]([-]?[${}a-z0-9]+)*)?((_[${}a-z0-9]([-]?[a-z0-9}]+)*){2})*)\b/m;
+const bemRe = /^([$.#{:][${a-z]([-]?[${}a-z0-9]+)*(_{2}[${}a-z0-9]([-]?[${}a-z0-9]+)*)?((_[${}a-z0-9]([-]?[a-z0-9}]+)*){2})*)\b/m;
 // camelCase or CamelCase
-var camelRe = /^[$#.{:]+([a-zA-Z]|[${}])+([a-z]|[${}])+(([.A-Z0-9])+[a-z ]+)+\b/m;
+const camelRe = /^[$#.{:]+([a-zA-Z]|[${}])+([a-z]|[${}])+(([.A-Z0-9])+[a-z ]+)+\b/m;
 
 
 /**
@@ -14,11 +14,11 @@ var camelRe = /^[$#.{:]+([a-zA-Z]|[${}])+([a-z]|[${}])+(([.A-Z0-9])+[a-z ]+)+\b/
  * @param {string} [line] curr line being linted
  * @returns {boolean} true if convention wrong, false if not
  */
-var namingConvention = function (line) {
-  var arr = this.splitAndStrip(' ', line);
+const namingConvention = function (line) {
+  const arr = this.splitAndStrip(' ', line);
 	// determine if line should be tested at all
-  var doWeTestRe = /^[${:]+/m;
-  var badConvention = false;
+  let doWeTestRe = /^[${:]+/m;
+  let badConvention = false;
 
 	// test a wider range if strict is true
   if (this.config.namingConventionStrict === true) {
@@ -68,7 +68,7 @@ var namingConvention = function (line) {
       }
 			// if not one of the defaults, assume custom regExp
       else if (typeof this.state.conf === 'string') {
-        var conventionRe = new RegExp(this.state.conf, 'm');
+        const conventionRe = new RegExp(this.state.conf, 'm');
 
         if (!conventionRe.test(arr[0])) {
           badConvention = true;
@@ -78,7 +78,7 @@ var namingConvention = function (line) {
   }
 
   if (badConvention === true) {
-    var index = line.indexOf(arr[0]);
+    const index = line.indexOf(arr[0]);
     this.msg('preferred naming convention is ' + this.state.conf, index);
   }
 

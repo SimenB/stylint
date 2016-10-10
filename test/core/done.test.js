@@ -1,13 +1,13 @@
 'use strict';
 
-var assert = require('assert');
-var sinon = require('sinon');
-var done = require('../../src/core/done');
+const assert = require('assert');
+const sinon = require('sinon');
+const done = require('../../src/core/done');
 
 describe('done', function () {
-  var context;
+  let context;
 
-  var report;
+  let report;
 
   beforeEach(function () {
     report = {

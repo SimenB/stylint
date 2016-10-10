@@ -2,7 +2,7 @@
  * default configuration object
  * this is what the linter will run when no config file is passed
  */
-var config = {
+const config = {
 	// check for @block when defining blocks
   blocks: false,
 	// check for { or }, unless used in a hash

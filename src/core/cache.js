@@ -1,7 +1,7 @@
-var path = require('path');
+const path = require('path');
 
 // the main cache object
-var cache = {
+const cache = {
   col: null, // column number for warning if applicable
   comment: '', // the current line comment on the line, if there is one
   customProperties: [], // an array of all declared mixins OR custom properties

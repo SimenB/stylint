@@ -7,13 +7,13 @@
 // 5 ( from || to ) are only valid inside @keyframe
 // 6 the actual JSON property whitelist we will test against
 // 7 if interpolated value just give it a pass
-var attrOrMixinRe = /^\[\S+\]|({[\S]+})|(\([\S ]+\))|(\(\))/; // 1
-var stripRe = /(?=\S)\[\S+\]|(\.|#)(\w|-)+/; // /(?=\S)\[\S+\]/ // 2
-var ignoreRe = /^[$.#]|[&=>+~]|if|for|else|return|@block|calc|@extend|@media/; // 3
-var numRe = /\d+?(?=px|%|em|rem|v(h|w)|v(min|max)|ex|ch|mm|cm|in|pt|pc|mozmm)/; // 4
-var keyRe = /((from)|(to))+(?= $| {| \d|\n|{)/; // 5
-var validJSON = require('../data/valid.json'); // 6
-var interpolatedRe = /( *{\S+} *)/; // 7
+const attrOrMixinRe = /^\[\S+\]|({[\S]+})|(\([\S ]+\))|(\(\))/; // 1
+const stripRe = /(?=\S)\[\S+\]|(\.|#)(\w|-)+/; // /(?=\S)\[\S+\]/ // 2
+const ignoreRe = /^[$.#]|[&=>+~]|if|for|else|return|@block|calc|@extend|@media/; // 3
+const numRe = /\d+?(?=px|%|em|rem|v(h|w)|v(min|max)|ex|ch|mm|cm|in|pt|pc|mozmm)/; // 4
+const keyRe = /((from)|(to))+(?= $| {| \d|\n|{)/; // 5
+const validJSON = require('../data/valid.json'); // 6
+const interpolatedRe = /( *{\S+} *)/; // 7
 
 
 /**
@@ -26,8 +26,8 @@ module.exports = function valid (line) {
   if (!this.state.keyframes && line.match(keyRe)) { return; }
 
 	// 1 split by tabs and spaces, tabs mess with pattern matching
-  var isValid = false;
-  var arr = this.splitAndStrip(new RegExp(/[\s\t,:]/), line); // 1
+  let isValid = false;
+  const arr = this.splitAndStrip(new RegExp(/[\s\t,:]/), line); // 1
 
 	// if not splittable for some reason
   if (typeof arr[0] === 'undefined') return;

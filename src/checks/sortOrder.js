@@ -1,8 +1,8 @@
 'use strict';
 
-var resetOnFileChange = 0;
-var ignoreMeRe = /[.#${}=>&*]|\(.*\)|(&:)|(if)|(for)|(@block)|(@import)|(@media)|(@extends)|,$/;
-var ordering = require('../data/ordering.json');
+let resetOnFileChange = 0;
+const ignoreMeRe = /[.#${}=>&*]|\(.*\)|(&:)|(if)|(for)|(@block)|(@import)|(@media)|(@extends)|,$/;
+const ordering = require('../data/ordering.json');
 
 
 /**
@@ -10,7 +10,7 @@ var ordering = require('../data/ordering.json');
  * @param  {string} [line] curr line being linted
  * @return {boolean} true if in order, false if not
  */
-var sortOrder = function (line) {
+const sortOrder = function (line) {
 	// we don't alphabetize the root yet
   if (this.state.context === 0 || this.state.hash) {
     this.cache.sortOrderCache = [];
@@ -24,13 +24,13 @@ var sortOrder = function (line) {
 	 * 4 assume sorted by default
 	 * 5 alphabetical by default, if custom array we output a shorter msg
 	 */
-  var arr = this.splitAndStrip(
+  const arr = this.splitAndStrip(
 		new RegExp(/[\s\t,:]/), line.replace(/(\(.+\))/, '')
 	); // 1
-  var sortedArr = []; // 2
-  var orderingArr = []; // 3
-  var sorted = true; // 4
-  var orderName = this.state.conf; // 5
+  let sortedArr = []; // 2
+  let orderingArr = []; // 3
+  let sorted = true; // 4
+  let orderName = this.state.conf; // 5
 
   if (ignoreMeRe.test(arr[0])) return;
 
@@ -67,8 +67,8 @@ var sortOrder = function (line) {
 
 		// iterate over our cache copy, and sort it according to our config
     sortedArr = sortedArr.sort(function (a, b) {
-      var aIndex = orderingArr.indexOf(a);
-      var bIndex = orderingArr.indexOf(b);
+      const aIndex = orderingArr.indexOf(a);
+      let bIndex = orderingArr.indexOf(b);
 
 			// allow properties that don't exist in ordering array to be last
       if (bIndex < 0) {

@@ -1,11 +1,11 @@
 'use strict';
 
-var _ = require('lodash');
+const _ = require('lodash');
 
 function countSeverities (messages) {
-  var warningsOrErrors = _.countBy(messages, 'severity');
-  var errorCount = warningsOrErrors.error || 0;
-  var warningCount = warningsOrErrors.warning || 0;
+  const warningsOrErrors = _.countBy(messages, 'severity');
+  const errorCount = warningsOrErrors.error || 0;
+  const warningCount = warningsOrErrors.warning || 0;
 
   return { errorCount: errorCount, warningCount: warningCount };
 }
