@@ -30,9 +30,7 @@
   "bugs": {
     "url": "https://github.com/SimenB/stylint/issues"
   },
-  "bin": {
-    "stylint": "./bin/stylint"
-  },
+  "bin": "./bin/stylint.js",
   "devDependencies": {
     "chai": "3.5.0",
     "eslint": "2.13.1",
