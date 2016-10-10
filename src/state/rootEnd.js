@@ -5,7 +5,7 @@
  * @description check for keyframes end
  * @returns {boolean} false if keyframes ending, true if not
  */
-var rootEnd = function() {
+var rootEnd = function () {
   if (!this.state.root) { return; }
 
   if (this.state.root && this.state.context === 0) {

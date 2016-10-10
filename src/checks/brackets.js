@@ -11,7 +11,7 @@ var validJSON = require('../data/valid.json');
  * @param {string} [line] curr line being linted
  * @returns {boolean} true if bracket found, false if not
  */
-var brackets = function(line) {
+var brackets = function (line) {
 	// in order if:
 	// 1 in hash or css block
 	// 2 variable or hash or block
@@ -50,11 +50,11 @@ var brackets = function(line) {
       if (typeof arr[0] !== 'undefined') {
         arr[0] = arr[0].replace(stripRe, '').trim();
 
-        isCSS = validJSON.css.some(function(css) {
+        isCSS = validJSON.css.some(function (css) {
           return arr[0] === css || this.checkPrefix(arr[0], css, validJSON);
         }.bind(this));
 
-        isMixin = this.cache.customProperties.some(function(mixin) {
+        isMixin = this.cache.customProperties.some(function (mixin) {
           return arr[0] === mixin;
         });
       }

@@ -5,7 +5,7 @@
  * @description runs tests according to config ( or all if strict is true )
  * @return {Function | undefined} undefined if just calling the method, function is linting over
  */
-var lint = function() {
+var lint = function () {
   var method;
   var checks = Object.getPrototypeOf(this).lintMethods;
 

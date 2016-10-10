@@ -6,8 +6,8 @@
  * @param {string} [line] curr line being linted
  * @returns {Array} split and filtered array
 */
-var splitAndStrip = function(re, line) {
-  return line.split(re).filter(function(str) {
+var splitAndStrip = function (re, line) {
+  return line.split(re).filter(function (str) {
     return str.length > 0;
   });
 };

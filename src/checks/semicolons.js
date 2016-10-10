@@ -9,7 +9,7 @@ var ignoreRe = /(^[*#.])|[&>/]|{|}|if|for(?!\w)|else|@block|@media|(}|{|=|,)$/ig
  * @param  {string} [line] curr line being linted
  * @return {boolean} true if in order, false if not
  */
-var semicolons = function(line) {
+var semicolons = function (line) {
   if (ignoreRe.test(line.trim())) return;
   if (this.state.hashOrCss) return;
 

@@ -6,7 +6,7 @@
  * @param {string} [line] curr line being linted
  * @returns {boolean} true if wrong style used, false if not
  */
-var extendPref = function(line) {
+var extendPref = function (line) {
   if (line.indexOf('@extend') === -1) { return; }
 
   var extendIncorrect = false;

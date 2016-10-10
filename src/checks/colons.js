@@ -10,7 +10,7 @@ var ignoreRe = /( ^[&$=#>.]|\.[a-zA-Z]|#[a-zA-Z]| \+ | , | = | ~ | > | &| {|}|\(
  * @param {string} [line] curr line being linted
  * @returns {boolean} true if colon found, false if not
  */
-var colons = function(line) {
+var colons = function (line) {
   if (ignoreRe.test(line) || this.state.context === 0) { return; }
 
   var colon;
@@ -29,7 +29,7 @@ var colons = function(line) {
 		line.indexOf(':') !== -1) {
 
 		// check for pseudo selector first
-    hasPseudo = validJSON.pseudo.some(function(val) {
+    hasPseudo = validJSON.pseudo.some(function (val) {
       return line.indexOf(val) !== -1;
     });
 

@@ -8,7 +8,7 @@ var transformMessages = require('../../src/core/transformMessages');
 // https://nodejs.org/api/assert.html#assert_assert_deepstrictequal_actual_expected_message
 var deepEqual = assert.deepStrictEqual || assert.deepEqual;
 
-describe('transforming messages for report', function() {
+describe('transforming messages for report', function () {
   var context;
 
   var message;
@@ -19,7 +19,7 @@ describe('transforming messages for report', function() {
   var source;
   var ruleId;
 
-  function createMessage() {
+  function createMessage () {
     return {
       message: message,
       severity: severity,
@@ -31,7 +31,7 @@ describe('transforming messages for report', function() {
     };
   }
 
-  beforeEach(function() {
+  beforeEach(function () {
     context = {
       cache: {
         messages: []
@@ -48,7 +48,7 @@ describe('transforming messages for report', function() {
     ruleId = 'some rule';
   });
 
-  it('should call report even if no messages', function() {
+  it('should call report even if no messages', function () {
     deepEqual(transformMessages.call(context), {
       results: [],
       errorCount: 0,
@@ -56,7 +56,7 @@ describe('transforming messages for report', function() {
     });
   });
 
-  it('should transform single message correctly', function() {
+  it('should transform single message correctly', function () {
     context.cache.messages = [createMessage()];
 
     deepEqual(transformMessages.call(context), {
@@ -78,14 +78,14 @@ describe('transforming messages for report', function() {
     });
   });
 
-  it('should assign result to correct field', function() {
+  it('should assign result to correct field', function () {
     context.cache.messages = [createMessage()];
 
     var report = transformMessages.call(context);
     assert.equal(report, context.cache.report);
   });
 
-  it('should transform multiple messages from same file correctly', function() {
+  it('should transform multiple messages from same file correctly', function () {
     var message1 = createMessage();
 
     line = 5;
@@ -119,7 +119,7 @@ describe('transforming messages for report', function() {
     });
   });
 
-  it('should transform multiple messages for different files correctly', function() {
+  it('should transform multiple messages for different files correctly', function () {
     var message1 = createMessage();
 
     line = 5;
@@ -159,13 +159,13 @@ describe('transforming messages for report', function() {
     });
   });
 
-  it('should call done by default', function() {
+  it('should call done by default', function () {
     transformMessages.call(context);
 
     assert(context.done.calledOnce);
   });
 
-  it('should not call done if skipDone passed in', function() {
+  it('should not call done if skipDone passed in', function () {
     transformMessages.call(context, true);
 
     assert(!context.done.called);

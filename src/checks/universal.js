@@ -8,7 +8,7 @@ var universalRe = /( |\w|\d|'|"|\*|\/)(\*)( |\w|\d|'|"|\*|\$|\=)/;
 * @param {string} [line] current line being linted
 * @returns {boolean} true if * on line, false if not
 */
-var universal = function(line) {
+var universal = function (line) {
   var index = line.indexOf('*');
   if (index === -1) return;
 

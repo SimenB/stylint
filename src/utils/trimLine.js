@@ -9,7 +9,7 @@ var urlOrContentRe = /(["'].+["'])|( +|:)url\(.+\)/;
  * @param {string} [line] curr line being linted
  * @returns {string} the line, but minus all the annoying stuff
 */
-var trimLine = function(line) {
+var trimLine = function (line) {
   var startsWithCommentRe = /(^\/\/)/;
 
 	// reset values from previous line

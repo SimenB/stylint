@@ -13,7 +13,7 @@ var parensEndWithNoSpaceRe = /\S+\)+/;
  * @param {string} [source] curr line before being stripped
  * @return {boolean} true if placeholder used, false if not
  */
-var parenSpace = function(line, source) {
+var parenSpace = function (line, source) {
   if (!parensRe.test(source)) { return; }
 
   var hasStartSpace = parensBeginWithSpaceRe.exec(source);

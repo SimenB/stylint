@@ -6,7 +6,7 @@ var defaultOptions = {
   watch: false,
   config: null,
   strict: false,
-  callback: function() {}
+  callback: function () {}
 };
 
 /**
@@ -15,7 +15,7 @@ var defaultOptions = {
  * @param {String} [pathPassed] path to files to lint
  * @return {Function} always returns a function, determined by cli flags
  */
-var init = function(options, pathPassed) {
+var init = function (options, pathPassed) {
   options = defaults(options || {}, defaultOptions);
 
   this.config = this.setConfig(options.config);

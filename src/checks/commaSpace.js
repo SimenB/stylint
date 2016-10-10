@@ -11,7 +11,7 @@ var removeQuotesRe = /(["'])(?:(?=(\\?))\2.)*?\1/g;
  * @param {string} [source] curr line before being stripped
  * @returns {boolean} true if space missing, false if not
  */
-var commaSpace = function(line, source) {
+var commaSpace = function (line, source) {
 	// conditions where testing isn't needed.
 	// 1: no comma on line at all
 	// 2: comma ends the line, as in a list

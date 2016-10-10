@@ -9,17 +9,17 @@ var countSeverities = require('../utils/countSeveritiesInMessages');
  * @param {boolean} [skipDone] if true, don't call done
  * @returns {Object} returns the transformed object
  */
-var transformMessages = function(skipDone) {
+var transformMessages = function (skipDone) {
   var severities = countSeverities(this.cache.messages);
   var errorCount = severities.errorCount;
   var warningCount = severities.warningCount;
 
   var groupedByFile = _.chain(this.cache.messages)
 		.groupBy('file')
-		.map(function(messages, filePath) {
+		.map(function (messages, filePath) {
   var localSeverities = countSeverities(messages);
 
-  var filteredMessages = messages.map(function(message) {
+  var filteredMessages = messages.map(function (message) {
 				// Just removes `file`
     return {
       column: message.column,

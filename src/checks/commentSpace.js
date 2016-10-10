@@ -9,7 +9,7 @@ var commentRe = /\/\/ /;
  * @param {string} [source] curr line before being stripped
  * @returns {boolean} true if comment found, false if not
  */
-var commentSpace = function(line, source) {
+var commentSpace = function (line, source) {
   if (!this.state.hasComment) { return; }
 
   var spaceAfterComment = false;

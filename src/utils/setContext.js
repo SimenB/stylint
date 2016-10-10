@@ -5,7 +5,7 @@
  * @param {string} [line] curr line being linted
  * @returns {number} # of indents deep we are
 */
-var setContext = function(line) {
+var setContext = function (line) {
   var context = 0;
   var indentPref = this.config.indentPref.expect || this.config.indentPref;
 

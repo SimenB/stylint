@@ -5,7 +5,7 @@
  * @description checks that the # of spaces used is consistent
  * @returns {boolean} true if # of spaces correct, false if not
  */
-var indentPref = function() {
+var indentPref = function () {
   var spaces = this.state.conf;
   var context = this.state.context;
 

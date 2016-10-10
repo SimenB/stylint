@@ -21,14 +21,14 @@ app.state.quiet = true;
 app.state.watching = true;
 app.cache.dir = '/Users/ross/Developer/workspace/stylus-lint/';
 
-describe('Core Methods: ', function() {
+describe('Core Methods: ', function () {
 
-  beforeEach(function() {
+  beforeEach(function () {
     app.state.strictMode = false;
   });
 
-  describe('Done: ', function() {
-    it('should be a function', function() {
+  describe('Done: ', function () {
+    it('should be a function', function () {
       app.done.should.be.a('function');
     });
   });
@@ -154,21 +154,21 @@ describe('Core Methods: ', function() {
 	// 	} )
 	// } )
 
-  describe('Lint: ', function() {
+  describe('Lint: ', function () {
     sinon.spy(app, 'lint');
 
-    afterEach(function() {
+    afterEach(function () {
       app.config.maxErrors = false;
       app.config.maxWarnings = false;
       app.cache.messages = [];
       app.cache.brackets = false;
     });
 
-    it('should be a function', function() {
+    it('should be a function', function () {
       app.lint.should.be.a('function');
     });
 
-    it('should pick up severity of current check', function() {
+    it('should pick up severity of current check', function () {
       app.config.brackets = {
         expect: 'never',
         error: true
@@ -178,21 +178,21 @@ describe('Core Methods: ', function() {
       app.lint.getCall(0).returned(sinon.match.same(app.done));
     });
 
-    it('should return done if over maxErrs', function() {
+    it('should return done if over maxErrs', function () {
       app.config.maxErrors = 5;
       app.cache.messages.length = 6;
       app.lint();
       app.lint.getCall(1).returned(sinon.match.same(app.done));
     });
 
-    it('should return done if over maxWarnings', function() {
+    it('should return done if over maxWarnings', function () {
       app.config.maxWarnings = 5;
       app.cache.messages.length = 6;
       app.lint();
       app.lint.getCall(2).returned(sinon.match.same(app.done));
     });
 
-    it('should cache rule name as one of warning properties', function() {
+    it('should cache rule name as one of warning properties', function () {
       app.config = { brackets: 'never' };
       app.lint();
       assert.equal(app.cache.rule, 'brackets');
@@ -206,50 +206,50 @@ describe('Core Methods: ', function() {
     });
   });
 
-  describe('Watch: ', function() {
+  describe('Watch: ', function () {
     sinon.spy(app, 'watch');
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.watcher = undefined;
     });
 
-    it('should be a function', function() {
+    it('should be a function', function () {
       app.watch.should.be.a('function');
     });
 
-    it('watcher should be undefined if not called yet', function() {
+    it('watcher should be undefined if not called yet', function () {
       assert.ok(typeof app.watcher === 'undefined');
     });
 
-    it('should set watcher if called', function() {
+    it('should set watcher if called', function () {
       app.watch();
       assert.ok(typeof app.watcher !== 'undefined');
     });
 
-    it('should call ready event when fired', function() {
+    it('should call ready event when fired', function () {
       app.watcher = chokidar.watch(app.state.path);
-      app.watcher.on('ready', function() {
+      app.watcher.on('ready', function () {
         assert(true);
       });
     });
 
-    it('should call change event when file changed', function() {
+    it('should call change event when file changed', function () {
       app.watcher = chokidar.watch('test-styl/test.styl');
-      app.watcher.on('change', function() {
+      app.watcher.on('change', function () {
         assert(true);
       });
       touch('test-styl/test.styl');
     });
   });
 
-  describe('Reporter should: ', function() {
+  describe('Reporter should: ', function () {
     sinon.spy(app, 'reporter');
 
-    it('be a function', function() {
+    it('be a function', function () {
       app.reporter.should.be.a('function');
     });
 
-    it('return correctly formatted msg', function() {
+    it('return correctly formatted msg', function () {
       app.cache.rule = 'universal';
       var expectedOutput = 'testReporter\n1 universal warning universal disallowed\n\nStylint: 0 Errors.\nStylint: 1 Warnings.';
 
@@ -273,13 +273,13 @@ describe('Core Methods: ', function() {
     });
   });
 
-  describe('setState should: ', function() {
+  describe('setState should: ', function () {
 
-    it('be a function', function() {
+    it('be a function', function () {
       app.setState.should.be.a('function');
     });
 
-    it('return undefined if line empty', function() {
+    it('return undefined if line empty', function () {
 			// app.reporter( 'universal disallowed' )
       assert.equal(undefined, app.setState(''));
       assert.equal(undefined, app.setState(' '));
@@ -288,83 +288,83 @@ describe('Core Methods: ', function() {
       assert.equal(undefined, app.setState('\s\t'));
     });
 
-    it('return undefined if @stylint ignore comment', function() {
+    it('return undefined if @stylint ignore comment', function () {
       assert.equal(undefined, app.setState('margin 0 // @stylint ignore'));
     });
 
-    it('return undefined if @stylint off comment', function() {
+    it('return undefined if @stylint off comment', function () {
       app.cache.source = '// @stylint off';
       assert.equal(undefined, app.setState('// @stylint off'));
     });
 
-    it('testsEnabled should set to false now', function() {
+    it('testsEnabled should set to false now', function () {
       assert.equal(false, app.state.testsEnabled);
     });
 
-    it('return undefined if @stylint on comment', function() {
+    it('return undefined if @stylint on comment', function () {
       app.cache.source = '// @stylint on';
       assert.equal(undefined, app.setState('// @stylint on'));
     });
 
-    it('testsEnabled should set to true now', function() {
+    it('testsEnabled should set to true now', function () {
       assert.ok(app.state.testsEnabled);
     });
 
-    it('return undefined if hash starting', function() {
+    it('return undefined if hash starting', function () {
       assert.equal(undefined, app.setState('my-hash = {'));
     });
 
-    it('hashOrCSS should be set to true now', function() {
+    it('hashOrCSS should be set to true now', function () {
       assert.ok(app.state.hashOrCSS);
     });
 
-    it('return undefined if hash ending', function() {
+    it('return undefined if hash ending', function () {
       app.state.testsEnabled = true;
       assert.equal(undefined, app.setState('}'));
     });
 
-    it('hashOrCSS should be set to false now', function() {
+    it('hashOrCSS should be set to false now', function () {
       assert.equal(false, app.state.hashOrCSS);
     });
 
-    it('return undefined if keyframes starting', function() {
+    it('return undefined if keyframes starting', function () {
       assert.equal(undefined, app.setState('@keyframes'));
     });
 
-    it('keyframes should be set to true now', function() {
+    it('keyframes should be set to true now', function () {
       assert.ok(app.state.keyframes);
     });
 
-    it('return undefined if keyframes ending', function() {
+    it('return undefined if keyframes ending', function () {
       assert.equal(undefined, app.setState(''));
     });
 
-    it('keyframes should be set to false now', function() {
+    it('keyframes should be set to false now', function () {
       assert.equal(false, app.state.keyframes);
     });
 
-    it('return undefined if line is just a comment', function() {
+    it('return undefined if line is just a comment', function () {
       assert.equal(undefined, app.setState('// stuff about this code'));
     });
   });
 });
 
-describe('Utility Methods: ', function() {
-  beforeEach(function() {
+describe('Utility Methods: ', function () {
+  beforeEach(function () {
     app.state.strictMode = false;
   });
 
-  describe('Set Config should:', function() {
+  describe('Set Config should:', function () {
     process.argv[2] = '-c';
     process.argv[3] = '.stylintrc';
     var testMethod = app.setConfig('.stylintrc');
     var testConfig = JSON.parse(stripJsonComments(fs.readFileSync(process.cwd() + '/.stylintrc', 'utf-8')));
 
-    it('update config state if passed a valid path', function() {
+    it('update config state if passed a valid path', function () {
       assert.deepEqual(testMethod, testConfig);
     });
 
-    it('throw if passed invalid path', function() {
+    it('throw if passed invalid path', function () {
       assert.throws(
 				app.setConfig,
 				TypeError,
@@ -373,38 +373,38 @@ describe('Utility Methods: ', function() {
     });
   });
 
-  describe('Get Files should: ', function() {
+  describe('Get Files should: ', function () {
     sinon.spy(app, 'getFiles');
 
-    it('return app.parse if passed directory', function() {
+    it('return app.parse if passed directory', function () {
       app.getFiles('/styl');
       app.getFiles.getCall(0).returned(sinon.match.same(app.parse));
     });
 
-    it('return app.parse if passed filename', function() {
+    it('return app.parse if passed filename', function () {
       app.getFiles('/styl/test2.styl');
       app.getFiles.getCall(1).returned(sinon.match.same(app.parse));
     });
 
-    it('return app.parse if passed array of files', function() {
+    it('return app.parse if passed array of files', function () {
       app.getFiles(['/styl/test2.styl']);
       app.getFiles.getCall(2).returned(sinon.match.same(app.parse));
     });
   });
 
-  describe('Reset (after change)', function() {
+  describe('Reset (after change)', function () {
     var resetTest = app.resetOnChange.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.watching = false;
     });
 
-    it('reset on change should change dir to curr file', function() {
+    it('reset on change should change dir to curr file', function () {
       resetTest('../styl/_ads.styl');
       assert.ok(app.state.path === '../styl/_ads.styl');
     });
 
-    it('reset should reset all caches', function() {
+    it('reset should reset all caches', function () {
       resetTest('../styl/_ads.styl');
       assert.ok(
 				Object.keys(app.cache.sCache).length === 0 &&
@@ -417,7 +417,7 @@ describe('Utility Methods: ', function() {
 			);
     });
 
-    it('reset should set prevLine and prevFile to empty strings', function() {
+    it('reset should set prevLine and prevFile to empty strings', function () {
       resetTest('../styl/_ads.styl');
       assert.ok(
 				app.cache.prevLine === '' &&
@@ -425,104 +425,104 @@ describe('Utility Methods: ', function() {
 			);
     });
 
-    it('reset should set prevContext to 0', function() {
+    it('reset should set prevContext to 0', function () {
       resetTest('../styl/_ads.styl');
       assert.ok(app.cache.prevContext === 0);
     });
   });
 
-  describe('trim line should: ', function() {
+  describe('trim line should: ', function () {
     var trimTest = app.trimLine.bind(app);
 
-    it('do nothing if line has no comment', function() {
+    it('do nothing if line has no comment', function () {
       assert.equal('.noCommentOnThisLine ', trimTest('.noCommentOnThisLine '));
     });
 
-    it('do nothing if comment is 1st character', function() {
+    it('do nothing if comment is 1st character', function () {
       assert.equal('// .noCommentOnThisLine ', trimTest('// .noCommentOnThisLine '));
     });
 
-    it('trim comment if not first character', function() {
+    it('trim comment if not first character', function () {
       assert.equal('.noCommentOnThisLine', trimTest('.noCommentOnThisLine //'));
     });
 
-    it('trim interpolated variables', function() {
+    it('trim interpolated variables', function () {
       assert.equal('.test-', trimTest('.test-{interpolation}'));
     });
   });
 });
 
-describe('Linter Style Checks: ', function() {
+describe('Linter Style Checks: ', function () {
   var lint = app.lintMethods;
 
-  beforeEach(function() {
+  beforeEach(function () {
     app.state.strictMode = true;
     app.state.conf = 'always';
     app.state.severity = 'warning';
   });
 
-  afterEach(function() {
+  afterEach(function () {
     app.cache.messages = [];
   });
 
-  describe('blocks: prefer @block when defining block vars', function() {
+  describe('blocks: prefer @block when defining block vars', function () {
     var blockTest = lint.blocks.bind(app);
 
-    it('false if block style incorrect', function() {
+    it('false if block style incorrect', function () {
       assert.equal(false, blockTest('myBlock = '));
       assert.equal(false, blockTest('myBlock ='));
     });
 
-    it('true if block style correct', function() {
+    it('true if block style correct', function () {
       assert.ok(blockTest('myBlock = @block'));
       assert.ok(blockTest('myBlock = @block '));
     });
 
-    it('undefined if block style not applicable', function() {
+    it('undefined if block style not applicable', function () {
       assert.equal(undefined, blockTest('.class'));
     });
   });
 
-  describe('blocks: disallow @block when defining block vars', function() {
+  describe('blocks: disallow @block when defining block vars', function () {
     var blockTest = lint.blocks.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.conf = 'never';
     });
 
-    it('false if block style IS correct', function() {
+    it('false if block style IS correct', function () {
       assert.equal(false, blockTest('myBlock = '));
       assert.equal(false, blockTest('myBlock ='));
     });
 
-    it('true if block style NOT correct', function() {
+    it('true if block style NOT correct', function () {
       assert.ok(blockTest('myBlock = @block'));
       assert.ok(blockTest('myBlock = @block '));
     });
 
-    it('undefined if block style not applicable', function() {
+    it('undefined if block style not applicable', function () {
       assert.equal(undefined, blockTest('.class'));
       assert.equal(undefined, blockTest('input[type="submit"]'));
     });
   });
 
-  describe('brackets: always use brackets', function() {
+  describe('brackets: always use brackets', function () {
     var bracketsTest = lint.brackets.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.conf = 'always';
       app.state.hashOrCSS = false;
       app.state.openBracket = false;
     });
 
-    it('false if no bracket found', function() {
+    it('false if no bracket found', function () {
       assert.equal(false, bracketsTest('.class-name'));
       assert.equal(false, bracketsTest('#id'));
       assert.equal(false, bracketsTest('body.main'));
       assert.equal(false, bracketsTest('+ span'));
     });
 
-    it('true if bracket found', function() {
+    it('true if bracket found', function () {
       assert.ok(bracketsTest('body {'));
       assert.ok(bracketsTest('+ span {'));
       assert.ok(bracketsTest('div.div {'));
@@ -530,12 +530,12 @@ describe('Linter Style Checks: ', function() {
       assert.ok(bracketsTest('#id {'));
     });
 
-    it('true if hash', function() {
+    it('true if hash', function () {
       app.state.hashOrCSS = true;
       assert.equal(undefined, bracketsTest('.something'));
     });
 
-    it('undefined if css or ,$ or } or =', function() {
+    it('undefined if css or ,$ or } or =', function () {
       assert.equal(undefined, bracketsTest('.my-class,'));
       assert.equal(undefined, bracketsTest('margin 0'));
       assert.equal(undefined, bracketsTest('pointer-events none'));
@@ -547,37 +547,37 @@ describe('Linter Style Checks: ', function() {
       assert.equal(undefined, bracketsTest('$foo-color ?= #0976b5;'));
       assert.equal(undefined, bracketsTest('$x += $i;'));
     });
-    it('undefined if empty', function() {
+    it('undefined if empty', function () {
       assert.equal(undefined, bracketsTest('  '));
     });
   });
 
-  describe('brackets: disallow brackets', function() {
+  describe('brackets: disallow brackets', function () {
     var bracketsTest = lint.brackets.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.conf = 'never';
     });
 
-    it('false if no bracket found', function() {
+    it('false if no bracket found', function () {
       app.state.hashOrCSS = false;
       assert.equal(false, bracketsTest('.class-name'));
       assert.equal(false, bracketsTest('div'));
     });
 
-    it('false if incorrect config', function() {
+    it('false if incorrect config', function () {
       app.state.conf = 'something';
       assert.equal(false, bracketsTest('div {'));
     });
 
-    it('true if bracket found, not in hash', function() {
+    it('true if bracket found, not in hash', function () {
       app.state.hashOrCSS = false;
       assert.ok(bracketsTest('.class-name {'));
       assert.ok(bracketsTest('div {'));
       assert.ok(bracketsTest('}'));
     });
 
-    it('undefined if in hash or syntax', function() {
+    it('undefined if in hash or syntax', function () {
       app.state.hashOrCSS = true;
       assert.equal(undefined, bracketsTest('}'));
       assert.equal(undefined, bracketsTest('{'));
@@ -592,45 +592,45 @@ describe('Linter Style Checks: ', function() {
     });
   });
 
-  describe('colon never: prefer margin 0 over margin: 0', function() {
+  describe('colon never: prefer margin 0 over margin: 0', function () {
     var colonTest = lint.colons.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.conf = 'never';
     });
 
-    afterEach(function() {
+    afterEach(function () {
       app.state.hash = false;
     });
 
-    it('true if unnecessary colon is found', function() {
+    it('true if unnecessary colon is found', function () {
       app.state.context = 1;
       app.state.hash = false;
       assert.ok(colonTest('margin: 0 auto'));
     });
 
-    it('undefined if html', function() {
+    it('undefined if html', function () {
       assert.equal(undefined, colonTest('div'));
     });
 
-    it('undefined if no colon found', function() {
+    it('undefined if no colon found', function () {
       assert.equal(undefined, colonTest('margin 0 auto'));
       assert.equal(undefined, colonTest('&:hover'));
     });
 
-    it('undefined if root context', function() {
+    it('undefined if root context', function () {
       app.state.context = 0;
       assert.equal(undefined, colonTest('margin 0 auto'));
       app.state.hash = true;
       assert.equal(undefined, colonTest('key: value'));
     });
 
-    it('undefined if hash', function() {
+    it('undefined if hash', function () {
       app.state.hash = true;
       assert.equal(undefined, colonTest('key: value'));
     });
 
-    it('undefined if syntax or css selector', function() {
+    it('undefined if syntax or css selector', function () {
       assert.equal(undefined, colonTest('#id'));
       assert.equal(undefined, colonTest('$.some-class'));
       assert.equal(undefined, colonTest('> child selector'));
@@ -649,34 +649,34 @@ describe('Linter Style Checks: ', function() {
     });
   });
 
-  describe('colon always: prefer margin: 0 over margin 0', function() {
+  describe('colon always: prefer margin: 0 over margin 0', function () {
     var colonTest = lint.colons.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.conf = 'always';
     });
 
-    it('false if no colon is found', function() {
+    it('false if no colon is found', function () {
       app.state.context = 1;
       assert.equal(false, colonTest('margin 0 auto'));
     });
 
-    it('undefined if html', function() {
+    it('undefined if html', function () {
       assert.equal(undefined, colonTest('div'));
     });
 
-    it('undefined if root context', function() {
+    it('undefined if root context', function () {
       app.state.context = 0;
       assert.equal(undefined, colonTest('margin: 0 auto'));
     });
 
-    it('undefined if colon found', function() {
+    it('undefined if colon found', function () {
       assert.equal(undefined, colonTest('background-image: '));
       assert.equal(undefined, colonTest('margin: 0 auto'));
       assert.equal(undefined, colonTest('margin: 0 auto;'));
     });
 
-    it('undefined if syntax or css selector', function() {
+    it('undefined if syntax or css selector', function () {
       assert.equal(undefined, colonTest('#id'));
       assert.equal(undefined, colonTest('$.some-class'));
       assert.equal(undefined, colonTest('> child selector'));
@@ -702,151 +702,151 @@ describe('Linter Style Checks: ', function() {
     });
   });
 
-  describe('colors', function() {
+  describe('colors', function () {
     var colorsTest = lint.colors.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.conf = true;
     });
 
-    it('undefined if line is an id selector', function() {
+    it('undefined if line is an id selector', function () {
       assert.equal(undefined, colorsTest('#aaa'));
     });
 
-    it('false if a line doesnt have a hex color', function() {
+    it('false if a line doesnt have a hex color', function () {
       assert.equal(false, colorsTest('color: red'));
     });
 
-    it('true if line has hex color', function() {
+    it('true if line has hex color', function () {
       assert.ok(colorsTest('color: #fff'));
     });
 
-    it('undefined if hex color is being assigned to a variable', function() {
+    it('undefined if hex color is being assigned to a variable', function () {
       assert.equal(undefined, colorsTest('$foobar ?= #fff'));
       assert.equal(undefined, colorsTest('$foobar = #fff'));
     });
   });
 
-  describe('comma space: prefer space after commas', function() {
+  describe('comma space: prefer space after commas', function () {
     var commaTest = lint.commaSpace.bind(app);
 
-    it('false if space after comma, or comma in quotes', function() {
+    it('false if space after comma, or comma in quotes', function () {
       assert.equal(false, commaTest('', '0, 0, 0, .18'));
       assert.equal(false, commaTest('', '0,0, 0, .18'));
       assert.equal(false, commaTest('', 'content: ","'));
     });
 
-    it('true if no space after commas', function() {
+    it('true if no space after commas', function () {
       assert.ok(commaTest('', '0,0,0,.18'));
       assert.ok(commaTest('', 'mixin( $param1,$param2 )'));
     });
 
-    it('undefined if no comma on line', function() {
+    it('undefined if no comma on line', function () {
       assert.equal(undefined, commaTest('', 'margin 0'));
     });
 
-    it('undefined if comma is last character', function() {
+    it('undefined if comma is last character', function () {
       assert.equal(undefined, commaTest('', '.class,'));
     });
   });
 
-  describe('comma space: prefer NO space after commas', function() {
+  describe('comma space: prefer NO space after commas', function () {
     var commaTest = lint.commaSpace.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.conf = 'never';
     });
 
-    it('false if space after comma', function() {
+    it('false if space after comma', function () {
       assert.equal(false, commaTest('', '0, 0, 0, .18'));
       assert.equal(false, commaTest('', '0,0, 0, .18'));
     });
 
-    it('true if no space after commas', function() {
+    it('true if no space after commas', function () {
       assert.ok(commaTest('', '0,0,0,.18'));
       assert.ok(commaTest('', 'mixin( $param1,$param2 )'));
     });
 
-    it('undefined if no comma on line', function() {
+    it('undefined if no comma on line', function () {
       assert.equal(undefined, commaTest('', 'margin 0'));
     });
 
-    it('undefined if comma is last character', function() {
+    it('undefined if comma is last character', function () {
       assert.equal(undefined, commaTest('', '.class,'));
     });
   });
 
-  describe('comment space: prefer spaces after line comments', function() {
+  describe('comment space: prefer spaces after line comments', function () {
     var commentSpaceTest = lint.commentSpace.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.hasComment = true;
     });
 
-    it('false if line comment doesnt have a space after it', function() {
+    it('false if line comment doesnt have a space after it', function () {
       app.cache.comment = '//test';
       assert.equal(false, commentSpaceTest('', ''));
     });
 
-    it('true if line comment has space after it', function() {
+    it('true if line comment has space after it', function () {
       app.cache.comment = '// test';
       assert.ok(commentSpaceTest('', ''));
     });
 
-    it('undefined if line has no comment', function() {
+    it('undefined if line has no comment', function () {
       app.state.hasComment = false;
       assert.equal(undefined, commentSpaceTest('', '.test'));
     });
   });
 
-  describe('comment space: prefer NO spaces after line comments', function() {
+  describe('comment space: prefer NO spaces after line comments', function () {
     var commentSpaceTest = lint.commentSpace.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.hasComment = true;
       app.state.conf = 'never';
     });
 
-    it('false if line comment doesnt have a space after it', function() {
+    it('false if line comment doesnt have a space after it', function () {
       app.cache.comment = '//test';
       assert.equal(false, commentSpaceTest('', ''));
     });
 
-    it('true if line comment has space after it', function() {
+    it('true if line comment has space after it', function () {
       app.cache.comment = '// test';
       assert.ok(commentSpaceTest('', ''));
     });
 
-    it('undefined if line has no comment', function() {
+    it('undefined if line has no comment', function () {
       app.state.hasComment = false;
       assert.equal(undefined, commentSpaceTest('', '.test'));
     });
   });
 
-  describe('css literal', function() {
+  describe('css literal', function () {
     var cssTest = lint.cssLiteral.bind(app);
 
-    it('false if @css is not used', function() {
+    it('false if @css is not used', function () {
       app.state.hashOrCSS = false;
       assert.equal(false, cssTest('margin 0'));
       assert.equal(false, cssTest('@extends $placeholderconst'));
       assert.equal(false, cssTest('@require "lint.styl"'));
     });
 
-    it('true if @css is used ', function() {
+    it('true if @css is used ', function () {
       assert.ok(cssTest('@css {'));
     });
 
-    it('undefined if already in css literal', function() {
+    it('undefined if already in css literal', function () {
       app.state.hashOrCSS = true;
       assert.equal(undefined, cssTest('.test'));
     });
   });
 
-  describe('depthLimit', function() {
+  describe('depthLimit', function () {
     var nestTest = lint.depthLimit.bind(app);
 
-    it('false if less indents than depth limit', function() {
+    it('false if less indents than depth limit', function () {
       app.config.depthLimit = 4;
       app.config.indentPref = 4;
       app.state.context = app.setContext('margin 0');
@@ -864,7 +864,7 @@ describe('Linter Style Checks: ', function() {
       assert.equal(false, nestTest('		.class-name								'));
     });
 
-    it('true if more indents than depth limit', function() {
+    it('true if more indents than depth limit', function () {
       app.config.depthLimit = 2;
       app.config.indentPref = 2;
       app.state.context = app.setContext('       margin 0');
@@ -884,10 +884,10 @@ describe('Linter Style Checks: ', function() {
     });
   });
 
-  describe('duplicates', function() {
+  describe('duplicates', function () {
     var dupeTest = lint.duplicates.bind(app);
 
-    it('tabs: false if no dupe, not root, diff context, same selector', function() {
+    it('tabs: false if no dupe, not root, diff context, same selector', function () {
       app.config.indentPref = 'tabs';
       app.cache.file = 'file.styl';
       app.cache.prevFile = 'file.styl';
@@ -897,7 +897,7 @@ describe('Linter Style Checks: ', function() {
       assert.equal(false, dupeTest('			.test'));
     });
 
-    it('tabs: false if globalDupe off, diff files, same context, same selector', function() {
+    it('tabs: false if globalDupe off, diff files, same context, same selector', function () {
       app.config.globalDupe = true;
       app.cache.prevFile = 'file5.styl';
       app.cache.file = 'file6.styl';
@@ -907,7 +907,7 @@ describe('Linter Style Checks: ', function() {
       app.config.globalDupe = false;
     });
 
-    it('tabs: false if prev selector was in a list, same file, same context, same selector', function() {
+    it('tabs: false if prev selector was in a list, same file, same context, same selector', function () {
       app.cache.prevFile = 'file.styl';
       app.cache.file = 'file.styl';
       app.state.context = app.setContext('	.classy,'); // to set the context
@@ -915,11 +915,11 @@ describe('Linter Style Checks: ', function() {
       assert.equal(false, dupeTest('	.classy'));
     });
 
-    it('tabs: false if selector is in a list', function() {
+    it('tabs: false if selector is in a list', function () {
       assert.equal(false, dupeTest('	.classy,'));
     });
 
-    it('tabs: false if global dupe off and file changed', function() {
+    it('tabs: false if global dupe off and file changed', function () {
       dupeTest('	.test4'); // to set the context
       app.cache.prevFile = 'file.styl';
       app.cache.file = 'file2.styl';
@@ -927,7 +927,7 @@ describe('Linter Style Checks: ', function() {
       assert.equal(false, dupeTest('	.test4'));
     });
 
-    it('spaces: false if no dupe, not root, diff context, same selector', function() {
+    it('spaces: false if no dupe, not root, diff context, same selector', function () {
       app.config.indentPref = 4;
       app.cache.file = 'file.styl';
       app.cache.prevFile = 'file.styl';
@@ -937,7 +937,7 @@ describe('Linter Style Checks: ', function() {
       assert.equal(false, dupeTest('            .test'));
     });
 
-    it('spaces: false if globalDupe off, diff files, same context, same selector', function() {
+    it('spaces: false if globalDupe off, diff files, same context, same selector', function () {
       app.config.globalDupe = true;
       app.cache.prevFile = 'file5.styl';
       app.cache.file = 'file6.styl';
@@ -947,7 +947,7 @@ describe('Linter Style Checks: ', function() {
       app.config.globalDupe = false;
     });
 
-    it('spaces: false if prev selector was in a list, same file, same context, same selector', function() {
+    it('spaces: false if prev selector was in a list, same file, same context, same selector', function () {
       app.cache.prevFile = 'file.styl';
       app.cache.file = 'file.styl';
       app.state.context = app.setContext('    .classy,'); // to set the context
@@ -955,11 +955,11 @@ describe('Linter Style Checks: ', function() {
       assert.equal(false, dupeTest('    .classy'));
     });
 
-    it('spaces: false if selector is in a list', function() {
+    it('spaces: false if selector is in a list', function () {
       assert.equal(false, dupeTest('    .classy,'));
     });
 
-    it('space: false if global dupe off and file changed', function() {
+    it('space: false if global dupe off and file changed', function () {
       dupeTest('    .test4'); // to set the context
       app.cache.prevFile = 'file.styl';
       app.cache.file = 'file2.styl';
@@ -967,7 +967,7 @@ describe('Linter Style Checks: ', function() {
       assert.equal(false, dupeTest('    .test4'));
     });
 
-    it('false if root selector dupe was in list', function() {
+    it('false if root selector dupe was in list', function () {
       app.state.context = 0;
       app.state.prevContext = 0;
       app.config.globalDupe = false;
@@ -976,7 +976,7 @@ describe('Linter Style Checks: ', function() {
       assert.equal(false, dupeTest('.test'));
     });
 
-    it('tabs: true if nested selector is dupe', function() {
+    it('tabs: true if nested selector is dupe', function () {
       app.cache.prevFile = 'file.styl';
       app.cache.file = 'file.styl';
       app.state.context = 1;
@@ -985,7 +985,7 @@ describe('Linter Style Checks: ', function() {
       assert.ok(dupeTest('	.test'));
     });
 
-    it('spaces: true if nested selector is dupe', function() {
+    it('spaces: true if nested selector is dupe', function () {
       app.cache.prevFile = 'file.styl';
       app.cache.file = 'file.styl';
       app.state.context = 1;
@@ -994,14 +994,14 @@ describe('Linter Style Checks: ', function() {
       assert.ok(dupeTest('    .test2'));
     });
 
-    it('true if root selector is dupe, same file', function() {
+    it('true if root selector is dupe, same file', function () {
       app.state.context = 0;
       app.state.prevContext = 0;
       dupeTest('.test3'); // to set the context
       assert.ok(dupeTest('.test3'));
     });
 
-    it('true if root selector is dupe, global dupe test', function() {
+    it('true if root selector is dupe, global dupe test', function () {
       app.state.context = 0;
       app.state.prevContext = 0;
       app.config.globalDupe = true;
@@ -1013,14 +1013,14 @@ describe('Linter Style Checks: ', function() {
     });
   });
 
-  describe('efficient: prefer margin 0 over margin 0 0 0 0', function() {
+  describe('efficient: prefer margin 0 over margin 0 0 0 0', function () {
     var efficientTest = lint.efficient.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.conf = 'always';
     });
 
-    it('false if value is not efficient', function() {
+    it('false if value is not efficient', function () {
       assert.equal(false, efficientTest('margin 0 0 0 0'));
       assert.equal(false, efficientTest('margin 0 0 0'));
       assert.equal(false, efficientTest('margin 0 0'));
@@ -1039,7 +1039,7 @@ describe('Linter Style Checks: ', function() {
       assert.equal(false, efficientTest('padding 0 5px 5px 5px'));
     });
 
-    it('true if value is efficient', function() {
+    it('true if value is efficient', function () {
       assert.ok(efficientTest('margin 0 5px'));
       assert.ok(efficientTest('margin: 5px 0'));
       assert.ok(efficientTest('margin 5px 0 0'));
@@ -1053,20 +1053,20 @@ describe('Linter Style Checks: ', function() {
       assert.ok(efficientTest('padding: 1px 2px 3px 4px'));
     });
 
-    it('undefined if nothing to test', function() {
+    it('undefined if nothing to test', function () {
       app.cache.line = 'border 0';
       assert.equal(undefined, efficientTest());
     });
   });
 
-  describe('efficient: prefer margin 0 0 0 0 over margin 0', function() {
+  describe('efficient: prefer margin 0 0 0 0 over margin 0', function () {
     var efficientTest = lint.efficient.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.conf = 'never';
     });
 
-    it('false if value is not efficient', function() {
+    it('false if value is not efficient', function () {
       assert.equal(false, efficientTest('margin 0 0 0 0'));
       assert.equal(false, efficientTest('margin 0 0 0'));
       assert.equal(false, efficientTest('margin 0 0'));
@@ -1085,7 +1085,7 @@ describe('Linter Style Checks: ', function() {
       assert.equal(false, efficientTest('padding 0 5px 5px 5px'));
     });
 
-    it('true if value is efficient', function() {
+    it('true if value is efficient', function () {
       assert.ok(efficientTest('margin 0 5px'));
       assert.ok(efficientTest('margin: 5px 0'));
       assert.ok(efficientTest('margin 5px 0 0'));
@@ -1099,104 +1099,104 @@ describe('Linter Style Checks: ', function() {
       assert.ok(efficientTest('padding: 1px 2px 3px 4px'));
     });
 
-    it('undefined if nothing to test', function() {
+    it('undefined if nothing to test', function () {
       app.cache.line = 'border 0';
       assert.equal(undefined, efficientTest());
     });
   });
 
-  describe('extends style: prefer @extends over @extend', function() {
+  describe('extends style: prefer @extends over @extend', function () {
     var extendTest = lint.extendPref.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.conf = '@extends';
     });
 
-    it('false if value already matches preferred style', function() {
+    it('false if value already matches preferred style', function () {
       assert.equal(false, extendTest('@extends $placeHolderconst'));
     });
 
-    it('true if value doesnt match preferred style', function() {
+    it('true if value doesnt match preferred style', function () {
       assert.ok(extendTest('@extend $placeHolderconst'));
     });
 
-    it('undefined if no extend on line', function() {
+    it('undefined if no extend on line', function () {
       assert.equal(undefined, extendTest('$var = #fff'));
     });
   });
 
-  describe('extends style: prefer @extend over @extends', function() {
+  describe('extends style: prefer @extend over @extends', function () {
     var extendTest = lint.extendPref.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.conf = '@extend';
     });
 
-    it('false if value already matches preferred style', function() {
+    it('false if value already matches preferred style', function () {
       assert.equal(false, extendTest('@extend $placeHolderconst'));
     });
 
-    it('true if value doesnt match preferred style', function() {
+    it('true if value doesnt match preferred style', function () {
       assert.ok(extendTest('@extends $placeHolderconst'));
     });
 
-    it('undefined if no extend on line', function() {
+    it('undefined if no extend on line', function () {
       assert.equal(undefined, extendTest('$var = #fff'));
     });
   });
 
-  describe('hash start', function() {
+  describe('hash start', function () {
     var hashTest = app.hashOrCSSStart.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.hashOrCSS = false;
       app.state.testsEnabled = true;
     });
 
-    it('false if hash start not found', function() {
+    it('false if hash start not found', function () {
       assert.equal(false, hashTest('$myconst ='));
       assert.equal(false, hashTest('myconst = @block'));
       assert.equal(false, hashTest('.mistakenUseOfBracket {'));
       assert.equal(false, hashTest('margin 0'));
     });
 
-    it('true if = and { are found on the same line (hash start)', function() {
+    it('true if = and { are found on the same line (hash start)', function () {
       assert.ok(hashTest('myHash = {'));
     });
 
-    it('app.state.hashOrCSS should be true after hash start', function() {
+    it('app.state.hashOrCSS should be true after hash start', function () {
       hashTest('myHash = {');
       assert.ok(app.state.hashOrCSS);
     });
 
-    it('undefined if in a hash', function() {
+    it('undefined if in a hash', function () {
       app.state.hashOrCSS = true;
       assert.equal(undefined, hashTest('myHash = {'));
     });
   });
 
-  describe('hash end', function() {
+  describe('hash end', function () {
     var hashTest = app.hashOrCSSEnd.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.hashOrCSS = true;
     });
 
-    it('false if in hash and valid } found', function() {
+    it('false if in hash and valid } found', function () {
       assert.equal(false, hashTest('}'));
     });
 
-    it('true if hash end } not found', function() {
+    it('true if hash end } not found', function () {
       assert.ok(hashTest('margin 0'));
       assert.ok(hashTest('myHash = {'));
     });
 
-    it('after finding end of hash, hash state should equal false', function() {
+    it('after finding end of hash, hash state should equal false', function () {
       assert.equal(false, hashTest('}'));
       assert.equal(false, app.state.hashOrCSS);
     });
 
-    it('undefined if not in a hash', function() {
+    it('undefined if not in a hash', function () {
       app.state.hashOrCSS = false;
       assert.equal(undefined, hashTest('margin 0'));
       assert.equal(undefined, hashTest('myHash = {'));
@@ -1204,21 +1204,21 @@ describe('Linter Style Checks: ', function() {
     });
   });
 
-  describe('indent pref', function() {
+  describe('indent pref', function () {
     var indentTest = lint.indentPref.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.conf = 2;
     });
 
-    it('false if line indented with incorrect # of spaces', function() {
+    it('false if line indented with incorrect # of spaces', function () {
       app.state.context = 1.5;
       assert.equal(false, indentTest('   .test'));
       app.state.context = 0.5;
       assert.equal(false, indentTest(' .test2'));
     });
 
-    it('true if line indented with correct # of spaces', function() {
+    it('true if line indented with correct # of spaces', function () {
       app.state.context = 1;
       assert.ok(indentTest('  .test'));
       app.state.context = 2;
@@ -1226,63 +1226,63 @@ describe('Linter Style Checks: ', function() {
     });
   });
 
-  describe('keyframes end', function() {
+  describe('keyframes end', function () {
     var keyframesEndTest = app.keyframesEnd.bind(app);
 
-    it('false if keyframes active and context set to 0 (keyframes ended)', function() {
+    it('false if keyframes active and context set to 0 (keyframes ended)', function () {
       app.state.keyframes = true;
       app.state.context = 0;
       assert.equal(false, keyframesEndTest('.newClass'));
     });
 
-    it('true if line doesnt have a context of zero', function() {
+    it('true if line doesnt have a context of zero', function () {
       app.state.keyframes = true;
       app.state.context = 1;
       assert.ok(keyframesEndTest('		from {'));
     });
 
-    it('undefined if NOT already in @keyframes', function() {
+    it('undefined if NOT already in @keyframes', function () {
       app.state.keyframes = false;
       assert.equal(undefined, keyframesEndTest('margin 0'));
     });
   });
 
-  describe('keyframes start', function() {
+  describe('keyframes start', function () {
     var keyframesStartTest = app.keyframesStart.bind(app);
 
-    afterEach(function() {
+    afterEach(function () {
       app.state.keyframes = false;
     });
 
-    it('true if line has @keyframes', function() {
+    it('true if line has @keyframes', function () {
       app.state.keyframes = false;
       assert.ok(keyframesStartTest('@keyframes {'));
     });
 
-    it('true if line has vendor @keyframes', function() {
+    it('true if line has vendor @keyframes', function () {
       app.state.keyframes = false;
       assert.ok(keyframesStartTest('@-webkit-keyframes {'));
     });
 
-    it('false if line isnt a start of @keyframes', function() {
+    it('false if line isnt a start of @keyframes', function () {
       app.state.keyframes = false;
       assert.equal(false, keyframesStartTest('margin 0'));
     });
 
-    it('undefined if already in @keyframes', function() {
+    it('undefined if already in @keyframes', function () {
       app.state.keyframes = true;
       assert.equal(undefined, keyframesStartTest('margin 0'));
     });
   });
 
-  describe('leading zero always: prefer 0.9 over .9', function() {
+  describe('leading zero always: prefer 0.9 over .9', function () {
     var zeroTest = lint.leadingZero.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.conf = 'always';
     });
 
-    it('null if leading zero not found', function() {
+    it('null if leading zero not found', function () {
       assert.equal(null, zeroTest('color (0, 0, 0, .18)'));
       assert.equal(null, zeroTest('color (0,0,0,.18)'));
       assert.equal(null, zeroTest('font-size .9em'));
@@ -1290,40 +1290,40 @@ describe('Linter Style Checks: ', function() {
       assert.equal(null, zeroTest('transform rotate(.33deg)'));
     });
 
-    it('true if line has a zero before a decimal point and not part of range', function() {
+    it('true if line has a zero before a decimal point and not part of range', function () {
       assert.ok(zeroTest('color (0, 0, 0, 0.18)'));
       assert.ok(zeroTest('color (0,0,0,0.18)'));
       assert.ok(zeroTest('transform rotate(0.33deg)'));
       assert.ok(zeroTest('transform rotate( 0.33deg )'));
     });
 
-    it('undefined if range', function() {
+    it('undefined if range', function () {
       assert.equal(undefined, zeroTest('for 0..9'));
       assert.equal(undefined, zeroTest('for 0...9'));
       assert.equal(undefined, zeroTest('for $ in (0..9)'));
     });
 
-    it('undefined if leading num not zero', function() {
+    it('undefined if leading num not zero', function () {
       assert.equal(undefined, zeroTest('font-size: 1.1em'));
       assert.equal(undefined, zeroTest('transform rotate( 22.33deg )'));
       assert.equal(undefined, zeroTest('width 33.3333333%'));
     });
 
-    it('undefined if no .\d in line', function() {
+    it('undefined if no .\d in line', function () {
       assert.equal(undefined, zeroTest('margin auto'));
       assert.equal(undefined, zeroTest('.className'));
       assert.equal(undefined, zeroTest('.class.other-class'));
     });
   });
 
-  describe('leading zero never: prefer .9 or 0.9', function() {
+  describe('leading zero never: prefer .9 or 0.9', function () {
     var zeroTest = lint.leadingZero.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.conf = 'never';
     });
 
-    it('null if leading zero not found', function() {
+    it('null if leading zero not found', function () {
       assert.equal(null, zeroTest('color (0, 0, 0, .18)'));
       assert.equal(null, zeroTest('color (0,0,0,.18)'));
       assert.equal(null, zeroTest('font-size .9em'));
@@ -1331,67 +1331,67 @@ describe('Linter Style Checks: ', function() {
       assert.equal(null, zeroTest('transform rotate(.33deg)'));
     });
 
-    it('false if range', function() {
+    it('false if range', function () {
       assert.equal(undefined, zeroTest('for 0..9'));
       assert.equal(undefined, zeroTest('for 0...9'));
       assert.equal(undefined, zeroTest('for $ in (0..9)'));
     });
 
-    it('true if line has a zero before a decimal point and', function() {
+    it('true if line has a zero before a decimal point and', function () {
       assert.ok(zeroTest('color (0, 0, 0, 0.18)'));
       assert.ok(zeroTest('color (0,0,0,0.18)'));
       assert.ok(zeroTest('transform rotate(0.33deg)'));
       assert.ok(zeroTest('transform rotate( 0.33deg )'));
     });
 
-    it('undefined if leading num not zero', function() {
+    it('undefined if leading num not zero', function () {
       assert.equal(undefined, zeroTest('font-size: 1.1em'));
       assert.equal(undefined, zeroTest('transform rotate( 22.33deg )'));
       assert.equal(undefined, zeroTest('width 33.3333333%'));
     });
 
-    it('undefined if no . in line', function() {
+    it('undefined if no . in line', function () {
       assert.equal(undefined, zeroTest('margin auto'));
     });
   });
 
-  describe('mixed spaces and tabs', function() {
+  describe('mixed spaces and tabs', function () {
     var mixed = lint.mixed.bind(app);
 
-    it('false if no mixed spaces and tabs found: spaces preferred', function() {
+    it('false if no mixed spaces and tabs found: spaces preferred', function () {
       app.config.indentPref = 4;
       assert.equal(false, mixed('', '    margin 0'));
     });
 
-    it('false if no mixed spaces and tabs found: tabs preferred', function() {
+    it('false if no mixed spaces and tabs found: tabs preferred', function () {
       app.config.indentPref = 'tabs';
       assert.equal(false, mixed('', '	margin 0'));
     });
 
-    it('true if spaces and tabs are mixed: spaces preferred', function() {
+    it('true if spaces and tabs are mixed: spaces preferred', function () {
       app.config.indentPref = 4;
       assert.ok(mixed('', '	  margin 0'));
       assert.ok(mixed('', '	padding 0em'));
     });
 
-    it('true if spaces and tabs are mixed: tabs preferred', function() {
+    it('true if spaces and tabs are mixed: tabs preferred', function () {
       app.config.indentPref = 'tabs';
       assert.ok(mixed('', '	    margin 0'));
     });
   });
 
-  describe('naming convention', function() {
+  describe('naming convention', function () {
     var conventionTest = lint.namingConvention.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.config.namingConventionStrict = true;
     });
 
-    afterEach(function() {
+    afterEach(function () {
       app.config.namingConventionStrict = false;
     });
 
-    it('false if correct naming convention: lowercase-dash', function() {
+    it('false if correct naming convention: lowercase-dash', function () {
       app.state.conf = 'lowercase-dash';
 
       assert.equal(false, conventionTest('$var-name-like-this ='));
@@ -1405,7 +1405,7 @@ describe('Linter Style Checks: ', function() {
       assert.equal(false, conventionTest('$constname = "Font Name"'));
     });
 
-    it('false if correct naming convention: lowercase_underscore', function() {
+    it('false if correct naming convention: lowercase_underscore', function () {
       app.state.conf = 'lowercase_underscore';
 
       assert.equal(false, conventionTest('$const_name_like_this ='));
@@ -1419,7 +1419,7 @@ describe('Linter Style Checks: ', function() {
       assert.equal(false, conventionTest('$constname = "Font Name"'));
     });
 
-    it('false if correct naming convention: camelCase', function() {
+    it('false if correct naming convention: camelCase', function () {
       app.state.conf = 'camelCase';
 
       assert.equal(false, conventionTest('$varNameLikeThis ='));
@@ -1433,7 +1433,7 @@ describe('Linter Style Checks: ', function() {
       assert.equal(false, conventionTest('$varname = "Font-name"'));
     });
 
-    it('false if correct naming convention: BEM', function() {
+    it('false if correct naming convention: BEM', function () {
       app.state.conf = 'BEM';
 
       assert.equal(false, conventionTest('$var-name__like-this ='));
@@ -1448,7 +1448,7 @@ describe('Linter Style Checks: ', function() {
       assert.equal(false, conventionTest('$varname = "Font Name"'));
     });
 
-    it('true if NOT correct naming convention: lowercase-dash', function() {
+    it('true if NOT correct naming convention: lowercase-dash', function () {
       app.state.conf = 'lowercase-dash';
 
       assert.ok(conventionTest('$var_name_like_this ='));
@@ -1461,7 +1461,7 @@ describe('Linter Style Checks: ', function() {
       assert.ok(conventionTest('.block_{$var-name}'));
     });
 
-    it('true if NOT correct naming convention: lowercase_underscore', function() {
+    it('true if NOT correct naming convention: lowercase_underscore', function () {
       app.state.conf = 'lowercase_underscore';
 
       assert.ok(conventionTest('$const-name-like-this ='));
@@ -1478,7 +1478,7 @@ describe('Linter Style Checks: ', function() {
       assert.ok(conventionTest('.block_{$const-name}'));
     });
 
-    it('true if NOT correct naming convention: camelCase', function() {
+    it('true if NOT correct naming convention: camelCase', function () {
       app.state.conf = 'camelCase';
 
       assert.ok(conventionTest('$const-name-like-this ='));
@@ -1498,7 +1498,7 @@ describe('Linter Style Checks: ', function() {
       assert.ok(conventionTest('.block_{$const-name}'));
     });
 
-    it('true if not correct naming convention: BEM', function() {
+    it('true if not correct naming convention: BEM', function () {
       app.state.conf = 'BEM';
 
       assert.ok(conventionTest('.classNameLikeThis'));
@@ -1510,14 +1510,14 @@ describe('Linter Style Checks: ', function() {
     });
   });
 
-  describe('naming convention: strict turned off: ', function() {
+  describe('naming convention: strict turned off: ', function () {
     var conventionTest = lint.namingConvention.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.config.namingConventionStrict = false;
     });
 
-    it('false if using classes or ids', function() {
+    it('false if using classes or ids', function () {
       assert.equal(false, conventionTest('.class_name_like_this'));
       assert.equal(false, conventionTest('#id_name_like_this'));
       assert.equal(false, conventionTest('.class-name-like-this'));
@@ -1526,37 +1526,37 @@ describe('Linter Style Checks: ', function() {
       assert.equal(false, conventionTest('#id-name-like-this'));
     });
 
-    it('false if custom convention matches', function() {
+    it('false if custom convention matches', function () {
       app.state.conf = '[$]varExample';
       assert.equal(false, conventionTest('$varExample'));
     });
 
-    it('true if custom convention doesnt match', function() {
+    it('true if custom convention doesnt match', function () {
       app.state.conf = 'somethin';
       assert.equal(true, conventionTest('$var_name_like_this'));
     });
   });
 
-  describe('noImportant: disallow !important', function() {
+  describe('noImportant: disallow !important', function () {
     var importantTest = lint.noImportant.bind(app);
 
-    before(function() {
+    before(function () {
       app.state.conf = true;
     });
 
-    it('false if a line doesnt have !important', function() {
+    it('false if a line doesnt have !important', function () {
       assert.equal(false, importantTest('.foo'));
     });
 
-    it('true if line has an !important', function() {
+    it('true if line has an !important', function () {
       assert.ok(importantTest('margin 5px !important'));
     });
   });
 
-  describe('none: prefer 0 over none', function() {
+  describe('none: prefer 0 over none', function () {
     var noneTest = lint.none.bind(app);
 
-    before(function() {
+    before(function () {
       app.state.conf = 'never';
     });
 
@@ -1591,198 +1591,198 @@ describe('Linter Style Checks: ', function() {
 		// 	assert.ok( noneTest( 'outline:none' ) )
 		// } )
 
-    it('undefined if border or outline not on line', function() {
+    it('undefined if border or outline not on line', function () {
       assert.equal(undefined, noneTest('margin 0'));
       assert.equal(undefined, noneTest('padding inherit'));
     });
   });
 
-  describe('none: prefer none over 0', function() {
+  describe('none: prefer none over 0', function () {
     var noneTest = lint.none.bind(app);
 
-    before(function() {
+    before(function () {
       app.state.conf = 'always';
     });
 
-    it('false (no err) if border none', function() {
+    it('false (no err) if border none', function () {
       assert.ok(!noneTest('border none'));
       assert.ok(!noneTest('border: none'));
       assert.ok(!noneTest('border:none'));
       assert.ok(!noneTest('border 1px solid red'));
     });
 
-    it('false (no err) if outline none', function() {
+    it('false (no err) if outline none', function () {
       assert.ok(!noneTest('outline none'));
       assert.ok(!noneTest('outline: none'));
       assert.ok(!noneTest('outline:none'));
       assert.ok(!noneTest('outline 1px solid red'));
     });
 
-    it('true (err) if border 0 or not applicable', function() {
+    it('true (err) if border 0 or not applicable', function () {
       assert.ok(noneTest('border 0'));
       assert.ok(noneTest('border: 0'));
       assert.ok(noneTest('border:0'));
     });
 
-    it('true (err) if outline 0 or not applicable', function() {
+    it('true (err) if outline 0 or not applicable', function () {
       assert.ok(noneTest('outline 0'));
       assert.ok(noneTest('outline: 0'));
       assert.ok(noneTest('outline:0'));
     });
 
-    it('undefined if border or outline not on line', function() {
+    it('undefined if border or outline not on line', function () {
       assert.equal(undefined, noneTest('margin 0'));
       assert.equal(undefined, noneTest('padding inherit'));
     });
   });
 
-  describe('parens: prefer ( param ) over (param)', function() {
+  describe('parens: prefer ( param ) over (param)', function () {
     var parenTest = lint.parenSpace.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.conf = 'always';
     });
 
-    it('null if no extra space', function() {
+    it('null if no extra space', function () {
       assert.equal(null, parenTest('', 'myMixin(param1, param2)'));
       assert.equal(null, parenTest('', 'myMixin( param1, param2)'));
       assert.equal(null, parenTest('', 'myMixin(param1, param2 )'));
     });
 
-    it('true if has extra spaces', function() {
+    it('true if has extra spaces', function () {
       assert.ok(parenTest('', 'myMixin( param1, param2 )'));
     });
 
-    it('undefined if no parens on line', function() {
+    it('undefined if no parens on line', function () {
       assert.equal(undefined, parenTest('', '.notAMixin '));
     });
   });
 
-  describe('parens: prefer (param) over ( param )', function() {
+  describe('parens: prefer (param) over ( param )', function () {
     var parenTest = lint.parenSpace.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.conf = 'never';
     });
 
-    it('null if no extra space', function() {
+    it('null if no extra space', function () {
       assert.equal(null, parenTest('', 'myMixin(param1, param2)'));
       assert.equal(null, parenTest('', 'myMixin( param1, param2)'));
       assert.equal(null, parenTest('', 'myMixin(param1, param2 )'));
     });
 
-    it('true if has extra spaces', function() {
+    it('true if has extra spaces', function () {
       assert.ok(parenTest('', 'myMixin( param1, param2 )'));
     });
 
-    it('undefined if no parens on line', function() {
+    it('undefined if no parens on line', function () {
       assert.equal(undefined, parenTest('', '.notAMixin '));
     });
   });
 
-  describe('placeholders: prefer $var over .class when extending: ', function() {
+  describe('placeholders: prefer $var over .class when extending: ', function () {
     var placeholderTest = lint.placeholders.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.conf = 'always';
     });
 
-    it('false if placeholder var not used', function() {
+    it('false if placeholder var not used', function () {
       assert.equal(false, placeholderTest('@extend .notVar'));
       assert.equal(false, placeholderTest('@extends .notVar'));
     });
 
-    it('false if @extend by itself', function() {
+    it('false if @extend by itself', function () {
       assert.equal(false, placeholderTest('@extend$placeholderconst'));
       assert.equal(false, placeholderTest('@extends'));
     });
 
-    it('true if placeholder var is used', function() {
+    it('true if placeholder var is used', function () {
       assert.ok(placeholderTest('@extends $placeholderconst'));
       assert.ok(placeholderTest('@extend $placeholderconst'));
     });
 
-    it('undefined if no extend found', function() {
+    it('undefined if no extend found', function () {
       assert.equal(undefined, placeholderTest('margin 0'));
     });
   });
 
-  describe('placeholders: prefer $var over .class when extending: ', function() {
+  describe('placeholders: prefer $var over .class when extending: ', function () {
     var placeholderTest = lint.placeholders.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.conf = 'never';
     });
 
-    it('false if placeholder var not used', function() {
+    it('false if placeholder var not used', function () {
       assert.equal(false, placeholderTest('@extend .notVar'));
       assert.equal(false, placeholderTest('@extends .notVar'));
     });
 
-    it('false if @extend by itself', function() {
+    it('false if @extend by itself', function () {
       assert.equal(false, placeholderTest('@extend$placeholderconst'));
       assert.equal(false, placeholderTest('@extends'));
     });
 
-    it('true if placeholder var is used', function() {
+    it('true if placeholder var is used', function () {
       assert.ok(placeholderTest('@extends $placeholderconst'));
       assert.ok(placeholderTest('@extend $placeholderconst'));
     });
 
-    it('undefined if no extend found', function() {
+    it('undefined if no extend found', function () {
       assert.equal(undefined, placeholderTest('margin 0'));
     });
   });
 
-  describe('prefix var with $: always', function() {
+  describe('prefix var with $: always', function () {
     var varTest = lint.prefixVarsWithDollar.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.conf = 'always';
     });
 
-    it('false if $ is missing when declaring variable', function() {
+    it('false if $ is missing when declaring variable', function () {
       assert.equal(false, varTest('var = 0'));
     });
 
-    it('true if $ is found and is correct', function() {
+    it('true if $ is found and is correct', function () {
       assert.ok(varTest('$my-var = 0'));
       assert.ok(varTest('$first-value = floor( (100% / $columns) * $index )'));
       assert.ok(varTest('$-my-private-var = red'));
       assert.ok(varTest('$_myPrivateVar = red'));
     });
 
-    it('undefined if @block var', function() {
+    it('undefined if @block var', function () {
       assert.equal(undefined, varTest('var = @block'));
     });
   });
 
-  describe('prefix var with $: never', function() {
+  describe('prefix var with $: never', function () {
     var varTest = lint.prefixVarsWithDollar.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.conf = 'never';
     });
 
-    it('false if $ is missing', function() {
+    it('false if $ is missing', function () {
       assert.equal(false, varTest('var = 0'));
       assert.equal(false, varTest('transition( param, param )'));
     });
 
-    it('true if $ is found anywhere on line', function() {
+    it('true if $ is found anywhere on line', function () {
       assert.ok(varTest('margin $gutter'));
       assert.ok(varTest('transition $param $param'));
     });
 
-    it('undefined if @block var', function() {
+    it('undefined if @block var', function () {
       assert.equal(undefined, varTest('var = @block'));
     });
   });
 
-  describe('quote style', function() {
+  describe('quote style', function () {
     var quoteTest = lint.quotePref.bind(app);
 
-    it('false if correct quote style used: single', function() {
+    it('false if correct quote style used: single', function () {
       app.state.conf = 'single';
       assert.equal(false, quoteTest('', "$var = 'test string' "));
       assert.equal(false, quoteTest('', "$var = 'test \"substring\" string' "));
@@ -1794,7 +1794,7 @@ describe('Linter Style Checks: ', function() {
       assert.equal(false, quoteTest('', "show-content( $content = 'Hello!' ) {"));
     });
 
-    it('false if correct quote style used: double', function() {
+    it('false if correct quote style used: double', function () {
       app.state.conf = 'double';
       assert.equal(false, quoteTest('', "$var = 'test \"substring\" string' "));
       assert.equal(false, quoteTest('', "$var = 'test \"substring string' "));
@@ -1811,7 +1811,7 @@ describe('Linter Style Checks: ', function() {
       assert.equal(false, quoteTest('', 'show-content( $content = "Hello!" ) {'));
     });
 
-    it('true if incorrect quote style used: single', function() {
+    it('true if incorrect quote style used: single', function () {
       app.state.conf = 'single';
       assert.ok(quoteTest('', '$var = "test string" '));
       assert.ok(quoteTest('', '.show-content( $content = "Hello!" )'));
@@ -1820,7 +1820,7 @@ describe('Linter Style Checks: ', function() {
       assert.ok(quoteTest('', '[class*="--button"]'));
     });
 
-    it('true if incorrect quote style used: double', function() {
+    it('true if incorrect quote style used: double', function () {
       app.state.conf = 'double';
       assert.ok(quoteTest('', "$var = 'test string' "));
       assert.ok(quoteTest('', ".show-content( $content = 'Hello!' )"));
@@ -1829,29 +1829,29 @@ describe('Linter Style Checks: ', function() {
       assert.ok(quoteTest('', "[class*='--button']"));
     });
 
-    it('undefined if no quotes on line', function() {
+    it('undefined if no quotes on line', function () {
       assert.equal(undefined, quoteTest('', '$var = #000 '));
     });
   });
 
-  describe('semicolon never (prefer margin 0 to margin 0;)', function() {
+  describe('semicolon never (prefer margin 0 to margin 0;)', function () {
     var semiTest = lint.semicolons.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.conf = 'never';
     });
 
-    it('true if semicolon found', function() {
+    it('true if semicolon found', function () {
       assert.ok(semiTest('margin 0 auto;'));
     });
 
-    it('undefined if no semicolon is found', function() {
+    it('undefined if no semicolon is found', function () {
       assert.equal(undefined, semiTest('margin 0 auto'));
       assert.equal(undefined, semiTest('		margin 0 auto'));
       assert.equal(undefined, semiTest('		.class-name'));
     });
 
-    it('undefined if line skipped (syntax)', function() {
+    it('undefined if line skipped (syntax)', function () {
       assert.equal(undefined, semiTest('var ='));
       assert.equal(undefined, semiTest('var = @block'));
       assert.equal(undefined, semiTest('for ( 0..9 )'));
@@ -1863,23 +1863,23 @@ describe('Linter Style Checks: ', function() {
     });
   });
 
-  describe('semicolon always (prefer margin 0; to margin 0)', function() {
+  describe('semicolon always (prefer margin 0; to margin 0)', function () {
     var semiTest = lint.semicolons.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.conf = 'always';
     });
 
-    it('false if no semicolon is found', function() {
+    it('false if no semicolon is found', function () {
       app.state.context = 1;
       assert.equal(false, semiTest('margin 0 auto'));
     });
 
-    it('undefined if semicolon is found', function() {
+    it('undefined if semicolon is found', function () {
       assert.equal(undefined, semiTest('margin 0 auto;'));
     });
 
-    it('undefined if line skipped (syntax)', function() {
+    it('undefined if line skipped (syntax)', function () {
       assert.equal(undefined, semiTest('var ='));
       assert.equal(undefined, semiTest('var = @block'));
       assert.equal(undefined, semiTest('for ( 0..9 )'));
@@ -1891,24 +1891,24 @@ describe('Linter Style Checks: ', function() {
     });
   });
 
-  describe('sort order', function() {
+  describe('sort order', function () {
     var sortTest = lint.sortOrder.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.prevContext = 1;
       app.state.context = 1;
     });
 
-    afterEach(function() {
+    afterEach(function () {
       app.cache.sortOrderCache = [];
     });
 
-    it('undefined if root level', function() {
+    it('undefined if root level', function () {
       app.state.context = 0;
       assert.equal(undefined, sortTest('margin 0'));
     });
 
-    it('cache length should only be 1 (the current prop) if context switched', function() {
+    it('cache length should only be 1 (the current prop) if context switched', function () {
       app.cache.sortOrderCache = ['border', 'margin', 'padding'];
       app.state.prevContext = 0;
       app.state.context = 1;
@@ -1918,12 +1918,12 @@ describe('Linter Style Checks: ', function() {
       assert.equal(1, app.cache.sortOrderCache.length);
     });
 
-    describe('disabled', function() {
-      beforeEach(function() {
+    describe('disabled', function () {
+      beforeEach(function () {
         app.state.conf = false;
       });
 
-      it('should allow any order when disabled', function() {
+      it('should allow any order when disabled', function () {
         var expectedCache = ['background', 'z-index', 'border', 'width'];
 
         assert.equal(false, app.state.conf);
@@ -1936,17 +1936,17 @@ describe('Linter Style Checks: ', function() {
       });
     });
 
-    describe('alphabetical', function() {
-      beforeEach(function() {
+    describe('alphabetical', function () {
+      beforeEach(function () {
         app.state.conf = 'alphabetical';
         app.cache.sortOrderCache = ['border', 'margin', 'padding'];
       });
 
-      afterEach(function() {
+      afterEach(function () {
         app.cache.sortOrderCache = [];
       });
 
-      it('true if correct sort order with mocked sort order cache', function() {
+      it('true if correct sort order with mocked sort order cache', function () {
         var expectedCache = ['border', 'margin', 'padding', 'position', 'z-index'];
 
         assert.equal('alphabetical', app.state.conf);
@@ -1957,7 +1957,7 @@ describe('Linter Style Checks: ', function() {
         assert.deepEqual(expectedCache, app.cache.sortOrderCache);
       });
 
-      it('false if not correct sort order with mocked sort order cache', function() {
+      it('false if not correct sort order with mocked sort order cache', function () {
         var expectedCache = [
           'border',
           'margin',
@@ -1978,7 +1978,7 @@ describe('Linter Style Checks: ', function() {
         assert.deepEqual(expectedCache, app.cache.sortOrderCache);
       });
 
-      it('undefined if not checkable syntax', function() {
+      it('undefined if not checkable syntax', function () {
         assert.equal('alphabetical', app.state.conf);
         assert.equal(3, app.cache.sortOrderCache.length);
         assert.equal(undefined, sortTest('mixin()'));
@@ -1989,22 +1989,22 @@ describe('Linter Style Checks: ', function() {
       });
     });
 
-    describe('grouped', function() {
-      beforeEach(function() {
+    describe('grouped', function () {
+      beforeEach(function () {
         app.state.conf = 'grouped';
         app.cache.sortOrderCache = ['position', 'right'];
       });
 
-      afterEach(function() {
+      afterEach(function () {
         app.cache.sortOrderCache = [];
       });
 
-      it('false if sorted array is shorter than cache', function() {
+      it('false if sorted array is shorter than cache', function () {
         app.cache.sortOrderCache = ['border', 'margin', 'padding'];
         assert.equal(false, sortTest('margin 0'));
       });
 
-      it('false if not correct sort order with mocked sort order cache', function() {
+      it('false if not correct sort order with mocked sort order cache', function () {
         var expectedCache = ['position', 'right', 'top'];
 
         assert.equal('grouped', app.state.conf);
@@ -2014,7 +2014,7 @@ describe('Linter Style Checks: ', function() {
         assert.deepEqual(expectedCache, app.cache.sortOrderCache);
       });
 
-      it('true if correct sort order with mocked sort order cache', function() {
+      it('true if correct sort order with mocked sort order cache', function () {
         var expectedCache = ['position', 'right', 'bottom', 'z-index', 'width'];
 
         assert.equal('grouped', app.state.conf);
@@ -2027,17 +2027,17 @@ describe('Linter Style Checks: ', function() {
       });
     });
 
-    describe('Array', function() {
-      beforeEach(function() {
+    describe('Array', function () {
+      beforeEach(function () {
         app.state.conf = ['z-index', 'animation', 'top'];
         app.cache.sortOrderCache = ['z-index'];
       });
 
-      afterEach(function() {
+      afterEach(function () {
         app.cache.sortOrderCache = [];
       });
 
-      it('false if not correct sort order with mocked sort order cache', function() {
+      it('false if not correct sort order with mocked sort order cache', function () {
         var expectedCache = ['z-index', 'top', 'animation'];
 
         assert.deepEqual(['z-index', 'animation', 'top'], app.state.conf);
@@ -2048,7 +2048,7 @@ describe('Linter Style Checks: ', function() {
         assert.deepEqual(expectedCache, app.cache.sortOrderCache);
       });
 
-      it('true if correct sort order with mocked sort order cache', function() {
+      it('true if correct sort order with mocked sort order cache', function () {
         var expectedCache = ['z-index', 'animation', 'top', 'width', 'border'];
 
         assert.deepEqual(['z-index', 'animation', 'top'], app.state.conf);
@@ -2063,116 +2063,116 @@ describe('Linter Style Checks: ', function() {
     });
   });
 
-  describe('stacked properties', function() {
+  describe('stacked properties', function () {
     var stackedTest = lint.stackedProperties.bind(app);
 
-    it('false if not a one liner', function() {
+    it('false if not a one liner', function () {
       assert.equal(false, stackedTest('margin 0 auto'));
     });
 
-    it('true if one liner', function() {
+    it('true if one liner', function () {
       assert.ok(stackedTest('margin 0 auto; padding: 5px;'));
       assert.ok(stackedTest('margin 0 auto; padding: 5px'));
     });
   });
 
-  describe('starts with comment', function() {
+  describe('starts with comment', function () {
     var startsWithComment = app.startsWithComment.bind(app);
 
-    it('false if // not first char on line', function() {
+    it('false if // not first char on line', function () {
       assert.equal(false, startsWithComment('margin 0 auto //test'));
     });
 
-    it('true if // is the first character on the line', function() {
+    it('true if // is the first character on the line', function () {
       assert.ok(startsWithComment('//test'));
       assert.ok(startsWithComment(' // test'));
     });
   });
 
-  describe('stylint off toggle:', function() {
+  describe('stylint off toggle:', function () {
     var toggleTest = app.stylintOff.bind(app);
 
-    it('false if tests enabled and toggle found', function() {
+    it('false if tests enabled and toggle found', function () {
       app.state.testsEnabled = true;
       assert.equal(false, toggleTest('@stylint off'));
     });
 
-    it('true if tests enabled and toggle not found', function() {
+    it('true if tests enabled and toggle not found', function () {
       app.state.testsEnabled = true;
       assert.ok(toggleTest('margin 0 auto'));
     });
 
-    it('undefined if tests already disabled', function() {
+    it('undefined if tests already disabled', function () {
       app.state.testsEnabled = false;
       assert.equal(undefined, toggleTest('@stylint on'));
     });
   });
 
-  describe('stylint on toggle:', function() {
+  describe('stylint on toggle:', function () {
     var toggleTest = app.stylintOn.bind(app);
 
-    it('false if tests disabled and toggle not found', function() {
+    it('false if tests disabled and toggle not found', function () {
       app.state.testsEnabled = false;
       assert.equal(false, toggleTest('margin 0 auto'));
     });
 
-    it('true if tests disabled and toggle found', function() {
+    it('true if tests disabled and toggle found', function () {
       app.state.testsEnabled = false;
       assert.ok(toggleTest('@stylint on'));
     });
 
-    it('undefined if tests already enabled', function() {
+    it('undefined if tests already enabled', function () {
       app.state.testsEnabled = true;
       assert.equal(undefined, toggleTest('@stylint on'));
     });
   });
 
-  describe('trailing whitespace', function() {
+  describe('trailing whitespace', function () {
     var whitespaceTest = lint.trailingWhitespace.bind(app);
 
-    it('false if no trailing whitespace', function() {
+    it('false if no trailing whitespace', function () {
       assert.equal(false, whitespaceTest('', 'margin 0 auto'));
     });
 
-    it('true if whitespace found', function() {
+    it('true if whitespace found', function () {
       assert.ok(whitespaceTest('', 'margin 0 auto	'));
       assert.ok(whitespaceTest('', 'margin 0 auto '));
     });
   });
 
-  describe('universal selector', function() {
+  describe('universal selector', function () {
     var universalTest = lint.universal.bind(app);
 
-    it('false if no invalid * is found', function() {
+    it('false if no invalid * is found', function () {
       assert.equal(false, universalTest('return ( $width*$height )'));
       assert.equal(false, universalTest('content: "*"'));
     });
 
-    it('true if * is found', function() {
+    it('true if * is found', function () {
       assert.ok(universalTest('*'));
       assert.ok(universalTest('*:before'));
       assert.ok(universalTest('*::after'));
     });
 
-    it('undefined if no * on line', function() {
+    it('undefined if no * on line', function () {
       assert.equal(undefined, universalTest('img'));
     });
   });
 
-  describe('valid property:', function() {
+  describe('valid property:', function () {
     var validTest = lint.valid.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.keyframes = false;
     });
 
-    it('true if from or to used INSIDE keyframes', function() {
+    it('true if from or to used INSIDE keyframes', function () {
       app.state.keyframes = true;
       assert.ok(validTest('from 0%'));
       assert.ok(validTest('to 100%'));
     });
 
-    it('false if property not valid', function() {
+    it('false if property not valid', function () {
       app.cache.mixins = [];
       assert.equal(false, validTest('marg 0 auto'));
       assert.equal(false, validTest('pad 0'));
@@ -2187,7 +2187,7 @@ describe('Linter Style Checks: ', function() {
       assert.equal(false, validTest('test-mixin $val'));
     });
 
-    it('true if property is valid', function() {
+    it('true if property is valid', function () {
       assert.ok(validTest('background'));
       assert.ok(validTest('border-bottom 0'));
       assert.ok(validTest('margin-top 0'));
@@ -2209,7 +2209,7 @@ describe('Linter Style Checks: ', function() {
       assert.ok(validTest('a.b-logo'));
     });
 
-    it('true if syntax, class, id, interpolation, attribute, mixin etc', function() {
+    it('true if syntax, class, id, interpolation, attribute, mixin etc', function () {
       assert.ok(validTest('.el:hover'));
       assert.ok(validTest('$const-name = '));
       assert.ok(validTest('{const-name}'));
@@ -2223,7 +2223,7 @@ describe('Linter Style Checks: ', function() {
       assert.ok(validTest('width calc(100% - 16px)'));
     });
 
-    it('true if transparent mixin (thats been declared)', function() {
+    it('true if transparent mixin (thats been declared)', function () {
       app.cache.customProperties = ['test-mixin', 'mixin', 'multiplyBy'];
 
       assert.ok(validTest('test-mixin: $val'));
@@ -2232,12 +2232,12 @@ describe('Linter Style Checks: ', function() {
       assert.ok(validTest('test-mixin $val'));
     });
 
-    it('undefined if from or to used outside keyframes', function() {
+    it('undefined if from or to used outside keyframes', function () {
       assert.equal(undefined, validTest('from 0%'));
       assert.equal(undefined, validTest('to 100%'));
     });
 
-    it('true if pseudo is standalone and valid', function() {
+    it('true if pseudo is standalone and valid', function () {
       assert.ok(validTest('::-webkit-resizer'));
       assert.ok(validTest('::-webkit-scrollbar'));
       assert.ok(validTest('::-moz-inner-focus'));
@@ -2245,30 +2245,30 @@ describe('Linter Style Checks: ', function() {
       assert.ok(validTest('::placeholder'));
     });
 
-    it('false if pseudo is standalone and not valid', function() {
+    it('false if pseudo is standalone and not valid', function () {
       assert.equal(false, validTest('::-any-thing'));
       assert.equal(false, validTest(':focush'));
     });
   });
 
-  describe('zero units: prefer no unit values', function() {
+  describe('zero units: prefer no unit values', function () {
     var zeroTest = lint.zeroUnits.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.keyframes = false;
       app.state.conf = 'never';
     });
 
-    it('true if value above 0', function() {
+    it('true if value above 0', function () {
       assert.ok(zeroTest('margin 50px'));
       assert.ok(zeroTest('margin: 100%'));
     });
 
-    it('true if just 0 has no unit value', function() {
+    it('true if just 0 has no unit value', function () {
       assert.ok(zeroTest('margin 0'));
     });
 
-    it('true if \d0 + any unit type is found', function() {
+    it('true if \d0 + any unit type is found', function () {
       assert.equal(false, zeroTest('margin 0px'));
       assert.equal(false, zeroTest('margin 0em'));
       assert.equal(false, zeroTest('margin 0rem'));
@@ -2286,42 +2286,42 @@ describe('Linter Style Checks: ', function() {
       assert.equal(false, zeroTest('margin 0ch'));
     });
 
-    it('undefined if in keyframes', function() {
+    it('undefined if in keyframes', function () {
       app.state.keyframes = true;
       assert.equal(undefined, zeroTest('from 0%'));
       assert.equal(undefined, zeroTest('0% {'));
       app.state.keyframes = false;
     });
 
-    it('undefined if no 0 on line', function() {
+    it('undefined if no 0 on line', function () {
       assert.equal(undefined, zeroTest('margin auto'));
       assert.equal(undefined, zeroTest('padding 53px'));
     });
 
-    it('undefined if relative value', function() {
+    it('undefined if relative value', function () {
       assert.equal(undefined, zeroTest('line-height 1'));
       assert.equal(undefined, zeroTest('font-weight 600'));
     });
   });
 
-  describe('zero units: prefer unit values', function() {
+  describe('zero units: prefer unit values', function () {
     var zeroTest = lint.zeroUnits.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.keyframes = false;
       app.state.conf = 'always';
     });
 
-    it('false if 0 value does not have unit values', function() {
+    it('false if 0 value does not have unit values', function () {
       assert.equal(false, zeroTest('margin 0'));
     });
 
-    it('true if value is above 0 (like 50px)', function() {
+    it('true if value is above 0 (like 50px)', function () {
       assert.ok(zeroTest('margin 50px'));
       assert.ok(zeroTest('margin: 100%'));
     });
 
-    it('true if 0 + any unit type is found', function() {
+    it('true if 0 + any unit type is found', function () {
       assert.ok(zeroTest('margin 0px'));
       assert.ok(zeroTest('margin 0em'));
       assert.ok(zeroTest('margin 0rem'));
@@ -2339,86 +2339,86 @@ describe('Linter Style Checks: ', function() {
       assert.ok(zeroTest('margin 0ch'));
     });
 
-    it('undefined if in keyframes', function() {
+    it('undefined if in keyframes', function () {
       app.state.keyframes = true;
       assert.equal(undefined, zeroTest('from 0%'));
       assert.equal(undefined, zeroTest('0% {'));
       app.state.keyframes = false;
     });
 
-    it('undefined if no 0 on line', function() {
+    it('undefined if no 0 on line', function () {
       assert.equal(undefined, zeroTest('margin auto'));
       assert.equal(undefined, zeroTest('padding 53px'));
     });
 
-    it('undefined if relative value', function() {
+    it('undefined if relative value', function () {
       assert.equal(undefined, zeroTest('line-height 1'));
       assert.equal(undefined, zeroTest('font-weight 600'));
     });
   });
 
-  describe('zIndex Normalizer', function() {
+  describe('zIndex Normalizer', function () {
     var zNormalizrTest = lint.zIndexNormalize.bind(app);
 
-    beforeEach(function() {
+    beforeEach(function () {
       app.state.conf = 5;
     });
 
-    it('false if z index value already normalized', function() {
+    it('false if z index value already normalized', function () {
       assert.equal(false, zNormalizrTest('z-index 5'));
     });
 
-    it('false if no z-index', function() {
+    it('false if no z-index', function () {
       assert.equal(false, zNormalizrTest('margin 5px'));
     });
 
-    it('true if z index value needs to be normalized', function() {
+    it('true if z index value needs to be normalized', function () {
       assert.ok(zNormalizrTest('z-index 4'));
     });
 
-    it('undefined if 0 or -1', function() {
+    it('undefined if 0 or -1', function () {
       assert.equal(undefined, zNormalizrTest('z-index -1'));
       assert.equal(undefined, zNormalizrTest('z-index 0'));
     });
   });
 });
 
-describe('Done, again: ', function() {
+describe('Done, again: ', function () {
 
-  beforeEach(function() {
+  beforeEach(function () {
     app.state.quiet = true;
     app.state.watching = true;
     app.cache.report = { results: [], errorCount: 0, warningCount: 0 };
     app.state.exitCode = 0;
   });
 
-  it('should return an object', function() {
+  it('should return an object', function () {
     assert.ok(typeof app.done() === 'object');
   });
 
-  it('which should have msg as a property', function() {
+  it('which should have msg as a property', function () {
     assert.ok(typeof app.done().msg === 'string');
   });
 
-  it('exit code should be 0 if no errs', function() {
+  it('exit code should be 0 if no errs', function () {
     assert.equal(0, app.done().exitCode);
   });
 
-  it('exit code should be 0 if has warnings and no errs', function() {
+  it('exit code should be 0 if has warnings and no errs', function () {
     app.cache.report.warningCount = 1;
     assert.equal(0, app.done().exitCode);
   });
 
-  it('msg should be empty if no errs or warnings', function() {
+  it('msg should be empty if no errs or warnings', function () {
     assert.equal('', app.done().msg);
   });
 
-  it('exit code of 1 if not clear', function() {
+  it('exit code of 1 if not clear', function () {
     app.cache.report.errorCount = 1;
     assert.equal(1, app.done().exitCode);
   });
 
-  it('exit code should be 1 if over max warnings', function() {
+  it('exit code should be 1 if over max warnings', function () {
     app.config.maxWarnings = 0;
     app.config.maxErrors = 10;
     app.cache.report.warningCount = 1;
@@ -2436,14 +2436,14 @@ describe('Done, again: ', function() {
 	// } )
 });
 
-describe('Lint Text: ', function() {
+describe('Lint Text: ', function () {
   var linter;
 
-  beforeEach(function() {
+  beforeEach(function () {
     linter = stylint.api();
   });
 
-  it('should return object with violations', function() {
+  it('should return object with violations', function () {
     var lintResult = linter.lintString('.class {\n  color: red !important\n}\n', null, 'filename.styl');
 
     assert.deepEqual(lintResult, {

@@ -11,7 +11,7 @@ var ampRe = /^(&|\/{1}|\.\.\/|~\/)/;
  * @return {boolean} true if nesting is too deep, false if not
  * @todo this is kinda not 100% reliable in it's current form, also could be refactors
  */
-var depthLimit = function(line) {
+var depthLimit = function (line) {
   var context = this.state.context;
   var badNesting = false;
   var limit = this.config.depthLimit ? this.config.depthLimit : 5;

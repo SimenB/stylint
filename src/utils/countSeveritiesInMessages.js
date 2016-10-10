@@ -2,7 +2,7 @@
 
 var _ = require('lodash');
 
-function countSeverities(messages) {
+function countSeverities (messages) {
   var warningsOrErrors = _.countBy(messages, 'severity');
   var errorCount = warningsOrErrors.error || 0;
   var warningCount = warningsOrErrors.warning || 0;

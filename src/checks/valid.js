@@ -21,7 +21,7 @@ var interpolatedRe = /( *{\S+} *)/; // 7
 * @param {string} [line] current line being linted
 * @returns {boolean | undefined} true if problem, false if no prob, undefined if we skipped
 */
-module.exports = function valid(line) {
+module.exports = function valid (line) {
 	// from and to are valid keyframes properties, but not outside that context
   if (!this.state.keyframes && line.match(keyRe)) { return; }
 
@@ -53,21 +53,21 @@ module.exports = function valid(line) {
 
 	// if no match yet, check for css && prefix + css, will return true at first match
   if (!isValid) {
-    isValid = validJSON.css.some(function(css) {
+    isValid = validJSON.css.some(function (css) {
       return arr[0] === css || this.checkPrefix(arr[0], css, validJSON);
     }.bind(this));
   }
 
 	// if no match yet, try html && html + pseudo
   if (!isValid) {
-    isValid = validJSON.html.some(function(html) {
+    isValid = validJSON.html.some(function (html) {
       return arr[0] === html || this.checkPseudo(arr[0], html, validJSON);
     }.bind(this));
   }
 
 	// if no match yet, try pseudo as standalone
   if (!isValid) {
-    isValid = validJSON.pseudo.some(function(pseudo) {
+    isValid = validJSON.pseudo.some(function (pseudo) {
 			// psuedo selectors could have one of two colons
       return ':' + arr[0] === pseudo || '::' + arr[0] === pseudo;
     });
@@ -75,7 +75,7 @@ module.exports = function valid(line) {
 
 	// if no match yet, try declared mixins and custom properties
   if (!isValid) {
-    isValid = this.cache.customProperties.some(function(mixin) {
+    isValid = this.cache.customProperties.some(function (mixin) {
       return arr[0] === mixin;
     });
   }

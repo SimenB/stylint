@@ -10,7 +10,7 @@ var nonZeroRe = /[\s,\(](\.\d+)/;
  * @param {string} [line] curr line being linted
  * @returns {boolean|undefined} true if mixed, false if not
  */
-var leadingZero = function(line) {
+var leadingZero = function (line) {
   if (!decimalRe.test(line)) { return; }
 
   var leadZeroFound = leadZeroRe.exec(line);

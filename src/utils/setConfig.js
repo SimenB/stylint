@@ -21,7 +21,7 @@ var Glob = require('glob').Glob;
  * @param {String} [configpath] If defined, the path to a config-file to read
  * @returns {Function} kick off linter again
 */
-var setConfig = function(configpath) {
+var setConfig = function (configpath) {
   var files = [];
   var customPath = '';
 	// return default config if nothing passed in or found
@@ -40,7 +40,7 @@ var setConfig = function(configpath) {
 	 * @param  {string} path [where to look for config]
 	 * @return {Object|void} [object if stylintrc found, undefined if not]
 	 */
-  var _parseConfig = function(path) {
+  var _parseConfig = function (path) {
     return JSON.parse(
 			stripJsonComments(
 				fs.readFileSync(path, 'utf-8')
@@ -56,7 +56,7 @@ var setConfig = function(configpath) {
 	 * @param  {string} cwd   [relative path to current directory being walked]
 	 * @return {?Object|?Function} [config if found, recurse if not. null if failed]
 	 */
-  var _recurseDirectories = function(files, level, cwd) {
+  var _recurseDirectories = function (files, level, cwd) {
 		// parse stylintrc if found, stop recursion
     if (files.indexOf('.stylintrc') !== -1) {
       return _parseConfig(cwd + '/.stylintrc');
@@ -140,7 +140,7 @@ var setConfig = function(configpath) {
 }
   }
 
-  returnConfig.exclude = (returnConfig.exclude || []).map(function(exclude) {
+  returnConfig.exclude = (returnConfig.exclude || []).map(function (exclude) {
     return new Glob(exclude, {
       matchBase: true
     }).minimatch;

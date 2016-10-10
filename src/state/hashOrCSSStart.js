@@ -9,7 +9,7 @@ var stripMixinsRe = /(\(.*\))/;
  * @param {string} [line] curr line being linted
  * @returns {boolean} true if hash or @css starting, false if not
  */
-var hashStart = function(line) {
+var hashStart = function (line) {
   if (this.state.hashOrCSS || !this.state.testsEnabled) { return; }
   var strippedLine = line.replace(stripMixinsRe, '');
 

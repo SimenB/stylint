@@ -6,7 +6,7 @@
  * @param {string} [line] curr line being linted
  * @return {boolean} true if !important used, false if not
  */
-var noImportant = function(line) {
+var noImportant = function (line) {
   var important = false;
   var index = line.indexOf('!important');
 

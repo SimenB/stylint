@@ -14,7 +14,7 @@ var camelRe = /^[$#.{:]+([a-zA-Z]|[${}])+([a-z]|[${}])+(([.A-Z0-9])+[a-z ]+)+\b/
  * @param {string} [line] curr line being linted
  * @returns {boolean} true if convention wrong, false if not
  */
-var namingConvention = function(line) {
+var namingConvention = function (line) {
   var arr = this.splitAndStrip(' ', line);
 	// determine if line should be tested at all
   var doWeTestRe = /^[${:]+/m;

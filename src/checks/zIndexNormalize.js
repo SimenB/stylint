@@ -6,7 +6,7 @@
 * @param {string} [line] current line being linted
 * @returns {boolean} true if not normalized, false if normalized
 */
-var zIndexNormalize = function(line) {
+var zIndexNormalize = function (line) {
   var badZIndex = false;
   var arr = this.splitAndStrip(new RegExp(/[\s\t,:]/), line);
   var index = line.indexOf('z-index');

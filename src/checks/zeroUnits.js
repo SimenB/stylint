@@ -10,7 +10,7 @@ var relativeValRe = /line-height|font-size|font-weight/;
 * @param {string} [line] current line being linted
 * @returns {boolean | undefined} true if has units, else false, undefined if skipped
 */
-var zeroUnits = function(line) {
+var zeroUnits = function (line) {
 	// if in keyframes dont check
 	// if no 0 on line dont check
 	// if relative values like font-weight, dont check

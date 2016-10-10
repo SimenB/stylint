@@ -10,7 +10,7 @@ var ordering = require('../data/ordering.json');
  * @param  {string} [line] curr line being linted
  * @return {boolean} true if in order, false if not
  */
-var sortOrder = function(line) {
+var sortOrder = function (line) {
 	// we don't alphabetize the root yet
   if (this.state.context === 0 || this.state.hash) {
     this.cache.sortOrderCache = [];
@@ -66,7 +66,7 @@ var sortOrder = function(line) {
     orderingArr = Array.isArray(this.state.conf) ? this.state.conf : ordering.grouped;
 
 		// iterate over our cache copy, and sort it according to our config
-    sortedArr = sortedArr.sort(function(a, b) {
+    sortedArr = sortedArr.sort(function (a, b) {
       var aIndex = orderingArr.indexOf(a);
       var bIndex = orderingArr.indexOf(b);
 
@@ -90,7 +90,7 @@ var sortOrder = function(line) {
 	// one sorted according to the config, and one as appears in the file
   if (this.state.context === this.state.prevContext) {
 		// compare each value individually
-    this.cache.sortOrderCache.forEach(function(val, i) {
+    this.cache.sortOrderCache.forEach(function (val, i) {
 			// if any value doesn't match quit the forEach
       if (sortedArr[i] !== this.cache.sortOrderCache[i]) {
         sorted = false;

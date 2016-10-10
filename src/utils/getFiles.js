@@ -10,20 +10,20 @@ var path = require('path');
  * @param {string} [dir] directory of files to glob
  * @returns {Array} returns an array of files
 */
-var getFiles = function(dir) {
+var getFiles = function (dir) {
   if (typeof dir !== 'string' && !(dir instanceof Array)) {
     throw new TypeError('getFiles err. Expected string or array, but received: ' + typeof dir);
   }
 
   if (typeof dir === 'string') {
-    return glob(dir, {}, function(err, files) {
+    return glob(dir, {}, function (err, files) {
       if (err) { throw err; }
 
-      files = files.filter(function(file) {
+      files = files.filter(function (file) {
         var excluded = false;
         var relPath = path.relative(dir.replace('/**/*.styl', ''), file);
 
-        this.config.exclude.forEach(function(exclude) {
+        this.config.exclude.forEach(function (exclude) {
           excluded = excluded || exclude.match(relPath);
         });
 
@@ -38,10 +38,10 @@ var getFiles = function(dir) {
   }
   else if (dir instanceof Array) {
 
-    var files = dir.filter(function(filepath) {
+    var files = dir.filter(function (filepath) {
       var excluded = false;
 
-      this.config.exclude.forEach(function(exclude) {
+      this.config.exclude.forEach(function (exclude) {
         excluded = excluded || exclude.match(filepath);
       });
 
@@ -50,7 +50,7 @@ var getFiles = function(dir) {
 
     this.cache.filesLen = files.length - 1;
     this.cache.files = files;
-    return this.cache.files.forEach(function(file) {
+    return this.cache.files.forEach(function (file) {
       return this.read(file);
     }.bind(this));
   }

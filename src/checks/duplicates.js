@@ -9,7 +9,7 @@ var lastFile = '';
  * @param {string} [line] curr line being linted
  * @returns {boolean} true if dupe found, false if not
  */
-var duplicates = function(line) {
+var duplicates = function (line) {
   var arr = this.splitAndStrip(new RegExp(/[\s\t]/), line);
   var dupe = false;
   var dupeIndex;
@@ -31,7 +31,7 @@ var duplicates = function(line) {
 	// basically, root can persist across files potentially
 	// caches above root only persist as long as they are within their context
   if (this.state.context !== this.state.prevContext) {
-    Object.keys(this.cache.sCache).forEach(function(val) {
+    Object.keys(this.cache.sCache).forEach(function (val) {
 			// string cause key
       if (val === '0') { return; }
       this.cache.sCache[val] = [];

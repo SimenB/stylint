@@ -9,7 +9,7 @@ var noneRe = /((border)|(outline))+(:|\s)+(none)+(?!-)/;
  * @param {string} [line] curr line being linted
  * @return {boolean} true if none used, false if not
  */
-var none = function(line) {
+var none = function (line) {
   if (line.indexOf('border') === -1 &&
 		line.indexOf('outline') === -1) {
     return;

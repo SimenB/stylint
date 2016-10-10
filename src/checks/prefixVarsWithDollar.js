@@ -10,7 +10,7 @@ var ignoreRe = /(\[.+\])|if|for|else|return|@require|@import|@media|@block|vendo
  * @param  {string} [line] curr line being linted
  * @return {boolean} true if in order, false if not
  */
-var prefixVarsWithDollar = function(line) {
+var prefixVarsWithDollar = function (line) {
   if (this.state.hashOrCSS || ignoreRe.test(line)) { return; }
 
   var hasDolla = true;

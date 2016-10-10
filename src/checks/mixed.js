@@ -14,7 +14,7 @@ var trimRightRe = /( |\t)+(\/\/)+.+$/gm;
  * @param {string} [source] curr line before being stripped
  * @returns {boolean} true if mixed, false if not
  */
-var mixed = function(line, source) {
+var mixed = function (line, source) {
   var trimRight = source.replace(trimRightRe, '');
   var isMixed = false;
   var indentPref = this.config.indentPref.expect || this.config.indentPref;

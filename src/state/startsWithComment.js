@@ -7,7 +7,7 @@ var commentRe = /(^\/\/)/;
  * @param  {string} [line] curr line being linted
  * @return {boolean} true if comment found, false if not
  */
-var startsWithComment = function(line) {
+var startsWithComment = function (line) {
   var starts = false;
 
 	// ex }, but only if we've already establish that we're not in a hash

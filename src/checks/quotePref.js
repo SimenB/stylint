@@ -9,7 +9,7 @@ var stringRe = /(?=["'])(?:"[^"\\]*(?:\\[\s\S][^"\\]*)*"|'[^'\\]*(?:\\[\s\S][^'\
  * @param {string} [source] curr line before being stripped
  * @return {boolean} true if in order, false if not
  */
-var quotePref = function(line, source) {
+var quotePref = function (line, source) {
   if (source.indexOf('"') === -1 &&
 			source.indexOf("'") === -1) {
     return;

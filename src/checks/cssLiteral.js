@@ -7,7 +7,7 @@
  * @returns {boolean} true if @css found, false if not
  * @TODO do i still work with setState?
  */
-var cssLiteral = function(line) {
+var cssLiteral = function (line) {
   if (this.state.hashOrCSS) { return; }
   var isCSSLiteral = false;
   var index = line.indexOf('@css');

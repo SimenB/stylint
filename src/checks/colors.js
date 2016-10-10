@@ -9,7 +9,7 @@ var ignoreRe = /^\s*(?:#|.*=.*)/;
  * @param {string} [line] curr line being linted
  * @returns {boolean} true if hex color found, false if not
  */
-var colors = function(line) {
+var colors = function (line) {
   if (ignoreRe.test(line) || this.state.root) { return; }
 
   var hex = false;

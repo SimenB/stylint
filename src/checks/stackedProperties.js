@@ -9,7 +9,7 @@ var semiTest = /;+(?!$)/gm;
  * @param  {string} [line] curr line being linted
  * @return {boolean} true if one-liner found, false if not
  */
-var stackedProperties = function(line) {
+var stackedProperties = function (line) {
   var oneLiner = false;
   var trimmedLine = line.replace(/(( '.*')|( ".*")|('.*')|(".*"))+;*/, '').trim();
   var arr = this.splitAndStrip(';', trimmedLine);

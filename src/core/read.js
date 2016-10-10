@@ -9,7 +9,7 @@ var async = require('async');
  * @param {string} [filepath] [option for manually passing in a filename]
  * @returns {Function} parse function
  */
-var read = function(filepath) {
+var read = function (filepath) {
 	// if user passes in a glob, we forEach over them
 	// and pass it into read() as filepath
   var path = filepath || this.state.path;
@@ -27,14 +27,14 @@ var read = function(filepath) {
 
 	// else we'll have either a filename or dir name to work with
 	// if dir we use the glob logic to return an array of files to test
-  return fs.stat(path, function(err, stats) {
+  return fs.stat(path, function (err, stats) {
     if (!stats || err) {
       throw Error('Stylint Error: No such file or dir exists!');
     }
 
 		// if this path matches any regex in the excludes array, we ignore
-    var isExcludes = function(path) {
-      return this.state.exclude.some(function(exclude) {
+    var isExcludes = function (path) {
+      return this.state.exclude.some(function (exclude) {
         if (typeof exclude !== 'string') return false;
         var excludeRegExp = new RegExp(exclude, 'm');
         return excludeRegExp.test(path);

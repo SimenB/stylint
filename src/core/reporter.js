@@ -11,18 +11,18 @@ var columnify = require('columnify');
  * @param  {boolean} [kill] whether or not we're over one of our limits
  * @return {string} the formatted message
  */
-var reporter = function(report, options, kill) {
+var reporter = function (report, options, kill) {
   if (report.results.length === 0) {
     return '';
   }
 
   options = options || {};
   var formattedMessages = _.chain(report.results)
-		.map(function(result) {
+		.map(function (result) {
   var newResult = result;
   var file = chalk.underline(result.filePath);
 
-  newResult.messages = result.messages.map(function(msg) {
+  newResult.messages = result.messages.map(function (msg) {
     var column = typeof msg.column === 'number' && msg.column > 0 ? msg.column : null;
     var lineData = column ? msg.line + ':' + column : msg.line;
 
@@ -50,19 +50,19 @@ var reporter = function(report, options, kill) {
 		// each array consists of all the errors and warnings for a file
 		// columnify the errors/warnings and prefix them with the file name
     formattedMessages = formattedMessages
-			.map(function(results) {
+			.map(function (results) {
   return results.filePath + '\n' + columnify(results.messages, options.reporterOptions);
 });
   }
   else {
     formattedMessages = formattedMessages
 		.flatMap('messages')
-		.map(function(output) {
+		.map(function (output) {
   return output.file + '\n' + output.lineData + ' ' + output.rule + ' ' + output.severity + ' ' + output.message;
 });
   }
 
-  formattedMessages = formattedMessages.reduce(function(memo, msg) {
+  formattedMessages = formattedMessages.reduce(function (memo, msg) {
     return memo + msg + '\n\n';
   }, '')
 		.value()

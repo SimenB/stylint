@@ -1,6 +1,6 @@
 'use strict';
 
-function shouldExit1(maxErrors, maxWarnings, errorCount, warningCount) {
+function shouldExit1 (maxErrors, maxWarnings, errorCount, warningCount) {
 	// If there are any errors and no maximum defined
   if (maxErrors < 0 && errorCount > 0) {
     return true;
@@ -14,7 +14,7 @@ function shouldExit1(maxErrors, maxWarnings, errorCount, warningCount) {
  * @description outputs our messages, wipes errs/warnings if watching
  * @returns {Object | Function} returns process exit if not watching, or obj otherwise
  */
-var done = function() {
+var done = function () {
   var maxErrors = typeof this.config.maxErrors === 'number' ? this.config.maxErrors : -1;
   var maxWarnings = typeof this.config.maxWarnings === 'number' ? this.config.maxWarnings : -1;
   var report = this.cache.report;

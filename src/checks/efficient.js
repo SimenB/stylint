@@ -8,7 +8,7 @@ var valueRe = /(margin|padding)+[:| ]/;
  * @param {string} [line] curr line being linted
  * @returns {boolean} true if efficient, false if not
  */
-var efficient = function(line) {
+var efficient = function (line) {
 	// line doesnt have margin or padding then there's nothin to do here
   if (!valueRe.test(line)) { return; }
 

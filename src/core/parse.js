@@ -12,23 +12,23 @@ var lineEndingsRe = /\r\n|\n|\r/gm;
  * @param {boolean} [skipDone] if true, don't call done
  * @returns {Object} the result object from the run
  */
-var parse = function(err, res, skipDone) {
+var parse = function (err, res, skipDone) {
   if (err) { throw new Error(err); }
 
-  res.forEach(function(file, i) {
+  res.forEach(function (file, i) {
     var lines;
     this.cache.file = this.cache.files[i];
     this.cache.fileNo = i;
 
 		// strip out block comments, but dont destroy line history
 		// to do these we replace block comments with new lines
-    lines = file.toString().replace(cleanFileRe, function(str) {
+    lines = file.toString().replace(cleanFileRe, function (str) {
 			// WHERE IS YOUR GOD NOW
       return (new Array(str.split(lineEndingsRe).length)).join('\n');
     }).split('\n');
 
 		// updating cache as we go, and passing to the next step
-    lines.forEach(function(line, lineNo) {
+    lines.forEach(function (line, lineNo) {
       this.cache.source = line;
       this.cache.line = this.trimLine(line);
       this.cache.lineNo = lineNo + 1; // line nos don't start at 0
