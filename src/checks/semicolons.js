@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 
 // we only want to check semicolons on properties/values
-var ignoreRe = /(^[*#.])|[&>/]|{|}|if|for(?!\w)|else|@block|@media|(}|{|=|,)$/igm
+var ignoreRe = /(^[*#.])|[&>/]|{|}|if|for(?!\w)|else|@block|@media|(}|{|=|,)$/igm;
 
 
 /**
@@ -10,14 +10,14 @@ var ignoreRe = /(^[*#.])|[&>/]|{|}|if|for(?!\w)|else|@block|@media|(}|{|=|,)$/ig
  * @return {boolean} true if in order, false if not
  */
 var semicolons = function( line ) {
-	if ( ignoreRe.test( line.trim() ) ) return
-	if ( this.state.hashOrCss ) return
+	if ( ignoreRe.test( line.trim() ) ) return;
+	if ( this.state.hashOrCss ) return;
 
-	var semicolon
-	var index = line.indexOf( ';' )
+	var semicolon;
+	var index = line.indexOf( ';' );
 
 	if ( this.state.conf === 'never' && index !== -1 ) {
-		semicolon = true
+		semicolon = true;
 	}
 
 	// for reasons that perplex me, even when the first use
@@ -27,18 +27,18 @@ var semicolons = function( line ) {
 		if ( index === -1 &&
 			line.indexOf( '}' ) === -1 &&
 			line.indexOf( '{' ) === -1 ) {
-			semicolon = false
+			semicolon = false;
 		}
 	}
 
 	if ( this.state.conf === 'never' && semicolon === true ) {
-		this.msg( 'unnecessary semicolon found', index )
+		this.msg( 'unnecessary semicolon found', index );
 	}
 	else if ( this.state.conf === 'always' && semicolon === false ) {
-		this.msg( 'missing semicolon', line.length )
+		this.msg( 'missing semicolon', line.length );
 	}
 
-	return semicolon
-}
+	return semicolon;
+};
 
-module.exports = semicolons
+module.exports = semicolons;

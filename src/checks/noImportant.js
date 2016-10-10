@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 
 /**
@@ -7,19 +7,19 @@
  * @return {boolean} true if !important used, false if not
  */
 var noImportant = function( line ) {
-	var important = false
-	var index = line.indexOf( '!important' )
+	var important = false;
+	var index = line.indexOf( '!important' );
 
 	// return true if border|outline is followed by a 0
 	if ( index !== -1 ) {
-		important = true
+		important = true;
 	}
 
 	if ( important === true ) {
-		this.msg( '!important is disallowed', index )
+		this.msg( '!important is disallowed', index );
 	}
 
-	return important
-}
+	return important;
+};
 
-module.exports = noImportant
+module.exports = noImportant;

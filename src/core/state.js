@@ -19,6 +19,6 @@ var state = {
 	testsEnabled: true, // are we running linter tests
 	quiet: false, // turn off console logs
 	watching: false // are we watching
-}
+};
 
-module.exports = state
+module.exports = state;

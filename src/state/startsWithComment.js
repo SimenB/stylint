@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 
-var commentRe = /(^\/\/)/
+var commentRe = /(^\/\/)/;
 
 /**
  * @description check if line starts with comment
@@ -8,15 +8,15 @@ var commentRe = /(^\/\/)/
  * @return {boolean} true if comment found, false if not
  */
 var startsWithComment = function( line ) {
-	var starts = false
+	var starts = false;
 
 	// ex }, but only if we've already establish that we're not in a hash
 	if ( line.indexOf( '//' ) !== -1 &&
 		commentRe.test( line.trim() ) ) {
-		starts = true
+		starts = true;
 	}
 
-	return starts
-}
+	return starts;
+};
 
-module.exports = startsWithComment
+module.exports = startsWithComment;

@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 
 // checks if * is a valid use case or not
-var universalRe = /( |\w|\d|'|"|\*|\/)(\*)( |\w|\d|'|"|\*|\$|\=)/
+var universalRe = /( |\w|\d|'|"|\*|\/)(\*)( |\w|\d|'|"|\*|\$|\=)/;
 
 /**
 * @description check for * selector
@@ -9,20 +9,20 @@ var universalRe = /( |\w|\d|'|"|\*|\/)(\*)( |\w|\d|'|"|\*|\$|\=)/
 * @returns {boolean} true if * on line, false if not
 */
 var universal = function( line ) {
-	var index = line.indexOf( '*' )
-	if ( index === -1 ) return
+	var index = line.indexOf( '*' );
+	if ( index === -1 ) return;
 
-	var hasUniversal = false
+	var hasUniversal = false;
 
 	if ( !universalRe.test( line ) ) {
-		hasUniversal = true
+		hasUniversal = true;
 	}
 
 	if ( this.state.conf === 'never' && hasUniversal === true ) {
-		this.msg( '* selector is disallowed', index )
+		this.msg( '* selector is disallowed', index );
 	}
 
-	return hasUniversal
-}
+	return hasUniversal;
+};
 
-module.exports = universal
+module.exports = universal;

@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 /**
  * @description used in conjunction with the valid check (for valid html)
@@ -9,8 +9,8 @@
 */
 var checkPseudo = function( prop, html, valid ) {
 	return valid.pseudo.some( function( pseudo ) {
-		return prop === html + pseudo
-	} )
-}
+		return prop === html + pseudo;
+	} );
+};
 
-module.exports = checkPseudo
+module.exports = checkPseudo;

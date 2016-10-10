@@ -1,4 +1,4 @@
-var stampit = require( 'stampit' )
+var stampit = require( 'stampit' );
 
 // group together all the functions that determine state in this folder
 var stateMethods = stampit().methods( {
@@ -11,6 +11,6 @@ var stateMethods = stampit().methods( {
 	rootStart: require( './rootStart' ),
 	stylintOff: require( './stylintOff' ),
 	stylintOn: require( './stylintOn' )
-} )
+} );
 
-module.exports = stateMethods
+module.exports = stateMethods;

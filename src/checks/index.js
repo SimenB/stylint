@@ -1,4 +1,4 @@
-var stampit = require( 'stampit' )
+var stampit = require( 'stampit' );
 
 // group together all the checks in this folder
 var linterMethods = stampit().methods( {
@@ -33,6 +33,6 @@ var linterMethods = stampit().methods( {
 		zeroUnits: require( './zeroUnits' ),
 		zIndexNormalize: require( './zIndexNormalize' )
 	}
-} )
+} );
 
-module.exports = linterMethods
+module.exports = linterMethods;

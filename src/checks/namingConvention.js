@@ -1,11 +1,11 @@
-'use strict'
+'use strict';
 
 // the alphabet, uppers
-var upperRe = /[A-Z]+/m
+var upperRe = /[A-Z]+/m;
 // BEM (http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/)
-var bemRe = /^([$.#{:][${a-z]([-]?[${}a-z0-9]+)*(_{2}[${}a-z0-9]([-]?[${}a-z0-9]+)*)?((_[${}a-z0-9]([-]?[a-z0-9}]+)*){2})*)\b/m
+var bemRe = /^([$.#{:][${a-z]([-]?[${}a-z0-9]+)*(_{2}[${}a-z0-9]([-]?[${}a-z0-9]+)*)?((_[${}a-z0-9]([-]?[a-z0-9}]+)*){2})*)\b/m;
 // camelCase or CamelCase
-var camelRe = /^[$#.{:]+([a-zA-Z]|[${}])+([a-z]|[${}])+(([.A-Z0-9])+[a-z ]+)+\b/m
+var camelRe = /^[$#.{:]+([a-zA-Z]|[${}])+([a-z]|[${}])+(([.A-Z0-9])+[a-z ]+)+\b/m;
 
 
 /**
@@ -15,14 +15,14 @@ var camelRe = /^[$#.{:]+([a-zA-Z]|[${}])+([a-z]|[${}])+(([.A-Z0-9])+[a-z ]+)+\b/
  * @returns {boolean} true if convention wrong, false if not
  */
 var namingConvention = function( line ) {
-	var arr = this.splitAndStrip( ' ', line )
+	var arr = this.splitAndStrip( ' ', line );
 	// determine if line should be tested at all
-	var doWeTestRe = /^[${:]+/m
-	var badConvention = false
+	var doWeTestRe = /^[${:]+/m;
+	var badConvention = false;
 
 	// test a wider range if strict is true
 	if ( this.config.namingConventionStrict === true ) {
-		doWeTestRe = /^[$#.{:]+/m
+		doWeTestRe = /^[$#.{:]+/m;
 	}
 
 	// only run checks if on a class, id, or variable
@@ -39,7 +39,7 @@ var namingConvention = function( line ) {
 				if ( arr[0].indexOf( '-' ) !== -1 ||
 					arr[0].indexOf( '_' ) !== -1 ||
 					!camelRe.test( arr[0] ) ) {
-					badConvention = true
+					badConvention = true;
 				}
 			}
 			// $var_name
@@ -48,7 +48,7 @@ var namingConvention = function( line ) {
 				if ( arr[0].indexOf( '-' ) !== -1 ||
 					arr[0].indexOf( '_' ) === -1 ||
 					upperRe.test( arr[0] ) ) {
-					badConvention = true
+					badConvention = true;
 				}
 			}
 			// $var-name
@@ -57,33 +57,33 @@ var namingConvention = function( line ) {
 				if ( arr[0].indexOf( '-' ) === -1 ||
 					arr[0].indexOf( '_' ) !== -1 ||
 					upperRe.test( arr[0] ) ) {
-					badConvention = true
+					badConvention = true;
 				}
 			}
 			// $var__element
 			else if ( this.state.conf === 'BEM' ) {
 				// if A-Z or not following BEM specification
 				if ( upperRe.test( arr[0] ) || !bemRe.test( arr[0] ) ) {
-					badConvention = true
+					badConvention = true;
 				}
 			}
 			// if not one of the defaults, assume custom regExp
 			else if ( typeof this.state.conf === 'string' ) {
-				var conventionRe = new RegExp( this.state.conf, 'm' )
+				var conventionRe = new RegExp( this.state.conf, 'm' );
 
 				if ( !conventionRe.test( arr[0] ) ) {
-					badConvention = true
+					badConvention = true;
 				}
 			}
 		}
 	}
 
 	if ( badConvention === true ) {
-		var index = line.indexOf( arr[0] )
-		this.msg( 'preferred naming convention is ' + this.state.conf, index )
+		var index = line.indexOf( arr[0] );
+		this.msg( 'preferred naming convention is ' + this.state.conf, index );
 	}
 
-	return badConvention
-}
+	return badConvention;
+};
 
-module.exports = namingConvention
+module.exports = namingConvention;

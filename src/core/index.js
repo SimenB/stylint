@@ -1,4 +1,4 @@
-var stampit = require( 'stampit' )
+var stampit = require( 'stampit' );
 
 // group together 'core' methods
 var core = stampit().methods( {
@@ -26,6 +26,6 @@ var core = stampit().methods( {
 	setContext: require( '../utils/setContext' ),
 	splitAndStrip: require( '../utils/splitAndStrip' ),
 	trimLine: require( '../utils/trimLine' )
-} )
+} );
 
-module.exports = core
+module.exports = core;

@@ -1,4 +1,4 @@
-var path = require( 'path' )
+var path = require( 'path' );
 
 // the main cache object
 var cache = {
@@ -23,6 +23,6 @@ var cache = {
 	sortOrderCache: [], // we keep a context based arr of selectors here to check sort order
 	source: '', // original line before stripping/trimming
 	zCache: [] // array of z-index uses
-}
+};
 
-module.exports = cache
+module.exports = cache;

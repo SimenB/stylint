@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 
 /**
@@ -16,7 +16,7 @@ var msg = function( message, column ) {
 		column: column,
 		source: this.cache.source,
 		ruleId: this.cache.rule
-	} )
-}
+	} );
+};
 
-module.exports = msg
+module.exports = msg;

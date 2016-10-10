@@ -1,8 +1,8 @@
-'use strict'
+'use strict';
 
 // check if using selector before we count depth
 // definitely not the best way to do this,
-var ampRe = /^(&|\/{1}|\.\.\/|~\/)/
+var ampRe = /^(&|\/{1}|\.\.\/|~\/)/;
 
 
 /**
@@ -12,26 +12,26 @@ var ampRe = /^(&|\/{1}|\.\.\/|~\/)/
  * @todo this is kinda not 100% reliable in it's current form, also could be refactors
  */
 var depthLimit = function( line ) {
-	var context = this.state.context
-	var badNesting = false
-	var limit = this.config.depthLimit ? this.config.depthLimit : 5
+	var context = this.state.context;
+	var badNesting = false;
+	var limit = this.config.depthLimit ? this.config.depthLimit : 5;
 
 	// trim string and check if line starts with &
 	// reduce context in that case
 	// @TODO not really ideal
 	if ( ampRe.test( line.trim() ) ) {
-		context -= 1
+		context -= 1;
 	}
 
 	if ( context > limit ) {
-		badNesting = true
+		badNesting = true;
 	}
 
 	if ( badNesting === true ) {
-		this.msg( 'selector depth greater than ' + limit )
+		this.msg( 'selector depth greater than ' + limit );
 	}
 
-	return badNesting
-}
+	return badNesting;
+};
 
-module.exports = depthLimit
+module.exports = depthLimit;

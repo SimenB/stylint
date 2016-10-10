@@ -80,6 +80,6 @@ var config = {
 	zeroUnits: 'never',
 	// suggest a normalized z index value, base of whatever this is
 	zIndexNormalize: false
-}
+};
 
-module.exports = config
+module.exports = config;

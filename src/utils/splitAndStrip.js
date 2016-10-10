@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 /**
  * @description alliteration. split a str according to re, and filter out empty indexes
@@ -8,8 +8,8 @@
 */
 var splitAndStrip = function( re, line ) {
 	return line.split( re ).filter( function( str ) {
-		return str.length > 0
-	} )
-}
+		return str.length > 0;
+	} );
+};
 
-module.exports = splitAndStrip
+module.exports = splitAndStrip;

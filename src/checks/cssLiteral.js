@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 
 /**
@@ -8,19 +8,19 @@
  * @TODO do i still work with setState?
  */
 var cssLiteral = function( line ) {
-	if ( this.state.hashOrCSS ) { return }
-	var isCSSLiteral = false
-	var index = line.indexOf( '@css' )
+	if ( this.state.hashOrCSS ) { return; }
+	var isCSSLiteral = false;
+	var index = line.indexOf( '@css' );
 
 	if ( index !== -1 ) {
-		isCSSLiteral = true
+		isCSSLiteral = true;
 	}
 
 	if ( this.state.conf === 'never' && isCSSLiteral === true ) {
-		this.msg( 'css literals are disallowed', index )
+		this.msg( 'css literals are disallowed', index );
 	}
 
-	return isCSSLiteral
-}
+	return isCSSLiteral;
+};
 
-module.exports = cssLiteral
+module.exports = cssLiteral;
