@@ -32,7 +32,7 @@ const transformMessages = function (skipDone) {
   });
 
   return {
-    filePath: filePath,
+    filePath,
     messages: filteredMessages,
     errorCount: localSeverities.errorCount,
     warningCount: localSeverities.warningCount,
@@ -42,8 +42,8 @@ const transformMessages = function (skipDone) {
 
   const report = {
     results: groupedByFile,
-    errorCount: errorCount,
-    warningCount: warningCount,
+    errorCount,
+    warningCount,
   };
 
   this.cache.report = report;

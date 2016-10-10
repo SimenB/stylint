@@ -12,7 +12,7 @@ const lintString = function (string, config, filename) {
   this.resetOnChange();
 
   if (config) {
-    this.init({ config: config });
+    this.init({ config });
   }
 
 	// make sure there is no output to the console

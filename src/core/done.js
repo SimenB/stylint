@@ -25,8 +25,8 @@ const done = function () {
 
   this.state.exitCode = shouldKill ? 1 : 0;
   const message = this.reporter(report, {
-    maxErrors: maxErrors,
-    maxWarnings: maxWarnings,
+    maxErrors,
+    maxWarnings,
     groupOutputByFile: this.config.groupOutputByFile,
     reporterOptions: this.config.reporterOptions,
   }, shouldKill);
@@ -44,7 +44,7 @@ const done = function () {
   }
 
   const returnValue = {
-    report: report,
+    report,
     exitCode: this.state.exitCode,
     msg: message,
   };

@@ -9,11 +9,11 @@
  */
 const msg = function (message, column) {
   this.cache.messages.push({
-    message: message,
+    message,
     severity: this.state.severity,
     file: this.cache.file,
     line: this.cache.lineNo,
-    column: column,
+    column,
     source: this.cache.source,
     ruleId: this.cache.rule,
   });

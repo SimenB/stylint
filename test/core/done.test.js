@@ -18,7 +18,7 @@ describe('done', function () {
 
     context = {
       cache: {
-        report: report,
+        report,
       },
       callback: sinon.spy(),
       config: {

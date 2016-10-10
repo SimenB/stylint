@@ -34,11 +34,11 @@ const reporter = function (report, options, kill) {
     const rule = chalk.grey(msg.ruleId);
 
     return {
-      file: file,
-      lineData: lineData,
-      severity: severity,
+      file,
+      lineData,
+      severity,
       message: msg.message,
-      rule: rule,
+      rule,
     };
   });
 

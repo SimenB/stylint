@@ -7,7 +7,7 @@ function countSeverities (messages) {
   const errorCount = warningsOrErrors.error || 0;
   const warningCount = warningsOrErrors.warning || 0;
 
-  return { errorCount: errorCount, warningCount: warningCount };
+  return { errorCount, warningCount };
 }
 
 module.exports = countSeverities;

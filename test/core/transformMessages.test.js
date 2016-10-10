@@ -21,13 +21,13 @@ describe('transforming messages for report', function () {
 
   function createMessage () {
     return {
-      message: message,
-      severity: severity,
-      file: file,
-      line: line,
-      column: column,
-      source: source,
-      ruleId: ruleId,
+      message,
+      severity,
+      file,
+      line,
+      column,
+      source,
+      ruleId,
     };
   }
 

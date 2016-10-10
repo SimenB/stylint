@@ -11,15 +11,15 @@ function genMessage (filePath, ruleIds, severity) {
   ruleIds = Array.isArray(ruleIds) ? ruleIds : [ruleIds];
 
   return {
-    filePath: filePath,
+    filePath,
     messages: ruleIds.map(function (ruleId) {
       return {
         line: 1,
         column: -1,
-        severity: severity,
+        severity,
         message: 'This is not OK',
         source: '',
-        ruleId: ruleId,
+        ruleId,
       };
     }),
   };
