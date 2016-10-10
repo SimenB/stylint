@@ -16,10 +16,10 @@ const transformMessages = function (skipDone) {
 
   const groupedByFile = _.chain(this.cache.messages)
 		.groupBy('file')
-		.map(function (messages, filePath) {
+		.map((messages, filePath) => {
   const localSeverities = countSeverities(messages);
 
-  const filteredMessages = messages.map(function (message) {
+  const filteredMessages = messages.map((message) => {
 				// Just removes `file`
     return {
       column: message.column,

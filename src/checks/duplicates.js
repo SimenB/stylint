@@ -31,11 +31,11 @@ const duplicates = function (line) {
 	// basically, root can persist across files potentially
 	// caches above root only persist as long as they are within their context
   if (this.state.context !== this.state.prevContext) {
-    Object.keys(this.cache.sCache).forEach(function (val) {
+    Object.keys(this.cache.sCache).forEach((val) => {
 			// string cause key
       if (val === '0') { return; }
       this.cache.sCache[val] = [];
-    }.bind(this));
+    });
   }
 
 	// if not in a list

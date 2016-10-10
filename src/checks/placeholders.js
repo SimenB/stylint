@@ -20,7 +20,7 @@ const placeholders = function (line) {
   const extendArr = line.replace(extendRe, '').split(',');
 
 	// if any item in the list is not a placeholder, fail
-  placeholder = extendArr.every(function (line) {
+  placeholder = extendArr.every((line) => {
     const trimmed = line.trim();
     return trimmed.substr(0, 1) === '$';
   });

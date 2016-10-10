@@ -7,7 +7,7 @@
  * @returns {Array} split and filtered array
 */
 const splitAndStrip = function (re, line) {
-  return line.split(re).filter(function (str) {
+  return line.split(re).filter((str) => {
     return str.length > 0;
   });
 };

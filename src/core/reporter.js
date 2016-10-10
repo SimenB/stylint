@@ -18,11 +18,11 @@ const reporter = function (report, options, kill) {
 
   options = options || {};
   let formattedMessages = _.chain(report.results)
-		.map(function (result) {
+		.map((result) => {
   const newResult = result;
   const file = chalk.underline(result.filePath);
 
-  newResult.messages = result.messages.map(function (msg) {
+  newResult.messages = result.messages.map((msg) => {
     const column = typeof msg.column === 'number' && msg.column > 0 ? msg.column : null;
     const lineData = column ? msg.line + ':' + column : msg.line;
 
@@ -50,19 +50,19 @@ const reporter = function (report, options, kill) {
 		// each array consists of all the errors and warnings for a file
 		// columnify the errors/warnings and prefix them with the file name
     formattedMessages = formattedMessages
-			.map(function (results) {
+			.map((results) => {
   return results.filePath + '\n' + columnify(results.messages, options.reporterOptions);
 });
   }
   else {
     formattedMessages = formattedMessages
 		.flatMap('messages')
-		.map(function (output) {
+		.map((output) => {
   return output.file + '\n' + output.lineData + ' ' + output.rule + ' ' + output.severity + ' ' + output.message;
 });
   }
 
-  formattedMessages = formattedMessages.reduce(function (memo, msg) {
+  formattedMessages = formattedMessages.reduce((memo, msg) => {
     return memo + msg + '\n\n';
   }, '')
 		.value()

@@ -8,7 +8,7 @@
  * @returns {boolean} true if at least one match found, false if not
 */
 const checkPrefix = function (prop, css, valid) {
-  return valid.prefixes.some(function (prefix) {
+  return valid.prefixes.some((prefix) => {
     return prop === prefix + css;
   });
 };

@@ -49,11 +49,11 @@ const brackets = function (line) {
       if (typeof arr[0] !== 'undefined') {
         arr[0] = arr[0].replace(stripRe, '').trim();
 
-        isCSS = validJSON.css.some(function (css) {
+        isCSS = validJSON.css.some((css) => {
           return arr[0] === css || this.checkPrefix(arr[0], css, validJSON);
-        }.bind(this));
+        });
 
-        isMixin = this.cache.customProperties.some(function (mixin) {
+        isMixin = this.cache.customProperties.some((mixin) => {
           return arr[0] === mixin;
         });
       }

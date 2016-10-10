@@ -16,14 +16,14 @@ const getFiles = function (dir) {
   }
 
   if (typeof dir === 'string') {
-    return glob(dir, {}, function (err, files) {
+    return glob(dir, {}, (err, files) => {
       if (err) { throw err; }
 
       files = files.filter(function (file) {
         let excluded = false;
         const relPath = path.relative(dir.replace('/**/*.styl', ''), file);
 
-        this.config.exclude.forEach(function (exclude) {
+        this.config.exclude.forEach((exclude) => {
           excluded = excluded || exclude.match(relPath);
         });
 
@@ -34,13 +34,13 @@ const getFiles = function (dir) {
       this.cache.files = files;
 
       return async.map(this.cache.files, fs.readFile, this.parse.bind(this));
-    }.bind(this));
+    });
   }
   else if (dir instanceof Array) {
     const files = dir.filter(function (filepath) {
       let excluded = false;
 
-      this.config.exclude.forEach(function (exclude) {
+      this.config.exclude.forEach((exclude) => {
         excluded = excluded || exclude.match(filepath);
       });
 
@@ -49,9 +49,9 @@ const getFiles = function (dir) {
 
     this.cache.filesLen = files.length - 1;
     this.cache.files = files;
-    return this.cache.files.forEach(function (file) {
+    return this.cache.files.forEach((file) => {
       return this.read(file);
-    }.bind(this));
+    });
   }
 };
 

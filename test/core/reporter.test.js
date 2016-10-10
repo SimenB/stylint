@@ -12,7 +12,7 @@ function genMessage (filePath, ruleIds, severity) {
 
   return {
     filePath,
-    messages: ruleIds.map(function (ruleId) {
+    messages: ruleIds.map((ruleId) => {
       return {
         line: 1,
         column: -1,
@@ -41,23 +41,23 @@ function generateReport (result) {
   return severities;
 }
 
-describe('reporter', function () {
-  it('should have correct output on no message', function () {
+describe('reporter', () => {
+  it('should have correct output on no message', () => {
     assert.equal(reporter(generateReport()), '');
   });
 
-  it('should include kill message', function () {
+  it('should include kill message', () => {
     assert.equal(stripColor(reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), {}, true)), 'some file.styl\n1 no-undefined warning This is not OK\n\nStylint: 0 Errors.\nStylint: 1 Warnings.\nStylint: Over Error or Warning Limit.');
   });
 
-  it('should include max errors and max warnings', function () {
+  it('should include max errors and max warnings', () => {
     assert.equal(stripColor(reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), {
       maxErrors: 5,
       maxWarnings: 5,
     })), 'some file.styl\n1 no-undefined warning This is not OK\n\nStylint: 0 Errors. (Max Errors: 5)\nStylint: 1 Warnings. (Max Warnings: 5)');
   });
 
-  it('should skip non-valid max errors and max warnings', function () {
+  it('should skip non-valid max errors and max warnings', () => {
     assert.equal(stripColor(reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), {
       maxErrors: -1,
       maxWarnings: 5,
@@ -66,22 +66,22 @@ describe('reporter', function () {
     assert.equal(stripColor(reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxErrors: 2 })), 'some file.styl\n1 no-undefined warning This is not OK\n\nStylint: 0 Errors. (Max Errors: 2)\nStylint: 1 Warnings.');
   });
 
-  it('should format warning correctly', function () {
+  it('should format warning correctly', () => {
     assert.equal(stripColor(reporter(generateReport([genWarning('some file.styl', 'no-undefined')]))), 'some file.styl\n1 no-undefined warning This is not OK\n\nStylint: 0 Errors.\nStylint: 1 Warnings.');
   });
 
-  it('should format error correctly', function () {
+  it('should format error correctly', () => {
     assert.equal(stripColor(reporter(generateReport([genError('some file.styl', 'no-undefined')]))), 'some file.styl\n1 no-undefined error This is not OK\n\nStylint: 1 Errors.\nStylint: 0 Warnings.');
   });
 
-  it('should format error and warning correctly', function () {
+  it('should format error and warning correctly', () => {
     const error = genError('some file.styl', 'no-undefined');
     const warning = genWarning('some file.styl', 'no-undefined');
 
     assert.equal(stripColor(reporter(generateReport([error, warning]))), 'some file.styl\n1 no-undefined error This is not OK\n\nsome file.styl\n1 no-undefined warning This is not OK\n\nStylint: 1 Errors.\nStylint: 1 Warnings.');
   });
 
-  it('should format column', function () {
+  it('should format column', () => {
     const error = genError('some file.styl', 'no-undefined');
 
     error.messages[0].column = 5;
@@ -89,7 +89,7 @@ describe('reporter', function () {
     assert.equal(stripColor(reporter(generateReport([error]))), 'some file.styl\n1:5 no-undefined error This is not OK\n\nStylint: 1 Errors.\nStylint: 0 Warnings.');
   });
 
-  it('should not group files by default', function () {
+  it('should not group files by default', () => {
     const error1 = genError('some file.styl', 'no-undefined');
     const error2 = genError('some file.styl', 'no-undefined');
     const error3 = genError('some other file.styl', 'no-undefined');
@@ -97,7 +97,7 @@ describe('reporter', function () {
     assert.equal(stripColor(reporter(generateReport([error1, error2, error3]))), 'some file.styl\n1 no-undefined error This is not OK\n\nsome file.styl\n1 no-undefined error This is not OK\n\nsome other file.styl\n1 no-undefined error This is not OK\n\nStylint: 3 Errors.\nStylint: 0 Warnings.');
   });
 
-  it('should group files correctly', function () {
+  it('should group files correctly', () => {
     const error1 = genError('some file.styl', ['no-undefined', 'no-undefined']);
     const error2 = genError('some other file.styl', 'no-undefined');
 

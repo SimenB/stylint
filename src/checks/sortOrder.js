@@ -66,7 +66,7 @@ const sortOrder = function (line) {
     orderingArr = Array.isArray(this.state.conf) ? this.state.conf : ordering.grouped;
 
 		// iterate over our cache copy, and sort it according to our config
-    sortedArr = sortedArr.sort(function (a, b) {
+    sortedArr = sortedArr.sort((a, b) => {
       const aIndex = orderingArr.indexOf(a);
       let bIndex = orderingArr.indexOf(b);
 
@@ -90,13 +90,13 @@ const sortOrder = function (line) {
 	// one sorted according to the config, and one as appears in the file
   if (this.state.context === this.state.prevContext) {
 		// compare each value individually
-    this.cache.sortOrderCache.forEach(function (val, i) {
+    this.cache.sortOrderCache.forEach((val, i) => {
 			// if any value doesn't match quit the forEach
       if (sortedArr[i] !== this.cache.sortOrderCache[i]) {
         sorted = false;
         return;
       }
-    }.bind(this));
+    });
   }
 
   if (sorted === false) {

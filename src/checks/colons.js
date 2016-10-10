@@ -28,7 +28,7 @@ const colons = function (line) {
 		this.state.conf === 'never' &&
 		line.indexOf(':') !== -1) {
 		// check for pseudo selector first
-    hasPseudo = validJSON.pseudo.some(function (val) {
+    hasPseudo = validJSON.pseudo.some((val) => {
       return line.indexOf(val) !== -1;
     });
 
