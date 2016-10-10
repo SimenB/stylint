@@ -63,5 +63,8 @@
     "pretest": "npm run lint",
     "start": "node --harmony index.js",
     "test": "mocha --recursive"
+  },
+  "engines": {
+    "node": ">=4"
   }
 }
