@@ -1357,6 +1357,7 @@ describe('Linter Style Checks: ', () => {
     });
   });
 
+  /* eslint-disable no-tabs */
   describe('mixed spaces and tabs', () => {
     const mixed = lint.mixed.bind(app);
 
@@ -1367,13 +1368,13 @@ describe('Linter Style Checks: ', () => {
 
     it('false if no mixed spaces and tabs found: tabs preferred', () => {
       app.config.indentPref = 'tabs';
-      assert.equal(false, mixed('', '  margin 0'));
+      assert.equal(false, mixed('', '	margin 0'));
     });
 
     it('true if spaces and tabs are mixed: spaces preferred', () => {
       app.config.indentPref = 4;
-      assert.ok(mixed('', '    margin 0'));
-      assert.ok(mixed('', '  padding 0em'));
+      assert.ok(mixed('', '  	margin 0'));
+      assert.ok(mixed('', '	 padding 0em'));
     });
 
     it('true if spaces and tabs are mixed: tabs preferred', () => {
@@ -1381,6 +1382,7 @@ describe('Linter Style Checks: ', () => {
       assert.ok(mixed('', '      margin 0'));
     });
   });
+  /* eslint-enable */
 
   describe('naming convention', () => {
     const conventionTest = lint.namingConvention.bind(app);
