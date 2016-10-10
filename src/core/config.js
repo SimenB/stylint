@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * default configuration object
  * this is what the linter will run when no config file is passed

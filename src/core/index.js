@@ -1,3 +1,5 @@
+'use strict';
+
 const stampit = require('stampit');
 
 // group together 'core' methods

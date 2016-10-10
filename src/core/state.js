@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * @description i hold the state
  * @return {Object} [i expose properties to the entire app]

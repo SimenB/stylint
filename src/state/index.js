@@ -1,3 +1,5 @@
+'use strict';
+
 const stampit = require('stampit');
 
 // group together all the functions that determine state in this folder
