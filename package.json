@@ -34,8 +34,8 @@
   "devDependencies": {
     "chai": "3.5.0",
     "eslint": "3.7.1",
-    "eslint-config-simenb-base": "4.0.0",
-    "eslint-config-simenb-jsdoc": "^1.1.8",
+    "eslint-config-simenb-base": "5.0.0",
+    "eslint-config-simenb-jsdoc": "1.1.8",
     "eslint-config-simenb-node": "0.1.1",
     "istanbul": "0.4.3",
     "jsdoc": "3.4.2",
