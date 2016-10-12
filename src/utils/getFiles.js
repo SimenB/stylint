@@ -2,7 +2,6 @@
 
 var fs = require( 'fs' )
 var async = require( 'async' )
-var path = require( 'path' )
 var globUtil = require( '@simenb/eslint-file-util/lib/util/glob-util' )
 
 /**
@@ -18,7 +17,10 @@ var getFiles = function( dir ) {
 	var arrayOfDirs = Array.isArray( dir ) ? dir : [dir]
 
 	var globPatterns = globUtil.resolveFileGlobPatterns( arrayOfDirs, { extensions: ['.styl'] } )
-	var files = globUtil.listFilesToProcess( globPatterns )
+	var files = globUtil.listFilesToProcess( globPatterns, {
+		ignorePattern: this.config.exclude,
+		ignoreFileName: '.stylintignore'
+	} )
 
 	files = files
 		.filter( function( file ) {
@@ -27,16 +29,6 @@ var getFiles = function( dir ) {
 		.map( function( file ) {
 			return file.filename
 		} )
-		.filter( function( file ) {
-			var excluded = false
-			var relPath = path.dirname( file )
-
-			this.config.exclude.forEach( function( exclude ) {
-				excluded = excluded || exclude.match( relPath )
-			} )
-
-			return !excluded
-		}, this )
 
 	this.cache.filesLen = files.length - 1
 	this.cache.files = files
