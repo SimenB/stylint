@@ -15,6 +15,7 @@ var colons = function( line ) {
 
 	var colon
 	var hasPseudo = false
+	var hasScope = false
 	var arr = this.splitAndStrip( new RegExp( /\s/ ), line )
 
 	if ( this.state.conf === 'always' &&
@@ -28,12 +29,17 @@ var colons = function( line ) {
 		this.state.conf === 'never' &&
 		line.indexOf( ':' ) !== -1 ) {
 
-		// check for pseudo selector first
+		// check for pseudo selector
 		hasPseudo = validJSON.pseudo.some( function( val ) {
 			return line.indexOf( val ) !== -1
 		} )
 
-		if ( !hasPseudo ) {
+		// check for scope selector
+		hasScope = validJSON.scope.some( function( val ) {
+			return line.indexOf( val ) !== -1
+		} )
+
+		if ( !hasPseudo && !hasScope ) {
 			colon = true
 		}
 	}

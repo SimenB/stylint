@@ -649,6 +649,8 @@ describe( 'Linter Style Checks: ', function() {
 		it( 'undefined if no colon found', function() {
 			assert.equal( undefined, colonTest( 'margin 0 auto' ) )
 			assert.equal( undefined, colonTest( '&:hover' ) )
+			assert.equal( undefined, colonTest( ':global' ) )
+			assert.equal( undefined, colonTest( ':local' ) )
 		} )
 
 		it( 'undefined if root context', function() {
