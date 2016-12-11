@@ -790,5 +790,9 @@
         ":valid",
         "::visited",
         ":visited"
+    ],
+    "scope": [
+        ":global",
+        ":local"
     ]
 }
