@@ -20,7 +20,6 @@ var stripJsonComments = require( 'strip-json-comments' )
 // turn on strict mode from this point and turn off unnecessary logging
 app.state.quiet = true
 app.state.watching = true
-app.cache.dir = '/Users/ross/Developer/workspace/stylus-lint/'
 
 describe( 'Core Methods: ', function() {
 

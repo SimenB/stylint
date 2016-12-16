@@ -1,3 +1,7 @@
+### 1.5.9
+
+remove unused entry `dir` from `cache`
+
 ### 1.5.8
 
 fix usage with css modules https://github.com/SimenB/stylint/issues/388
