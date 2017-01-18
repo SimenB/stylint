@@ -1,3 +1,7 @@
+### 1.5.10
+
+Fix `none` option for decimal values: https://github.com/SimenB/stylint/pull/394
+
 ### 1.5.9
 
 remove unused entry `dir` from `cache`
