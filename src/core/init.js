@@ -7,6 +7,7 @@ const defaultOptions = {
   config: null,
   strict: false,
   callback() {},
+  pretty: false
 };
 
 /**

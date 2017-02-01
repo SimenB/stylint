@@ -128,3 +128,56 @@ describe('(Old tests) Reporter should: ', () => {
     expect(app.reporter({ results: [msg], errorCount: 0, warningCount: 1 })).toMatchSnapshot();
   });
 });
+
+
+    // context('if the pretty flag is passed', () => {
+    //   it('return a prettily formatted message', () => {
+    //     app.config.pretty = true
+    //     app.cache.rule = 'universal';
+    //     const expectedOutput = 'testReporter\n1 universal warning universal disallowed\n\nStylint: 0 Errors.\nStylint: 1 Warnings.';
+    //
+    //     const msg = {
+    //       filePath: 'testReporter',
+    //       messages: [{
+    //         message: 'universal disallowed',
+    //         severity: 'warning',
+    //         line: 1,
+    //         column: 0,
+    //         ruleId: 'universal',
+    //         source: 'Reporter Lyfe*',
+    //       }],
+    //     };
+    //
+    //     assert.equal(chalk.stripColor(app.reporter({
+    //       results: [msg],
+    //       errorCount: 0,
+    //       warningCount: 1,
+    //     })), expectedOutput);
+    //   });
+    // });
+    //
+    // context('if the pretty flag is not passed', () => {
+    //   it('return a standard formatted message if the pretty flag is not set', function() {
+    //     app.config.pretty = false
+    //
+    //     const msg = {
+    //       filePath: 'testReporter',
+    //       messages: [{
+    //         message: 'universal disallowed',
+    //         severity: 'warning',
+    //         line: 22,
+    //         column: 0,
+    //         ruleId: 'universal'
+    //         source: 'Yoooo Dat Reporter Lyfe*'
+    //       }]
+    //     };
+    //
+    //     var expectedOutput = 'Warning: universal disallowed\nFile: testReporter\nLine: 22: Yo Dat Reporter Lyfe*'
+    //
+    //     assert.equal(app.reporter({
+    //       results: [msg],
+    //       errorCount: 0,
+    //       warningCount: 1,
+    //     }), expectedOutput);
+    //   });
+    });
