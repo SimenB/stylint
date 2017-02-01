@@ -73,14 +73,6 @@ const reporter = function(report, options, kill) {
 
 module.exports = reporter;
 
-
-/**
- * @description format output message for console (default)
- * @param  {string} msg  error msg from one of the checks
- * @param  {string} done whether or not this is the last message to output
- * @param  {string} kill whether or not we're over one of our limits
- * @return {string | Function} either the formatted msg or done()
- */
 // var reporter = function( msg, done, kill ) {
 // 	if ( done === 'done' ) {
 // 		// total errors
@@ -102,7 +94,7 @@ module.exports = reporter;
 // 		return this.done()
 // 	}
 //
-// 	if ( this.config.pretty ) {
+// 	if ( this.reporter.pretty ) {
 // 		return prettyReporter.call( this, msg )
 // 	}
 //

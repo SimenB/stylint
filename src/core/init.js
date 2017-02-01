@@ -41,6 +41,7 @@ const init = function(options, pathPassed) {
   // if path/ passed in use that for the dir
   this.state.path = pathPassed || this.state.path || process.cwd();
   this.callback = this.callback || optionsWithDefaults.callback;
+  this.reporter.pretty = options.pretty
 
   // fire watch or read based on flag
   if (optionsWithDefaults.watch) {
