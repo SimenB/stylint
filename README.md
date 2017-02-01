@@ -54,6 +54,8 @@ you can also ping me [here](https://gitter.im/rossPatton/stylint)
 
 `-v` or `--version` Display current version
 
+`-p` or `--pretty`  Display default reporter in a pretty format
+
 
 ## Example cli Usage:
 `stylint` Run stylint on cwd
