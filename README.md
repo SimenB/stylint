@@ -60,6 +60,8 @@ you can also ping me [here](https://gitter.im/rossPatton/stylint)
 ## Example cli Usage:
 `stylint` Run stylint on cwd
 
+`stylint --pretty` Run stylint on cwd with pretty formatting
+
 `stylint path/to/filename.styl` Run stylint on a file
 
 `stylint path/to/dir --watch` Watch dir, run stylint on file change
