@@ -32,7 +32,8 @@ var sortOrder = function( line ) {
 	var sorted = true // 4
 	var orderName = this.state.conf // 5
 
-	if ( ignoreMeRe.test( arr[0] ) ) return
+	var property = arr[0]
+	if ( ignoreMeRe.test( property ) ) return
 
 	if ( Array.isArray( this.state.conf ) ) {
 		orderName = 'custom grouped'
@@ -50,7 +51,7 @@ var sortOrder = function( line ) {
 	}
 
 	// then we push the latest property to the cache
-	this.cache.sortOrderCache.push( arr[0] )
+	this.cache.sortOrderCache.push( property )
 
 	// create a copy of the cache now for comparison against
 	sortedArr = this.cache.sortOrderCache.slice( 0 )
@@ -100,7 +101,10 @@ var sortOrder = function( line ) {
 	}
 
 	if ( sorted === false ) {
-		this.msg( 'prefer ' + orderName + ' when sorting properties' )
+		var index = sortedArr.indexOf( property )
+		var before = sortedArr[index + 1]
+		var after = sortedArr[index - 1]
+		this.msg( 'prefer ' + orderName + ' when sorting properties, place ' + property + ' ' + ( before ? 'before ' + before : 'after ' + after ) )
 	}
 
 	return sorted
