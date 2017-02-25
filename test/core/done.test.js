@@ -4,6 +4,8 @@
 
 const assert = require('assert');
 const sinon = require('sinon');
+
+const stylint = require('../../index');
 const done = require('../../src/core/done');
 
 describe('done', () => {
@@ -198,5 +200,62 @@ describe('done', () => {
       assert(context.reporter.calledOnce);
       assert(context.reporter.args[0][2]);
     });
+  });
+});
+
+describe('Done, again: ', () => {
+  const app = stylint().create();
+
+  app.state.quiet = true;
+  app.state.watching = true;
+
+  beforeEach(() => {
+    app.state.quiet = true;
+    app.state.watching = true;
+    app.cache.report = { results: [], errorCount: 0, warningCount: 0 };
+    app.state.exitCode = 0;
+  });
+
+  it('should return an object', () => {
+    assert.ok(typeof app.done() === 'object');
+  });
+
+  it('which should have msg as a property', () => {
+    assert.ok(typeof app.done().msg === 'string');
+  });
+
+  it('exit code should be 0 if no errs', () => {
+    assert.equal(0, app.done().exitCode);
+  });
+
+  it('exit code should be 0 if has warnings and no errs', () => {
+    app.cache.report.warningCount = 1;
+    assert.equal(0, app.done().exitCode);
+  });
+
+  it('msg should be empty if no errs or warnings', () => {
+    assert.equal('', app.done().msg);
+  });
+
+  it('exit code of 1 if not clear', () => {
+    app.cache.report.errorCount = 1;
+    assert.equal(1, app.done().exitCode);
+  });
+
+  it('exit code should be 1 if over max warnings', () => {
+    app.config.maxWarnings = 0;
+    app.config.maxErrors = 10;
+    app.cache.report.warningCount = 1;
+
+    assert.equal(1, app.done().exitCode);
+  });
+
+  it.skip('should exit if watch off', () => {
+    app.state.watching = false;
+    sinon.spy(app, 'done');
+    app.done();
+
+    app.done.getCall(0).returned(sinon.match.same(process.exit));
+    app.state.watching = true;
   });
 });

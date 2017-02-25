@@ -1,11 +1,15 @@
 'use strict';
 
 const assert = require('assert');
+require('chai').should(); // add should assertions on top
 const _ = require('lodash');
 const stripColor = require('chalk').stripColor;
+const sinon = require('sinon');
 const reporter = require('../../src/core/reporter');
 
 const countSeverities = require('../../src/utils/countSeveritiesInMessages');
+
+const stylint = require('../../index');
 
 function genMessage(filePath, ruleIds, severity) {
   const ruleIdsArray = Array.isArray(ruleIds) ? ruleIds : [ruleIds];
@@ -140,5 +144,44 @@ describe('reporter', () => {
       '\nFILE                 LINEDATA SEVERITY MESSAGE        RULE        \nsome other file.styl 1        error    This is not OK ' +
       'no-undefined\n\nStylint: 3 Errors.\nStylint: 0 Warnings.'
     );
+  });
+});
+
+describe('(Old tests) Reporter should: ', () => {
+  const app = stylint().create();
+
+  beforeEach(() => {
+    sinon.spy(app, 'reporter');
+  });
+
+  afterEach(() => {
+    app.reporter.restore();
+  });
+
+  it('be a function', () => {
+    app.reporter.should.be.a('function');
+  });
+
+  it('return correctly formatted msg', () => {
+    app.cache.rule = 'universal';
+    const expectedOutput = 'testReporter\n1 universal warning universal disallowed\n\nStylint: 0 Errors.\nStylint: 1 Warnings.';
+
+    const msg = {
+      filePath: 'testReporter',
+      messages: [{
+        message: 'universal disallowed',
+        severity: 'warning',
+        line: 1,
+        column: 0,
+        ruleId: 'universal',
+        source: 'Reporter Lyfe*',
+      }],
+    };
+
+    assert.equal(stripColor(app.reporter({
+      results: [msg],
+      errorCount: 0,
+      warningCount: 1,
+    })), expectedOutput);
   });
 });
