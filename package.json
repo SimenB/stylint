@@ -32,14 +32,12 @@
   },
   "bin": "./bin/stylint.js",
   "devDependencies": {
-    "chai": "^3.5.0",
     "eslint": "^3.8.0",
     "eslint-config-simenb-base": "^10.0.0",
     "eslint-config-simenb-jsdoc": "^3.0.4",
     "eslint-config-simenb-node": "^0.4.2",
-    "istanbul": "^0.4.3",
+    "jest": "^19.0.2",
     "jsdoc": "^3.4.2",
-    "mocha": "^3.2.0",
     "sinon": "^1.17.4",
     "touch": "^1.0.0"
   },
@@ -57,15 +55,24 @@
     "yargs": "^4.7.1"
   },
   "scripts": {
-    "cover": "istanbul cover node_modules/.bin/_mocha -- -u exports -R spec --recursive",
+    "cover": "jest --coverage",
     "docs": "jsdoc index.js bin/stylint.js src/ --recurse --destination docs/",
     "lint": "eslint .",
     "precover": "npm run lint",
     "pretest": "npm run lint",
-    "start": "node --harmony index.js",
-    "test": "mocha --recursive"
+    "start": "node index.js",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "engines": {
     "node": ">=4"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "inndex.js",
+      "src/**/*.js",
+      "bin/**/*.js"
+    ],
+    "testEnvironment": "node"
   }
 }

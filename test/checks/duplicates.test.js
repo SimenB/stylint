@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -29,7 +28,7 @@ describe('duplicates', () => {
     app.state.context = app.setContext('  .test'); // 1
     dupeTest('  .test');
     app.state.context = app.setContext('      .test'); // 3
-    assert.equal(false, dupeTest('      .test'));
+    expect(dupeTest('      .test')).toEqual(false);
   });
 
   it('tabs: false if globalDupe off, diff files, same context, same selector', () => {
@@ -38,7 +37,7 @@ describe('duplicates', () => {
     app.cache.file = 'file6.styl';
     app.state.context = app.setContext('  .test'); // 1
     app.state.context = app.setContext('  .test'); // 1
-    assert.equal(false, dupeTest('  .test'));
+    expect(dupeTest('  .test')).toEqual(false);
     app.config.globalDupe = false;
   });
 
@@ -47,11 +46,11 @@ describe('duplicates', () => {
     app.cache.file = 'file.styl';
     app.state.context = app.setContext('  .classy,'); // to set the context
     dupeTest('  .classy,'); // prev selecto
-    assert.equal(false, dupeTest('  .classy'));
+    expect(dupeTest('  .classy')).toEqual(false);
   });
 
   it('tabs: false if selector is in a list', () => {
-    assert.equal(false, dupeTest('  .classy,'));
+    expect(dupeTest('  .classy,')).toEqual(false);
   });
 
   it('tabs: false if global dupe off and file changed', () => {
@@ -59,7 +58,7 @@ describe('duplicates', () => {
     app.cache.prevFile = 'file.styl';
     app.cache.file = 'file2.styl';
     app.config.globalDupe = false;
-    assert.equal(false, dupeTest('  .test4'));
+    expect(dupeTest('  .test4')).toEqual(false);
   });
 
   it('spaces: false if no dupe, not root, diff context, same selector', () => {
@@ -69,7 +68,7 @@ describe('duplicates', () => {
     app.state.context = app.setContext('    .test'); // 1
     dupeTest('    .test');
     app.state.context = app.setContext('            .test'); // 3
-    assert.equal(false, dupeTest('            .test'));
+    expect(dupeTest('            .test')).toEqual(false);
   });
 
   it('spaces: false if globalDupe off, diff files, same context, same selector', () => {
@@ -78,7 +77,7 @@ describe('duplicates', () => {
     app.cache.file = 'file6.styl';
     app.state.context = app.setContext('    .test'); // 1
     app.state.context = app.setContext('    .test'); // 1
-    assert.equal(false, dupeTest('    .test'));
+    expect(dupeTest('    .test')).toEqual(false);
     app.config.globalDupe = false;
   });
 
@@ -87,11 +86,11 @@ describe('duplicates', () => {
     app.cache.file = 'file.styl';
     app.state.context = app.setContext('    .classy,'); // to set the context
     dupeTest('    .classy,'); // prev selector
-    assert.equal(false, dupeTest('    .classy'));
+    expect(dupeTest('    .classy')).toEqual(false);
   });
 
   it('spaces: false if selector is in a list', () => {
-    assert.equal(false, dupeTest('    .classy,'));
+    expect(dupeTest('    .classy,')).toEqual(false);
   });
 
   it('space: false if global dupe off and file changed', () => {
@@ -99,7 +98,7 @@ describe('duplicates', () => {
     app.cache.prevFile = 'file.styl';
     app.cache.file = 'file2.styl';
     app.config.globalDupe = false;
-    assert.equal(false, dupeTest('    .test4'));
+    expect(dupeTest('    .test4')).toEqual(false);
   });
 
   it('false if root selector dupe was in list', () => {
@@ -108,7 +107,7 @@ describe('duplicates', () => {
     app.config.globalDupe = false;
     app.cache.file = 'file.styl';
     dupeTest('.test,'); // to set the context
-    assert.equal(false, dupeTest('.test'));
+    expect(dupeTest('.test')).toEqual(false);
   });
 
   it('tabs: true if nested selector is dupe', () => {
@@ -117,7 +116,7 @@ describe('duplicates', () => {
     app.state.context = 1;
     app.state.prevContext = 1;
     dupeTest('  .test');
-    assert.ok(dupeTest('  .test'));
+    expect(dupeTest('  .test')).toBeDefined();
   });
 
   it('spaces: true if nested selector is dupe', () => {
@@ -126,14 +125,14 @@ describe('duplicates', () => {
     app.state.context = 1;
     app.state.prevContext = 1;
     dupeTest('    .test2');
-    assert.ok(dupeTest('    .test2'));
+    expect(dupeTest('    .test2')).toBeDefined();
   });
 
   it('true if root selector is dupe, same file', () => {
     app.state.context = 0;
     app.state.prevContext = 0;
     dupeTest('.test3'); // to set the context
-    assert.ok(dupeTest('.test3'));
+    expect(dupeTest('.test3')).toBeDefined();
   });
 
   it('true if root selector is dupe, global dupe test', () => {
@@ -143,7 +142,7 @@ describe('duplicates', () => {
     app.cache.prevFile = 'file.styl';
     dupeTest('.test'); // to set the context
     app.cache.file = 'file2.styl';
-    assert.ok(dupeTest('.test'));
+    expect(dupeTest('.test')).toBeDefined();
     app.config.globalDupe = false;
   });
 });

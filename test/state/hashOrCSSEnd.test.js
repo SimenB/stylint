@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -20,23 +19,23 @@ describe('hash end', () => {
   });
 
   it('false if in hash and valid } found', () => {
-    assert.equal(false, hashTest('}'));
+    expect(hashTest('}')).toEqual(false);
   });
 
   it('true if hash end } not found', () => {
-    assert.ok(hashTest('margin 0'));
-    assert.ok(hashTest('myHash = {'));
+    expect(hashTest('margin 0')).toBeDefined();
+    expect(hashTest('myHash = {')).toBeDefined();
   });
 
   it('after finding end of hash, hash state should equal false', () => {
-    assert.equal(false, hashTest('}'));
-    assert.equal(false, app.state.hashOrCSS);
+    expect(hashTest('}')).toEqual(false);
+    expect(app.state.hashOrCSS).toEqual(false);
   });
 
   it('undefined if not in a hash', () => {
     app.state.hashOrCSS = false;
-    assert.equal(undefined, hashTest('margin 0'));
-    assert.equal(undefined, hashTest('myHash = {'));
-    assert.equal(undefined, hashTest('}'));
+    expect(hashTest('margin 0')).toBeUndefined();
+    expect(hashTest('myHash = {')).toBeUndefined();
+    expect(hashTest('}')).toBeUndefined();
   });
 });

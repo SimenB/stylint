@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -20,32 +19,28 @@ describe('Reset (after change)', () => {
 
   it('reset on change should change dir to curr file', () => {
     resetTest('../../styl/_ads.styl');
-    assert.ok(app.state.path === '../../styl/_ads.styl');
+    expect(app.state.path === '../../styl/_ads.styl').toBeDefined();
   });
 
   it('reset should reset all caches', () => {
     resetTest('../../styl/_ads.styl');
-    assert.ok(
-      Object.keys(app.cache.sCache).length === 0 &&
+    expect(Object.keys(app.cache.sCache).length === 0 &&
       app.cache.alphaCache.length === 0 &&
       app.cache.rootCache.length === 0 &&
       app.cache.prevLine.length === 0 &&
       app.cache.prevFile.length === 0 &&
       app.cache.prevContext === 0 &&
-      app.cache.zCache.length === 0
-    );
+      app.cache.zCache.length === 0).toBeDefined();
   });
 
   it('reset should set prevLine and prevFile to empty strings', () => {
     resetTest('../../styl/_ads.styl');
-    assert.ok(
-      app.cache.prevLine === '' &&
-      app.cache.prevFile === ''
-    );
+    expect(app.cache.prevLine === '' &&
+      app.cache.prevFile === '').toBeDefined();
   });
 
   it('reset should set prevContext to 0', () => {
     resetTest('../../styl/_ads.styl');
-    assert.ok(app.cache.prevContext === 0);
+    expect(app.cache.prevContext === 0).toBeDefined();
   });
 });

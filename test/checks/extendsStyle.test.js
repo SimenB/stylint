@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -22,15 +21,15 @@ describe('extends style', () => {
     });
 
     it('false if value already matches preferred style', () => {
-      assert.equal(false, extendTest('@extends $placeHolderconst'));
+      expect(extendTest('@extends $placeHolderconst')).toEqual(false);
     });
 
     it('true if value doesnt match preferred style', () => {
-      assert.ok(extendTest('@extend $placeHolderconst'));
+      expect(extendTest('@extend $placeHolderconst')).toBeDefined();
     });
 
     it('undefined if no extend on line', () => {
-      assert.equal(undefined, extendTest('$var = #fff'));
+      expect(extendTest('$var = #fff')).toBeUndefined();
     });
   });
 
@@ -40,15 +39,15 @@ describe('extends style', () => {
     });
 
     it('false if value already matches preferred style', () => {
-      assert.equal(false, extendTest('@extend $placeHolderconst'));
+      expect(extendTest('@extend $placeHolderconst')).toEqual(false);
     });
 
     it('true if value doesnt match preferred style', () => {
-      assert.ok(extendTest('@extends $placeHolderconst'));
+      expect(extendTest('@extends $placeHolderconst')).toBeDefined();
     });
 
     it('undefined if no extend on line', () => {
-      assert.equal(undefined, extendTest('$var = #fff'));
+      expect(extendTest('$var = #fff')).toBeUndefined();
     });
   });
 });

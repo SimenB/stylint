@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -20,16 +19,16 @@ describe('keyframes end', () => {
 
   it('false if keyframes active and context set to 0 (keyframes ended)', () => {
     app.state.context = 0;
-    assert.equal(false, keyframesEndTest('.newClass'));
+    expect(keyframesEndTest('.newClass')).toEqual(false);
   });
 
   it('true if line doesnt have a context of zero', () => {
     app.state.context = 1;
-    assert.ok(keyframesEndTest('    from {'));
+    expect(keyframesEndTest('    from {')).toBeDefined();
   });
 
   it('undefined if NOT already in @keyframes', () => {
     app.state.keyframes = false;
-    assert.equal(undefined, keyframesEndTest('margin 0'));
+    expect(keyframesEndTest('margin 0')).toBeUndefined();
   });
 });

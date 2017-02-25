@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -22,19 +21,19 @@ describe('zIndex Normalizer', () => {
   });
 
   it('false if z index value already normalized', () => {
-    assert.equal(false, zNormalizrTest('z-index 5'));
+    expect(zNormalizrTest('z-index 5')).toEqual(false);
   });
 
   it('false if no z-index', () => {
-    assert.equal(false, zNormalizrTest('margin 5px'));
+    expect(zNormalizrTest('margin 5px')).toEqual(false);
   });
 
   it('true if z index value needs to be normalized', () => {
-    assert.ok(zNormalizrTest('z-index 4'));
+    expect(zNormalizrTest('z-index 4')).toBeDefined();
   });
 
   it('undefined if 0 or -1', () => {
-    assert.equal(undefined, zNormalizrTest('z-index -1'));
-    assert.equal(undefined, zNormalizrTest('z-index 0'));
+    expect(zNormalizrTest('z-index -1')).toBeUndefined();
+    expect(zNormalizrTest('z-index 0')).toBeUndefined();
   });
 });

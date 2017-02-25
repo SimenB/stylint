@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -18,21 +17,21 @@ describe('placeholders: prefer $var over .class when extending: ', () => {
   });
 
   it('false if placeholder var not used', () => {
-    assert.equal(false, placeholderTest('@extend .notVar'));
-    assert.equal(false, placeholderTest('@extends .notVar'));
+    expect(placeholderTest('@extend .notVar')).toEqual(false);
+    expect(placeholderTest('@extends .notVar')).toEqual(false);
   });
 
   it('false if @extend by itself', () => {
-    assert.equal(false, placeholderTest('@extend$placeholderconst'));
-    assert.equal(false, placeholderTest('@extends'));
+    expect(placeholderTest('@extend$placeholderconst')).toEqual(false);
+    expect(placeholderTest('@extends')).toEqual(false);
   });
 
   it('true if placeholder var is used', () => {
-    assert.ok(placeholderTest('@extends $placeholderconst'));
-    assert.ok(placeholderTest('@extend $placeholderconst'));
+    expect(placeholderTest('@extends $placeholderconst')).toBeDefined();
+    expect(placeholderTest('@extend $placeholderconst')).toBeDefined();
   });
 
   it('undefined if no extend found', () => {
-    assert.equal(undefined, placeholderTest('margin 0'));
+    expect(placeholderTest('margin 0')).toBeUndefined();
   });
 });

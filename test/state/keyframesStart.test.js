@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -19,19 +18,19 @@ describe('keyframes start', () => {
   });
 
   it('true if line has @keyframes', () => {
-    assert.ok(keyframesStartTest('@keyframes {'));
+    expect(keyframesStartTest('@keyframes {')).toBeDefined();
   });
 
   it('true if line has vendor @keyframes', () => {
-    assert.ok(keyframesStartTest('@-webkit-keyframes {'));
+    expect(keyframesStartTest('@-webkit-keyframes {')).toBeDefined();
   });
 
   it('false if line isnt a start of @keyframes', () => {
-    assert.equal(false, keyframesStartTest('margin 0'));
+    expect(keyframesStartTest('margin 0')).toEqual(false);
   });
 
   it('undefined if already in @keyframes', () => {
     app.state.keyframes = true;
-    assert.equal(undefined, keyframesStartTest('margin 0'));
+    expect(keyframesStartTest('margin 0')).toBeUndefined();
   });
 });

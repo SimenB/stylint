@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -17,19 +16,19 @@ describe('colors', () => {
   });
 
   it('undefined if line is an id selector', () => {
-    assert.equal(undefined, colorsTest('#aaa'));
+    expect(colorsTest('#aaa')).toBeUndefined();
   });
 
   it('false if a line doesnt have a hex color', () => {
-    assert.equal(false, colorsTest('color: red'));
+    expect(colorsTest('color: red')).toEqual(false);
   });
 
   it('true if line has hex color', () => {
-    assert.ok(colorsTest('color: #fff'));
+    expect(colorsTest('color: #fff')).toEqual(true);
   });
 
   it('undefined if hex color is being assigned to a variable', () => {
-    assert.equal(undefined, colorsTest('$foobar ?= #fff'));
-    assert.equal(undefined, colorsTest('$foobar = #fff'));
+    expect(colorsTest('$foobar ?= #fff')).toBeUndefined();
+    expect(colorsTest('$foobar = #fff')).toBeUndefined();
   });
 });

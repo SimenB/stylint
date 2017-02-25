@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -14,16 +13,16 @@ const toggleTest = app.stylintOff.bind(app);
 describe('stylint off toggle:', () => {
   it('false if tests enabled and toggle found', () => {
     app.state.testsEnabled = true;
-    assert.equal(false, toggleTest('@stylint off'));
+    expect(toggleTest('@stylint off')).toEqual(false);
   });
 
   it('true if tests enabled and toggle not found', () => {
     app.state.testsEnabled = true;
-    assert.ok(toggleTest('margin 0 auto'));
+    expect(toggleTest('margin 0 auto')).toBeDefined();
   });
 
   it('undefined if tests already disabled', () => {
     app.state.testsEnabled = false;
-    assert.equal(undefined, toggleTest('@stylint on'));
+    expect(toggleTest('@stylint on')).toBeUndefined();
   });
 });

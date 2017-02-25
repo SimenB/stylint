@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -19,7 +18,7 @@ describe('Lint Text: ', () => {
   it('should return object with violations', () => {
     const lintResult = linter.lintString('.class {\n  color: red !important\n}\n', null, 'filename.styl');
 
-    assert.deepEqual(lintResult, {
+    expect({
       results: [{
         filePath: 'filename.styl',
         messages: [{
@@ -42,6 +41,6 @@ describe('Lint Text: ', () => {
       }],
       errorCount: 0,
       warningCount: 2,
-    });
+    }).toEqual(lintResult);
   });
 });

@@ -20,7 +20,7 @@ const parse = function (err, res, skipDone) {
     this.cache.file = this.cache.files[i];
     this.cache.fileNo = i;
 
-    // strip out block comments, but dont destroy line history
+    // strip out block comments, but don't destroy line history
     // to do these we replace block comments with new lines
     const lines = file.toString()
       .replace(cleanFileRe, str => (new Array(str.split(lineEndingsRe).length)).join('\n')) // WHERE IS YOUR GOD NOW

@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -18,10 +17,10 @@ describe('noImportant: disallow !important', () => {
   });
 
   it('false if a line doesnt have !important', () => {
-    assert.equal(false, importantTest('.foo'));
+    expect(importantTest('.foo')).toEqual(false);
   });
 
   it('true if line has an !important', () => {
-    assert.ok(importantTest('margin 5px !important'));
+    expect(importantTest('margin 5px !important')).toBeDefined();
   });
 });

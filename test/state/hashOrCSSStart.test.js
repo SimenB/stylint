@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -20,23 +19,23 @@ describe('hash start', () => {
   });
 
   it('false if hash start not found', () => {
-    assert.equal(false, hashTest('$myconst ='));
-    assert.equal(false, hashTest('myconst = @block'));
-    assert.equal(false, hashTest('.mistakenUseOfBracket {'));
-    assert.equal(false, hashTest('margin 0'));
+    expect(hashTest('$myconst =')).toEqual(false);
+    expect(hashTest('myconst = @block')).toEqual(false);
+    expect(hashTest('.mistakenUseOfBracket {')).toEqual(false);
+    expect(hashTest('margin 0')).toEqual(false);
   });
 
   it('true if = and { are found on the same line (hash start)', () => {
-    assert.ok(hashTest('myHash = {'));
+    expect(hashTest('myHash = {')).toBeDefined();
   });
 
   it('app.state.hashOrCSS should be true after hash start', () => {
     hashTest('myHash = {');
-    assert.ok(app.state.hashOrCSS);
+    expect(app.state.hashOrCSS).toBeDefined();
   });
 
   it('undefined if in a hash', () => {
     app.state.hashOrCSS = true;
-    assert.equal(undefined, hashTest('myHash = {'));
+    expect(hashTest('myHash = {')).toBeUndefined();
   });
 });

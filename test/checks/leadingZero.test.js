@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -22,37 +21,37 @@ describe('leading zero', () => {
     });
 
     it('null if leading zero not found', () => {
-      assert.equal(null, zeroTest('color (0, 0, 0, .18)'));
-      assert.equal(null, zeroTest('color (0,0,0,.18)'));
-      assert.equal(null, zeroTest('font-size .9em'));
-      assert.equal(null, zeroTest('transform rotate( .33deg )'));
-      assert.equal(null, zeroTest('transform rotate(.33deg)'));
+      expect(zeroTest('color (0, 0, 0, .18)')).toBeNull();
+      expect(zeroTest('color (0,0,0,.18)')).toBeNull();
+      expect(zeroTest('font-size .9em')).toBeNull();
+      expect(zeroTest('transform rotate( .33deg )')).toBeNull();
+      expect(zeroTest('transform rotate(.33deg)')).toBeNull();
     });
 
     it('true if line has a zero before a decimal point and not part of range', () => {
-      assert.ok(zeroTest('color (0, 0, 0, 0.18)'));
-      assert.ok(zeroTest('color (0,0,0,0.18)'));
-      assert.ok(zeroTest('transform rotate(0.33deg)'));
-      assert.ok(zeroTest('transform rotate( 0.33deg )'));
+      expect(zeroTest('color (0, 0, 0, 0.18)')).toBeDefined();
+      expect(zeroTest('color (0,0,0,0.18)')).toBeDefined();
+      expect(zeroTest('transform rotate(0.33deg)')).toBeDefined();
+      expect(zeroTest('transform rotate( 0.33deg )')).toBeDefined();
     });
 
     it('undefined if range', () => {
-      assert.equal(undefined, zeroTest('for 0..9'));
-      assert.equal(undefined, zeroTest('for 0...9'));
-      assert.equal(undefined, zeroTest('for $ in (0..9)'));
+      expect(zeroTest('for 0..9')).toBeUndefined();
+      expect(zeroTest('for 0...9')).toBeUndefined();
+      expect(zeroTest('for $ in (0..9)')).toBeUndefined();
     });
 
     it('undefined if leading num not zero', () => {
-      assert.equal(undefined, zeroTest('font-size: 1.1em'));
-      assert.equal(undefined, zeroTest('transform rotate( 22.33deg )'));
-      assert.equal(undefined, zeroTest('width 33.3333333%'));
+      expect(zeroTest('font-size: 1.1em')).toBeUndefined();
+      expect(zeroTest('transform rotate( 22.33deg )')).toBeUndefined();
+      expect(zeroTest('width 33.3333333%')).toBeUndefined();
     });
 
     // eslint-disable-next-line no-useless-escape
     it('undefined if no .\d in line', () => {
-      assert.equal(undefined, zeroTest('margin auto'));
-      assert.equal(undefined, zeroTest('.className'));
-      assert.equal(undefined, zeroTest('.class.other-class'));
+      expect(zeroTest('margin auto')).toBeUndefined();
+      expect(zeroTest('.className')).toBeUndefined();
+      expect(zeroTest('.class.other-class')).toBeUndefined();
     });
   });
 
@@ -62,34 +61,34 @@ describe('leading zero', () => {
     });
 
     it('null if leading zero not found', () => {
-      assert.equal(null, zeroTest('color (0, 0, 0, .18)'));
-      assert.equal(null, zeroTest('color (0,0,0,.18)'));
-      assert.equal(null, zeroTest('font-size .9em'));
-      assert.equal(null, zeroTest('transform rotate( .33deg )'));
-      assert.equal(null, zeroTest('transform rotate(.33deg)'));
+      expect(zeroTest('color (0, 0, 0, .18)')).toBeNull();
+      expect(zeroTest('color (0,0,0,.18)')).toBeNull();
+      expect(zeroTest('font-size .9em')).toBeNull();
+      expect(zeroTest('transform rotate( .33deg )')).toBeNull();
+      expect(zeroTest('transform rotate(.33deg)')).toBeNull();
     });
 
     it('false if range', () => {
-      assert.equal(undefined, zeroTest('for 0..9'));
-      assert.equal(undefined, zeroTest('for 0...9'));
-      assert.equal(undefined, zeroTest('for $ in (0..9)'));
+      expect(zeroTest('for 0..9')).toBeUndefined();
+      expect(zeroTest('for 0...9')).toBeUndefined();
+      expect(zeroTest('for $ in (0..9)')).toBeUndefined();
     });
 
     it('true if line has a zero before a decimal point and', () => {
-      assert.ok(zeroTest('color (0, 0, 0, 0.18)'));
-      assert.ok(zeroTest('color (0,0,0,0.18)'));
-      assert.ok(zeroTest('transform rotate(0.33deg)'));
-      assert.ok(zeroTest('transform rotate( 0.33deg )'));
+      expect(zeroTest('color (0, 0, 0, 0.18)')).toBeDefined();
+      expect(zeroTest('color (0,0,0,0.18)')).toBeDefined();
+      expect(zeroTest('transform rotate(0.33deg)')).toBeDefined();
+      expect(zeroTest('transform rotate( 0.33deg )')).toBeDefined();
     });
 
     it('undefined if leading num not zero', () => {
-      assert.equal(undefined, zeroTest('font-size: 1.1em'));
-      assert.equal(undefined, zeroTest('transform rotate( 22.33deg )'));
-      assert.equal(undefined, zeroTest('width 33.3333333%'));
+      expect(zeroTest('font-size: 1.1em')).toBeUndefined();
+      expect(zeroTest('transform rotate( 22.33deg )')).toBeUndefined();
+      expect(zeroTest('width 33.3333333%')).toBeUndefined();
     });
 
     it('undefined if no . in line', () => {
-      assert.equal(undefined, zeroTest('margin auto'));
+      expect(zeroTest('margin auto')).toBeUndefined();
     });
   });
 });

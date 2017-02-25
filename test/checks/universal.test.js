@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -18,17 +17,17 @@ describe('universal selector', () => {
   });
 
   it('false if no invalid * is found', () => {
-    assert.equal(false, universalTest('return ( $width*$height )'));
-    assert.equal(false, universalTest('content: "*"'));
+    expect(universalTest('return ( $width*$height )')).toEqual(false);
+    expect(universalTest('content: "*"')).toEqual(false);
   });
 
   it('true if * is found', () => {
-    assert.ok(universalTest('*'));
-    assert.ok(universalTest('*:before'));
-    assert.ok(universalTest('*::after'));
+    expect(universalTest('*')).toBeDefined();
+    expect(universalTest('*:before')).toBeDefined();
+    expect(universalTest('*::after')).toBeDefined();
   });
 
   it('undefined if no * on line', () => {
-    assert.equal(undefined, universalTest('img'));
+    expect(universalTest('img')).toBeUndefined();
   });
 });

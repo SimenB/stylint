@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -25,7 +24,7 @@ describe('sort order', () => {
 
   it('undefined if root level', () => {
     app.state.context = 0;
-    assert.equal(undefined, sortTest('margin 0'));
+    expect(sortTest('margin 0')).toBeUndefined();
   });
 
   it('cache length should only be 1 (the current prop) if context switched', () => {
@@ -33,9 +32,9 @@ describe('sort order', () => {
     app.state.prevContext = 0;
     app.state.context = 1;
 
-    assert.equal(3, app.cache.sortOrderCache.length);
+    expect(app.cache.sortOrderCache.length).toEqual(3);
     sortTest('margin 0');
-    assert.equal(1, app.cache.sortOrderCache.length);
+    expect(app.cache.sortOrderCache.length).toEqual(1);
   });
 
   describe('disabled', () => {
@@ -46,13 +45,13 @@ describe('sort order', () => {
     it('should allow any order when disabled', () => {
       const expectedCache = ['background', 'z-index', 'border', 'width'];
 
-      assert.equal(false, app.state.conf);
-      assert.ok(sortTest('  background'));
-      assert.ok(sortTest('  z-index'));
-      assert.ok(sortTest('  border'));
-      assert.ok(sortTest('  width'));
-      assert.equal(expectedCache.length, app.cache.sortOrderCache.length);
-      assert.deepEqual(expectedCache, app.cache.sortOrderCache);
+      expect(app.state.conf).toEqual(false);
+      expect(sortTest('  background')).toBeDefined();
+      expect(sortTest('  z-index')).toBeDefined();
+      expect(sortTest('  border')).toBeDefined();
+      expect(sortTest('  width')).toBeDefined();
+      expect(app.cache.sortOrderCache.length).toEqual(expectedCache.length);
+      expect(app.cache.sortOrderCache).toEqual(expectedCache);
     });
   });
 
@@ -69,12 +68,12 @@ describe('sort order', () => {
     it('true if correct sort order with mocked sort order cache', () => {
       const expectedCache = ['border', 'margin', 'padding', 'position', 'z-index'];
 
-      assert.equal('alphabetical', app.state.conf);
-      assert.equal(3, app.cache.sortOrderCache.length);
-      assert.ok(sortTest('  position absolute'));
-      assert.ok(sortTest('  z-index 1'));
-      assert.equal(expectedCache.length, app.cache.sortOrderCache.length);
-      assert.deepEqual(expectedCache, app.cache.sortOrderCache);
+      expect(app.state.conf).toEqual('alphabetical');
+      expect(app.cache.sortOrderCache.length).toEqual(3);
+      expect(sortTest('  position absolute')).toBeDefined();
+      expect(sortTest('  z-index 1')).toBeDefined();
+      expect(app.cache.sortOrderCache.length).toEqual(expectedCache.length);
+      expect(app.cache.sortOrderCache).toEqual(expectedCache);
     });
 
     it('false if not correct sort order with mocked sort order cache', () => {
@@ -88,24 +87,24 @@ describe('sort order', () => {
         'color',
       ];
 
-      assert.equal('alphabetical', app.state.conf);
-      assert.equal(3, app.cache.sortOrderCache.length);
-      assert.equal(false, sortTest('  line-height 1'));
-      assert.equal(false, sortTest('  background none'));
-      assert.equal(false, sortTest('border 1px solid #fff'));
-      assert.equal(false, sortTest('color: rgba( 0, 0, 0, 1 )'));
-      assert.equal(expectedCache.length, app.cache.sortOrderCache.length);
-      assert.deepEqual(expectedCache, app.cache.sortOrderCache);
+      expect(app.state.conf).toEqual('alphabetical');
+      expect(app.cache.sortOrderCache.length).toEqual(3);
+      expect(sortTest('  line-height 1')).toEqual(false);
+      expect(sortTest('  background none')).toEqual(false);
+      expect(sortTest('border 1px solid #fff')).toEqual(false);
+      expect(sortTest('color: rgba( 0, 0, 0, 1 )')).toEqual(false);
+      expect(app.cache.sortOrderCache.length).toEqual(expectedCache.length);
+      expect(app.cache.sortOrderCache).toEqual(expectedCache);
     });
 
     it('undefined if not checkable syntax', () => {
-      assert.equal('alphabetical', app.state.conf);
-      assert.equal(3, app.cache.sortOrderCache.length);
-      assert.equal(undefined, sortTest('mixin()'));
-      assert.equal(undefined, sortTest('$var-name'));
-      assert.equal(undefined, sortTest('.class-name'));
-      assert.equal(undefined, sortTest('#id'));
-      assert.equal(undefined, sortTest('{interpolated}'));
+      expect(app.state.conf).toEqual('alphabetical');
+      expect(app.cache.sortOrderCache.length).toEqual(3);
+      expect(sortTest('mixin()')).toBeUndefined();
+      expect(sortTest('$var-name')).toBeUndefined();
+      expect(sortTest('.class-name')).toBeUndefined();
+      expect(sortTest('#id')).toBeUndefined();
+      expect(sortTest('{interpolated}')).toBeUndefined();
     });
   });
 
@@ -121,29 +120,29 @@ describe('sort order', () => {
 
     it('false if sorted array is shorter than cache', () => {
       app.cache.sortOrderCache = ['border', 'margin', 'padding'];
-      assert.equal(false, sortTest('margin 0'));
+      expect(sortTest('margin 0')).toEqual(false);
     });
 
     it('false if not correct sort order with mocked sort order cache', () => {
       const expectedCache = ['position', 'right', 'top'];
 
-      assert.equal('grouped', app.state.conf);
-      assert.equal(2, app.cache.sortOrderCache.length);
-      assert.equal(false, sortTest('top 0'));
-      assert.equal(expectedCache.length, app.cache.sortOrderCache.length);
-      assert.deepEqual(expectedCache, app.cache.sortOrderCache);
+      expect(app.state.conf).toEqual('grouped');
+      expect(app.cache.sortOrderCache.length).toEqual(2);
+      expect(sortTest('top 0')).toEqual(false);
+      expect(app.cache.sortOrderCache.length).toEqual(expectedCache.length);
+      expect(app.cache.sortOrderCache).toEqual(expectedCache);
     });
 
     it('true if correct sort order with mocked sort order cache', () => {
       const expectedCache = ['position', 'right', 'bottom', 'z-index', 'width'];
 
-      assert.equal('grouped', app.state.conf);
-      assert.equal(2, app.cache.sortOrderCache.length);
-      assert.ok(sortTest('bottom 0'));
-      assert.ok(sortTest('z-index 1'));
-      assert.ok(sortTest('width 50%'));
-      assert.equal(expectedCache.length, app.cache.sortOrderCache.length);
-      assert.deepEqual(expectedCache, app.cache.sortOrderCache);
+      expect(app.state.conf).toEqual('grouped');
+      expect(app.cache.sortOrderCache.length).toEqual(2);
+      expect(sortTest('bottom 0')).toBeDefined();
+      expect(sortTest('z-index 1')).toBeDefined();
+      expect(sortTest('width 50%')).toBeDefined();
+      expect(app.cache.sortOrderCache.length).toEqual(expectedCache.length);
+      expect(app.cache.sortOrderCache).toEqual(expectedCache);
     });
   });
 
@@ -160,25 +159,25 @@ describe('sort order', () => {
     it('false if not correct sort order with mocked sort order cache', () => {
       const expectedCache = ['z-index', 'top', 'animation'];
 
-      assert.deepEqual(['z-index', 'animation', 'top'], app.state.conf);
-      assert.equal(1, app.cache.sortOrderCache.length);
-      assert.ok(sortTest('top 50px'));
-      assert.equal(false, sortTest('animation fade-out'));
-      assert.equal(expectedCache.length, app.cache.sortOrderCache.length);
-      assert.deepEqual(expectedCache, app.cache.sortOrderCache);
+      expect(app.state.conf).toEqual(['z-index', 'animation', 'top']);
+      expect(app.cache.sortOrderCache.length).toEqual(1);
+      expect(sortTest('top 50px')).toBeDefined();
+      expect(sortTest('animation fade-out')).toEqual(false);
+      expect(app.cache.sortOrderCache.length).toEqual(expectedCache.length);
+      expect(app.cache.sortOrderCache).toEqual(expectedCache);
     });
 
     it('true if correct sort order with mocked sort order cache', () => {
       const expectedCache = ['z-index', 'animation', 'top', 'width', 'border'];
 
-      assert.deepEqual(['z-index', 'animation', 'top'], app.state.conf);
-      assert.equal(1, app.cache.sortOrderCache.length);
-      assert.ok(sortTest('animation fade-in'));
-      assert.ok(sortTest('top 0'));
-      assert.ok(sortTest('width 50%'));
-      assert.ok(sortTest('border 0'));
-      assert.equal(expectedCache.length, app.cache.sortOrderCache.length);
-      assert.deepEqual(expectedCache, app.cache.sortOrderCache);
+      expect(app.state.conf).toEqual(['z-index', 'animation', 'top']);
+      expect(app.cache.sortOrderCache.length).toEqual(1);
+      expect(sortTest('animation fade-in')).toBeDefined();
+      expect(sortTest('top 0')).toBeDefined();
+      expect(sortTest('width 50%')).toBeDefined();
+      expect(sortTest('border 0')).toBeDefined();
+      expect(app.cache.sortOrderCache.length).toEqual(expectedCache.length);
+      expect(app.cache.sortOrderCache).toEqual(expectedCache);
     });
   });
 });

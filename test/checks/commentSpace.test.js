@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -23,17 +22,17 @@ describe('comment space', () => {
 
     it('false if line comment doesnt have a space after it', () => {
       app.cache.comment = '//test';
-      assert.equal(false, commentSpaceTest('', ''));
+      expect(commentSpaceTest('', '')).toEqual(false);
     });
 
     it('true if line comment has space after it', () => {
       app.cache.comment = '// test';
-      assert.ok(commentSpaceTest('', ''));
+      expect(commentSpaceTest('', '')).toBeDefined();
     });
 
     it('undefined if line has no comment', () => {
       app.state.hasComment = false;
-      assert.equal(undefined, commentSpaceTest('', '.test'));
+      expect(commentSpaceTest('', '.test')).toBeUndefined();
     });
   });
 
@@ -45,17 +44,17 @@ describe('comment space', () => {
 
     it('false if line comment doesnt have a space after it', () => {
       app.cache.comment = '//test';
-      assert.equal(false, commentSpaceTest('', ''));
+      expect(commentSpaceTest('', '')).toEqual(false);
     });
 
     it('true if line comment has space after it', () => {
       app.cache.comment = '// test';
-      assert.ok(commentSpaceTest('', ''));
+      expect(commentSpaceTest('', '')).toBeDefined();
     });
 
     it('undefined if line has no comment', () => {
       app.state.hasComment = false;
-      assert.equal(undefined, commentSpaceTest('', '.test'));
+      expect(commentSpaceTest('', '.test')).toBeUndefined();
     });
   });
 });

@@ -1,9 +1,6 @@
 'use strict';
 
 const path = require('path');
-const assert = require('assert');
-require('chai').should(); // add should assertions on top
-const sinon = require('sinon');
 const chokidar = require('chokidar');
 const touch = require('touch');
 const stylint = require('../../index');
@@ -16,27 +13,22 @@ app.state.watching = true;
 
 describe('Watch: ', () => {
   beforeEach(() => {
-    sinon.spy(app, 'watch');
+    jest.spyOn(app, 'watch');
 
     app.watcher = undefined;
   });
 
   afterEach(() => {
-    app.watch.restore();
-    app.watcher = undefined;
-  });
-
-  it('should be a function', () => {
-    app.watch.should.be.a('function');
+    jest.clearAllMocks();
   });
 
   it('watcher should be undefined if not called yet', () => {
-    assert.ok(typeof app.watcher === 'undefined');
+    expect(app.watcher).toBeUndefined();
   });
 
   it('should set watcher if called', () => {
     app.watch();
-    assert.ok(typeof app.watcher !== 'undefined');
+    expect(app.watcher).not.toBeUndefined();
   });
 
   it('should call ready event when fired', done => {

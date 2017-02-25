@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -16,18 +15,18 @@ describe('trim line should: ', () => {
   });
 
   it('do nothing if line has no comment', () => {
-    assert.equal('.noCommentOnThisLine ', trimTest('.noCommentOnThisLine '));
+    expect(trimTest('.noCommentOnThisLine ')).toEqual('.noCommentOnThisLine ');
   });
 
   it('do nothing if comment is 1st character', () => {
-    assert.equal('// .noCommentOnThisLine ', trimTest('// .noCommentOnThisLine '));
+    expect(trimTest('// .noCommentOnThisLine ')).toEqual('// .noCommentOnThisLine ');
   });
 
   it('trim comment if not first character', () => {
-    assert.equal('.noCommentOnThisLine', trimTest('.noCommentOnThisLine //'));
+    expect(trimTest('.noCommentOnThisLine //')).toEqual('.noCommentOnThisLine');
   });
 
   it('trim interpolated variables', () => {
-    assert.equal('.test-', trimTest('.test-{interpolation}'));
+    expect(trimTest('.test-{interpolation}')).toEqual('.test-');
   });
 });

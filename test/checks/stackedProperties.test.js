@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -22,11 +21,11 @@ describe('stacked properties', () => {
   });
 
   it('false if not a one liner', () => {
-    assert.equal(false, stackedTest('margin 0 auto'));
+    expect(stackedTest('margin 0 auto')).toEqual(false);
   });
 
   it('true if one liner', () => {
-    assert.ok(stackedTest('margin 0 auto; padding: 5px;'));
-    assert.ok(stackedTest('margin 0 auto; padding: 5px'));
+    expect(stackedTest('margin 0 auto; padding: 5px;')).toBeDefined();
+    expect(stackedTest('margin 0 auto; padding: 5px')).toBeDefined();
   });
 });

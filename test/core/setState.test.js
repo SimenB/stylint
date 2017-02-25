@@ -1,7 +1,5 @@
 'use strict';
 
-const assert = require('assert');
-require('chai').should(); // add should assertions on top
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -11,77 +9,73 @@ app.state.quiet = true;
 app.state.watching = true;
 
 describe('setState should: ', () => {
-  it('be a function', () => {
-    app.setState.should.be.a('function');
-  });
-
   it('return undefined if line empty', () => {
     /* eslint-disable no-useless-escape */
     // app.reporter( 'universal disallowed' )
-    assert.equal(undefined, app.setState(''));
-    assert.equal(undefined, app.setState(' '));
-    assert.equal(undefined, app.setState('\t\t'));
-    assert.equal(undefined, app.setState('\s\s'));
-    assert.equal(undefined, app.setState('\s\t'));
+    expect(app.setState('')).toBeUndefined();
+    expect(app.setState(' ')).toBeUndefined();
+    expect(app.setState('\t\t')).toBeUndefined();
+    expect(app.setState('\s\s')).toBeUndefined();
+    expect(app.setState('\s\t')).toBeUndefined();
     /* eslint-enable */
   });
 
   it('return undefined if @stylint ignore comment', () => {
-    assert.equal(undefined, app.setState('margin 0 // @stylint ignore'));
+    expect(app.setState('margin 0 // @stylint ignore')).toBeUndefined();
   });
 
   it('return undefined if @stylint off comment', () => {
     app.cache.source = '// @stylint off';
-    assert.equal(undefined, app.setState('// @stylint off'));
+    expect(app.setState('// @stylint off')).toBeUndefined();
   });
 
   it('testsEnabled should set to false now', () => {
-    assert.equal(false, app.state.testsEnabled);
+    expect(app.state.testsEnabled).toEqual(false);
   });
 
   it('return undefined if @stylint on comment', () => {
     app.cache.source = '// @stylint on';
-    assert.equal(undefined, app.setState('// @stylint on'));
+    expect(app.setState('// @stylint on')).toBeUndefined();
   });
 
   it('testsEnabled should set to true now', () => {
-    assert.ok(app.state.testsEnabled);
+    expect(app.state.testsEnabled).toBeTruthy();
   });
 
   it('return undefined if hash starting', () => {
-    assert.equal(undefined, app.setState('my-hash = {'));
+    expect(app.setState('my-hash = {')).toBeUndefined();
   });
 
   it('hashOrCSS should be set to true now', () => {
-    assert.ok(app.state.hashOrCSS);
+    expect(app.state.hashOrCSS).toBeTruthy();
   });
 
   it('return undefined if hash ending', () => {
     app.state.testsEnabled = true;
-    assert.equal(undefined, app.setState('}'));
+    expect(app.setState('}')).toBeUndefined();
   });
 
   it('hashOrCSS should be set to false now', () => {
-    assert.equal(false, app.state.hashOrCSS);
+    expect(app.state.hashOrCSS).toEqual(false);
   });
 
   it('return undefined if keyframes starting', () => {
-    assert.equal(undefined, app.setState('@keyframes'));
+    expect(app.setState('@keyframes')).toBeUndefined();
   });
 
   it('keyframes should be set to true now', () => {
-    assert.ok(app.state.keyframes);
+    expect(app.state.keyframes).toBeTruthy();
   });
 
   it('return undefined if keyframes ending', () => {
-    assert.equal(undefined, app.setState(''));
+    expect(app.setState('')).toBeUndefined();
   });
 
   it('keyframes should be set to false now', () => {
-    assert.equal(false, app.state.keyframes);
+    expect(app.state.keyframes).toEqual(false);
   });
 
   it('return undefined if line is just a comment', () => {
-    assert.equal(undefined, app.setState('// stuff about this code'));
+    expect(app.setState('// stuff about this code')).toBeUndefined();
   });
 });

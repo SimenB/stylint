@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -18,22 +17,22 @@ describe('comma space', () => {
 
   describe('prefer space after commas', () => {
     it('false if space after comma, or comma in quotes', () => {
-      assert.equal(false, commaTest('', '0, 0, 0, .18'));
-      assert.equal(false, commaTest('', '0,0, 0, .18'));
-      assert.equal(false, commaTest('', 'content: ","'));
+      expect(commaTest('', '0, 0, 0, .18')).toEqual(false);
+      expect(commaTest('', '0,0, 0, .18')).toEqual(false);
+      expect(commaTest('', 'content: ","')).toEqual(false);
     });
 
     it('true if no space after commas', () => {
-      assert.ok(commaTest('', '0,0,0,.18'));
-      assert.ok(commaTest('', 'mixin( $param1,$param2 )'));
+      expect(commaTest('', '0,0,0,.18')).toBeDefined();
+      expect(commaTest('', 'mixin( $param1,$param2 )')).toBeDefined();
     });
 
     it('undefined if no comma on line', () => {
-      assert.equal(undefined, commaTest('', 'margin 0'));
+      expect(commaTest('', 'margin 0')).toBeUndefined();
     });
 
     it('undefined if comma is last character', () => {
-      assert.equal(undefined, commaTest('', '.class,'));
+      expect(commaTest('', '.class,')).toBeUndefined();
     });
   });
 
@@ -43,21 +42,21 @@ describe('comma space', () => {
     });
 
     it('false if space after comma', () => {
-      assert.equal(false, commaTest('', '0, 0, 0, .18'));
-      assert.equal(false, commaTest('', '0,0, 0, .18'));
+      expect(commaTest('', '0, 0, 0, .18')).toEqual(false);
+      expect(commaTest('', '0,0, 0, .18')).toEqual(false);
     });
 
     it('true if no space after commas', () => {
-      assert.ok(commaTest('', '0,0,0,.18'));
-      assert.ok(commaTest('', 'mixin( $param1,$param2 )'));
+      expect(commaTest('', '0,0,0,.18')).toBeDefined();
+      expect(commaTest('', 'mixin( $param1,$param2 )')).toBeDefined();
     });
 
     it('undefined if no comma on line', () => {
-      assert.equal(undefined, commaTest('', 'margin 0'));
+      expect(commaTest('', 'margin 0')).toBeUndefined();
     });
 
     it('undefined if comma is last character', () => {
-      assert.equal(undefined, commaTest('', '.class,'));
+      expect(commaTest('', '.class,')).toBeUndefined();
     });
   });
 });

@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -28,48 +27,48 @@ describe('colon', () => {
     it('true if unnecessary colon is found', () => {
       app.state.context = 1;
       app.state.hash = false;
-      assert.ok(colonTest('margin: 0 auto'));
+      expect(colonTest('margin: 0 auto')).toBe(true);
     });
 
     it('undefined if html', () => {
-      assert.equal(undefined, colonTest('div'));
+      expect(colonTest('div')).toBeUndefined();
     });
 
     it('undefined if no colon found', () => {
-      assert.equal(undefined, colonTest('margin 0 auto'));
-      assert.equal(undefined, colonTest('&:hover'));
-      assert.equal(undefined, colonTest(':global'));
-      assert.equal(undefined, colonTest(':local'));
+      expect(colonTest('margin 0 auto')).toBeUndefined();
+      expect(colonTest('&:hover')).toBeUndefined();
+      expect(colonTest(':global')).toBeUndefined();
+      expect(colonTest(':local')).toBeUndefined();
     });
 
     it('undefined if root context', () => {
       app.state.context = 0;
-      assert.equal(undefined, colonTest('margin 0 auto'));
+      expect(colonTest('margin 0 auto')).toBeUndefined();
       app.state.hash = true;
-      assert.equal(undefined, colonTest('key: value'));
+      expect(colonTest('key: value')).toBeUndefined();
     });
 
     it('undefined if hash', () => {
       app.state.hash = true;
-      assert.equal(undefined, colonTest('key: value'));
+      expect(colonTest('key: value')).toBeUndefined();
     });
 
     it('undefined if syntax or css selector', () => {
-      assert.equal(undefined, colonTest('#id'));
-      assert.equal(undefined, colonTest('$.some-class'));
-      assert.equal(undefined, colonTest('> child selector'));
-      assert.equal(undefined, colonTest('.class-name'));
-      assert.equal(undefined, colonTest('for ( 0..9 )'));
-      assert.equal(undefined, colonTest('@media $med'));
-      assert.equal(undefined, colonTest('if ( $var == 50px )'));
-      assert.equal(undefined, colonTest('hash = {'));
-      assert.equal(undefined, colonTest('}'));
-      assert.equal(undefined, colonTest('.class-name a'));
-      assert.equal(undefined, colonTest('&.class-name a'));
-      assert.equal(undefined, colonTest('&:active'));
-      assert.equal(undefined, colonTest('return: $value'));
-      assert.equal(undefined, colonTest('return $value'));
-      assert.equal(undefined, colonTest('@media screen and (max-width: 1183px)'));
+      expect(colonTest('#id')).toBeUndefined();
+      expect(colonTest('$.some-class')).toBeUndefined();
+      expect(colonTest('> child selector')).toBeUndefined();
+      expect(colonTest('.class-name')).toBeUndefined();
+      expect(colonTest('for ( 0..9 )')).toBeUndefined();
+      expect(colonTest('@media $med')).toBeUndefined();
+      expect(colonTest('if ( $var == 50px )')).toBeUndefined();
+      expect(colonTest('hash = {')).toBeUndefined();
+      expect(colonTest('}')).toBeUndefined();
+      expect(colonTest('.class-name a')).toBeUndefined();
+      expect(colonTest('&.class-name a')).toBeUndefined();
+      expect(colonTest('&:active')).toBeUndefined();
+      expect(colonTest('return: $value')).toBeUndefined();
+      expect(colonTest('return $value')).toBeUndefined();
+      expect(colonTest('@media screen and (max-width: 1183px)')).toBeUndefined();
     });
   });
 
@@ -80,47 +79,47 @@ describe('colon', () => {
 
     it('false if no colon is found', () => {
       app.state.context = 1;
-      assert.equal(false, colonTest('margin 0 auto'));
+      expect(colonTest('margin 0 auto')).toEqual(false);
     });
 
     it('undefined if html', () => {
-      assert.equal(undefined, colonTest('div'));
+      expect(colonTest('div')).toBeUndefined();
     });
 
     it('undefined if root context', () => {
       app.state.context = 0;
-      assert.equal(undefined, colonTest('margin: 0 auto'));
+      expect(colonTest('margin: 0 auto')).toBeUndefined();
     });
 
     it('undefined if colon found', () => {
-      assert.equal(undefined, colonTest('background-image: '));
-      assert.equal(undefined, colonTest('margin: 0 auto'));
-      assert.equal(undefined, colonTest('margin: 0 auto;'));
+      expect(colonTest('background-image: ')).toBeUndefined();
+      expect(colonTest('margin: 0 auto')).toBeUndefined();
+      expect(colonTest('margin: 0 auto;')).toBeUndefined();
     });
 
     it('undefined if syntax or css selector', () => {
-      assert.equal(undefined, colonTest('#id'));
-      assert.equal(undefined, colonTest('$.some-class'));
-      assert.equal(undefined, colonTest('> child selector'));
-      assert.equal(undefined, colonTest('.class-name'));
-      assert.equal(undefined, colonTest('for ( 0..9 )'));
-      assert.equal(undefined, colonTest('@media $med'));
-      assert.equal(undefined, colonTest('@extend $med'));
-      assert.equal(undefined, colonTest('@extends $med'));
-      assert.equal(undefined, colonTest('@import _some-file'));
-      assert.equal(undefined, colonTest('.class-name, #id-name'));
-      assert.equal(undefined, colonTest('.class-name + #id-name'));
-      assert.equal(undefined, colonTest('p ~ ul'));
-      assert.equal(undefined, colonTest('p > ul'));
-      assert.equal(undefined, colonTest('if ( $var == 50px )'));
-      assert.equal(undefined, colonTest('hash = {'));
-      assert.equal(undefined, colonTest('}'));
-      assert.equal(undefined, colonTest('.class-name a'));
-      assert.equal(undefined, colonTest('&.class-name a'));
-      assert.equal(undefined, colonTest('&:active'));
-      assert.equal(undefined, colonTest('return: $value'));
-      assert.equal(undefined, colonTest('return $value'));
-      assert.equal(undefined, colonTest('@media screen and (max-width: 1183px)'));
+      expect(colonTest('#id')).toBeUndefined();
+      expect(colonTest('$.some-class')).toBeUndefined();
+      expect(colonTest('> child selector')).toBeUndefined();
+      expect(colonTest('.class-name')).toBeUndefined();
+      expect(colonTest('for ( 0..9 )')).toBeUndefined();
+      expect(colonTest('@media $med')).toBeUndefined();
+      expect(colonTest('@extend $med')).toBeUndefined();
+      expect(colonTest('@extends $med')).toBeUndefined();
+      expect(colonTest('@import _some-file')).toBeUndefined();
+      expect(colonTest('.class-name, #id-name')).toBeUndefined();
+      expect(colonTest('.class-name + #id-name')).toBeUndefined();
+      expect(colonTest('p ~ ul')).toBeUndefined();
+      expect(colonTest('p > ul')).toBeUndefined();
+      expect(colonTest('if ( $var == 50px )')).toBeUndefined();
+      expect(colonTest('hash = {')).toBeUndefined();
+      expect(colonTest('}')).toBeUndefined();
+      expect(colonTest('.class-name a')).toBeUndefined();
+      expect(colonTest('&.class-name a')).toBeUndefined();
+      expect(colonTest('&:active')).toBeUndefined();
+      expect(colonTest('return: $value')).toBeUndefined();
+      expect(colonTest('return $value')).toBeUndefined();
+      expect(colonTest('@media screen and (max-width: 1183px)')).toBeUndefined();
     });
   });
 });

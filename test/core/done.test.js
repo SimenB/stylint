@@ -2,7 +2,6 @@
 
 'use strict';
 
-const assert = require('assert');
 const sinon = require('sinon');
 
 const stylint = require('../../index');
@@ -24,33 +23,32 @@ describe('done', () => {
       cache: {
         report,
       },
-      callback: sinon.spy(),
+      callback: jest.fn(),
       config: {
         maxErrors: -1,
         maxWarnings: -1,
       },
-      reporter: sinon.stub(),
+      reporter: jest.fn(),
       state: {
         watching: true,
       },
     };
 
-    sinon.stub(process, 'exit');
-    sinon.stub(console, 'log');
+    jest.spyOn(process, 'exit').mockImplementation(() => {});
+    jest.spyOn(console, 'log').mockImplementation(() => {});
   });
 
   afterEach(() => {
-    process.exit.restore();
-    console.log.restore();
+    jest.clearAllMocks();
   });
 
   describe('exitCode', () => {
     it('should exit with 0 if no errors or warnings', () => {
       done.call(context);
 
-      assert.equal(context.state.exitCode, 0);
-      assert.equal(process.exit.called, false);
-      assert.equal(console.log.called, false);
+      expect(context.state.exitCode).toEqual(0);
+      expect(process.exit).not.toHaveBeenCalled();
+      expect(console.log).not.toHaveBeenCalled();
     });
 
     it('should exit with 1 if errors over max limit', () => {
@@ -60,9 +58,9 @@ describe('done', () => {
 
       done.call(context);
 
-      assert.equal(context.state.exitCode, 1);
-      assert.equal(process.exit.called, false);
-      assert.equal(console.log.called, false);
+      expect(context.state.exitCode).toEqual(1);
+      expect(process.exit).not.toHaveBeenCalled();
+      expect(console.log).not.toHaveBeenCalled();
     });
 
     it('should exit with 1 if warnings over max limit', () => {
@@ -72,9 +70,9 @@ describe('done', () => {
 
       done.call(context);
 
-      assert.equal(context.state.exitCode, 1);
-      assert.equal(process.exit.called, false);
-      assert.equal(console.log.called, false);
+      expect(context.state.exitCode).toEqual(1);
+      expect(process.exit).not.toHaveBeenCalled();
+      expect(console.log).not.toHaveBeenCalled();
     });
 
     it('should exit with 1 if error and no max limit', () => {
@@ -82,9 +80,9 @@ describe('done', () => {
 
       done.call(context);
 
-      assert.equal(context.state.exitCode, 1);
-      assert.equal(process.exit.called, false);
-      assert.equal(console.log.called, false);
+      expect(context.state.exitCode).toEqual(1);
+      expect(process.exit).not.toHaveBeenCalled();
+      expect(console.log).not.toHaveBeenCalled();
     });
 
     it('should exit with 0 if no warning and no max limit', () => {
@@ -92,9 +90,9 @@ describe('done', () => {
 
       done.call(context);
 
-      assert.equal(context.state.exitCode, 0);
-      assert.equal(process.exit.called, false);
-      assert.equal(console.log.called, false);
+      expect(context.state.exitCode).toEqual(0);
+      expect(process.exit).not.toHaveBeenCalled();
+      expect(console.log).not.toHaveBeenCalled();
     });
 
     it('should call process exit if not watching', () => {
@@ -102,30 +100,30 @@ describe('done', () => {
 
       done.call(context);
 
-      assert.equal(context.state.exitCode, 0);
-      assert.equal(process.exit.calledOnce, true);
-      assert(process.exit.calledWith(0));
+      expect(context.state.exitCode).toEqual(0);
+      expect(process.exit).toHaveBeenCalledTimes(1);
+      expect(process.exit).toHaveBeenCalledWith(0);
     });
   });
 
   describe('logging report', () => {
     it('should log if quiet is not true, and there is a message', () => {
       context.state.quiet = false;
-      context.reporter.returns('some message');
+      context.reporter.mockImplementation(() => 'some message');
 
       done.call(context);
 
-      assert(console.log.calledOnce);
-      assert(console.log.calledWith('some message'));
+      expect(console.log).toHaveBeenCalledTimes(1);
+      expect(console.log).toHaveBeenCalledWith('some message');
     });
 
     it('should not log if quiet is true, and there is a message', () => {
       context.state.quiet = true;
-      context.reporter.returns('some message');
+      context.reporter.mockImplementation(() => 'some message');
 
       done.call(context);
 
-      assert.equal(console.log.called, false);
+      expect(console.log).not.toHaveBeenCalled();
     });
 
     it('should not log if quiet is not true, and there is no message', () => {
@@ -133,7 +131,7 @@ describe('done', () => {
 
       done.call(context);
 
-      assert.equal(console.log.called, false);
+      expect(console.log).not.toHaveBeenCalled();
     });
   });
 
@@ -141,8 +139,8 @@ describe('done', () => {
     it('should call report even if no messages', () => {
       done.call(context);
 
-      assert(context.reporter.calledOnce);
-      assert(context.reporter.calledWith(
+      expect(context.reporter).toHaveBeenCalledTimes(1);
+      expect(context.reporter).toHaveBeenCalledWith(
         report,
         {
           maxErrors: -1,
@@ -151,7 +149,7 @@ describe('done', () => {
           reporterOptions: undefined,
         },
         false
-      ));
+      );
     });
 
     it('should pass along groupOutputByFile and reporterOptions', () => {
@@ -160,8 +158,8 @@ describe('done', () => {
 
       done.call(context);
 
-      assert(context.reporter.calledOnce);
-      assert(context.reporter.calledWith(
+      expect(context.reporter).toHaveBeenCalledTimes(1);
+      expect(context.reporter).toHaveBeenCalledWith(
         report,
         {
           maxErrors: -1,
@@ -170,7 +168,7 @@ describe('done', () => {
           reporterOptions: true,
         },
         false
-      ));
+      );
     });
 
     it('should handle missing maxErrors and maxWarnings', () => {
@@ -179,8 +177,8 @@ describe('done', () => {
 
       done.call(context);
 
-      assert(context.reporter.calledOnce);
-      assert(context.reporter.calledWith(
+      expect(context.reporter).toHaveBeenCalledTimes(1);
+      expect(context.reporter).toHaveBeenCalledWith(
         report,
         {
           maxErrors: -1,
@@ -189,7 +187,7 @@ describe('done', () => {
           reporterOptions: undefined,
         },
         false
-      ));
+      );
     });
 
     it('should pass along exitCode', () => {
@@ -197,8 +195,8 @@ describe('done', () => {
 
       done.call(context);
 
-      assert(context.reporter.calledOnce);
-      assert(context.reporter.args[0][2]);
+      expect(context.reporter).toHaveBeenCalledTimes(1);
+      expect(context.reporter.mock.calls[0][2]).toEqual(true);
     });
   });
 });
@@ -217,29 +215,29 @@ describe('Done, again: ', () => {
   });
 
   it('should return an object', () => {
-    assert.ok(typeof app.done() === 'object');
+    expect(app.done()).toBeInstanceOf(Object);
   });
 
   it('which should have msg as a property', () => {
-    assert.ok(typeof app.done().msg === 'string');
+    expect(app.done().msg).toBeDefined();
   });
 
   it('exit code should be 0 if no errs', () => {
-    assert.equal(0, app.done().exitCode);
+    expect(app.done().exitCode).toEqual(0);
   });
 
   it('exit code should be 0 if has warnings and no errs', () => {
     app.cache.report.warningCount = 1;
-    assert.equal(0, app.done().exitCode);
+    expect(app.done().exitCode).toEqual(0);
   });
 
   it('msg should be empty if no errs or warnings', () => {
-    assert.equal('', app.done().msg);
+    expect(app.done().msg).toEqual('');
   });
 
   it('exit code of 1 if not clear', () => {
     app.cache.report.errorCount = 1;
-    assert.equal(1, app.done().exitCode);
+    expect(app.done().exitCode).toEqual(1);
   });
 
   it('exit code should be 1 if over max warnings', () => {
@@ -247,7 +245,7 @@ describe('Done, again: ', () => {
     app.config.maxErrors = 10;
     app.cache.report.warningCount = 1;
 
-    assert.equal(1, app.done().exitCode);
+    expect(app.done().exitCode).toEqual(1);
   });
 
   it.skip('should exit if watch off', () => {

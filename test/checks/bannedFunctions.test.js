@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -23,16 +22,16 @@ describe('bannedFunctions: ban use of specific key words', () => {
   });
 
   it('false if a line doesnt have any banned functions', () => {
-    assert.equal(false, bannedFunctions('.foo'));
+    expect(bannedFunctions('.foo')).toEqual(false);
   });
 
   it('false if a line has banned functions but is not found', () => {
     app.config.bannedFunctions = ['translate3d'];
-    assert.equal(false, bannedFunctions('.foo'));
+    expect(bannedFunctions('.foo')).toEqual(false);
   });
 
   it('true if line has a banned function', () => {
     app.config.bannedFunctions = ['translate3d'];
-    assert.ok(bannedFunctions('translate3d(1px, 1px, 0px)'));
+    expect(bannedFunctions('translate3d(1px, 1px, 0px)')).toEqual(true);
   });
 });

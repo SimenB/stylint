@@ -1,7 +1,5 @@
 'use strict';
 
-const assert = require('assert');
-require('chai').should(); // add should assertions on top
 const sinon = require('sinon');
 const stylint = require('../../index');
 
@@ -23,10 +21,6 @@ describe('Lint: ', () => {
     app.config.maxWarnings = false;
     app.cache.messages = [];
     app.cache.brackets = false;
-  });
-
-  it('should be a function', () => {
-    app.lint.should.be.a('function');
   });
 
   it('should pick up severity of current check', () => {
@@ -56,11 +50,11 @@ describe('Lint: ', () => {
   it('should cache rule name as one of warning properties', () => {
     app.config = { brackets: 'never' };
     app.lint();
-    assert.equal(app.cache.rule, 'brackets');
+    expect(app.cache.rule).toEqual('brackets');
 
     app.config = { leadingZero: 'never' };
     app.lint();
-    assert.equal(app.cache.rule, 'leadingZero');
+    expect(app.cache.rule).toEqual('leadingZero');
 
     // restore config
     app.config = app.setConfig();

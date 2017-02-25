@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const sinon = require('sinon');
 const stylint = require('../../index');
 
@@ -21,15 +20,6 @@ describe.skip('Parse should: ', () => {
 
   it('be a function', () => {
     app.parse.should.be.a('function');
-  });
-
-  it('throws err if passed non-existant file name', () => {
-    app.cache.file = undefined;
-    assert.throws(
-      app.parse,
-      TypeError,
-      'readFile err. Did you pass in a correct filename?'
-    );
   });
 
   it('return a forEach if passed a filename', () => {

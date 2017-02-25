@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -24,15 +23,15 @@ describe('indent pref', () => {
 
   it('false if line indented with incorrect # of spaces', () => {
     app.state.context = 1.5;
-    assert.equal(false, indentTest('   .test'));
+    expect(indentTest('   .test')).toEqual(false);
     app.state.context = 0.5;
-    assert.equal(false, indentTest(' .test2'));
+    expect(indentTest(' .test2')).toEqual(false);
   });
 
   it('true if line indented with correct # of spaces', () => {
     app.state.context = 1;
-    assert.ok(indentTest('  .test'));
+    expect(indentTest('  .test')).toBeDefined();
     app.state.context = 2;
-    assert.ok(indentTest('    .test2'));
+    expect(indentTest('    .test2')).toBeDefined();
   });
 });

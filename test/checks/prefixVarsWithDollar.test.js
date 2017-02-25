@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -27,18 +26,18 @@ describe('prefix', () => {
     });
 
     it('false if $ is missing when declaring variable', () => {
-      assert.equal(false, varTest('var = 0'));
+      expect(varTest('var = 0')).toEqual(false);
     });
 
     it('true if $ is found and is correct', () => {
-      assert.ok(varTest('$my-var = 0'));
-      assert.ok(varTest('$first-value = floor( (100% / $columns) * $index )'));
-      assert.ok(varTest('$-my-private-var = red'));
-      assert.ok(varTest('$_myPrivateVar = red'));
+      expect(varTest('$my-var = 0')).toBeDefined();
+      expect(varTest('$first-value = floor( (100% / $columns) * $index )')).toBeDefined();
+      expect(varTest('$-my-private-var = red')).toBeDefined();
+      expect(varTest('$_myPrivateVar = red')).toBeDefined();
     });
 
     it('undefined if @block var', () => {
-      assert.equal(undefined, varTest('var = @block'));
+      expect(varTest('var = @block')).toBeUndefined();
     });
   });
 
@@ -48,17 +47,17 @@ describe('prefix', () => {
     });
 
     it('false if $ is missing', () => {
-      assert.equal(false, varTest('var = 0'));
-      assert.equal(false, varTest('transition( param, param )'));
+      expect(varTest('var = 0')).toEqual(false);
+      expect(varTest('transition( param, param )')).toEqual(false);
     });
 
     it('true if $ is found anywhere on line', () => {
-      assert.ok(varTest('margin $gutter'));
-      assert.ok(varTest('transition $param $param'));
+      expect(varTest('margin $gutter')).toBeDefined();
+      expect(varTest('transition $param $param')).toBeDefined();
     });
 
     it('undefined if @block var', () => {
-      assert.equal(undefined, varTest('var = @block'));
+      expect(varTest('var = @block')).toBeUndefined();
     });
   });
 });

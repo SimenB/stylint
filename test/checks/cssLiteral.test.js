@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -24,17 +23,17 @@ describe('css literal', () => {
 
   it('false if @css is not used', () => {
     app.state.hashOrCSS = false;
-    assert.equal(false, cssTest('margin 0'));
-    assert.equal(false, cssTest('@extends $placeholderconst'));
-    assert.equal(false, cssTest('@require "lint.styl"'));
+    expect(cssTest('margin 0')).toEqual(false);
+    expect(cssTest('@extends $placeholderconst')).toEqual(false);
+    expect(cssTest('@require "lint.styl"')).toEqual(false);
   });
 
   it('true if @css is used ', () => {
-    assert.ok(cssTest('@css {'));
+    expect(cssTest('@css {')).toBeDefined();
   });
 
   it('undefined if already in css literal', () => {
     app.state.hashOrCSS = true;
-    assert.equal(undefined, cssTest('.test'));
+    expect(cssTest('.test')).toBeUndefined();
   });
 });

@@ -30,7 +30,7 @@ const read = function (filepath) {
   // if dir we use the glob logic to return an array of files to test
   return fs.stat(path, (err, stats) => {
     if (!stats || err) {
-      throw Error('Stylint Error: No such file or dir exists!');
+      throw Error(`Stylint Error: No such file or dir exists!, "${path}"`);
     }
 
     // if this path matches any regex in the excludes array, we ignore

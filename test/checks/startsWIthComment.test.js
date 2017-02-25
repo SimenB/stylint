@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -22,11 +21,11 @@ describe('starts with comment', () => {
   });
 
   it('false if // not first char on line', () => {
-    assert.equal(false, startsWithComment('margin 0 auto //test'));
+    expect(startsWithComment('margin 0 auto //test')).toEqual(false);
   });
 
   it('true if // is the first character on the line', () => {
-    assert.ok(startsWithComment('//test'));
-    assert.ok(startsWithComment(' // test'));
+    expect(startsWithComment('//test')).toBeDefined();
+    expect(startsWithComment(' // test')).toBeDefined();
   });
 });

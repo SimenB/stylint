@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -24,40 +23,40 @@ describe('brackets', () => {
 
   describe('always use brackets', () => {
     it('false if no bracket found', () => {
-      assert.equal(false, bracketsTest('.class-name'));
-      assert.equal(false, bracketsTest('#id'));
-      assert.equal(false, bracketsTest('body.main'));
-      assert.equal(false, bracketsTest('+ span'));
+      expect(bracketsTest('.class-name')).toEqual(false);
+      expect(bracketsTest('#id')).toEqual(false);
+      expect(bracketsTest('body.main')).toEqual(false);
+      expect(bracketsTest('+ span')).toEqual(false);
     });
 
     it('true if bracket found', () => {
-      assert.ok(bracketsTest('body {'));
-      assert.ok(bracketsTest('+ span {'));
-      assert.ok(bracketsTest('div.div {'));
-      assert.ok(bracketsTest('.class-name {'));
-      assert.ok(bracketsTest('#id {'));
+      expect(bracketsTest('body {')).toEqual(true);
+      expect(bracketsTest('+ span {')).toEqual(true);
+      expect(bracketsTest('div.div {')).toEqual(true);
+      expect(bracketsTest('.class-name {')).toEqual(true);
+      expect(bracketsTest('#id {')).toEqual(true);
     });
 
     it('true if hash', () => {
       app.state.hashOrCSS = true;
-      assert.equal(undefined, bracketsTest('.something'));
+      expect(bracketsTest('.something')).toBeUndefined();
     });
 
     it('undefined if css or ,$ or } or =', () => {
-      assert.equal(undefined, bracketsTest('.my-class,'));
-      assert.equal(undefined, bracketsTest('margin 0'));
-      assert.equal(undefined, bracketsTest('pointer-events none'));
-      assert.equal(undefined, bracketsTest('}'));
-      assert.equal(undefined, bracketsTest('$b = { "bar": "baz" }'));
-      assert.equal(undefined, bracketsTest('{ "foo" }'));
-      assert.equal(undefined, bracketsTest('{foo() + "bar"}'));
-      assert.equal(undefined, bracketsTest('$foo = {'));
-      assert.equal(undefined, bracketsTest('$foo-color ?= #0976b5;'));
-      assert.equal(undefined, bracketsTest('$x += $i;'));
+      expect(bracketsTest('.my-class,')).toBeUndefined();
+      expect(bracketsTest('margin 0')).toBeUndefined();
+      expect(bracketsTest('pointer-events none')).toBeUndefined();
+      expect(bracketsTest('}')).toBeUndefined();
+      expect(bracketsTest('$b = { "bar": "baz" }')).toBeUndefined();
+      expect(bracketsTest('{ "foo" }')).toBeUndefined();
+      expect(bracketsTest('{foo() + "bar"}')).toBeUndefined();
+      expect(bracketsTest('$foo = {')).toBeUndefined();
+      expect(bracketsTest('$foo-color ?= #0976b5;')).toBeUndefined();
+      expect(bracketsTest('$x += $i;')).toBeUndefined();
     });
 
     it('undefined if empty', () => {
-      assert.equal(undefined, bracketsTest('  '));
+      expect(bracketsTest('  ')).toBeUndefined();
     });
   });
 
@@ -68,34 +67,34 @@ describe('brackets', () => {
 
     it('false if no bracket found', () => {
       app.state.hashOrCSS = false;
-      assert.equal(false, bracketsTest('.class-name'));
-      assert.equal(false, bracketsTest('div'));
+      expect(bracketsTest('.class-name')).toEqual(false);
+      expect(bracketsTest('div')).toEqual(false);
     });
 
     it('false if incorrect config', () => {
       app.state.conf = 'something';
-      assert.equal(false, bracketsTest('div {'));
+      expect(bracketsTest('div {')).toEqual(false);
     });
 
     it('true if bracket found, not in hash', () => {
       app.state.hashOrCSS = false;
-      assert.ok(bracketsTest('.class-name {'));
-      assert.ok(bracketsTest('div {'));
-      assert.ok(bracketsTest('}'));
+      expect(bracketsTest('.class-name {')).toEqual(true);
+      expect(bracketsTest('div {')).toEqual(true);
+      expect(bracketsTest('}')).toEqual(true);
     });
 
     it('undefined if in hash or syntax', () => {
       app.state.hashOrCSS = true;
-      assert.equal(undefined, bracketsTest('}'));
-      assert.equal(undefined, bracketsTest('{'));
-      assert.equal(undefined, bracketsTest('{interpolation}'));
-      assert.equal(undefined, bracketsTest('.class-name-with-{i}'));
-      assert.equal(undefined, bracketsTest('$b = { "bar": "baz" }'));
-      assert.equal(undefined, bracketsTest('{ "foo" }'));
-      assert.equal(undefined, bracketsTest('{foo() + "bar"}'));
-      assert.equal(undefined, bracketsTest('$foo = {'));
-      assert.equal(undefined, bracketsTest('$foo-color ?= #0976b5;'));
-      assert.equal(undefined, bracketsTest('$x += $i;'));
+      expect(bracketsTest('}')).toBeUndefined();
+      expect(bracketsTest('{')).toBeUndefined();
+      expect(bracketsTest('{interpolation}')).toBeUndefined();
+      expect(bracketsTest('.class-name-with-{i}')).toBeUndefined();
+      expect(bracketsTest('$b = { "bar": "baz" }')).toBeUndefined();
+      expect(bracketsTest('{ "foo" }')).toBeUndefined();
+      expect(bracketsTest('{foo() + "bar"}')).toBeUndefined();
+      expect(bracketsTest('$foo = {')).toBeUndefined();
+      expect(bracketsTest('$foo-color ?= #0976b5;')).toBeUndefined();
+      expect(bracketsTest('$x += $i;')).toBeUndefined();
     });
   });
 });

@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -28,17 +27,17 @@ describe('parens', () => {
     });
 
     it('null if no extra space', () => {
-      assert.equal(null, parenTest('', 'myMixin(param1, param2)'));
-      assert.equal(null, parenTest('', 'myMixin( param1, param2)'));
-      assert.equal(null, parenTest('', 'myMixin(param1, param2 )'));
+      expect(parenTest('', 'myMixin(param1, param2)')).toBeNull();
+      expect(parenTest('', 'myMixin( param1, param2)')).toBeNull();
+      expect(parenTest('', 'myMixin(param1, param2 )')).toBeNull();
     });
 
     it('true if has extra spaces', () => {
-      assert.ok(parenTest('', 'myMixin( param1, param2 )'));
+      expect(parenTest('', 'myMixin( param1, param2 )')).toBeDefined();
     });
 
     it('undefined if no parens on line', () => {
-      assert.equal(undefined, parenTest('', '.notAMixin '));
+      expect(parenTest('', '.notAMixin ')).toBeUndefined();
     });
   });
 
@@ -48,17 +47,17 @@ describe('parens', () => {
     });
 
     it('null if no extra space', () => {
-      assert.equal(null, parenTest('', 'myMixin(param1, param2)'));
-      assert.equal(null, parenTest('', 'myMixin( param1, param2)'));
-      assert.equal(null, parenTest('', 'myMixin(param1, param2 )'));
+      expect(parenTest('', 'myMixin(param1, param2)')).toBeNull();
+      expect(parenTest('', 'myMixin( param1, param2)')).toBeNull();
+      expect(parenTest('', 'myMixin(param1, param2 )')).toBeNull();
     });
 
     it('true if has extra spaces', () => {
-      assert.ok(parenTest('', 'myMixin( param1, param2 )'));
+      expect(parenTest('', 'myMixin( param1, param2 )')).toBeDefined();
     });
 
     it('undefined if no parens on line', () => {
-      assert.equal(undefined, parenTest('', '.notAMixin '));
+      expect(parenTest('', '.notAMixin ')).toBeUndefined();
     });
   });
 });

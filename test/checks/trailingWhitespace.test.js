@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -18,11 +17,11 @@ describe('trailing whitespace', () => {
   });
 
   it('false if no trailing whitespace', () => {
-    assert.equal(false, whitespaceTest('', 'margin 0 auto'));
+    expect(whitespaceTest('', 'margin 0 auto')).toEqual(false);
   });
 
   it('true if whitespace found', () => {
-    assert.ok(whitespaceTest('', 'margin 0 auto  '));
-    assert.ok(whitespaceTest('', 'margin 0 auto '));
+    expect(whitespaceTest('', 'margin 0 auto  ')).toBeDefined();
+    expect(whitespaceTest('', 'margin 0 auto ')).toBeDefined();
   });
 });

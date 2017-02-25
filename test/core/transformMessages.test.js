@@ -1,12 +1,6 @@
 'use strict';
 
-const assert = require('assert');
-const sinon = require('sinon');
 const transformMessages = require('../../src/core/transformMessages');
-
-// Strict was added in node@1.2.0
-// https://nodejs.org/api/assert.html#assert_assert_deepstrictequal_actual_expected_message
-const deepEqual = assert.deepStrictEqual || assert.deepEqual;
 
 describe('transforming messages for report', () => {
   let context;
@@ -36,7 +30,7 @@ describe('transforming messages for report', () => {
       cache: {
         messages: [],
       },
-      done: sinon.spy(),
+      done: jest.fn(),
     };
 
     message = 'some message';
@@ -49,7 +43,7 @@ describe('transforming messages for report', () => {
   });
 
   it('should call report even if no messages', () => {
-    deepEqual(transformMessages.call(context), {
+    expect(transformMessages.call(context)).toEqual({
       results: [],
       errorCount: 0,
       warningCount: 0,
@@ -59,7 +53,7 @@ describe('transforming messages for report', () => {
   it('should transform single message correctly', () => {
     context.cache.messages = [createMessage()];
 
-    deepEqual(transformMessages.call(context), {
+    expect(transformMessages.call(context)).toEqual({
       results: [{
         filePath: 'some-file.styl',
         messages: [{
@@ -82,7 +76,7 @@ describe('transforming messages for report', () => {
     context.cache.messages = [createMessage()];
 
     const report = transformMessages.call(context);
-    assert.equal(report, context.cache.report);
+    expect(report).toEqual(context.cache.report);
   });
 
   it('should transform multiple messages from same file correctly', () => {
@@ -93,7 +87,7 @@ describe('transforming messages for report', () => {
 
     context.cache.messages = [message1, createMessage()];
 
-    deepEqual(transformMessages.call(context), {
+    expect(transformMessages.call(context)).toEqual({
       results: [{
         filePath: 'some-file.styl',
         messages: [{
@@ -128,7 +122,7 @@ describe('transforming messages for report', () => {
 
     context.cache.messages = [message1, createMessage()];
 
-    deepEqual(transformMessages.call(context), {
+    expect(transformMessages.call(context)).toEqual({
       results: [{
         filePath: 'some-file.styl',
         messages: [{
@@ -162,12 +156,12 @@ describe('transforming messages for report', () => {
   it('should call done by default', () => {
     transformMessages.call(context);
 
-    assert(context.done.calledOnce);
+    expect(context.done).toHaveBeenCalledTimes(1);
   });
 
   it('should not call done if skipDone passed in', () => {
     transformMessages.call(context, true);
 
-    assert(!context.done.called);
+    expect(context.done).not.toHaveBeenCalled();
   });
 });

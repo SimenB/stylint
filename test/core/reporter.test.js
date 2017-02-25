@@ -1,7 +1,5 @@
 'use strict';
 
-const assert = require('assert');
-require('chai').should(); // add should assertions on top
 const _ = require('lodash');
 const stripColor = require('chalk').stripColor;
 const sinon = require('sinon');
@@ -45,56 +43,50 @@ function generateReport(result) {
 
 describe('reporter', () => {
   it('should have correct output on no message', () => {
-    assert.equal(reporter(generateReport()), '');
+    expect(reporter(generateReport()), '');
   });
 
   it('should include kill message', () => {
-    assert.equal(
-      stripColor(reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), {}, true)),
-      'some file.styl\n1 no-undefined warning This is not OK' +
-      '\n\nStylint: 0 Errors.\nStylint: 1 Warnings.\nStylint: Over Error or Warning Limit.'
-    );
+    expect(stripColor(reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), {}, true)))
+      .toEqual(
+        'some file.styl\n1 no-undefined warning This is not OK' +
+        '\n\nStylint: 0 Errors.\nStylint: 1 Warnings.\nStylint: Over Error or Warning Limit.'
+      );
   });
 
   it('should include max errors and max warnings', () => {
-    assert.equal(
-      stripColor(reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), {
-        maxErrors: 5,
-        maxWarnings: 5,
-      })),
+    expect(stripColor(reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), {
+      maxErrors: 5,
+      maxWarnings: 5,
+    }))).toEqual(
       'some file.styl\n1 no-undefined warning This is not OK' +
       '\n\nStylint: 0 Errors. (Max Errors: 5)\nStylint: 1 Warnings. (Max Warnings: 5)'
     );
   });
 
   it('should skip non-valid max errors and max warnings', () => {
-    assert.equal(
-      stripColor(reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), {
-        maxErrors: -1,
-        maxWarnings: 5,
-      })),
+    expect(stripColor(reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), {
+      maxErrors: -1,
+      maxWarnings: 5,
+    }))).toEqual(
       'some file.styl\n1 no-undefined warning This is not OK\n\nStylint: 0 Errors.\nStylint: 1 Warnings. (Max Warnings: 5)'
     );
-    assert.equal(
-      stripColor(reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxWarnings: 5 })),
+    expect(stripColor(reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxWarnings: 5 }))).toEqual(
       'some file.styl\n1 no-undefined warning This is not OK\n\nStylint: 0 Errors.\nStylint: 1 Warnings. (Max Warnings: 5)'
     );
-    assert.equal(
-      stripColor(reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxErrors: 2 })),
+    expect(stripColor(reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxErrors: 2 }))).toEqual(
       'some file.styl\n1 no-undefined warning This is not OK\n\nStylint: 0 Errors. (Max Errors: 2)\nStylint: 1 Warnings.'
     );
   });
 
   it('should format warning correctly', () => {
-    assert.equal(
-      stripColor(reporter(generateReport([genWarning('some file.styl', 'no-undefined')]))),
+    expect(stripColor(reporter(generateReport([genWarning('some file.styl', 'no-undefined')])))).toEqual(
       'some file.styl\n1 no-undefined warning This is not OK\n\nStylint: 0 Errors.\nStylint: 1 Warnings.'
     );
   });
 
   it('should format error correctly', () => {
-    assert.equal(
-      stripColor(reporter(generateReport([genError('some file.styl', 'no-undefined')]))),
+    expect(stripColor(reporter(generateReport([genError('some file.styl', 'no-undefined')])))).toEqual(
       'some file.styl\n1 no-undefined error This is not OK\n\nStylint: 1 Errors.\nStylint: 0 Warnings.'
     );
   });
@@ -103,8 +95,7 @@ describe('reporter', () => {
     const error = genError('some file.styl', 'no-undefined');
     const warning = genWarning('some file.styl', 'no-undefined');
 
-    assert.equal(
-      stripColor(reporter(generateReport([error, warning]))),
+    expect(stripColor(reporter(generateReport([error, warning])))).toEqual(
       'some file.styl\n1 no-undefined error This is not OK\n\nsome file.styl\n1 no-undefined warning This is not OK' +
       '\n\nStylint: 1 Errors.\nStylint: 1 Warnings.'
     );
@@ -115,8 +106,7 @@ describe('reporter', () => {
 
     error.messages[0].column = 5;
 
-    assert.equal(
-      stripColor(reporter(generateReport([error]))),
+    expect(stripColor(reporter(generateReport([error])))).toEqual(
       'some file.styl\n1:5 no-undefined error This is not OK\n\nStylint: 1 Errors.\nStylint: 0 Warnings.'
     );
   });
@@ -126,8 +116,7 @@ describe('reporter', () => {
     const error2 = genError('some file.styl', 'no-undefined');
     const error3 = genError('some other file.styl', 'no-undefined');
 
-    assert.equal(
-      stripColor(reporter(generateReport([error1, error2, error3]))),
+    expect(stripColor(reporter(generateReport([error1, error2, error3])))).toEqual(
       'some file.styl\n1 no-undefined error This is not OK\n\nsome file.styl\n1 no-undefined error This is not OK' +
       '\n\nsome other file.styl\n1 no-undefined error This is not OK\n\nStylint: 3 Errors.\nStylint: 0 Warnings.'
     );
@@ -137,8 +126,7 @@ describe('reporter', () => {
     const error1 = genError('some file.styl', ['no-undefined', 'no-undefined']);
     const error2 = genError('some other file.styl', 'no-undefined');
 
-    assert.equal(
-      stripColor(reporter(generateReport([error1, error2]), { groupOutputByFile: true })),
+    expect(stripColor(reporter(generateReport([error1, error2]), { groupOutputByFile: true }))).toEqual(
       'some file.styl\nFILE           LINEDATA SEVERITY MESSAGE        RULE        \nsome file.styl 1        error    This is not OK ' +
       'no-undefined\nsome file.styl 1        error    This is not OK no-undefined\n\nsome other file.styl' +
       '\nFILE                 LINEDATA SEVERITY MESSAGE        RULE        \nsome other file.styl 1        error    This is not OK ' +
@@ -158,10 +146,6 @@ describe('(Old tests) Reporter should: ', () => {
     app.reporter.restore();
   });
 
-  it('be a function', () => {
-    app.reporter.should.be.a('function');
-  });
-
   it('return correctly formatted msg', () => {
     app.cache.rule = 'universal';
     const expectedOutput = 'testReporter\n1 universal warning universal disallowed\n\nStylint: 0 Errors.\nStylint: 1 Warnings.';
@@ -178,10 +162,10 @@ describe('(Old tests) Reporter should: ', () => {
       }],
     };
 
-    assert.equal(stripColor(app.reporter({
+    expect(stripColor(app.reporter({
       results: [msg],
       errorCount: 0,
       warningCount: 1,
-    })), expectedOutput);
+    }))).toEqual(expectedOutput);
   });
 });

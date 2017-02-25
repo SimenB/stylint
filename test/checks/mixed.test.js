@@ -2,7 +2,6 @@
 
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -20,22 +19,22 @@ describe('mixed spaces and tabs', () => {
 
   it('false if no mixed spaces and tabs found: spaces preferred', () => {
     app.config.indentPref = 4;
-    assert.equal(false, mixed('', '    margin 0'));
+    expect(mixed('', '    margin 0')).toEqual(false);
   });
 
   it('false if no mixed spaces and tabs found: tabs preferred', () => {
     app.config.indentPref = 'tabs';
-    assert.equal(false, mixed('', '	margin 0'));
+    expect(mixed('', '	margin 0')).toEqual(false);
   });
 
   it('true if spaces and tabs are mixed: spaces preferred', () => {
     app.config.indentPref = 4;
-    assert.ok(mixed('', '  	margin 0'));
-    assert.ok(mixed('', '	 padding 0em'));
+    expect(mixed('', '  	margin 0')).toBeDefined();
+    expect(mixed('', '	 padding 0em')).toBeDefined();
   });
 
   it('true if spaces and tabs are mixed: tabs preferred', () => {
     app.config.indentPref = 'tabs';
-    assert.ok(mixed('', '      margin 0'));
+    expect(mixed('', '      margin 0')).toBeDefined();
   });
 });

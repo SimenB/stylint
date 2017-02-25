@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -26,36 +25,36 @@ describe('depthLimit', () => {
     app.config.depthLimit = 4;
     app.config.indentPref = 4;
     app.state.context = app.setContext('margin 0');
-    assert.equal(false, nestTest('margin 0'));
+    expect(nestTest('margin 0')).toEqual(false);
     app.state.context = app.setContext('      margin 0');
-    assert.equal(false, nestTest('      margin 0'));
+    expect(nestTest('      margin 0')).toEqual(false);
     app.state.context = app.setContext('    margin 0                             ');
-    assert.equal(false, nestTest('      margin 0'));
+    expect(nestTest('      margin 0')).toEqual(false);
     app.config.indentPref = 'tabs';
     app.state.context = app.setContext('&:hover');
-    assert.equal(false, nestTest('&:hover'));
-    assert.equal(false, nestTest('      &:hover'));
+    expect(nestTest('&:hover')).toEqual(false);
+    expect(nestTest('      &:hover')).toEqual(false);
     app.state.context = app.setContext('.class-name');
-    assert.equal(false, nestTest('.class-name'));
-    assert.equal(false, nestTest('    .class-name                '));
+    expect(nestTest('.class-name')).toEqual(false);
+    expect(nestTest('    .class-name                ')).toEqual(false);
   });
 
   it('true if more indents than depth limit', () => {
     app.config.depthLimit = 2;
     app.config.indentPref = 2;
     app.state.context = app.setContext('       margin 0');
-    assert.ok(nestTest('       margin 0'));
+    expect(nestTest('       margin 0')).toBeDefined();
     app.config.indentPref = 4;
     app.state.context = app.setContext('          margin 0');
-    assert.ok(nestTest('          margin 0'));
+    expect(nestTest('          margin 0')).toBeDefined();
     app.config.depthLimit = 4;
     app.state.context = app.setContext('                   margin 0');
-    assert.ok(nestTest('                   margin 0'));
+    expect(nestTest('                   margin 0')).toBeDefined();
     app.config.indentPref = 'tabs';
     app.state.context = app.setContext('          margin 0');
-    assert.ok(nestTest('          margin 0'));
+    expect(nestTest('          margin 0')).toBeDefined();
     app.config.depthLimit = 1;
     app.state.context = app.setContext('    margin 0 )');
-    assert.ok(nestTest('    margin 0 )'));
+    expect(nestTest('    margin 0 )')).toBeDefined();
   });
 });

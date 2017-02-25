@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -22,76 +21,76 @@ describe('none', () => {
   });
 
   describe('prefer 0 over none', () => {
-    before(() => {
+    beforeAll(() => {
       app.state.conf = 'never';
     });
 
     it('false (no err) if border 0', () => {
-      assert.equal(false, noneTest('border 0'));
-      assert.equal(false, noneTest('border: 0'));
-      assert.equal(false, noneTest('border:0'));
-      assert.equal(false, noneTest('border 1px solid red'));
+      expect(noneTest('border 0')).toEqual(false);
+      expect(noneTest('border: 0')).toEqual(false);
+      expect(noneTest('border:0')).toEqual(false);
+      expect(noneTest('border 1px solid red')).toEqual(false);
     });
 
     it('false (no err) if outline 0', () => {
-      assert.equal(false, noneTest('outline 0'));
-      assert.equal(false, noneTest('outline: 0'));
-      assert.equal(false, noneTest('outline:0'));
-      assert.equal(false, noneTest('outline 1px solid red'));
+      expect(noneTest('outline 0')).toEqual(false);
+      expect(noneTest('outline: 0')).toEqual(false);
+      expect(noneTest('outline:0')).toEqual(false);
+      expect(noneTest('outline 1px solid red')).toEqual(false);
     });
 
     it('true (err found) if border none', () => {
-      assert.ok(noneTest('border none'));
-      assert.ok(noneTest('border: none'));
-      assert.ok(noneTest('border:none'));
+      expect(noneTest('border none')).toBeDefined();
+      expect(noneTest('border: none')).toBeDefined();
+      expect(noneTest('border:none')).toBeDefined();
     });
 
     it('true (err found) if outline none', () => {
-      assert.ok(noneTest('outline none'));
-      assert.ok(noneTest('outline: none'));
-      assert.ok(noneTest('outline:none'));
+      expect(noneTest('outline none')).toBeDefined();
+      expect(noneTest('outline: none')).toBeDefined();
+      expect(noneTest('outline:none')).toBeDefined();
     });
 
     it('undefined if border or outline not on line', () => {
-      assert.equal(undefined, noneTest('margin 0'));
-      assert.equal(undefined, noneTest('padding inherit'));
+      expect(noneTest('margin 0')).toBeUndefined();
+      expect(noneTest('padding inherit')).toBeUndefined();
     });
   });
 
   describe('prefer none over 0', () => {
-    before(() => {
+    beforeAll(() => {
       app.state.conf = 'always';
     });
 
     it('false (no err) if border none', () => {
-      assert.ok(!noneTest('border none'));
-      assert.ok(!noneTest('border: none'));
-      assert.ok(!noneTest('border:none'));
-      assert.ok(!noneTest('border 1px solid red'));
+      expect(!noneTest('border none')).toBeDefined();
+      expect(!noneTest('border: none')).toBeDefined();
+      expect(!noneTest('border:none')).toBeDefined();
+      expect(!noneTest('border 1px solid red')).toBeDefined();
     });
 
     it('false (no err) if outline none', () => {
-      assert.ok(!noneTest('outline none'));
-      assert.ok(!noneTest('outline: none'));
-      assert.ok(!noneTest('outline:none'));
-      assert.ok(!noneTest('outline 1px solid red'));
+      expect(!noneTest('outline none')).toBeDefined();
+      expect(!noneTest('outline: none')).toBeDefined();
+      expect(!noneTest('outline:none')).toBeDefined();
+      expect(!noneTest('outline 1px solid red')).toBeDefined();
     });
 
     it('true (err) if border 0 or not applicable', () => {
-      assert.ok(noneTest('border 0'));
-      assert.ok(noneTest('border: 0'));
-      assert.ok(noneTest('border:0'));
+      expect(noneTest('border 0')).toBeDefined();
+      expect(noneTest('border: 0')).toBeDefined();
+      expect(noneTest('border:0')).toBeDefined();
     });
 
     it('true (err) if outline 0 or not applicable', () => {
-      assert.ok(noneTest('outline 0'));
-      assert.ok(noneTest('outline: 0'));
-      assert.ok(noneTest('outline:0'));
+      expect(noneTest('outline 0')).toBeDefined();
+      expect(noneTest('outline: 0')).toBeDefined();
+      expect(noneTest('outline:0')).toBeDefined();
     });
 
     it('undefined if border or outline not on line', () => {
-      assert.equal(undefined, noneTest('margin 0'));
-      assert.equal(undefined, noneTest('padding inherit'));
+      expect(noneTest('margin 0')).toBeUndefined();
+      expect(noneTest('padding inherit')).toBeUndefined();
     });
   });
 });

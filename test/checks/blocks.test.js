@@ -1,6 +1,5 @@
 'use strict';
 
-const assert = require('assert');
 const stylint = require('../../index');
 
 const app = stylint().create();
@@ -24,17 +23,17 @@ describe('blocks', () => {
 
   describe('prefer @block when defining block vars', () => {
     it('false if block style incorrect', () => {
-      assert.equal(false, blockTest('myBlock = '));
-      assert.equal(false, blockTest('myBlock ='));
+      expect(blockTest('myBlock = ')).toEqual(false);
+      expect(blockTest('myBlock =')).toEqual(false);
     });
 
     it('true if block style correct', () => {
-      assert.ok(blockTest('myBlock = @block'));
-      assert.ok(blockTest('myBlock = @block '));
+      expect(blockTest('myBlock = @block')).toEqual(true);
+      expect(blockTest('myBlock = @block ')).toEqual(true);
     });
 
     it('undefined if block style not applicable', () => {
-      assert.equal(undefined, blockTest('.class'));
+      expect(blockTest('.class')).toBeUndefined();
     });
   });
 
@@ -44,18 +43,18 @@ describe('blocks', () => {
     });
 
     it('false if block style IS correct', () => {
-      assert.equal(false, blockTest('myBlock = '));
-      assert.equal(false, blockTest('myBlock ='));
+      expect(blockTest('myBlock = ')).toEqual(false);
+      expect(blockTest('myBlock =')).toEqual(false);
     });
 
     it('true if block style NOT correct', () => {
-      assert.ok(blockTest('myBlock = @block'));
-      assert.ok(blockTest('myBlock = @block '));
+      expect(blockTest('myBlock = @block')).toEqual(true);
+      expect(blockTest('myBlock = @block ')).toEqual(true);
     });
 
     it('undefined if block style not applicable', () => {
-      assert.equal(undefined, blockTest('.class'));
-      assert.equal(undefined, blockTest('input[type="submit"]'));
+      expect(blockTest('.class')).toBeUndefined();
+      expect(blockTest('input[type="submit"]')).toBeUndefined();
     });
   });
 });
