@@ -1,3 +1,11 @@
+### 1.5.9
+
+remove unused entry `dir` from `cache`
+
+### 1.5.8
+
+fix usage with css modules https://github.com/SimenB/stylint/issues/388
+
 ### 1.5.7
 
 not a feature release, just releasing to make sure the updated README is published, with info about the future v2

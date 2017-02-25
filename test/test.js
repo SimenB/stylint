@@ -20,7 +20,6 @@ const app = stylint().create();
 // turn on strict mode from this point and turn off unnecessary logging
 app.state.quiet = true;
 app.state.watching = true;
-app.cache.dir = '/Users/ross/Developer/workspace/stylus-lint/';
 
 describe('Core Methods: ', () => {
   beforeEach(() => {
@@ -617,6 +616,8 @@ describe('Linter Style Checks: ', () => {
     it('undefined if no colon found', () => {
       assert.equal(undefined, colonTest('margin 0 auto'));
       assert.equal(undefined, colonTest('&:hover'));
+      assert.equal(undefined, colonTest(':global'));
+      assert.equal(undefined, colonTest(':local'));
     });
 
     it('undefined if root context', () => {
