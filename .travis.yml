@@ -1,10 +1,6 @@
 language: node_js
 node_js:
   - node
+  - 6
   - 4
-before_install: if [[ `npm -v` != 3* ]]; then npm i -g npm@3; fi
-script: npm run cover
-cache:
-  npm: true
-  directories:
-  - node_modules
+script: yarn run cover
