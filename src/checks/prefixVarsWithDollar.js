@@ -1,8 +1,8 @@
 'use strict';
 
-const dollaRe = /\$[\-_]*\w/;
+const dollaRe = /\$[-_]*\w/;
 const eqEndRe = /=$|=\s$/;
-const ignoreRe = /(\[.+\])|if|for|else|return|@require|@import|@media|@block|vendor-prefixes|calc|(=|= )$|{$/; // 3
+const ignoreRe = /(\[.+])|if|for|else|return|@require|@import|@media|@block|vendor-prefixes|calc|(=|= )$|{$/; // 3
 
 /**
  * @description Check that $ is used when declaring vars.

@@ -1,8 +1,8 @@
 'use strict';
 
-const decimalRe = /[^\d+](0+\.\d+)|[\s,\(](\.\d+)/i;
+const decimalRe = /[^\d+](0+\.\d+)|[\s,(](\.\d+)/i;
 const leadZeroRe = /[^\d+](0+\.\d+)/;
-const nonZeroRe = /[\s,\(](\.\d+)/;
+const nonZeroRe = /[\s,(](\.\d+)/;
 
 /**
  * @description Check for leading 0 on numbers (0.5).

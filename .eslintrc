@@ -10,6 +10,13 @@
     "brace-style": "off",
     // TODO: enable after getting rid of stampit (https://github.com/SimenB/stylint/issues/359)
     // Will use arrow functions then
-    "func-names": "off"
+    "func-names": "off",
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "always-multiline",
+      "functions": "never"
+    }]
   }
 }

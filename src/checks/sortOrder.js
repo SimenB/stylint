@@ -92,10 +92,9 @@ const sortOrder = function (line) {
   if (this.state.context === this.state.prevContext) {
     // compare each value individually
     this.cache.sortOrderCache.forEach((val, i) => {
-      // if any value doesn't match quit the forEach
+      // todo: short circuit if hit
       if (sortedArr[i] !== this.cache.sortOrderCache[i]) {
         sorted = false;
-        return;
       }
     });
   }
