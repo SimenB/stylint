@@ -6,6 +6,7 @@
 [![Build Status](https://travis-ci.org/SimenB/stylint.svg?branch=master)](https://travis-ci.org/SimenB/stylint)
 
 [![NPM](https://nodei.co/npm/stylint.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/stylint/)
+[![Greenkeeper badge](https://badges.greenkeeper.io/SimenB/stylint.svg)](https://greenkeeper.io/)
 
 
 [changelog](changelog.md)
