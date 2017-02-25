@@ -31,14 +31,15 @@ describe('Watch: ', () => {
     expect(app.watcher).not.toBeUndefined();
   });
 
-  it('should call ready event when fired', done => {
+  // These tests are unnecessary, right? They test chokidar
+  it.skip('should call ready event when fired', done => {
     app.watcher = chokidar.watch(app.state.path);
     app.watcher.on('ready', () => {
       done();
     });
   });
 
-  it('should call change event when file changed', done => {
+  it.skip('should call change event when file changed', done => {
     const filePath = path.resolve(__dirname, '../../test-styl/test.styl');
 
     app.watcher = chokidar.watch(filePath);
