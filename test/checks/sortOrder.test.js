@@ -15,6 +15,7 @@ describe('sort order', () => {
   beforeEach(() => {
     app.state.prevContext = 1;
     app.state.context = 1;
+    jest.spyOn(app, 'msg');
   });
 
   afterEach(() => {
@@ -92,6 +93,8 @@ describe('sort order', () => {
       expect(sortTest('border 1px solid #fff')).toEqual(false);
       expect(sortTest('color: rgba( 0, 0, 0, 1 )')).toEqual(false);
       expect(app.cache.sortOrderCache).toEqual(expectedCache);
+
+      expect(app.msg).toHaveBeenCalledWith('prefer alphabetical when sorting properties');
     });
 
     it('undefined if not checkable syntax', () => {
