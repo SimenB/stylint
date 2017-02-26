@@ -58,9 +58,7 @@ const reporter = function (report, options, kill) {
       .map(output => `${output.file}\n${output.lineData} ${output.rule} ${output.severity} ${output.message}`);
   }
 
-  formattedMessages = formattedMessages.reduce((memo, msg) => `${memo}${msg}\n\n`, '')
-    .value()
-    .trim();
+  formattedMessages = formattedMessages.join('\n\n').value();
 
   let formattedMessage = `Stylint: ${report.errorCount} Errors.`;
   formattedMessage += existingOptions.maxErrors >= 0 ? ` (Max Errors: ${existingOptions.maxErrors})` : '';
@@ -73,7 +71,7 @@ const reporter = function (report, options, kill) {
     formattedMessage += '\nStylint: Over Error or Warning Limit.';
   }
 
-  return (`${formattedMessages}\n\n${formattedMessage}`).trim();
+  return `${formattedMessages}\n\n${formattedMessage}`.trim();
 };
 
 module.exports = reporter;
