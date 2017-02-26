@@ -55,7 +55,7 @@
     "yargs": "^6.6.0"
   },
   "scripts": {
-    "cover": "jest --coverage",
+    "cover": "jest --coverage --runInBand",
     "docs": "jsdoc index.js bin/stylint.js src/ --recurse --destination docs/",
     "lint": "eslint .",
     "precover": "npm run lint",
