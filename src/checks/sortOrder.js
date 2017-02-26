@@ -59,7 +59,7 @@ const sortOrder = function (line) {
     sortedArr = sortedArr.sort();
   }
   // if not default, we can either use the grouped option
-  // or a custom sorting order, specificed by a config file
+  // or a custom sorting order, specified by a config file
   else if (this.state.conf === 'grouped' || Array.isArray(this.state.conf)) {
     // use custom ordering if specified, or fall back to in-built grouped ordering
     orderingArr = Array.isArray(this.state.conf) ? this.state.conf : ordering.grouped;

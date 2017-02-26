@@ -45,7 +45,7 @@ describe('duplicates', () => {
     app.cache.prevFile = 'file.styl';
     app.cache.file = 'file.styl';
     app.state.context = app.setContext('  .classy,'); // to set the context
-    dupeTest('  .classy,'); // prev selecto
+    dupeTest('  .classy,'); // prev selector
     expect(dupeTest('  .classy')).toEqual(false);
   });
 

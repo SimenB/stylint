@@ -22,7 +22,7 @@ describe('keyframes end', () => {
     expect(keyframesEndTest('.newClass')).toEqual(false);
   });
 
-  it('true if line doesnt have a context of zero', () => {
+  it("true if line doesn't have a context of zero", () => {
     app.state.context = 1;
     expect(keyframesEndTest('    from {')).toBeDefined();
   });

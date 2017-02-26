@@ -21,7 +21,7 @@ describe('bannedFunctions: ban use of specific key words', () => {
     app.cache.messages = [];
   });
 
-  it('false if a line doesnt have any banned functions', () => {
+  it("false if a line doesn't have any banned functions", () => {
     expect(bannedFunctions('.foo')).toEqual(false);
   });
 

@@ -2,7 +2,7 @@
 
 // check for unnecessary tabs or whitespace at eol
 const whitespaceRe = /[ \t]+$/;
-// anything BUT whitespace (we dont want to return false positives on empty lines)
+// anything BUT whitespace (we don't want to return false positives on empty lines)
 const anythingElseRe = /[^ \t]/;
 
 /**

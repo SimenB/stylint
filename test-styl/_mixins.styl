@@ -5,7 +5,7 @@
 */
 
 
-// bigger title. @TODO maybe dont need this as a mixin
+// bigger title. @TODO maybe don't need this as a mixin
 big-title()
 	font-size 24px
 	line-height 26px
@@ -44,7 +44,7 @@ flex-row()
 
 /**
  * line clamp (ellipsis) hackz for excerpts
- * in webkit we get the ellipsis, on other browsers we just dont show the text
+ * in webkit we get the ellipsis, on other browsers we just don't show the text
  * 1 old spec is needed, so we turn autoprefixer off for the block.
  */
 line-clamp( lines, $your-line-height )
@@ -124,7 +124,7 @@ sprite-position( $sprite )
  */
 transition( $prop, $length, $accelerate )
 	transition $prop $length $timing
-	// turn on hardware acceleration for stuff (dont abuse)
+	// turn on hardware acceleration for stuff (don't abuse)
 	if ( $accelerate == true )
 		-webkit-backface-visibility hidden
 		-webkit-perspective 1000px

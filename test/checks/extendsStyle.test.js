@@ -24,7 +24,7 @@ describe('extends style', () => {
       expect(extendTest('@extends $placeHolderconst')).toEqual(false);
     });
 
-    it('true if value doesnt match preferred style', () => {
+    it("true if value doesn't match preferred style", () => {
       expect(extendTest('@extend $placeHolderconst')).toBeDefined();
     });
 
@@ -42,7 +42,7 @@ describe('extends style', () => {
       expect(extendTest('@extend $placeHolderconst')).toEqual(false);
     });
 
-    it('true if value doesnt match preferred style', () => {
+    it("true if value doesn't match preferred style", () => {
       expect(extendTest('@extends $placeHolderconst')).toBeDefined();
     });
 

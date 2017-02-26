@@ -153,8 +153,8 @@ describe('naming convention', () => {
       expect(conventionTest('$varExample')).toEqual(false);
     });
 
-    it('true if custom convention doesnt match', () => {
-      app.state.conf = 'somethin';
+    it("true if custom convention doesn't match", () => {
+      app.state.conf = 'something';
       expect(conventionTest('$var_name_like_this')).toEqual(true);
     });
   });

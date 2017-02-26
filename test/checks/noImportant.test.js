@@ -16,7 +16,7 @@ describe('noImportant: disallow !important', () => {
     app.cache.messages = [];
   });
 
-  it('false if a line doesnt have !important', () => {
+  it("false if a line doesn't have !important", () => {
     expect(importantTest('.foo')).toEqual(false);
   });
 

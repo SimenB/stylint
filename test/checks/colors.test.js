@@ -19,7 +19,7 @@ describe('colors', () => {
     expect(colorsTest('#aaa')).toBeUndefined();
   });
 
-  it('false if a line doesnt have a hex color', () => {
+  it("false if a line doesn't have a hex color", () => {
     expect(colorsTest('color: red')).toEqual(false);
   });
 

@@ -187,7 +187,7 @@ user-select($select)
 
 /**
  * line clamp (ellipsis) hackz for excerpts
- * in webkit we get the ellipsis, on other browsers we just dont show the text
+ * in webkit we get the ellipsis, on other browsers we just don't show the text
  * 1 old spec is needed, so we turn autoprefixer off for the block.
  */
 line-clamp( $lines = 3, $your-line-height )
@@ -289,7 +289,7 @@ responsive-invisibility()
  */
 transition( $prop, $length = $fast, $accelerate = false )
   transition $prop $length $timing
-  // turn on hardware acceleration for stuff (dont abuse)
+  // turn on hardware acceleration for stuff (don't abuse)
   if ( $accelerate == true )
     -webkit-backface-visibility hidden
     -webkit-perspective 1000px

@@ -16,7 +16,7 @@ const watch = function () {
     console.log('Watching: ', this.state.path, ' for changes.');
   });
 
-  // listen for changes, update 'dir' to curr file, wipe all the caches, do somethin
+  // listen for changes, update 'dir' to curr file, wipe all the caches, do something
   this.watcher.on('change', this.resetOnChange.bind(this));
 };
 

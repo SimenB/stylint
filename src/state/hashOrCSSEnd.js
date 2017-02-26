@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @description Check for end ofhash or @css block
+ * @description Check for end of hash or @css block
  * @param {string} [line] - Current line being linted.
  * @returns {boolean} False if hash or css ending, true if not.
  */

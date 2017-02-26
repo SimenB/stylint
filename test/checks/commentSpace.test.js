@@ -20,7 +20,7 @@ describe('comment space', () => {
       app.state.hasComment = true;
     });
 
-    it('false if line comment doesnt have a space after it', () => {
+    it("false if line comment doesn't have a space after it", () => {
       app.cache.comment = '//test';
       expect(commentSpaceTest('', '')).toEqual(false);
     });
@@ -42,7 +42,7 @@ describe('comment space', () => {
       app.state.conf = 'never';
     });
 
-    it('false if line comment doesnt have a space after it', () => {
+    it("false if line comment doesn't have a space after it", () => {
       app.cache.comment = '//test';
       expect(commentSpaceTest('', '')).toEqual(false);
     });

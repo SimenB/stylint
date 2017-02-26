@@ -72,11 +72,11 @@ function recurseDirectories(files, level, cwd) {
  * 2: user passes location of .stylintrc file to use via cli
  * 3: user has options obj in package.json or path to
  * 4: none of the above, fallback to initial config
- * 5: user has a .stylintrc file in a dir but doesnt pass anything
- * @param {string} [configpath] - If defined, the path to a config-file to read.
+ * 5: user has a .stylintrc file in a dir but doesn't pass anything
+ * @param {string} [configPath] - If defined, the path to a config-file to read.
  * @returns {Function} Kick off linter again.
  */
-const setConfig = function (configpath) {
+const setConfig = function (configPath) {
   let files = [];
   let customPath = '';
   // return default config if nothing passed in or found
@@ -100,8 +100,8 @@ const setConfig = function (configpath) {
   }
   // if 2, we pass in a path to the config
   // this only occurs if using stylint via the command line
-  else if (configpath) {
-    customPath = pathIsAbsolute(configpath) ? configpath : `${cwd}/${configpath}`;
+  else if (configPath) {
+    customPath = pathIsAbsolute(configPath) ? configPath : `${cwd}/${configPath}`;
     try {
       returnConfig = parseConfig(customPath);
     }

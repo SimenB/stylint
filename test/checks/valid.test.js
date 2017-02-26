@@ -78,7 +78,7 @@ describe('valid property', () => {
     expect(validTest('width calc(100% - 16px)')).toBeDefined();
   });
 
-  it('true if transparent mixin (thats been declared)', () => {
+  it("true if transparent mixin (that's been declared)", () => {
     app.cache.customProperties = ['test-mixin', 'mixin', 'multiplyBy'];
 
     expect(validTest('test-mixin: $val')).toBeDefined();

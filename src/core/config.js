@@ -19,7 +19,7 @@ const config = {
   commentSpace: 'always',
   // if never disallow css literals
   cssLiteral: 'never',
-  // set a maximum selector depth (dont nest more than 4 deep)
+  // set a maximum selector depth (don't nest more than 4 deep)
   depthLimit: false,
   // check if properties or selectors are duplicate
   duplicates: true,
@@ -50,7 +50,7 @@ const config = {
   maxWarnings: false,
   // check for mixed spaces and tabs
   mixed: false,
-  // lowercase-dash, camelCase, lowercase_underscore, BEM or false (dont check)
+  // lowercase-dash, camelCase, lowercase_underscore, BEM or false (don't check)
   namingConvention: false,
   // if true, then check classes and ids, if false just check variables
   namingConventionStrict: false,
@@ -62,7 +62,7 @@ const config = {
   parenSpace: false,
   // only allow @extending of placeholder vars
   placeholders: 'always',
-  // check for $ when declaring vars (doesnt check use)
+  // check for $ when declaring vars (doesn't check use)
   prefixVarsWithDollar: 'always',
   // single or double quotes, or false to not check
   quotePref: false,

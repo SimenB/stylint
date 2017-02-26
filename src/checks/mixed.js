@@ -23,7 +23,7 @@ const mixed = function (line, source) {
   const hasTabs = tabs.exec(trimRight);
   const hasSpaces = spaces.exec(trimRight);
 
-  // if this isnt set to false then we're indenting with spaces,
+  // if this isn't set to false then we're indenting with spaces,
   // so check against tabs
   if (isNum) {
     if (hasTabs) {

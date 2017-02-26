@@ -25,7 +25,7 @@ describe('keyframes start', () => {
     expect(keyframesStartTest('@-webkit-keyframes {')).toBeDefined();
   });
 
-  it('false if line isnt a start of @keyframes', () => {
+  it("false if line isn't a start of @keyframes", () => {
     expect(keyframesStartTest('margin 0')).toEqual(false);
   });
 

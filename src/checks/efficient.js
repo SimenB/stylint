@@ -8,7 +8,7 @@ const valueRe = /(margin|padding)+[:| ]/;
  * @returns {boolean} True if efficient, false if not.
  */
 const efficient = function (line) {
-  // line doesnt have margin or padding then there's nothin to do here
+  // line doesn't have margin or padding then there's nothing to do here
   if (!valueRe.test(line)) {
     return;
   }
