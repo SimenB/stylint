@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Lint Text:  should return object with violations 1`] = `
+Object {
+  "errorCount": 0,
+  "results": Array [
+    Object {
+      "errorCount": 0,
+      "filePath": "filename.styl",
+      "messages": Array [
+        Object {
+          "column": 13,
+          "line": 2,
+          "message": "!important is disallowed",
+          "ruleId": "noImportant",
+          "severity": "warning",
+          "source": "  color: red !important",
+        },
+        Object {
+          "column": 23,
+          "line": 2,
+          "message": "missing semicolon",
+          "ruleId": "semicolons",
+          "severity": "warning",
+          "source": "  color: red !important",
+        },
+      ],
+      "warningCount": 2,
+    },
+  ],
+  "warningCount": 2,
+}
+`;

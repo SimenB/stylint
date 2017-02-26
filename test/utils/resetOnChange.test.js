@@ -19,28 +19,28 @@ describe('Reset (after change)', () => {
 
   it('reset on change should change dir to curr file', () => {
     resetTest('../../styl/_ads.styl');
-    expect(app.state.path === '../../styl/_ads.styl').toBeDefined();
+    expect(app.state.path).toEqual('../../styl/_ads.styl');
   });
 
   it('reset should reset all caches', () => {
     resetTest('../../styl/_ads.styl');
-    expect(Object.keys(app.cache.sCache).length === 0 &&
-      app.cache.alphaCache.length === 0 &&
-      app.cache.rootCache.length === 0 &&
-      app.cache.prevLine.length === 0 &&
-      app.cache.prevFile.length === 0 &&
-      app.cache.prevContext === 0 &&
-      app.cache.zCache.length === 0).toBeDefined();
+    expect(Object.keys(app.cache.sCache)).toHaveLength(0);
+    expect(app.cache.alphaCache).toHaveLength(0);
+    expect(app.cache.rootCache).toHaveLength(0);
+    expect(app.cache.prevLine).toHaveLength(0);
+    expect(app.cache.prevFile).toHaveLength(0);
+    expect(app.cache.zCache).toHaveLength(0);
+    expect(app.cache.prevContext).toEqual(0);
   });
 
   it('reset should set prevLine and prevFile to empty strings', () => {
     resetTest('../../styl/_ads.styl');
-    expect(app.cache.prevLine === '' &&
-      app.cache.prevFile === '').toBeDefined();
+    expect(app.cache.prevLine).toEqual('');
+    expect(app.cache.prevFile).toEqual('');
   });
 
   it('reset should set prevContext to 0', () => {
     resetTest('../../styl/_ads.styl');
-    expect(app.cache.prevContext === 0).toBeDefined();
+    expect(app.cache.prevContext).toEqual(0);
   });
 });

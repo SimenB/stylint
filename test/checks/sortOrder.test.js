@@ -32,9 +32,9 @@ describe('sort order', () => {
     app.state.prevContext = 0;
     app.state.context = 1;
 
-    expect(app.cache.sortOrderCache.length).toEqual(3);
+    expect(app.cache.sortOrderCache).toHaveLength(3);
     sortTest('margin 0');
-    expect(app.cache.sortOrderCache.length).toEqual(1);
+    expect(app.cache.sortOrderCache).toHaveLength(1);
   });
 
   describe('disabled', () => {
@@ -50,7 +50,6 @@ describe('sort order', () => {
       expect(sortTest('  z-index')).toBeDefined();
       expect(sortTest('  border')).toBeDefined();
       expect(sortTest('  width')).toBeDefined();
-      expect(app.cache.sortOrderCache.length).toEqual(expectedCache.length);
       expect(app.cache.sortOrderCache).toEqual(expectedCache);
     });
   });
@@ -69,10 +68,9 @@ describe('sort order', () => {
       const expectedCache = ['border', 'margin', 'padding', 'position', 'z-index'];
 
       expect(app.state.conf).toEqual('alphabetical');
-      expect(app.cache.sortOrderCache.length).toEqual(3);
+      expect(app.cache.sortOrderCache).toHaveLength(3);
       expect(sortTest('  position absolute')).toBeDefined();
       expect(sortTest('  z-index 1')).toBeDefined();
-      expect(app.cache.sortOrderCache.length).toEqual(expectedCache.length);
       expect(app.cache.sortOrderCache).toEqual(expectedCache);
     });
 
@@ -88,18 +86,17 @@ describe('sort order', () => {
       ];
 
       expect(app.state.conf).toEqual('alphabetical');
-      expect(app.cache.sortOrderCache.length).toEqual(3);
+      expect(app.cache.sortOrderCache).toHaveLength(3);
       expect(sortTest('  line-height 1')).toEqual(false);
       expect(sortTest('  background none')).toEqual(false);
       expect(sortTest('border 1px solid #fff')).toEqual(false);
       expect(sortTest('color: rgba( 0, 0, 0, 1 )')).toEqual(false);
-      expect(app.cache.sortOrderCache.length).toEqual(expectedCache.length);
       expect(app.cache.sortOrderCache).toEqual(expectedCache);
     });
 
     it('undefined if not checkable syntax', () => {
       expect(app.state.conf).toEqual('alphabetical');
-      expect(app.cache.sortOrderCache.length).toEqual(3);
+      expect(app.cache.sortOrderCache).toHaveLength(3);
       expect(sortTest('mixin()')).toBeUndefined();
       expect(sortTest('$var-name')).toBeUndefined();
       expect(sortTest('.class-name')).toBeUndefined();
@@ -127,9 +124,8 @@ describe('sort order', () => {
       const expectedCache = ['position', 'right', 'top'];
 
       expect(app.state.conf).toEqual('grouped');
-      expect(app.cache.sortOrderCache.length).toEqual(2);
+      expect(app.cache.sortOrderCache).toHaveLength(2);
       expect(sortTest('top 0')).toEqual(false);
-      expect(app.cache.sortOrderCache.length).toEqual(expectedCache.length);
       expect(app.cache.sortOrderCache).toEqual(expectedCache);
     });
 
@@ -137,11 +133,10 @@ describe('sort order', () => {
       const expectedCache = ['position', 'right', 'bottom', 'z-index', 'width'];
 
       expect(app.state.conf).toEqual('grouped');
-      expect(app.cache.sortOrderCache.length).toEqual(2);
+      expect(app.cache.sortOrderCache).toHaveLength(2);
       expect(sortTest('bottom 0')).toBeDefined();
       expect(sortTest('z-index 1')).toBeDefined();
       expect(sortTest('width 50%')).toBeDefined();
-      expect(app.cache.sortOrderCache.length).toEqual(expectedCache.length);
       expect(app.cache.sortOrderCache).toEqual(expectedCache);
     });
   });
@@ -160,10 +155,9 @@ describe('sort order', () => {
       const expectedCache = ['z-index', 'top', 'animation'];
 
       expect(app.state.conf).toEqual(['z-index', 'animation', 'top']);
-      expect(app.cache.sortOrderCache.length).toEqual(1);
+      expect(app.cache.sortOrderCache).toHaveLength(1);
       expect(sortTest('top 50px')).toBeDefined();
       expect(sortTest('animation fade-out')).toEqual(false);
-      expect(app.cache.sortOrderCache.length).toEqual(expectedCache.length);
       expect(app.cache.sortOrderCache).toEqual(expectedCache);
     });
 
@@ -171,12 +165,11 @@ describe('sort order', () => {
       const expectedCache = ['z-index', 'animation', 'top', 'width', 'border'];
 
       expect(app.state.conf).toEqual(['z-index', 'animation', 'top']);
-      expect(app.cache.sortOrderCache.length).toEqual(1);
+      expect(app.cache.sortOrderCache).toHaveLength(1);
       expect(sortTest('animation fade-in')).toBeDefined();
       expect(sortTest('top 0')).toBeDefined();
       expect(sortTest('width 50%')).toBeDefined();
       expect(sortTest('border 0')).toBeDefined();
-      expect(app.cache.sortOrderCache.length).toEqual(expectedCache.length);
       expect(app.cache.sortOrderCache).toEqual(expectedCache);
     });
   });
