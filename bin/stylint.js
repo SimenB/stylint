@@ -34,15 +34,18 @@ const options = yargs
   .alias('help', 'h')
   .alias('help', '?')
   .example('$0 directory', 'Run Stylint on all .styl-files in "directory"')
-  .epilogue('GPL-3.0 License')
-  .argv;
+  .epilogue('GPL-3.0 License').argv;
 
-const stylintInstance = stylint().create({}, {
-  watch: options.watch,
-  config: options.config,
-  strict: options.strict,
-  reporter: options.reporter,
-}, options._.length > 1 ? options._ : options._[0]);
+const stylintInstance = stylint().create(
+  {},
+  {
+    watch: options.watch,
+    config: options.config,
+    strict: options.strict,
+    reporter: options.reporter,
+  },
+  options._.length > 1 ? options._ : options._[0]
+);
 
 // to allow instantiation without doing anything, manually call read
 if (!options.watch) {

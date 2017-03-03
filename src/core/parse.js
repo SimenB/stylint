@@ -11,7 +11,7 @@ const lineEndingsRe = /\r\n|\n|\r/gm;
  * @param {boolean} [skipDone] - If true, don't call done.
  * @returns {Object} The result object from the run.
  */
-const parse = function (err, res, skipDone) {
+const parse = function(err, res, skipDone) {
   if (err) {
     throw new Error(err);
   }
@@ -22,8 +22,9 @@ const parse = function (err, res, skipDone) {
 
     // strip out block comments, but don't destroy line history
     // to do these we replace block comments with new lines
-    const lines = file.toString()
-      .replace(cleanFileRe, str => (new Array(str.split(lineEndingsRe).length)).join('\n')) // WHERE IS YOUR GOD NOW
+    const lines = file
+      .toString()
+      .replace(cleanFileRe, str => new Array(str.split(lineEndingsRe).length).join('\n')) // WHERE IS YOUR GOD NOW
       .split('\n');
 
     // updating cache as we go, and passing to the next step

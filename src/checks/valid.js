@@ -39,12 +39,15 @@ module.exports = function valid(line) {
   // 2 classname, varname, id, or syntax.
   // 3 if the selector only consists of an attr or mixin (which can be custom)
   // 4 if it's a number
-  if (this.state.hashOrCSS || // 1
+  if (
+    this.state.hashOrCSS || // 1
     this.state.root || // 1
     interpolatedRe.test(this.cache.source) ||
     ignoreRe.test(line.trim()) || // 2
     attrOrMixinRe.test(line) || // 3
-    numRe.test(arr[0])) { // 3
+    numRe.test(arr[0])
+  ) {
+    // 3
     isValid = true;
   }
 

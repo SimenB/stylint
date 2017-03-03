@@ -7,7 +7,7 @@ const valueRe = /(margin|padding)+[:| ]/;
  * @param {string} [line] - Current line being linted.
  * @returns {boolean} True if efficient, false if not.
  */
-const efficient = function (line) {
+const efficient = function(line) {
   // line doesn't have margin or padding then there's nothing to do here
   if (!valueRe.test(line)) {
     return;
@@ -25,17 +25,14 @@ const efficient = function (line) {
       if (arr[1] === arr[2]) {
         isEfficient = false;
       }
-    }
-    // ex margin 0 5px 10px
-    else if (arr.length === 4 && arr[1] === arr[3]) {
+    } else if (arr.length === 4 && arr[1] === arr[3]) {
+      // ex margin 0 5px 10px
       // ex margin 0 5px 0
       isEfficient = false;
-    }
-    // ex margin 0 50px 10px 7px
-    else if (arr.length === 5) {
+    } else if (arr.length === 5) {
+      // ex margin 0 50px 10px 7px
       // ex margin 0 5px 0 5px or
-      if ((arr[1] === arr[3] && arr[2] === arr[4]) ||
-        (arr[1] !== arr[3] && arr[2] === arr[4])) {
+      if ((arr[1] === arr[3] && arr[2] === arr[4]) || (arr[1] !== arr[3] && arr[2] === arr[4])) {
         isEfficient = false;
       }
     }
@@ -45,8 +42,7 @@ const efficient = function (line) {
 
   if (this.state.conf === 'never' && isEfficient === true) {
     this.msg('the value on this line is too succinct', index);
-  }
-  else if (this.state.conf === 'always' && isEfficient === false) {
+  } else if (this.state.conf === 'always' && isEfficient === false) {
     this.msg('the value on this line could be more succinct', index);
   }
 

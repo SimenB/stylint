@@ -8,7 +8,7 @@ const commentRe = /\/\/ /;
  * @param {string} [source] - Current line before being stripped.
  * @returns {boolean} True if comment found, false if not.
  */
-const commentSpace = function (line, source) {
+const commentSpace = function(line, source) {
   if (!this.state.hasComment) {
     return;
   }
@@ -27,8 +27,7 @@ const commentSpace = function (line, source) {
 
   if (this.state.conf === 'always' && spaceAfterComment === false && !emptyComment) {
     this.msg('line comments require a space after //', index);
-  }
-  else if (this.state.conf === 'never' && spaceAfterComment === true) {
+  } else if (this.state.conf === 'never' && spaceAfterComment === true) {
     this.msg('spaces after line comments disallowed', index);
   }
 

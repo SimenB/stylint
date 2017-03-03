@@ -7,7 +7,7 @@
  * @param {string} [filename] - The name of the file.
  * @returns {Object} An object containing the complete report from linting.
  */
-const lintString = function (string, config, filename) {
+const lintString = function(string, config, filename) {
   // reset stuff
   this.resetOnChange();
 

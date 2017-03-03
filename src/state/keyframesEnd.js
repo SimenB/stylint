@@ -4,7 +4,7 @@
  * @description Check for keyframes end.
  * @returns {boolean} False if keyframes ending, true if not.
  */
-const keyframesEnd = function () {
+const keyframesEnd = function() {
   if (!this.state.keyframes) {
     return;
   }

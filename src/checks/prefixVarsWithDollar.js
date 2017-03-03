@@ -9,7 +9,7 @@ const ignoreRe = /(\[.+])|if|for|else|return|@require|@import|@media|@block|vend
  * @param  {string} [line] - Current line being linted.
  * @returns {boolean} True if in order, false if not.
  */
-const prefixVarsWithDollar = function (line) {
+const prefixVarsWithDollar = function(line) {
   if (this.state.hashOrCSS || ignoreRe.test(line)) {
     return;
   }
@@ -19,22 +19,19 @@ const prefixVarsWithDollar = function (line) {
   // if line has a mixin, we need check each param for missing $
   // else we just check if = is present && $ is prefixing something
   if (this.state.conf === 'always') {
-    if (line.indexOf('=') !== -1 &&
-      line.indexOf('@block') === -1 && !eqEndRe.test(line)) {
+    if (line.indexOf('=') !== -1 && line.indexOf('@block') === -1 && !eqEndRe.test(line)) {
       if (!dollaRe.test(line)) {
         hasDolla = false;
       }
     }
-  }
-  // the never check is easier, since any $ means it fails
-  else if (this.state.conf === 'never' && !dollaRe.test(line)) {
+  } else if (this.state.conf === 'never' && !dollaRe.test(line)) {
+    // the never check is easier, since any $ means it fails
     hasDolla = false;
   }
 
   if (this.state.conf === 'always' && hasDolla === false) {
     this.msg('variables and parameters must be prefixed with the $ sign', 0);
-  }
-  else if (this.state.conf === 'never' && hasDolla === true) {
+  } else if (this.state.conf === 'never' && hasDolla === true) {
     this.msg('$ sign is disallowed for variables and parameters', 0);
   }
 

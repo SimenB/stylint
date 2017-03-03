@@ -10,7 +10,7 @@ const ignoreRe = /( ^[&$=#>.]|\.[a-zA-Z]|#[a-zA-Z]| \+ | , | = | ~ | > | &| {|}|
  * @param {string} [line] - Current line being linted.
  * @returns {boolean} True if colon found, false if not.
  */
-const colons = function (line) {
+const colons = function(line) {
   if (ignoreRe.test(line) || this.state.context === 0) {
     return;
   }
@@ -20,16 +20,10 @@ const colons = function (line) {
   let hasScope = false;
   const arr = this.splitAndStrip(new RegExp(/\s/), line);
 
-  if (this.state.conf === 'always' &&
-    arr.length > 1 &&
-    arr[0].indexOf(':') === -1 &&
-    arr[0].indexOf(',') === -1) {
+  if (this.state.conf === 'always' && arr.length > 1 && arr[0].indexOf(':') === -1 && arr[0].indexOf(',') === -1) {
     colon = false;
-  }
-  // : is allowed in hashes
-  else if (!this.state.hash &&
-    this.state.conf === 'never' &&
-    line.indexOf(':') !== -1) {
+  } else if (!this.state.hash && this.state.conf === 'never' && line.indexOf(':') !== -1) {
+    // : is allowed in hashes
     // check for pseudo selector
     hasPseudo = validJSON.pseudo.some(val => line.indexOf(val) !== -1);
 
@@ -43,8 +37,7 @@ const colons = function (line) {
 
   if (this.state.conf === 'always' && colon === false) {
     this.msg('missing colon between property and value', arr[0].length);
-  }
-  else if (this.state.conf === 'never' && colon === true) {
+  } else if (this.state.conf === 'never' && colon === true) {
     this.msg('unnecessary colon found', line.indexOf(':'));
   }
 

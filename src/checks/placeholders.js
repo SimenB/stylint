@@ -7,7 +7,7 @@ const extendRe = /(@extend)+s?\s/;
  * @param {string} [line] - Current line being linted.
  * @returns {boolean} True if placeholder used, false if not.
  */
-const placeholders = function (line) {
+const placeholders = function(line) {
   if (line.indexOf('@extend') === -1) {
     return;
   }
@@ -26,8 +26,7 @@ const placeholders = function (line) {
 
   if (this.state.conf === 'always' && placeholder === false) {
     this.msg('always use a placeholder variable when extending');
-  }
-  else if (this.state.conf === 'never' && placeholder === true) {
+  } else if (this.state.conf === 'never' && placeholder === true) {
     this.msg('placeholder variables are disallowed');
   }
 

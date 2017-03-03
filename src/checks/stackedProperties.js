@@ -8,7 +8,7 @@ const semiTest = /;+(?!$)/gm;
  * @param  {string} [line] - Current line being linted.
  * @returns {boolean} True if one-liner found, false if not.
  */
-const stackedProperties = function (line) {
+const stackedProperties = function(line) {
   let oneLiner = false;
   const trimmedLine = line.replace(/(( '.*')|( ".*")|('.*')|(".*"))+;*/, '').trim();
   const arr = this.splitAndStrip(';', trimmedLine);

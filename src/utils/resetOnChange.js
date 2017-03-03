@@ -6,7 +6,7 @@
  * @returns {Function} kick off linter again
 */
 // eslint-disable-next-line consistent-return
-const resetOnChange = function (newPath) {
+const resetOnChange = function(newPath) {
   this.state.path = newPath || this.state.path;
   this.cache.alphaCache = [];
   this.cache.rootCache = [];

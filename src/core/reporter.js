@@ -11,48 +11,45 @@ const columnify = require('columnify');
  * @param  {boolean} [kill] - Whether or not we're over one of our limits.
  * @returns {string} The formatted message.
  */
-const reporter = function (report, options, kill) {
+const reporter = function(report, options, kill) {
   if (report.results.length === 0) {
     return '';
   }
 
   const existingOptions = options || {};
-  let formattedMessages = _.chain(report.results)
-    .map(result => {
-      const newResult = result;
-      const file = chalk.underline(result.filePath);
+  let formattedMessages = _.chain(report.results).map(result => {
+    const newResult = result;
+    const file = chalk.underline(result.filePath);
 
-      newResult.messages = result.messages.map(msg => {
-        const column = typeof msg.column === 'number' && msg.column > 0 ? msg.column : null;
-        const lineData = column ? `${msg.line}:${column}` : msg.line;
+    newResult.messages = result.messages.map(msg => {
+      const column = typeof msg.column === 'number' && msg.column > 0 ? msg.column : null;
+      const lineData = column ? `${msg.line}:${column}` : msg.line;
 
-        let severity = msg.severity;
-        severity = severity === 'warning' ?
-          chalk.yellow(severity) :
-          chalk.red(severity);
+      let severity = msg.severity;
+      severity = severity === 'warning' ? chalk.yellow(severity) : chalk.red(severity);
 
-        const rule = chalk.grey(msg.ruleId);
+      const rule = chalk.grey(msg.ruleId);
 
-        return {
-          file,
-          lineData,
-          severity,
-          message: msg.message,
-          rule,
-        };
-      });
-
-      return newResult;
+      return {
+        file,
+        lineData,
+        severity,
+        message: msg.message,
+        rule,
+      };
     });
+
+    return newResult;
+  });
 
   if (existingOptions.groupOutputByFile) {
     // iterate over arrays of message objects
     // each array consists of all the errors and warnings for a file
     // columnify the errors/warnings and prefix them with the file name
-    formattedMessages = formattedMessages
-      .map(results => `${results.filePath}\n${columnify(results.messages, existingOptions.reporterOptions)}`);
-  }
-  else {
+    formattedMessages = formattedMessages.map(
+      results => `${results.filePath}\n${columnify(results.messages, existingOptions.reporterOptions)}`
+    );
+  } else {
     formattedMessages = formattedMessages
       .flatMap('messages')
       .map(output => `${output.file}\n${output.lineData} ${output.rule} ${output.severity} ${output.message}`);

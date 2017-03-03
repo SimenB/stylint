@@ -6,7 +6,7 @@ const chokidar = require('chokidar');
  * @description Kicks off the app. sets up config and kicks off reading the files.
  * @returns {Function} Kick off linter on each change.
  */
-const watch = function () {
+const watch = function() {
   this.watcher = chokidar.watch(this.state.path);
 
   // initial watch msg

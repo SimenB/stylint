@@ -10,7 +10,7 @@ const path = require('path');
  * @param {string} [dir] - Directory of files to glob.
  * @returns {Array} Returns an array of files.
  */
-const getFiles = function (dir) {
+const getFiles = function(dir) {
   if (typeof dir !== 'string' && !(dir instanceof Array)) {
     throw new TypeError(`getFiles err. Expected string or array, but received: ${typeof dir}`);
   }
@@ -38,15 +38,18 @@ const getFiles = function (dir) {
       return async.map(this.cache.files, fs.readFile, this.parse.bind(this));
     });
   } else if (dir instanceof Array) {
-    const files = dir.filter(function (filepath) {
-      let excluded = false;
+    const files = dir.filter(
+      function(filepath) {
+        let excluded = false;
 
-      this.config.exclude.forEach(exclude => {
-        excluded = excluded || exclude.match(filepath);
-      });
+        this.config.exclude.forEach(exclude => {
+          excluded = excluded || exclude.match(filepath);
+        });
 
-      return !excluded;
-    }, this);
+        return !excluded;
+      },
+      this
+    );
 
     this.cache.filesLen = files.length - 1;
     this.cache.files = files;

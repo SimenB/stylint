@@ -68,4 +68,3 @@ describe('Init should: ', () => {
     app.init.getCall(0).returned(sinon.match.same(app.read));
   });
 });
-

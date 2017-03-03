@@ -9,13 +9,11 @@ const relativeValRe = /line-height|font-size|font-weight/;
  * @param {string} [line] - Current line being linted.
  * @returns {boolean | undefined} True if has units, else false, undefined if skipped.
  */
-const zeroUnits = function (line) {
+const zeroUnits = function(line) {
   // if in keyframes don't check
   // if no 0 on line don't check
   // if relative values like font-weight, don't check
-  if (this.state.keyframes ||
-    line.indexOf('0') === -1 ||
-    relativeValRe.test(line)) {
+  if (this.state.keyframes || line.indexOf('0') === -1 || relativeValRe.test(line)) {
     return;
   }
 
@@ -28,17 +26,15 @@ const zeroUnits = function (line) {
   // if config set to never and 0 is followed by any unit
   if (never && hasUnit) {
     isCorrect = false;
-  }
-  // if config set to always, we need to do an extra check
-  // to avoid throwing false positions on numbers like 50px
-  else if (always && (!hasUnit && !aboveZero)) {
+  } else if (always && (!hasUnit && !aboveZero)) {
+    // if config set to always, we need to do an extra check
+    // to avoid throwing false positions on numbers like 50px
     isCorrect = false;
   }
 
   if (never && isCorrect === false) {
     this.msg('0 is preferred. Unit value is unnecessary', hasUnit.index);
-  }
-  else if (always && isCorrect === false) {
+  } else if (always && isCorrect === false) {
     this.msg('Including the unit value is preferred');
   }
 

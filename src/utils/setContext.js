@@ -5,7 +5,7 @@
  * @param {string} [line] - Curr line being linted.
  * @returns {number} Number of indents deep we are.
  */
-const setContext = function (line) {
+const setContext = function(line) {
   let context = 0;
   let indentPref = this.config.indentPref.expect || this.config.indentPref;
 
@@ -17,9 +17,8 @@ const setContext = function (line) {
   // get context if tabs
   if (line.charAt(0) === '\t') {
     context = /^\t+/.exec(line)[0].length;
-  }
-  // get context if spaces
-  else if (line.charAt(0) === ' ') {
+  } else if (line.charAt(0) === ' ') {
+    // get context if spaces
     // set default if no indentPref set
     if (typeof indentPref !== 'number') {
       indentPref = 2;

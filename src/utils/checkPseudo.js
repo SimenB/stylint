@@ -8,7 +8,7 @@
  * @returns {boolean} True if at least one match found, false if not.
  */
 // TODO: Merge with `checkPrefix`
-const checkPseudo = function (prop, html, valid) {
+const checkPseudo = function(prop, html, valid) {
   return valid.pseudo.some(pseudo => prop === html + pseudo);
 };
 

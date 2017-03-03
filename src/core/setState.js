@@ -11,7 +11,7 @@ const emptyLineRe = /\S/;
  * @param {string} [line] - Current line being linted.
  * @returns {Function | undefined} Undefined if we catch something, else lint().
  */
-const setState = function (line) {
+const setState = function(line) {
   this.state.context = this.setContext(this.cache.line);
 
   // ignore the current line if @stylint ignore
@@ -20,27 +20,23 @@ const setState = function (line) {
   }
 
   // if @stylint on / off commands found in the code
-  if (this.stylintOn(this.cache.source) ||
-    this.stylintOff(this.cache.source) === false) {
+  if (this.stylintOn(this.cache.source) || this.stylintOff(this.cache.source) === false) {
     return;
   }
 
   // if hash starting / ending, set state and return early
-  if (this.hashOrCSSStart(line) ||
-    this.hashOrCSSEnd(line) === false) {
+  if (this.hashOrCSSStart(line) || this.hashOrCSSEnd(line) === false) {
     return;
   }
 
   // if starting / ending keyframes
-  if (this.keyframesStart(line) ||
-    this.keyframesEnd(line) === false) {
+  if (this.keyframesStart(line) || this.keyframesEnd(line) === false) {
     return;
   }
 
   // if starting / ending css4 :root
   // we'll need to capture custom properties
-  if (this.rootStart(line) ||
-    this.rootEnd(line) === false) {
+  if (this.rootStart(line) || this.rootEnd(line) === false) {
     return;
   }
 

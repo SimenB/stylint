@@ -7,7 +7,7 @@ const keyframeRe = /@(?:-(?:[\w\d]+-)*)?keyframes/;
  * @param {string} [line] - Current line being linted.
  * @returns {boolean} True if keyframes starting, false if not.
  */
-const keyframesStart = function (line) {
+const keyframesStart = function(line) {
   if (this.state.keyframes || !this.state.testsEnabled) {
     return;
   }

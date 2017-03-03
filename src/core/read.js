@@ -10,7 +10,7 @@ const async = require('async');
  * @param {string} [filepath] - Option for manually passing in a filename.
  * @returns {Function} Parse function.
  */
-const read = function (filepath) {
+const read = function(filepath) {
   // if user passes in a glob, we forEach over them
   // and pass it into read() as filepath
   const path = filepath || this.state.path;
@@ -34,16 +34,14 @@ const read = function (filepath) {
     }
 
     // if this path matches any regex in the excludes array, we ignore
-    const isExcludes = function (pathToCheck) {
-      return this.state.exclude.some(exclude => {
-        if (typeof exclude !== 'string') return false;
-        const excludeRegExp = new RegExp(exclude, 'm');
-        return excludeRegExp.test(pathToCheck);
-      });
-    }.bind(this);
+    const isExcluded = this.state.exclude.some(exclude => {
+      if (typeof exclude !== 'string') return false;
+      const excludeRegExp = new RegExp(exclude, 'm');
+      return excludeRegExp.test(path);
+    });
 
     // you shall not pass
-    if (isExcludes(path)) return;
+    if (isExcluded) return;
 
     if (stats.isFile()) {
       this.cache.filesLen = 1;

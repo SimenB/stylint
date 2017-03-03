@@ -33,11 +33,12 @@
   "bin": "./bin/stylint.js",
   "devDependencies": {
     "eslint": "^3.8.0",
-    "eslint-config-simenb-base": "^10.0.0",
+    "eslint-config-simenb-base": "^12.0.0",
     "eslint-config-simenb-jsdoc": "^3.0.4",
     "eslint-config-simenb-node": "^0.4.2",
     "jest": "^19.0.2",
     "jsdoc": "^3.4.2",
+    "prettier": "^0.20.0",
     "sinon": "^1.17.4",
     "touch": "^1.0.0"
   },

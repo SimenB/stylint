@@ -6,15 +6,14 @@ function shouldExit1(maxErrors, maxWarnings, errorCount, warningCount) {
     return true;
   }
 
-  return (maxErrors >= 0 && errorCount > maxErrors) ||
-    (maxWarnings >= 0 && warningCount > maxWarnings);
+  return (maxErrors >= 0 && errorCount > maxErrors) || (maxWarnings >= 0 && warningCount > maxWarnings);
 }
 
 /**
  * @description Outputs our messages, wipes errs/warnings if watching.
  * @returns {Object | Function} Returns process exit if not watching, or obj otherwise.
  */
-const done = function () {
+const done = function() {
   const maxErrors = typeof this.config.maxErrors === 'number' ? this.config.maxErrors : -1;
   const maxWarnings = typeof this.config.maxWarnings === 'number' ? this.config.maxWarnings : -1;
   const report = this.cache.report;
@@ -24,12 +23,16 @@ const done = function () {
   const shouldKill = shouldExit1(maxErrors, maxWarnings, errorCount, warningCount);
 
   this.state.exitCode = shouldKill ? 1 : 0;
-  const message = this.reporter(report, {
-    maxErrors,
-    maxWarnings,
-    groupOutputByFile: this.config.groupOutputByFile,
-    reporterOptions: this.config.reporterOptions,
-  }, shouldKill);
+  const message = this.reporter(
+    report,
+    {
+      maxErrors,
+      maxWarnings,
+      groupOutputByFile: this.config.groupOutputByFile,
+      reporterOptions: this.config.reporterOptions,
+    },
+    shouldKill
+  );
 
   // TODO: This is stupid, just mock out `console.log` or something
   if (!this.state.quiet && message) {

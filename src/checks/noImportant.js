@@ -5,7 +5,7 @@
  * @param {string} [line] - Current line being linted.
  * @returns {boolean} True if !important used, false if not.
  */
-const noImportant = function (line) {
+const noImportant = function(line) {
   let important = false;
   const index = line.indexOf('!important');
 

@@ -13,7 +13,7 @@ const trimRightRe = /( |\t)+(\/\/)+.+$/gm;
  * @param {string} [source] - Current line before being stripped.
  * @returns {boolean} True if mixed, false if not.
  */
-const mixed = function (line, source) {
+const mixed = function(line, source) {
   const trimRight = source.replace(trimRightRe, '');
   let isMixed = false;
   const indentPref = this.config.indentPref.expect || this.config.indentPref;
@@ -29,10 +29,9 @@ const mixed = function (line, source) {
     if (hasTabs) {
       isMixed = true;
     }
-  }
-  // else you're a hard tab believer (go you)
-  // look for 2 or more spaces
-  else if (hasSpaces) {
+  } else if (hasSpaces) {
+    // else you're a hard tab believer (go you)
+    // look for 2 or more spaces
     isMixed = true;
   }
 

@@ -9,7 +9,7 @@ const ordering = require('../data/ordering.json');
  * @param  {string} [line] - Current line being linted.
  * @returns {boolean} True if in order, false if not.
  */
-const sortOrder = function (line) {
+const sortOrder = function(line) {
   // we don't alphabetize the root yet
   if (this.state.context === 0 || this.state.hash) {
     this.cache.sortOrderCache = [];
@@ -23,9 +23,7 @@ const sortOrder = function (line) {
    * 4 assume sorted by default
    * 5 alphabetical by default, if custom array we output a shorter msg
    */
-  const arr = this.splitAndStrip(
-    new RegExp(/[\s\t,:]/), line.replace(/(\(.+\))/, '')
-  ); // 1
+  const arr = this.splitAndStrip(new RegExp(/[\s\t,:]/), line.replace(/(\(.+\))/, '')); // 1
   let sortedArr = []; // 2
   let orderingArr = []; // 3
   let sorted = true; // 4
@@ -57,10 +55,9 @@ const sortOrder = function (line) {
   // and then sort it (by default alphabetically)
   if (this.state.conf === 'alphabetical') {
     sortedArr = sortedArr.sort();
-  }
-  // if not default, we can either use the grouped option
-  // or a custom sorting order, specified by a config file
-  else if (this.state.conf === 'grouped' || Array.isArray(this.state.conf)) {
+  } else if (this.state.conf === 'grouped' || Array.isArray(this.state.conf)) {
+    // if not default, we can either use the grouped option
+    // or a custom sorting order, specified by a config file
     // use custom ordering if specified, or fall back to in-built grouped ordering
     orderingArr = Array.isArray(this.state.conf) ? this.state.conf : ordering.grouped;
 
@@ -77,9 +74,8 @@ const sortOrder = function (line) {
       // -1 if our 'sorted (not yet sorted)' array is not in the right order
       if (aIndex < bIndex) {
         return -1;
-      }
-      // and 1 if it is
-      else if (bIndex < aIndex) {
+      } else if (bIndex < aIndex) {
+        // and 1 if it is
         return 1;
       }
 

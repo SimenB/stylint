@@ -75,15 +75,7 @@ describe('sort order', () => {
     });
 
     it('false if not correct sort order with mocked sort order cache', () => {
-      const expectedCache = [
-        'border',
-        'margin',
-        'padding',
-        'line-height',
-        'background',
-        'border',
-        'color',
-      ];
+      const expectedCache = ['border', 'margin', 'padding', 'line-height', 'background', 'border', 'color'];
 
       expect(app.state.conf).toEqual('alphabetical');
       expect(app.cache.sortOrderCache).toHaveLength(3);

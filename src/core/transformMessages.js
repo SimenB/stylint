@@ -9,7 +9,7 @@ const countSeverities = require('../utils/countSeveritiesInMessages');
  * @param {boolean} [skipDone] - If true, don't call done.
  * @returns {Object} Returns the transformed object.
  */
-const transformMessages = function (skipDone) {
+const transformMessages = function(skipDone) {
   const severities = countSeverities(this.cache.messages);
   const errorCount = severities.errorCount;
   const warningCount = severities.warningCount;

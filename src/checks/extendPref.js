@@ -5,7 +5,7 @@
  * @param {string} [line] - Current line being linted.
  * @returns {boolean} True if wrong style used, false if not.
  */
-const extendPref = function (line) {
+const extendPref = function(line) {
   if (line.indexOf('@extend') === -1) {
     return;
   }
@@ -16,9 +16,8 @@ const extendPref = function (line) {
   // extremely petty, i know
   if (this.state.conf === '@extends' && line.indexOf('@extends ') === -1) {
     extendIncorrect = true;
-  }
-  // else @extend is your pref
-  else if (this.state.conf === '@extend' && line.indexOf('@extend ') === -1) {
+  } else if (this.state.conf === '@extend' && line.indexOf('@extend ') === -1) {
+    // else @extend is your pref
     extendIncorrect = true;
   }
 

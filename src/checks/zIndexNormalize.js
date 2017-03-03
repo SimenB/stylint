@@ -5,14 +5,13 @@
  * @param {string} [line] - Current line being linted.
  * @returns {boolean} True if not normalized, false if normalized.
  */
-const zIndexNormalize = function (line) {
+const zIndexNormalize = function(line) {
   let badZIndex = false;
   const arr = this.splitAndStrip(new RegExp(/[\s\t,:]/), line);
   const index = line.indexOf('z-index');
 
   // ignore 0 or -1 values
-  if (arr[arr.length - 1] === '-1' ||
-    arr[arr.length - 1] === '0') {
+  if (arr[arr.length - 1] === '-1' || arr[arr.length - 1] === '0') {
     return;
   }
 

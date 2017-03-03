@@ -7,12 +7,11 @@ const commentRe = /(^\/\/)/;
  * @param  {string} [line] - Current line being linted.
  * @returns {boolean} True if comment found, false if not.
  */
-const startsWithComment = function (line) {
+const startsWithComment = function(line) {
   let starts = false;
 
   // ex }, but only if we've already establish that we're not in a hash
-  if (line.indexOf('//') !== -1 &&
-    commentRe.test(line.trim())) {
+  if (line.indexOf('//') !== -1 && commentRe.test(line.trim())) {
     starts = true;
   }
 

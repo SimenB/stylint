@@ -6,7 +6,7 @@
  * @param {string} [line] - Curr line being linted.
  * @returns {Array} Split and filtered array.
 */
-const splitAndStrip = function (re, line) {
+const splitAndStrip = function(re, line) {
   return line.split(re).filter(str => str.length > 0);
 };
 

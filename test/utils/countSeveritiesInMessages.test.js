@@ -12,7 +12,10 @@ describe('countSeveritiesInMessages', () => {
   });
 
   it('should count both error and warning correctly', () => {
-    expect(countSeverities([{ severity: 'error' }, { severity: 'warning' }])).toEqual({ errorCount: 1, warningCount: 1 });
+    expect(countSeverities([{ severity: 'error' }, { severity: 'warning' }])).toEqual({
+      errorCount: 1,
+      warningCount: 1,
+    });
   });
 
   it('should handle empty array', () => {

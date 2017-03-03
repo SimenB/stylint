@@ -13,11 +13,7 @@ const Glob = require('glob').Glob;
  * @returns {Object|void} Object if stylintrc found, undefined if not.
  */
 function parseConfig(configPath) {
-  return JSON.parse(
-    stripJsonComments(
-      fs.readFileSync(configPath, 'utf-8')
-    )
-  );
+  return JSON.parse(stripJsonComments(fs.readFileSync(configPath, 'utf-8')));
 }
 
 /**
@@ -76,7 +72,7 @@ function recurseDirectories(files, level, cwd) {
  * @param {string} [configPath] - If defined, the path to a config-file to read.
  * @returns {Function} Kick off linter again.
  */
-const setConfig = function (configPath) {
+const setConfig = function(configPath) {
   let files = [];
   let customPath = '';
   // return default config if nothing passed in or found
@@ -87,8 +83,7 @@ const setConfig = function (configPath) {
     // TODO: Use pkg-up
     // eslint-disable-next-line import/no-dynamic-require
     pkg = require(`${cwd}/package.json`);
-  }
-  catch (err) {
+  } catch (err) {
     // no output
   }
 
@@ -97,36 +92,30 @@ const setConfig = function (configPath) {
   // ie, user passed in option object
   if (this.customConfig) {
     returnConfig = this.customConfig;
-  }
-  // if 2, we pass in a path to the config
-  // this only occurs if using stylint via the command line
-  else if (configPath) {
+  } else if (configPath) {
+    // if 2, we pass in a path to the config
+    // this only occurs if using stylint via the command line
     customPath = pathIsAbsolute(configPath) ? configPath : `${cwd}/${configPath}`;
     try {
       returnConfig = parseConfig(customPath);
-    }
-    catch (err) {
+    } catch (err) {
       throw err;
     }
-  }
-  // 3, if user did not pass in option obj, or pass options via cli
-  // check the user's package.json for either an option obj, or
-  // at least a path to one
-  else if (pkg !== null &&
-    typeof pkg.stylintrc !== 'undefined') {
+  } else if (pkg !== null && typeof pkg.stylintrc !== 'undefined') {
+    // 3, if user did not pass in option obj, or pass options via cli
+    // check the user's package.json for either an option obj, or
+    // at least a path to one
     const rc = pkg.stylintrc;
 
     if (typeof rc === 'object' && !(rc instanceof Array)) {
       returnConfig = rc;
-    }
-    else if (typeof rc === 'string') {
+    } else if (typeof rc === 'string') {
       returnConfig = parseConfig(rc);
     }
-  }
-  // 4, nothing passed in via cli or programmatically or via pkg
-  // start at cwd, walk up to user home directory, if nothing
-  // found, then just use the default config
-  else {
+  } else {
+    // 4, nothing passed in via cli or programmatically or via pkg
+    // start at cwd, walk up to user home directory, if nothing
+    // found, then just use the default config
     try {
       // recurse up to user home
       files = fs.readdirSync(cwd);
@@ -137,16 +126,17 @@ const setConfig = function (configPath) {
       if (!returnConfig) {
         returnConfig = this.config;
       }
-    }
+    } catch (err) {
       // in case there's an issue parsing or no .stylintrc found at specified location
-    catch (err) {
       throw err;
     }
   }
 
-  returnConfig.exclude = (returnConfig.exclude || []).map(exclude => new Glob(exclude, {
-    matchBase: true,
-  }).minimatch);
+  returnConfig.exclude = (returnConfig.exclude || []).map(
+    exclude => new Glob(exclude, {
+      matchBase: true,
+    }).minimatch
+  );
 
   // make sure indentPref is set no matter what
   returnConfig.indentPref = returnConfig.indentPref || false;

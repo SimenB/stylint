@@ -15,7 +15,7 @@ const defaultOptions = {
  * @param {string} [pathPassed] - Path to files to lint.
  * @returns {Function} Always returns a function, determined by cli flags.
  */
-const init = function (options, pathPassed) {
+const init = function(options, pathPassed) {
   // TODO: Object.assign
   const optionsWithDefaults = defaults(options || {}, defaultOptions);
 

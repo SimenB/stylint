@@ -11,7 +11,7 @@ const anythingElseRe = /[^ \t]/;
  * @param {string} [source] - Current line before being stripped.
  * @returns {boolean} True if whitespace found, false if not..
  */
-const trailingWhitespace = function (line, source) {
+const trailingWhitespace = function(line, source) {
   let whitespace = false;
   const hasWhitespace = whitespaceRe.exec(source);
 

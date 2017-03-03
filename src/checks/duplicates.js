@@ -8,15 +8,14 @@ let lastFile = '';
  * @param {string} [line] - Current line being linted.
  * @returns {boolean} True if dupe found, false if not.
  */
-const duplicates = function (line) {
+const duplicates = function(line) {
   const arr = this.splitAndStrip(new RegExp(/[\s\t]/), line);
   let dupe = false;
   let dupeIndex;
   let origFile;
 
   // if root check not global, obliterate cache on each new file
-  if (!this.config.globalDupe &&
-    lastFile !== this.cache.file) {
+  if (!this.config.globalDupe && lastFile !== this.cache.file) {
     this.cache.sCache = {};
     lastFile = this.cache.file;
   }
@@ -43,8 +42,7 @@ const duplicates = function (line) {
   // and not ignored syntax
   // and property exists in the array already
   // then dupe
-  if (line.indexOf(',') === -1 &&
-    this.cache.prevLine.indexOf(',') === -1 && !ignoreRe.test(line)) {
+  if (line.indexOf(',') === -1 && this.cache.prevLine.indexOf(',') === -1 && !ignoreRe.test(line)) {
     // -1 if no dupe found
     dupeIndex = this.cache.sCache[this.state.context].indexOf(arr[0]);
 
@@ -63,14 +61,9 @@ const duplicates = function (line) {
 
     // this.msg( 'duplicate property or selector, consider merging' )
     if (!this.config.globalDupe) {
-      this.msg(
-        'duplicate property or selector, consider merging'
-      );
-    }
-    else {
-      this.msg(
-        `duplicate property or selector, consider merging\nsee file: ${origFile} for the original selector`
-      );
+      this.msg('duplicate property or selector, consider merging');
+    } else {
+      this.msg(`duplicate property or selector, consider merging\nsee file: ${origFile} for the original selector`);
     }
   }
 

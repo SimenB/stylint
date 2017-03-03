@@ -54,19 +54,23 @@ describe('transforming messages for report', () => {
     context.cache.messages = [createMessage()];
 
     expect(transformMessages.call(context)).toEqual({
-      results: [{
-        filePath: 'some-file.styl',
-        messages: [{
-          column: 5,
-          line: 1,
-          message: 'some message',
-          source: '.class {',
-          ruleId: 'some rule',
-          severity: 'error',
-        }],
-        errorCount: 1,
-        warningCount: 0,
-      }],
+      results: [
+        {
+          filePath: 'some-file.styl',
+          messages: [
+            {
+              column: 5,
+              line: 1,
+              message: 'some message',
+              source: '.class {',
+              ruleId: 'some rule',
+              severity: 'error',
+            },
+          ],
+          errorCount: 1,
+          warningCount: 0,
+        },
+      ],
       errorCount: 1,
       warningCount: 0,
     });
@@ -88,26 +92,31 @@ describe('transforming messages for report', () => {
     context.cache.messages = [message1, createMessage()];
 
     expect(transformMessages.call(context)).toEqual({
-      results: [{
-        filePath: 'some-file.styl',
-        messages: [{
-          column: 5,
-          line: 1,
-          message: 'some message',
-          source: '.class {',
-          ruleId: 'some rule',
-          severity: 'error',
-        }, {
-          column: 5,
-          line: 5,
-          message: 'some other message',
-          source: '.class {',
-          ruleId: 'some rule',
-          severity: 'error',
-        }],
-        errorCount: 2,
-        warningCount: 0,
-      }],
+      results: [
+        {
+          filePath: 'some-file.styl',
+          messages: [
+            {
+              column: 5,
+              line: 1,
+              message: 'some message',
+              source: '.class {',
+              ruleId: 'some rule',
+              severity: 'error',
+            },
+            {
+              column: 5,
+              line: 5,
+              message: 'some other message',
+              source: '.class {',
+              ruleId: 'some rule',
+              severity: 'error',
+            },
+          ],
+          errorCount: 2,
+          warningCount: 0,
+        },
+      ],
       errorCount: 2,
       warningCount: 0,
     });
@@ -123,31 +132,38 @@ describe('transforming messages for report', () => {
     context.cache.messages = [message1, createMessage()];
 
     expect(transformMessages.call(context)).toEqual({
-      results: [{
-        filePath: 'some-file.styl',
-        messages: [{
-          column: 5,
-          line: 1,
-          message: 'some message',
-          source: '.class {',
-          ruleId: 'some rule',
-          severity: 'error',
-        }],
-        errorCount: 1,
-        warningCount: 0,
-      }, {
-        filePath: 'some-other-file.styl',
-        messages: [{
-          column: 5,
-          line: 5,
-          message: 'some other message',
-          source: '.class {',
-          ruleId: 'some rule',
-          severity: 'error',
-        }],
-        errorCount: 1,
-        warningCount: 0,
-      }],
+      results: [
+        {
+          filePath: 'some-file.styl',
+          messages: [
+            {
+              column: 5,
+              line: 1,
+              message: 'some message',
+              source: '.class {',
+              ruleId: 'some rule',
+              severity: 'error',
+            },
+          ],
+          errorCount: 1,
+          warningCount: 0,
+        },
+        {
+          filePath: 'some-other-file.styl',
+          messages: [
+            {
+              column: 5,
+              line: 5,
+              message: 'some other message',
+              source: '.class {',
+              ruleId: 'some rule',
+              severity: 'error',
+            },
+          ],
+          errorCount: 1,
+          warningCount: 0,
+        },
+      ],
       errorCount: 2,
       warningCount: 0,
     });

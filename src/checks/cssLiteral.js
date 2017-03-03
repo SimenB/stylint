@@ -6,7 +6,7 @@
  * @returns {boolean} True if @css found, false if not.
  * @todo do i still work with setState?
  */
-const cssLiteral = function (line) {
+const cssLiteral = function(line) {
   if (this.state.hashOrCSS) {
     return;
   }

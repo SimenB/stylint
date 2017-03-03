@@ -12,7 +12,7 @@ const parensEndWithNoSpaceRe = /\S+\)+/;
  * @param {string} [source] - Current line before being stripped.
  * @returns {boolean} True if placeholder used, false if not.
  */
-const parenSpace = function (line, source) {
+const parenSpace = function(line, source) {
   if (!parensRe.test(source)) {
     return;
   }
@@ -33,8 +33,7 @@ const parenSpace = function (line, source) {
     }
 
     this.msg('( param1, param2 ) is preferred over (param1, param2)', index);
-  }
-  else if (this.state.conf === 'never' && (hasStartSpace || hasEndSpace)) {
+  } else if (this.state.conf === 'never' && (hasStartSpace || hasEndSpace)) {
     index = hasStartSpace && hasStartSpace.index;
 
     if (!index && hasEndSpace) {

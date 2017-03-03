@@ -49,13 +49,21 @@ describe('reporter', () => {
   });
 
   it('should include max errors and max warnings', () => {
-    expect(reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxErrors: 5, maxWarnings: 5 })).toMatchSnapshot();
+    expect(
+      reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxErrors: 5, maxWarnings: 5 })
+    ).toMatchSnapshot();
   });
 
   it('should skip non-valid max errors and max warnings', () => {
-    expect(reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxErrors: -1, maxWarnings: 5 })).toMatchSnapshot();
-    expect(reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxWarnings: 5 })).toMatchSnapshot();
-    expect(reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxErrors: 2 })).toMatchSnapshot();
+    expect(
+      reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxErrors: -1, maxWarnings: 5 })
+    ).toMatchSnapshot();
+    expect(
+      reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxWarnings: 5 })
+    ).toMatchSnapshot();
+    expect(
+      reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxErrors: 2 })
+    ).toMatchSnapshot();
   });
 
   it('should format warning correctly', () => {
@@ -105,14 +113,16 @@ describe('(Old tests) Reporter should: ', () => {
 
     const msg = {
       filePath: 'testReporter',
-      messages: [{
-        message: 'universal disallowed',
-        severity: 'warning',
-        line: 1,
-        column: 0,
-        ruleId: 'universal',
-        source: 'Reporter Lyfe*',
-      }],
+      messages: [
+        {
+          message: 'universal disallowed',
+          severity: 'warning',
+          line: 1,
+          column: 0,
+          ruleId: 'universal',
+          source: 'Reporter Lyfe*',
+        },
+      ],
     };
 
     expect(app.reporter({ results: [msg], errorCount: 0, warningCount: 1 })).toMatchSnapshot();

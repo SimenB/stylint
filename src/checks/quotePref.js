@@ -8,9 +8,8 @@ const stringRe = /(?=["'])(?:"[^"\\]*(?:\\[\s\S][^"\\]*)*"|'[^'\\]*(?:\\[\s\S][^
  * @param {string} [source] - Current line before being stripped.
  * @returns {boolean} True if in order, false if not.
  */
-const quotePref = function (line, source) {
-  if (source.indexOf('"') === -1 &&
-    source.indexOf("'") === -1) {
+const quotePref = function(line, source) {
+  if (source.indexOf('"') === -1 && source.indexOf("'") === -1) {
     return;
   }
 
@@ -36,9 +35,8 @@ const quotePref = function (line, source) {
         badQuotes = true;
         this.msg(`preferred quote style is ${this.state.conf} quotes`, match[0].indexOf('"'));
       }
-    }
-    // if "" quotes preferred and match start with single '' quote
-    else if (this.state.conf === 'double' && match[0].indexOf("'") === 0) {
+    } else if (this.state.conf === 'double' && match[0].indexOf("'") === 0) {
+      // if "" quotes preferred and match start with single '' quote
       // "" is allowed when it's cases like "Someone's string here"
       hasInnerQuote = content.indexOf('"') !== -1;
 

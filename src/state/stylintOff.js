@@ -5,7 +5,7 @@
  * @param  {string} [line] - Current line being linted.
  * @returns {boolean} True if stylint on, false if not.
  */
-const stylintOff = function (line) {
+const stylintOff = function(line) {
   if (!this.state.testsEnabled) {
     return;
   }

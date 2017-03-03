@@ -8,15 +8,17 @@ const stripMixinsRe = /(\(.*\))/;
  * @param {string} [line] - Current line being linted.
  * @returns {boolean} True if hash or @css starting, false if not.
  */
-const hashStart = function (line) {
+const hashStart = function(line) {
   if (this.state.hashOrCSS || !this.state.testsEnabled) {
     return;
   }
   const strippedLine = line.replace(stripMixinsRe, '');
 
   // ex $colorsHash = { or @css {
-  if ((!this.config.cssLiteral && line.indexOf('@css') !== -1) ||
-    (hashStartRe.test(strippedLine) && strippedLine.indexOf('=') !== -1)) {
+  if (
+    (!this.config.cssLiteral && line.indexOf('@css') !== -1) ||
+    (hashStartRe.test(strippedLine) && strippedLine.indexOf('=') !== -1)
+  ) {
     this.state.hashOrCSS = true;
     this.state.testsEnabled = false;
   }

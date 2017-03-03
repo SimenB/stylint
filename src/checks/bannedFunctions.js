@@ -5,7 +5,7 @@
  * @param {string} [line] - Current line being linted.
  * @returns {boolean} True if function is banned, false if not.
  */
-const bannedFunctions = function (line) {
+const bannedFunctions = function(line) {
   let found = false;
   const bannedFunctionList = this.config.bannedFunctions || [];
   let index = -1;
