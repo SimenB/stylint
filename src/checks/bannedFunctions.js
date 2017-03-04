@@ -2,23 +2,25 @@
 
 /**
  * @description Disallows use of a specific list of key words.
- * @param {string} [line] - Current line being linted.
- * @returns {boolean} True if function is banned, false if not.
+ * @param {Object} context - Linting context.
+ * @param {Array<String>} [context.config] - Function to report violations.
+ * @param {Function} context.report - Function to report violations.
+ * @param {string} context.line - Current line being linted.
+ * @returns {void} Nothing.
  */
-const bannedFunctions = function(line) {
-  let found = false;
-  const bannedFunctionList = this.config.bannedFunctions || [];
-  let index = -1;
+const bannedFunctions = function(context) {
+  const line = context.line;
+  const bannedFunctionList = context.config || [];
 
   bannedFunctionList.forEach(func => {
-    index = line.indexOf(func);
+    const index = line.indexOf(func);
     if (index !== -1) {
-      found = true;
-      this.msg(`unexpected banned function ${func} encountered`, index);
+      context.report({
+        message: `unexpected banned function ${func} encountered`,
+        column: index,
+      });
     }
   });
-
-  return found;
 };
 
 module.exports = bannedFunctions;

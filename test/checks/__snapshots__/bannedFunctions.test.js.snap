@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`bannedFunctions: ban use of specific key words report if line has a banned function 1`] = `
+Array [
+  Array [
+    Object {
+      "column": 0,
+      "message": "unexpected banned function translate3d encountered",
+    },
+  ],
+]
+`;

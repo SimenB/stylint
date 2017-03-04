@@ -2,10 +2,14 @@
 
 /**
  * @description Add violation to an array.
- * @param {string} message - Outputted string from one of the checks.
- * @param {number} [column] - Column number if applicable to the check.
+ * @param {Object} report - Outputted string from one of the checks.
+ * @param {string} report.message - Outputted string from one of the checks.
+ * @param {number} [report.column] - Column number if applicable to the check.
  */
-const msg = function(message, column) {
+const msg = function(report) {
+  const message = report.message;
+  const column = report.column;
+
   this.cache.messages.push({
     message,
     severity: this.state.severity,

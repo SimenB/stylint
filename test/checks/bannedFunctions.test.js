@@ -1,37 +1,28 @@
 'use strict';
 
-const stylint = require('../../index');
-
-const app = stylint().create();
-
-// turn on strict mode from this point and turn off unnecessary logging
-app.state.quiet = true;
-app.state.watching = true;
-app.state.strictMode = true;
-app.state.conf = true;
-
-const bannedFunctions = app.lintMethods.bannedFunctions.bind(app);
+const bannedFunctions = require('../../src/checks/bannedFunctions');
 
 describe('bannedFunctions: ban use of specific key words', () => {
+  let context;
+
   beforeEach(() => {
-    app.state.severity = 'warning';
+    context = {
+      report: jest.fn(),
+    };
   });
 
-  afterEach(() => {
-    app.cache.messages = [];
+  it("don't report if a line doesn't have any banned functions", () => {
+    bannedFunctions(Object.assign(context, { line: '.foo' }));
+    expect(context.report).not.toHaveBeenCalled();
   });
 
-  it("false if a line doesn't have any banned functions", () => {
-    expect(bannedFunctions('.foo')).toEqual(false);
+  it("don't report if a line has banned functions but is not found", () => {
+    bannedFunctions(Object.assign(context, { line: '.foo', config: ['translate3d'] }));
+    expect(context.report).not.toHaveBeenCalled();
   });
 
-  it('false if a line has banned functions but is not found', () => {
-    app.config.bannedFunctions = ['translate3d'];
-    expect(bannedFunctions('.foo')).toEqual(false);
-  });
-
-  it('true if line has a banned function', () => {
-    app.config.bannedFunctions = ['translate3d'];
-    expect(bannedFunctions('translate3d(1px, 1px, 0px)')).toEqual(true);
+  it('report if line has a banned function', () => {
+    bannedFunctions(Object.assign(context, { line: 'translate3d(1px, 1px, 0px)', config: ['translate3d'] }));
+    expect(context.report.mock.calls).toMatchSnapshot();
   });
 });

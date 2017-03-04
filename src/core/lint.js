@@ -17,7 +17,26 @@ const lint = function() {
     // state.severity === 'error' || 'warning'
     this.state.severity = this.config[checkName].error ? 'error' : 'warning';
     // run the actual check against the line
-    checkFunc.call(this, this.cache.line, this.cache.source);
+    checkFunc({
+      config: this.config[checkName],
+      line: this.cache.line,
+      source: this.cache.source,
+      conf: this.state.conf,
+      report: report => {
+        this.cache.messages.push(
+          Object.assign(
+            {
+              severity: this.state.severity,
+              file: this.cache.file,
+              line: this.cache.lineNo,
+              source: this.cache.source,
+              ruleId: this.cache.rule,
+            },
+            report
+          )
+        );
+      },
+    });
   });
 
   // save our curr context so we can use it next time
