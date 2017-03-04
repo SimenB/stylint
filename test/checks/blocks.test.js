@@ -1,60 +1,69 @@
 'use strict';
 
-const stylint = require('../../index');
-
-const app = stylint().create();
-
-// turn on strict mode from this point and turn off unnecessary logging
-app.state.quiet = true;
-app.state.watching = true;
-app.state.strictMode = true;
-
-const blockTest = app.lintMethods.blocks.bind(app);
+const blockTest = require('../../src/checks/blocks');
 
 describe('blocks', () => {
-  beforeEach(() => {
-    app.state.conf = 'always';
-    app.state.severity = 'warning';
-  });
-
-  afterEach(() => {
-    app.cache.messages = [];
-  });
-
   describe('prefer @block when defining block vars', () => {
-    it('false if block style incorrect', () => {
-      expect(blockTest('myBlock = ')).toEqual(false);
-      expect(blockTest('myBlock =')).toEqual(false);
+    let context;
+
+    beforeEach(() => {
+      context = {
+        report: jest.fn(),
+        conf: 'always',
+      };
     });
 
-    it('true if block style correct', () => {
-      expect(blockTest('myBlock = @block')).toEqual(true);
-      expect(blockTest('myBlock = @block ')).toEqual(true);
+    it('report if block style incorrect', () => {
+      blockTest(Object.assign({}, context, { line: 'myBlock = ' }));
+      blockTest(Object.assign({}, context, { line: 'myBlock =' }));
+
+      expect(context.report.mock.calls).toMatchSnapshot();
     });
 
-    it('undefined if block style not applicable', () => {
-      expect(blockTest('.class')).toBeUndefined();
+    it("don't report if block style correct", () => {
+      blockTest(Object.assign({}, context, { line: 'myBlock = @block' }));
+      blockTest(Object.assign({}, context, { line: 'myBlock = @block ' }));
+
+      expect(context.report).not.toHaveBeenCalled();
+    });
+
+    it("don't report if block style not applicable", () => {
+      blockTest(Object.assign({}, context, { line: '.class' }));
+      blockTest(Object.assign({}, context, { line: 'input[type="submit"]' }));
+
+      expect(context.report).not.toHaveBeenCalled();
     });
   });
 
   describe('disallow @block when defining block vars', () => {
+    let context;
+
     beforeEach(() => {
-      app.state.conf = 'never';
+      context = {
+        report: jest.fn(),
+        conf: 'never',
+      };
     });
 
-    it('false if block style IS correct', () => {
-      expect(blockTest('myBlock = ')).toEqual(false);
-      expect(blockTest('myBlock =')).toEqual(false);
+    it("don't report if block style IS correct", () => {
+      blockTest(Object.assign({}, context, { line: 'myBlock = ' }));
+      blockTest(Object.assign({}, context, { line: 'myBlock =' }));
+
+      expect(context.report).not.toHaveBeenCalled();
     });
 
-    it('true if block style NOT correct', () => {
-      expect(blockTest('myBlock = @block')).toEqual(true);
-      expect(blockTest('myBlock = @block ')).toEqual(true);
+    it('report if block style NOT correct', () => {
+      blockTest(Object.assign({}, context, { line: 'myBlock = @block' }));
+      blockTest(Object.assign({}, context, { line: 'myBlock = @block ' }));
+
+      expect(context.report.mock.calls).toMatchSnapshot();
     });
 
-    it('undefined if block style not applicable', () => {
-      expect(blockTest('.class')).toBeUndefined();
-      expect(blockTest('input[type="submit"]')).toBeUndefined();
+    it("don't report if block style not applicable", () => {
+      blockTest(Object.assign({}, context, { line: '.class' }));
+      blockTest(Object.assign({}, context, { line: 'input[type="submit"]' }));
+
+      expect(context.report).not.toHaveBeenCalled();
     });
   });
 });

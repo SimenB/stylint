@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`blocks disallow @block when defining block vars report if block style NOT correct 1`] = `
+Array [
+  Array [
+    Object {
+      "column": 10,
+      "message": "@block is not allowed",
+    },
+  ],
+  Array [
+    Object {
+      "column": 10,
+      "message": "@block is not allowed",
+    },
+  ],
+]
+`;
+
+exports[`blocks prefer @block when defining block vars report if block style incorrect 1`] = `
+Array [
+  Array [
+    Object {
+      "column": 10,
+      "message": "block variables must include @block",
+    },
+  ],
+  Array [
+    Object {
+      "column": 9,
+      "message": "block variables must include @block",
+    },
+  ],
+]
+`;
