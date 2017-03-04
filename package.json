@@ -49,6 +49,7 @@
     "columnify": "^1.5.4",
     "glob": "^7.0.4",
     "lodash": "^4.16.4",
+    "object.entries": "^1.0.4",
     "path-is-absolute": "^1.0.0",
     "stampit": "^1.2.0",
     "strip-json-comments": "^2.0.1",
