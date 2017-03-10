@@ -132,11 +132,7 @@ const setConfig = function(configPath) {
     }
   }
 
-  returnConfig.exclude = (returnConfig.exclude || []).map(
-    exclude => new Glob(exclude, {
-      matchBase: true,
-    }).minimatch
-  );
+  returnConfig.exclude = (returnConfig.exclude || []).map(exclude => new Glob(exclude, { matchBase: true }).minimatch);
 
   // make sure indentPref is set no matter what
   returnConfig.indentPref = returnConfig.indentPref || false;

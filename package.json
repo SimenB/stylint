@@ -38,7 +38,7 @@
     "eslint-config-simenb-node": "^0.4.2",
     "jest": "^19.0.2",
     "jsdoc": "^3.4.2",
-    "prettier": "^0.20.0",
+    "prettier": "^0.22.0",
     "sinon": "^1.17.4",
     "touch": "^1.0.0"
   },
