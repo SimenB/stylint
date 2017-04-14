@@ -54,13 +54,9 @@ you can also ping me [here](https://gitter.im/rossPatton/stylint)
 
 `-v` or `--version` Display current version
 
-`-p` or `--pretty`  Display default reporter in a pretty format
-
 
 ## Example cli Usage:
 `stylint` Run stylint on cwd
-
-`stylint --pretty` Run stylint on cwd with pretty formatting
 
 `stylint path/to/filename.styl` Run stylint on a file
 
@@ -72,7 +68,7 @@ you can also ping me [here](https://gitter.im/rossPatton/stylint)
 
 `stylint --config path/to/config/.configrc` Run stylint with custom config settings
 
-`stylint --reporter stylint-reporter-module` Run stylint with [custom reporter](#custom-reporters) module
+`stylint --formatter stylint-reporter-module` Run stylint with [custom formatter](#custom-formatters) module
 
 `stylint styl/ --watch -c path/to/config/.configrc` Watch dir, use custom config
 
@@ -253,8 +249,8 @@ Example:
 ```
 
 
-## Custom Reporters
-Stylint console output can be modified with the use of a reporter. Feel free to write your own (no matter how outlandish) and I'll add it here.
+## Custom Formatters
+Stylint console output can be modified with the use of a formatter. Feel free to write your own (no matter how outlandish) and I'll add it here.
 
 * [stylint-stylish](https://github.com/SimenB/stylint-stylish)
 * [stylint-json-reporter](https://github.com/sertae/stylint-json-reporter)
