@@ -5,13 +5,13 @@
  * @param  {boolean} [kill] - Whether or not we're over one of our limits.
  * @returns {string} The formatted message.
  */
-const defaultReporter = function(report, options, kill) {
+const defaultFormatter = function(report, options, kill) {
   if (report.results.length === 0) {
     return '';
   }
 }
 
-module.exports = defaultReporter;
+module.exports = defaultFormatter;
 
 
 // var reporter = function( msg, done, kill ) {
