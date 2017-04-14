@@ -34,12 +34,12 @@ const defaultFormatter = function(report, options, kill) {
   });
 
   response = `Stylint: ${errorCount} Errors.`;
-  response += maxErrors ? ` (Max Errors: ${maxErrors} )` : ''
-  response = `\nStylint: ${warningCount} Warnings.`;
-  response += maxWarnings ? ` (Max Warnings: ${maxWarnings} )` : ''
+  response += maxErrors ? ` (Max Errors: ${maxErrors} )` : '';
+  response += `\nStylint: ${warningCount} Warnings.`;
+  response += maxWarnings ? ` (Max Warnings: ${maxWarnings} )` : '';
 
-  response += kill ? '\nStylint: Over Error or Warning Limit.';
-  response = `${formattedMessages}\n\n${response}`
+  response += kill ? '\nStylint: Over Error or Warning Limit.' : '';
+  response = `${formattedMessages}\n\n${response}`;
 
   return response;
 }
