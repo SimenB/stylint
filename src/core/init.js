@@ -19,7 +19,7 @@ const loadFormatter = function(formatter) {
       throw e;
     }
 
-    throw 'Your provided format type is invalid.'
+    throw `${formatter} is an invalid formatter.`
   }
 };
 
