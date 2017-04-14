@@ -7,7 +7,20 @@ const defaultOptions = {
   config: null,
   strict: false,
   callback() {},
-  pretty: false
+  formatter: null
+};
+
+const loadFormatter = function(formatter) {
+  try {
+    this.reporter = require(`../formatters/${formatter}`);
+  }
+  catch (err) {
+    if (e.code !== 'MODULE_NOT_FOUND') {
+      throw e;
+    }
+
+    throw 'Your provided format type is invalid.'
+  }
 };
 
 /**
@@ -29,10 +42,8 @@ const init = function(options, pathPassed) {
   // we do the check here just in case
   // they don't pass in a reporter when using a custom config
   /* eslint-disable import/no-dynamic-require */
-  if (optionsWithDefaults.reporter) {
-    this.reporter = require(optionsWithDefaults.reporter);
-  } else if (this.config.reporter) {
-    this.reporter = require(this.config.reporter);
+  if (this.config.formatter) {
+    this.reporter = loadFormatter(this.config.format);
   } else {
     this.reporter = require('./reporter');
   }
@@ -41,7 +52,6 @@ const init = function(options, pathPassed) {
   // if path/ passed in use that for the dir
   this.state.path = pathPassed || this.state.path || process.cwd();
   this.callback = this.callback || optionsWithDefaults.callback;
-  this.reporter.pretty = options.pretty
 
   // fire watch or read based on flag
   if (optionsWithDefaults.watch) {

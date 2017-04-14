@@ -34,4 +34,4 @@ Tests are in the ./test folder. Run them using npm test. If your PR includes cod
 
 Individual checks are in the src/checks folder. If you are adding a new check, please keep in mind they are designed to be as small and atomic ( and testable ) as possible. True/False return values are used to determine if the test passes or fails (the meaning can depend on the test), and an undefined return value means the test wasn't applicable.
 
-Additional reporters should be created as separate npm packages, ideally prefixed with stylint-reporter for ease of searching.
+Additional formatters should be created under the [](src/formatters/) directory.
