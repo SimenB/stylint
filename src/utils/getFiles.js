@@ -38,18 +38,15 @@ const getFiles = function(dir) {
       return async.map(this.cache.files, fs.readFile, this.parse.bind(this));
     });
   } else if (dir instanceof Array) {
-    const files = dir.filter(
-      function(filepath) {
-        let excluded = false;
+    const files = dir.filter(function(filepath) {
+      let excluded = false;
 
-        this.config.exclude.forEach(exclude => {
-          excluded = excluded || exclude.match(filepath);
-        });
+      this.config.exclude.forEach(exclude => {
+        excluded = excluded || exclude.match(filepath);
+      });
 
-        return !excluded;
-      },
-      this
-    );
+      return !excluded;
+    }, this);
 
     this.cache.filesLen = files.length - 1;
     this.cache.files = files;
