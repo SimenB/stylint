@@ -79,10 +79,10 @@
     ],
     "testEnvironment": "node"
   },
-    "lint-staged": {
-      "*.js": [
-        "eslint --fix",
-        "git add"
-      ]
-    }
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  }
 }
