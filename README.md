@@ -144,6 +144,20 @@ module.exports = {
 }
 ```
 
+## Rollup
+You can use [rollup-plugin-stylint](https://github.com/sandark7/rollup-plugin-stylint)
+
+``` javascript
+import { rollup } from 'rollup';
+import stylint from 'rollup-plugin-stylint';
+
+rollup({
+  entry: 'index.js',
+  plugins: [
+    stylint()
+  ]
+});
+```
 
 ## As Part of Your Workflow
 Stylint integrations with multiple IDEs are available.
