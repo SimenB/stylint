@@ -75,7 +75,7 @@ module.exports = function valid( line ) {
 
 	// if no match yet, try declared mixins and custom properties
 	if ( !isValid ) {
-		isValid = this.cache.customProperties.some( function( mixin ) {
+		isValid = this.config.customProperties.some( function( mixin ) {
 			return arr[0] === mixin
 		} )
 	}
