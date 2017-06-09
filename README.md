@@ -442,7 +442,7 @@ Pass in either `@extend` or `@extends` and then enforce that. Both are valid in 
 
 Example if set to `@extends`: prefer `@extends $some-var` over `@extend $some-var`
 
-Example if set to `@extend`: prefer `@extend $some-var` over `@extend $some-var`
+Example if set to `@extend`: prefer `@extend $some-var` over `@extends $some-var`
 
 
 ### globalDupe ( default: false, true || false )
