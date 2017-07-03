@@ -37,12 +37,12 @@ const defaultFormatter = function(report, options, kill) {
 
       const lineData = column ? `${line}:${column}` : line;
 
-      newMessage = `${severity}: ${msg}
+      const newMessage = `${severity}: ${msg}
         File: ${filePath}
         Line: ${lineData}`;
 
       return _.set(msg, 'message', newMessage);
-    })
+    });
 
     return _.set(result, newMessages);
   });
@@ -55,6 +55,6 @@ const defaultFormatter = function(report, options, kill) {
   response += kill ? '\nStylint: Over Error or Warning Limit.' : '';
 
   return `${formattedMessages}\n\n${response}`;
-}
+};
 
 module.exports = defaultFormatter;
