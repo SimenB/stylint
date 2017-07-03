@@ -10,11 +10,11 @@ const _ = require('lodash');
  * @returns {string} The formatted message.
  */
 const defaultFormatter = function(report, options, kill) {
-  if (report.results.length === 0) {
-    return '';
-  }
+  if (report.results.length === 0) return '';
 
   const {results, errorCount, maxErrors, maxWarnings, warningCount} = report;
+
+  if (errorCount === 0 && warningCount === 0) return '';
 
   let formattedMessages = results.map(result => {
     const {filePath, messages} = result;
@@ -39,40 +39,8 @@ const defaultFormatter = function(report, options, kill) {
   response += maxWarnings ? ` (Max Warnings: ${maxWarnings} )` : '';
 
   response += kill ? '\nStylint: Over Error or Warning Limit.' : '';
-  response = `${formattedMessages}\n\n${response}`;
 
-  return response;
+  return `${formattedMessages}\n\n${response}`;
 }
 
 module.exports = defaultFormatter;
-
-
-// var reporter = function( msg, done, kill ) {
-// 	if ( done === 'done' ) {
-// 		// total errors
-// 		this.cache.msg = 'Stylint: ' + this.cache.errs.length + ' Errors.'
-// 		this.cache.msg += this.config.maxErrors ? ' (Max Errors: ' + this.config.maxErrors + ')' : ''
-// 		// total warnings
-// 		this.cache.msg += '\nStylint: ' + this.cache.warnings.length + ' Warnings.'
-// 		this.cache.msg += this.config.maxWarnings ? ' (Max Warnings: ' + this.config.maxWarnings + ')' : ''
-//
-// 		// if you set a max it kills the linter
-// 		if ( kill === 'kill' ) {
-// 			this.cache.msg += '\nStylint: Over Error or Warning Limit.'
-// 		}
-// 		else if ( this.cache.errs.length === 0 &&
-// 			this.cache.warnings.length === 0 ) {
-// 			this.cache.msg = ''
-// 		}
-//
-// 		return this.done()
-// 	}
-//
-// 	if ( this.reporter.pretty ) {
-// 		return prettyReporter.call( this, msg )
-// 	}
-//
-//
-// }
-//
-// module.exports = reporter
