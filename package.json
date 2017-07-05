@@ -36,9 +36,11 @@
     "eslint-config-simenb-base": "^12.0.0",
     "eslint-config-simenb-jsdoc": "^3.0.4",
     "eslint-config-simenb-node": "^0.4.2",
+    "husky": "^0.13.3",
     "jest": "^19.0.2",
     "jsdoc": "^3.4.2",
-    "prettier": "^0.22.0",
+    "lint-staged": "^3.4.0",
+    "prettier": "^1.1.0",
     "sinon": "^1.17.4",
     "touch": "^1.0.0"
   },
@@ -63,7 +65,8 @@
     "pretest": "npm run lint",
     "start": "node index.js",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "precommit": "lint-staged"
   },
   "engines": {
     "node": ">=4"
@@ -75,5 +78,11 @@
       "bin/**/*.js"
     ],
     "testEnvironment": "node"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
   }
 }
