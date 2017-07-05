@@ -9,12 +9,12 @@ describe('getFormatter', () => {
 
   // Must be prefixed with `mock` to allow it to be returned in `jest.mock` calls.
   const mockDefaultFormatter = 'Awake';
-  const mockJsonFormatter = 'Shake dreams from your hair, my pretty child, my sweet one';
+  const mockPrettyFormatter = 'Shake dreams from your hair, my pretty child, my sweet one';
   const mockThirdPartyFormatter = 'Choose the day and choose the sign of your day';
 
   beforeAll(() => {
     jest.mock(`${FORMATTERS_MOCK_PATH}/default`, () => mockDefaultFormatter);
-    jest.mock(`${FORMATTERS_MOCK_PATH}/json`, () => mockJsonFormatter, { virtual: true });
+    jest.mock(`${FORMATTERS_MOCK_PATH}/pretty`, () => mockPrettyFormatter);
     jest.mock('thirdPartyFormatter', () => mockThirdPartyFormatter, { virtual: true });
   });
 
@@ -30,11 +30,11 @@ describe('getFormatter', () => {
 
   describe('when a native formatter is passed in', () => {
     beforeEach(() => {
-      returnValue = getFormatter('json');
+      returnValue = getFormatter('pretty');
     });
 
     it('should return the formatter', () => {
-      expect(returnValue).toBe(mockJsonFormatter);
+      expect(returnValue).toBe(mockPrettyFormatter);
     });
   });
 
@@ -73,11 +73,11 @@ describe('getFormatter', () => {
 
     describe('and there is a name key', () => {
       beforeEach(() => {
-        returnValue = getFormatter({ name: 'json' });
+        returnValue = getFormatter({ name: 'pretty' });
       });
 
       it('should return the formatter according to that name key', () => {
-        expect(returnValue).toBe(mockJsonFormatter);
+        expect(returnValue).toBe(mockPrettyFormatter);
       });
     });
   });
