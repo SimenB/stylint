@@ -5,7 +5,7 @@ const _ = require('lodash');
 /**
  * @description Default formatter for stylint.
  * @param  {Object} report - Report object containing all results.
- * @param  {Object} [options] - Options provided to the reporter, and some relevant config.
+ * @param  {Object} [options] - Options provided to the formatter, and some relevant config.
  * @param  {boolean} [kill] - Whether or not we're over one of our limits.
  * @returns {string} The formatted message.
  */

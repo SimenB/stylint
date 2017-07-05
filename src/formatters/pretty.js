@@ -7,11 +7,11 @@ const columnify = require('columnify');
 /**
  * @description Pretty formatter for stylint.
  * @param  {Object} report - Report object containing all results.
- * @param  {Object} [options] - Options provided to the reporter, and some relevant config.
+ * @param  {Object} [options] - Options provided to the formatter, and some relevant config.
  * @param  {boolean} [kill] - Whether or not we're over one of our limits.
  * @returns {string} The formatted message.
  */
-const reporter = function(report, options, kill) {
+const formatter = function(report, options, kill) {
   if (report.results.length === 0) {
     return '';
   }
@@ -47,7 +47,7 @@ const reporter = function(report, options, kill) {
     // each array consists of all the errors and warnings for a file
     // columnify the errors/warnings and prefix them with the file name
     formattedMessages = formattedMessages.map(
-      results => `${results.filePath}\n${columnify(results.messages, existingOptions.reporterOptions)}`
+      results => `${results.filePath}\n${columnify(results.messages, existingOptions.formatterOptions)}`
     );
   } else {
     formattedMessages = formattedMessages
@@ -71,4 +71,4 @@ const reporter = function(report, options, kill) {
   return `${formattedMessages}\n\n${formattedMessage}`.trim();
 };
 
-module.exports = reporter;
+module.exports = formatter;
