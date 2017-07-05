@@ -8,6 +8,112 @@ Stylint: 0 Errors.
 Stylint: 1 Warnings."
 `;
 
+exports[`formatter should format column 1`] = `
+"[4msome file.styl[24m
+1:5 [90mno-undefined[39m [31merror[39m This is not OK
+
+Stylint: 1 Errors.
+Stylint: 0 Warnings."
+`;
+
+exports[`formatter should format error and warning correctly 1`] = `
+"[4msome file.styl[24m
+1 [90mno-undefined[39m [31merror[39m This is not OK
+
+[4msome file.styl[24m
+1 [90mno-undefined[39m [33mwarning[39m This is not OK
+
+Stylint: 1 Errors.
+Stylint: 1 Warnings."
+`;
+
+exports[`formatter should format error correctly 1`] = `
+"[4msome file.styl[24m
+1 [90mno-undefined[39m [31merror[39m This is not OK
+
+Stylint: 1 Errors.
+Stylint: 0 Warnings."
+`;
+
+exports[`formatter should format warning correctly 1`] = `
+"[4msome file.styl[24m
+1 [90mno-undefined[39m [33mwarning[39m This is not OK
+
+Stylint: 0 Errors.
+Stylint: 1 Warnings."
+`;
+
+exports[`formatter should group files correctly 1`] = `
+"some file.styl
+FILE           LINEDATA SEVERITY MESSAGE        RULE        
+[4msome file.styl[24m 1        [31merror[39m    This is not OK [90mno-undefined[39m
+[4msome file.styl[24m 1        [31merror[39m    This is not OK [90mno-undefined[39m
+
+some other file.styl
+FILE                 LINEDATA SEVERITY MESSAGE        RULE        
+[4msome other file.styl[24m 1        [31merror[39m    This is not OK [90mno-undefined[39m
+
+Stylint: 3 Errors.
+Stylint: 0 Warnings."
+`;
+
+exports[`formatter should have correct output on no message 1`] = `""`;
+
+exports[`formatter should include kill message 1`] = `
+"[4msome file.styl[24m
+1 [90mno-undefined[39m [33mwarning[39m This is not OK
+
+Stylint: 0 Errors.
+Stylint: 1 Warnings.
+Stylint: Over Error or Warning Limit."
+`;
+
+exports[`formatter should include max errors and max warnings 1`] = `
+"[4msome file.styl[24m
+1 [90mno-undefined[39m [33mwarning[39m This is not OK
+
+Stylint: 0 Errors. (Max Errors: 5)
+Stylint: 1 Warnings. (Max Warnings: 5)"
+`;
+
+exports[`formatter should not group files by default 1`] = `
+"[4msome file.styl[24m
+1 [90mno-undefined[39m [31merror[39m This is not OK
+
+[4msome file.styl[24m
+1 [90mno-undefined[39m [31merror[39m This is not OK
+
+[4msome other file.styl[24m
+1 [90mno-undefined[39m [31merror[39m This is not OK
+
+Stylint: 3 Errors.
+Stylint: 0 Warnings."
+`;
+
+exports[`formatter should skip non-valid max errors and max warnings 1`] = `
+"[4msome file.styl[24m
+1 [90mno-undefined[39m [33mwarning[39m This is not OK
+
+Stylint: 0 Errors.
+Stylint: 1 Warnings. (Max Warnings: 5)"
+`;
+
+exports[`formatter should skip non-valid max errors and max warnings 2`] = `
+"[4msome file.styl[24m
+1 [90mno-undefined[39m [33mwarning[39m This is not OK
+
+Stylint: 0 Errors.
+Stylint: 1 Warnings. (Max Warnings: 5)"
+`;
+
+exports[`formatter should skip non-valid max errors and max warnings 3`] = `
+"[4msome file.styl[24m
+1 [90mno-undefined[39m [33mwarning[39m This is not OK
+
+Stylint: 0 Errors. (Max Errors: 2)
+Stylint: 1 Warnings."
+`;
+
 exports[`reporter should format column 1`] = `
 "[4msome file.styl[24m
 1:5 [90mno-undefined[39m [31merror[39m This is not OK

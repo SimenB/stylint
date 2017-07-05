@@ -23,13 +23,13 @@ const done = function() {
   const shouldKill = shouldExit1(maxErrors, maxWarnings, errorCount, warningCount);
 
   this.state.exitCode = shouldKill ? 1 : 0;
-  const message = this.reporter(
+  const message = this.formatter(
     report,
     {
       maxErrors,
       maxWarnings,
       groupOutputByFile: this.config.groupOutputByFile,
-      reporterOptions: this.config.reporterOptions,
+      formatterOptions: this.config.formatterOptions,
     },
     shouldKill
   );

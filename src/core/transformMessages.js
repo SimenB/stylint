@@ -5,7 +5,7 @@ const _ = require('lodash');
 const countSeverities = require('../utils/countSeveritiesInMessages');
 
 /**
- * @description Transforms all messages into the format returned to the caller, or passed to reporters.
+ * @description Transforms all messages into the format returned to the caller, or passed to formatters.
  * @param {boolean} [skipDone] - If true, don't call done.
  * @returns {Object} Returns the transformed object.
  */

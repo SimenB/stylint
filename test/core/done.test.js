@@ -28,7 +28,7 @@ describe('done', () => {
         maxErrors: -1,
         maxWarnings: -1,
       },
-      reporter: jest.fn(),
+      formatter: jest.fn(),
       state: {
         watching: true,
       },
@@ -109,7 +109,7 @@ describe('done', () => {
   describe('logging report', () => {
     it('should log if quiet is not true, and there is a message', () => {
       context.state.quiet = false;
-      context.reporter.mockImplementation(() => 'some message');
+      context.formatter.mockImplementation(() => 'some message');
 
       done.call(context);
 
@@ -119,7 +119,7 @@ describe('done', () => {
 
     it('should not log if quiet is true, and there is a message', () => {
       context.state.quiet = true;
-      context.reporter.mockImplementation(() => 'some message');
+      context.formatter.mockImplementation(() => 'some message');
 
       done.call(context);
 
@@ -135,37 +135,37 @@ describe('done', () => {
     });
   });
 
-  describe('calling reporter', () => {
+  describe('calling formatter', () => {
     it('should call report even if no messages', () => {
       done.call(context);
 
-      expect(context.reporter).toHaveBeenCalledTimes(1);
-      expect(context.reporter).toHaveBeenCalledWith(
+      expect(context.formatter).toHaveBeenCalledTimes(1);
+      expect(context.formatter).toHaveBeenCalledWith(
         report,
         {
           maxErrors: -1,
           maxWarnings: -1,
           groupOutputByFile: undefined,
-          reporterOptions: undefined,
+          formatterOptions: undefined,
         },
         false
       );
     });
 
-    it('should pass along groupOutputByFile and reporterOptions', () => {
+    it('should pass along groupOutputByFile and formatterOptions', () => {
       context.config.groupOutputByFile = true;
-      context.config.reporterOptions = true;
+      context.config.formatterOptions = true;
 
       done.call(context);
 
-      expect(context.reporter).toHaveBeenCalledTimes(1);
-      expect(context.reporter).toHaveBeenCalledWith(
+      expect(context.formatter).toHaveBeenCalledTimes(1);
+      expect(context.formatter).toHaveBeenCalledWith(
         report,
         {
           maxErrors: -1,
           maxWarnings: -1,
           groupOutputByFile: true,
-          reporterOptions: true,
+          formatterOptions: true,
         },
         false
       );
@@ -177,14 +177,14 @@ describe('done', () => {
 
       done.call(context);
 
-      expect(context.reporter).toHaveBeenCalledTimes(1);
-      expect(context.reporter).toHaveBeenCalledWith(
+      expect(context.formatter).toHaveBeenCalledTimes(1);
+      expect(context.formatter).toHaveBeenCalledWith(
         report,
         {
           maxErrors: -1,
           maxWarnings: -1,
           groupOutputByFile: undefined,
-          reporterOptions: undefined,
+          formatterOptions: undefined,
         },
         false
       );
@@ -195,8 +195,8 @@ describe('done', () => {
 
       done.call(context);
 
-      expect(context.reporter).toHaveBeenCalledTimes(1);
-      expect(context.reporter.mock.calls[0][2]).toEqual(true);
+      expect(context.formatter).toHaveBeenCalledTimes(1);
+      expect(context.formatter.mock.calls[0][2]).toEqual(true);
     });
   });
 });

@@ -1,7 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
-const reporter = require('../../src/core/reporter');
+const formatter = require('../../src/formatters/pretty');
 
 const countSeverities = require('../../src/utils/countSeveritiesInMessages');
 
@@ -39,46 +39,46 @@ function generateReport(result) {
   return severities;
 }
 
-describe('reporter', () => {
+describe('formatter', () => {
   it('should have correct output on no message', () => {
-    expect(reporter(generateReport())).toMatchSnapshot();
+    expect(formatter(generateReport())).toMatchSnapshot();
   });
 
   it('should include kill message', () => {
-    expect(reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), {}, true)).toMatchSnapshot();
+    expect(formatter(generateReport([genWarning('some file.styl', 'no-undefined')]), {}, true)).toMatchSnapshot();
   });
 
   it('should include max errors and max warnings', () => {
     expect(
-      reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxErrors: 5, maxWarnings: 5 })
+      formatter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxErrors: 5, maxWarnings: 5 })
     ).toMatchSnapshot();
   });
 
   it('should skip non-valid max errors and max warnings', () => {
     expect(
-      reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxErrors: -1, maxWarnings: 5 })
+      formatter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxErrors: -1, maxWarnings: 5 })
     ).toMatchSnapshot();
     expect(
-      reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxWarnings: 5 })
+      formatter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxWarnings: 5 })
     ).toMatchSnapshot();
     expect(
-      reporter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxErrors: 2 })
+      formatter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxErrors: 2 })
     ).toMatchSnapshot();
   });
 
   it('should format warning correctly', () => {
-    expect(reporter(generateReport([genWarning('some file.styl', 'no-undefined')]))).toMatchSnapshot();
+    expect(formatter(generateReport([genWarning('some file.styl', 'no-undefined')]))).toMatchSnapshot();
   });
 
   it('should format error correctly', () => {
-    expect(reporter(generateReport([genError('some file.styl', 'no-undefined')]))).toMatchSnapshot();
+    expect(formatter(generateReport([genError('some file.styl', 'no-undefined')]))).toMatchSnapshot();
   });
 
   it('should format error and warning correctly', () => {
     const error = genError('some file.styl', 'no-undefined');
     const warning = genWarning('some file.styl', 'no-undefined');
 
-    expect(reporter(generateReport([error, warning]))).toMatchSnapshot();
+    expect(formatter(generateReport([error, warning]))).toMatchSnapshot();
   });
 
   it('should format column', () => {
@@ -86,7 +86,7 @@ describe('reporter', () => {
 
     error.messages[0].column = 5;
 
-    expect(reporter(generateReport([error]))).toMatchSnapshot();
+    expect(formatter(generateReport([error]))).toMatchSnapshot();
   });
 
   it('should not group files by default', () => {
@@ -94,14 +94,14 @@ describe('reporter', () => {
     const error2 = genError('some file.styl', 'no-undefined');
     const error3 = genError('some other file.styl', 'no-undefined');
 
-    expect(reporter(generateReport([error1, error2, error3]))).toMatchSnapshot();
+    expect(formatter(generateReport([error1, error2, error3]))).toMatchSnapshot();
   });
 
   it('should group files correctly', () => {
     const error1 = genError('some file.styl', ['no-undefined', 'no-undefined']);
     const error2 = genError('some other file.styl', 'no-undefined');
 
-    expect(reporter(generateReport([error1, error2]), { groupOutputByFile: true })).toMatchSnapshot();
+    expect(formatter(generateReport([error1, error2]), { groupOutputByFile: true })).toMatchSnapshot();
   });
 });
 
@@ -125,6 +125,6 @@ describe('(Old tests) Reporter should: ', () => {
       ],
     };
 
-    expect(app.reporter({ results: [msg], errorCount: 0, warningCount: 1 })).toMatchSnapshot();
+    expect(app.formatter({ results: [msg], errorCount: 0, warningCount: 1 })).toMatchSnapshot();
   });
 });

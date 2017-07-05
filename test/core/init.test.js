@@ -42,10 +42,10 @@ describe('Init should: ', () => {
     expect(app.state.path).toEqual(process.cwd());
   });
 
-  it('set reporter if default if one not passed in', () => {
-    app.config.reporter = undefined;
+  it('set formatter if default if one not passed in', () => {
+    app.config.formatter = undefined;
     app.init();
-    expect(app.reporter).toBeDefined();
+    expect(app.formatter).toBeDefined();
   });
 
   it('use custom config if passed --config flag', () => {
