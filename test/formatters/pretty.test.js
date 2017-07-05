@@ -4,8 +4,6 @@ const _ = require('lodash');
 const prettyFormatter = require('../../src/formatters/pretty');
 const countSeverities = require('../../src/utils/countSeveritiesInMessages');
 
-const stylint = require('../../index');
-
 function genMessage(filePath, ruleIds, severity) {
   const ruleIdsArray = Array.isArray(ruleIds) ? ruleIds : [ruleIds];
 
