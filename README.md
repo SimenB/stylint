@@ -68,7 +68,7 @@ you can also ping me [here](https://gitter.im/rossPatton/stylint)
 
 `stylint --config path/to/config/.configrc` Run stylint with custom config settings
 
-`stylint --formatter stylint-reporter-module` Run stylint with [custom formatter](#custom-formatters) module
+`stylint --formatter stylint-formatter-module` Run stylint with [custom formatter](#custom-formatters) module
 
 `stylint styl/ --watch -c path/to/config/.configrc` Watch dir, use custom config
 
