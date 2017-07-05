@@ -1,8 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
-const formatter = require('../../src/formatters/pretty');
-
+const prettyFormatter = require('../../src/formatters/pretty');
 const countSeverities = require('../../src/utils/countSeveritiesInMessages');
 
 const stylint = require('../../index');
@@ -39,46 +38,46 @@ function generateReport(result) {
   return severities;
 }
 
-describe('formatter', () => {
+describe('prettyFormatter', () => {
   it('should have correct output on no message', () => {
-    expect(formatter(generateReport())).toMatchSnapshot();
+    expect(prettyFormatter(generateReport())).toMatchSnapshot();
   });
 
   it('should include kill message', () => {
-    expect(formatter(generateReport([genWarning('some file.styl', 'no-undefined')]), {}, true)).toMatchSnapshot();
+    expect(prettyFormatter(generateReport([genWarning('some file.styl', 'no-undefined')]), {}, true)).toMatchSnapshot();
   });
 
   it('should include max errors and max warnings', () => {
     expect(
-      formatter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxErrors: 5, maxWarnings: 5 })
+      prettyFormatter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxErrors: 5, maxWarnings: 5 })
     ).toMatchSnapshot();
   });
 
   it('should skip non-valid max errors and max warnings', () => {
     expect(
-      formatter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxErrors: -1, maxWarnings: 5 })
+      prettyFormatter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxErrors: -1, maxWarnings: 5 })
     ).toMatchSnapshot();
     expect(
-      formatter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxWarnings: 5 })
+      prettyFormatter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxWarnings: 5 })
     ).toMatchSnapshot();
     expect(
-      formatter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxErrors: 2 })
+      prettyFormatter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxErrors: 2 })
     ).toMatchSnapshot();
   });
 
   it('should format warning correctly', () => {
-    expect(formatter(generateReport([genWarning('some file.styl', 'no-undefined')]))).toMatchSnapshot();
+    expect(prettyFormatter(generateReport([genWarning('some file.styl', 'no-undefined')]))).toMatchSnapshot();
   });
 
   it('should format error correctly', () => {
-    expect(formatter(generateReport([genError('some file.styl', 'no-undefined')]))).toMatchSnapshot();
+    expect(prettyFormatter(generateReport([genError('some file.styl', 'no-undefined')]))).toMatchSnapshot();
   });
 
   it('should format error and warning correctly', () => {
     const error = genError('some file.styl', 'no-undefined');
     const warning = genWarning('some file.styl', 'no-undefined');
 
-    expect(formatter(generateReport([error, warning]))).toMatchSnapshot();
+    expect(prettyFormatter(generateReport([error, warning]))).toMatchSnapshot();
   });
 
   it('should format column', () => {
@@ -86,7 +85,7 @@ describe('formatter', () => {
 
     error.messages[0].column = 5;
 
-    expect(formatter(generateReport([error]))).toMatchSnapshot();
+    expect(prettyFormatter(generateReport([error]))).toMatchSnapshot();
   });
 
   it('should not group files by default', () => {
@@ -94,19 +93,19 @@ describe('formatter', () => {
     const error2 = genError('some file.styl', 'no-undefined');
     const error3 = genError('some other file.styl', 'no-undefined');
 
-    expect(formatter(generateReport([error1, error2, error3]))).toMatchSnapshot();
+    expect(prettyFormatter(generateReport([error1, error2, error3]))).toMatchSnapshot();
   });
 
   it('should group files correctly', () => {
     const error1 = genError('some file.styl', ['no-undefined', 'no-undefined']);
     const error2 = genError('some other file.styl', 'no-undefined');
 
-    expect(formatter(generateReport([error1, error2]), { groupOutputByFile: true })).toMatchSnapshot();
+    expect(prettyFormatter(generateReport([error1, error2]), { groupOutputByFile: true })).toMatchSnapshot();
   });
 });
 
 describe('(Old tests) Reporter should: ', () => {
-  const app = stylint(null, { formatter: 'pretty' }).create();
+  const app = stylint(null, { prettyFormatter: 'pretty' }).create();
 
   it('return correctly formatted msg', () => {
     app.cache.rule = 'universal';
