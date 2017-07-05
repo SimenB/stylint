@@ -106,7 +106,7 @@ describe('reporter', () => {
 });
 
 describe('(Old tests) Reporter should: ', () => {
-  const app = stylint().create();
+  const app = stylint(null, { formatter: 'pretty' }).create();
 
   it('return correctly formatted msg', () => {
     app.cache.rule = 'universal';
