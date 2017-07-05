@@ -1,12 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`(Old tests) Reporter should:  return correctly formatted msg 1`] = `
-"[object Object]
-
-Stylint: 0 Errors.
-Stylint: 1 Warnings."
-`;
-
 exports[`prettyFormatter should format column 1`] = `
 "[4msome file.styl[24m
 1:5 [90mno-undefined[39m [31merror[39m This is not OK
