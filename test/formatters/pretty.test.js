@@ -103,27 +103,3 @@ describe('prettyFormatter', () => {
     expect(prettyFormatter(generateReport([error1, error2]), { groupOutputByFile: true })).toMatchSnapshot();
   });
 });
-
-describe('(Old tests) Reporter should: ', () => {
-  const app = stylint(null, { prettyFormatter: 'pretty' }).create();
-
-  it('return correctly formatted msg', () => {
-    app.cache.rule = 'universal';
-
-    const msg = {
-      filePath: 'testReporter',
-      messages: [
-        {
-          message: 'universal disallowed',
-          severity: 'warning',
-          line: 1,
-          column: 0,
-          ruleId: 'universal',
-          source: 'Reporter Lyfe*',
-        },
-      ],
-    };
-
-    expect(app.formatter({ results: [msg], errorCount: 0, warningCount: 1 })).toMatchSnapshot();
-  });
-});
