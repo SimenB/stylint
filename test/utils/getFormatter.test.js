@@ -1,27 +1,21 @@
 'use strict';
 
-const sinon = require('sinon');
 const getFormatter = require('../../src/utils/getFormatter');
+
 const FORMATTERS_MOCK_PATH = '../../src/formatters';
 
 describe('getFormatter', () => {
   let returnValue;
 
   // Must be prefixed with `mock` to allow it to be returned in `jest.mock` calls.
-  const mockDefaultFormatter = 'defaultFormatter';
-  const mockJsonFormatter = 'jsonFormatter';
-  const mockThirdPartyFormatter = 'thirdPartyFormatter';
+  const mockDefaultFormatter = 'Awake';
+  const mockJsonFormatter = 'Shake dreams from your hair, my pretty child, my sweet one';
+  const mockThirdPartyFormatter = 'Choose the day and choose the sign of your day';
 
   beforeAll(() => {
-    jest.mock(`${FORMATTERS_MOCK_PATH}/default`, () => {
-      return mockDefaultFormatter;
-    });
-    jest.mock(`${FORMATTERS_MOCK_PATH}/json`, () => {
-      return mockJsonFormatter;
-    }, {virtual: true});
-    jest.mock('mockNodeDependency', () => {
-      return mockThirdPartyFormatter;
-    }, {virtual: true});
+    jest.mock(`${FORMATTERS_MOCK_PATH}/default`, () => mockDefaultFormatter);
+    jest.mock(`${FORMATTERS_MOCK_PATH}/json`, () => mockJsonFormatter, { virtual: true });
+    jest.mock('thirdPartyFormatter', () => mockThirdPartyFormatter, { virtual: true });
   });
 
   describe('when no value is passed in', () => {
@@ -46,33 +40,45 @@ describe('getFormatter', () => {
 
   describe('when a third party formatter module is passed in', () => {
     beforeEach(() => {
-      returnValue = getFormatter('json');
+      returnValue = getFormatter({ name: 'thirdPartyFormatter', thirdParty: true });
     });
 
-    it('should return the formatter', () => {
-      expect(returnValue).toBe(mockJsonFormatter);
+    it('should return the third party formatter', () => {
+      expect(returnValue).toBe(mockThirdPartyFormatter);
     });
   });
 
   describe("when the formatter doesn't exist", () => {
-    const missingFormatter = 'this/formatter/doesnt/exist'
+    const missingFormatter = 'this/formatter/doesnt/exist';
     const includesMissingFormatterPath = new RegExp(`${missingFormatter}`);
     const getMissingFormatter = () => {
       getFormatter(missingFormatter);
     };
 
-    it('should throw a generic error', () => {
+    it('should throw an error with the invalid formatter path in the message', () => {
       expect(getMissingFormatter).toThrow(includesMissingFormatterPath);
     });
   });
 
-  describe("when the formatter isn't a string", () => {
-    const getFormatterWithNonStringValue = () => {
-      getFormatter({question: 'Why on earth would you call this method with an object?'});
-    };
+  describe('when the formatter is an object', () => {
+    describe('and there is no name key', () => {
+      const getFormatterWithNonStringValue = () => {
+        getFormatter({ hmm: "This isn't where I parked my car." });
+      };
 
-    it('should throw the provided error', () => {
-      expect(getFormatterWithNonStringValue).toThrow(TypeError)
+      it('should throw a type error', () => {
+        expect(getFormatterWithNonStringValue).toThrow(TypeError);
+      });
+    });
+
+    describe('and there is a name key', () => {
+      beforeEach(() => {
+        returnValue = getFormatter({ name: 'json' });
+      });
+
+      it('should return the formatter according to that name key', () => {
+        expect(returnValue).toBe(mockJsonFormatter);
+      });
     });
   });
 });
