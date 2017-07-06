@@ -1,103 +1,96 @@
 'use strict';
 
-const _ = require('lodash');
 const prettyFormatter = require('../../src/formatters/pretty');
-const countSeverities = require('../../src/utils/countSeveritiesInMessages');
-
-function genMessage(filePath, ruleIds, severity) {
-  const ruleIdsArray = Array.isArray(ruleIds) ? ruleIds : [ruleIds];
-
-  return {
-    filePath,
-    messages: ruleIdsArray.map(ruleId => ({
-      line: 1,
-      column: -1,
-      severity,
-      message: 'This is not OK',
-      source: '',
-      ruleId,
-    })),
-  };
-}
-
-function genWarning(filePath, rule) {
-  return genMessage(filePath, rule, 'warning');
-}
-
-function genError(filePath, rule) {
-  return genMessage(filePath, rule, 'error');
-}
-
-function generateReport(result) {
-  const severities = countSeverities(_.flatMap(result, 'messages'));
-
-  severities.results = result || [];
-
-  return severities;
-}
+const formatterMockUtils = require('../../src/utils/formatterMockUtils');
 
 describe('prettyFormatter', () => {
   it('should have correct output on no message', () => {
-    expect(prettyFormatter(generateReport())).toMatchSnapshot();
+    expect(prettyFormatter(formatterMockUtils.generateReport())).toMatchSnapshot();
   });
 
   it('should include kill message', () => {
-    expect(prettyFormatter(generateReport([genWarning('some file.styl', 'no-undefined')]), {}, true)).toMatchSnapshot();
+    const report = formatterMockUtils.generateReport([
+      formatterMockUtils.generateWarning('some file.styl', 'no-undefined'),
+    ]);
+
+    expect(prettyFormatter(report, {}, true)).toMatchSnapshot();
   });
 
   it('should include max errors and max warnings', () => {
-    expect(
-      prettyFormatter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxErrors: 5, maxWarnings: 5 })
-    ).toMatchSnapshot();
+    const report = formatterMockUtils.generateReport([
+      formatterMockUtils.generateWarning('some file.styl', 'no-undefined'),
+    ]);
+
+    expect(prettyFormatter(report, { maxErrors: 5, maxWarnings: 5 })).toMatchSnapshot();
   });
 
   it('should skip non-valid max errors and max warnings', () => {
-    expect(
-      prettyFormatter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxErrors: -1, maxWarnings: 5 })
-    ).toMatchSnapshot();
-    expect(
-      prettyFormatter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxWarnings: 5 })
-    ).toMatchSnapshot();
-    expect(
-      prettyFormatter(generateReport([genWarning('some file.styl', 'no-undefined')]), { maxErrors: 2 })
-    ).toMatchSnapshot();
+    const negativeErrorReport = formatterMockUtils.generateReport([
+      formatterMockUtils.generateWarning('some file.styl', 'no-undefined'),
+    ]);
+    const negativeErrorOptions = { maxErrors: -1, maxWarnings: 5 };
+
+    const missingErrorReport = formatterMockUtils.generateReport([
+      formatterMockUtils.generateWarning('some file.styl', 'no-undefined'),
+    ]);
+    const missingErrorOptions = { maxWarnings: 5 };
+
+    const missingWarningReport = formatterMockUtils.generateReport([
+      formatterMockUtils.generateWarning('some file.styl', 'no-undefined'),
+    ]);
+    const missingWarningOptions = { maxErrors: 2 };
+
+    expect(prettyFormatter(negativeErrorReport, negativeErrorOptions)).toMatchSnapshot();
+    expect(prettyFormatter(missingErrorReport, missingErrorOptions)).toMatchSnapshot();
+    expect(prettyFormatter(missingWarningReport, missingWarningOptions)).toMatchSnapshot();
   });
 
   it('should format warning correctly', () => {
-    expect(prettyFormatter(generateReport([genWarning('some file.styl', 'no-undefined')]))).toMatchSnapshot();
+    const report = formatterMockUtils.generateReport([
+      formatterMockUtils.generateWarning('some file.styl', 'no-undefined'),
+    ]);
+
+    expect(prettyFormatter(report)).toMatchSnapshot();
   });
 
   it('should format error correctly', () => {
-    expect(prettyFormatter(generateReport([genError('some file.styl', 'no-undefined')]))).toMatchSnapshot();
+    const report = formatterMockUtils.generateReport([
+      formatterMockUtils.generateError('some file.styl', 'no-undefined'),
+    ]);
+
+    expect(prettyFormatter(report)).toMatchSnapshot();
   });
 
   it('should format error and warning correctly', () => {
-    const error = genError('some file.styl', 'no-undefined');
-    const warning = genWarning('some file.styl', 'no-undefined');
+    const error = formatterMockUtils.generateError('some file.styl', 'no-undefined');
+    const warning = formatterMockUtils.generateWarning('some file.styl', 'no-undefined');
 
-    expect(prettyFormatter(generateReport([error, warning]))).toMatchSnapshot();
+    expect(prettyFormatter(formatterMockUtils.generateReport([error, warning]))).toMatchSnapshot();
   });
 
   it('should format column', () => {
-    const error = genError('some file.styl', 'no-undefined');
+    const error = formatterMockUtils.generateError('some file.styl', 'no-undefined');
 
     error.messages[0].column = 5;
 
-    expect(prettyFormatter(generateReport([error]))).toMatchSnapshot();
+    expect(prettyFormatter(formatterMockUtils.generateReport([error]))).toMatchSnapshot();
   });
 
   it('should not group files by default', () => {
-    const error1 = genError('some file.styl', 'no-undefined');
-    const error2 = genError('some file.styl', 'no-undefined');
-    const error3 = genError('some other file.styl', 'no-undefined');
+    const error1 = formatterMockUtils.generateError('some file.styl', 'no-undefined');
+    const error2 = formatterMockUtils.generateError('some file.styl', 'no-undefined');
+    const error3 = formatterMockUtils.generateError('some other file.styl', 'no-undefined');
+    const report = formatterMockUtils.generateReport([error1, error2, error3]);
 
-    expect(prettyFormatter(generateReport([error1, error2, error3]))).toMatchSnapshot();
+    expect(prettyFormatter(report)).toMatchSnapshot();
   });
 
   it('should group files correctly', () => {
-    const error1 = genError('some file.styl', ['no-undefined', 'no-undefined']);
-    const error2 = genError('some other file.styl', 'no-undefined');
+    const error1 = formatterMockUtils.generateError('some file.styl', ['no-undefined', 'no-undefined']);
+    const error2 = formatterMockUtils.generateError('some other file.styl', 'no-undefined');
+    const options = { groupOutputByFile: true };
+    const report = formatterMockUtils.generateReport([error1, error2]);
 
-    expect(prettyFormatter(generateReport([error1, error2]), { groupOutputByFile: true })).toMatchSnapshot();
+    expect(prettyFormatter(report, options)).toMatchSnapshot();
   });
 });
