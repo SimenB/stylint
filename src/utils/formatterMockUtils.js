@@ -4,7 +4,7 @@ const _ = require('lodash');
 const countSeverities = require('../../src/utils/countSeveritiesInMessages');
 
 const generateMessage = (filePath, ruleIds, severity) => {
-  const ruleIdsArray = Array.isArray(ruleIds) ? ruleIds : [ruleIds];
+  const ruleIdsArray = [].concat(ruleIds);
 
   return {
     filePath,
