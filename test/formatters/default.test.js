@@ -1,13 +1,19 @@
 'use strict';
 
 const defaultFormatter = require('../../src/formatters/default');
+const formatterMockUtils = require('../../src/utils/formatterMockUtils');
+
+const MOCK_FILE_NAME = 'some file.styl';
+const MOCK_RULE_ID = 'duplicates';
 
 describe('defaultFormatter', () => {
   let returnValue;
+  const report = formatterMockUtils.generateReport([formatterMockUtils.generateWarning(MOCK_FILE_NAME, MOCK_RULE_ID)]);
+  const cleanReport = formatterMockUtils.generateReport();
 
-  describe('when an empty report is passed in', () => {
+  describe('when the report has no results', () => {
     beforeEach(() => {
-      returnValue = defaultFormatter();
+      returnValue = defaultFormatter(cleanReport);
     });
 
     it('should return an empty string', () => {
@@ -17,41 +23,47 @@ describe('defaultFormatter', () => {
 
   describe('when kill is passed in', () => {
     beforeEach(() => {
-      returnValue = defaultFormatter();
+      returnValue = defaultFormatter(report, {}, true);
     });
 
     it('should append the report with a warning message', () => {
-      expect(returnValue).toMatch(/Stylint: Over Error or Warning Limit./);
+      expect(returnValue).toMatchSnapshot();
     });
   });
 
   describe('when max errors are passed in', () => {
     beforeEach(() => {
-      returnValue = defaultFormatter();
+      returnValue = defaultFormatter(report, { maxErrors: 5 });
     });
 
     it('should include the max error count in the report', () => {
-      expect(returnValue).toMatch(/\(Max Errors: \d+ \)/);
+      expect(returnValue).toMatchSnapshot();
     });
   });
 
   describe('when max warnings are passed in', () => {
     beforeEach(() => {
-      returnValue = defaultFormatter();
+      returnValue = defaultFormatter(report, { maxWarnings: 2 });
     });
 
     it('should include the max warning count in the report', () => {
-      expect(returnValue).toMatch(/\(Max Warnings: \d+ \)/);
+      expect(returnValue).toMatchSnapshot();
     });
   });
 
-  describe('when an empty report is passed in', () => {
+  describe('when a message does not include a column', () => {
     beforeEach(() => {
-      returnValue = defaultFormatter();
+      const noColumnReport = formatterMockUtils.generateReport([
+        formatterMockUtils.generateWarning(MOCK_FILE_NAME, MOCK_RULE_ID),
+      ]);
+      // TODO - This is better encapsulated if it is a part of generateReport.
+      noColumnReport.results[0].messages[0].column = null;
+
+      returnValue = defaultFormatter(noColumnReport, {});
     });
 
-    it('should return an empty string', () => {
-      expect(returnValue).toBe('');
+    it('should only display the line number for each message', () => {
+      expect(returnValue).toMatchSnapshot();
     });
   });
 });
