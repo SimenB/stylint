@@ -34,7 +34,7 @@ const getFormatter = function(formatter) {
     }
   }
 
-  let prefix = 'src/formatters';
+  let prefix = path.join('src', 'formatters');
 
   if (isPath(formatterName)) {
     prefix = '';
