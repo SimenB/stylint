@@ -13,14 +13,14 @@ const getNameFromObject = formatterObject => {
 };
 
 const loadFormatter = formatterPath => {
-  /* eslint-disable import/no-dynamic-require */
   try {
+    /* eslint-disable import/no-dynamic-require */
     return require(formatterPath);
+    /* eslint-enable */
   } catch (error) {
     error.message = `Formatter failed to load: ${formatterPath}\nError:\n\n${error.message}`;
     throw error;
   }
-  /* eslint-enable */
 };
 
 const getFormatter = function(formatter) {
