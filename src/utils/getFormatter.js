@@ -3,7 +3,13 @@
 const path = require('path');
 const _ = require('lodash');
 
-const isPath = x => x.indexOf('/') > -1;
+/**
+ * @description Determines if the provided value is a path by checking if
+ *   it contains the path separator used by the containing operating system.
+ * @param {string} maybePath - The value checked by `isPath`.
+ * @returns {boolean} Whether or not the provided value is a path.
+ */
+const isPath = maybePath => maybePath.indexOf(path.sep) > -1;
 
 /**
  * @description Returns the name of the provided formatter object.
