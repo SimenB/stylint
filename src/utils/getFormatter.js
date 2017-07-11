@@ -5,7 +5,7 @@ const _ = require('lodash');
 
 const isPath = x => x.indexOf('/') > -1;
 
-const getNameFromObject = formatterObject => {
+const getNameFromFormatter = formatterObject => {
   if (!formatterObject.name) {
     throw new TypeError("Formatter configuration 'name' key is missing.");
   }
@@ -27,7 +27,7 @@ const getFormatter = function(formatter) {
   let formatterName = formatter || 'default';
 
   if (_.isObject(formatter)) {
-    formatterName = getNameFromObject(formatter);
+    formatterName = getNameFromFormatter(formatter);
 
     if (formatter.thirdParty) {
       return loadFormatter(formatterName);
