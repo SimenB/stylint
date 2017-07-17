@@ -197,7 +197,7 @@ Note that customProperties and mixins are aliases
 	"placeholders": "always",
 	"prefixVarsWithDollar": "always",
 	"quotePref": false,
-	"reporterOptions": {
+	"formatterOptions": {
 		"columns": ["lineData", "severity", "description", "rule"],
 		"columnSplitter": "  ",
 		"showHeaders": false,
@@ -583,8 +583,9 @@ Example if `'single'`: prefer `$var = 'some string'` over `$var = "some string"`
 Example if `'double'`: prefer `$var = "some string"` over `$var = 'some string'`
 
 
-### reporterOptions ( Object )
-If using the default reporter, Stylint uses columnify when outputting warnings and errors (only if you have groupOutputByFile set to true). See [columnify](https://www.npmjs.com/package/columnify) for more details. Using this option, you can easily customize the output (to an extent) without having to install a separate reporter.
+### formatterOptions ( Object )
+Formatter options are passed into the selected formatter as the second argument, under the key `formatterOptions`.
+These options will affect the output of the formatter, when supported.
 
 Default options:
 ```

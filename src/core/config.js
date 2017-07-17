@@ -31,11 +31,12 @@ const config = {
   globalDupe: false,
   // group report output by file or go sequentially
   groupOutputByFile: true,
+  // name of the formatter to use
+  formatter: 'default',
   // manipulate terminal output with or without an additional formatter
-  format: {
+  formatterOptions: {
     columnSplitter: '  ',
     columns: ['lineData', 'severity', 'message', 'rule'],
-    name: 'default',
     showHeaders: false,
     truncate: true,
   },
@@ -67,8 +68,6 @@ const config = {
   prefixVarsWithDollar: 'always',
   // single or double quotes, or false to not check
   quotePref: false,
-  // default formatter
-  formatter: '../core/formatter',
   // disallow or enforce semicolons
   semicolons: 'never',
   // alphabetical, grouped, Array<String> or false (no check)
