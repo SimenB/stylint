@@ -24,7 +24,7 @@ const options = yargs
   })
   .option('formatter', {
     alias: 'r',
-    describe: 'Custom formatter npm module name',
+    describe: 'Custom formatter name or path',
     type: 'string',
     requiresArg: true,
   })

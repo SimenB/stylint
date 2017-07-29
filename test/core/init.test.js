@@ -47,13 +47,11 @@ describe('Init should: ', () => {
   });
 
   it('set formatter to the value returned by the formatter retrieval method', () => {
-    const passedInFormatter = { name: 'woot woot' };
-    app.setConfig = jest.fn().mockReturnValue({ formatter: passedInFormatter });
+    const options = { formatter: 'woot woot' };
 
-    app.init();
-    app.setConfig.mockRestore();
+    app.init(options);
 
-    expect(mockGetFormatter).toHaveBeenLastCalledWith(passedInFormatter);
+    expect(mockGetFormatter).toHaveBeenLastCalledWith(options.formatter);
     expect(app.formatter).toEqual(mockFormatterValue);
   });
 
