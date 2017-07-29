@@ -19,20 +19,20 @@ Stylint: 1 Warnings.
 Stylint: Over Error or Warning Limit."
 `;
 
-exports[`defaultFormatter when max errors are passed in should include the max error count in the report 1`] = `
-"warning: This is not OK
-File: some file.styl
-Line: 1:-1
-
-Stylint: 0 Errors. (Max Errors: 5)
-Stylint: 1 Warnings."
-`;
-
-exports[`defaultFormatter when max warnings are passed in should include the max warning count in the report 1`] = `
+exports[`defaultFormatter when max error or max warning is less than 0 should not include the max warning and error counts in the report 1`] = `
 "warning: This is not OK
 File: some file.styl
 Line: 1:-1
 
 Stylint: 0 Errors.
+Stylint: 1 Warnings."
+`;
+
+exports[`defaultFormatter when max errors or max warnings is 0 or greater should include the max warning and error counts in the report 1`] = `
+"warning: This is not OK
+File: some file.styl
+Line: 1:-1
+
+Stylint: 0 Errors. (Max Errors: 5)
 Stylint: 1 Warnings. (Max Warnings: 2)"
 `;

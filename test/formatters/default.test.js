@@ -31,22 +31,22 @@ describe('defaultFormatter', () => {
     });
   });
 
-  describe('when max errors are passed in', () => {
+  describe('when max errors or max warnings is 0 or greater', () => {
     beforeEach(() => {
-      returnValue = defaultFormatter(report, { maxErrors: 5 });
+      returnValue = defaultFormatter(report, { maxErrors: 5, maxWarnings: 2 });
     });
 
-    it('should include the max error count in the report', () => {
+    it('should include the max warning and error counts in the report', () => {
       expect(returnValue).toMatchSnapshot();
     });
   });
 
-  describe('when max warnings are passed in', () => {
+  describe('when max error or max warning is less than 0', () => {
     beforeEach(() => {
-      returnValue = defaultFormatter(report, { maxWarnings: 2 });
+      returnValue = defaultFormatter(report, { maxErrors: -1, maxWarnings: -1 });
     });
 
-    it('should include the max warning count in the report', () => {
+    it('should not include the max warning and error counts in the report', () => {
       expect(returnValue).toMatchSnapshot();
     });
   });

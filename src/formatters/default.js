@@ -40,9 +40,9 @@ const defaultFormatter = function(report, options, kill) {
   }, '');
 
   response += `\n\nStylint: ${errorCount} Errors.`;
-  response += maxErrors ? ` (Max Errors: ${maxErrors})` : '';
+  response += maxErrors >= 0 ? ` (Max Errors: ${maxErrors})` : '';
   response += `\nStylint: ${warningCount} Warnings.`;
-  response += maxWarnings ? ` (Max Warnings: ${maxWarnings})` : '';
+  response += maxWarnings >= 0 ? ` (Max Warnings: ${maxWarnings})` : '';
   response += kill ? '\nStylint: Over Error or Warning Limit.' : '';
   return response;
 };
