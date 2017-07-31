@@ -34,7 +34,7 @@ const loadFormatter = formatterPath => {
     return require(formatterPath);
     /* eslint-enable */
   } catch (error) {
-    error.message = `Formatter failed to load: ${formatterPath}\nError:\n\n${error.message}`;
+    error.message = `Formatter failed to load: ${formatterPath}\n\n${error.message}`;
     throw error;
   }
 };
