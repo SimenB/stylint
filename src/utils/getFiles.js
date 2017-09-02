@@ -23,7 +23,7 @@ var getFiles = function( dir ) {
 				var excluded = false
 				var relPath = path.relative( dir.replace( '/**/*.styl', '' ), file )
 
-				this.config.exclude.forEach( function( exclude ) {
+				this.state.exclude.forEach( function( exclude ) {
 					excluded = excluded || exclude.match( relPath )
 				} )
 
@@ -41,7 +41,7 @@ var getFiles = function( dir ) {
 		var files = dir.filter( function( filepath ) {
 			var excluded = false
 
-			this.config.exclude.forEach( function( exclude ) {
+			this.state.exclude.forEach( function( exclude ) {
 				excluded = excluded || exclude.match( filepath )
 			} )
 
