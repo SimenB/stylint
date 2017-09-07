@@ -29,7 +29,7 @@ const config = {
   extendPref: false,
   // throw duplicate selector warning across all files instead of curr file
   globalDupe: false,
-  // group report output by file or go sequentially
+  // group formatter output by file or go sequentially
   groupOutputByFile: true,
   // manipulate terminal output with or without an additional formatter
   formatterOptions: {
