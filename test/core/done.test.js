@@ -154,7 +154,7 @@ describe('done', () => {
 
     it('should pass along groupOutputByFile and formatterOptions', () => {
       context.config.groupOutputByFile = true;
-      context.config.formatterOptions = true;
+      context.config.formatter = true;
 
       done.call(context);
 
