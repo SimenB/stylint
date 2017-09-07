@@ -8,7 +8,7 @@ const defaultOptions = {
   config: null,
   strict: false,
   callback() {},
-  formatter: 'default',
+  formatter: null,
 };
 
 /**
@@ -22,7 +22,9 @@ const init = function(options, pathPassed) {
   const optionsWithDefaults = defaults(options || {}, defaultOptions);
 
   this.config = this.setConfig(optionsWithDefaults.config);
-  this.formatter = getFormatter(optionsWithDefaults.formatter);
+
+  const formatterName = optionsWithDefaults.formatter || this.config.formatter.name;
+  this.formatter = getFormatter(formatterName);
 
   // if you want to use transparent mixins, pass in an array of them
   // this also covers the (more common probably) custom property use case
