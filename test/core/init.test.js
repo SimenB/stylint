@@ -49,7 +49,7 @@ describe('Init should: ', () => {
   it('set formatter to the value returned by the formatter retrieval method', () => {
     app.init();
 
-    expect(app.formatter).toEqual(mockFormatterValue);
+    expect(app.formatter).toBe(mockFormatterValue);
   });
 
   it('use formatter from user options if provided', () => {
