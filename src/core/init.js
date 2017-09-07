@@ -8,7 +8,7 @@ const defaultOptions = {
   config: null,
   strict: false,
   callback() {},
-  formatter: null,
+  formatter: '',
 };
 
 /**
