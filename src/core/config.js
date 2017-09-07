@@ -31,8 +31,6 @@ const config = {
   globalDupe: false,
   // group report output by file or go sequentially
   groupOutputByFile: true,
-  // name of the formatter to use
-  formatter: 'default',
   // manipulate terminal output with or without an additional formatter
   formatterOptions: {
     columnSplitter: '  ',
