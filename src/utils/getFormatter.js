@@ -1,34 +1,16 @@
 'use strict';
 
 const path = require('path');
-const _ = require('lodash');
 
-/**
- * @description Determines if the provided value is a path by checking if
- *   it contains the path separator used by the containing operating system.
- * @param {string} maybePath - The value checked by `isPath`.
- * @returns {boolean} Whether or not the provided value is a path.
- */
-const isPath = maybePath => maybePath.indexOf(path.sep) > -1;
-
-/**
- * @description Returns the name of the provided formatter object.
- * @param {Object} formatterObject - A formatter configuration object.
- * @returns {string} The name of the formatter.
- */
-const getNameFromFormatter = formatterObject => {
-  if (!formatterObject.name) {
-    throw new TypeError("Formatter configuration 'name' key is missing.");
-  }
-  return formatterObject.name;
-};
+const NATIVE_FORMATTER_PATH = path.join('src', 'formatters');
 
 /**
  * @description Dynamically loads a formatter using the provided path.
  * @param {string} formatterPath - The path to the formatter.
  * @returns {Function} The stylint formatter located at the provided path.
+ * @throws Throws error when formatter is not found.
  */
-const loadFormatter = formatterPath => {
+const loadFormatter = function(formatterPath) {
   try {
     /* eslint-disable import/no-dynamic-require */
     return require(formatterPath);
@@ -44,27 +26,26 @@ const loadFormatter = formatterPath => {
  *   returns a valid formatter function. The returned formatter can be a
  *   formatter native to Stylint, a third-party formatter included
  *   in the project, or a separate file.
- * @param {Object|string|void} formatter - The desired formatter.
+ * @param {string} formatter - The desired formatter.
  * @returns {Function} A formatter function that formats a Stylint report.
+ * @throws Throws error when all formatter formats are attempted and none are found.
  */
 const getFormatter = function(formatter) {
-  let formatterName = formatter || 'default';
+  const nativeFormatterPath = path.resolve(NATIVE_FORMATTER_PATH, formatter);
+  const fileFormatterPath = path.resolve(formatter);
+  let formatterFn;
 
-  if (_.isObject(formatter)) {
-    formatterName = getNameFromFormatter(formatter);
-
-    if (formatter.thirdParty) {
-      return loadFormatter(formatterName);
+  try {
+    formatterFn = loadFormatter(nativeFormatterPath);
+  } catch (nativeFormatterError) {
+    try {
+      formatterFn = loadFormatter(formatter);
+    } catch (thirdPartyFormatterError) {
+      formatterFn = loadFormatter(fileFormatterPath);
     }
   }
 
-  let prefix = path.join('src', 'formatters');
-
-  if (isPath(formatterName)) {
-    prefix = '';
-  }
-
-  return loadFormatter(path.resolve(prefix, formatterName));
+  return formatterFn;
 };
 
 module.exports = getFormatter;
