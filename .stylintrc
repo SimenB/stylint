@@ -15,9 +15,10 @@
   "efficient": "always",
   "exclude": [],
   "extendPref": false,
-  "formatterOptions": {
+  "formatter": {
     "columns": ["lineData", "severity", "message", "rule"],
     "columnSplitter": "  ",
+    "name": "default",
     "showHeaders": false,
     "truncate": true
   },

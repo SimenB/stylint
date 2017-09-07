@@ -197,9 +197,10 @@ Note that customProperties and mixins are aliases
 	"placeholders": "always",
 	"prefixVarsWithDollar": "always",
 	"quotePref": false,
-	"formatterOptions": {
+	"formatter": {
 		"columns": ["lineData", "severity", "description", "rule"],
 		"columnSplitter": "  ",
+		"name": "default",
 		"showHeaders": false,
 		"truncate": true
 	},
@@ -583,7 +584,7 @@ Example if `'single'`: prefer `$var = 'some string'` over `$var = "some string"`
 Example if `'double'`: prefer `$var = "some string"` over `$var = 'some string'`
 
 
-### formatterOptions ( Object )
+### formatter ( Object )
 These options are used by the selected formatter to adjust the final output, when supported.
 
 Default options:
@@ -591,6 +592,7 @@ Default options:
 {
 	columns: ['lineData', 'severity', 'description', 'rule'],
 	columnSplitter: '  ',
+	name: 'default',
 	showHeaders: false,
 	truncate: true
 }
