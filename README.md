@@ -451,7 +451,7 @@ Example if true: the following will throw a warning
 Stylint's default setting groups errors and warnings by file when outputting. You can disable this if you want
 
 Example if true:
-```javascript
+```
 path/to/file.styl
   73:32      warning  mixed spaces and tabs  mixed
   78:30   error    missing semicolon      semicolons
@@ -461,7 +461,7 @@ path/to/file2.styl
 ```
 
 Example if false:
-```javascript
+```
 path/to/file.styl
   73:32      warning  mixed spaces and tabs  mixed
 
