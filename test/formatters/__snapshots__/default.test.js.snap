@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`defaultFormatter when a message does not include a column should only display the line number for each message 1`] = `
+"warning: This is not OK
+File: some file.styl
+Line: 1
+
+Stylint: 0 Errors.
+Stylint: 1 Warnings."
+`;
+
+exports[`defaultFormatter when kill is passed in should append the report with a warning message 1`] = `
+"warning: This is not OK
+File: some file.styl
+Line: 1:-1
+
+Stylint: 0 Errors.
+Stylint: 1 Warnings.
+Stylint: Over Error or Warning Limit."
+`;
+
+exports[`defaultFormatter when max error or max warning is less than 0 should not include the max warning and error counts in the report 1`] = `
+"warning: This is not OK
+File: some file.styl
+Line: 1:-1
+
+Stylint: 0 Errors.
+Stylint: 1 Warnings."
+`;
+
+exports[`defaultFormatter when max errors or max warnings is 0 or greater should include the max warning and error counts in the report 1`] = `
+"warning: This is not OK
+File: some file.styl
+Line: 1:-1
+
+Stylint: 0 Errors. (Max Errors: 5)
+Stylint: 1 Warnings. (Max Warnings: 2)"
+`;

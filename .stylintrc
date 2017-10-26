@@ -15,6 +15,13 @@
   "efficient": "always",
   "exclude": [],
   "extendPref": false,
+  "formatter": {
+    "columns": ["lineData", "severity", "message", "rule"],
+    "columnSplitter": "  ",
+    "name": "default",
+    "showHeaders": false,
+    "truncate": true
+  },
   "globalDupe": false,
   "groupOutputByFile": true,
   "indentPref": 2,
@@ -30,12 +37,6 @@
   "placeholders": "always",
   "prefixVarsWithDollar": "always",
   "quotePref": "single",
-  "reporterOptions": {
-    "columns": ["lineData", "severity", "message", "rule"],
-    "columnSplitter": "  ",
-    "showHeaders": false,
-    "truncate": true
-  },
   "semicolons": "always",
   "sortOrder": "alphabetical",
   "stackedProperties": "never",

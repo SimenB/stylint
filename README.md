@@ -68,7 +68,7 @@ you can also ping me [here](https://gitter.im/rossPatton/stylint)
 
 `stylint --config path/to/config/.configrc` Run stylint with custom config settings
 
-`stylint --reporter stylint-reporter-module` Run stylint with [custom reporter](#custom-reporters) module
+`stylint --formatter stylint-formatter-module` Run stylint with [custom formatter](#custom-formatters) module
 
 `stylint styl/ --watch -c path/to/config/.configrc` Watch dir, use custom config
 
@@ -197,9 +197,10 @@ Note that customProperties and mixins are aliases
 	"placeholders": "always",
 	"prefixVarsWithDollar": "always",
 	"quotePref": false,
-	"reporterOptions": {
+	"formatter": {
 		"columns": ["lineData", "severity", "description", "rule"],
 		"columnSplitter": "  ",
+		"name": "default",
 		"showHeaders": false,
 		"truncate": true
 	},
@@ -249,8 +250,8 @@ Example:
 ```
 
 
-## Custom Reporters
-Stylint console output can be modified with the use of a reporter. Feel free to write your own (no matter how outlandish) and I'll add it here.
+## Custom Formatters
+Stylint console output can be modified with the use of a formatter. Feel free to write your own (no matter how outlandish) and I'll add it here.
 
 * [stylint-stylish](https://github.com/SimenB/stylint-stylish)
 * [stylint-json-reporter](https://github.com/sertae/stylint-json-reporter)
@@ -583,14 +584,15 @@ Example if `'single'`: prefer `$var = 'some string'` over `$var = "some string"`
 Example if `'double'`: prefer `$var = "some string"` over `$var = 'some string'`
 
 
-### reporterOptions ( Object )
-If using the default reporter, Stylint uses columnify when outputting warnings and errors (only if you have groupOutputByFile set to true). See [columnify](https://www.npmjs.com/package/columnify) for more details. Using this option, you can easily customize the output (to an extent) without having to install a separate reporter.
+### formatter ( Object )
+These options are used by the selected formatter to adjust the final output, when supported.
 
 Default options:
 ```
 {
 	columns: ['lineData', 'severity', 'description', 'rule'],
 	columnSplitter: '  ',
+	name: 'default',
 	showHeaders: false,
 	truncate: true
 }

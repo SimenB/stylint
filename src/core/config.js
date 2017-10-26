@@ -29,12 +29,13 @@ const config = {
   extendPref: false,
   // throw duplicate selector warning across all files instead of curr file
   globalDupe: false,
-  // group reporter output by file or go sequentially
+  // group formatter output by file or go sequentially
   groupOutputByFile: true,
-  // manipulate terminal output with or without an additional reporter
-  reporterOptions: {
-    columns: ['lineData', 'severity', 'message', 'rule'],
+  // manipulate terminal output with or without an additional formatter
+  formatter: {
     columnSplitter: '  ',
+    columns: ['lineData', 'severity', 'message', 'rule'],
+    name: 'default',
     showHeaders: false,
     truncate: true,
   },
@@ -66,8 +67,6 @@ const config = {
   prefixVarsWithDollar: 'always',
   // single or double quotes, or false to not check
   quotePref: false,
-  // default reporter
-  reporter: '../core/reporter',
   // disallow or enforce semicolons
   semicolons: 'never',
   // alphabetical, grouped, Array<String> or false (no check)

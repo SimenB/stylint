@@ -17,7 +17,8 @@ const cache = {
   prevFile: '', // the previous file
   prevFileNo: 0, // prev file no
   prevLine: '', // the previous line
-  report: {}, // the report object passed to reportersrule: '', // rule name for current check
+  report: {}, // the report object passed to formatters
+  rule: '', // rule name for current check
 
   sCache: { 0: [] }, // each key is an array of selectors in that context
   sortOrderCache: [], // we keep a context based arr of selectors here to check sort order

@@ -3,6 +3,10 @@
 const sinon = require('sinon');
 const stylint = require('../../index');
 
+const mockFormatterValue = 'pew pew';
+const mockGetFormatter = jest.fn().mockReturnValue(mockFormatterValue);
+jest.mock('../../src/utils/getFormatter', () => mockGetFormatter);
+
 const app = stylint().create();
 
 // turn on strict mode from this point and turn off unnecessary logging
@@ -42,10 +46,22 @@ describe('Init should: ', () => {
     expect(app.state.path).toEqual(process.cwd());
   });
 
-  it('set reporter if default if one not passed in', () => {
-    app.config.reporter = undefined;
+  it('set formatter to the value returned by the formatter retrieval method', () => {
     app.init();
-    expect(app.reporter).toBeDefined();
+
+    expect(app.formatter).toBe(mockFormatterValue);
+  });
+
+  it('use formatter from user options if provided', () => {
+    const options = { formatter: 'woot woot' };
+
+    app.init(options);
+    expect(mockGetFormatter).toHaveBeenLastCalledWith(options.formatter);
+  });
+
+  it('use formatter from configuration options if user formatter is not provided', () => {
+    app.init();
+    expect(mockGetFormatter).toHaveBeenLastCalledWith(app.config.formatter.name);
   });
 
   it('use custom config if passed --config flag', () => {
