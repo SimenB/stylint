@@ -8,14 +8,12 @@
  * lets pull in what we're testing here
  */
 
-var fs = require( 'fs' )
 var assert = require( 'assert' )
 require( 'chai' ).should() // add should assertions on top
 var chokidar = require( 'chokidar' )
 var touch = require( 'touch' )
 var sinon = require( 'sinon' )
 var app = require( '../index' )().create()
-var stripJsonComments = require( 'strip-json-comments' )
 
 // turn on strict mode from this point and turn off unnecessary logging
 app.state.quiet = true
@@ -387,10 +385,14 @@ describe( 'Utility Methods: ', function() {
 		process.argv[2] = '-c'
 		process.argv[3] = '.stylintrc'
 		var testMethod = app.setConfig( '.stylintrc' )
-		var testConfig = JSON.parse( stripJsonComments( fs.readFileSync( process.cwd() + '/.stylintrc', 'utf-8' ) ) )
+		var testConfig = app.setConfig( process.cwd() + '/.stylintrc' )
+
+		it( 'return complete config when not complete config is passed in', function() {
+			assert.ok( testConfig.reporter )
+		} )
 
 		it( 'update config state if passed a valid path', function() {
-			assert.deepEqual( testMethod, testConfig )
+			assert.equal( Object.keys( testConfig ).length, Object.keys( testMethod ).length )
 		} )
 
 		it( 'throw if passed invalid path', function() {
