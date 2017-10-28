@@ -12,9 +12,8 @@ const NATIVE_FORMATTER_PATH = path.join('src', 'formatters');
  */
 const loadFormatter = function(formatterPath) {
   try {
-    // eslint-disable import/no-dynamic-require
+    // eslint-disable-next-line import/no-dynamic-require
     return require(formatterPath);
-    // eslint-enable
   } catch (error) {
     error.message = `Formatter failed to load: ${formatterPath}\n\n${error.message}`;
     throw error;
