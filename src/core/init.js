@@ -27,6 +27,9 @@ const init = function(options, pathPassed) {
   const formatterName = optionsWithDefaults.formatter || this.config.formatter.name;
   this.formatter = getFormatter(formatterName);
 
+  const formatterName = optionsWithDefaults.formatter || this.config.formatter.name;
+  this.formatter = getFormatter(formatterName);
+
   // if you want to use transparent mixins, pass in an array of them
   // this also covers the (more common probably) custom property use case
   this.cache.customProperties = this.config.mixins || this.config.customProperties || this.cache.customProperties;
