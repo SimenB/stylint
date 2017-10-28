@@ -32,9 +32,10 @@ const config = {
   // group formatter output by file or go sequentially
   groupOutputByFile: true,
   // manipulate terminal output with or without an additional formatter
-  formatterOptions: {
+  formatter: {
     columnSplitter: '  ',
     columns: ['lineData', 'severity', 'message', 'rule'],
+    name: 'default',
     showHeaders: false,
     truncate: true,
   },

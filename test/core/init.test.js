@@ -47,12 +47,21 @@ describe('Init should: ', () => {
   });
 
   it('set formatter to the value returned by the formatter retrieval method', () => {
+    app.init();
+
+    expect(app.formatter).toBe(mockFormatterValue);
+  });
+
+  it('use formatter from user options if provided', () => {
     const options = { formatter: 'woot woot' };
 
     app.init(options);
-
     expect(mockGetFormatter).toHaveBeenLastCalledWith(options.formatter);
-    expect(app.formatter).toEqual(mockFormatterValue);
+  });
+
+  it('use formatter from configuration options if user formatter is not provided', () => {
+    app.init();
+    expect(mockGetFormatter).toHaveBeenLastCalledWith(app.config.formatter.name);
   });
 
   it('use custom config if passed --config flag', () => {

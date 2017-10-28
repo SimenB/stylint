@@ -29,7 +29,7 @@ const done = function() {
       maxErrors,
       maxWarnings,
       groupOutputByFile: this.config.groupOutputByFile,
-      formatterOptions: this.config.formatterOptions,
+      formatterOptions: this.config.formatter,
     },
     shouldKill
   );
