@@ -11,7 +11,6 @@ app.state.watching = true;
 describe('setState should: ', () => {
   it('return undefined if line empty', () => {
     /* eslint-disable no-useless-escape */
-    // app.reporter( 'universal disallowed' )
     expect(app.setState('')).toBeUndefined();
     expect(app.setState(' ')).toBeUndefined();
     expect(app.setState('\t\t')).toBeUndefined();

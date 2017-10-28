@@ -22,9 +22,9 @@ const options = yargs
     describe: 'Run all tests, regardless of config',
     type: 'boolean',
   })
-  .option('reporter', {
+  .option('formatter', {
     alias: 'r',
-    describe: 'Custom reporter npm module name',
+    describe: 'Custom formatter. Can be a native formatter, third-party formatter, or file.',
     type: 'string',
     requiresArg: true,
   })
@@ -42,7 +42,7 @@ const stylintInstance = stylint().create(
     watch: options.watch,
     config: options.config,
     strict: options.strict,
-    reporter: options.reporter,
+    formatter: options.formatter,
   },
   options._.length > 1 ? options._ : options._[0]
 );

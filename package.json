@@ -73,7 +73,7 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "inndex.js",
+      "index.js",
       "src/**/*.js",
       "bin/**/*.js"
     ],

@@ -14,7 +14,7 @@ const lint = function() {
     if (checks.hasOwnProperty(method)) {
       /* eslint-enable */
       if (this.config[method]) {
-        // save config rule name for use in reporters
+        // save config rule name for use in formatters
         this.cache.rule = method;
         // state.conf === 'always' || 'never' || etc
         this.state.conf = this.config[method].expect || this.config[method];
