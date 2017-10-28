@@ -22,10 +22,6 @@ const init = function(options, pathPassed) {
   const optionsWithDefaults = defaults(options || {}, defaultOptions);
 
   this.config = this.setConfig(optionsWithDefaults.config);
-  this.formatter = getFormatter(optionsWithDefaults.formatter);
-
-  const formatterName = optionsWithDefaults.formatter || this.config.formatter.name;
-  this.formatter = getFormatter(formatterName);
 
   const formatterName = optionsWithDefaults.formatter || this.config.formatter.name;
   this.formatter = getFormatter(formatterName);
