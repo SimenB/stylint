@@ -14,7 +14,7 @@ const defaultOptions = {
  * @returns {Function} Always returns a function, determined by cli flags.
  */
 const init = function(options, pathPassed) {
-  const optionsWithDefaults = Object.assign(options || {}, defaultOptions);
+  const optionsWithDefaults = Object.assign({}, options, defaultOptions);
 
   this.config = this.setConfig(optionsWithDefaults.config);
 
