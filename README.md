@@ -77,9 +77,9 @@ you can also ping me [here](https://gitter.im/rossPatton/stylint)
 I'll be the first to admit that the syntax is a bit weird, but it works just fine.
 ```javascript
 const stylint = require('stylint')('path/to/stylus/', {
-		brackets: 'always',
-		namingConvention: 'BEM',
-		semicolons: 'always'
+    brackets: 'always',
+    namingConvention: 'BEM',
+    semicolons: 'always'
 }, callbackFn).create();
 ```
 
@@ -90,7 +90,7 @@ API docs are in the docs/ folder
 You can use the CLI with [gulp-shell](https://github.com/sun-zheng-an/gulp-shell) like below:
 ```javascript
 gulp.task('stylint', shell.task([
-		'stylint path/to/styl/ -c .stylintrc'
+    'stylint path/to/styl/ -c .stylintrc'
 ]));
 ```
 
@@ -100,8 +100,8 @@ var gulp = require('gulp');
 var stylint = require('gulp-stylint');
 
 gulp.task('default', function () {
-		return gulp.src('src/*.styl')
-				.pipe(stylint())
+    return gulp.src('src/*.styl')
+        .pipe(stylint())
 });
 ```
 
@@ -110,14 +110,14 @@ You can use [grunt-stylint](https://github.com/xdissent/grunt-stylint)
 
 ```javascript
 grunt.initConfig({
-	stylint: {
-		options: {
-			config: {
-				colons: 'never'
-			}
-		},
-		src: ['src/**/*.styl']
-	}
+  stylint: {
+    options: {
+      config: {
+        colons: 'never'
+      }
+    },
+    src: ['src/**/*.styl']
+  }
 });
 ```
 
@@ -126,22 +126,22 @@ You can use [stylint-loader](https://github.com/guerrero/stylint-loader)
 
 ```javascript
 module.exports = {
-	// ...
-	module: {
-		preLoaders: [
-			{
-				test: /\.styl$/,
-				loader: 'stylint'
-			}
-		],
-		loaders: [
-			{
-				test: /\.styl$/,
-				loader: 'style!css!stylus'
-			}
-		]
-	}
-	// ...
+  // ...
+  module: {
+    preLoaders: [
+      {
+        test: /\.styl$/,
+        loader: 'stylint'
+      }
+    ],
+    loaders: [
+      {
+        test: /\.styl$/,
+        loader: 'style!css!stylus'
+      }
+    ]
+  }
+  // ...
 }
 ```
 
@@ -168,50 +168,50 @@ The following is a list of all options available to stylint.
 Note that customProperties and mixins are aliases
 ```json
 {
-	"blocks": false,
-	"brackets": "never",
-	"colons": "always",
-	"colors": "always",
-	"commaSpace": "always",
-	"commentSpace": "always",
-	"cssLiteral": "never",
-	"customProperties": [],
-	"depthLimit": false,
-	"duplicates": true,
-	"efficient": "always",
-	"exclude": [],
-	"extendPref": false,
-	"globalDupe": false,
-	"groupOutputByFile": true,
-	"indentPref": false,
-	"leadingZero": "never",
-	"maxErrors": false,
-	"maxWarnings": false,
-	"mixed": false,
-	"mixins": [],
-	"namingConvention": false,
-	"namingConventionStrict": false,
-	"none": "never",
-	"noImportant": true,
-	"parenSpace": false,
-	"placeholders": "always",
-	"prefixVarsWithDollar": "always",
-	"quotePref": false,
-	"formatter": {
-		"columns": ["lineData", "severity", "description", "rule"],
-		"columnSplitter": "  ",
-		"name": "default",
-		"showHeaders": false,
-		"truncate": true
-	},
-	"semicolons": "never",
-	"sortOrder": "alphabetical",
-	"stackedProperties": "never",
-	"trailingWhitespace": "never",
-	"universal": false,
-	"valid": true,
-	"zeroUnits": "never",
-	"zIndexNormalize": false
+  "blocks": false,
+  "brackets": "never",
+  "colons": "always",
+  "colors": "always",
+  "commaSpace": "always",
+  "commentSpace": "always",
+  "cssLiteral": "never",
+  "customProperties": [],
+  "depthLimit": false,
+  "duplicates": true,
+  "efficient": "always",
+  "exclude": [],
+  "extendPref": false,
+  "globalDupe": false,
+  "groupOutputByFile": true,
+  "indentPref": false,
+  "leadingZero": "never",
+  "maxErrors": false,
+  "maxWarnings": false,
+  "mixed": false,
+  "mixins": [],
+  "namingConvention": false,
+  "namingConventionStrict": false,
+  "none": "never",
+  "noImportant": true,
+  "parenSpace": false,
+  "placeholders": "always",
+  "prefixVarsWithDollar": "always",
+  "quotePref": false,
+  "formatter": {
+    "columns": ["lineData", "severity", "description", "rule"],
+    "columnSplitter": "  ",
+    "name": "default",
+    "showHeaders": false,
+    "truncate": true
+  },
+  "semicolons": "never",
+  "sortOrder": "alphabetical",
+  "stackedProperties": "never",
+  "trailingWhitespace": "never",
+  "universal": false,
+  "valid": true,
+  "zeroUnits": "never",
+  "zIndexNormalize": false
 }
 ```
 
@@ -238,14 +238,14 @@ Stylint has 2 levels of output, Warnings and Errors. All Stylint rules optionall
 Example:
 ```json
 {
-		"brackets": {
-				"expect": "never",
-				"error": true
-		},
-		"colons": {
-				"expect": "always",
-				"error": true
-		}
+    "brackets": {
+        "expect": "never",
+        "error": true
+    },
+    "colons": {
+        "expect": "always",
+        "error": true
+    }
 }
 ```
 
@@ -277,7 +277,7 @@ For reference:
 
 ```json
 {
-	"stylintignore": ["path/to/file.styl", "path/to/directory/"],
+  "stylintignore": ["path/to/file.styl", "path/to/directory/"],
 }
 ```
 
@@ -294,13 +294,13 @@ For example, let's say you want to enforce `namingConvention: "lowercase_undersc
 Example:
 ```stylus
 .button_block {
-	background: silver;
-	padding: 4px;
+  background: silver;
+  padding: 4px;
 }
 // @stylint off
 .button_block .btn-default {
-	background-color: green;
-	color: white;
+  background-color: green;
+  color: white;
 }
 // @stylint on
 ```
@@ -312,10 +312,10 @@ A toggle that works like `@stylint off`, but just for one line. Useful for cases
 Example:
 ```stylus
 .button-zoom
-	background-image: url('path/to/png.png') // @stylint ignore
-	background-image: url('path/to/svg.svg')
-	cursor: pointer // @stylint ignore
-	cursor: zoom-in
+  background-image: url('path/to/png.png') // @stylint ignore
+  background-image: url('path/to/svg.svg')
+  cursor: pointer // @stylint ignore
+  cursor: zoom-in
 ```
 
 
@@ -324,11 +324,11 @@ In Stylus you have the option of using mixins transparently, like css properties
 
 ```javascript
 >>> config file
-	"customProperties": ['myCustomProperty']
+  "customProperties": ['myCustomProperty']
 
 >>> example.styl
 .className
-	myCustomProperty: 5px
+  myCustomProperty: 5px
 ```
 
 Where `myCustomProperty` is a mixin that takes a px val as it's parameter.
@@ -406,8 +406,8 @@ Checks if selector or property duplicated unnecessarily. By default, only checks
 Example if true: the following will throw a warning:
 ```stylus
 .test
-	margin 0
-	margin 5px
+  margin 0
+  margin 5px
 ```
 
 
@@ -440,11 +440,11 @@ Example if true: the following will throw a warning
 ```stylus
 >>> file1.styl
 .test
-	margin 0
+  margin 0
 
 >>> file2.styl
 .test
-	margin 5px
+  margin 5px
 ```
 
 
@@ -452,25 +452,25 @@ Example if true: the following will throw a warning
 Stylint's default setting groups errors and warnings by file when outputting. You can disable this if you want
 
 Example if true:
-```javascript
+```
 path/to/file.styl
-	73:32      warning  mixed spaces and tabs  mixed
-	78:30   error    missing semicolon      semicolons
+  73:32      warning  mixed spaces and tabs  mixed
+  78:30   error    missing semicolon      semicolons
 
 path/to/file2.styl
-	16     warning  prefer alphabetical when sorting properties  sortOrder
+  16     warning  prefer alphabetical when sorting properties  sortOrder
 ```
 
 Example if false:
-```javascript
+```
 path/to/file.styl
-	73:32      warning  mixed spaces and tabs  mixed
+  73:32      warning  mixed spaces and tabs  mixed
 
 path/to/file.styl
-	78:30   error    missing semicolon      semicolons
+  78:30   error    missing semicolon      semicolons
 
 path/to/file2.styl
-	16     warning  prefer alphabetical when sorting properties  sortOrder
+  16     warning  prefer alphabetical when sorting properties  sortOrder
 ```
 
 
@@ -546,7 +546,7 @@ Example if true: the following will throw a warning
 
 ```stylus
 div
-	color red !important
+  color red !important
 ```
 
 
@@ -590,11 +590,11 @@ These options are used by the selected formatter to adjust the final output, whe
 Default options:
 ```
 {
-	columns: ['lineData', 'severity', 'description', 'rule'],
-	columnSplitter: '  ',
-	name: 'default',
-	showHeaders: false,
-	truncate: true
+  columns: ['lineData', 'severity', 'description', 'rule'],
+  columnSplitter: '  ',
+  name: 'default',
+  showHeaders: false,
+  truncate: true
 }
 ```
 
@@ -615,21 +615,21 @@ Example if `'alphabetical'`:
 prefer this:
 ```stylus
 .some-class
-	display block
-	float left
-	position absolute
-	right 10px
-	top 0
+  display block
+  float left
+  position absolute
+  right 10px
+  top 0
 ```
 
 over this:
 ```stylus
 .some-class
-	position absolute
-	top 0
-	right 10px
-	display block
-	float left
+  position absolute
+  top 0
+  right 10px
+  display block
+  float left
 ```
 
 Example if `'grouped'` ([based on predefined grouped ordering](src/data/ordering.json#L2)):
@@ -637,21 +637,21 @@ Example if `'grouped'` ([based on predefined grouped ordering](src/data/ordering
 prefer this:
 ```stylus
 .some-class
-	position absolute
-	top 0
-	right 10px
-	display block
-	float left
+  position absolute
+  top 0
+  right 10px
+  display block
+  float left
 ```
 
 over this:
 ```stylus
 .some-class
-	display block
-	float left
-	position absolute
-	right 10px
-	top 0
+  display block
+  float left
+  position absolute
+  right 10px
+  top 0
 ```
 
 Example if `[ 'margin', 'padding', 'float', 'position' ]`:
@@ -659,25 +659,25 @@ Example if `[ 'margin', 'padding', 'float', 'position' ]`:
 prefer this:
 ```stylus
 .some-class
-	margin 0
-	padding 0
-	float left
-	position absolute
-	right 10px
-	top 0
-	display block
+  margin 0
+  padding 0
+  float left
+  position absolute
+  right 10px
+  top 0
+  display block
 ```
 
 over this:
 ```stylus
 .some-class
-	display block
-	float left
-	position absolute
-	right 10px
-	top 0
-	margin 0
-	padding 0
+  display block
+  float left
+  position absolute
+  right 10px
+  top 0
+  margin 0
+  padding 0
 ```
 
 When set to `'grouped'` or `{Array}` throws a warning if properties that are not defined in the ordering array are not after those that should be ordered.
@@ -690,7 +690,7 @@ Example if `never`: prefer
 
 ```stylus
 .className
-	padding 0
+  padding 0
 ```
 
 over
@@ -708,7 +708,7 @@ Looks for instances of the inefficient * selector. Lots of resets use this, for 
 Example if never, disallow the following:
 ```stylus
 div *
-		margin 0
+    margin 0
 ```
 
 

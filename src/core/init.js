@@ -1,6 +1,5 @@
 'use strict';
 
-const defaults = require('lodash').defaults;
 const getFormatter = require('../utils/getFormatter');
 
 const defaultOptions = {
@@ -18,8 +17,7 @@ const defaultOptions = {
  * @returns {Function} Always returns a function, determined by cli flags.
  */
 const init = function(options, pathPassed) {
-  // TODO: Object.assign
-  const optionsWithDefaults = defaults(options || {}, defaultOptions);
+  const optionsWithDefaults = Object.assign({}, defaultOptions, options);
 
   this.config = this.setConfig(optionsWithDefaults.config);
 
