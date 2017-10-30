@@ -42,7 +42,11 @@ const duplicates = function(line) {
   // and not ignored syntax
   // and property exists in the array already
   // then dupe
-  if (line.indexOf(',') === -1 && this.cache.prevLine.indexOf(',') === -1 && !ignoreRe.test(line)) {
+  if (
+    line.indexOf(',') === -1 &&
+    this.cache.prevLine.indexOf(',') === -1 &&
+    !ignoreRe.test(line)
+  ) {
     // -1 if no dupe found
     dupeIndex = this.cache.sCache[this.state.context].indexOf(arr[0]);
 
@@ -63,7 +67,9 @@ const duplicates = function(line) {
     if (!this.config.globalDupe) {
       this.msg('duplicate property or selector, consider merging');
     } else {
-      this.msg(`duplicate property or selector, consider merging\nsee file: ${origFile} for the original selector`);
+      this.msg(
+        `duplicate property or selector, consider merging\nsee file: ${origFile} for the original selector`
+      );
     }
   }
 

@@ -24,7 +24,8 @@ const options = yargs
   })
   .option('formatter', {
     alias: 'r',
-    describe: 'Custom formatter. Can be a native formatter, third-party formatter, or file.',
+    describe:
+      'Custom formatter. Can be a native formatter, third-party formatter, or file.',
     type: 'string',
     requiresArg: true,
   })

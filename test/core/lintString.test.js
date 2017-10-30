@@ -16,6 +16,12 @@ describe('Lint Text: ', () => {
   });
 
   it('should return object with violations', () => {
-    expect(linter.lintString('.class {\n  color: red !important\n}\n', null, 'filename.styl')).toMatchSnapshot();
+    expect(
+      linter.lintString(
+        '.class {\n  color: red !important\n}\n',
+        null,
+        'filename.styl'
+      )
+    ).toMatchSnapshot();
   });
 });

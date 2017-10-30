@@ -95,7 +95,9 @@ const setConfig = function(configPath) {
   } else if (configPath) {
     // if 2, we pass in a path to the config
     // this only occurs if using stylint via the command line
-    customPath = pathIsAbsolute(configPath) ? configPath : `${cwd}/${configPath}`;
+    customPath = pathIsAbsolute(configPath)
+      ? configPath
+      : `${cwd}/${configPath}`;
     try {
       returnConfig = parseConfig(customPath);
     } catch (err) {
@@ -132,7 +134,9 @@ const setConfig = function(configPath) {
     }
   }
 
-  returnConfig.exclude = (returnConfig.exclude || []).map(exclude => new Glob(exclude, { matchBase: true }).minimatch);
+  returnConfig.exclude = (returnConfig.exclude || []).map(
+    exclude => new Glob(exclude, { matchBase: true }).minimatch
+  );
 
   // make sure indentPref is set no matter what
   returnConfig.indentPref = returnConfig.indentPref || false;

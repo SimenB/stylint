@@ -19,9 +19,11 @@ const generateMessage = (filePath, ruleIds, severity) => {
   };
 };
 
-const generateWarning = (filePath, rule) => generateMessage(filePath, rule, 'warning');
+const generateWarning = (filePath, rule) =>
+  generateMessage(filePath, rule, 'warning');
 
-const generateError = (filePath, rule) => generateMessage(filePath, rule, 'error');
+const generateError = (filePath, rule) =>
+  generateMessage(filePath, rule, 'error');
 
 const generateReport = result => {
   const severities = countSeverities(_.flatMap(result, 'messages'));
@@ -31,4 +33,9 @@ const generateReport = result => {
   return severities;
 };
 
-module.exports = { generateMessage, generateWarning, generateError, generateReport };
+module.exports = {
+  generateMessage,
+  generateWarning,
+  generateError,
+  generateReport,
+};

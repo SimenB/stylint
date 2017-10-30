@@ -1,7 +1,0 @@
-{
-  "rules": {
-    // TODO: Remove after checks return better stuff
-    // https://github.com/SimenB/stylint/issues/356
-    "consistent-return": "off"
-  }
-}

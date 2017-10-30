@@ -68,7 +68,9 @@ describe('colon', () => {
       expect(colonTest('&:active')).toBeUndefined();
       expect(colonTest('return: $value')).toBeUndefined();
       expect(colonTest('return $value')).toBeUndefined();
-      expect(colonTest('@media screen and (max-width: 1183px)')).toBeUndefined();
+      expect(
+        colonTest('@media screen and (max-width: 1183px)')
+      ).toBeUndefined();
     });
   });
 
@@ -119,7 +121,9 @@ describe('colon', () => {
       expect(colonTest('&:active')).toBeUndefined();
       expect(colonTest('return: $value')).toBeUndefined();
       expect(colonTest('return $value')).toBeUndefined();
-      expect(colonTest('@media screen and (max-width: 1183px)')).toBeUndefined();
+      expect(
+        colonTest('@media screen and (max-width: 1183px)')
+      ).toBeUndefined();
     });
   });
 });

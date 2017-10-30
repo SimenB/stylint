@@ -20,7 +20,10 @@ const setState = function(line) {
   }
 
   // if @stylint on / off commands found in the code
-  if (this.stylintOn(this.cache.source) || this.stylintOff(this.cache.source) === false) {
+  if (
+    this.stylintOn(this.cache.source) ||
+    this.stylintOff(this.cache.source) === false
+  ) {
     return;
   }
 
@@ -43,9 +46,16 @@ const setState = function(line) {
   // if entire line is comment, just check comment spacing and that's it
   if (this.startsWithComment(line)) {
     if (typeof this.config.commentSpace !== 'undefined') {
-      this.state.conf = this.config.commentSpace.expect || this.config.commentSpace;
-      this.state.severity = this.config.commentSpace.error ? 'error' : 'warning';
-      this.lintMethods.commentSpace.call(this, this.cache.line, this.cache.source);
+      this.state.conf =
+        this.config.commentSpace.expect || this.config.commentSpace;
+      this.state.severity = this.config.commentSpace.error
+        ? 'error'
+        : 'warning';
+      this.lintMethods.commentSpace.call(
+        this,
+        this.cache.line,
+        this.cache.source
+      );
     }
     return;
   }

@@ -18,9 +18,15 @@ const leadingZero = function(line) {
   const leadZeroMissing = nonZeroRe.exec(line);
 
   if (this.state.conf === 'always' && leadZeroMissing) {
-    this.msg('leading zeros for decimal points are required', leadZeroMissing.index);
+    this.msg(
+      'leading zeros for decimal points are required',
+      leadZeroMissing.index
+    );
   } else if (this.state.conf === 'never' && leadZeroFound) {
-    this.msg('leading zeros for decimal points are unnecessary', leadZeroFound.index);
+    this.msg(
+      'leading zeros for decimal points are unnecessary',
+      leadZeroFound.index
+    );
   }
 
   return leadZeroFound;

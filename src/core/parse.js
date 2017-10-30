@@ -24,7 +24,9 @@ const parse = function(err, res, skipDone) {
     // to do these we replace block comments with new lines
     const lines = file
       .toString()
-      .replace(cleanFileRe, str => new Array(str.split(lineEndingsRe).length).join('\n')) // WHERE IS YOUR GOD NOW
+      .replace(cleanFileRe, str =>
+        new Array(str.split(lineEndingsRe).length).join('\n')
+      ) // WHERE IS YOUR GOD NOW
       .split('\n');
 
     // updating cache as we go, and passing to the next step

@@ -16,7 +16,9 @@ describe('Set Config should:', () => {
   process.argv[3] = '.stylintrc';
   const testMethod = app.setConfig('.stylintrc');
   const testConfig = JSON.parse(
-    stripJsonComments(fs.readFileSync(path.resolve(__dirname, '../../.stylintrc'), 'utf-8'))
+    stripJsonComments(
+      fs.readFileSync(path.resolve(__dirname, '../../.stylintrc'), 'utf-8')
+    )
   );
 
   it('update config state if passed a valid path', () => {

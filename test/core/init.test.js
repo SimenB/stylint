@@ -61,7 +61,9 @@ describe('Init should: ', () => {
 
   it('use formatter from configuration options if user formatter is not provided', () => {
     app.init();
-    expect(mockGetFormatter).toHaveBeenLastCalledWith(app.config.formatter.name);
+    expect(mockGetFormatter).toHaveBeenLastCalledWith(
+      app.config.formatter.name
+    );
   });
 
   it('use custom config if passed --config flag', () => {

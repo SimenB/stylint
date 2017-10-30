@@ -48,12 +48,21 @@ const stylint = function(path, config, callback) {
         // for ignoring specific files
         // first look in package.json
         // then look for .stylintignore in the main dir
-        if (pkg !== null && typeof pkg.stylintignore !== 'undefined' && pkg.stylintignore instanceof Array) {
+        if (
+          pkg !== null &&
+          typeof pkg.stylintignore !== 'undefined' &&
+          pkg.stylintignore instanceof Array
+        ) {
           this.state.exclude = pkg.stylintignore;
         } else {
           try {
-            const stylintIgnore = fs.readFileSync(`${process.cwd()}/.stylintignore`);
-            this.state.exclude = stylintIgnore.toString().split('\n').filter(d => d);
+            const stylintIgnore = fs.readFileSync(
+              `${process.cwd()}/.stylintignore`
+            );
+            this.state.exclude = stylintIgnore
+              .toString()
+              .split('\n')
+              .filter(d => d);
           } catch (err) {
             // do no-thing
           }

@@ -19,7 +19,9 @@ describe('trim line should: ', () => {
   });
 
   it('do nothing if comment is 1st character', () => {
-    expect(trimTest('// .noCommentOnThisLine ')).toEqual('// .noCommentOnThisLine ');
+    expect(trimTest('// .noCommentOnThisLine ')).toEqual(
+      '// .noCommentOnThisLine '
+    );
   });
 
   it('trim comment if not first character', () => {

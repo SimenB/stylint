@@ -25,7 +25,11 @@ const commentSpace = function(line, source) {
 
   const emptyComment = /\/\/$/.test(comment);
 
-  if (this.state.conf === 'always' && spaceAfterComment === false && !emptyComment) {
+  if (
+    this.state.conf === 'always' &&
+    spaceAfterComment === false &&
+    !emptyComment
+  ) {
     this.msg('line comments require a space after //', index);
   } else if (this.state.conf === 'never' && spaceAfterComment === true) {
     this.msg('spaces after line comments disallowed', index);

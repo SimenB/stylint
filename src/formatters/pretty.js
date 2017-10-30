@@ -22,11 +22,13 @@ const formatter = function(report, options, kill) {
     const file = chalk.underline(result.filePath);
 
     newResult.messages = result.messages.map(msg => {
-      const column = typeof msg.column === 'number' && msg.column > 0 ? msg.column : null;
+      const column =
+        typeof msg.column === 'number' && msg.column > 0 ? msg.column : null;
       const lineData = column ? `${msg.line}:${column}` : msg.line;
 
       let severity = msg.severity;
-      severity = severity === 'warning' ? chalk.yellow(severity) : chalk.red(severity);
+      severity =
+        severity === 'warning' ? chalk.yellow(severity) : chalk.red(severity);
 
       const rule = chalk.grey(msg.ruleId);
 
@@ -47,21 +49,34 @@ const formatter = function(report, options, kill) {
     // each array consists of all the errors and warnings for a file
     // columnify the errors/warnings and prefix them with the file name
     formattedMessages = formattedMessages.map(
-      results => `${results.filePath}\n${columnify(results.messages, existingOptions.formatterOptions)}`
+      results =>
+        `${results.filePath}\n${columnify(
+          results.messages,
+          existingOptions.formatterOptions
+        )}`
     );
   } else {
     formattedMessages = formattedMessages
       .flatMap('messages')
-      .map(output => `${output.file}\n${output.lineData} ${output.rule} ${output.severity} ${output.message}`);
+      .map(
+        output =>
+          `${output.file}\n${output.lineData} ${output.rule} ${output.severity} ${output.message}`
+      );
   }
 
   formattedMessages = formattedMessages.join('\n\n').value();
 
   let formattedMessage = `Stylint: ${report.errorCount} Errors.`;
-  formattedMessage += existingOptions.maxErrors >= 0 ? ` (Max Errors: ${existingOptions.maxErrors})` : '';
+  formattedMessage +=
+    existingOptions.maxErrors >= 0
+      ? ` (Max Errors: ${existingOptions.maxErrors})`
+      : '';
 
   formattedMessage += `\nStylint: ${report.warningCount} Warnings.`;
-  formattedMessage += existingOptions.maxWarnings >= 0 ? ` (Max Warnings: ${existingOptions.maxWarnings})` : '';
+  formattedMessage +=
+    existingOptions.maxWarnings >= 0
+      ? ` (Max Warnings: ${existingOptions.maxWarnings})`
+      : '';
 
   // if you set a max it kills the linter
   if (kill) {

@@ -24,12 +24,23 @@ describe('quote style', () => {
     app.state.conf = 'single';
     expect(quoteTest('', "$var = 'test string' ")).toEqual(false);
     expect(quoteTest('', '$var = \'test "substring" string\' ')).toEqual(false);
-    expect(quoteTest('', ".show-content( $content = 'Hello!' )")).toEqual(false);
-    expect(quoteTest('', ".show-content( $content = 'Hello!' ) {")).toEqual(false);
-    expect(quoteTest('', ".join-strings( $content1 = 'Hello!', $content2 = 'World!' )")).toEqual(false);
+    expect(quoteTest('', ".show-content( $content = 'Hello!' )")).toEqual(
+      false
+    );
+    expect(quoteTest('', ".show-content( $content = 'Hello!' ) {")).toEqual(
+      false
+    );
+    expect(
+      quoteTest(
+        '',
+        ".join-strings( $content1 = 'Hello!', $content2 = 'World!' )"
+      )
+    ).toEqual(false);
     expect(quoteTest('', "[class*='--button']")).toEqual(false);
     expect(quoteTest('', "[class*='--button'] {")).toEqual(false);
-    expect(quoteTest('', "show-content( $content = 'Hello!' ) {")).toEqual(false);
+    expect(quoteTest('', "show-content( $content = 'Hello!' ) {")).toEqual(
+      false
+    );
   });
 
   it('false if correct quote style used: double', () => {
@@ -41,20 +52,38 @@ describe('quote style', () => {
     expect(quoteTest('', '$var = "test string" ')).toEqual(false);
     expect(quoteTest('', '$var = "test \'substring\' string"')).toEqual(false);
     expect(quoteTest('', '$var = "test let\'s string"')).toEqual(false);
-    expect(quoteTest('', '.show-content( $content = "Hello!" )')).toEqual(false);
-    expect(quoteTest('', '.show-content( $content = "Hello!" ) {')).toEqual(false);
-    expect(quoteTest('', '.join-strings( $content1 = "Hello!", $content2 = "World!" )')).toEqual(false);
+    expect(quoteTest('', '.show-content( $content = "Hello!" )')).toEqual(
+      false
+    );
+    expect(quoteTest('', '.show-content( $content = "Hello!" ) {')).toEqual(
+      false
+    );
+    expect(
+      quoteTest(
+        '',
+        '.join-strings( $content1 = "Hello!", $content2 = "World!" )'
+      )
+    ).toEqual(false);
     expect(quoteTest('', '[class*="--button"]')).toEqual(false);
     expect(quoteTest('', '[class*="--button"] {')).toEqual(false);
-    expect(quoteTest('', 'show-content( $content = "Hello!" ) {')).toEqual(false);
+    expect(quoteTest('', 'show-content( $content = "Hello!" ) {')).toEqual(
+      false
+    );
   });
 
   it('true if incorrect quote style used: single', () => {
     app.state.conf = 'single';
     expect(quoteTest('', '$var = "test string" ')).toBeDefined();
     expect(quoteTest('', '.show-content( $content = "Hello!" )')).toBeDefined();
-    expect(quoteTest('', '.join-strings( $content1 = "Hello!", $content2 = \'World!\' )')).toBeDefined();
-    expect(quoteTest('', '.show-content( $content = "Hello!" ) {')).toBeDefined();
+    expect(
+      quoteTest(
+        '',
+        '.join-strings( $content1 = "Hello!", $content2 = \'World!\' )'
+      )
+    ).toBeDefined();
+    expect(
+      quoteTest('', '.show-content( $content = "Hello!" ) {')
+    ).toBeDefined();
     expect(quoteTest('', '[class*="--button"]')).toBeDefined();
   });
 
@@ -62,8 +91,15 @@ describe('quote style', () => {
     app.state.conf = 'double';
     expect(quoteTest('', "$var = 'test string' ")).toBeDefined();
     expect(quoteTest('', ".show-content( $content = 'Hello!' )")).toBeDefined();
-    expect(quoteTest('', ".show-content( $content = 'Hello!' ) {")).toBeDefined();
-    expect(quoteTest('', '.join-strings( $content1 = "Hello!", $content2 = \'World!\' )')).toBeDefined();
+    expect(
+      quoteTest('', ".show-content( $content = 'Hello!' ) {")
+    ).toBeDefined();
+    expect(
+      quoteTest(
+        '',
+        '.join-strings( $content1 = "Hello!", $content2 = \'World!\' )'
+      )
+    ).toBeDefined();
     expect(quoteTest('', "[class*='--button']")).toBeDefined();
   });
 

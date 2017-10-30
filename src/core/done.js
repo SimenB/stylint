@@ -6,7 +6,10 @@ function shouldExit1(maxErrors, maxWarnings, errorCount, warningCount) {
     return true;
   }
 
-  return (maxErrors >= 0 && errorCount > maxErrors) || (maxWarnings >= 0 && warningCount > maxWarnings);
+  return (
+    (maxErrors >= 0 && errorCount > maxErrors) ||
+    (maxWarnings >= 0 && warningCount > maxWarnings)
+  );
 }
 
 /**
@@ -14,13 +17,20 @@ function shouldExit1(maxErrors, maxWarnings, errorCount, warningCount) {
  * @returns {Object | Function} Returns process exit if not watching, or obj otherwise.
  */
 const done = function() {
-  const maxErrors = typeof this.config.maxErrors === 'number' ? this.config.maxErrors : -1;
-  const maxWarnings = typeof this.config.maxWarnings === 'number' ? this.config.maxWarnings : -1;
+  const maxErrors =
+    typeof this.config.maxErrors === 'number' ? this.config.maxErrors : -1;
+  const maxWarnings =
+    typeof this.config.maxWarnings === 'number' ? this.config.maxWarnings : -1;
   const report = this.cache.report;
   const errorCount = report.errorCount;
   const warningCount = report.warningCount;
 
-  const shouldKill = shouldExit1(maxErrors, maxWarnings, errorCount, warningCount);
+  const shouldKill = shouldExit1(
+    maxErrors,
+    maxWarnings,
+    errorCount,
+    warningCount
+  );
 
   this.state.exitCode = shouldKill ? 1 : 0;
   const message = this.formatter(

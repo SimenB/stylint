@@ -23,7 +23,10 @@ const sortOrder = function(line) {
    * 4 assume sorted by default
    * 5 alphabetical by default, if custom array we output a shorter msg
    */
-  const arr = this.splitAndStrip(new RegExp(/[\s\t,:]/), line.replace(/(\(.+\))/, '')); // 1
+  const arr = this.splitAndStrip(
+    new RegExp(/[\s\t,:]/),
+    line.replace(/(\(.+\))/, '')
+  ); // 1
   let sortedArr = []; // 2
   let orderingArr = []; // 3
   let sorted = true; // 4
@@ -59,7 +62,9 @@ const sortOrder = function(line) {
     // if not default, we can either use the grouped option
     // or a custom sorting order, specified by a config file
     // use custom ordering if specified, or fall back to in-built grouped ordering
-    orderingArr = Array.isArray(this.state.conf) ? this.state.conf : ordering.grouped;
+    orderingArr = Array.isArray(this.state.conf)
+      ? this.state.conf
+      : ordering.grouped;
 
     // iterate over our cache copy, and sort it according to our config
     sortedArr = sortedArr.sort((a, b) => {

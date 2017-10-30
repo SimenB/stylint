@@ -32,7 +32,10 @@ const efficient = function(line) {
     } else if (arr.length === 5) {
       // ex margin 0 50px 10px 7px
       // ex margin 0 5px 0 5px or
-      if ((arr[1] === arr[3] && arr[2] === arr[4]) || (arr[1] !== arr[3] && arr[2] === arr[4])) {
+      if (
+        (arr[1] === arr[3] && arr[2] === arr[4]) ||
+        (arr[1] !== arr[3] && arr[2] === arr[4])
+      ) {
         isEfficient = false;
       }
     }

@@ -16,7 +16,10 @@ const commaSpace = function(line, source) {
   // 1: no comma on line at all
   // 2: comma ends the line, as in a list
   // 3: comma is
-  if (source.indexOf(',') === -1 || source.trim().indexOf(',') === source.length - 1) {
+  if (
+    source.indexOf(',') === -1 ||
+    source.trim().indexOf(',') === source.length - 1
+  ) {
     return;
   }
 
@@ -29,7 +32,10 @@ const commaSpace = function(line, source) {
 
   // if spaces should be follow commas, but there is no space on the line
   if (this.state.conf === 'always' && noSpace) {
-    this.msg('commas must be followed by a space for readability', noSpace.index);
+    this.msg(
+      'commas must be followed by a space for readability',
+      noSpace.index
+    );
   } else if (this.state.conf === 'never' && hasSpace) {
     // if spaces should not be followed by a comma, but there are spaces anyway
     this.msg('spaces after commas are not allowed', hasSpace.index);

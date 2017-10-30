@@ -13,7 +13,11 @@ const zeroUnits = function(line) {
   // if in keyframes don't check
   // if no 0 on line don't check
   // if relative values like font-weight, don't check
-  if (this.state.keyframes || line.indexOf('0') === -1 || relativeValRe.test(line)) {
+  if (
+    this.state.keyframes ||
+    line.indexOf('0') === -1 ||
+    relativeValRe.test(line)
+  ) {
     return;
   }
 

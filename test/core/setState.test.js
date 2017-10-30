@@ -14,8 +14,8 @@ describe('setState should: ', () => {
     expect(app.setState('')).toBeUndefined();
     expect(app.setState(' ')).toBeUndefined();
     expect(app.setState('\t\t')).toBeUndefined();
-    expect(app.setState('\s\s')).toBeUndefined();
-    expect(app.setState('\s\t')).toBeUndefined();
+    expect(app.setState('ss')).toBeUndefined();
+    expect(app.setState('s\t')).toBeUndefined();
     /* eslint-enable */
   });
 

@@ -12,7 +12,9 @@ const path = require('path');
  */
 const getFiles = function(dir) {
   if (typeof dir !== 'string' && !(dir instanceof Array)) {
-    throw new TypeError(`getFiles err. Expected string or array, but received: ${typeof dir}`);
+    throw new TypeError(
+      `getFiles err. Expected string or array, but received: ${typeof dir}`
+    );
   }
 
   if (typeof dir === 'string') {

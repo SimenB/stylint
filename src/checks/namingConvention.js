@@ -27,24 +27,40 @@ const namingConvention = function(line) {
   // only run checks if on a class, id, or variable
   if (doWeTestRe.test(arr[0]) && arr[0].indexOf('::') === -1) {
     // if all lowercase we do nothing, if -, _ or uppercase found we check convention
-    if (upperRe.test(arr[0]) || arr[0].indexOf('-') !== -1 || arr[0].indexOf('_') !== -1) {
+    if (
+      upperRe.test(arr[0]) ||
+      arr[0].indexOf('-') !== -1 ||
+      arr[0].indexOf('_') !== -1
+    ) {
       // check conventions
       // $varName
       if (this.state.conf === 'camelCase') {
         // if no A-Z present, or - present, or _ present
-        if (arr[0].indexOf('-') !== -1 || arr[0].indexOf('_') !== -1 || !camelRe.test(arr[0])) {
+        if (
+          arr[0].indexOf('-') !== -1 ||
+          arr[0].indexOf('_') !== -1 ||
+          !camelRe.test(arr[0])
+        ) {
           badConvention = true;
         }
       } else if (this.state.conf === 'lowercase_underscore') {
         // $var_name
         // if no _ present, or - present, or A-Z present
-        if (arr[0].indexOf('-') !== -1 || arr[0].indexOf('_') === -1 || upperRe.test(arr[0])) {
+        if (
+          arr[0].indexOf('-') !== -1 ||
+          arr[0].indexOf('_') === -1 ||
+          upperRe.test(arr[0])
+        ) {
           badConvention = true;
         }
       } else if (this.state.conf === 'lowercase-dash') {
         // $var-name
         // if no - present, or _ present, or A-Z present
-        if (arr[0].indexOf('-') === -1 || arr[0].indexOf('_') !== -1 || upperRe.test(arr[0])) {
+        if (
+          arr[0].indexOf('-') === -1 ||
+          arr[0].indexOf('_') !== -1 ||
+          upperRe.test(arr[0])
+        ) {
           badConvention = true;
         }
       } else if (this.state.conf === 'BEM') {

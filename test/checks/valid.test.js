@@ -59,7 +59,9 @@ describe('valid property', () => {
     expect(validTest('picture')).toBeDefined();
     expect(validTest('source')).toBeDefined();
     expect(validTest('src: "url/to/font"')).toBeDefined();
-    expect(validTest('background linear-gradient(to top, grey 50%, transparent 50%)')).toBeDefined();
+    expect(
+      validTest('background linear-gradient(to top, grey 50%, transparent 50%)')
+    ).toBeDefined();
     expect(validTest('img.attachment-event_thumb_single')).toBeDefined();
     expect(validTest('a.b-logo')).toBeDefined();
   });

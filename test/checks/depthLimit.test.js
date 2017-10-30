@@ -28,7 +28,9 @@ describe('depthLimit', () => {
     expect(nestTest('margin 0')).toEqual(false);
     app.state.context = app.setContext('      margin 0');
     expect(nestTest('      margin 0')).toEqual(false);
-    app.state.context = app.setContext('    margin 0                             ');
+    app.state.context = app.setContext(
+      '    margin 0                             '
+    );
     expect(nestTest('      margin 0')).toEqual(false);
     app.config.indentPref = 'tabs';
     app.state.context = app.setContext('&:hover');

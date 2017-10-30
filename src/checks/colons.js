@@ -20,9 +20,18 @@ const colons = function(line) {
   let hasScope = false;
   const arr = this.splitAndStrip(new RegExp(/\s/), line);
 
-  if (this.state.conf === 'always' && arr.length > 1 && arr[0].indexOf(':') === -1 && arr[0].indexOf(',') === -1) {
+  if (
+    this.state.conf === 'always' &&
+    arr.length > 1 &&
+    arr[0].indexOf(':') === -1 &&
+    arr[0].indexOf(',') === -1
+  ) {
     colon = false;
-  } else if (!this.state.hash && this.state.conf === 'never' && line.indexOf(':') !== -1) {
+  } else if (
+    !this.state.hash &&
+    this.state.conf === 'never' &&
+    line.indexOf(':') !== -1
+  ) {
     // : is allowed in hashes
     // check for pseudo selector
     hasPseudo = validJSON.pseudo.some(val => line.indexOf(val) !== -1);

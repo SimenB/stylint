@@ -8,7 +8,9 @@ const MOCK_RULE_ID = 'duplicates';
 
 describe('defaultFormatter', () => {
   let returnValue;
-  const report = formatterMockUtils.generateReport([formatterMockUtils.generateWarning(MOCK_FILE_NAME, MOCK_RULE_ID)]);
+  const report = formatterMockUtils.generateReport([
+    formatterMockUtils.generateWarning(MOCK_FILE_NAME, MOCK_RULE_ID),
+  ]);
   const cleanReport = formatterMockUtils.generateReport();
 
   describe('when the report has no results', () => {
@@ -43,7 +45,10 @@ describe('defaultFormatter', () => {
 
   describe('when max error or max warning is less than 0', () => {
     beforeEach(() => {
-      returnValue = defaultFormatter(report, { maxErrors: -1, maxWarnings: -1 });
+      returnValue = defaultFormatter(report, {
+        maxErrors: -1,
+        maxWarnings: -1,
+      });
     });
 
     it('should not include the max warning and error counts in the report', () => {

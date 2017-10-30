@@ -16,7 +16,12 @@ const brackets = function(line) {
   // 2 variable or hash or block
   // 3 mixin
   // 4 .selector,
-  if (this.state.hashOrCSS || line.trim().length === 0 || equalsRe.test(line) || ignoreRe.test(line)) {
+  if (
+    this.state.hashOrCSS ||
+    line.trim().length === 0 ||
+    equalsRe.test(line) ||
+    ignoreRe.test(line)
+  ) {
     return;
   }
 
@@ -27,7 +32,11 @@ const brackets = function(line) {
 
   if (this.state.conf === 'never') {
     // ex: $hash = { is ok but .class = { is not
-    if (line.indexOf('{') !== -1 && line.indexOf('=') === -1 && line.indexOf('}') === -1) {
+    if (
+      line.indexOf('{') !== -1 &&
+      line.indexOf('=') === -1 &&
+      line.indexOf('}') === -1
+    ) {
       bracket = true;
     } else if (line.indexOf('}') !== -1 && line.indexOf('{') === -1) {
       // ex: } is okay if ending a hash. otherwise it is NOT okay
@@ -41,7 +50,9 @@ const brackets = function(line) {
       if (typeof arr[0] !== 'undefined') {
         arr[0] = arr[0].replace(stripRe, '').trim();
 
-        isCSS = validJSON.css.some(css => arr[0] === css || this.checkPrefix(arr[0], css, validJSON));
+        isCSS = validJSON.css.some(
+          css => arr[0] === css || this.checkPrefix(arr[0], css, validJSON)
+        );
 
         isMixin = this.cache.customProperties.some(mixin => arr[0] === mixin);
       }

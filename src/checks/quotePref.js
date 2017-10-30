@@ -33,7 +33,10 @@ const quotePref = function(line, source) {
 
       if (!hasInnerQuote) {
         badQuotes = true;
-        this.msg(`preferred quote style is ${this.state.conf} quotes`, match[0].indexOf('"'));
+        this.msg(
+          `preferred quote style is ${this.state.conf} quotes`,
+          match[0].indexOf('"')
+        );
       }
     } else if (this.state.conf === 'double' && match[0].indexOf("'") === 0) {
       // if "" quotes preferred and match start with single '' quote
@@ -42,7 +45,10 @@ const quotePref = function(line, source) {
 
       if (!hasInnerQuote) {
         badQuotes = true;
-        this.msg(`preferred quote style is ${this.state.conf} quotes`, match[0].indexOf("'"));
+        this.msg(
+          `preferred quote style is ${this.state.conf} quotes`,
+          match[0].indexOf("'")
+        );
       }
     }
   }

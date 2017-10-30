@@ -58,18 +58,24 @@ module.exports = function valid(line) {
 
   // if no match yet, check for css && prefix + css, will return true at first match
   if (!isValid) {
-    isValid = validJSON.css.some(css => arr[0] === css || this.checkPrefix(arr[0], css, validJSON));
+    isValid = validJSON.css.some(
+      css => arr[0] === css || this.checkPrefix(arr[0], css, validJSON)
+    );
   }
 
   // if no match yet, try html && html + pseudo
   if (!isValid) {
-    isValid = validJSON.html.some(html => arr[0] === html || this.checkPseudo(arr[0], html, validJSON));
+    isValid = validJSON.html.some(
+      html => arr[0] === html || this.checkPseudo(arr[0], html, validJSON)
+    );
   }
 
   // if no match yet, try pseudo as standalone
   if (!isValid) {
     // pseudo selectors could have one of two colons
-    isValid = validJSON.pseudo.some(pseudo => `:${arr[0]}` === pseudo || `::${arr[0]}` === pseudo);
+    isValid = validJSON.pseudo.some(
+      pseudo => `:${arr[0]}` === pseudo || `::${arr[0]}` === pseudo
+    );
   }
 
   // if no match yet, try declared mixins and custom properties

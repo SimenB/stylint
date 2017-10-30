@@ -12,12 +12,15 @@ describe('getFormatter', () => {
   const fileFormatterPath = 'fileFormatter';
   const thirdPartyFormatterPath = 'thirdPartyFormatter';
   const mockPrettyFormatter = 'Awake';
-  const mockThirdPartyFormatter = 'Shake dreams from your hair, my pretty child, my sweet one';
+  const mockThirdPartyFormatter =
+    'Shake dreams from your hair, my pretty child, my sweet one';
   const mockFileFormatter = 'Choose the day and choose the sign of your day';
 
   beforeAll(() => {
     jest.mock(nativeFormatter, () => mockPrettyFormatter);
-    jest.mock(thirdPartyFormatterPath, () => mockThirdPartyFormatter, { virtual: true });
+    jest.mock(thirdPartyFormatterPath, () => mockThirdPartyFormatter, {
+      virtual: true,
+    });
     jest.mock(fileFormatterPath, () => mockFileFormatter, { virtual: true });
   });
 

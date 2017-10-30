@@ -10,7 +10,9 @@ const semiTest = /;+(?!$)/gm;
  */
 const stackedProperties = function(line) {
   let oneLiner = false;
-  const trimmedLine = line.replace(/(( '.*')|( ".*")|('.*')|(".*"))+;*/, '').trim();
+  const trimmedLine = line
+    .replace(/(( '.*')|( ".*")|('.*')|(".*"))+;*/, '')
+    .trim();
   const arr = this.splitAndStrip(';', trimmedLine);
 
   if (semiTest.test(trimmedLine) || arr.length > 1) {

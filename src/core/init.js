@@ -21,12 +21,16 @@ const init = function(options, pathPassed) {
 
   this.config = this.setConfig(optionsWithDefaults.config);
 
-  const formatterName = optionsWithDefaults.formatter || this.config.formatter.name;
+  const formatterName =
+    optionsWithDefaults.formatter || this.config.formatter.name;
   this.formatter = getFormatter(formatterName);
 
   // if you want to use transparent mixins, pass in an array of them
   // this also covers the (more common probably) custom property use case
-  this.cache.customProperties = this.config.mixins || this.config.customProperties || this.cache.customProperties;
+  this.cache.customProperties =
+    this.config.mixins ||
+    this.config.customProperties ||
+    this.cache.customProperties;
 
   // if path/ passed in use that for the dir
   this.state.path = pathPassed || this.state.path || process.cwd();

@@ -31,7 +31,9 @@ describe('prefix', () => {
 
     it('true if $ is found and is correct', () => {
       expect(varTest('$my-var = 0')).toBeDefined();
-      expect(varTest('$first-value = floor( (100% / $columns) * $index )')).toBeDefined();
+      expect(
+        varTest('$first-value = floor( (100% / $columns) * $index )')
+      ).toBeDefined();
       expect(varTest('$-my-private-var = red')).toBeDefined();
       expect(varTest('$_myPrivateVar = red')).toBeDefined();
     });

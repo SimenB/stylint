@@ -48,7 +48,7 @@ describe('leading zero', () => {
     });
 
     // eslint-disable-next-line no-useless-escape
-    it('undefined if no .\d in line', () => {
+    it('undefined if no .d in line', () => {
       expect(zeroTest('margin auto')).toBeUndefined();
       expect(zeroTest('.className')).toBeUndefined();
       expect(zeroTest('.class.other-class')).toBeUndefined();

@@ -36,7 +36,7 @@ describe('zero units', () => {
     });
 
     // eslint-disable-next-line no-useless-escape
-    it('true if \d0 + any unit type is found', () => {
+    it('true if d0 + any unit type is found', () => {
       expect(zeroTest('margin 0px')).toEqual(false);
       expect(zeroTest('margin 0em')).toEqual(false);
       expect(zeroTest('margin 0rem')).toEqual(false);

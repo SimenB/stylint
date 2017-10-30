@@ -1,7 +1,7 @@
 'use strict';
 
 // we only want to check semicolons on properties/values
-const ignoreRe = /(^[*#.])|[&>/]|{|}|if|for(?!\w)|else|@block|@media|(}|{|=|,)$/igm;
+const ignoreRe = /(^[*#.])|[&>/]|{|}|if|for(?!\w)|else|@block|@media|(}|{|=|,)$/gim;
 
 /**
  * @description Check that selector properties are sorted accordingly.
