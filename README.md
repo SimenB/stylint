@@ -145,6 +145,20 @@ module.exports = {
 }
 ```
 
+## Rollup
+You can use [rollup-plugin-stylint](https://github.com/sandark7/rollup-plugin-stylint)
+
+``` javascript
+import { rollup } from 'rollup';
+import stylint from 'rollup-plugin-stylint';
+
+rollup({
+  entry: 'index.js',
+  plugins: [
+    stylint()
+  ]
+});
+```
 
 ## As Part of Your Workflow
 Stylint integrations with multiple IDEs are available.
@@ -430,7 +444,7 @@ Pass in either `@extend` or `@extends` and then enforce that. Both are valid in 
 
 Example if set to `@extends`: prefer `@extends $some-var` over `@extend $some-var`
 
-Example if set to `@extend`: prefer `@extend $some-var` over `@extend $some-var`
+Example if set to `@extend`: prefer `@extend $some-var` over `@extends $some-var`
 
 
 ### globalDupe ( default: false, true || false )
