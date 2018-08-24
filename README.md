@@ -165,7 +165,7 @@ Stylint integrations with multiple IDEs are available.
 * [Atom](https://atom.io/packages/linter-stylint)
 * [Sublime Text](https://packagecontrol.io/packages/SublimeLinter-contrib-stylint)
 * [WebStorm / PhpStorm / IntelliJ IDEA](https://plugins.jetbrains.com/plugin/9162)
-* [Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=vtfn.stylint)
+* [Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=HaaLeo.vscode-stylint)
 
 ## Why Write This Tool?
 Stylus is my CSS pre-processor of choice and the lack of a decent linter (or really, any linter) was an annoying pain point. So I thought I'd try my hand at writing what I thought my ideal linter would look like.
