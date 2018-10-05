@@ -3,6 +3,7 @@
   "blocks": false,
   "brackets": false,
   "colons": "always",
+  "colonSpace": "always",
   "colors": {
     "expect": "always"
   },

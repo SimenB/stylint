@@ -6,6 +6,7 @@ var linterMethods = stampit().methods( {
 		blocks: require( './blocks' ),
 		brackets: require( './brackets' ),
 		colons: require( './colons' ),
+		colonSpace: require( './colonSpace' ),
 		colors: require( './colors' ),
 		commaSpace: require( './commaSpace' ),
 		commentSpace: require( './commentSpace' ),
