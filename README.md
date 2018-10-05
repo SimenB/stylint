@@ -377,6 +377,12 @@ Example if 'always': prefer `margin: 0` over `margin 0`
 
 Example if 'never: prefer `margin 0` over `margin: 0`
 
+### colonSpace ( default: 'always', 'always' || 'never' || false )
+Enforce or disallow spaces after colons
+
+Example if always: prefer `margin: 0` over `margin:0`
+
+Example if never: prefer `margin:0` over `margin: 0`
 
 ### colors ( default: 'always' || false )
 When 'always', enforce variables when defining hex values
