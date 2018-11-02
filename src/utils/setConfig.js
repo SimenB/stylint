@@ -68,7 +68,7 @@ var setConfig = function( configpath ) {
 		}
 
 		// only go up to user home directory, stop recursion
-		if ( userHome ) return null
+		if ( initialCwd === userHome ) return null
 
 		// next dir level
 		var nextLevel = level + 1
