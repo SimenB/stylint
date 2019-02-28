@@ -71,6 +71,10 @@ var sortOrder = function( line ) {
 			var bIndex = orderingArr.indexOf( b )
 
 			// allow properties that don't exist in ordering array to be last
+			if ( aIndex < 0 ) {
+				aIndex = orderingArr.length
+			}
+
 			if ( bIndex < 0 ) {
 				bIndex = orderingArr.length
 			}
