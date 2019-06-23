@@ -1,5 +1,7 @@
 ## stylint - the stylus linter.
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/SimenB/stylint.svg)](https://greenkeeper.io/)
+
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rossPatton/stylint?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Code Climate](https://codeclimate.com/github/SimenB/stylint/badges/gpa.svg)](https://codeclimate.com/github/SimenB/stylint)
 [![Test Coverage](https://codeclimate.com/github/SimenB/stylint/badges/coverage.svg)](https://codeclimate.com/github/SimenB/stylint/coverage)
