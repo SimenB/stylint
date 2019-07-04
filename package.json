@@ -50,7 +50,7 @@
     "glob": "7.1.4",
     "lodash.defaults": "4.2.0",
     "path-is-absolute": "2.0.0",
-    "stampit": "4.2.0",
+    "stampit": "1.2.0",
     "strip-json-comments": "3.0.1",
     "user-home": "2.0.0",
     "yargs": "13.2.4"
