@@ -3,7 +3,6 @@
 var fs = require( 'fs' )
 var path = require( 'path' )
 var userHome = require( 'user-home' )
-var pathIsAbsolute = require( 'path-is-absolute' )
 var stripJsonComments = require( 'strip-json-comments' )
 var Glob = require( 'glob' ).Glob
 
@@ -97,7 +96,7 @@ var setConfig = function( configpath ) {
 	// if 2, we pass in a path to the config
 	// this only occurs if using stylint via the command line
 	else if ( configpath ) {
-		customPath = pathIsAbsolute( configpath ) ? configpath : cwd + '/' + configpath
+		customPath = path.isAbsolute( configpath ) ? configpath : cwd + '/' + configpath
 		try {
 			returnConfig = _parseConfig( customPath )
 		}
