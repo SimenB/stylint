@@ -1,10 +1,9 @@
 ---
-engines:
+version: "2"
+plugins:
   eslint:
     enabled: true
     channel: "eslint-2"
-ratings:
-  paths:
-  - "**.js"
 exclude_paths:
-- node_modules/**/*
+- "node_modules/"
+- "docs/scripts/prettify/"
