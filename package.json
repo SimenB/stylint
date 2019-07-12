@@ -55,11 +55,12 @@
     "yargs": "4.7.1"
   },
   "scripts": {
+    "cover": "nyc mocha",
     "docs": "jsdoc src/ --recurse --destination docs/",
     "lint": "eslint .",
     "precover": "npm run lint",
     "pretest": "npm run lint",
     "start": "node --harmony index.js",
-    "test": "nyc mocha"
+    "test": "mocha"
   }
 }

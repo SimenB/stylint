@@ -19,3 +19,4 @@ coverage
 lcov.info
 wired-styl
 .idea/
+.nyc_output/
