@@ -3,7 +3,7 @@ node_js:
   - node
   - 8
   - 10
-script: npm run test
+script: npm run cover
 cache:
   npm: true
   directories:
