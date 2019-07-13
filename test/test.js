@@ -212,6 +212,7 @@ describe( 'Core Methods: ', function() {
 
 		beforeEach( function() {
 			app.watcher = undefined
+			app.state.path = '.' // Chokidar throws without a path.
 		} )
 
 		it( 'should be a function', function() {
