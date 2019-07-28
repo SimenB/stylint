@@ -55,14 +55,19 @@ var setConfig = function( configpath ) {
 	 * @param  {string} cwd   [relative path to current directory being walked]
 	 * @return {?Object|?Function} [config if found, recurse if not. null if failed]
 	 */
+	var initialCwd
+
 	var _recurseDirectories = function( files, level, cwd ) {
+		// A little flag to make sure we don't go two levels down.
+		initialCwd = initialCwd || cwd
+
 		// parse stylintrc if found, stop recursion
 		if ( files.indexOf( '.stylintrc' ) !== -1 ) {
 			return _parseConfig( cwd + '/.stylintrc' )
 		}
 
 		// only go up to user home directory, stop recursion
-		if ( userHome ) return null
+		if ( initialCwd === userHome ) return null
 
 		// next dir level
 		var nextLevel = level + 1
@@ -71,7 +76,7 @@ var setConfig = function( configpath ) {
 		// ie, level = 1, pathArr = [ cwd, '..' ]
 		// ie, level = 2, pathArr = [ cwd, '..', '..' ]
 		// and so on
-		var pathArr = [ cwd ]
+		var pathArr = [ initialCwd ]
 
 		// push '..' for each dir level
 		while ( level-- ) {
