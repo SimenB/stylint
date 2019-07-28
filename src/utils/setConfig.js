@@ -4,6 +4,7 @@ var fs = require( 'fs' )
 var path = require( 'path' )
 var userHome = require( 'user-home' )
 var stripJsonComments = require( 'strip-json-comments' )
+var defaults = require( 'lodash.defaults' )
 var Glob = require( 'glob' ).Glob
 
 // @TODO i just this sloppy just to fix some stuff
@@ -145,10 +146,11 @@ var setConfig = function( configpath ) {
 		} ).minimatch
 	} )
 
-	// make sure indentPref is set no matter what
-	returnConfig.indentPref = returnConfig.indentPref || false
+	// assign default properties to generated config
+	// to make sure all properties are present
+	returnConfig = defaults( returnConfig, this.config || {} )
 
-	// 5, just return the default config if nothing found
+	// 5, return complete config
 	return returnConfig
 }
 
