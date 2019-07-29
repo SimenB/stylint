@@ -401,6 +401,17 @@ describe( 'Utility Methods: ', function() {
 				'setConfig err. Expected string, but received: ' + typeof dir
 			)
 		} )
+
+		it( 'override reporter options via CLI arguments', function() {
+			var reporterOptions = {
+				columns: ['file', 'lineData', 'severity', 'rule', 'description'],
+				columnSplitter: '|'
+			}
+			app.init( { reporterOptions: JSON.stringify( reporterOptions ) } )
+			var actual = app.setConfig( '.stylintrc' )
+			var expected = Object.assign( {}, testConfig, { reporterOptions: reporterOptions } )
+			assert.deepEqual( actual, expected )
+		} )
 	} )
 
 	describe( 'Get Files should: ', function() {

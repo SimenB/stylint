@@ -12,11 +12,12 @@ var Glob = require( 'glob' ).Glob
 /**
  * @description overrides default config with a new config object
  *              many potential code paths here.
- * 1: user passed in config object via function param
- * 2: user passes location of .stylintrc file to use via cli
- * 3: user has options obj in package.json or path to
- * 4: none of the above, fallback to initial config
- * 5: user has a .stylintrc file in a dir but doesnt pass anything
+ * 1: user passed in reporterOptions via cli, plus...
+ * 2: user passed in config object via function param
+ * 3: user passes location of .stylintrc file to use via cli
+ * 4: user has options obj in package.json or path to
+ * 5: none of the above, fallback to initial config
+ * 6: user has a .stylintrc file in a dir but doesnt pass anything
  * @param {String} [configpath] If defined, the path to a config-file to read
  * @returns {Function} kick off linter again
 */
@@ -147,6 +148,11 @@ var setConfig = function( configpath ) {
 
 	// make sure indentPref is set no matter what
 	returnConfig.indentPref = returnConfig.indentPref || false
+
+	// add reporterOptions from the CLI if they exist
+	if ( this.reporterOptions ) {
+		returnConfig.reporterOptions = JSON.parse( this.reporterOptions )
+	}
 
 	// 5, just return the default config if nothing found
 	return returnConfig

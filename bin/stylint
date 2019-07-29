@@ -28,6 +28,11 @@ var options = yargs
 		type: 'string',
 		requiresArg: true
 	} )
+	.option( 'reporterOptions', {
+		describe: 'Reporter Options (overrides reporterOptions in .stylintrc)',
+		type: 'string',
+		requiresArg: true
+	} )
 	.version( function() {
 		return 'Stylint version: ' + require( '../package' ).version
 	} )
@@ -43,5 +48,6 @@ stylint().create( {}, {
 	watch: options.watch,
 	config: options.config,
 	strict: options.strict,
-	reporter: options.reporter
+	reporter: options.reporter,
+	reporterOptions: options.reporterOptions
 }, options._.length > 1 ? options._ : options._[0] )

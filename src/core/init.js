@@ -18,6 +18,10 @@ var defaultOptions = {
 var init = function( options, pathPassed ) {
 	options = defaults( options || {}, defaultOptions )
 
+	if ( options.reporterOptions ) {
+		this.reporterOptions = options.reporterOptions
+	}
+
 	this.config = this.setConfig( options.config )
 
 	// if you want to use transparent mixins, pass in an array of them
@@ -44,6 +48,7 @@ var init = function( options, pathPassed ) {
 	if ( options.watch ) {
 		return this.watch()
 	}
+
 
 	return this.read()
 }
