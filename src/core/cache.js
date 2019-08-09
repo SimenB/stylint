@@ -1,5 +1,3 @@
-var path = require( 'path' )
-
 // the main cache object
 var cache = {
 	col: null, // column number for warning if applicable
