@@ -1644,6 +1644,7 @@ describe( 'Linter Style Checks: ', function() {
 			assert.ok( !noneTest( 'border: none' ) )
 			assert.ok( !noneTest( 'border:none' ) )
 			assert.ok( !noneTest( 'border 1px solid red' ) )
+			assert.ok( !noneTest( 'border 0.1em solid red' ) )
 		} )
 
 		it( 'false (no err) if outline none', function() {

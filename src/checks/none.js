@@ -1,6 +1,6 @@
 'use strict'
 
-var zeroRe = /((border)|(outline))+(:|\s)+0(?!-)/
+var zeroRe = /((border)|(outline))+(:|\s)+0(?!(-|\.))/
 var noneRe = /((border)|(outline))+(:|\s)+(none)+(?!-)/
 
 
