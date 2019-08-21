@@ -737,6 +737,97 @@ describe( 'Linter Style Checks: ', function() {
 		} )
 	} )
 
+	describe( 'colon space: prefer margin: 0 over margin:0', function() {
+		var colonSpaceTest = lint.colonSpace.bind( app )
+
+		beforeEach( function() {
+			app.state.conf = 'always'
+		} )
+
+		it( 'false if no space is found', function() {
+			app.state.context = 1
+			assert.equal( false, colonSpaceTest( '', 'margin:0 auto' ) )
+			assert.equal( false, colonSpaceTest( '', 'margin:0' ) )
+		} )
+
+
+		it( 'true if space is found', function() {
+			app.state.context = 1
+			assert.equal( true, colonSpaceTest( '', 'margin: 0 auto' ) )
+			assert.equal( true, colonSpaceTest( '', 'margin: 0' ) )
+			assert.equal( true, colonSpaceTest( '', 'grid-template-areas: "icon label"' ) )
+		} )
+
+		it( 'undefined if syntax or css selector', function() {
+			assert.equal( undefined, colonSpaceTest( '', '#id' ) )
+			assert.equal( undefined, colonSpaceTest( '', '$.some-class' ) )
+			assert.equal( undefined, colonSpaceTest( '', '> child selector' ) )
+			assert.equal( undefined, colonSpaceTest( '', '.class-name' ) )
+			assert.equal( undefined, colonSpaceTest( '', 'for ( 0..9 )' ) )
+			assert.equal( undefined, colonSpaceTest( '', '@media $med' ) )
+			assert.equal( undefined, colonSpaceTest( '', '@extend $med' ) )
+			assert.equal( undefined, colonSpaceTest( '', '@extends $med' ) )
+			assert.equal( undefined, colonSpaceTest( '', '@import _some-file' ) )
+			assert.equal( undefined, colonSpaceTest( '', '.class-name, #id-name' ) )
+			assert.equal( undefined, colonSpaceTest( '', '.class-name + #id-name' ) )
+			assert.equal( undefined, colonSpaceTest( '', 'p ~ ul' ) )
+			assert.equal( undefined, colonSpaceTest( '', 'p > ul' ) )
+			assert.equal( undefined, colonSpaceTest( '', 'if ( $var == 50px )' ) )
+			assert.equal( undefined, colonSpaceTest( '', 'hash = {' ) )
+			assert.equal( undefined, colonSpaceTest( '', '}' ) )
+			assert.equal( undefined, colonSpaceTest( '', '.class-name a' ) )
+			assert.equal( undefined, colonSpaceTest( '', '&.class-name a' ) )
+			assert.equal( undefined, colonSpaceTest( '', '&:active' ) )
+			assert.equal( undefined, colonSpaceTest( '', 'return: $value' ) )
+			assert.equal( undefined, colonSpaceTest( '', 'return $value' ) )
+			assert.equal( undefined, colonSpaceTest( '', '@media screen and (max-width: 1183px)' ) )
+		} )
+	} )
+
+	describe( 'colon space: prefer margin:0 over margin: 0', function() {
+		var colonSpaceTest = lint.colonSpace.bind( app )
+
+		beforeEach( function() {
+			app.state.conf = 'never'
+		} )
+
+		it( 'true if no space is found', function() {
+			app.state.context = 1
+			assert.equal( false, colonSpaceTest( '', 'margin:0 auto' ) )
+			assert.equal( false, colonSpaceTest( '', 'margin:0' ) )
+		} )
+
+		it( 'undefined if no colon', function() {
+			app.state.context = 1
+			assert.equal( undefined, colonSpaceTest( '', 'margin 0 auto' ) )
+		} )
+
+		it( 'undefined if syntax or css selector', function() {
+			assert.equal( undefined, colonSpaceTest( '', '#id' ) )
+			assert.equal( undefined, colonSpaceTest( '', '$.some-class' ) )
+			assert.equal( undefined, colonSpaceTest( '', '> child selector' ) )
+			assert.equal( undefined, colonSpaceTest( '', '.class-name' ) )
+			assert.equal( undefined, colonSpaceTest( '', 'for ( 0..9 )' ) )
+			assert.equal( undefined, colonSpaceTest( '', '@media $med' ) )
+			assert.equal( undefined, colonSpaceTest( '', '@extend $med' ) )
+			assert.equal( undefined, colonSpaceTest( '', '@extends $med' ) )
+			assert.equal( undefined, colonSpaceTest( '', '@import _some-file' ) )
+			assert.equal( undefined, colonSpaceTest( '', '.class-name, #id-name' ) )
+			assert.equal( undefined, colonSpaceTest( '', '.class-name + #id-name' ) )
+			assert.equal( undefined, colonSpaceTest( '', 'p ~ ul' ) )
+			assert.equal( undefined, colonSpaceTest( '', 'p > ul' ) )
+			assert.equal( undefined, colonSpaceTest( '', 'if ( $var == 50px )' ) )
+			assert.equal( undefined, colonSpaceTest( '', 'hash = {' ) )
+			assert.equal( undefined, colonSpaceTest( '', '}' ) )
+			assert.equal( undefined, colonSpaceTest( '', '.class-name a' ) )
+			assert.equal( undefined, colonSpaceTest( '', '&.class-name a' ) )
+			assert.equal( undefined, colonSpaceTest( '', '&:active' ) )
+			assert.equal( undefined, colonSpaceTest( '', 'return: $value' ) )
+			assert.equal( undefined, colonSpaceTest( '', 'return $value' ) )
+			assert.equal( undefined, colonSpaceTest( '', '@media screen and (max-width: 1183px)' ) )
+		} )
+	} )
+
 	describe( 'colors', function() {
 		var colorsTest = lint.colors.bind( app )
 

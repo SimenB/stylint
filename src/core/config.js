@@ -9,6 +9,8 @@ var config = {
 	brackets: 'never',
 	// enforce or disallow colons
 	colons: 'always',
+	// check for space after colons
+	colonSpace: 'always',
 	// check for hex colors used without variables
 	colors: 'always',
 	// check for spaces after commas (0, 0, 0, .18)
