@@ -69,6 +69,8 @@ you can also ping me [here](https://gitter.im/rossPatton/stylint)
 
 `stylint --reporter stylint-reporter-module` Run stylint with [custom reporter](#custom-reporters) module
 
+`stylint --reporterOptions {"columns": ["file", "lineData", "rule"]}` Run stylint with custom reporterOptions setting
+
 `stylint styl/ --watch -c path/to/config/.configrc` Watch dir, use custom config
 
 
