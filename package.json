@@ -52,7 +52,7 @@
     "stampit": "1.2.0",
     "strip-json-comments": "2.0.1",
     "user-home": "2.0.0",
-    "yargs": "4.7.1"
+    "yargs": "7.0.0"
   },
   "scripts": {
     "cover": "nyc mocha --exit",
