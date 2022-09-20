@@ -49,7 +49,7 @@
     "columnify": "1.5.4",
     "glob": "7.0.4",
     "lodash.defaults": "4.2.0",
-    "stampit": "1.2.0",
+    "stampit": "2.0.1",
     "strip-json-comments": "2.0.1",
     "user-home": "2.0.0",
     "yargs": "4.7.1"
